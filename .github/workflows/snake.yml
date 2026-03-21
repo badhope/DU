@@ -1,0 +1,41 @@
+name: Generate Contribution Snake
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Generate Snake
+        uses: Platane/snk@v3
+        with:
+          github_user_name: badhope
+          outputs: |
+            output/github-contribution-grid-snake-dark.svg
+            output/github-contribution-grid-snake-dark.svg
+          svg_path: output/github-contribution-grid-snake-dark.svg
+
+      - name: Upload to artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: output
+          path: output/
+
+      - name: Push to repository
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./output
+          publish_branch: output
+          enable_jekyll: false
+          allow_empty_commit: true
+        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
