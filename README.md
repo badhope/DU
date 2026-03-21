@@ -7,7 +7,7 @@
 </p>
 
 <h1 align="center">
-  <span style="color:#00F5FF; text-shadow: 0 0 10px #00F5FF, 0 0 20px #00F5FF;">Hi, I'm badhope</span>
+  <span style="color:#00F5FF; text-shadow: 0 0 10px #00F5FF, 0 0 20px #00F5FF, 0 0 30px #00F5FF;">Hi, I'm badhope</span>
   <span style="font-size: 2em;">👋</span>
 </h1>
 
@@ -32,7 +32,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse" width="700"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="800"/>
 </p>
 
 <p align="center">
@@ -43,11 +43,15 @@
 </p>
 
 <p align="center">
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/data-flow.svg" alt="Data Flow" width="700"/>
+</p>
+
+<p align="center">
   <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Daily Quote"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/cyber-divider.svg" alt="Cyber Divider" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic" width="800"/>
 </p>
 
 ---
@@ -55,7 +59,7 @@
 ## ⚡ About Me
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/particle-grid.svg" alt="Particle" width="600" style="opacity: 0.5;"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/glowing-orb.svg" alt="Glowing Orb" width="150"/>
 </p>
 
 > ### *"Living in the moment. Building for the future."*
@@ -65,13 +69,13 @@
 - 🤖 **AI Applications** — Building with PyTorch, exploring LangChain, Hugging Face ecosystems
 - 🧠 **Intelligent Systems** — Designing data-driven workflows and scalable architectures
 - 🌊 **Big Data** — Processing and analyzing with Spark, Hadoop, Pandas
-- � **Open Source** — Contributing, sharing, and learning from the community
+- 🔓 **Open Source** — Contributing, sharing, and learning from the community
 - 📍 **Based in** — Shenzhen, Guangdong, China
 
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/lightning-wave.svg" alt="Lightning" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="800"/>
 </p>
 
 ## 🧰 Tech Arsenal
@@ -117,45 +121,58 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/cyber-divider.svg" alt="Cyber Divider" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="800"/>
 </p>
 
 ## 🌌 Featured Projects
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse" width="600"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/data-flow.svg" alt="Data Flow" width="600"/>
 </p>
 
-### � [LingXu](https://github.com/badhope/LingXu)
+<table align="center" style="border-collapse: collapse; margin: 0 auto;">
+<tr>
+<td style="padding: 15px; border: 1px solid #7c3aed; border-radius: 8px; background: rgba(13,17,23,0.8); box-shadow: 0 0 15px rgba(124,58,237,0.3);">
+
+### 🔷 [LingXu](https://github.com/badhope/LingXu)
 *A digital archive for China's lost cultivation civilization — bridging ancient texts, mythology, and modern digital restoration.*
 
 `Astro` `Tailwind CSS` `MDX` `GitHub Pages`
 
----
+</td>
+<td style="padding: 15px; border: 1px solid #00F5FF; border-radius: 8px; background: rgba(13,17,23,0.8); box-shadow: 0 0 15px rgba(0,245,255,0.3);">
 
-### � [HumanOS](https://github.com/badhope/HumanOS)
+### 🔷 [HumanOS](https://github.com/badhope/HumanOS)
 *Self-discovery assessment platform featuring MBTI, psychology, and cognitive tests with immersive 3D visual experiences.*
 
-`React 18` `TypeScript` `Vite` `Zustand` `Dexie` `Tailwind` `Three.js` `Framer Motion`
+`React 18` `TypeScript` `Vite` `Zustand` `Dexie` `Three.js`
 
----
+</td>
+</tr>
+<tr>
+<td style="padding: 15px; border: 1px solid #06b6d4; border-radius: 8px; background: rgba(13,17,23,0.8); box-shadow: 0 0 15px rgba(6,182,212,0.3);">
 
-### � [skill](https://github.com/badhope/skill)
+### 🔷 [skill](https://github.com/badhope/skill)
 *Modular AI skill repository with 132+ prompts, 14 skills, 10 workflows — designed for both human use and AI routing.*
 
-`AI` `Prompt Engineering` `Workflows` `Skill Routing` `YAML Registry`
+`AI` `Prompt Engineering` `Workflows` `Skill Routing`
 
----
+</td>
+<td style="padding: 15px; border: 1px solid #FF6F00; border-radius: 8px; background: rgba(13,17,23,0.8); box-shadow: 0 0 15px rgba(255,111,0,0.3);">
 
-### � [national_stats](https://github.com/badhope/national_stats)
+### 🔷 [national_stats](https://github.com/badhope/national_stats)
 *Professional macroeconomic data analysis platform for China's economic indicators — GDP, CPI, employment, and trade.*
 
-`Python` `Pandas` `Scikit-learn` `Matplotlib` `Flask` `ARIMA`
+`Python` `Pandas` `Scikit-learn` `Matplotlib` `Flask`
+
+</td>
+</tr>
+</table>
 
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/lightning-wave.svg" alt="Lightning" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="800"/>
 </p>
 
 ## 📊 Analytics Dashboard
@@ -180,24 +197,24 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse" width="600"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic" width="800"/>
 </p>
 
 ## ⚡ Current Focus
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/lightning-wave.svg" alt="Lightning" width="400"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/glowing-orb.svg" alt="Glowing Orb" width="80"/>
 </p>
 
 - 🤖 **AI-Native Development** — Building with LLMs, Agents, and RAG systems
-- �️ **Full-Stack Architecture** — Scalable systems, clean engineering
+- 🏗️ **Full-Stack Architecture** — Scalable systems, clean engineering
 - 📊 **Data Pipeline Engineering** — ETL, streaming, analytics at scale
 - 🔓 **Open Source Contribution** — Sharing tools, learning in public
 
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/cyber-divider.svg" alt="Cyber Divider" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="800"/>
 </p>
 
 ## 🐍 Contribution Snake
@@ -209,10 +226,10 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse" width="600"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse" width="800"/>
 </p>
 
-## �🌐 Connect With Me
+## 🌐 Connect With Me
 
 <p align="center">
   <a href="mailto:x18825407105@outlook.com">
@@ -235,11 +252,11 @@
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/lightning-wave.svg" alt="Lightning" width="800"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="800"/>
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/particle-grid.svg" alt="Particle" width="600" style="opacity: 0.3;"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/data-flow.svg" alt="Data Flow" width="600"/>
 </p>
 
 <p align="center">
@@ -253,7 +270,7 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/cyber-divider.svg" alt="Cyber Divider" width="600"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic" width="600"/>
 </p>
 
 ---

@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 120">
+  <defs>
+    <linearGradient id="dataFlowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#00F5FF;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="dataFlowGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="0" y="0" width="800" height="120" fill="#0d1117" opacity="0.5"/>
+  <g filter="url(#dataFlowGlow)">
+    <circle cx="50" cy="60" r="8" fill="#7c3aed" opacity="0.8">
+      <animate attributeName="cx" values="50;750;50" dur="8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="40" r="5" fill="#00F5FF" opacity="0.6">
+      <animate attributeName="cy" values="40;80;40" dur="6s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="6s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="80" r="6" fill="#06b6d4" opacity="0.7">
+      <animate attributeName="cy" values="80;30;80" dur="7s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="7s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="50" r="4" fill="#00F5FF" opacity="0.5">
+      <animate attributeName="cx" values="600;200;600" dur="10s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.7;0.3" dur="10s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="750" cy="70" r="7" fill="#7c3aed" opacity="0.6">
+      <animate attributeName="cy" values="70;50;70" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.9;0.4" dur="5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+  <line x1="0" y1="60" x2="800" y2="60" stroke="url(#dataFlowGrad)" stroke-width="1" stroke-dasharray="15,10">
+    <animate attributeName="stroke-dashoffset" from="0" to="-100" dur="2s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="40" x2="800" y2="40" stroke="#00F5FF" stroke-width="0.5" opacity="0.2" stroke-dasharray="5,15">
+    <animate attributeName="stroke-dashoffset" from="0" to="80" dur="3s" repeatCount="indefinite"/>
+  </line>
+  <line x1="0" y1="80" x2="800" y2="80" stroke="#7c3aed" stroke-width="0.5" opacity="0.2" stroke-dasharray="10,20">
+    <animate attributeName="stroke-dashoffset" from="0" to="-60" dur="2.5s" repeatCount="indefinite"/>
+  </line>
+</svg>

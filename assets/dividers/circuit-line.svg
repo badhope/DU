@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 60">
+  <defs>
+    <linearGradient id="circuitGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#00F5FF;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="circuitGlow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <line x1="0" y1="30" x2="150" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="150" cy="30" r="3" fill="#00F5FF" opacity="0.6"/>
+  <line x1="150" y1="30" x2="200" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="200" cy="30" r="4" fill="#7c3aed" filter="url(#circuitGlow)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="200" y1="30" x2="250" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <line x1="250" y1="30" x2="300" y2="10" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="300" cy="10" r="2" fill="#00F5FF" opacity="0.5"/>
+  <line x1="300" y1="10" x2="350" y2="10" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="350" cy="10" r="3" fill="#06b6d4" filter="url(#circuitGlow)">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="350" y1="10" x2="400" y2="10" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <line x1="400" y1="10" x2="400" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="400" cy="30" r="5" fill="#7c3aed" filter="url(#circuitGlow)">
+    <animate attributeName="opacity" values="1;0.4;1" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="400" y1="30" x2="450" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <line x1="450" y1="30" x2="500" y2="50" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="500" cy="50" r="2" fill="#00F5FF" opacity="0.5"/>
+  <line x1="500" y1="50" x2="550" y2="50" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="550" cy="50" r="3" fill="#06b6d4" filter="url(#circuitGlow)">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="2.2s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="550" y1="50" x2="600" y2="50" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <line x1="600" y1="50" x2="600" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="600" cy="30" r="4" fill="#7c3aed" filter="url(#circuitGlow)">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.6s" repeatCount="indefinite"/>
+  </circle>
+  <line x1="600" y1="30" x2="650" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="650" cy="30" r="3" fill="#00F5FF" opacity="0.6"/>
+  <line x1="650" y1="30" x2="800" y2="30" stroke="#00F5FF" stroke-width="1" opacity="0.4"/>
+  <circle cx="750" cy="30" r="2" fill="#00F5FF" opacity="0.4"/>
+</svg>
