@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 100">
+  <defs>
+    <radialGradient id="particleGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#00F5FF;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="800" height="100" fill="#0d1117" opacity="0.3"/>
+  <g filter="url(#softGlow)">
+    <circle cx="50" cy="20" r="2" fill="#00F5FF" opacity="0.8"/>
+    <circle cx="150" cy="35" r="1.5" fill="#7c3aed" opacity="0.6"/>
+    <circle cx="250" cy="15" r="2" fill="#06b6d4" opacity="0.7"/>
+    <circle cx="350" cy="45" r="1" fill="#00F5FF" opacity="0.9"/>
+    <circle cx="450" cy="25" r="2.5" fill="#7c3aed" opacity="0.5"/>
+    <circle cx="550" cy="55" r="1.5" fill="#00F5FF" opacity="0.8"/>
+    <circle cx="650" cy="30" r="2" fill="#06b6d4" opacity="0.6"/>
+    <circle cx="750" cy="50" r="1" fill="#00F5FF" opacity="0.7"/>
+    <circle cx="100" cy="60" r="1.5" fill="#7c3aed" opacity="0.5"/>
+    <circle cx="200" cy="80" r="2" fill="#00F5FF" opacity="0.6"/>
+    <circle cx="300" cy="70" r="1" fill="#06b6d4" opacity="0.8"/>
+    <circle cx="400" cy="85" r="2" fill="#7c3aed" opacity="0.7"/>
+    <circle cx="500" cy="75" r="1.5" fill="#00F5FF" opacity="0.5"/>
+    <circle cx="600" cy="90" r="2" fill="#06b6d4" opacity="0.6"/>
+    <circle cx="700" cy="65" r="1" fill="#00F5FF" opacity="0.9"/>
+  </g>
+  <line x1="0" y1="50" x2="800" y2="50" stroke="#00F5FF" stroke-width="0.5" opacity="0.2" stroke-dasharray="4,8"/>
+  <line x1="400" y1="0" x2="400" y2="100" stroke="#7c3aed" stroke-width="0.5" opacity="0.2" stroke-dasharray="4,8"/>
+</svg>

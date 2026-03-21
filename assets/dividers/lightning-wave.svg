@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 80">
+  <defs>
+    <linearGradient id="lightningGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="lightningGlow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M0 60 L80 60 L100 20 L130 55 L160 15 L200 50 L240 25 L280 55 L320 20 L360 50 L400 15 L440 55 L480 25 L520 50 L560 20 L600 50 L640 25 L680 55 L720 20 L760 50 L800 35"
+        stroke="url(#lightningGrad)" stroke-width="2.5" fill="none" filter="url(#lightningGlow)"/>
+  <polygon points="395,5 410,25 400,25 415,45 395,25 405,25" fill="#00F5FF" filter="url(#lightningGlow)" opacity="0.9"/>
+  <polygon points="195,35 210,55 200,55 215,75 195,55 205,55" fill="#7c3aed" filter="url(#lightningGlow)" opacity="0.7"/>
+</svg>
