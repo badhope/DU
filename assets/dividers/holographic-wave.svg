@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 60">
+  <defs>
+    <linearGradient id="holoGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0"/>
+      <stop offset="30%" style="stop-color:#7c3aed;stop-opacity:0.6"/>
+      <stop offset="50%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#7c3aed;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#00F5FF;stop-opacity:0"/>
+    </linearGradient>
+    <filter id="holoGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <path d="M0 30 L200 30 L250 10 L300 50 L350 20 L400 40 L450 15 L500 45 L550 25 L600 50 L650 15 L700 45 L750 30 L800 30"
+        stroke="url(#holoGrad)" stroke-width="2" fill="none" filter="url(#holoGlow)">
+    <animate attributeName="stroke-dashoffset" from="0" to="1600" dur="3s" repeatCount="indefinite"/>
+  </path>
+  <path d="M0 30 L200 30 L250 10 L300 50 L350 20 L400 40 L450 15 L500 45 L550 25 L600 50 L650 15 L700 45 L750 30 L800 30"
+        stroke="#00F5FF" stroke-width="1" fill="none" opacity="0.5" stroke-dasharray="10,5">
+    <animate attributeName="stroke-dashoffset" from="0" to="-800" dur="2s" repeatCount="indefinite"/>
+  </path>
+</svg>

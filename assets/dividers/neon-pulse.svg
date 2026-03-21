@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 80">
+  <defs>
+    <linearGradient id="neonPulse" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:0">
+        <animate attributeName="stop-opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#00F5FF;stop-opacity:1">
+        <animate attributeName="stop-opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#7c3aed;stop-opacity:0">
+        <animate attributeName="stop-opacity" values="0;1;0" dur="2s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+    <filter id="glowPulse">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect x="0" y="35" width="800" height="3" fill="url(#neonPulse)" filter="url(#glowPulse)"/>
+  <circle cx="100" cy="36" r="4" fill="#00F5FF" filter="url(#glowPulse)">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="400" cy="36" r="5" fill="#7c3aed" filter="url(#glowPulse)">
+    <animate attributeName="opacity" values="0.5;1;0.5" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="700" cy="36" r="4" fill="#00F5FF" filter="url(#glowPulse)">
+    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite" begin="0.5s"/>
+  </circle>
+</svg>

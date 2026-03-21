@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="orbGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00F5FF;stop-opacity:1"/>
+      <stop offset="60%" style="stop-color:#7c3aed;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#0d1117;stop-opacity:0"/>
+    </radialGradient>
+    <filter id="orbGlow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <circle cx="50" cy="50" r="30" fill="url(#orbGrad)" filter="url(#orbGlow)">
+    <animate attributeName="r" values="28;32;28" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="50" r="15" fill="#00F5FF" opacity="0.3">
+    <animate attributeName="r" values="12;18;12" dur="2s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.2;0.5;0.2" dur="2s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="50" cy="50" r="5" fill="#ffffff" opacity="0.8">
+    <animate attributeName="opacity" values="0.6;1;0.6" dur="1.5s" repeatCount="indefinite"/>
+  </circle>
+</svg>
