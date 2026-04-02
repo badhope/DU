@@ -1,292 +1,194 @@
-<!-- ═══════════════════════════════════════════════════════════════ -->
-<!-- badhope / GitHub Profile README                                       -->
-<!-- Cyberpunk · AI-Era · Dynamic · Open Source                           -->
-<!-- ═══════════════════════════════════════════════════════════════ -->
-
-<h1 align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/banner/hero-cyber-banner.svg" alt="Cyber Banner" width="850"/>
-</h1>
+# 🚀 badhope | AI-Native Full-Stack Developer
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/lightning-wave.svg" alt="Lightning Wave" width="850"/>
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=28&duration=5000&pause=2000&color=00F5FF&background=0D1117&center=true&vCenter=true&multiline=true&width=850&height=70&lines=AI-Native+Full-Stack+Developer;Building+intelligent+systems+at+scale;Open+Source+Enthusiast+%7C+Cultivator+%7C+Builder" alt="Typing Animation">
 </p>
 
 ---
-
-<h1 align="center">
-  <span style="color:#00F5FF; text-shadow: 0 0 8px #00F5FF, 0 0 15px #00F5FF, 0 0 25px #00F5FF;">Hi, I'm badhope</span>
-  <span style="font-size: 2.2em;">👋</span>
-</h1>
-
-<p align="center">
-  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=24&duration=8000&pause=1500&color=00F5FF&center=true&vCenter=true&width=950&lines=I+am+an+open-source+contributor;I+am+a+follower+of+the+AI+era;I+am+a+super+tech+enthusiast;I+am+a+cultivator" alt="Typing Animation"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="850"/>
-</p>
 
 <p align="center">
   <a href="https://github.com/badhope">
-    <img src="https://komarev.com/ghpvc/?username=badhope&label=Profile+Views&color=0ea5e9&style=for-the-badge"/>
+    <img src="https://img.shields.io/github/followers/badhope?label=Follow&style=social&color=7c3aed" alt="Follow">
   </a>
-  <img src="https://img.shields.io/github/followers/badhope?label=Followers&style=for-the-badge&color=7c3aed"/>
-  <img src="https://img.shields.io/github/stars/badhope?affiliations=OWNER&style=for-the-badge&color=06b6d4"/>
-  <img src="https://img.shields.io/badge/Repos-4-00F5FF?style=for-the-badge"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/data-flow.svg" alt="Data Flow" width="750"/>
-</p>
-
-<p align="center">
-  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight" alt="Daily Quote"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic Wave" width="850"/>
+  <a href="https://github.com/badhope">
+    <img src="https://img.shields.io/github/stars/badhope?affiliations=OWNER&style=social&color=00F5FF" alt="Stars">
+  </a>
+  <img src="https://komarev.com/ghpvc/?username=badhope&label=Profile+Views&color=06b6d4&style=social" alt="Views">
+  <img src="https://img.shields.io/badge/Repos-30+-00F5FF?style=social" alt="Repos">
 </p>
 
 ---
 
-## ⚡ About Me
+## 🎯 About Me
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/glowing-orb.svg" alt="Energy Orb" width="130"/>
-</p>
+```yaml
+name: badhope
+location: Shenzhen, Guangdong 🇨🇳
+timezone: Asia/Shanghai (GMT+8)
 
-> ### *"Living in the moment. Building for the future."*
+focus_areas:
+  - AI & LLM Systems: LangChain, RAG, Agents, Fine-tuning
+  - Full-Stack Development: React, Vue, Node.js, Python
+  - Data Engineering: ETL, Streaming, Analytics pipelines
+  - DevOps & Cloud: Docker, Kubernetes, CI/CD
 
-**AI-era full-stack developer** crafting intelligent systems at the intersection of **AI**, **big data**, and **modern engineering**.
+status:
+  🔭 Current: Building AI-native applications
+  📚 Learning: Advanced LLM orchestration
+  🤝 Open to: Collaboration on interesting projects
+```
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="650"/>
-</p>
-
-| Domain | Focus |
-|--------|-------|
-| 🤖 AI Applications | PyTorch, LangChain, Hugging Face ecosystems |
-| 🧠 Intelligent Systems | Data-driven workflows, scalable architectures |
-| 🌊 Big Data | Spark, Hadoop, Pandas, Stream Processing |
-| 🔓 Open Source | Contributing, sharing, learning in public |
-
-📍 **Based in** — Shenzhen, Guangdong, China
+> *"The best way to predict the future is to build it."*
 
 ---
 
+## 📊 GitHub Statistics
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="850"/>
+  <img width="49%" src="https://github-readme-stats.vercel.app/api?username=badhope&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00F5FF&icon_color=7c3aed&text_color=cccccc" alt="GitHub Stats">
+  <img width="49%" src="https://github-readme-stats.vercel.app/api/top-langs/?username=badhope&layout=compact&theme=tokyonight&hide_border=true&bg_color=0D1117&title_color=00F5FF&text_color=cccccc" alt="Top Languages">
 </p>
 
-## 🧰 Tech Arsenal
-
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=python,java,js,ts,react,vue,nodejs,fastapi,spring,mysql,mongodb,redis,docker,git,linux,vscode,hibernate,flask,express" alt="Tech Stack"/>
-</p>
-
-### ⟡ AI & Machine Learning
-
-<p align="center">
-  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white"/>
-  <img src="https://img.shields.io/badge/TensorFlow-FF6F00?style=for-the-badge&logo=tensorflow&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white"/>
-  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Scikit--Learn-F7931E?style=for-the-badge&logo=scikitlearn&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Hugging%20Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black"/>
-  <img src="https://img.shields.io/badge/LangChain-10C7B4?style=for-the-badge&logoColor=white"/>
-</p>
-
-### ⟡ Big Data Ecosystem
-
-<p align="center">
-  <img src="https://img.shields.io/badge/Apache%20Spark-FF6F00?style=for-the-badge&logo=apachespark&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Hadoop-66CCFF?style=for-the-badge&logo=apachehadoop&logoColor=black"/>
-  <img src="https://img.shields.io/badge/Apache%20Hive-FDEE21?style=for-the-badge&logo=apachehive&logoColor=black"/>
-  <img src="https://img.shields.io/badge/Apache%20Kafka-000000?style=for-the-badge&logo=apachekafka&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Apache%20Flink-FF6F00?style=for-the-badge&logo=apacheflink&logoColor=white"/>
-</p>
-
-### ⟡ Backend & DevOps
-
-<p align="center">
-  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Spring%20Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white"/>
-  <img src="https://img.shields.io/badge/GitHub%20Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white"/>
-  <img src="https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black"/>
+  <img src="https://github-readme-streak-stats.demolab.com?user=badhope&theme=tokyonight&hide_border=true&background=0D1117&stroke=00F5FF&ring=7c3aed&fire=00F5FF&currStreakNum=06b6d4&sideNums=06b6d4&currStreakLabel=🔥&sideLabels=💻&type=svg" alt="Contribution Streak">
 </p>
 
 ---
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic Wave" width="850"/>
-</p>
-
-## 🚀 Featured Projects
+## 🏆 Trophy Showcase
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/particle-grid.svg" alt="Particle Grid" width="450" style="opacity: 0.3;"/>
-</p>
-
-<table align="center" style="border-collapse: collapse; margin: 0 auto;">
-<tr>
-<td style="padding: 18px; border: 1px solid #7c3aed; border-radius: 12px; background: linear-gradient(135deg, rgba(124,58,237,0.1) 0%, rgba(13,17,23,0.9) 100%); box-shadow: 0 0 20px rgba(124,58,237,0.4);">
-
-### 🔷 [LingXu](https://github.com/badhope/LingXu)
-*A digital archive for China's lost cultivation civilization — bridging ancient texts, mythology, and modern digital restoration.*
-
-`Astro` `Tailwind CSS` `MDX` `GitHub Pages`
-
-</td>
-<td style="padding: 18px; border: 1px solid #00F5FF; border-radius: 12px; background: linear-gradient(135deg, rgba(0,245,255,0.1) 0%, rgba(13,17,23,0.9) 100%); box-shadow: 0 0 20px rgba(0,245,255,0.4);">
-
-### 🔷 [HumanOS](https://github.com/badhope/HumanOS)
-*Self-discovery assessment platform featuring MBTI, psychology, and cognitive tests with immersive 3D visual experiences.*
-
-`React 18` `TypeScript` `Vite` `Zustand` `Dexie` `Three.js`
-
-</td>
-</tr>
-<tr>
-<td style="padding: 18px; border: 1px solid #06b6d4; border-radius: 12px; background: linear-gradient(135deg, rgba(6,182,212,0.1) 0%, rgba(13,17,23,0.9) 100%); box-shadow: 0 0 20px rgba(6,182,212,0.4);">
-
-### 🔷 [skill](https://github.com/badhope/skill)
-*Modular AI skill repository with 132+ prompts, 14 skills, 10 workflows — designed for both human use and AI routing.*
-
-`AI` `Prompt Engineering` `Workflows` `Skill Routing`
-
-</td>
-<td style="padding: 18px; border: 1px solid #FF6F00; border-radius: 12px; background: linear-gradient(135deg, rgba(255,111,0,0.1) 0%, rgba(13,17,23,0.9) 100%); box-shadow: 0 0 20px rgba(255,111,0,0.4);">
-
-### 🔷 [national_stats](https://github.com/badhope/national_stats)
-*Professional macroeconomic data analysis platform for China's economic indicators — GDP, CPI, employment, and trade.*
-
-`Python` `Pandas` `Scikit-learn` `Matplotlib` `Flask`
-
-</td>
-</tr>
-</table>
-
----
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="850"/>
-</p>
-
-## 📊 Analytics Dashboard
-
-<p align="center">
-  <img height="170" src="https://github-readme-stats.vercel.app/api?username=badhope&show_icons=true&theme=tokyonight&hide_border=true&count_private=true&include_all_commits=true&bg_color=0d1117&title_color=00F5FF&icon_color=7c3aed&text_color=06b6d4"/>
-  <img height="170" src="https://github-readme-stats.vercel.app/api/top-langs/?username=badhope&layout=compact&theme=tokyonight&hide_border=true&bg_color=0d1117&title_color=00F5FF&text_color=06b6d4"/>
-</p>
-
-<p align="center">
-  <img src="https://github-readme-streak-stats.demolab.com?user=badhope&theme=tokyonight&hide_border=true&background=0d1117&stroke=00F5FF&ring=7c3aed&fire=00F5FF&currStreakNum=06b6d4&sideNums=06b6d4" alt="Streak Stats"/>
-</p>
-
-<p align="center">
-  <img src="https://github-profile-trophy.vercel.app/?username=badhope&theme=tokyonight&no-frame=true&row=1&column=6&margin-w=15&margin-h=15" alt="Trophies"/>
+  <img src="https://github-profile-trophy.vercel.app/?username=badhope&theme=tokyonight&no-frame=true&row=1&column=6&margin-w=15&margin-h=15&title=Commits,Stars,PRs,Issues,Contributors,Sponsor" alt="Trophies">
 </p>
 
 ---
 
+## 💻 Tech Stack
+
+### ⚡ Primary Languages
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/neon-pulse.svg" alt="Neon Pulse" width="850"/>
+  <img src="https://skillicons.dev/icons?i=python,javascript,typescript,java,html,css" alt="Languages">
 </p>
 
-## ⚡ Current Focus
-
+### 🎨 Frontend
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/glowing-orb.svg" alt="Energy Orb" width="70"/>
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB">
+  <img src="https://img.shields.io/badge/Vue-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white">
+  <img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white">
 </p>
 
-| Priority | Direction |
-|----------|-----------|
-| 🤖 | **AI-Native Development** — Building with LLMs, Agents, and RAG systems |
-| 🏗️ | **Full-Stack Architecture** — Scalable systems, clean engineering |
-| 📊 | **Data Pipeline Engineering** — ETL, streaming, analytics at scale |
-| 🔓 | **Open Source Contribution** — Sharing tools, learning in public |
+### ⚙️ Backend & Infrastructure
+<p align="center">
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white">
+  <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white">
+  <img src="https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white">
+  <img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white">
+</p>
+
+### 🤖 AI & Data
+<p align="center">
+  <img src="https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white">
+  <img src="https://img.shields.io/badge/LangChain-10C7B4?style=for-the-badge&logoColor=white">
+  <img src="https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white">
+  <img src="https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white">
+  <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white">
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white">
+</p>
 
 ---
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="850"/>
-</p>
+## 🌟 Featured Projects
 
-## 🐍 Contribution Snake
+| Project | ⭐ | Description | Tech Stack |
+|---------|-----|-------------|------------|
+| **[HumanOS](https://github.com/badhope/HumanOS)** | 28 | Next-gen personality assessment platform with 3D effects | React 18, TypeScript, Vite, Three.js |
+| **[skill](https://github.com/badhope/skill)** | 23 | 132+ AI prompts, 110+ skills, 10+ workflows | AI, Prompt Engineering |
+| **[Auto-SignIn](https://github.com/badhope/Auto-SignIn)** | 8 | Smart auto check-in system with notifications | Python, Docker, CI/CD |
+| **[national_stats](https://github.com/badhope/national_stats)** | 7 | Economic data analysis platform | Python, Pandas, Scikit-learn |
+| **[LingXu](https://github.com/badhope/LingXu)** | 3 | Digital archive of Chinese metaphysics | Next.js, Tailwind, Three.js |
+| **[ai-robot](https://github.com/badhope/ai-robot)** | 2 | AI-powered QQ assistant with anti-ban | Electron, Vue, TypeScript |
+| **[bumb](https://github.com/badhope/bumb)** | 0 | Nuclear effects simulator | HTML5, Leaflet, ECharts |
+| **[Woclaw](https://github.com/badhope/Woclaw)** | 0 | AI desktop assistant with natural language | Python, Ollama, GUI |
+
+---
+
+## 📈 Contribution Graph
 
 <p align="center">
-  <picture>
-    <source srcset="https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-grid-snake-dark.svg" media="(prefers-color-scheme: dark)"/>
-    <img src="https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-grid-snake-dark.svg" alt="Snake Animation"/>
-  </picture>
+  <img src="https://github-contribution-chart.vercel.app/graph?username=badhope&theme=tokyonight&bg_color=0D1117&border_color=1F2937&stroke_color=00F5FF&ring_color=7c3aed&point_color=06b6d4&year=3" alt="Contribution Graph">
 </p>
 
 ---
 
+## 🔥 Contribution Heatmap (Last Year)
+
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/pulse-line.svg" alt="Pulse Line" width="850"/>
+  <img src="https://activity-graph.herokuapp.com/graph?username=badhope&theme=tokyonight&bg_color=0D1117&color=00F5FF&line=7c3aed&point=06b6d4&area=true&hide_border=false" alt="Activity Graph">
 </p>
 
-## 🌐 Connect With Me
+---
+
+## 🎯 Current Focus Areas
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                      CURRENT PRIORITIES                          │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  🔬 R&D     AI Agent Systems - LangChain, CrewAI, AutoGen      │
+│                                                                  │
+│  🚀 BUILDING  Full-Stack AI Applications - RAG, Chatbots        │
+│                                                                  │
+│  📊 ANALYZING  Economic Data - ML Models, Visualizations       │
+│                                                                  │
+│  🤝 COLLAB     Open Source - Skills, Tools, Workflows           │
+│                                                                  │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+---
+
+## 📫 Connect With Me
 
 <p align="center">
   <a href="mailto:x18825407105@outlook.com">
-    <img src="https://img.shields.io/badge/Email-Outlook-0078D4?style=for-the-badge&logo=microsoftoutlook&logoColor=white"/>
-  </a>
-  <a href="https://badhope.github.io/github.io/">
-    <img src="https://img.shields.io/badge/Homepage-Visit-0ea5e9?style=for-the-badge&logo=googlechrome&logoColor=white"/>
-  </a>
-  <a href="https://blog.csdn.net/weixin_56622231">
-    <img src="https://img.shields.io/badge/CSDN-Blog-DC0000?style=for-the-badge&logoColor=white"/>
-  </a>
-  <a href="https://juejin.cn/user/2350111542479753">
-    <img src="https://img.shields.io/badge/Juejin-Profile-1E80FF?style=for-the-badge&logoColor=white"/>
+    <img src="https://img.shields.io/badge/Email-Outlook-0078D4?style=for-the-badge&logo=microsoftoutlook&logoColor=white" alt="Email">
   </a>
   <a href="https://github.com/badhope">
-    <img src="https://img.shields.io/badge/GitHub-badhope-00F5FF?style=for-the-badge&logo=github&logoColor=white"/>
+    <img src="https://img.shields.io/badge/GitHub-badhope-00F5FF?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
+  </a>
+  <a href="https://badhope.github.io">
+    <img src="https://img.shields.io/badge/Homepage-badhope-0EA5E9?style=for-the-badge&logo=googlechrome&logoColor=white" alt="Homepage">
+  </a>
+  <a href="https://blog.csdn.net/weixin_56622231">
+    <img src="https://img.shields.io/badge/CSDN-Blog-DC0000?style=for-the-badge&logoColor=white" alt="CSDN">
+  </a>
+  <a href="https://juejin.cn/user/2350111542479753">
+    <img src="https://img.shields.io/badge/Juejin-Profile-1E80FF?style=for-the-badge&logoColor=white" alt="Juejin">
   </a>
 </p>
 
 ---
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/effects/data-flow.svg" alt="Data Flow" width="650"/>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/holographic-wave.svg" alt="Holographic" width="550"/>
-</p>
-
-<p align="center">
-  <b>
-    <span style="color:#00F5FF;">《</span>
-    <span style="color:#7c3aed;">Living in the moment.</span>
-    <span style="color:#00F5FF;">·</span>
-    <span style="color:#7c3aed;">Building for the future.</span>
-    <span style="color:#00F5FF;">》</span>
-  </b>
-</p>
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/badhope/badhope/main/assets/dividers/circuit-line.svg" alt="Circuit" width="450"/>
+  <img src="https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-grid-snake-dark.svg" alt="Snake Animation">
 </p>
 
 ---
 
-<!-- views:start -->
-<!-- views:end -->
+<p align="center">
+  <strong>
+    <span style="color:#00F5FF;">✨</span>
+    <span style="color:#7c3aed;">Building the future, one commit at a time</span>
+    <span style="color:#00F5FF;">✨</span>
+  </strong>
+</p>
 
-<!-- blog:start -->
-<!-- blog:end -->
+<p align="center">
+  <em>Last updated: 2026-04-03</em>
+</p>
 
-<!-- quote:start -->
-<!-- quote:end -->
-
-<!-- trophy:start -->
-<!-- trophy:end -->
-
-<!-- wakatime:start -->
-<!-- wakatime:end -->
+---
