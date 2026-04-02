@@ -1,0 +1,40 @@
+# GitHub Profile Configuration
+# https://docs.github.com/en/account-and-profile/customizing-your-profile/managing-your-profile README/pinning-items-to-your-profile
+
+title: AI-Native Full-Stack Developer
+occupation: Developer & Builder
+company: Open Source
+companyUrl: https://github.com/badhope
+location: Shenzhen, Guangdong 🇨🇳
+city: Shenzhen
+country: China
+
+# Bio displayed on profile
+bio: |
+  🚀 Building intelligent systems with AI, data, and modern engineering
+  💡 Open source enthusiast | Cultivator | Builder
+  🔭 Currently exploring: LLM agents, RAG systems, AI-native applications
+
+# Short bio (required)
+shortBio: AI-Native Full-Stack Developer | Open Source Enthusiast
+
+# Links
+links:
+  twitter: https://twitter.com/badhope_dev
+  linkedin: https://linkedin.com/in/badhope
+  youtube: https://youtube.com/@badhope
+  bilibili: https://space.bilibili.com/badhope
+  zhihu: https://www.zhihu.com/people/badhope
+
+# Skills - displayed as icons on profile
+skills:
+  - Python
+  - TypeScript
+  - React
+  - Vue.js
+  - Node.js
+  - FastAPI
+  - Docker
+  - GitHub Actions
+  - PyTorch
+  - LangChain
