@@ -2,11 +2,8 @@ name: Blog Sync
 
 on:
   schedule:
-    - cron: "0 8 * * *"
+    - cron: "0 8 * * 1"  # Weekly on Monday at 4 PM UTC+8
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   sync-blog:
