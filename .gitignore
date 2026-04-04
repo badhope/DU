@@ -40,3 +40,6 @@ Thumbs.db
 # Environment variables
 .env
 .env.local
+
+# Windows special files
+nul

@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 280" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <!-- 渐变背景 -->
     <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#161b22;stop-opacity:0.95"/>
       <stop offset="100%" style="stop-color:#0d1117;stop-opacity:0.98"/>
     </linearGradient>
-
-    <!-- 边框流动渐变 -->
+    
     <linearGradient id="borderFlow" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:0.8">
         <animate attributeName="stop-color" values="#58a6ff;#f778ba;#58a6ff" dur="4s" repeatCount="indefinite"/>
@@ -15,109 +13,49 @@
         <animate attributeName="stop-color" values="#f778ba;#58a6ff;#f778ba" dur="4s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-
-    <!-- 角标发光 -->
-    <filter id="cornerGlow">
+    
+    <filter id="glow">
       <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
       <feMerge>
         <feMergeNode in="coloredBlur"/>
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
-    <!-- 角落装饰符号 -->
-    <symbol id="corner">
-      <circle r="5" fill="#58a6ff" filter="url(#cornerGlow)">
-        <animate attributeName="r" values="5;7;5" dur="2s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="1;0.6;1" dur="2s" repeatCount="indefinite"/>
-      </circle>
-      <circle r="8" fill="none" stroke="#58a6ff" stroke-width="1.5" opacity="0.4">
-        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
-        <animate attributeName="opacity" values="0.4;0;0.4" dur="2s" repeatCount="indefinite"/>
-      </circle>
-    </symbol>
-
-    <!-- 浮动粒子 -->
-    <symbol id="particle">
-      <circle r="2" fill="#f778ba" opacity="0.6">
-        <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
-      </circle>
-    </symbol>
   </defs>
-
-  <!-- 卡片主体 -->
+  
   <rect x="10" y="10" width="430" height="260" rx="20" ry="20" fill="url(#cardBg)" stroke="url(#borderFlow)" stroke-width="2.5"/>
-
-  <!-- 四角装饰 -->
-  <use href="#corner" x="30" y="30"/>
-  <use href="#corner" x="420" y="30"/>
-  <use href="#corner" x="30" y="250"/>
-  <use href="#corner" x="420" y="250"/>
-
-  <!-- 顶部装饰线 -->
-  <line x1="60" y1="30" x2="390" y2="30" stroke="#58a6ff" stroke-width="1" opacity="0.3">
-    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
-  </line>
-
-  <!-- 底部装饰线 -->
-  <line x1="60" y1="250" x2="390" y2="250" stroke="#f778ba" stroke-width="1" opacity="0.3">
-    <animate attributeName="opacity" values="0.3;0.6;0.3" dur="3s" repeatCount="indefinite"/>
-  </line>
-
-  <!-- 左侧装饰点列 -->
-  <circle cx="30" cy="80" r="2" fill="#58a6ff" opacity="0.5">
-    <animate attributeName="cy" values="80;75;80" dur="4s" repeatCount="indefinite"/>
+  
+  <text x="225" y="50" text-anchor="middle" fill="#58a6ff" font-size="24" font-weight="bold" font-family="Arial, sans-serif">
+    👋 Hey there!
+  </text>
+  
+  <text x="225" y="85" text-anchor="middle" fill="#c9d1d9" font-size="16" font-family="Arial, sans-serif">
+    I'm badhope
+  </text>
+  
+  <line x1="50" y1="105" x2="400" y2="105" stroke="#30363d" stroke-width="1"/>
+  
+  <text x="50" y="135" fill="#8b949e" font-size="13" font-family="Arial, sans-serif">
+    🎯 Focus: AI Agent Development
+  </text>
+  
+  <text x="50" y="160" fill="#8b949e" font-size="13" font-family="Arial, sans-serif">
+    📍 Location: Shenzhen, China
+  </text>
+  
+  <text x="50" y="185" fill="#8b949e" font-size="13" font-family="Arial, sans-serif">
+    💼 Role: Full-Stack Developer
+  </text>
+  
+  <text x="50" y="210" fill="#8b949e" font-size="13" font-family="Arial, sans-serif">
+    🚀 Status: Open to Opportunities
+  </text>
+  
+  <text x="50" y="235" fill="#8b949e" font-size="13" font-family="Arial, sans-serif">
+    📧 Email: x18825407105@outlook.com
+  </text>
+  
+  <circle cx="380" cy="240" r="8" fill="#58a6ff" filter="url(#glow)">
+    <animate attributeName="opacity" values="1;0.5;1" dur="2s" repeatCount="indefinite"/>
   </circle>
-  <circle cx="30" cy="140" r="2" fill="#f778ba" opacity="0.5">
-    <animate attributeName="cy" values="140;135;140" dur="4.5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="30" cy="200" r="2" fill="#58a6ff" opacity="0.5">
-    <animate attributeName="cy" values="200;195;200" dur="5s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 右侧装饰点列 -->
-  <circle cx="420" cy="100" r="2" fill="#f778ba" opacity="0.5">
-    <animate attributeName="cy" values="100;95;100" dur="4.2s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="420" cy="160" r="2" fill="#58a6ff" opacity="0.5">
-    <animate attributeName="cy" values="160;155;160" dur="4.8s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="420" cy="220" r="2" fill="#f778ba" opacity="0.5">
-    <animate attributeName="cy" values="220;215;220" dur="5.2s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 中心区域装饰 -->
-  <circle cx="225" cy="140" r="40" fill="none" stroke="#58a6ff" stroke-width="1" opacity="0.15">
-    <animate attributeName="r" values="40;50;40" dur="6s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.15;0.05;0.15" dur="6s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="225" cy="140" r="25" fill="none" stroke="#f778ba" stroke-width="1" opacity="0.1">
-    <animate attributeName="r" values="25;35;25" dur="5s" repeatCount="indefinite"/>
-    <animate attributeName="opacity" values="0.1;0.03;0.1" dur="5s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 浮动粒子 -->
-  <use href="#particle" x="100" y="60">
-    <animate attributeName="x" values="100;110;100" dur="5s" repeatCount="indefinite"/>
-  </use>
-  <use href="#particle" x="350" y="80">
-    <animate attributeName="x" values="350;340;350" dur="6s" repeatCount="indefinite"/>
-  </use>
-  <use href="#particle" x="150" y="200">
-    <animate attributeName="y" values="200;190;200" dur="5.5s" repeatCount="indefinite"/>
-  </use>
-  <use href="#particle" x="300" y="220">
-    <animate attributeName="y" values="220;210;220" dur="6.5s" repeatCount="indefinite"/>
-  </use>
-
-  <!-- 扫描线效果 -->
-  <line x1="50" y1="140" x2="400" y2="140" stroke="#58a6ff" stroke-width="1" opacity="0">
-    <animate attributeName="opacity" values="0;0.3;0" dur="4s" repeatCount="indefinite"/>
-    <animate attributeName="y1" values="50;230;50" dur="8s" repeatCount="indefinite"/>
-    <animate attributeName="y2" values="50;230;50" dur="8s" repeatCount="indefinite"/>
-  </line>
-
-  <!-- 标题占位区 -->
-  <rect x="80" y="55" width="290" height="3" rx="1.5" fill="#58a6ff" opacity="0.4"/>
-  <rect x="120" y="220" width="210" height="2" rx="1" fill="#f778ba" opacity="0.3"/>
 </svg>

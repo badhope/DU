@@ -1,12 +1,10 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 350" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <!-- 深色渐变背景 -->
     <radialGradient id="panelBg" cx="50%" cy="50%" r="70%">
       <stop offset="0%" style="stop-color:#1c2128;stop-opacity:0.95"/>
       <stop offset="100%" style="stop-color:#0d1117;stop-opacity:0.98"/>
     </radialGradient>
-
-    <!-- 霓虹边框 -->
+    
     <linearGradient id="neonBorder" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.9">
         <animate attributeName="stop-color" values="#00ff88;#00ccff;#ff00ff;#00ff88" dur="6s" repeatCount="indefinite"/>
@@ -18,8 +16,7 @@
         <animate attributeName="stop-color" values="#ff00ff;#00ff88;#00ccff;#ff00ff" dur="6s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-
-    <!-- 强烈发光 -->
+    
     <filter id="neonGlow">
       <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
       <feMerge>
@@ -28,115 +25,53 @@
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
-    <!-- 数据点符号 -->
-    <symbol id="dataPoint">
-      <circle r="4" fill="#00ff88" filter="url(#neonGlow)">
-        <animate attributeName="r" values="4;6;4" dur="2s" repeatCount="indefinite"/>
-      </circle>
-    </symbol>
-
-    <!-- 柱状图 -->
-    <symbol id="bar">
-      <rect width="30" height="100" rx="5" ry="5" opacity="0.7">
-        <animate attributeName="height" values="60;100;60" dur="3s" repeatCount="indefinite"/>
-        <animate attributeName="y" values="40;0;40" dur="3s" repeatCount="indefinite"/>
-      </rect>
-    </symbol>
   </defs>
-
-  <!-- 面板主体 -->
+  
   <rect x="15" y="15" width="470" height="320" rx="25" ry="25" fill="url(#panelBg)" stroke="url(#neonBorder)" stroke-width="3" filter="url(#neonGlow)"/>
-
-  <!-- 顶部标题栏 -->
-  <rect x="50" y="35" width="400" height="40" rx="10" ry="10" fill="#161b22" opacity="0.6"/>
-  <circle cx="75" cy="55" r="6" fill="#ff5f56">
-    <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="95" cy="55" r="6" fill="#ffbd2e">
-    <animate attributeName="opacity" values="1;0.7;1" dur="2.5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="115" cy="55" r="6" fill="#27c93f">
-    <animate attributeName="opacity" values="1;0.7;1" dur="3s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 左侧数据可视化区 -->
-  <rect x="40" y="90" width="200" height="220" rx="15" ry="15" fill="#0d1117" opacity="0.5"/>
-
-  <!-- 柱状图 -->
-  <g transform="translate(60, 150)">
-    <rect x="0" y="40" width="25" height="80" rx="5" fill="#00ff88" opacity="0.7">
-      <animate attributeName="height" values="80;120;80" dur="3s" repeatCount="indefinite"/>
-      <animate attributeName="y" values="40;0;40" dur="3s" repeatCount="indefinite"/>
-    </rect>
-    <rect x="35" y="60" width="25" height="60" rx="5" fill="#00ccff" opacity="0.7">
-      <animate attributeName="height" values="60;100;60" dur="3.5s" repeatCount="indefinite"/>
-      <animate attributeName="y" values="60;20;60" dur="3.5s" repeatCount="indefinite"/>
-    </rect>
-    <rect x="70" y="30" width="25" height="90" rx="5" fill="#ff00ff" opacity="0.7">
-      <animate attributeName="height" values="90;130;90" dur="4s" repeatCount="indefinite"/>
-      <animate attributeName="y" values="30;-10;30" dur="4s" repeatCount="indefinite"/>
-    </rect>
-    <rect x="105" y="50" width="25" height="70" rx="5" fill="#00ff88" opacity="0.7">
-      <animate attributeName="height" values="70;110;70" dur="3.2s" repeatCount="indefinite"/>
-      <animate attributeName="y" values="50;10;50" dur="3.2s" repeatCount="indefinite"/>
-    </rect>
-  </g>
-
-  <!-- 右侧信息区 -->
-  <rect x="260" y="90" width="200" height="220" rx="15" ry="15" fill="#0d1117" opacity="0.5"/>
-
-  <!-- 数据点 -->
-  <use href="#dataPoint" x="290" y="120"/>
-  <use href="#dataPoint" x="290" y="170"/>
-  <use href="#dataPoint" x="290" y="220"/>
-  <use href="#dataPoint" x="290" y="270"/>
-
-  <!-- 连接线 -->
-  <line x1="295" y1="120" x2="420" y2="120" stroke="#00ff88" stroke-width="2" opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2s" repeatCount="indefinite"/>
-  </line>
-  <line x1="295" y1="170" x2="420" y2="170" stroke="#00ccff" stroke-width="2" opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.5s" repeatCount="indefinite"/>
-  </line>
-  <line x1="295" y1="220" x2="420" y2="220" stroke="#ff00ff" stroke-width="2" opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="3s" repeatCount="indefinite"/>
-  </line>
-  <line x1="295" y1="270" x2="420" y2="270" stroke="#00ff88" stroke-width="2" opacity="0.4">
-    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="2.8s" repeatCount="indefinite"/>
-  </line>
-
-  <!-- 右侧标签占位 -->
-  <rect x="310" y="115" width="100" height="10" rx="5" fill="#00ff88" opacity="0.3"/>
-  <rect x="310" y="165" width="120" height="10" rx="5" fill="#00ccff" opacity="0.3"/>
-  <rect x="310" y="215" width="90" height="10" rx="5" fill="#ff00ff" opacity="0.3"/>
-  <rect x="310" y="265" width="110" height="10" rx="5" fill="#00ff88" opacity="0.3"/>
-
-  <!-- 角落装饰 -->
-  <circle cx="40" cy="90" r="8" fill="none" stroke="#00ff88" stroke-width="2" opacity="0.5">
-    <animate attributeName="r" values="8;12;8" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="460" cy="90" r="8" fill="none" stroke="#00ccff" stroke-width="2" opacity="0.5">
-    <animate attributeName="r" values="8;12;8" dur="3.5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="40" cy="310" r="8" fill="none" stroke="#ff00ff" stroke-width="2" opacity="0.5">
-    <animate attributeName="r" values="8;12;8" dur="4s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="460" cy="310" r="8" fill="none" stroke="#00ff88" stroke-width="2" opacity="0.5">
-    <animate attributeName="r" values="8;12;8" dur="3.2s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 扫描线 -->
-  <line x1="40" y1="175" x2="460" y2="175" stroke="#00ff88" stroke-width="1" opacity="0">
-    <animate attributeName="opacity" values="0;0.5;0" dur="5s" repeatCount="indefinite"/>
-    <animate attributeName="y1" values="90;310;90" dur="10s" repeatCount="indefinite"/>
-    <animate attributeName="y2" values="90;310;90" dur="10s" repeatCount="indefinite"/>
-  </line>
-
-  <!-- 底部状态栏 -->
-  <rect x="50" y="295" width="400" height="25" rx="8" ry="8" fill="#161b22" opacity="0.6"/>
-  <circle cx="75" cy="307" r="4" fill="#00ff88">
-    <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
-  </circle>
-  <rect x="90" y="304" width="150" height="6" rx="3" fill="#00ff88" opacity="0.4"/>
+  
+  <text x="250" y="55" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold" font-family="Arial, sans-serif">
+    💻 Tech Stack Overview
+  </text>
+  
+  <line x1="50" y1="75" x2="450" y2="75" stroke="#30363d" stroke-width="1"/>
+  
+  <text x="50" y="110" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    Languages
+  </text>
+  
+  <rect x="50" y="120" width="120" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
+  <text x="110" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 35%</text>
+  
+  <rect x="180" y="120" width="100" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
+  <text x="230" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TS 28%</text>
+  
+  <rect x="290" y="120" width="80" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
+  <text x="330" y="134" text-anchor="middle" fill="#000000" font-size="11" font-family="Arial, sans-serif">JS 20%</text>
+  
+  <rect x="380" y="120" width="70" height="20" rx="3" fill="#007396" opacity="0.8"/>
+  <text x="415" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Java 17%</text>
+  
+  <text x="50" y="170" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    Frameworks
+  </text>
+  
+  <text x="50" y="195" fill="#8b949e" font-size="12" font-family="Arial, sans-serif">
+    • FastAPI • React • Vue.js • Node.js • Express
+  </text>
+  
+  <text x="50" y="230" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    AI & ML
+  </text>
+  
+  <text x="50" y="255" fill="#8b949e" font-size="12" font-family="Arial, sans-serif">
+    • PyTorch • LangChain • Hugging Face • OpenAI
+  </text>
+  
+  <text x="50" y="290" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    Tools
+  </text>
+  
+  <text x="50" y="315" fill="#8b949e" font-size="12" font-family="Arial, sans-serif">
+    • Docker • Git • Linux • AWS • MongoDB • Redis
+  </text>
 </svg>
