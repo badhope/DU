@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Blog Sync Script
+Blog Sync Script - Starry Sky Theme
 Fetches latest posts from CSDN/Juejin and updates README.md.
 """
 
@@ -101,14 +101,21 @@ def fetch_juejin_posts(limit=3):
 
 def format_blog_markdown(posts):
     if not posts:
-        return "> No recent posts available."
+        return '<small>文章同步中...</small>'
 
     md_lines = []
-    for i, post in enumerate(posts, 1):
-        date_str = f"({post['date']})" if post['date'] else ""
-        md_lines.append(f"{i}. [{post['title']}]({post['url']}) {date_str} \\[*{post['source']}*\\]")
+    for i, post in enumerate(posts[:3], 1):
+        date_str = f" · {post['date']}" if post['date'] else ""
+        source_emoji = {
+            'CSDN': '📕',
+            '掘金': '📘'
+        }.get(post['source'], '📝')
 
-    return "\n".join(md_lines)
+        md_lines.append(
+            f'<small>{i}. {source_emoji} <a href="{post["url"]}" style="color:#a5f3fc;text-decoration:none;">{post["title"]}</a>{date_str}</small>'
+        )
+
+    return '<br>\n'.join(md_lines)
 
 
 def update_readme(csdn_posts, juejin_posts):
@@ -122,20 +129,17 @@ def update_readme(csdn_posts, juejin_posts):
         return False
 
     all_posts = csdn_posts + juejin_posts
-    blog_markdown = format_blog_markdown(all_posts[:6])
+    blog_markdown = format_blog_markdown(all_posts[:3])
 
-    blog_section = f"""## 📝 Recent Posts
-
-_Last updated: {datetime.now().strftime('%Y-%m-%d')}_
-
+    blog_section = f'''<b>📚 最新文章</b>
+<br>
+<small>_更新于 {datetime.now().strftime('%Y-%m-%d')}_</small>
+<br><br>
 {blog_markdown}
-
----
-
-"""
+'''
 
     pattern = r'(<!-- blog:start -->)\n.*?\n(<!-- blog:end -->)'
-    replacement = f'\\1\n\n{blog_section}\\2'
+    replacement = f'\\1\n\n{blog_section}\n<!-- blog:end -->'
 
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
 
@@ -151,17 +155,32 @@ _Last updated: {datetime.now().strftime('%Y-%m-%d')}_
 
 
 def main():
-    print("Fetching blog posts...")
+    print("=" * 60)
+    print("📚 Blog Sync Script - Starry Sky Theme")
+    print("=" * 60)
+    print(f"⏰ Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print()
 
-    print("  - Fetching CSDN...")
+    print("  📡 Fetching CSDN...")
     csdn_posts = fetch_csdn_posts(limit=3)
 
-    print("  - Fetching Juejin...")
+    print("  📡 Fetching 掘金...")
     juejin_posts = fetch_juejin_posts(limit=3)
 
-    print(f"  Found {len(csdn_posts)} CSDN posts, {len(juejin_posts)} Juejin posts")
+    print()
+    print(f"📊 Total posts fetched: {len(csdn_posts) + len(juejin_posts)}")
+    print(f"   - CSDN: {len(csdn_posts)} posts")
+    print(f"   - 掘金: {len(juejin_posts)} posts")
+    print()
 
-    update_readme(csdn_posts, juejin_posts)
+    if update_readme(csdn_posts, juejin_posts):
+        print()
+        print("✨ All done! Your README has been updated with the latest posts.")
+    else:
+        print()
+        print("❌ Failed to update README.")
+
+    print("=" * 60)
 
 
 if __name__ == "__main__":

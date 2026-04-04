@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Daily Quote Update Script
+Daily Quote Update Script - Starry Sky Theme
 Fetches a quote and updates README.md with the new content.
 """
 
@@ -20,17 +20,17 @@ QUOTE_APIS = [
     "https://api.quotable.io/random",
 ]
 
-TECH_QUOTES = [
-    {"text": "The best way to predict the future is to create it.", "author": "Peter Drucker"},
-    {"text": "Code is like humor. When you have to explain it, it's bad.", "author": "Cory House"},
-    {"text": "First, solve the problem. Then, write the code.", "author": "John Johnson"},
-    {"text": "Experience is the name everyone gives to their mistakes.", "author": "Oscar Wilde"},
-    {"text": "The only way to learn a new programming language is by writing programs in it.", "author": "Dennis Ritchie"},
-    {"text": "Sometimes it pays to stay in bed on Monday, rather than spending the rest of the week debugging Monday's code.", "author": "Dan Salomon"},
-    {"text": "Measuring programming progress by lines of code is like measuring aircraft building progress by weight.", "author": "Bill Gates"},
-    {"text": "The computer was born to solve problems that did not exist before.", "author": "Bill Gates"},
-    {"text": "AI is the new electricity.", "author": "Andrew Ng"},
-    {"text": "Data is the new oil.", "author": "Clive Humby"},
+STARRY_QUOTES = [
+    {"text": "Shoot for the moon. Even if you miss, you'll land among the stars.", "author": "Les Brown"},
+    {"text": "The stars are the land-marks of the universe.", "author": "John Fisher"},
+    {"text": "Look up at the stars and not down at your feet.", "author": "Stephen Hawking"},
+    {"text": "We are all made of starstuff.", "author": "Carl Sagan"},
+    {"text": "In the sky, the stars are bright.", "author": "Unknown"},
+    {"text": "The universe is within us as much as we are within it.", "author": "Neil deGrasse Tyson"},
+    {"text": "The cosmos is within us. We are made of star-stuff.", "author": "Carl Sagan"},
+    {"text": "Aim for the stars, but keep your feet on the ground.", "author": "Unknown"},
+    {"text": "The stars are the eyes of eternity.", "author": "Unknown"},
+    {"text": "In a sky full of stars, you are my favorite.", "author": "Unknown"},
 ]
 
 
@@ -48,13 +48,13 @@ def fetch_quote():
             except Exception:
                 continue
 
-    return random.choice(TECH_QUOTES)
+    return random.choice(STARRY_QUOTES)
 
 
 def format_quote_markdown(quote):
     text = quote["text"]
     author = quote["author"]
-    return f'> *"{text}"*  \n> — *{author}*'
+    return f'<b>✨ 每日星语</b>\n<br>\n<small>*"{text}"*</small>'
 
 
 def update_readme(quote_text):
@@ -64,32 +64,52 @@ def update_readme(quote_text):
         with open(readme_path, "r", encoding="utf-8") as f:
             content = f.read()
     except FileNotFoundError:
-        print(f"Error: {readme_path} not found")
+        print(f"❌ Error: {readme_path} not found")
+        return False
+    except Exception as e:
+        print(f"❌ Error reading {readme_path}: {e}")
         return False
 
     pattern = r'(<!-- quote:start -->)\n.*?\n(<!-- quote:end -->)'
-    replacement = f'\\1\n\n✨ **Daily Quote** — {datetime.now().strftime("%Y-%m-%d")}\n\n{quote_text}\n\n\\2'
+    replacement = f'\\1\n\n{quote_text}\n\n<!-- quote:end -->'
 
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
 
     if new_content == content:
-        print("Warning: Could not find quote markers in README.md")
+        print("⚠️  Warning: Could not find quote markers in README.md")
         return False
 
-    with open(readme_path, "w", encoding="utf-8") as f:
-        f.write(new_content)
-
-    print(f"Quote updated successfully!")
-    return True
+    try:
+        with open(readme_path, "w", encoding="utf-8") as f:
+            f.write(new_content)
+        print("✅ Quote updated successfully!")
+        return True
+    except Exception as e:
+        print(f"❌ Error writing to {readme_path}: {e}")
+        return False
 
 
 def main():
-    print("Fetching daily quote...")
+    print("=" * 60)
+    print("🌟 Daily Star Quote Update Script")
+    print("=" * 60)
+    print(f"⏰ Timestamp: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+    print()
+
     quote = fetch_quote()
-    print(f'Quote: "{quote["text"]}" — {quote["author"]}')
+    print()
+    print(f'📝 Quote: "{quote["text"]}" — {quote["author"]}')
+    print()
 
     quote_markdown = format_quote_markdown(quote)
-    update_readme(quote_markdown)
+    if update_readme(quote_markdown):
+        print()
+        print("✨ All done! Your README has been updated with a fresh star quote.")
+    else:
+        print()
+        print("❌ Failed to update README.")
+
+    print("=" * 60)
 
 
 if __name__ == "__main__":
