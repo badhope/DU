@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 200" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- 渐变定义 -->
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:1">
+        <animate attributeName="stop-color" values="#58a6ff;#f778ba;#58a6ff" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#f778ba;stop-opacity:1">
+        <animate attributeName="stop-color" values="#f778ba;#58a6ff;#f778ba" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#58a6ff;stop-opacity:1">
+        <animate attributeName="stop-color" values="#58a6ff;#f778ba;#58a6ff" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- 发光滤镜 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 星星符号 -->
+    <symbol id="star">
+      <polygon points="5,0 6.5,3.5 10,4 7.5,6.5 8,10 5,8.5 2,10 2.5,6.5 0,4 3.5,3.5" fill="#ffd700"/>
+    </symbol>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1200" height="200" fill="url(#bg-gradient)" opacity="0.1"/>
+
+  <!-- 动态线条 -->
+  <line x1="0" y1="100" x2="1200" y2="100" stroke="url(#grad1)" stroke-width="2" filter="url(#glow)">
+    <animate attributeName="y1" values="100;95;100;105;100" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="y2" values="100;105;100;95;100" dur="3s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 左侧装饰星群 -->
+  <use href="#star" x="50" y="60" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="scale" values="1;1.2;1" dur="2s" repeatCount="indefinite"/>
+  </use>
+  <use href="#star" x="100" y="80" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.5s" repeatCount="indefinite"/>
+  </use>
+  <use href="#star" x="80" y="120" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="1.8s" repeatCount="indefinite"/>
+  </use>
+
+  <!-- 右侧装饰星群 -->
+  <use href="#star" x="1100" y="70" opacity="0.8">
+    <animate attributeName="opacity" values="0.8;0.3;0.8" dur="2.2s" repeatCount="indefinite"/>
+  </use>
+  <use href="#star" x="1150" y="100" opacity="0.6">
+    <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2.8s" repeatCount="indefinite"/>
+  </use>
+  <use href="#star" x="1120" y="130" opacity="0.7">
+    <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2s" repeatCount="indefinite"/>
+  </use>
+
+  <!-- 中心文字区域 -->
+  <text x="600" y="85" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="url(#grad1)" filter="url(#glow)">
+    ✨ badhope ✨
+    <animate attributeName="opacity" values="1;0.8;1" dur="3s" repeatCount="indefinite"/>
+  </text>
+
+  <text x="600" y="130" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="#c9d1d9">
+    AI-Native Developer · Building the Future
+  </text>
+
+  <!-- 底部光效线 -->
+  <line x1="200" y1="160" x2="1000" y2="160" stroke="#58a6ff" stroke-width="1" opacity="0.5">
+    <animate attributeName="opacity" values="0.5;0.2;0.5" dur="2s" repeatCount="indefinite"/>
+  </line>
+</svg>

@@ -26,7 +26,7 @@ jobs:
           name: output
           path: dist/
 
-      - name: Push to repository
+      - name: Push to snake-animation branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -34,4 +34,5 @@ jobs:
           publish_branch: snake-animation
           enable_jekyll: false
           allow_empty_commit: true
+          force_orphan: true
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
