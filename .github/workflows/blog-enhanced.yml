@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   sync-blog:
@@ -45,3 +46,5 @@ jobs:
           git add -A
           git diff --staged --quiet || git commit -m "docs: update blog section [skip ci]"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
