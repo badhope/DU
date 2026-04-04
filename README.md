@@ -26,13 +26,14 @@
 
 ## 👋 About Me
 
+<!-- 发光卡片 -->
+<p align="center">
+  <img src="./assets/effects/glowing-card.svg" width="450" alt="About Card">
+</p>
+
 <div align="center">
 
 **Hey there! I'm badhope**, a passionate developer crafting intelligent systems at the intersection of AI and software engineering.
-
-</div>
-
-<table><tr><td>
 
 ### 🎯 What I Do
 
@@ -48,7 +49,7 @@ AI Agent Development · RAG Systems · Workflow Automation
 Full-Stack Engineering · DevOps · Cloud Architecture
 ```
 
-</td></tr></table>
+</div>
 
 <!-- 流动分隔线 -->
 <p align="center">
@@ -56,6 +57,11 @@ Full-Stack Engineering · DevOps · Cloud Architecture
 </p>
 
 ## 💻 Tech Stack
+
+<!-- 技术栈展示面板 -->
+<p align="center">
+  <img src="./assets/effects/stats-panel.svg" width="500" alt="Tech Stack Panel">
+</p>
 
 <div align="center">
 
@@ -118,6 +124,11 @@ Full-Stack Engineering · DevOps · Cloud Architecture
 
 ## 🚀 Featured Projects
 
+<!-- 项目展示卡片 -->
+<p align="center">
+  <img src="./assets/effects/project-showcase.svg" width="480" alt="Project Showcase">
+</p>
+
 <table>
 <tr>
 <td width="50%">
@@ -128,6 +139,7 @@ Building next-generation human-AI collaboration platform
 
 ![Stars](https://img.shields.io/github/stars/badhope/HumanOS?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/HumanOS?style=flat-square&color=3178C6)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/HumanOS?style=flat-square&color=c9d1d9)
 
 </td>
 <td width="50%">
@@ -138,6 +150,7 @@ AI skill framework for building intelligent agents
 
 ![Stars](https://img.shields.io/github/stars/badhope/skill?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/skill?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/skill?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>
@@ -161,6 +174,19 @@ AI skill framework for building intelligent agents
 ![Snake Animation](https://raw.githubusercontent.com/badhope/badhope/snake-animation/github-contribution-grid-snake-dark.svg)
 
 *Don't see the snake? [Trigger initial generation](docs/SNAKE-SETUP.md)*
+
+</div>
+
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
+
+## 📈 Activity Graph
+
+<div align="center">
+
+![Activity Graph](https://github-readme-activity-graph.vercel.app/graph?username=badhope&bg_color=0d1117&color=58a6ff&line=58a6ff&point=f778ba&area=true&hide_border=false)
 
 </div>
 
@@ -217,6 +243,8 @@ AI skill framework for building intelligent agents
 
 [![GitHub](https://img.shields.io/badge/-GitHub-58a6ff?style=for-the-badge&logo=github&logoColor=white)](https://github.com/badhope)
 [![Email](https://img.shields.io/badge/-Email-ea4c89?style=for-the-badge&logo=outlook&logoColor=white)](mailto:x18825407105@outlook.com)
+[![Twitter](https://img.shields.io/badge/-Twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/badhope_dev)
+[![LinkedIn](https://img.shields.io/badge/-LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/badhope)
 
 **Thanks for visiting!** 🚀
 

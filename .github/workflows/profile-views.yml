@@ -1,0 +1,27 @@
+name: Profile README Stats Update
+
+on:
+  schedule:
+    - cron: "0 0 * * *"  # Daily at midnight UTC+8
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Update profile views counter
+        run: |
+          echo "Profile views are automatically tracked by komarev.com service"
+          echo "No additional action needed"
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "chore: update stats [skip ci]"
+          git push
