@@ -1,8 +1,16 @@
 <div align="center">
 
+<!-- 动态星空背景 -->
+<img src="./assets/effects/dynamic-starfield.svg" width="100%" alt="Dynamic Starfield Background">
+
 # 🌌 badhope
 
 ### AI-Native Full-Stack Developer | Building the Future with Code & Stars
+
+<!-- 打字机效果 -->
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3500&pause=1000&color=58A6FF&background=0D1117&center=true&vCenter=true&width=800&lines=Crafting+Intelligent+Systems;AI+%2B+Software+Engineering;Open+Source+Enthusiast;Building+with+Stars+%E2%9C%A8" alt="Typing Animation">
+
+<br/>
 
 [![GitHub](https://img.shields.io/badge/GitHub-badhope-58a6ff?style=for-the-badge&logo=github&logoColor=white)](https://github.com/badhope)
 [![Email](https://img.shields.io/badge/Email-x18825407105@outlook.com-ea4c89?style=for-the-badge&logo=outlook&logoColor=white)](mailto:x18825407105@outlook.com)
@@ -11,7 +19,10 @@
 
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 👋 About Me
 
@@ -39,7 +50,10 @@ Full-Stack Engineering · DevOps · Cloud Architecture
 
 </td></tr></table>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 💻 Tech Stack
 
@@ -80,7 +94,10 @@ Full-Stack Engineering · DevOps · Cloud Architecture
 
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 📊 GitHub Stats
 
@@ -94,7 +111,10 @@ Full-Stack Engineering · DevOps · Cloud Architecture
 
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 🚀 Featured Projects
 
@@ -129,7 +149,10 @@ AI skill framework for building intelligent agents
 
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 🐍 Contribution Snake
 
@@ -137,9 +160,14 @@ AI skill framework for building intelligent agents
 
 ![Snake Animation](https://raw.githubusercontent.com/badhope/badhope/snake-animation/github-contribution-grid-snake-dark.svg)
 
+*Don't see the snake? [Trigger initial generation](docs/SNAKE-SETUP.md)*
+
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 ## 📝 Latest Activity
 
@@ -165,7 +193,10 @@ AI skill framework for building intelligent agents
 </div>
 <!-- blog:end -->
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 <div align="center">
 
@@ -175,7 +206,10 @@ AI skill framework for building intelligent agents
 
 </div>
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="./assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
 <div align="center">
 
@@ -189,5 +223,8 @@ AI skill framework for building intelligent agents
 *Last updated: 2026-04-04*
 
 Made with ❤️ and ☕ by **badhope**
+
+<!-- 底部动态星空 -->
+<img src="./assets/effects/dynamic-starfield.svg" width="100%" alt="Dynamic Starfield Footer">
 
 </div>
