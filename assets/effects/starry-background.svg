@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 400" preserveAspectRatio="none">
+  <defs>
+    <!-- 星空渐变背景 -->
+    <linearGradient id="starrySky" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f172a">
+        <animate attributeName="stop-color" values="#0f172a;#1e293b;#0f172a" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#1e293b">
+        <animate attributeName="stop-color" values="#1e293b;#334155;#1e293b" dur="8s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#334155">
+        <animate attributeName="stop-color" values="#334155;#475569;#334155" dur="8s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- 星星光晕 -->
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#fef3c7;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#fef3c7;stop-opacity:0"/>
+    </radialGradient>
+
+    <!-- 星云渐变 -->
+    <linearGradient id="nebula" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#f9a8d4;stop-opacity:0.1"/>
+      <stop offset="50%" style="stop-color:#a5f3fc;stop-opacity:0.1"/>
+      <stop offset="100%" style="stop-color:#c4b5fd;stop-opacity:0.1"/>
+      <animate attributeName="x1" values="0%;100%;0%" dur="15s" repeatCount="indefinite"/>
+    </linearGradient>
+
+    <filter id="glowBlur">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="800" height="400" fill="url(#starrySky)"/>
+
+  <!-- 星云层 -->
+  <ellipse cx="200" cy="150" rx="250" ry="120" fill="url(#nebula)">
+    <animate attributeName="cx" values="200;600;200" dur="20s" repeatCount="indefinite"/>
+  </ellipse>
+
+  <!-- 小星星群 -->
+  <g filter="url(#glowBlur)">
+    <circle cx="50" cy="50" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="150" cy="80" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="250" cy="40" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="350" cy="90" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="450" cy="50" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="70" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="650" cy="40" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="750" cy="80" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="80" cy="200" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="180" cy="220" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="280" cy="180" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="380" cy="210" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="480" cy="190" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="580" cy="220" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="680" cy="180" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="120" cy="300" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="220" cy="340" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="320" cy="310" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="420" cy="330" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="520" cy="320" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="620" cy="340" r="1" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="4s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="720" cy="310" r="1.5" fill="#e0f2fe">
+      <animate attributeName="opacity" values="0.3;1;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 亮星星 -->
+  <g filter="url(#glowBlur)">
+    <!-- 4角星 -->
+    <circle cx="100" cy="150" r="2.5" fill="#fef3c7">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="400" cy="100" r="3" fill="#fef3c7">
+      <animate attributeName="r" values="3;4;3" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="700" cy="130" r="2.5" fill="#fef3c7">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="300" cy="250" r="3" fill="#fef3c7">
+      <animate attributeName="r" values="3;4;3" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.8;1;0.8" dur="3s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="600" cy="270" r="2.5" fill="#fef3c7">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="2.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.7;1;0.7" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 流星效果 -->
+  <g opacity="0.6">
+    <path d="M0,0 Q200,100 400,0" stroke="url(#starGlow)" stroke-width="1" fill="none">
+      <animate attributeName="d" values="M0,0 Q200,100 400,0;M400,0 Q600,100 800,0;M800,0 Q1000,100 1200,0" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0;0.6;0" dur="4s" repeatCount="indefinite"/>
+    </path>
+  </g>
+</svg>

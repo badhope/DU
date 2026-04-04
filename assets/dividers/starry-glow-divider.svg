@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 30" preserveAspectRatio="none">
+  <defs>
+    <linearGradient id="glowGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#e0f2fe;stop-opacity:0">
+        <animate attributeName="stop-opacity" values="0;0.15;0" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="25%" style="stop-color:#a5f3fc;stop-opacity:0.2">
+        <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="0.5s"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#fef3c7;stop-opacity:0.3">
+        <animate attributeName="stop-opacity" values="0.3;0.5;0.3" dur="3s" repeatCount="indefinite" begin="1s"/>
+      </stop>
+      <stop offset="75%" style="stop-color:#f9a8d4;stop-opacity:0.2">
+        <animate attributeName="stop-opacity" values="0.2;0.4;0.2" dur="3s" repeatCount="indefinite" begin="1.5s"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#c4b5fd;stop-opacity:0">
+        <animate attributeName="stop-opacity" values="0;0.15;0" dur="3s" repeatCount="indefinite" begin="2s"/>
+      </stop>
+    </linearGradient>
+
+    <filter id="softGlow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- 主光晕线 -->
+  <line x1="0" y1="15" x2="800" y2="15" stroke="url(#glowGradient)" stroke-width="2" filter="url(#softGlow)">
+    <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 星星装饰 -->
+  <g filter="url(#softGlow)">
+    <circle cx="100" cy="15" r="2" fill="#fef3c7">
+      <animate attributeName="r" values="2;3;2" dur="1.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite"/>
+    </circle>
+
+    <circle cx="250" cy="15" r="1.5" fill="#a5f3fc">
+      <animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+      <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+    </circle>
+
+    <circle cx="400" cy="15" r="2.5" fill="#f9a8d4">
+      <animate attributeName="r" values="2.5;3.5;2.5" dur="1.8s" repeatCount="indefinite" begin="1s"/>
+      <animate attributeName="opacity" values="0.6;1;0.6" dur="1.8s" repeatCount="indefinite" begin="1s"/>
+    </circle>
+
+    <circle cx="550" cy="15" r="1.5" fill="#c4b5fd">
+      <animate attributeName="r" values="1.5;2.5;1.5" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+      <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+    </circle>
+
+    <circle cx="700" cy="15" r="2" fill="#e0f2fe">
+      <animate attributeName="r" values="2;3;2" dur="1.5s" repeatCount="indefinite" begin="2s"/>
+      <animate attributeName="opacity" values="0.5;1;0.5" dur="1.5s" repeatCount="indefinite" begin="2s"/>
+    </circle>
+  </g>
+
+  <!-- 淡淡的星光粒子 -->
+  <circle cx="150" cy="8" r="1" fill="#fef3c7" opacity="0.4">
+    <animate attributeName="cy" values="8;22;8" dur="4s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle cx="350" cy="22" r="0.8" fill="#a5f3fc" opacity="0.3">
+    <animate attributeName="cy" values="22;8;22" dur="3.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle cx="500" cy="10" r="1" fill="#f9a8d4" opacity="0.4">
+    <animate attributeName="cy" values="10;20;10" dur="4.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="4.5s" repeatCount="indefinite"/>
+  </circle>
+
+  <circle cx="650" cy="20" r="0.8" fill="#c4b5fd" opacity="0.3">
+    <animate attributeName="cy" values="20;10;20" dur="3.8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="3.8s" repeatCount="indefinite"/>
+  </circle>
+</svg>
