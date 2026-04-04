@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- 深空渐变背景 -->
+    <linearGradient id="spaceBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d1117;stop-opacity:1"/>
+      <stop offset="50%" style="stop-color:#161b22;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#0d1117;stop-opacity:1"/>
+    </linearGradient>
+
+    <!-- 星星发光滤镜 -->
+    <filter id="starGlow">
+      <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 流星渐变 -->
+    <linearGradient id="meteorGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0"/>
+      <stop offset="50%" style="stop-color:#58a6ff;stop-opacity:1"/>
+      <stop offset="100%" style="stop-color:#f778ba;stop-opacity:0"/>
+    </linearGradient>
+
+    <!-- 星星符号 -->
+    <symbol id="star1">
+      <circle r="1.5" fill="#ffffff"/>
+    </symbol>
+    <symbol id="star2">
+      <circle r="2" fill="#58a6ff"/>
+    </symbol>
+    <symbol id="star3">
+      <circle r="1" fill="#f778ba"/>
+    </symbol>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="1400" height="400" fill="url(#spaceBg)"/>
+
+  <!-- 第一层星星（缓慢闪烁） -->
+  <g filter="url(#starGlow)">
+    <use href="#star1" x="50" y="30" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.2;0.8" dur="3s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="150" y="80" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.3;0.6" dur="4s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="250" y="50" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.5s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="350" y="120" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.8s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="450" y="70" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="550" y="150" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.3;0.8" dur="4.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="650" y="90" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.4;0.7" dur="3.8s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="750" y="60" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.5s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="850" y="130" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.6s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="950" y="100" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4.5s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="1050" y="80" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="3.3s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="1150" y="140" opacity="0.9">
+      <animate attributeName="opacity" values="0.9;0.5;0.9" dur="2.7s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="1250" y="110" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.9s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="1350" y="70" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="4.1s" repeatCount="indefinite"/>
+    </use>
+  </g>
+
+  <!-- 第二层星星（快速闪烁） -->
+  <g filter="url(#starGlow)">
+    <use href="#star3" x="100" y="200" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="1.5s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="300" y="250" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.8s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="500" y="220" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="700" y="280" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.6s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="900" y="240" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="1.9s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="1100" y="260" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="1.7s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="1300" y="230" opacity="0.5">
+      <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.1s" repeatCount="indefinite"/>
+    </use>
+  </g>
+
+  <!-- 第三层星星（底部区域） -->
+  <g filter="url(#starGlow)">
+    <use href="#star1" x="80" y="320" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.5s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="280" y="350" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="480" y="310" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="680" y="340" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.8s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star2" x="880" y="320" opacity="0.6">
+      <animate attributeName="opacity" values="0.6;0.2;0.6" dur="3.2s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star3" x="1080" y="360" opacity="0.8">
+      <animate attributeName="opacity" values="0.8;0.4;0.8" dur="2.4s" repeatCount="indefinite"/>
+    </use>
+    <use href="#star1" x="1280" y="330" opacity="0.7">
+      <animate attributeName="opacity" values="0.7;0.3;0.7" dur="2.9s" repeatCount="indefinite"/>
+    </use>
+  </g>
+
+  <!-- 流星1 -->
+  <line x1="200" y1="50" x2="280" y2="100" stroke="url(#meteorGrad)" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" values="0;1;0" dur="4s" begin="0s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 100,50; 0,0" dur="4s" begin="0s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 流星2 -->
+  <line x1="600" y1="80" x2="680" y2="130" stroke="url(#meteorGrad)" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" values="0;1;0" dur="5s" begin="2s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 120,60; 0,0" dur="5s" begin="2s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 流星3 -->
+  <line x1="1000" y1="60" x2="1080" y2="110" stroke="url(#meteorGrad)" stroke-width="2" opacity="0">
+    <animate attributeName="opacity" values="0;1;0" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+    <animateTransform attributeName="transform" type="translate" values="0,0; 110,55; 0,0" dur="4.5s" begin="1s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 星云效果（半透明圆形） -->
+  <circle cx="300" cy="180" r="80" fill="#58a6ff" opacity="0.03">
+    <animate attributeName="r" values="80;90;80" dur="8s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.03;0.05;0.03" dur="8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="900" cy="200" r="100" fill="#f778ba" opacity="0.02">
+    <animate attributeName="r" values="100;110;100" dur="10s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.02;0.04;0.02" dur="10s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="1200" cy="150" r="70" fill="#58a6ff" opacity="0.03">
+    <animate attributeName="r" values="70;80;70" dur="9s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.03;0.05;0.03" dur="9s" repeatCount="indefinite"/>
+  </circle>
+</svg>

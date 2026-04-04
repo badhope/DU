@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 60" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <!-- 流动渐变 -->
+    <linearGradient id="flowGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#58a6ff;stop-opacity:0">
+        <animate attributeName="offset" values="0;0.5;1;0" dur="4s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" style="stop-color:#f778ba;stop-opacity:1">
+        <animate attributeName="stop-color" values="#f778ba;#58a6ff;#f778ba" dur="3s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="100%" style="stop-color:#58a6ff;stop-opacity:0">
+        <animate attributeName="offset" values="1;0.5;0;1" dur="4s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <!-- 发光滤镜 -->
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- 脉冲圆形 -->
+    <symbol id="pulseCircle">
+      <circle r="4" fill="#58a6ff" filter="url(#glow)"/>
+      <circle r="6" fill="none" stroke="#58a6ff" stroke-width="1" opacity="0.5">
+        <animate attributeName="r" values="6;10;6" dur="2s" repeatCount="indefinite"/>
+        <animate attributeName="opacity" values="0.5;0;0.5" dur="2s" repeatCount="indefinite"/>
+      </circle>
+    </symbol>
+
+    <!-- 菱形装饰 -->
+    <symbol id="diamond">
+      <polygon points="0,-6 6,0 0,6 -6,0" fill="#f778ba" filter="url(#glow)">
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="6s" repeatCount="indefinite"/>
+      </polygon>
+    </symbol>
+
+    <!-- 小星星 -->
+    <symbol id="sparkle">
+      <path d="M0,-3 L1,-1 L3,0 L1,1 L0,3 L-1,1 L-3,0 L-1,-1 Z" fill="#ffffff">
+        <animate attributeName="opacity" values="1;0.3;1" dur="1.5s" repeatCount="indefinite"/>
+      </path>
+    </symbol>
+  </defs>
+
+  <!-- 主线条 -->
+  <line x1="100" y1="30" x2="1300" y2="30" stroke="url(#flowGrad)" stroke-width="2" filter="url(#glow)">
+    <animate attributeName="stroke-width" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- 中心装饰组 -->
+  <g transform="translate(700, 30)">
+    <use href="#diamond"/>
+    <circle cx="0" cy="0" r="12" fill="none" stroke="#58a6ff" stroke-width="1" opacity="0.4">
+      <animate attributeName="r" values="12;16;12" dur="3s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.1;0.4" dur="3s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- 左侧装饰点 -->
+  <use href="#pulseCircle" x="400" y="30"/>
+  <use href="#pulseCircle" x="550" y="30"/>
+  <circle cx="250" cy="30" r="2" fill="#f778ba" opacity="0.6">
+    <animate attributeName="r" values="2;3;2" dur="1.8s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 右侧装饰点 -->
+  <use href="#pulseCircle" x="850" y="30"/>
+  <use href="#pulseCircle" x="1000" y="30"/>
+  <circle cx="1150" cy="30" r="2" fill="#f778ba" opacity="0.6">
+    <animate attributeName="r" values="2;3;2" dur="2s" repeatCount="indefinite"/>
+  </circle>
+
+  <!-- 闪烁星星装饰 -->
+  <use href="#sparkle" x="320" y="30"/>
+  <use href="#sparkle" x="1080" y="30"/>
+  <use href="#sparkle" x="620" y="30"/>
+  <use href="#sparkle" x="780" y="30"/>
+
+  <!-- 两侧渐隐点 -->
+  <g opacity="0.5">
+    <circle cx="150" cy="30" r="1.5" fill="#c9d1d9"/>
+    <circle cx="180" cy="30" r="1" fill="#c9d1d9"/>
+    <circle cx="1220" cy="30" r="1.5" fill="#c9d1d9"/>
+    <circle cx="1250" cy="30" r="1" fill="#c9d1d9"/>
+  </g>
+
+  <!-- 浮动粒子 -->
+  <circle cx="450" cy="20" r="1.5" fill="#58a6ff" opacity="0.4">
+    <animate attributeName="cy" values="20;15;20" dur="3s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.2;0.4" dur="3s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="950" cy="40" r="1.5" fill="#f778ba" opacity="0.4">
+    <animate attributeName="cy" values="40;45;40" dur="3.5s" repeatCount="indefinite"/>
+    <animate attributeName="opacity" values="0.4;0.2;0.4" dur="3.5s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="500" cy="35" r="1" fill="#58a6ff" opacity="0.3">
+    <animate attributeName="cy" values="35;30;35" dur="2.8s" repeatCount="indefinite"/>
+  </circle>
+  <circle cx="900" cy="25" r="1" fill="#f778ba" opacity="0.3">
+    <animate attributeName="cy" values="25;20;25" dur="3.2s" repeatCount="indefinite"/>
+  </circle>
+</svg>
