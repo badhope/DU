@@ -1,0 +1,150 @@
+# GitHub Actions Configuration
+# This file documents the environment setup and dependencies for all workflows
+
+workflows:
+  # Snake Animation Generation
+  snake:
+    name: "Generate Contribution Snake"
+    triggers:
+      - schedule: "0 16 * * 0"  # Weekly on Sunday at midnight UTC+8
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+      - Platane/snk@v3 action
+      - peaceiris/actions-gh-pages@v3 action
+    outputs:
+      branch: snake-animation
+      files:
+        - github-contribution-grid-snake.svg
+        - github-contribution-grid-snake-dark.svg
+
+  # Initial Snake Generation (one-time setup)
+  init-snake:
+    name: "Initial Snake Generation"
+    triggers:
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+      - Platane/snk@v3 action
+      - peaceiris/actions-gh-pages@v3 action
+    note: "Run this once to create the snake-animation branch"
+
+  # Blog Synchronization
+  blog:
+    name: "Blog Sync"
+    triggers:
+      - schedule: "0 8 * * 1"  # Weekly on Monday at 4 PM UTC+8
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+      - Python 3.11
+      - pip packages: requests, feedparser, pyyaml
+    scripts:
+      - scripts/update_blog.py
+    env:
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+  # Daily Quote Update
+  quote:
+    name: "Daily Quote Update"
+    triggers:
+      - schedule: "0 6 * * *"  # Daily at 2 PM UTC+8
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+      - Python 3.11
+      - pip packages: requests, pyyaml
+    scripts:
+      - scripts/update_quote.py
+    env:
+      GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+
+  # Profile Views Stats
+  profile-views:
+    name: "Profile README Stats Update"
+    triggers:
+      - schedule: "0 0 * * *"  # Daily at midnight UTC+8
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+    note: "Stats are automatically tracked by komarev.com service"
+
+  # Auto Label
+  auto-label:
+    name: "Auto Label Issues and PRs"
+    triggers:
+      - issues: [opened]
+      - pull_request: [opened]
+    requirements:
+      - ubuntu-latest runner
+      - actions/github-script@v7 action
+    labels:
+      issues: ["triage"]
+      prs: ["review-needed"]
+
+  # Welcome New Contributors
+  welcome:
+    name: "Welcome New Contributors"
+    triggers:
+      - issues: [opened]
+      - pull_request_target: [opened]
+    requirements:
+      - ubuntu-latest runner
+      - actions/first-interaction@v1 action
+    messages:
+      issue: "Welcome message for first-time issue creators"
+      pr: "Welcome message for first-time PR submitters"
+
+  # Close Stale Issues
+  stale:
+    name: "Close Stale Issues and PRs"
+    triggers:
+      - schedule: "0 8 * * *"  # Daily at 4 PM UTC+8
+      - workflow_dispatch: true
+    requirements:
+      - ubuntu-latest runner
+      - actions/stale@v9 action
+    config:
+      days-before-stale: 30
+      days-before-close: 7
+      exempt-labels: ["pinned", "important", "bug"]
+
+# Global Settings
+global:
+  git-config:
+    user-email: "action@github.com"
+    user-name: "GitHub Action"
+  commit-message-suffix: "[skip ci]"
+  timezone: "Asia/Shanghai"
+
+# External Services
+services:
+  github-readme-stats:
+    url: "https://github-readme-stats.vercel.app"
+    status: "stable"
+  streak-stats:
+    url: "https://streak-stats.demolab.com"
+    status: "stable"
+  typing-svg:
+    url: "https://readme-typing-svg.demolab.com"
+    status: "stable"
+  activity-graph:
+    url: "https://github-readme-activity-graph.vercel.app"
+    status: "stable"
+  profile-views:
+    url: "https://komarev.com/ghpvc/"
+    status: "stable"
+  shields:
+    url: "https://img.shields.io"
+    status: "stable"
+
+# Secrets Required
+secrets:
+  required:
+    - GITHUB_TOKEN  # Automatically provided by GitHub Actions
+  optional: []
+
+# Environment Variables
+env-vars:
+  GITHUB_TOKEN: "Automatically provided by GitHub Actions"
+  PYTHON_VERSION: "3.11"
