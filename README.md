@@ -1,205 +1,193 @@
-<p align="center">
-  <img src="./assets/effects/starry-background.svg" width="100%" alt="星空背景">
-</p>
+<div align="center">
 
-<h1 align="center" style="color: #fef3c7; font-size: 42px;">🌟 badhope 🌟</h1>
+# 🌌 badhope
 
-<p align="center" style="font-size: 24px; color: #a5f3fc;">
-  AI-Native Full-Stack Developer<br>
-  Building with Starry Skies
-</p>
+### AI-Native Full-Stack Developer | Building the Future with Code & Stars
 
-<p align="center">
-  <img src="./assets/effects/shooting-star.svg" width="100%" alt="流星">
-</p>
+[![GitHub](https://img.shields.io/badge/GitHub-badhope-58a6ff?style=for-the-badge&logo=github&logoColor=white)](https://github.com/badhope)
+[![Email](https://img.shields.io/badge/Email-x18825407105@outlook.com-ea4c89?style=for-the-badge&logo=outlook&logoColor=white)](mailto:x18825407105@outlook.com)
+[![Location](https://img.shields.io/badge/📍_深圳_中国-ffffff?style=for-the-badge)]()
+![Profile Views](https://komarev.com/ghpvc/?username=badhope&style=for-the-badge&color=58a6ff&label=Views)
 
-<p align="center">
-  <a href="https://github.com/badhope">
-    <img src="https://img.shields.io/badge/GitHub-badhope-a5f3fc?style=for-the-badge&logo=github&logoColor=white" alt="GitHub">
-  </a>
-  <a href="mailto:x18825407105@outlook.com">
-    <img src="https://img.shields.io/badge/Email-x18825407105@outlook.com-f9a8d4?style=for-the-badge&logo=outlook&logoColor=white" alt="Email">
-  </a>
-  <img src="https://komarev.com/ghpvc/?username=badhope&style=flat-square&color=fef3c7&label=Profile+Views" alt="Views">
-</p>
-
-<p align="center">
-  <img src="./assets/dividers/starry-glow-divider.svg" width="90%" alt="光晕分隔线">
-</p>
+</div>
 
 ---
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>⭐ 基本信息</b>
-        <br><br>
-        <b>badhope</b><br>
-        📍 深圳龙华 · 广东 🇨🇳<br>
-        🔭 正在构建AI原生应用<br>
-        📚 学习高级LLM编排<br>
-        🤝 开启有趣项目的合作
-        <br><br>
-        <a href="mailto:x18825407105@outlook.com">📧 邮件</a> ·
-        <a href="https://github.com/badhope">🐙 GitHub</a>
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>💡 当前状态</b>
-        <br><br>
-        <img src="./assets/effects/twinkling-stars.svg" width="200" height="60" alt="星光">
-        <br><br>
-        <b style="font-size: 18px; color: #fef3c7;">✨ 活跃开发中</b>
-        <br>
-        <small style="color: #a5f3fc;">专注于AI原生应用开发</small>
-        <br><br>
-        <small style="color: #c4b5fd;">最后更新: 2026-04-04</small>
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>🎯 技术方向</b>
-        <br><br>
-        <b>AI & LLM</b><br>
-        Agent开发 · RAG系统<br>
-        智能工作流编排<br>
-        <br>
-        <small style="color: #c4b5fd;">Python · TypeScript · FastAPI</small>
-      </p>
-    </td>
-  </tr>
-</table>
+## 👋 About Me
 
-<p align="center">
-  <img src="./assets/dividers/starry-glow-divider.svg" width="90%" alt="光晕分隔线">
-</p>
+<div align="center">
+
+**Hey there! I'm badhope**, a passionate developer crafting intelligent systems at the intersection of AI and software engineering.
+
+</div>
+
+<table><tr><td>
+
+### 🎯 What I Do
+
+- 🔭 **Building** AI-native applications with LLM agents and RAG systems
+- 📚 **Learning** advanced orchestration patterns and multi-agent architectures
+- 💡 **Creating** open-source tools that empower developers
+- 🤝 **Collaborating** on innovative projects that push boundaries
+
+### 🌟 Current Focus
+
+```
+AI Agent Development · RAG Systems · Workflow Automation
+Full-Stack Engineering · DevOps · Cloud Architecture
+```
+
+</td></tr></table>
 
 ---
 
-<table>
-  <tr>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>💻 技术栈</b>
-        <br><br>
-        <img src="https://skillicons.dev/icons?i=python,javascript,typescript,java,html,css" alt="Languages">
-        <br><br>
-        <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=white">
-        <img src="https://img.shields.io/badge/Vue.js-4FC08D?style=flat-square&logo=vue.js&logoColor=white">
-        <img src="https://img.shields.io/badge/Node.js-339933?style=flat-square&logo=node.js&logoColor=white">
-        <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white">
-        <br><br>
-        <b>核心技能:</b><br>
-        AI & LLM · 全栈开发 · 数据工程 · DevOps
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>📊 GitHub统计</b>
-        <br><br>
-        <img src="https://github-readme-stats.vercel.app/api?username=badhope&show_icons=true&theme=dark&hide_border=true&bg_color=00000000&title_color=fef3c7&icon_color=a5f3fc&text_color=e0f2fe" alt="GitHub Stats">
-        <br>
-        <img src="https://streak-stats.demolab.com?user=badhope&theme=dark&hide_border=true&background=00000000&stroke=fef3c7&ring=c4b5fd&fire=f9a8d4&currStreakNum=a5f3fc&sideNums=e0f2fe&currStreakLabel=⭐&sideLabels=✨" alt="Streak">
-      </p>
-    </td>
-    <td width="33%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>📝 动态内容</b>
-        <br><br>
-        <img src="./assets/effects/twinkling-stars.svg" width="150" height="40" alt="星光">
-        <br><br>
-        <!-- quote:start -->
-        <b>✨ 每日星语</b>
-        <br>
-        <small>*"The best way to predict the future is to build it."*</small>
-        <!-- quote:end -->
-        <br><br>
-        <!-- blog:start -->
-        <b>📚 最新文章</b>
-        <br>
-        <small>文章同步中...</small>
-        <!-- blog:end -->
-      </p>
-    </td>
-  </tr>
-</table>
+## 💻 Tech Stack
 
-<p align="center">
-  <img src="./assets/dividers/starry-glow-divider.svg" width="90%" alt="光晕分隔线">
-</p>
+<div align="center">
+
+### Languages & Frameworks
+
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![Java](https://img.shields.io/badge/Java-007396?style=for-the-badge&logo=openjdk&logoColor=white)
+
+### Frontend
+
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vue.js&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
+
+### Backend & APIs
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+
+### AI & ML
+
+![PyTorch](https://img.shields.io/badge/PyTorch-EE4C2C?style=for-the-badge&logo=pytorch&logoColor=white)
+![LangChain](https://img.shields.io/badge/LangChain-1C3C3C?style=for-the-badge&logo=langchain&logoColor=white)
+![Hugging Face](https://img.shields.io/badge/Hugging_Face-FFD21E?style=for-the-badge&logo=huggingface&logoColor=black)
+
+### Tools & Platforms
+
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
+![Git](https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white)
+![Linux](https://img.shields.io/badge/Linux-FCC624?style=for-the-badge&logo=linux&logoColor=black)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazonwebservices&logoColor=white)
+
+</div>
 
 ---
 
+## 📊 GitHub Stats
+
+<div align="center">
+
+![GitHub Stats](https://github-readme-stats.vercel.app/api?username=badhope&show_icons=true&theme=dark&hide_border=false&bg_color=0d1117&title_color=58a6ff&icon_color=58a6ff&text_color=c9d1d9&rank_icon=github)
+
+![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=badhope&layout=compact&theme=dark&hide_border=false&bg_color=0d1117&title_color=58a6ff&text_color=c9d1d9)
+
+![Contribution Streak](https://streak-stats.demolab.com?user=badhope&theme=dark&hide_border=false&background=0d1117&stroke=58a6ff&ring=58a6ff&fire=ff6b6b&currStreakNum=58a6ff&sideNums=c9d1d9&currStreakLabel=%F0%9F%94%A5&sideLabels=%E2%AD%90)
+
+</div>
+
+---
+
+## 🚀 Featured Projects
+
 <table>
-  <tr>
-    <td width="50%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>🚀 精选项目</b>
-        <br><br>
-        <a href="https://github.com/badhope/HumanOS">
-          <img src="https://github-readme-stats.vercel.app/api/pin/?username=badhope&repo=HumanOS&theme=dark&hide_border=true&bg_color=00000000&title_color=fef3c7&icon_color=a5f3fc&text_color=e0f2fe" width="340">
-        </a>
-        <br>
-        <a href="https://github.com/badhope/skill">
-          <img src="https://github-readme-stats.vercel.app/api/pin/?username=badhope&repo=skill&theme=dark&hide_border=true&bg_color=00000000&title_color=c4b5fd&icon_color=f9a8d4&text_color=e0f2fe" width="340">
-        </a>
-      </p>
-    </td>
-    <td width="50%" valign="top">
-      <p align="center">
-        <img src="./assets/effects/glass-card.svg" width="380" alt="卡片背景">
-        <br>
-        <b>✒️ 开发者寄语</b>
-        <br><br>
-        <img src="./assets/effects/twinkling-stars.svg" width="200" height="40" alt="星光">
-        <br><br>
-        <div style="background: rgba(255,255,255,0.05); border-radius: 10px; padding: 20px; margin: 10px 0; border: 1px solid rgba(197, 181, 253, 0.3);">
-          <p style="font-size: 16px; line-height: 1.8; color: #e0f2fe; text-align: center;">
-            <b>"在星空下编程，让每一行代码都闪耀着智慧的光芒。"</b>
-          </p>
-          <p style="font-size: 12px; color: #c4b5fd; text-align: center; margin-top: 10px;">
-            — badhope · 星际开发者
-          </p>
-        </div>
-        <br>
-        <div style="text-align: center; font-size: 12px; color: #94a3b8;">
-          🌟 追逐梦想的代码之旅 🌟
-        </div>
-      </p>
-    </td>
-  </tr>
+<tr>
+<td width="50%">
+
+### [HumanOS](https://github.com/badhope/HumanOS)
+
+Building next-generation human-AI collaboration platform
+
+![Stars](https://img.shields.io/github/stars/badhope/HumanOS?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/HumanOS?style=flat-square&color=3178C6)
+
+</td>
+<td width="50%">
+
+### [skill](https://github.com/badhope/skill)
+
+AI skill framework for building intelligent agents
+
+![Stars](https://img.shields.io/github/stars/badhope/skill?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/skill?style=flat-square&color=3776AB)
+
+</td>
+</tr>
 </table>
 
-<p align="center">
-  <img src="./assets/dividers/starry-glow-divider.svg" width="90%" alt="光晕分隔线">
-</p>
+<div align="center">
 
-<p align="center">
-  <img src="./assets/effects/shooting-star.svg" width="100%" alt="流星">
-</p>
+[View All Projects →](https://github.com/badhope?tab=repositories)
 
-<p align="center">
-  <img src="./assets/effects/starry-background.svg" width="100%" alt="星空背景">
-</p>
+</div>
 
-<p align="center">
-  <b style="color: #fef3c7; font-size: 18px;">✨ 感谢访问我的星空 ✨</b>
-  <br>
-  <small style="color: #a5f3fc;">Last updated: 2026-04-04 | Made with 🌟 and 💖</small>
-</p>
+---
+
+## 🐍 Contribution Snake
+
+<div align="center">
+
+![Snake Animation](https://raw.githubusercontent.com/badhope/badhope/snake-animation/github-contribution-grid-snake-dark.svg)
+
+</div>
+
+---
+
+## 📝 Latest Activity
+
+<!-- quote:start -->
+<div align="center">
+
+### ✨ Daily Inspiration
+
+> *"The best way to predict the future is to build it."* — Abraham Lincoln
+
+</div>
+<!-- quote:end -->
+
+---
+
+<!-- blog:start -->
+<div align="center">
+
+### 📚 Recent Articles
+
+*Articles sync in progress...*
+
+</div>
+<!-- blog:end -->
+
+---
+
+<div align="center">
+
+### 🎵 Currently Listening
+
+[![Spotify](https://img.shields.io/badge/🎧_Listening_on_Spotify-1DB954?style=for-the-badge&logo=spotify&logoColor=white)]()
+
+</div>
+
+---
+
+<div align="center">
+
+## 🌟 Let's Connect!
+
+[![GitHub](https://img.shields.io/badge/-GitHub-58a6ff?style=for-the-badge&logo=github&logoColor=white)](https://github.com/badhope)
+[![Email](https://img.shields.io/badge/-Email-ea4c89?style=for-the-badge&logo=outlook&logoColor=white)](mailto:x18825407105@outlook.com)
+
+**Thanks for visiting!** 🚀
+
+*Last updated: 2026-04-04*
+
+Made with ❤️ and ☕ by **badhope**
+
+</div>
