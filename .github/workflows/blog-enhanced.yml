@@ -1,0 +1,47 @@
+name: Blog Sync (Enhanced)
+
+on:
+  schedule:
+    - cron: "0 8 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-blog:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Sync blogs
+        run: python scripts/update_blog_v2.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSDN_USER_ID: ${{ secrets.CSDN_USER_ID }}
+          JUEJIN_USER_ID: ${{ secrets.JUEJIN_USER_ID }}
+          REQUEST_TIMEOUT: "10"
+          MAX_RETRIES: "3"
+          LOG_LEVEL: "INFO"
+
+      - name: Commit and push if changed
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add -A
+          git diff --staged --quiet || git commit -m "docs: update blog section [skip ci]"
+          git push

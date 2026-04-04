@@ -1,13 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid meet">
   <defs>
-    <!-- 科技蓝渐变 -->
     <linearGradient id="techBg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" style="stop-color:#0a192f;stop-opacity:0.95"/>
       <stop offset="50%" style="stop-color:#112240;stop-opacity:0.95"/>
       <stop offset="100%" style="stop-color:#0a192f;stop-opacity:0.95"/>
     </linearGradient>
-
-    <!-- 彩虹边框 -->
+    
     <linearGradient id="rainbowBorder" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1">
         <animate attributeName="stop-color" values="#ff6b6b;#4ecdc4;#45b7d1;#96ceb4;#ffeaa7;#ff6b6b" dur="8s" repeatCount="indefinite"/>
@@ -25,8 +23,7 @@
         <animate attributeName="stop-color" values="#ffeaa7;#ff6b6b;#4ecdc4;#45b7d1;#96ceb4;#ffeaa7" dur="8s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-
-    <!-- 发光效果 -->
+    
     <filter id="rainbowGlow">
       <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
       <feMerge>
@@ -34,96 +31,59 @@
         <feMergeNode in="SourceGraphic"/>
       </feMerge>
     </filter>
-
-    <!-- GitHub图标 -->
-    <symbol id="github-icon">
-      <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" fill="#c9d1d9"/>
-    </symbol>
-
-    <!-- Star图标 -->
-    <symbol id="star-icon">
-      <polygon points="10,0 13,7 20,7 14,12 16,20 10,15 4,20 6,12 0,7 7,7" fill="#ffd700">
-        <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
-      </polygon>
-    </symbol>
   </defs>
-
-  <!-- 卡片主体 -->
+  
   <rect x="10" y="10" width="460" height="280" rx="20" ry="20" fill="url(#techBg)" stroke="url(#rainbowBorder)" stroke-width="3" filter="url(#rainbowGlow)"/>
-
-  <!-- 顶部装饰条 -->
-  <rect x="30" y="30" width="420" height="3" rx="1.5" fill="url(#rainbowBorder)" opacity="0.6">
-    <animate attributeName="opacity" values="0.6;1;0.6" dur="3s" repeatCount="indefinite"/>
-  </rect>
-
-  <!-- 项目图标区域 -->
-  <circle cx="80" cy="90" r="35" fill="#112240" stroke="#4ecdc4" stroke-width="2">
-    <animate attributeName="stroke" values="#4ecdc4;#45b7d1;#96ceb4;#4ecdc4" dur="6s" repeatCount="indefinite"/>
-  </circle>
-  <text x="80" y="100" text-anchor="middle" font-size="30" fill="#c9d1d9">🚀</text>
-
-  <!-- 项目标题占位 -->
-  <rect x="140" y="65" width="280" height="8" rx="4" fill="#4ecdc4" opacity="0.5"/>
-  <rect x="140" y="85" width="200" height="6" rx="3" fill="#45b7d1" opacity="0.4"/>
-
-  <!-- 项目描述占位 -->
-  <rect x="140" y="110" width="300" height="4" rx="2" fill="#8892b0" opacity="0.3"/>
-  <rect x="140" y="122" width="280" height="4" rx="2" fill="#8892b0" opacity="0.3"/>
-  <rect x="140" y="134" width="250" height="4" rx="2" fill="#8892b0" opacity="0.3"/>
-
-  <!-- 技术标签 -->
-  <rect x="140" y="155" width="70" height="22" rx="11" fill="#4ecdc4" opacity="0.2"/>
-  <rect x="220" y="155" width="80" height="22" rx="11" fill="#45b7d1" opacity="0.2"/>
-  <rect x="310" y="155" width="60" height="22" rx="11" fill="#96ceb4" opacity="0.2"/>
-
-  <!-- 底部统计区 -->
-  <rect x="30" y="200" width="420" height="70" rx="15" fill="#112240" opacity="0.5"/>
-
-  <!-- GitHub Stars -->
-  <use href="#github-icon" x="60" y="225" transform="scale(0.8)"/>
-  <use href="#star-icon" x="100" y="232" transform="scale(0.6)"/>
-  <rect x="120" y="228" width="60" height="6" rx="3" fill="#ffd700" opacity="0.5"/>
-
-  <!-- Language -->
-  <circle cx="220" cy="235" r="8" fill="#3178c6">
-    <animate attributeName="fill" values="#3178c6;#3776ab;#3178c6" dur="4s" repeatCount="indefinite"/>
-  </circle>
-  <rect x="235" y="228" width="80" height="6" rx="3" fill="#8892b0" opacity="0.4"/>
-
-  <!-- Forks -->
-  <circle cx="350" cy="235" r="8" fill="#4ecdc4"/>
-  <rect x="365" y="228" width="50" height="6" rx="3" fill="#8892b0" opacity="0.4"/>
-
-  <!-- 动态粒子装饰 -->
-  <circle cx="50" cy="200" r="2" fill="#4ecdc4" opacity="0.6">
-    <animate attributeName="cy" values="200;190;200" dur="4s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="430" cy="220" r="2" fill="#45b7d1" opacity="0.6">
-    <animate attributeName="cy" values="220;210;220" dur="4.5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="100" cy="260" r="2" fill="#96ceb4" opacity="0.6">
-    <animate attributeName="cx" values="100;110;100" dur="5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="380" cy="250" r="2" fill="#ffeaa7" opacity="0.6">
-    <animate attributeName="cx" values="380;370;380" dur="5.5s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- 角落光点 -->
-  <circle cx="30" cy="30" r="5" fill="#4ecdc4" opacity="0.5">
-    <animate attributeName="r" values="5;8;5" dur="3s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="450" cy="30" r="5" fill="#45b7d1" opacity="0.5">
-    <animate attributeName="r" values="5;8;5" dur="3.5s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="30" cy="270" r="5" fill="#96ceb4" opacity="0.5">
-    <animate attributeName="r" values="5;8;5" dur="4s" repeatCount="indefinite"/>
-  </circle>
-  <circle cx="450" cy="270" r="5" fill="#ffeaa7" opacity="0.5">
-    <animate attributeName="r" values="5;8;5" dur="4.5s" repeatCount="indefinite"/>
-  </circle>
-
-  <!-- View Project按钮占位 -->
-  <rect x="180" y="285" width="120" height="25" rx="12.5" fill="none" stroke="#4ecdc4" stroke-width="1.5" opacity="0.5">
-    <animate attributeName="opacity" values="0.5;0.8;0.5" dur="2s" repeatCount="indefinite"/>
-  </rect>
+  
+  <text x="240" y="50" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold" font-family="Arial, sans-serif">
+    🚀 Featured Projects
+  </text>
+  
+  <line x1="40" y1="70" x2="440" y2="70" stroke="#30363d" stroke-width="1"/>
+  
+  <rect x="30" y="90" width="200" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="130" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    HumanOS
+  </text>
+  <text x="130" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">
+    Human-AI Collaboration
+  </text>
+  <text x="130" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">
+    ⭐ Stars: Loading...
+  </text>
+  <text x="130" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">
+    TypeScript • Active
+  </text>
+  
+  <rect x="250" y="90" width="200" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
+  <text x="350" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
+    skill
+  </text>
+  <text x="350" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">
+    AI Skill Framework
+  </text>
+  <text x="350" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">
+    ⭐ Stars: Loading...
+  </text>
+  <text x="350" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">
+    Python • Active
+  </text>
+  
+  <text x="240" y="210" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
+    📊 Total Projects: 10+
+  </text>
+  
+  <text x="240" y="235" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
+    🌟 Total Stars: Loading...
+  </text>
+  
+  <text x="240" y="260" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
+    🍴 Total Forks: Loading...
+  </text>
+  
+  <a href="https://github.com/badhope?tab=repositories">
+    <text x="240" y="285" text-anchor="middle" fill="#58a6ff" font-size="11" font-family="Arial, sans-serif" style="cursor: pointer;">
+      View All Projects →
+    </text>
+  </a>
 </svg>
