@@ -7,6 +7,7 @@ on:
 
 permissions:
   contents: write
+  actions: read
 
 jobs:
   update-svg:
@@ -40,3 +41,5 @@ jobs:
           git add -A
           git diff --staged --quiet || git commit -m "feat: update SVG stats [skip ci]"
           git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
