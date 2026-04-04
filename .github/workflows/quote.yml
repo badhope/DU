@@ -2,11 +2,8 @@ name: Daily Quote Update
 
 on:
   schedule:
-    - cron: "0 6 * * *"
+    - cron: "0 6 * * *"  # Daily at 2 PM UTC+8
   workflow_dispatch:
-  push:
-    branches:
-      - main
 
 jobs:
   update-quote:
