@@ -5,6 +5,14 @@ on:
     - cron: "0 8 * * *"  # Daily at 4 PM UTC+8
   workflow_dispatch:
 
+permissions:
+  issues: write
+  pull-requests: write
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   stale:
     runs-on: ubuntu-latest
