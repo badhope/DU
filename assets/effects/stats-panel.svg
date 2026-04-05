@@ -9,9 +9,6 @@
       <stop offset="0%" style="stop-color:#00ff88;stop-opacity:0.9">
         <animate attributeName="stop-color" values="#00ff88;#00ccff;#ff00ff;#00ff88" dur="6s" repeatCount="indefinite"/>
       </stop>
-      <stop offset="50%" style="stop-color:#00ccff;stop-opacity:0.9">
-        <animate attributeName="stop-color" values="#00ccff;#ff00ff;#00ff88;#00ccff" dur="6s" repeatCount="indefinite"/>
-      </stop>
       <stop offset="100%" style="stop-color:#ff00ff;stop-opacity:0.9">
         <animate attributeName="stop-color" values="#ff00ff;#00ff88;#00ccff;#ff00ff" dur="6s" repeatCount="indefinite"/>
       </stop>
@@ -39,17 +36,14 @@
     Languages
   </text>
   
-  <rect x="50" y="120" width="120" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
-  <text x="110" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 35%</text>
-  
-  <rect x="180" y="120" width="100" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
-  <text x="230" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TS 28%</text>
-  
-  <rect x="290" y="120" width="80" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
-  <text x="330" y="134" text-anchor="middle" fill="#000000" font-size="11" font-family="Arial, sans-serif">JS 20%</text>
-  
-  <rect x="380" y="120" width="70" height="20" rx="3" fill="#007396" opacity="0.8"/>
-  <text x="415" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Java 17%</text>
+  <rect x="50" y="120" width="122" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
+  <text x="111.0" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 35%</text>
+  <rect x="182" y="120" width="98" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
+  <text x="231.0" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TypeScript 28%</text>
+  <rect x="290" y="120" width="70" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
+  <text x="325.0" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">JavaScript 20%</text>
+  <rect x="370" y="120" width="59" height="20" rx="3" fill="#007396" opacity="0.8"/>
+  <text x="399.5" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Java 17%</text>
   
   <text x="50" y="170" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
     Frameworks
