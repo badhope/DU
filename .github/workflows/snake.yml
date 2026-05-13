@@ -8,6 +8,8 @@ on:
 jobs:
   generate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -26,12 +28,12 @@ jobs:
           name: output
           path: dist/
 
-      - name: Push to snake-animation branch
+      - name: Push to output branch
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
-          publish_branch: snake-animation
+          publish_branch: output
           enable_jekyll: false
           allow_empty_commit: true
           force_orphan: true
