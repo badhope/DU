@@ -209,17 +209,20 @@ _If snake not visible, check [snake animation branch](https://github.com/badhope
 
 ---
 
-<!-- blog:start -->
+
+
 <div align="center">
 
-### 📚 Recent Articles
+### 📚 最新文章
 
 <small>更新于 2026-05-13</small>
 <br><br>
-<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231" style="color:#a5f3fc;text-decoration:none;">Explore my blog for latest articles</a></small>
+<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161027666" style="color:#a5f3fc;text-decoration:none;">从感知机到多层神经网络的数学演进，深度学习演变</a></small><br>
+<small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007981" style="color:#a5f3fc;text-decoration:none;">数据挖掘感知机模型全面解析，从理论原理到完整代码实战教程(附代码)</a></small><br>
+<small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007532" style="color:#a5f3fc;text-decoration:none;">线性代数全章节梳理，核心知识点深度解析</a></small><br>
 
 </div>
-<!-- blog:end -->
+
 
 <!-- 流动分隔线 -->
 <p align="center">
