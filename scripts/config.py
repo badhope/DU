@@ -5,7 +5,6 @@ Configuration management for profile README automation scripts.
 
 import os
 from dataclasses import dataclass
-from typing import Optional
 
 
 @dataclass
@@ -13,8 +12,6 @@ class BlogConfig:
     """Blog source configuration."""
     csdn_user_id: str
     csdn_rss_url: str
-    juejin_user_id: str
-    juejin_api_url: str
     max_posts: int = 3
     timeout: int = 10
     max_retries: int = 3
@@ -45,11 +42,6 @@ def get_config() -> Config:
         csdn_rss_url=os.getenv(
             "CSDN_RSS_URL",
             "https://blog.csdn.net/weixin_56622231/rss/list"
-        ),
-        juejin_user_id=os.getenv("JUEJIN_USER_ID", "2350111542479753"),
-        juejin_api_url=os.getenv(
-            "JUEJIN_API_URL",
-            "https://api.juejin.cn/content_api/v1/article/query"
         ),
         max_posts=int(os.getenv("MAX_POSTS", "3")),
         timeout=int(os.getenv("REQUEST_TIMEOUT", "10")),

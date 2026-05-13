@@ -5,10 +5,10 @@
 
 # 🌌 badhope
 
-### AI-Native Full-Stack Developer | Building the Future with Code & Stars
+### AI-Native Full-Stack Developer
 
 <!-- 打字机效果 -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3500&pause=1000&color=58A6FF&background=0D1117&center=true&vCenter=true&width=800&lines=Crafting+Intelligent+Systems;AI+%2B+Software+Engineering;Open+Source+Enthusiast;Building+with+Stars+%E2%9C%A8" alt="Typing Animation">
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3500&pause=1000&color=58A6FF&background=0D1117&center=true&vCenter=true&width=800&lines=Crafting+Intelligent+Systems;AI+%2B+Software+Engineering;Open+Source+Enthusiast" alt="Typing Animation">
 
 <br>
 
@@ -16,38 +16,6 @@
 [![Email](https://img.shields.io/badge/Email-x18825407105@outlook.com-ea4c89?style=for-the-badge&logo=microsoft-outlook&logoColor=white)](mailto:x18825407105@outlook.com)
 [![Location](https://img.shields.io/badge/📍_深圳_中国-ffffff?style=for-the-badge)]()
 ![Profile Views](https://komarev.com/ghpvc/?username=badhope&style=for-the-badge&color=58a6ff&label=Views)
-
-</div>
-
-<!-- 流动分隔线 -->
-<p align="center">
-  <img src="assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
-</p>
-
-## 👋 About Me
-
-<!-- 发光卡片 -->
-<p align="center">
-  <img src="assets/effects/glowing-card.svg" width="450" alt="About Card">
-</p>
-
-<div align="center">
-
-**Hey there! I'm badhope**, a passionate developer crafting intelligent systems at the intersection of AI and software engineering.
-
-### 🎯 What I Do
-
-- 🔭 **Building** AI-native applications with LLM agents and RAG systems
-- 📚 **Learning** advanced orchestration patterns and multi-agent architectures
-- 💡 **Creating** open-source tools that empower developers
-- 🤝 **Collaborating** on innovative projects that push boundaries
-
-### 🌟 Current Focus
-
-```
-AI Agent Development · RAG Systems · Workflow Automation
-Full-Stack Engineering · DevOps · Cloud Architecture
-```
 
 </div>
 
@@ -195,34 +163,28 @@ _If snake not visible, check [snake animation branch](https://github.com/badhope
   <img src="assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
 </p>
 
-## 📝 Latest Activity
+## ✨ Daily Inspiration
 
 <!-- quote:start -->
-<div align="center">
-
-### ✨ Daily Inspiration
-
 > _"Shoot for the moon. Even if you miss, you'll land among the stars."_ — Les Brown
-
-</div>
 <!-- quote:end -->
 
----
+<!-- 流动分隔线 -->
+<p align="center">
+  <img src="assets/dividers/flowing-divider.svg" width="100%" alt="Flowing Divider">
+</p>
 
-
+## 📚 Latest Articles
 
+<!-- blog:start -->
 <div align="center">
 
-### 📚 最新文章
-
-<small>更新于 2026-05-13</small>
-<br><br>
 <small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161027666" style="color:#a5f3fc;text-decoration:none;">从感知机到多层神经网络的数学演进，深度学习演变</a></small><br>
 <small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007981" style="color:#a5f3fc;text-decoration:none;">数据挖掘感知机模型全面解析，从理论原理到完整代码实战教程(附代码)</a></small><br>
 <small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007532" style="color:#a5f3fc;text-decoration:none;">线性代数全章节梳理，核心知识点深度解析</a></small><br>
 
 </div>
-
+<!-- blog:end -->
 
 <!-- 流动分隔线 -->
 <p align="center">
@@ -240,9 +202,7 @@ _If snake not visible, check [snake animation branch](https://github.com/badhope
 
 **Thanks for visiting!** 🚀
 
-_Last updated: 2026-05-13_
-
-Made with ❤️ and ☕ by **badhope**
+_Made with ❤️ by **badhope**_
 
 <!-- 底部动态星空 -->
 <img src="assets/effects/dynamic-starfield.svg" width="100%" alt="Dynamic Starfield Footer">

@@ -1,15 +1,13 @@
 #!/usr/bin/env python3
 """
-Enhanced Blog Sync Script - Starry Sky Theme
-Fetches latest posts from CSDN/Juejin and updates README.md.
+Blog Sync Script - CSDN Only
+Fetches latest posts from CSDN and updates README.md.
 """
 
 import re
-import json
 import logging
-import time
 from datetime import datetime
-from typing import List, Dict, Optional
+from typing import List, Dict
 from functools import wraps
 
 try:
@@ -47,6 +45,7 @@ def retry_on_failure(max_retries: int = 3, delay: float = 1.0):
                         f"Attempt {attempt + 1}/{max_retries} failed: {e}"
                     )
                     if attempt < max_retries - 1:
+                        import time
                         time.sleep(delay * (attempt + 1))
             raise NetworkError(
                 f"All {max_retries} attempts failed: {last_exception}"
@@ -114,66 +113,6 @@ def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
     return posts
 
 
-@retry_on_failure(max_retries=3, delay=1.0)
-def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
-    """
-    Fetch posts from Juejin API.
-    
-    Args:
-        config: Blog configuration
-        limit: Maximum number of posts to fetch
-        
-    Returns:
-        List of post dictionaries
-        
-    Raises:
-        NetworkError: If fetching fails after retries
-    """
-    posts = []
-    
-    payload = {
-        "user_id": config.juejin_user_id,
-        "sort_type": 2,
-        "limit": limit
-    }
-    
-    try:
-        response = requests.post(
-            config.juejin_api_url,
-            json=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=config.timeout
-        )
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        if data.get("err_msg") != "success":
-            raise NetworkError(f"Juejin API error: {data.get('err_msg')}")
-        
-        for article in data.get("data", [])[:limit]:
-            article_info = article.get("article_info", {})
-            posts.append({
-                "title": article_info.get("title", ""),
-                "url": f"https://juejin.cn/post/{article.get('article_id', '')}",
-                "source": "掘金",
-                "date": article_info.get("mtime", "")[:10]
-            })
-        
-        logger.info(f"Fetched {len(posts)} posts from Juejin")
-        
-    except Timeout:
-        raise NetworkError(f"Juejin request timed out after {config.timeout}s")
-    except ConnectionError as e:
-        raise NetworkError(f"Juejin connection error: {e}")
-    except RequestException as e:
-        raise NetworkError(f"Juejin request failed: {e}")
-    except (KeyError, json.JSONDecodeError) as e:
-        raise NetworkError(f"Juejin response parse error: {e}")
-    
-    return posts
-
-
 def format_blog_markdown(posts: List[Dict[str, str]]) -> str:
     """
     Format blog posts as markdown.
@@ -188,27 +127,22 @@ def format_blog_markdown(posts: List[Dict[str, str]]) -> str:
         return '<small>文章同步中...</small>'
     
     md_lines = []
-    source_emoji = {'CSDN': '📕', '掘金': '📘'}
     
     for i, post in enumerate(posts[:3], 1):
-        date_str = f" · {post['date']}" if post['date'] else ""
-        emoji = source_emoji.get(post['source'], '📝')
-        
         md_lines.append(
-            f'<small>{i}. {emoji} <a href="{post["url"]}" '
-            f'style="color:#a5f3fc;text-decoration:none;">{post["title"]}</a>{date_str}</small>'
+            f'<small>{i}. 📕 <a href="{post["url"]}" '
+            f'style="color:#a5f3fc;text-decoration:none;">{post["title"]}</a></small>'
         )
     
     return '<br>\n'.join(md_lines)
 
 
-def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "README.md") -> bool:
+def update_readme_with_blog(posts: List[Dict[str, str]]) -> bool:
     """
     Update README with blog posts.
     
     Args:
         posts: List of post dictionaries
-        readme_path: Path to README file
         
     Returns:
         bool: True if successful
@@ -221,15 +155,8 @@ def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "REA
     
     blog_markdown = format_blog_markdown(posts)
     
-    blog_section = f'''<b>📚 最新文章</b>
-<br>
-<small>_更新于 {datetime.now().strftime('%Y-%m-%d')}_</small>
-<br><br>
-{blog_markdown}
-'''
-    
     pattern = r'(<!-- blog:start -->)\n.*?\n(<!-- blog:end -->)'
-    replacement = f'\\1\n\n{blog_section}\n<!-- blog:end -->'
+    replacement = f'\\1\n\n{blog_markdown}\n\n<!-- blog:end -->'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     
@@ -249,36 +176,25 @@ def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "REA
 def main():
     """Main entry point."""
     logger.info("=" * 60)
-    logger.info("📚 Blog Sync Script - Enhanced Version")
+    logger.info("📚 Blog Sync Script - CSDN Only")
     logger.info("=" * 60)
     
     config = get_config()
     
-    all_posts = []
-    
     try:
         logger.info("📡 Fetching CSDN posts...")
-        csdn_posts = fetch_csdn_posts(config.blog, limit=config.blog.max_posts)
-        all_posts.extend(csdn_posts)
+        posts = fetch_csdn_posts(config.blog, limit=config.blog.max_posts)
+        
+        if posts:
+            if update_readme_with_blog(posts):
+                logger.info("✨ README updated successfully!")
+            else:
+                logger.error("❌ Failed to update README")
+        else:
+            logger.warning("⚠️ No posts fetched")
+            
     except NetworkError as e:
         logger.error(f"Failed to fetch CSDN posts: {e}")
-    
-    try:
-        logger.info("📡 Fetching Juejin posts...")
-        juejin_posts = fetch_juejin_posts(config.blog, limit=config.blog.max_posts)
-        all_posts.extend(juejin_posts)
-    except NetworkError as e:
-        logger.error(f"Failed to fetch Juejin posts: {e}")
-    
-    logger.info(f"📊 Total posts fetched: {len(all_posts)}")
-    
-    if all_posts:
-        if update_readme_with_blog(all_posts[:config.blog.max_posts]):
-            logger.info("✨ README updated successfully!")
-        else:
-            logger.error("❌ Failed to update README")
-    else:
-        logger.warning("⚠️ No posts fetched, skipping README update")
     
     logger.info("=" * 60)
 
