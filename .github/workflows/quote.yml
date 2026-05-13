@@ -1,13 +1,16 @@
 name: Daily Quote Update
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "0 6 * * *"  # Daily at 2 PM UTC+8
-  workflow_dispatch:
 
 jobs:
   update-quote:
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Checkout
         uses: actions/checkout@v4

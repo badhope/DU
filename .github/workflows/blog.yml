@@ -1,13 +1,16 @@
 name: Blog Sync
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: "0 8 * * 1"  # Weekly on Monday at 4 PM UTC+8
-  workflow_dispatch:
 
 jobs:
   sync-blog:
     runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -19,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests feedparser pyyaml
+          pip install requests pyyaml
 
       - name: Sync blogs
         run: python scripts/update_blog.py
