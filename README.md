@@ -101,24 +101,48 @@
 <tr>
 <td width="50%">
 
-### [HumanOS](https://github.com/badhope/HumanOS)
+### [MindMirror](https://github.com/badhope/MindMirror)
 
-Building next-generation human-AI collaboration platform
+Intelligent AI-powered personal assistant
 
-![Stars](https://img.shields.io/github/stars/badhope/HumanOS?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/HumanOS?style=flat-square&color=3178C6)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/HumanOS?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/MindMirror?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/MindMirror?style=flat-square&color=3178C6)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/MindMirror?style=flat-square&color=c9d1d9)
 
 </td>
 <td width="50%">
 
-### [skill](https://github.com/badhope/skill)
+### [DevFlow-Agent](https://github.com/badhope/DevFlow-Agent)
 
-AI skill framework for building intelligent agents
+Developer workflow automation agent
 
-![Stars](https://img.shields.io/github/stars/badhope/skill?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/skill?style=flat-square&color=3776AB)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/skill?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/DevFlow-Agent?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/DevFlow-Agent?style=flat-square&color=3178C6)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/DevFlow-Agent?style=flat-square&color=c9d1d9)
+
+</td>
+</tr>
+<tr>
+<td width="50%">
+
+### [LingXu](https://github.com/badhope/LingXu)
+
+Interactive web visualization tool
+
+![Stars](https://img.shields.io/github/stars/badhope/LingXu?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/LingXu?style=flat-square&color=E34F26)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/LingXu?style=flat-square&color=c9d1d9)
+
+</td>
+<td width="50%">
+
+### [Skillora](https://github.com/badhope/Skillora)
+
+AI skill marketplace and management platform
+
+![Stars](https://img.shields.io/github/stars/badhope/Skillora?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/Skillora?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/Skillora?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>
