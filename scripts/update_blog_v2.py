@@ -228,7 +228,7 @@ def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "REA
 {blog_markdown}
 '''
     
-    pattern = r'(<!-- blog:start -->)\n.*?\n(<!-- blog:end -->)'
+    pattern = r'(<!-- blog:start -->)\s*\n.*?\n(<!-- blog:end -->)'
     replacement = f'\\1\n\n{blog_section}\n<!-- blog:end -->'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)

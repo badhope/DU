@@ -2,7 +2,7 @@ name: Blog Sync (Enhanced)
 
 on:
   schedule:
-    - cron: "0 8 * * 1"
+    - cron: "0 8 * * 1"  # Weekly on Monday at 4 PM UTC+8
   workflow_dispatch:
 
 permissions:
@@ -35,6 +35,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CSDN_USER_ID: ${{ secrets.CSDN_USER_ID }}
           JUEJIN_USER_ID: ${{ secrets.JUEJIN_USER_ID }}
+          JUEJIN_API_URL: ${{ secrets.JUEJIN_API_URL }}
           REQUEST_TIMEOUT: "10"
           MAX_RETRIES: "3"
           LOG_LEVEL: "INFO"

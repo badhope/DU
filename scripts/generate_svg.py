@@ -280,8 +280,10 @@ def main():
     generator = SVGGenerator()
     
     projects = [
-        {"name": "HumanOS", "repo": "HumanOS"},
-        {"name": "skill", "repo": "skill"}
+        {"name": "MindMirror", "repo": "MindMirror"},
+        {"name": "DevFlow-Agent", "repo": "DevFlow-Agent"},
+        {"name": "LingXu", "repo": "LingXu"},
+        {"name": "Skillora", "repo": "Skillora"}
     ]
     
     for project in projects:

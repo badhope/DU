@@ -155,7 +155,7 @@ def update_readme_with_blog(posts: List[Dict[str, str]]) -> bool:
     
     blog_markdown = format_blog_markdown(posts)
     
-    pattern = r'(<!-- blog:start -->)\n.*?\n(<!-- blog:end -->)'
+    pattern = r'(<!-- blog:start -->)\s*\n.*?\n(<!-- blog:end -->)'
     replacement = f'\\1\n\n{blog_markdown}\n\n<!-- blog:end -->'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)

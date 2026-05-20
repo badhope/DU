@@ -80,13 +80,16 @@ class TestConfig:
         assert isinstance(config.quote, QuoteConfig)
         assert config.blog.max_posts == 3
         assert config.blog.timeout == 10
+        assert config.blog.juejin_user_id == ""
+        assert "juejin.cn" in config.blog.juejin_api_url
     
-    @patch.dict("os.environ", {"MAX_POSTS": "5", "REQUEST_TIMEOUT": "15"})
+    @patch.dict("os.environ", {"MAX_POSTS": "5", "REQUEST_TIMEOUT": "15", "JUEJIN_USER_ID": "test123"})
     def test_get_config_from_env(self):
         """Test configuration from environment."""
         config = get_config()
         assert config.blog.max_posts == 5
         assert config.blog.timeout == 15
+        assert config.blog.juejin_user_id == "test123"
 
 
 class TestBlogSync:

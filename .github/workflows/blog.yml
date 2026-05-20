@@ -5,7 +5,7 @@ on:
     branches:
       - main
   schedule:
-    - cron: "0 8 * * 1"  # Weekly on Monday at 4 PM UTC+8
+    - cron: "0 10 * * 1"  # Weekly on Monday at 6 PM UTC+8
 
 jobs:
   sync-blog:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pyyaml
+          pip install requests
 
       - name: Sync blogs
         run: python scripts/update_blog.py

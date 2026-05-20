@@ -4,10 +4,4 @@
 # HTTP requests for API calls
 requests>=2.31.0,<3.0.0
 
-# YAML configuration
-pyyaml>=6.0.1,<7.0.0
-
-# Optional: For enhanced logging
-colorama>=0.4.6,<1.0.0; platform_system == "Windows"
-
 # Development dependencies (install with: pip install -r requirements.txt -r requirements-dev.txt)
