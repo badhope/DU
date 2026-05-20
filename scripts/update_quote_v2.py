@@ -151,7 +151,7 @@ def update_readme_with_quote(quote_text: str) -> bool:
         logger.error(str(e))
         return False
     
-    pattern = r'(<!-- quote:start -->)\n.*?\n(<!-- quote:end -->)'
+    pattern = r'(<!-- quote:start -->)\s*\n.*?\n(<!-- quote:end -->)'
     replacement = f'\\1\n\n{quote_text}\n\n<!-- quote:end -->'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)

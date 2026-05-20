@@ -22,7 +22,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests pyyaml
+          pip install requests
 
       - name: Fetch and update quote
         run: python scripts/update_quote.py
