@@ -102,6 +102,17 @@
 <tr>
 <td width="50%">
 
+### [-thinkcheck-lib-](https://github.com/badhope/-thinkcheck-lib-)
+
+Resonance Theory LLM reasoning monitoring framework
+
+![Stars](https://img.shields.io/github/stars/badhope/-thinkcheck-lib-?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/-thinkcheck-lib-?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/-thinkcheck-lib-?style=flat-square&color=c9d1d9)
+
+</td>
+<td width="50%">
+
 ### [MindMirror](https://github.com/badhope/MindMirror)
 
 See Yourself Clearly, Become Your Best Self
@@ -111,6 +122,8 @@ See Yourself Clearly, Become Your Best Self
 ![Last Commit](https://img.shields.io/github/last-commit/badhope/MindMirror?style=flat-square&color=c9d1d9)
 
 </td>
+</tr>
+<tr>
 <td width="50%">
 
 ### [DevFlow-Agent](https://github.com/badhope/DevFlow-Agent)
@@ -120,19 +133,6 @@ Development Workflow Agent - 7 Core Skills + 16 Workflows
 ![Stars](https://img.shields.io/github/stars/badhope/DevFlow-Agent?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/DevFlow-Agent?style=flat-square&color=3178C6)
 ![Last Commit](https://img.shields.io/github/last-commit/badhope/DevFlow-Agent?style=flat-square&color=c9d1d9)
-
-</td>
-</tr>
-<tr>
-<td width="50%">
-
-### [LingXu](https://github.com/badhope/LingXu)
-
-A Digital Archive of Lost Cultivation Civilizations
-
-![Stars](https://img.shields.io/github/stars/badhope/LingXu?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/LingXu?style=flat-square&color=FF5D01)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/LingXu?style=flat-square&color=c9d1d9)
 
 </td>
 <td width="50%">

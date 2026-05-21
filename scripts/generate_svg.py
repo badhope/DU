@@ -348,9 +348,9 @@ def main():
     generator = SVGGenerator()
     
     projects = [
+        {"name": "-thinkcheck-lib-", "repo": "-thinkcheck-lib-"},
         {"name": "MindMirror", "repo": "MindMirror"},
         {"name": "DevFlow-Agent", "repo": "DevFlow-Agent"},
-        {"name": "LingXu", "repo": "LingXu"},
         {"name": "AgentHome", "repo": "AgentHome"}
     ]
     
