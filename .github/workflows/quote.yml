@@ -25,7 +25,7 @@ jobs:
           pip install requests
 
       - name: Fetch and update quote
-        run: python scripts/update_quote.py
+        run: python scripts/update_quote_v2.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
