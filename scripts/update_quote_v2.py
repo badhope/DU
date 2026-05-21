@@ -5,13 +5,9 @@ Fetches a quote and updates README.md with the new content.
 """
 
 import re
-import json
 import random
 import logging
-import time
-from datetime import datetime
 from typing import Dict, Optional
-from functools import wraps
 
 try:
     import requests
@@ -31,35 +27,6 @@ except ImportError:
     from helpers_v2 import (
         read_readme, write_readme, READMEError, NetworkError, logger
     )
-
-
-def retry_on_failure(max_retries: int = 3, delay: float = 1.0):
-    """
-    Decorator to retry function on failure.
-    
-    Args:
-        max_retries: Maximum number of retries
-        delay: Delay between retries in seconds
-    """
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            last_exception = None
-            for attempt in range(max_retries):
-                try:
-                    return func(*args, **kwargs)
-                except (RequestException, NetworkError) as e:
-                    last_exception = e
-                    logger.warning(
-                        f"Attempt {attempt + 1}/{max_retries} failed: {e}"
-                    )
-                    if attempt < max_retries - 1:
-                        time.sleep(delay * (attempt + 1))
-            raise NetworkError(
-                f"All {max_retries} attempts failed: {last_exception}"
-            )
-        return wrapper
-    return decorator
 
 
 def fetch_quote_from_api(api_url: str, timeout: int) -> Optional[Dict[str, str]]:
@@ -92,7 +59,7 @@ def fetch_quote_from_api(api_url: str, timeout: int) -> Optional[Dict[str, str]]
         
         return None
         
-    except (RequestException, json.JSONDecodeError, KeyError) as e:
+    except (RequestException, ValueError, KeyError) as e:
         logger.debug(f"API {api_url} failed: {e}")
         return None
 
@@ -132,13 +99,11 @@ def format_quote_markdown(quote: Dict[str, str]) -> str:
         str: Formatted markdown string
     """
     text = quote.get("text", "")
-    author = quote.get("author", "Unknown")
+    author = quote.get("author", "")
     
-    return (
-        f'<b>✨ 每日星语</b>\n'
-        f'<br>\n'
-        f'<small>*"{text}"*</small>'
-    )
+    if author:
+        return f'<b>✨ 每日星语</b>\n<br>\n<small>— {author}: "{text}"</small>'
+    return f'<b>✨ 每日星语</b>\n<br>\n<small>"{text}"</small>'
 
 
 def update_readme_with_quote(quote_text: str) -> bool:
@@ -158,7 +123,7 @@ def update_readme_with_quote(quote_text: str) -> bool:
         return False
     
     pattern = r'(<!-- quote:start -->)\s*\n.*?\n(<!-- quote:end -->)'
-    replacement = f'\\1\n\n{quote_text}\n\n<!-- quote:end -->'
+    replacement = f'\\1\n\n{quote_text}\n\n\\2'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     

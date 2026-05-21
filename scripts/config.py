@@ -37,22 +37,32 @@ class Config:
     log_level: str = "INFO"
 
 
+def _safe_int(value: str | None, default: int) -> int:
+    """Safely convert string to int with fallback."""
+    if value is None:
+        return default
+    try:
+        return int(value)
+    except (ValueError, TypeError):
+        return default
+
+
 def get_config() -> Config:
     """Get configuration from environment variables or defaults."""
     blog_config = BlogConfig(
-        csdn_user_id=os.getenv("CSDN_USER_ID", "weixin_56622231"),
-        csdn_rss_url=os.getenv(
+        csdn_user_id=os.environ.get("CSDN_USER_ID", "weixin_56622231"),
+        csdn_rss_url=os.environ.get(
             "CSDN_RSS_URL",
             "https://blog.csdn.net/weixin_56622231/rss/list"
         ),
-        juejin_user_id=os.getenv("JUEJIN_USER_ID", ""),
-        juejin_api_url=os.getenv(
+        juejin_user_id=os.environ.get("JUEJIN_USER_ID", ""),
+        juejin_api_url=os.environ.get(
             "JUEJIN_API_URL",
             "https://api.juejin.cn/content_service/v1/article/query_list"
         ),
-        max_posts=int(os.getenv("MAX_POSTS", "3")),
-        timeout=int(os.getenv("REQUEST_TIMEOUT", "10")),
-        max_retries=int(os.getenv("MAX_RETRIES", "3"))
+        max_posts=_safe_int(os.environ.get("MAX_POSTS"), 3),
+        timeout=_safe_int(os.environ.get("REQUEST_TIMEOUT"), 10),
+        max_retries=_safe_int(os.environ.get("MAX_RETRIES"), 3)
     )
 
     quote_config = QuoteConfig(
@@ -66,13 +76,13 @@ def get_config() -> Config:
             {"text": "Look up at the stars and not down at your feet.", "author": "Stephen Hawking"},
             {"text": "We are all made of starstuff.", "author": "Carl Sagan"},
         ],
-        timeout=int(os.getenv("REQUEST_TIMEOUT", "10")),
-        max_retries=int(os.getenv("MAX_RETRIES", "3"))
+        timeout=_safe_int(os.environ.get("REQUEST_TIMEOUT"), 10),
+        max_retries=_safe_int(os.environ.get("MAX_RETRIES"), 3)
     )
 
     return Config(
         blog=blog_config,
         quote=quote_config,
-        readme_path=os.getenv("README_PATH", "README.md"),
-        log_level=os.getenv("LOG_LEVEL", "INFO")
+        readme_path=os.environ.get("README_PATH", "README.md"),
+        log_level=os.environ.get("LOG_LEVEL", "INFO")
     )

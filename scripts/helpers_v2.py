@@ -6,9 +6,11 @@ Enhanced helper utilities for profile README automation scripts.
 import re
 import os
 import logging
+import time
 from datetime import datetime
 from typing import Optional, Dict, Any
 from pathlib import Path
+from functools import wraps
 
 
 logging.basicConfig(
@@ -27,6 +29,35 @@ class READMEError(Exception):
 class NetworkError(Exception):
     """Custom exception for network operations."""
     pass
+
+
+def retry_on_failure(max_retries: int = 3, delay: float = 1.0):
+    """
+    Decorator to retry function on failure.
+    
+    Args:
+        max_retries: Maximum number of retries
+        delay: Delay between retries in seconds
+    """
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            last_exception = None
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except Exception as e:
+                    last_exception = e
+                    logger.warning(
+                        f"Attempt {attempt + 1}/{max_retries} failed: {e}"
+                    )
+                    if attempt < max_retries - 1:
+                        time.sleep(delay * (attempt + 1))
+            raise NetworkError(
+                f"All {max_retries} attempts failed: {last_exception}"
+            )
+        return wrapper
+    return decorator
 
 
 def get_readme_path() -> Path:

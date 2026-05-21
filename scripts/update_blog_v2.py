@@ -5,12 +5,9 @@ Fetches latest posts from CSDN/Juejin and updates README.md.
 """
 
 import re
-import json
 import logging
-import time
 from datetime import datetime
 from typing import List, Dict, Optional
-from functools import wraps
 
 try:
     import requests
@@ -23,42 +20,13 @@ except ImportError:
 try:
     from scripts.config import get_config
     from scripts.helpers_v2 import (
-        read_readme, write_readme, READMEError, NetworkError, logger
+        read_readme, write_readme, READMEError, NetworkError, logger, retry_on_failure
     )
 except ImportError:
     from config import get_config
     from helpers_v2 import (
-        read_readme, write_readme, READMEError, NetworkError, logger
+        read_readme, write_readme, READMEError, NetworkError, logger, retry_on_failure
     )
-
-
-def retry_on_failure(max_retries: int = 3, delay: float = 1.0):
-    """
-    Decorator to retry function on failure.
-    
-    Args:
-        max_retries: Maximum number of retries
-        delay: Delay between retries in seconds
-    """
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            last_exception = None
-            for attempt in range(max_retries):
-                try:
-                    return func(*args, **kwargs)
-                except (RequestException, NetworkError) as e:
-                    last_exception = e
-                    logger.warning(
-                        f"Attempt {attempt + 1}/{max_retries} failed: {e}"
-                    )
-                    if attempt < max_retries - 1:
-                        time.sleep(delay * (attempt + 1))
-            raise NetworkError(
-                f"All {max_retries} attempts failed: {last_exception}"
-            )
-        return wrapper
-    return decorator
 
 
 @retry_on_failure(max_retries=3, delay=1.0)
@@ -84,9 +52,9 @@ def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
     
     try:
         response = requests.get(
-            config.csdn_rss_url,
+            config.blog.csdn_rss_url,
             headers=headers,
-            timeout=config.timeout
+            timeout=config.blog.timeout
         )
         response.raise_for_status()
         
@@ -109,13 +77,13 @@ def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
         logger.info(f"Fetched {len(posts)} posts from CSDN")
         
     except Timeout:
-        raise NetworkError(f"CSDN request timed out after {config.timeout}s")
+        raise NetworkError(f"CSDN request timed out after {config.blog.timeout}s")
     except ConnectionError as e:
         raise NetworkError(f"CSDN connection error: {e}")
     except RequestException as e:
         raise NetworkError(f"CSDN request failed: {e}")
-    except ET.ParseError as e:
-        raise NetworkError(f"CSDN XML parse error: {e}")
+    except Exception as e:
+        raise NetworkError(f"CSDN processing error: {e}")
     
     return posts
 
@@ -138,17 +106,17 @@ def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
     posts = []
     
     payload = {
-        "user_id": config.juejin_user_id,
+        "user_id": config.blog.juejin_user_id,
         "sort_type": 2,
         "limit": limit
     }
     
     try:
         response = requests.post(
-            config.juejin_api_url,
+            config.blog.juejin_api_url,
             json=payload,
             headers={"Content-Type": "application/json"},
-            timeout=config.timeout
+            timeout=config.blog.timeout
         )
         response.raise_for_status()
         
@@ -169,12 +137,12 @@ def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
         logger.info(f"Fetched {len(posts)} posts from Juejin")
         
     except Timeout:
-        raise NetworkError(f"Juejin request timed out after {config.timeout}s")
+        raise NetworkError(f"Juejin request timed out after {config.blog.timeout}s")
     except ConnectionError as e:
         raise NetworkError(f"Juejin connection error: {e}")
     except RequestException as e:
         raise NetworkError(f"Juejin request failed: {e}")
-    except (KeyError, json.JSONDecodeError) as e:
+    except (KeyError, ValueError) as e:
         raise NetworkError(f"Juejin response parse error: {e}")
     
     return posts
@@ -227,15 +195,10 @@ def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "REA
     
     blog_markdown = format_blog_markdown(posts)
     
-    blog_section = f'''<b>📚 最新文章</b>
-<br>
-<small>_更新于 {datetime.now().strftime('%Y-%m-%d')}_</small>
-<br><br>
-{blog_markdown}
-'''
+    blog_section = f'<b>📚 最新文章</b>\n<br>\n<small>_更新于 {datetime.now().strftime("%Y-%m-%d")}_</small>\n<br><br>\n{blog_markdown}'
     
     pattern = r'(<!-- blog:start -->)\s*\n.*?\n(<!-- blog:end -->)'
-    replacement = f'\\1\n\n{blog_section}\n<!-- blog:end -->'
+    replacement = f'\\1\n\n{blog_section}\n\n\\2'
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     
@@ -264,14 +227,14 @@ def main():
     
     try:
         logger.info("📡 Fetching CSDN posts...")
-        csdn_posts = fetch_csdn_posts(config.blog, limit=config.blog.max_posts)
+        csdn_posts = fetch_csdn_posts(config, limit=config.blog.max_posts)
         all_posts.extend(csdn_posts)
     except NetworkError as e:
         logger.error(f"Failed to fetch CSDN posts: {e}")
     
     try:
         logger.info("📡 Fetching Juejin posts...")
-        juejin_posts = fetch_juejin_posts(config.blog, limit=config.blog.max_posts)
+        juejin_posts = fetch_juejin_posts(config, limit=config.blog.max_posts)
         all_posts.extend(juejin_posts)
     except NetworkError as e:
         logger.error(f"Failed to fetch Juejin posts: {e}")
