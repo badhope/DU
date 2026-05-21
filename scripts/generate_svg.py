@@ -6,7 +6,7 @@ Dynamic SVG Generator - Updates SVG files with real-time data
 import os
 import json
 import logging
-from typing import Dict, Any
+from typing import Dict, Any, List
 from datetime import datetime
 
 try:
@@ -48,8 +48,15 @@ class SVGGenerator:
                 "updated_at": data.get("updated_at", "")
             }
         except RequestException as e:
-            logger.error(f"Failed to fetch repo stats: {e}")
-            return {}
+            logger.error(f"Failed to fetch repo stats for {repo}: {e}")
+            return {
+                "stars": 0,
+                "forks": 0,
+                "issues": 0,
+                "language": "Unknown",
+                "description": "",
+                "updated_at": ""
+            }
     
     def fetch_user_stats(self, username: str) -> Dict[str, Any]:
         """Fetch user statistics from GitHub API."""
@@ -67,12 +74,64 @@ class SVGGenerator:
                 "created_at": data.get("created_at", "")
             }
         except RequestException as e:
-            logger.error(f"Failed to fetch user stats: {e}")
-            return {}
+            logger.error(f"Failed to fetch user stats for {username}: {e}")
+            return {
+                "public_repos": 0,
+                "followers": 0,
+                "following": 0,
+                "created_at": ""
+            }
+    
+    def fetch_language_stats(self, username: str) -> Dict[str, float]:
+        """Fetch language statistics from GitHub API."""
+        url = f"https://api.github.com/users/{username}/repos"
+        
+        try:
+            response = requests.get(
+                url, 
+                headers=self.headers, 
+                params={"per_page": 100, "sort": "updated"},
+                timeout=10
+            )
+            response.raise_for_status()
+            repos = response.json()
+            
+            language_bytes = {}
+            total_bytes = 0
+            
+            for repo in repos:
+                if repo.get("language"):
+                    try:
+                        lang_url = f"https://api.github.com/repos/{username}/{repo['name']}/languages"
+                        lang_response = requests.get(lang_url, headers=self.headers, timeout=10)
+                        if lang_response.status_code == 200:
+                            languages = lang_response.json()
+                            for lang, bytes_count in languages.items():
+                                language_bytes[lang] = language_bytes.get(lang, 0) + bytes_count
+                                total_bytes += bytes_count
+                    except RequestException:
+                        continue
+            
+            if total_bytes > 0:
+                language_percentages = {
+                    lang: round((bytes_count / total_bytes) * 100, 1)
+                    for lang, bytes_count in sorted(
+                        language_bytes.items(), 
+                        key=lambda x: x[1], 
+                        reverse=True
+                    )[:6]
+                }
+                return language_percentages
+            
+            return {"Python": 35, "TypeScript": 28, "JavaScript": 20, "Java": 17}
+            
+        except RequestException as e:
+            logger.error(f"Failed to fetch language stats: {e}")
+            return {"Python": 35, "TypeScript": 28, "JavaScript": 20, "Java": 17}
     
     def generate_project_showcase_svg(
         self,
-        projects: list[Dict[str, Any]],
+        projects: List[Dict[str, Any]],
         output_path: str
     ) -> None:
         """Generate project showcase SVG with real data."""
@@ -143,18 +202,21 @@ class SVGGenerator:
             total_stars += stars
             total_forks += forks
             
+            language = project.get("language", "Unknown")
+            description = project.get("description", "")[:25]
+            
             card = f'''<rect x="{x_offset}" y="90" width="200" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
   <text x="{x_offset + 100}" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
     {project.get("name", "Project")}
   </text>
   <text x="{x_offset + 100}" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">
-    {project.get("description", "")[:25]}
+    {description}
   </text>
   <text x="{x_offset + 100}" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">
     ⭐ Stars: {stars}
   </text>
   <text x="{x_offset + 100}" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">
-    {project.get("language", "Unknown")} • Active
+    {language}
   </text>'''
             project_cards.append(card)
         
@@ -246,20 +308,26 @@ class SVGGenerator:
             "Python": "#3776AB",
             "TypeScript": "#3178C6",
             "JavaScript": "#F7DF1E",
-            "Java": "#007396"
+            "Java": "#007396",
+            "Go": "#00ADD8",
+            "Rust": "#DEA584",
+            "C++": "#00599C",
+            "C#": "#239120",
+            "Swift": "#FA7343",
+            "Kotlin": "#A97BFF"
         }
         
         language_bars = []
-        x_offset = 50
+        y_offset = 120
         
-        for lang, percentage in language_stats.items():
+        for lang, percentage in list(language_stats.items())[:6]:
             color = language_colors.get(lang, "#8b949e")
-            width = int(percentage * 3.5)
+            bar_width = min(int(percentage * 3.5), 300)
             
-            bar = f'''<rect x="{x_offset}" y="120" width="{width}" height="20" rx="3" fill="{color}" opacity="0.8"/>
-  <text x="{x_offset + width/2}" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">{lang} {percentage}%</text>'''
+            bar = f'''<rect x="50" y="{y_offset}" width="{bar_width}" height="20" rx="3" fill="{color}" opacity="0.8"/>
+  <text x="{50 + bar_width/2}" y="{y_offset + 14}" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">{lang} {percentage}%</text>'''
             language_bars.append(bar)
-            x_offset += width + 10
+            y_offset += 25
         
         svg_content = svg_template.format(
             language_bars="\n  ".join(language_bars)
@@ -286,25 +354,28 @@ def main():
         {"name": "Skillora", "repo": "Skillora"}
     ]
     
+    logger.info("📡 Fetching project statistics...")
     for project in projects:
-        stats = generator.fetch_repo_stats("badhope", project["repo"])
-        project.update(stats)
+        try:
+            stats = generator.fetch_repo_stats("badhope", project["repo"])
+            project.update(stats)
+            logger.info(f"✓ {project['name']}: ⭐{stats.get('stars', 0)} forks:{stats.get('forks', 0)}")
+        except Exception as e:
+            logger.error(f"✗ Failed to fetch {project['name']}: {e}")
     
     output_dir = os.path.join(os.path.dirname(__file__), "..", "assets", "effects")
     os.makedirs(output_dir, exist_ok=True)
     
+    logger.info("🎨 Generating project showcase SVG...")
     generator.generate_project_showcase_svg(
         projects,
         os.path.join(output_dir, "project-showcase.svg")
     )
     
-    language_stats = {
-        "Python": 35,
-        "TypeScript": 28,
-        "JavaScript": 20,
-        "Java": 17
-    }
+    logger.info("📊 Fetching language statistics...")
+    language_stats = generator.fetch_language_stats("badhope")
     
+    logger.info("🎨 Generating stats panel SVG...")
     generator.generate_stats_panel_svg(
         language_stats,
         os.path.join(output_dir, "stats-panel.svg")
