@@ -18,10 +18,16 @@ except ImportError:
         "requests library is required. Install with: pip install requests"
     )
 
-from config import get_config
-from helpers_v2 import (
-    read_readme, write_readme, READMEError, NetworkError, logger
-)
+try:
+    from scripts.config import get_config
+    from scripts.helpers_v2 import (
+        read_readme, write_readme, READMEError, NetworkError, logger
+    )
+except ImportError:
+    from config import get_config
+    from helpers_v2 import (
+        read_readme, write_readme, READMEError, NetworkError, logger
+    )
 
 
 def retry_on_failure(max_retries: int = 3, delay: float = 1.0):
