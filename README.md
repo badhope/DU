@@ -131,7 +131,7 @@ Development Workflow Agent - 7 Core Skills + 16 Workflows
 A Digital Archive of Lost Cultivation Civilizations
 
 ![Stars](https://img.shields.io/github/stars/badhope/LingXu?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/LingXu?style=flat-square&color=E34F26)
+![Language](https://img.shields.io/github/languages/top/badhope/LingXu?style=flat-square&color=FF5D01)
 ![Last Commit](https://img.shields.io/github/last-commit/badhope/LingXu?style=flat-square&color=c9d1d9)
 
 </td>
