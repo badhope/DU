@@ -8,7 +8,7 @@
 ### AI-Native Full-Stack Developer
 
 <!-- 打字机效果 -->
-<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=24&duration=3500&pause=1000&color=58A6FF&background=0D1117&center=true&vCenter=true&width=800&lines=Crafting+Intelligent+Systems;AI+%2B+Software+Engineering;Open+Source+Enthusiast" alt="Typing Animation">
+<img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&size=24&duration=3500&pause=1000&color=58A6FF&background=0D1117&center=true&vCenter=true&width=800&lines=Crafting+Intelligent+Systems;AI+%2B+Software+Engineering;Open+Source+Enthusiast" alt="Typing Animation">
 
 <br>
 
@@ -44,6 +44,7 @@
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=vuedotjs&logoColor=white)
+![Astro](https://img.shields.io/badge/Astro-FF5D01?style=for-the-badge&logo=astro&logoColor=white)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 
@@ -103,7 +104,7 @@
 
 ### [MindMirror](https://github.com/badhope/MindMirror)
 
-Intelligent AI-powered personal assistant
+See Yourself Clearly, Become Your Best Self
 
 ![Stars](https://img.shields.io/github/stars/badhope/MindMirror?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/MindMirror?style=flat-square&color=3178C6)
@@ -114,7 +115,7 @@ Intelligent AI-powered personal assistant
 
 ### [DevFlow-Agent](https://github.com/badhope/DevFlow-Agent)
 
-Developer workflow automation agent
+Development Workflow Agent - 7 Core Skills + 16 Workflows
 
 ![Stars](https://img.shields.io/github/stars/badhope/DevFlow-Agent?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/DevFlow-Agent?style=flat-square&color=3178C6)
@@ -127,7 +128,7 @@ Developer workflow automation agent
 
 ### [LingXu](https://github.com/badhope/LingXu)
 
-Interactive web visualization tool
+A Digital Archive of Lost Cultivation Civilizations
 
 ![Stars](https://img.shields.io/github/stars/badhope/LingXu?style=flat-square&color=58a6ff)
 ![Language](https://img.shields.io/github/languages/top/badhope/LingXu?style=flat-square&color=E34F26)
@@ -136,13 +137,13 @@ Interactive web visualization tool
 </td>
 <td width="50%">
 
-### [Skillora](https://github.com/badhope/Skillora)
+### [AgentHome](https://github.com/badhope/AgentHome)
 
-AI skill marketplace and management platform
+AI Agent Development Toolkit - Build Agents Like Building Blocks
 
-![Stars](https://img.shields.io/github/stars/badhope/Skillora?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/Skillora?style=flat-square&color=3776AB)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/Skillora?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/AgentHome?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/AgentHome?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/AgentHome?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>

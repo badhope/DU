@@ -351,7 +351,7 @@ def main():
         {"name": "MindMirror", "repo": "MindMirror"},
         {"name": "DevFlow-Agent", "repo": "DevFlow-Agent"},
         {"name": "LingXu", "repo": "LingXu"},
-        {"name": "Skillora", "repo": "Skillora"}
+        {"name": "AgentHome", "repo": "AgentHome"}
     ]
     
     logger.info("📡 Fetching project statistics...")
