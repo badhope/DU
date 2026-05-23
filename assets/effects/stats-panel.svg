@@ -36,18 +36,18 @@
     Languages
   </text>
   
-  <rect x="50" y="120" width="166" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
-  <text x="133.0" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 47.6%</text>
-  <rect x="50" y="145" width="93" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
-  <text x="96.5" y="159" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TypeScript 26.6%</text>
-  <rect x="50" y="170" width="38" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
-  <text x="69.0" y="184" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">mcfunction 11.0%</text>
-  <rect x="50" y="195" width="22" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
-  <text x="61.0" y="209" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TeX 6.4%</text>
+  <rect x="50" y="120" width="149" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
+  <text x="124.5" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 42.8%</text>
+  <rect x="50" y="145" width="84" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
+  <text x="92.0" y="159" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TypeScript 24.0%</text>
+  <rect x="50" y="170" width="69" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
+  <text x="84.5" y="184" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">mcfunction 19.8%</text>
+  <rect x="50" y="195" width="20" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
+  <text x="60.0" y="209" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TeX 5.8%</text>
   <rect x="50" y="220" width="4" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
-  <text x="52.0" y="234" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">JavaScript 1.4%</text>
-  <rect x="50" y="245" width="4" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
-  <text x="52.0" y="259" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Vue 1.3%</text>
+  <text x="52.0" y="234" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">JavaScript 1.3%</text>
+  <rect x="50" y="245" width="3" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
+  <text x="51.5" y="259" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Vue 1.1%</text>
   
   <text x="50" y="170" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
     Frameworks
