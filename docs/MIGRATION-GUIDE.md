@@ -67,9 +67,9 @@
 | 文件 | 说明 | 用途 |
 |------|------|------|
 | `scripts/config.py` | 配置管理模块 | 统一管理所有配置项 |
-| `scripts/helpers_v2.py` | 改进的辅助函数 | 提供更安全的文件操作 |
-| `scripts/update_blog_v2.py` | 改进的博客同步脚本 | 支持重试、更好的错误处理 |
-| `scripts/update_quote_v2.py` | 改进的每日引言脚本 | 支持多API fallback |
+| `scripts/helpers.py` | 改进的辅助函数 | 提供更安全的文件操作 |
+| `scripts/update_blog.py` | 改进的博客同步脚本 | 支持重试、更好的错误处理 |
+| `scripts/update_quote.py` | 改进的每日引言脚本 | 支持多API fallback |
 | `scripts/test_scripts.py` | 单元测试文件 | 确保代码质量 |
 | `.github/workflows/blog-enhanced.yml` | 改进的GitHub Actions工作流 | 更安全的权限配置 |
 
@@ -127,7 +127,7 @@ mv .github/workflows/blog-enhanced.yml .github/workflows/blog.yml
 python scripts/update_blog_v2.py
 
 # 本地测试每日引言
-python scripts/update_quote_v2.py
+python scripts/update_quote.py
 ```
 
 ### 步骤 6: 监控和验证
@@ -229,7 +229,7 @@ url = config.blog.csdn_rss_url
 ## 🐛 常见问题
 
 ### Q1: 旧脚本还能继续使用吗？
-**A:** 可以。旧脚本仍然保留，新脚本使用`_v2`后缀。您可以并行运行两者进行对比。
+**A:** 可以。旧脚本仍然保留，新脚本已去掉版本号。您可以并行运行两者进行对比。
 
 ### Q2: 如何回滚到旧版本？
 **A:** 

@@ -98,56 +98,60 @@
   <img src="assets/effects/project-showcase.svg" width="480" alt="Project Showcase">
 </p>
 
+<!-- projects:start -->
+
 <table>
 <tr>
 <td width="50%">
 
-### [-thinkcheck-lib-](https://github.com/badhope/-thinkcheck-lib-)
+### [MindMirror](https://github.com/badhope/MindMirror)
 
-Resonance Theory LLM reasoning monitoring framework
+Open-source professional psychological assessment platform featuring MBTI, personality tests, cognitive evaluations and mental growth tracking
 
-![Stars](https://img.shields.io/github/stars/badhope/-thinkcheck-lib-?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/-thinkcheck-lib-?style=flat-square&color=3776AB)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/-thinkcheck-lib-?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/MindMirror?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/MindMirror?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/MindMirror?style=flat-square&color=c9d1d9)
 
 </td>
 <td width="50%">
 
-### [MindMirror](https://github.com/badhope/MindMirror)
+### [Personal-Assistant](https://github.com/badhope/Personal-Assistant)
 
-See Yourself Clearly, Become Your Best Self
+Your AI-powered personal secretary for managing code repositories, local files, documents, cloud storage, and automating computer operations.
 
-![Stars](https://img.shields.io/github/stars/badhope/MindMirror?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/MindMirror?style=flat-square&color=3178C6)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/MindMirror?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/Personal-Assistant?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/Personal-Assistant?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/Personal-Assistant?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>
 <tr>
 <td width="50%">
 
-### [DevFlow-Agent](https://github.com/badhope/DevFlow-Agent)
+### [DATA-AI](https://github.com/badhope/DATA-AI)
 
-Development Workflow Agent - 7 Core Skills + 16 Workflows
+A comprehensive AI assistant framework built on LangChain ecosystem with advanced agent orchestration, RAG capabilities, multi-modal document processing, and office automation
 
-![Stars](https://img.shields.io/github/stars/badhope/DevFlow-Agent?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/DevFlow-Agent?style=flat-square&color=3178C6)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/DevFlow-Agent?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/DATA-AI?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/DATA-AI?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/DATA-AI?style=flat-square&color=c9d1d9)
 
 </td>
 <td width="50%">
 
-### [AgentHome](https://github.com/badhope/AgentHome)
+### [AI-SKILL](https://github.com/badhope/AI-SKILL)
 
-AI Agent Development Toolkit - Build Agents Like Building Blocks
+The largest universal agent skill library - 500+ production-ready skills across 14 categories. Supports 13 platforms including Claude, Cursor, Gemini, Doubao, Qwen, and more.
 
-![Stars](https://img.shields.io/github/stars/badhope/AgentHome?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/AgentHome?style=flat-square&color=3776AB)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/AgentHome?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/AI-SKILL?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/AI-SKILL?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/AI-SKILL?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>
 </table>
+
+<!-- projects:end -->
 
 <div align="center">
 
@@ -191,7 +195,11 @@ _If snake not visible, check [snake animation branch](https://github.com/badhope
 ## ✨ Daily Inspiration
 
 <!-- quote:start -->
-> _"Shoot for the moon. Even if you miss, you'll land among the stars."_ — Les Brown
+
+<b>✨ 每日星语</b>
+<br>
+<small>— John Fisher: "The stars are the land-marks of the universe."</small>
+
 <!-- quote:end -->
 
 <!-- 流动分隔线 -->
@@ -202,13 +210,15 @@ _If snake not visible, check [snake animation branch](https://github.com/badhope
 ## 📚 Latest Articles
 
 <!-- blog:start -->
-<div align="center">
 
-<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161027666" style="color:#a5f3fc;text-decoration:none;">从感知机到多层神经网络的数学演进，深度学习演变</a></small><br>
-<small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007981" style="color:#a5f3fc;text-decoration:none;">数据挖掘感知机模型全面解析，从理论原理到完整代码实战教程(附代码)</a></small><br>
-<small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161007532" style="color:#a5f3fc;text-decoration:none;">线性代数全章节梳理，核心知识点深度解析</a></small><br>
+<b>📚 最新文章</b>
+<br>
+<small>_更新于 2026-05-23_</small>
+<br><br>
+<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161318702" style="color:#a5f3fc;text-decoration:none;">Python网络爬虫核心知识点总结与学习路径指南</a> · Fri, 22 Ma</small><br>
+<small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161318952" style="color:#a5f3fc;text-decoration:none;">OpenClaw入门教程：从零部署到第一个智能体</a> · Fri, 22 Ma</small><br>
+<small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161319172" style="color:#a5f3fc;text-decoration:none;">Docker容器从下载到使用：详细教程与界面全解析</a> · Fri, 22 Ma</small>
 
-</div>
 <!-- blog:end -->
 
 <!-- 流动分隔线 -->

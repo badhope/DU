@@ -5,7 +5,7 @@ Unit tests for profile README automation scripts.
 
 import pytest
 from unittest.mock import Mock, patch, mock_open
-from scripts.helpers_v2 import (
+from scripts.helpers import (
     read_readme, write_readme, update_section,
     truncate_text, sanitize_filename, READMEError
 )
@@ -33,21 +33,21 @@ class TestHelpers:
         assert sanitize_filename("test file.txt") == "test-file.txt"
         assert sanitize_filename("test@file#.txt") == "testfile.txt"
     
-    @patch("scripts.helpers_v2.Path.read_text")
+    @patch("scripts.helpers.Path.read_text")
     def test_read_readme_success(self, mock_read):
         """Test successful README read."""
         mock_read.return_value = "# Test README"
         result = read_readme()
         assert result == "# Test README"
     
-    @patch("scripts.helpers_v2.Path.read_text")
+    @patch("scripts.helpers.Path.read_text")
     def test_read_readme_not_found(self, mock_read):
         """Test README not found."""
         mock_read.side_effect = FileNotFoundError()
         with pytest.raises(READMEError):
             read_readme()
     
-    @patch("scripts.helpers_v2.Path.write_text")
+    @patch("scripts.helpers.Path.write_text")
     def test_write_readme_success(self, mock_write):
         """Test successful README write."""
         write_readme("# Test")
@@ -95,10 +95,10 @@ class TestConfig:
 class TestBlogSync:
     """Test blog sync functions."""
     
-    @patch("scripts.update_blog_v2.requests.get")
+    @patch("scripts.update_blog.requests.get")
     def test_fetch_csdn_posts_success(self, mock_get):
         """Test successful CSDN fetch."""
-        from scripts.update_blog_v2 import fetch_csdn_posts
+        from scripts.update_blog import fetch_csdn_posts
         from scripts.config import get_config
         
         mock_response = Mock()
@@ -120,10 +120,10 @@ class TestBlogSync:
         assert len(posts) == 1
         assert posts[0]["title"] == "Test Post"
     
-    @patch("scripts.update_blog_v2.requests.post")
+    @patch("scripts.update_blog.requests.post")
     def test_fetch_juejin_posts_success(self, mock_post):
         """Test successful Juejin fetch."""
-        from scripts.update_blog_v2 import fetch_juejin_posts
+        from scripts.update_blog import fetch_juejin_posts
         from scripts.config import get_config
         
         mock_response = Mock()
@@ -154,7 +154,7 @@ class TestQuoteUpdate:
     
     def test_format_quote_markdown(self):
         """Test quote formatting."""
-        from scripts.update_quote_v2 import format_quote_markdown
+        from scripts.update_quote import format_quote_markdown
         
         quote = {
             "text": "Test quote",
@@ -165,10 +165,10 @@ class TestQuoteUpdate:
         assert "Test quote" in result
         assert "✨ 每日星语" in result
     
-    @patch("scripts.update_quote_v2.requests.get")
+    @patch("scripts.update_quote.requests.get")
     def test_fetch_quote_from_api(self, mock_get):
         """Test quote fetch from API."""
-        from scripts.update_quote_v2 import fetch_quote_from_api
+        from scripts.update_quote import fetch_quote_from_api
         
         mock_response = Mock()
         mock_response.status_code = 200

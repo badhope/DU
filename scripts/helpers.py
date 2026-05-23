@@ -179,7 +179,7 @@ def sanitize_filename(name: str) -> str:
     Returns:
         str: Sanitized filename
     """
-    return re.sub(r'[^\w\s-]', '', name).strip().replace(' ', '-')
+    return re.sub(r'[^\w\s.-]', '', name).strip().replace(' ', '-')
 
 
 def validate_github_token() -> bool:

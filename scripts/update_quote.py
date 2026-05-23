@@ -19,12 +19,12 @@ except ImportError:
 
 try:
     from scripts.config import get_config
-    from scripts.helpers_v2 import (
+    from scripts.helpers import (
         read_readme, write_readme, READMEError, NetworkError, logger
     )
 except ImportError:
     from config import get_config
-    from helpers_v2 import (
+    from helpers import (
         read_readme, write_readme, READMEError, NetworkError, logger
     )
 

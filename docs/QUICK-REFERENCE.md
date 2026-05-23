@@ -77,10 +77,10 @@ bandit -r scripts/
 
 ```bash
 # 测试博客同步
-python scripts/update_blog_v2.py
+python scripts/update_blog.py
 
 # 测试每日引言
-python scripts/update_quote_v2.py
+python scripts/update_quote.py
 ```
 
 ---
@@ -240,7 +240,7 @@ def fetch_posts():
 ## 🐛 常见问题快速解答
 
 **Q: 旧脚本还能用吗?**  
-A: 可以，新脚本使用`_v2`后缀，两者可并存。
+A: 可以，新脚本已去掉版本号，两者可并存。
 
 **Q: 如何回滚?**  
 A: `cp backup/scripts/* scripts/`
