@@ -139,13 +139,13 @@ A comprehensive AI assistant framework built on LangChain ecosystem with advance
 </td>
 <td width="50%">
 
-### [AI-SKILL](https://github.com/badhope/AI-SKILL)
+### [national_stats](https://github.com/badhope/national_stats)
 
-The largest universal agent skill library - 500+ production-ready skills across 14 categories. Supports 13 platforms including Claude, Cursor, Gemini, Doubao, Qwen, and more.
+Comprehensive economic data assessment and prediction system for researchers with statistical analysis tools
 
-![Stars](https://img.shields.io/github/stars/badhope/AI-SKILL?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/badhope/AI-SKILL?style=flat-square&color=3776AB)
-![Last Commit](https://img.shields.io/github/last-commit/badhope/AI-SKILL?style=flat-square&color=c9d1d9)
+![Stars](https://img.shields.io/github/stars/badhope/national_stats?style=flat-square&color=58a6ff)
+![Language](https://img.shields.io/github/languages/top/badhope/national_stats?style=flat-square&color=3776AB)
+![Last Commit](https://img.shields.io/github/last-commit/badhope/national_stats?style=flat-square&color=c9d1d9)
 
 </td>
 </tr>
