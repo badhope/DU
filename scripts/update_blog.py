@@ -69,12 +69,23 @@ def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
             link = item.findtext("link", "")
             pub_date = item.findtext("pubDate", "")
             
+            # Parse RFC-822 date format (e.g., "Fri, 22 May 2026 12:00:00 GMT")
+            formatted_date = ""
+            if pub_date:
+                try:
+                    from email.utils import parsedate_to_datetime
+                    dt = parsedate_to_datetime(pub_date)
+                    formatted_date = dt.strftime("%Y-%m-%d")
+                except (ImportError, ValueError):
+                    # Fallback if parsing fails
+                    pass
+            
             if title and link:
                 posts.append({
                     "title": title,
                     "url": link,
                     "source": "CSDN",
-                    "date": pub_date[:10] if pub_date else ""
+                    "date": formatted_date
                 })
         
         logger.info(f"Fetched {len(posts)} posts from CSDN")

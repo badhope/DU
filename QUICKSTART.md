@@ -50,7 +50,7 @@ gh workflow run init-snake.yml
 
 生成完成后,访问以下链接应该能看到蛇形动画:
 ```
-https://raw.githubusercontent.com/badhope/badhope/snake-animation/github-contribution-grid-snake-dark.svg
+https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-grid-snake-dark.svg
 ```
 
 ---
