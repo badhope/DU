@@ -122,6 +122,11 @@ def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
     # Handle both cases: config is a full Config or just BlogConfig
     blog_config = config.blog if hasattr(config, 'blog') else config
     
+    # 如果没有配置掘金用户ID，跳过
+    if not blog_config.juejin_user_id:
+        logger.info("Juejin user ID not configured, skipping")
+        return posts
+    
     payload = {
         "user_id": blog_config.juejin_user_id,
         "sort_type": 2,
@@ -139,17 +144,35 @@ def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
         
         data = response.json()
         
-        if data.get("err_msg") != "success":
-            raise NetworkError(f"Juejin API error: {data.get('err_msg')}")
+        # 处理不同版本的 API 响应
+        if data.get("code") != 0:
+            err_msg = data.get("message", data.get("err_msg", "Unknown error"))
+            raise NetworkError(f"Juejin API error: {err_msg}")
         
-        for article in data.get("data", [])[:limit]:
-            article_info = article.get("article_info", {})
-            posts.append({
-                "title": article_info.get("title", ""),
-                "url": f"https://juejin.cn/post/{article.get('article_id', '')}",
-                "source": "掘金",
-                "date": article_info.get("mtime", "")[:10]
-            })
+        # 新 API 格式: data.get("data", {}).get("list", [])
+        article_list = data.get("data", {}).get("list", data.get("data", []))
+        
+        for article in article_list[:limit]:
+            # 处理不同的数据结构
+            if isinstance(article, dict):
+                # 新格式
+                title = article.get("title", "")
+                article_id = article.get("article_id", article.get("id", ""))
+                mtime = article.get("mtime", article.get("update_time", ""))
+            else:
+                # 旧格式（兼容）
+                article_info = article.get("article_info", {}) if isinstance(article, dict) else {}
+                title = article_info.get("title", "")
+                article_id = article.get("article_id", "")
+                mtime = article_info.get("mtime", "")
+            
+            if title and article_id:
+                posts.append({
+                    "title": title,
+                    "url": f"https://juejin.cn/post/{article_id}",
+                    "source": "掘金",
+                    "date": str(mtime)[:10] if mtime else ""
+                })
         
         logger.info(f"Fetched {len(posts)} posts from Juejin")
         
@@ -214,14 +237,24 @@ def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "REA
     
     blog_section = f'<b>📚 最新文章</b>\n<br>\n<small>_更新于 {datetime.now().strftime("%Y-%m-%d")}_</small>\n<br><br>\n{blog_markdown}'
     
-    pattern = r'(<!-- blog:start -->)\s*\n.*?\n(<!-- blog:end -->)'
-    replacement = f'\\1\n\n{blog_section}\n\n\\2'
+    pattern = r'<!-- blog:start -->.*?<!-- blog:end -->'
+    replacement = f'<!-- blog:start -->\n\n{blog_section}\n\n<!-- blog:end -->'
+    
+    # 检查标记位置
+    start_idx = content.find('<!-- blog:start -->')
+    end_idx = content.find('<!-- blog:end -->')
+    match = re.search(pattern, content, flags=re.DOTALL)
     
     new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
     
     if new_content == content:
-        logger.warning("Could not find blog markers in README.md")
-        return False
+        # 检查是否替换成功但内容相同（内容未变化）
+        if match:
+            logger.info("博客内容已是最新，无需更新")
+            return True  # 内容已是最新，视为成功
+        else:
+            logger.warning("Could not find blog markers in README.md")
+            return False
     
     try:
         write_readme(new_content)

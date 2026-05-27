@@ -1,0 +1,79 @@
+# Jekyll Configuration for GitHub Pages
+# 技术笔记文档中心配置
+
+# Site settings
+title: "badhope's Tech Notes"
+description: "Personal technical documentation and notes"
+baseurl: ""
+url: "https://badhope.github.io"
+author: "badhope"
+email: "x18825407105@outlook.com"
+
+# Build settings
+markdown: kramdown
+theme: minima
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# Permalinks
+permalink: /:categories/:title/
+
+# Exclude files
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+
+# Navigation
+nav:
+  - title: Home
+    url: /
+  - title: Guides
+    url: /guides/
+  - title: Projects
+    url: /projects/
+  - title: Notes
+    url: /notes/
+
+# Collections
+collections:
+  guides:
+    output: true
+    permalink: /guides/:name/
+  notes:
+    output: true
+    permalink: /notes/:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "guides"
+    values:
+      layout: "guide"
+  - scope:
+      path: ""
+      type: "notes"
+    values:
+      layout: "note"
+  - scope:
+      path: ""
+    values:
+      layout: "page"
+
+# Markdown settings
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+# Theme settings
+minima:
+  date_format: "%Y-%m-%d"
+  social_links:
+    - { platform: github, user_url: "https://github.com/badhope" }
+    - { platform: twitter, user_url: "https://twitter.com/badhope_dev" }

@@ -58,7 +58,7 @@ def get_config() -> Config:
         juejin_user_id=os.environ.get("JUEJIN_USER_ID", ""),
         juejin_api_url=os.environ.get(
             "JUEJIN_API_URL",
-            "https://api.juejin.cn/content_service/v1/article/query_list"
+            "https://api.juejin.cn/user_api/v1/article/list"
         ),
         max_posts=_safe_int(os.environ.get("MAX_POSTS"), 3),
         timeout=_safe_int(os.environ.get("REQUEST_TIMEOUT"), 10),
