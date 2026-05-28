@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Enhanced Blog Sync Script - Starry Sky Theme
-Fetches latest posts from CSDN/Juejin and updates README.md.
+Fetches latest posts from CSDN and updates README.md.
 """
 
 import re
@@ -102,92 +102,6 @@ def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
     return posts
 
 
-@retry_on_failure(max_retries=3, delay=1.0)
-def fetch_juejin_posts(config, limit: int = 3) -> List[Dict[str, str]]:
-    """
-    Fetch posts from Juejin API.
-    
-    Args:
-        config: Blog configuration or full Config object
-        limit: Maximum number of posts to fetch
-        
-    Returns:
-        List of post dictionaries
-        
-    Raises:
-        NetworkError: If fetching fails after retries
-    """
-    posts = []
-    
-    # Handle both cases: config is a full Config or just BlogConfig
-    blog_config = config.blog if hasattr(config, 'blog') else config
-    
-    # 如果没有配置掘金用户ID，跳过
-    if not blog_config.juejin_user_id:
-        logger.info("Juejin user ID not configured, skipping")
-        return posts
-    
-    payload = {
-        "user_id": blog_config.juejin_user_id,
-        "sort_type": 2,
-        "limit": limit
-    }
-    
-    try:
-        response = requests.post(
-            blog_config.juejin_api_url,
-            json=payload,
-            headers={"Content-Type": "application/json"},
-            timeout=blog_config.timeout
-        )
-        response.raise_for_status()
-        
-        data = response.json()
-        
-        # 处理不同版本的 API 响应
-        if data.get("code") != 0:
-            err_msg = data.get("message", data.get("err_msg", "Unknown error"))
-            raise NetworkError(f"Juejin API error: {err_msg}")
-        
-        # 新 API 格式: data.get("data", {}).get("list", [])
-        article_list = data.get("data", {}).get("list", data.get("data", []))
-        
-        for article in article_list[:limit]:
-            # 处理不同的数据结构
-            if isinstance(article, dict):
-                # 新格式
-                title = article.get("title", "")
-                article_id = article.get("article_id", article.get("id", ""))
-                mtime = article.get("mtime", article.get("update_time", ""))
-            else:
-                # 旧格式（兼容）
-                article_info = article.get("article_info", {}) if isinstance(article, dict) else {}
-                title = article_info.get("title", "")
-                article_id = article.get("article_id", "")
-                mtime = article_info.get("mtime", "")
-            
-            if title and article_id:
-                posts.append({
-                    "title": title,
-                    "url": f"https://juejin.cn/post/{article_id}",
-                    "source": "掘金",
-                    "date": str(mtime)[:10] if mtime else ""
-                })
-        
-        logger.info(f"Fetched {len(posts)} posts from Juejin")
-        
-    except Timeout:
-        raise NetworkError(f"Juejin request timed out after {blog_config.timeout}s")
-    except ConnectionError as e:
-        raise NetworkError(f"Juejin connection error: {e}")
-    except RequestException as e:
-        raise NetworkError(f"Juejin request failed: {e}")
-    except (KeyError, ValueError) as e:
-        raise NetworkError(f"Juejin response parse error: {e}")
-    
-    return posts
-
-
 def format_blog_markdown(posts: List[Dict[str, str]]) -> str:
     """
     Format blog posts as markdown.
@@ -202,14 +116,12 @@ def format_blog_markdown(posts: List[Dict[str, str]]) -> str:
         return '<small>文章同步中...</small>'
     
     md_lines = []
-    source_emoji = {'CSDN': '📕', '掘金': '📘'}
     
     for i, post in enumerate(posts[:3], 1):
         date_str = f" · {post['date']}" if post['date'] else ""
-        emoji = source_emoji.get(post['source'], '📝')
         
         md_lines.append(
-            f'<small>{i}. {emoji} <a href="{post["url"]}" '
+            f'<small>{i}. 📕 <a href="{post["url"]}" '
             f'style="color:#a5f3fc;text-decoration:none;">{post["title"]}</a>{date_str}</small>'
         )
     
@@ -281,13 +193,6 @@ def main():
         all_posts.extend(csdn_posts)
     except NetworkError as e:
         logger.error(f"Failed to fetch CSDN posts: {e}")
-    
-    try:
-        logger.info("📡 Fetching Juejin posts...")
-        juejin_posts = fetch_juejin_posts(config, limit=config.blog.max_posts)
-        all_posts.extend(juejin_posts)
-    except NetworkError as e:
-        logger.error(f"Failed to fetch Juejin posts: {e}")
     
     logger.info(f"📊 Total posts fetched: {len(all_posts)}")
     

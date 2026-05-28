@@ -86,7 +86,7 @@ https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-gri
 | 工作流 | 频率 | 说明 |
 |--------|------|------|
 | Daily Quote | 每天14:00 | 自动更新每日名言 |
-| Blog Sync | 每周一16:00 | 同步CSDN/掘金文章 |
+| Blog Sync | 每周一16:00 | 同步CSDN文章 |
 | Snake Animation | 每周日00:00 | 重新生成贡献蛇 |
 | Update Projects | 每天00:00 | 自动更新特色项目列表 |
 | Deploy Docs | 推送到main分支时 | 自动部署技术文档 |
@@ -105,7 +105,6 @@ https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-gri
 | `PROJECTS_LIMIT` | 4 | 显示的项目数量 |
 | `CSDN_USER_ID` | weixin_56622231 | CSDN用户ID |
 | `CSDN_RSS_URL` | - | CSDN RSS订阅地址 |
-| `JUEJIN_USER_ID` | (空) | 掘金用户ID |
 | `MAX_POSTS` | 3 | 博客文章数量 |
 | `REQUEST_TIMEOUT` | 10 | 请求超时时间(秒) |
 | `MAX_RETRIES` | 3 | 最大重试次数 |
@@ -116,7 +115,6 @@ https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-gri
 - **添加项目**: 项目会自动从GitHub获取,无需手动添加
 - **更改技术栈**: 修改 "Tech Stack" 部分的徽章
 - **调整颜色**: 编辑SVG文件中的渐变色定义
-- **配置掘金**: 设置 `JUEJIN_USER_ID` 环境变量启用掘金文章同步
 
 ---
 

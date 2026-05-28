@@ -12,8 +12,6 @@ class BlogConfig:
     """Blog source configuration."""
     csdn_user_id: str
     csdn_rss_url: str
-    juejin_user_id: str
-    juejin_api_url: str
     max_posts: int = 3
     timeout: int = 10
     max_retries: int = 3
@@ -54,11 +52,6 @@ def get_config() -> Config:
         csdn_rss_url=os.environ.get(
             "CSDN_RSS_URL",
             "https://blog.csdn.net/weixin_56622231/rss/list"
-        ),
-        juejin_user_id=os.environ.get("JUEJIN_USER_ID", ""),
-        juejin_api_url=os.environ.get(
-            "JUEJIN_API_URL",
-            "https://api.juejin.cn/user_api/v1/article/list"
         ),
         max_posts=_safe_int(os.environ.get("MAX_POSTS"), 3),
         timeout=_safe_int(os.environ.get("REQUEST_TIMEOUT"), 10),
