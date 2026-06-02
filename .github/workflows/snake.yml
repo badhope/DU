@@ -6,16 +6,20 @@ on:
       - main
   schedule:
     - cron: "0 16 * * 0"  # Weekly on Sunday at midnight UTC+8
+  workflow_dispatch:  # 允许手动触发（包括首次生成）
+
+permissions:
+  contents: write
+  actions: read
 
 jobs:
   generate:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          persist-credentials: true
 
       - name: Generate Snake Animation
         uses: Platane/snk@v3

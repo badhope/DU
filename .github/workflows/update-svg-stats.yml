@@ -1,45 +1,60 @@
-name: Update SVG Stats
+name: Update Dynamic SVG Stats
 
 on:
   schedule:
-    - cron: "0 0 * * *"  # Daily at midnight UTC
+    - cron: "0 4 * * *"
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "scripts/**"
+      - ".github/workflows/update-svg-stats.yml"
 
 permissions:
   contents: write
-  actions: read
 
 jobs:
-  update-svg:
+  generate:
+    name: Generate dynamic SVGs
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          persist-credentials: true
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-          cache: 'pip'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
-      - name: Generate dynamic SVG files
-        run: python scripts/generate_svg.py
+      - name: Run unit tests
+        run: python -m scripts.test_scripts
+
+      - name: Generate SVGs
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and push if changed
+          GITHUB_USERNAME: ${{ github.repository_owner }}
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff --staged --quiet || git commit -m "feat: update SVG stats [skip ci]"
-          git push
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          python -m scripts.generate_svg
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/
+          if git diff --cached --quiet; then
+            echo "No SVG changes"
+          else
+            git commit -m "chore(profile): regenerate dynamic SVGs [skip ci]"
+            git push
+          fi

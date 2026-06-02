@@ -1,4 +1,6 @@
+# ===============================================
 # Python
+# ===============================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -7,6 +9,11 @@ __pycache__/
 env/
 venv/
 ENV/
+env.bak/
+venv.bak/
+.python-version.bak
+
+# Distribution / packaging
 build/
 develop-eggs/
 dist/
@@ -22,24 +29,78 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# IDE
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.bandit/
+safety-report.json
+.pyre/
+.pytype/
+
+# ===============================================
+# IDE / Editor
+# ===============================================
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
-
-# OS
 .DS_Store
+
+# ===============================================
+# OS
+# ===============================================
 Thumbs.db
-
-# Logs
-*.log
-
-# Environment variables
-.env
-.env.local
+ehthumbs.db
+ehthumbs_vista.db
+.Trashes
+*.lnk
 
 # Windows special files
 nul
+
+# ===============================================
+# Logs and runtime artifacts
+# ===============================================
+*.log
+logs/
+*.pid
+*.seed
+*.pid.lock
+
+# ===============================================
+# Environment files / secrets
+# ===============================================
+.env
+.env.local
+.env.*.local
+.envrc
+
+# ===============================================
+# Local docs build output
+# ===============================================
+docs/_site/
+docs/.jekyll-cache/
+docs/.jekyll-metadata
+docs/vendor/
+docs/.bundle/
+
+# ===============================================
+# Generated SVG / temporary files
+# ===============================================
+assets/effects/.generated/
+tmp/
+temp/

@@ -1,7 +1,2 @@
-# Python dependencies for GitHub Profile automation
-# Install with: pip install -r requirements.txt
-
-# HTTP requests for API calls
-requests>=2.31.0,<3.0.0
-
-# Development dependencies (install with: pip install -r requirements.txt -r requirements-dev.txt)
+requests==2.32.3
+urllib3==2.2.3

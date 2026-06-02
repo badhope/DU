@@ -1,292 +1,322 @@
-# 项目改进迁移指南
+# 项目迁移与重构指南
+
+> 📅 最后更新: 2026-06-02 - 统一重写为 v2 → common 重构说明 + 最近清理（Juejin 移除、init-snake 合并）
 
 ## 📋 概述
 
-本次改进针对项目中的代码质量、安全性、性能和可维护性问题进行了全面优化。本文档将指导您如何从旧版本迁移到改进版本。
+本指南记录 `badhope/badhope` Profile 仓库的**当前推荐结构**与**重构历史**。
+所有历史版本（v1、v1.5、v2）已不再保留备份，当前工作树即唯一可维护状态。
+
+如果你正在阅读这份文档，要做的事情只有一件：**按照下面的目录结构去使用**。
 
 ---
 
-## 🔄 主要改进内容
+## ✅ 当前目录结构（2026-06-02 之后）
 
-### 1. 代码质量改进
-
-#### ✅ 改进前的问题
-- 异常处理过于宽泛（`except Exception`）
-- 缺少类型注解和文档字符串
-- 错误日志不够详细
-- 代码重复严重
-
-#### ✨ 改进后的优势
-- **精确的异常处理**：区分不同类型的错误（网络错误、文件错误、解析错误）
-- **完整的类型注解**：使用Python类型提示，提高代码可读性
-- **结构化日志**：使用logging模块，支持不同日志级别
-- **自定义异常类**：`READMEError`和`NetworkError`，便于错误处理
-
-### 2. 安全性改进
-
-#### ✅ 改进前的问题
-- 硬编码的API URL和用户ID
-- 缺少环境变量支持
-- GitHub Actions权限不明确
-
-#### ✨ 改进后的优势
-- **配置管理**：使用`config.py`统一管理配置
-- **环境变量支持**：敏感信息可通过环境变量配置
-- **明确的权限声明**：GitHub Actions中明确声明`permissions`
-
-### 3. 性能改进
-
-#### ✅ 改进前的问题
-- 没有重试机制
-- 缺少缓存策略
-- 超时时间不合理
-
-#### ✨ 改进后的优势
-- **重试装饰器**：网络请求失败自动重试
-- **可配置的超时**：通过环境变量调整超时时间
-- **指数退避**：重试间隔逐渐增加
-
-### 4. 可维护性改进
-
-#### ✅ 改进前的问题
-- 配置分散
-- 缺少单元测试
-- 没有依赖锁定
-
-#### ✨ 改进后的优势
-- **统一配置管理**：所有配置集中在`config.py`
-- **单元测试**：使用pytest编写测试用例
-- **模块化设计**：功能分离，易于维护
+```
+.
+├── .github/
+│   ├── workflows/
+│   │   ├── snake.yml            # 合并了旧的 init-snake.yml
+│   │   ├── blog.yml             # 合并了旧的 blog-enhanced.yml（双 job）
+│   │   ├── quote.yml            # 独立的每日名言备份
+│   │   ├── update-projects.yml  # 自动同步 GitHub 仓库信息
+│   │   ├── update-svg-stats.yml # 自动生成 stats SVG
+│   │   ├── deploy-docs.yml      # GitHub Pages 部署
+│   │   ├── profile-views.yml    # 访问统计
+│   │   ├── auto-label.yml       # 自动标签
+│   │   ├── welcome.yml          # 欢迎新贡献者
+│   │   └── stale.yml            # 清理过期 Issue
+│   ├── ACTIONS-SETUP.md         # 工作流说明
+│   ├── workflows-config.yml     # 工作流配置参考
+│   ├── dependabot.yml
+│   ├── FUNDING.yml
+│   ├── issue_template.md
+│   ├── issue_template_feature.md
+│   ├── pull_request_template.md
+│   └── profiles/default.yml
+├── assets/
+│   ├── banner/                  # 1 个 SVG
+│   ├── dividers/                # 9 个 SVG
+│   └── effects/                 # 13 个 SVG
+├── docs/
+│   ├── README.md
+│   ├── index.md                 # Jekyll 首页
+│   ├── _config.yml
+│   ├── ANIMATION-GUIDE.md
+│   ├── MIGRATION-GUIDE.md       # 本文件
+│   ├── OPTIMIZATION-SUMMARY.md
+│   ├── PROJECT-REVIEW-SUMMARY.md
+│   ├── QUICK-REFERENCE.md
+│   ├── SNAKE-SETUP.md
+│   └── profile-readme-spec.md
+├── scripts/
+│   ├── common/                  # 共享模块
+│   │   ├── __init__.py
+│   │   ├── config.py
+│   │   ├── exceptions.py
+│   │   ├── format.py
+│   │   ├── github.py
+│   │   ├── http.py
+│   │   ├── logger.py
+│   │   ├── readme.py
+│   │   └── tests/
+│   ├── tests/                   # 顶层脚本测试
+│   ├── update_blog.py
+│   ├── update_projects.py
+│   ├── update_quote.py
+│   ├── generate_svg.py
+│   └── test_scripts.py          # 统一测试入口
+├── .env.example                 # 环境变量样例
+├── .gitignore
+├── .python-version
+├── DEPLOYMENT-CHECKLIST.md
+├── LICENSE
+├── QUICKSTART.md
+├── README.md
+├── pytest.ini
+├── requirements.txt
+├── requirements-dev.txt
+└── runtime.txt
+```
 
 ---
 
-## 📦 新增文件说明
+## 🧹 历史清理（2026-06-02 完成）
 
-### 核心文件
+下列文件 / 内容在 2026-06-02 这次重构中被**永久移除**，不保留备份：
 
-| 文件 | 说明 | 用途 |
-|------|------|------|
-| `scripts/config.py` | 配置管理模块 | 统一管理所有配置项 |
-| `scripts/helpers.py` | 改进的辅助函数 | 提供更安全的文件操作 |
-| `scripts/update_blog.py` | 改进的博客同步脚本 | 支持重试、更好的错误处理 |
-| `scripts/update_quote.py` | 改进的每日引言脚本 | 支持多API fallback |
-| `scripts/test_scripts.py` | 单元测试文件 | 确保代码质量 |
-| `.github/workflows/blog-enhanced.yml` | 改进的GitHub Actions工作流 | 更安全的权限配置 |
+### 1. 重复工作流合并
+
+| 旧文件 | 状态 | 合并到 |
+|--------|------|--------|
+| `.github/workflows/init-snake.yml` | ❌ 已删除 | `.github/workflows/snake.yml`（添加 `push` + `workflow_dispatch` 触发器） |
+| `.github/workflows/blog-enhanced.yml` | ❌ 已删除 | `.github/workflows/blog.yml`（双 job：blog + quote） |
+| 旧的 `.github/workflows/snake.yml` | ❌ 已删除 | 同上 |
+| 旧的 `.github/workflows/blog.yml` | ❌ 已删除 | 同上 |
+
+合并后工作流数量：12 → 10（核心 7 个 + 维护类 3 个）
+
+### 2. 掘金 (Juejin) 完整移除
+
+| 位置 | 操作 |
+|------|------|
+| 任何脚本内的 Juejin fetch 函数 | 删除 |
+| `config.BlogConfig.juejin_api_url` 字段 | 删除 |
+| `config.BlogConfig.juejin_user_id` 字段 | 删除 |
+| `JUEJIN_USER_ID` 环境变量 | 删除（GitHub Secrets 也要清理） |
+| README 中掘金账号链接 | 替换为 CSDN |
+| `docs/profile-readme-spec.md` 中掘金行 | 删除 |
+| `.github/workflows/blog.yml` 中掘金数据源 | 删除 |
+
+### 3. 旧文档合并
+
+| 旧文件 | 状态 | 合并到 |
+|--------|------|--------|
+| `README_ENHANCED.md` | ❌ 已删除 | `README.md` |
+| `FINAL-DEPLOYMENT.md` | ❌ 已删除 | `DEPLOYMENT-CHECKLIST.md` |
+| `docs/README-OPTIMIZATION-GUIDE.md` | ❌ 已删除 | `docs/OPTIMIZATION-SUMMARY.md` |
+| `docs/README-OPTIMIZATION-SUMMARY.md` | ❌ 已删除 | `docs/OPTIMIZATION-SUMMARY.md` |
+| `docs/OPTIMIZATION-GUIDE.md` | ❌ 已删除 | `docs/OPTIMIZATION-SUMMARY.md` |
+
+### 4. 旧脚本清理
+
+| 旧文件 | 状态 | 取代者 |
+|--------|------|--------|
+| `scripts/config.py` | ❌ 已删除 | `scripts/common/config.py` |
+| `scripts/helpers.py` | ❌ 已删除 | `scripts/common/*`（拆分到 7 个模块） |
+| `scripts/update_blog_v2.py` | ❌ 已删除 | `scripts/update_blog.py` |
+| `scripts/update_quote_v2.py` | ❌ 已删除 | `scripts/update_quote.py` |
 
 ---
 
-## 🚀 迁移步骤
+## 🔧 v2 → common 重构（2026-05-29 / 2026-06-02 完善）
 
-### 步骤 1: 备份现有文件
+### 设计动机
 
-```bash
-# 创建备份目录
-mkdir -p backup/scripts
-mkdir -p backup/.github/workflows
+旧结构在 `scripts/` 根目录散落多个版本的脚本、配置、工具函数，
+每次新增功能都要复制粘贴。新结构把所有"可复用代码"抽到 `scripts/common/`，脚本入口保持精简。
 
-# 备份旧文件
-cp scripts/helpers.py backup/scripts/
-cp scripts/update_blog.py backup/scripts/
-cp scripts/update_quote.py backup/scripts/
-cp .github/workflows/blog.yml backup/.github/workflows/
+### 重构前后目录对比
+
+**之前**：
+```
+scripts/
+├── config.py
+├── helpers.py
+├── helpers_v2.py
+├── update_blog.py
+├── update_blog_v2.py
+├── update_quote.py
+├── update_quote_v2.py
+├── generate_svg.py
+└── test_scripts.py
 ```
 
-### 步骤 2: 配置环境变量（可选）
-
-如果您想使用环境变量配置敏感信息，请在GitHub仓库设置中添加以下Secrets：
-
-- `CSDN_USER_ID`: CSDN用户ID
-- `JUEJIN_USER_ID`: 掘金用户ID
-
-### 步骤 3: 更新依赖
-
-```bash
-# 安装开发依赖
-pip install pytest pytest-cov
-
-# 运行测试
-python scripts/test_scripts.py
+**之后**：
+```
+scripts/
+├── common/
+│   ├── __init__.py
+│   ├── config.py
+│   ├── exceptions.py
+│   ├── format.py
+│   ├── github.py
+│   ├── http.py
+│   ├── logger.py
+│   ├── readme.py
+│   └── tests/
+│       ├── test_config.py
+│       ├── test_format.py
+│       ├── test_github.py
+│       ├── test_http.py
+│       ├── test_logger.py
+│       └── test_readme.py
+├── tests/
+│   ├── test_update_blog.py
+│   ├── test_update_projects.py
+│   ├── test_update_quote.py
+│   └── test_generate_svg.py
+├── update_blog.py
+├── update_projects.py
+├── update_quote.py
+├── generate_svg.py
+└── test_scripts.py
 ```
 
-### 步骤 4: 更新GitHub Actions工作流
+### 代码迁移映射
 
-**选项 A: 直接替换（推荐）**
+| 旧位置 | 新位置 | 说明 |
+|--------|--------|------|
+| `scripts/config.py` | `scripts/common/config.py` | 重写为 dataclass + `get_config()` |
+| `scripts/helpers.py` | 拆分为 7 个 `common` 模块 | 关注点分离 |
+| `scripts/update_blog_v2.py` | `scripts/update_blog.py` | 统一入口 |
+| `scripts/update_quote_v2.py` | `scripts/update_quote.py` | 统一入口 |
+| `scripts/generate_svg.py` | `scripts/generate_svg.py` | 重写（保留 `SVGGenerator` 向后兼容） |
+
+### common 模块职责
+
+| 模块 | 职责 |
+|------|------|
+| `common/__init__.py` | 统一导出公共 API |
+| `common/config.py` | `Config` dataclass 层级 + `get_config()` 工厂 |
+| `common/exceptions.py` | `ConfigError`、`NetworkError`、`GitHubAPIError`、`READMEError`、`RateLimitError` |
+| `common/format.py` | 通用格式化（日期、截断、Markdown 转义）+ 徽章 + 表格 |
+| `common/github.py` | `GitHubClient`：分页、限流、过滤、排序、抽取摘要 |
+| `common/http.py` | `retry_on_failure` 装饰器 + 带重试的 `requests.Session` |
+| `common/logger.py` | 集中日志配置（idempotent） |
+| `common/readme.py` | 路径解析、读写、marker 块替换 |
+
+### 入口脚本改造
+
+| 脚本 | 改造前 | 改造后 |
+|------|--------|--------|
+| `update_blog.py` | 自带 RSS 解析、配置硬编码 | 复用 `common.http` + `common.format` + `common.config` |
+| `update_projects.py` | 用 `GitHubClient` 类方法 + MagicMock | 改用 `client.filter_repositories` / `sort_repositories` / `extract_repo_summary` 实例方法 |
+| `update_quote.py` | 单源 + try/except | 多 API 顺序尝试 + 本地 fallback 库 |
+| `generate_svg.py` | 内嵌模板 | 函数化 `fetch_projects` + `fetch_languages` + 保留 `SVGGenerator` 类 |
+
+### 运行命令
+
 ```bash
-# 使用新的工作流文件
-mv .github/workflows/blog.yml .github/workflows/blog-old.yml
-mv .github/workflows/blog-enhanced.yml .github/workflows/blog.yml
-```
-
-**选项 B: 并行运行**
-保留两个工作流，观察新版本运行情况。
-
-### 步骤 5: 测试新版本
-
-```bash
-# 本地测试博客同步
+# 旧
+python scripts/update_blog.py
 python scripts/update_blog_v2.py
-
-# 本地测试每日引言
 python scripts/update_quote.py
+python scripts/update_quote_v2.py
+
+# 新（顶层脚本名不变）
+python -m scripts.update_blog
+python -m scripts.update_quote
+python -m scripts.update_projects
+python -m scripts.generate_svg
 ```
 
-### 步骤 6: 监控和验证
+### 测试
 
-1. 检查GitHub Actions运行日志
-2. 验证README.md更新是否正常
-3. 观察错误日志是否清晰
+```bash
+# 旧
+python scripts/test_scripts.py
+
+# 新（同一命令兼容）
+python -m scripts.test_scripts
+# 或
+pytest
+```
+
+测试结果：123/123 通过（覆盖所有 common 模块 + 4 个入口脚本）。
 
 ---
 
 ## ⚙️ 配置选项
 
-### 环境变量配置
+### 环境变量
 
 | 变量名 | 默认值 | 说明 |
 |--------|--------|------|
-| `CSDN_USER_ID` | `weixin_56622231` | CSDN用户ID |
-| `JUEJIN_USER_ID` | `2350111542479753` | 掘金用户ID |
-| `MAX_POSTS` | `3` | 最大文章数量 |
+| `CSDN_RSS_URL` | `https://blog.csdn.net/weixin_56622231/rss/list` | CSDN RSS 源 |
+| `CSDN_MAX_POSTS` | `3` | 最大文章数量 |
+| `MAX_POSTS` | `3` | 通用最大文章数量（与上同义） |
 | `REQUEST_TIMEOUT` | `10` | 请求超时（秒） |
 | `MAX_RETRIES` | `3` | 最大重试次数 |
-| `LOG_LEVEL` | `INFO` | 日志级别 |
+| `LOG_LEVEL` | `INFO` | 日志级别（DEBUG/INFO/WARNING/ERROR） |
+| `GITHUB_TOKEN` | (无) | GitHub API 认证（推荐设置，提高速率限制） |
+| `GITHUB_USERNAME` | `badhope` | 仓库所有者 |
+| `README_PATH` | `README.md` | 目标 README 路径 |
+
+> 旧版本中存在的 `JUEJIN_USER_ID`、`JUEJIN_API_URL` 已全部移除。
+> 如果你在 GitHub Secrets 里还保留着，可以安全删除。
 
 ### 使用示例
 
 ```python
-# 在脚本中使用配置
-from config import get_config
+from scripts.common import get_config, GitHubClient
 
 config = get_config()
-print(config.blog.max_posts)  # 3
-print(config.blog.timeout)    # 10
+print(config.blog.max_posts)   # 3
+print(config.github.username)   # 'badhope'
+
+client = GitHubClient(config.github)
+repos = list(client.iter_user_repos())
+filtered = client.filter_repositories(repos)
+sorted_repos = client.sort_repositories(filtered)
+summaries = [client.extract_repo_summary(r) for r in sorted_repos]
 ```
-
----
-
-## 🔍 对比示例
-
-### 异常处理对比
-
-**改进前：**
-```python
-try:
-    response = requests.get(url, timeout=15)
-except Exception as e:
-    print(f"Error: {e}")
-    return []
-```
-
-**改进后：**
-```python
-try:
-    response = requests.get(url, timeout=config.timeout)
-    response.raise_for_status()
-except Timeout:
-    raise NetworkError(f"Request timed out after {config.timeout}s")
-except ConnectionError as e:
-    raise NetworkError(f"Connection error: {e}")
-except RequestException as e:
-    raise NetworkError(f"Request failed: {e}")
-```
-
-### 配置管理对比
-
-**改进前：**
-```python
-CSDN_RSS_URL = "https://blog.csdn.net/weixin_56622231/rss/list"
-JUEJIN_API_URL = "https://api.juejin.cn/content_api/v1/article/query"
-```
-
-**改进后：**
-```python
-# config.py
-@dataclass
-class BlogConfig:
-    csdn_rss_url: str
-    juejin_api_url: str
-    timeout: int = 10
-
-# 使用
-config = get_config()
-url = config.blog.csdn_rss_url
-```
-
----
-
-## 📊 性能对比
-
-| 指标 | 改进前 | 改进后 | 提升 |
-|------|--------|--------|------|
-| 错误恢复能力 | ❌ 无重试 | ✅ 自动重试 | +300% |
-| 日志可读性 | ⚠️ 简单print | ✅ 结构化日志 | +200% |
-| 配置灵活性 | ❌ 硬编码 | ✅ 环境变量 | +500% |
-| 测试覆盖率 | ❌ 0% | ✅ 80%+ | +∞ |
-| 代码可维护性 | ⚠️ 中等 | ✅ 高 | +150% |
 
 ---
 
 ## 🐛 常见问题
 
-### Q1: 旧脚本还能继续使用吗？
-**A:** 可以。旧脚本仍然保留，新脚本已去掉版本号。您可以并行运行两者进行对比。
+### Q1: 我之前的 `v2` 脚本还能用吗？
+**A:** 不能。所有 v1、v2 版本已从仓库中彻底移除，备份目录也不存在。
+请直接使用当前 `scripts/update_*.py` 入口。
 
-### Q2: 如何回滚到旧版本？
-**A:** 
-```bash
-# 恢复旧文件
-cp backup/scripts/* scripts/
-cp backup/.github/workflows/* .github/workflows/
-```
+### Q2: 我怎么加新的博客源？
+**A:** 编辑 `scripts/common/config.py` 中的 `BlogConfig` 添加新字段，
+然后在 `scripts/update_blog.py` 中实现 fetch 函数。无需修改 common 的其他模块。
 
-### Q3: 新版本是否需要更新requirements.txt？
-**A:** 不需要。新版本使用相同的依赖，只是改进了代码结构。
+### Q3: 工作流是不是太少了？
+**A:** 不是。snake 与 blog 已经把首次生成、quote、定时同步等职责合并，
+减少重复工作流是这次重构的目标之一。具体见 `.github/ACTIONS-SETUP.md`。
 
-### Q4: 如何添加新的博客源？
-**A:** 在`config.py`中添加新的配置项，然后在对应的脚本中实现fetch函数。
+### Q4: `init-snake.yml` 去哪了？
+**A:** 已合并到 `snake.yml`。首次使用只需在 GitHub Actions 页面
+手动触发 `Generate Contribution Snake` 工作流一次即可创建 `output` 分支。
 
----
-
-## 📝 后续改进建议
-
-1. **添加缓存机制**：使用Redis或文件缓存API响应
-2. **实现配置热更新**：无需重启即可更新配置
-3. **添加监控告警**：集成Prometheus或Grafana
-4. **支持更多博客平台**：知乎、公众号等
-5. **添加CI/CD检查**：代码质量、安全扫描
+### Q5: 掘金支持会加回来吗？
+**A:** 不会，除非用户明确要求。当前 `update_blog.py` 只支持 CSDN RSS。
 
 ---
 
 ## 📞 技术支持
 
-如有问题，请：
-1. 查看GitHub Actions日志
-2. 运行本地测试：`python scripts/test_scripts.py`
-3. 检查环境变量配置
-4. 提交Issue到仓库
+如有问题：
+1. 查看 `.github/ACTIONS-SETUP.md` 的故障排查部分
+2. 运行本地测试：`pytest`（123/123 应全部通过）
+3. 检查 `.env.example` 确认环境变量配置
+4. 提交 Issue 到仓库
 
 ---
 
-## ✅ 迁移检查清单
-
-- [ ] 备份旧文件
-- [ ] 配置环境变量（可选）
-- [ ] 安装开发依赖
-- [ ] 运行单元测试
-- [ ] 更新GitHub Actions工作流
-- [ ] 本地测试新脚本
-- [ ] 观察GitHub Actions运行情况
-- [ ] 验证README更新正常
-- [ ] 清理备份文件（可选）
-
----
-
-**迁移完成后，您的项目将拥有：**
-- ✅ 更高的代码质量
-- ✅ 更好的安全性
-- ✅ 更强的错误处理
-- ✅ 更清晰的日志
-- ✅ 更灵活的配置
-- ✅ 更完善的测试
-
-祝您迁移顺利！🚀
+**最后更新**: 2026-06-02
+**维护者**: badhope

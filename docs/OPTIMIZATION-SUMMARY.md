@@ -1,394 +1,77 @@
-# 全面优化总结
+# Profile Optimization Summary
 
-**优化时间**: 2026-04-04
-**版本**: v3.0 - Enhanced Edition
+This document is the single, consolidated reference for the structure and
+optimization rules of the `badhope/badhope` profile repository. It
+supersedes the older `README-OPTIMIZATION-SUMMARY.md`,
+`README-OPTIMIZATION-GUIDE.md`, and `OPTIMIZATION-GUIDE.md` files
+(those have been removed).
 
----
+## Repository layout
 
-## 🎨 新增精美卡片和面板
-
-### 1. 发光卡片 (Glowing Card)
-**文件**: `assets/effects/glowing-card.svg`
-**尺寸**: 450×280px
-**大小**: ~6KB
-
-**动态特性**:
-- 🌈 **流动边框**: 蓝色↔粉色渐变循环（4秒周期）
-- ✨ **四角脉冲**: 角落圆点呼吸+扩散波纹效果
-- 💫 **浮动粒子**: 6个装饰点上下漂浮
-- 📡 **扫描线**: 水平扫描线从上到下移动（8秒周期）
-- 🎯 **中心光环**: 双层圆环呼吸动画
-- 📊 **装饰线列**: 左右两侧各3个浮动点
-
-**使用位置**: About Me章节
-
----
-
-### 2. 数据统计面板 (Stats Panel)
-**文件**: `assets/effects/stats-panel.svg`
-**尺寸**: 500×350px
-**大小**: ~8KB
-
-**动态特性**:
-- 🌈 **霓虹边框**: 三色循环（绿→蓝→紫，6秒周期）
-- 📊 **动态柱状图**: 4根柱子高度变化（3-4秒周期）
-- 💡 **数据点脉冲**: 4个数据点闪烁
-- 🔗 **连接线流动**: 4条线透明度变化
-- 📡 **扫描线**: 垂直扫描线（10秒周期）
-- 🚦 **窗口控制**: 红黄绿三色按钮闪烁
-- 📈 **底部状态栏**: 绿色指示灯闪烁
-
-**视觉效果**: 科技感十足的数据可视化面板
-
----
-
-### 3. 项目展示卡片 (Project Showcase)
-**文件**: `assets/effects/project-showcase.svg`
-**尺寸**: 480×300px
-**大小**: ~7KB
-
-**动态特性**:
-- 🌈 **彩虹边框**: 五色渐变循环（8秒周期）
-- 🚀 **项目图标**: 火箭emoji + 旋转边框
-- ⭐ **Star图标**: 金色星星闪烁
-- 🏷️ **技术标签**: 彩色徽章占位
-- 📊 **底部统计**: GitHub Stars、Language、Forks
-- 💫 **浮动粒子**: 4个粒子随机移动
-- 🔘 **角落光点**: 四角呼吸光点
-- 🔲 **按钮脉冲**: "View Project"按钮边框闪烁
-
-**使用位置**: Featured Projects章节上方
-
----
-
-## 🔧 GitHub Actions增强
-
-### 新增工作流（4个）
-
-#### 1. Profile Views Stats (profile-views.yml)
-**触发**: 每天凌晨00:00 (UTC+8)
-**功能**: 更新Profile访问统计
-**说明**: komarev.com自动追踪，无需额外操作
-
-#### 2. Auto Label (auto-label.yml)
-**触发**: Issue/PR创建时
-**功能**:
-- 新Issue自动添加`triage`标签
-- 新PR自动添加`review-needed`标签
-**优势**: 自动化管理，提高响应速度
-
-#### 3. Welcome (welcome.yml)
-**触发**: 首次Issue/PR
-**功能**:
-- 欢迎新贡献者
-- 自动发送友好消息
-- 提供贡献指南链接
-**意义**: 提升社区友好度
-
-#### 4. Stale (stale.yml)
-**触发**: 每天16:00 (UTC+8)
-**功能**:
-- 标记30天无活动的Issue/PR为stale
-- 7天后自动关闭
-- 排除pinned/important/bug标签
-**优势**: 保持仓库整洁，避免积压
-
-### 现有工作流（4个）
-
-1. **init-snake.yml** - Snake动画首次生成
-2. **snake.yml** - Snake每周自动更新
-3. **blog.yml** - 博客文章周同步
-4. **quote.yml** - 每日名言更新
-
-**总计**: 8个工作流，覆盖自动化管理的各个方面
-
----
-
-## 🖼️ 图片加载优化
-
-### 当前策略
-
-#### 本地SVG（相对路径）
-✅ **优势**:
-- 加载速度快（<100ms）
-- 不依赖外部服务
-- 离线可用
-- 无速率限制
-
-📁 **文件列表**:
-- `dynamic-starfield.svg` (8KB) - 星空背景×2
-- `flowing-divider.svg` (4.5KB) - 分隔线×8
-- `glowing-card.svg` (6KB) - About卡片
-- `stats-panel.svg` (8KB) - 技术栈面板
-- `project-showcase.svg` (7KB) - 项目展示
-
-**总计**: ~67KB本地资源
-
-#### 外部服务（CDN）
-✅ **已验证稳定服务**:
-- `img.shields.io` - 徽章服务（全球CDN）
-- `github-readme-stats.vercel.app` - Stats卡片
-- `streak-stats.demolab.com` - Streak统计
-- `komarev.com/ghpvc` - 访问计数
-- `readme-typing-svg.demolab.com` - 打字机效果
-- `github-readme-activity-graph.vercel.app` - 活动图表
-
-**Fallback策略**:
-- 所有外部图片都有alt文本
-- 如果服务失败，显示描述性文字
-- 不影响整体布局
-
----
-
-## 🎭 动态元素总览
-
-### 动画元素统计（更新）
-
-| 类型 | 数量 | 位置 |
-|------|------|------|
-| **闪烁星星** | ~30个 | 星空背景×2 |
-| **流星划过** | 6个 | 星空背景×2 |
-| **星云呼吸** | 6个 | 星空背景×2 |
-| **流动线条** | 8条 | 分隔线×8 |
-| **旋转菱形** | 8个 | 分隔线×8 |
-| **脉冲光点** | 32个 | 分隔线×8 |
-| **浮动粒子** | 44个 | 分隔线+卡片 |
-| **打字机文本** | 1个 | Header |
-| **柱状图动画** | 4个 | Stats面板 |
-| **彩虹边框** | 3个 | 各种卡片 |
-| **扫描线** | 5个 | 卡片面板 |
-| **角落光点** | 16个 | 卡片四角 |
-| **Snake动画** | 1个 | 贡献网格 |
-| **Activity Graph** | 1个 | 活动图表 |
-| **总计** | **~162个** | **独立动画** |
-
-### 动画类型分类
-
-1. ✨ **闪烁** (Opacity): 星星、光点、按钮
-2. 🌊 **流动** (Gradient): 分隔线、边框
-3. 💎 **旋转** (Rotate): 菱形、图标
-4. ⚡ **脉冲** (Scale): 圆环、光点
-5. ☄️ **移动** (Translate): 流星、粒子
-6. 🌌 **呼吸** (Size): 星云、光环
-7. ⌨️ **打字** (Text): Header
-8. 📊 **数据** (Height): 柱状图
-9. 🌈 **变色** (Color): 彩虹边框
-10. 📡 **扫描** (Position): 扫描线
-
----
-
-## 📐 页面结构（最终版）
-
-从上到下的完整布局：
-
-1. **🌌 动态星空背景**（顶部）
-   - 8KB SVG，30+动画元素
-
-2. **⌨️ Header区域**
-   - 姓名 + 头衔
-   - 打字机效果（4行循环）
-   - 4个社交徽章
-
-3. **🌊 流动分隔线**
-
-4. **👋 About Me**
-   - 发光卡片（6KB，15+动画）
-   - 个人介绍文本
-   - 技术方向代码块
-
-5. **🌊 流动分隔线**
-
-6. **💻 Tech Stack**
-   - 数据统计面板（8KB，20+动画）
-   - 20个技术徽章
-
-7. **🌊 流动分隔线**
-
-8. **📊 GitHub Stats**
-   - 基础Stats卡片
-   - Top Languages
-   - Contribution Streak
-
-9. **🌊 流动分隔线**
-
-10. **🚀 Featured Projects**
-    - 项目展示卡片（7KB，15+动画）
-    - 2个项目详细信息
-    - View All链接
-
-11. **🌊 流动分隔线**
-
-12. **🐍 Contribution Snake**
-    - 贡献网格动画
-    - 设置说明链接
-
-13. **🌊 流动分隔线**
-
-14. **📈 Activity Graph** ← 新增！
-    - GitHub活动折线图
-    - 自定义配色
-
-15. **🌊 流动分隔线**
-
-16. **📝 Latest Activity**
-    - 每日名言
-    - 最新文章
-
-17. **🌊 流动分隔线**
-
-18. **🎵 Spotify状态**
-
-19. **🌊 流动分隔线**
-
-20. **Footer**
-    - 4个社交链接
-    - 感谢语
-    - 动态星空背景（底部）
-
-**总计**: 10个流动分隔线，2个星空背景，3个精美卡片
-
----
-
-## ⚡ 性能指标（最终版）
-
-### 文件大小
-| 类型 | 大小 | 占比 |
-|------|------|------|
-| 本地SVG | ~67KB | 65% |
-| 外部徽章 | ~15KB | 15% |
-| 外部Stats | ~20KB | 20% |
-| **总计** | **~102KB** | **100%** |
-
-### 加载性能
-- **首屏加载**: 1-2秒（本地SVG即时渲染）
-- **完整加载**: 3-5秒（等待外部服务）
-- **动画帧率**: 60fps（GPU加速）
-- **CPU占用**: <8%（SMIL原生）
-
-### 优化措施
-✅ 已实施:
-- SVG矢量图形（体积小，无限缩放）
-- SMIL动画（GPU加速，低CPU）
-- 相对路径（快速加载）
-- 有限粒子数量（性能平衡）
-- 外部CDN缓存（二次访问快）
-
----
-
-## 🛠️ 工作流清单（8个）
-
-| 工作流 | 触发时机 | 功能 | 状态 |
-|--------|----------|------|------|
-| init-snake | 手动 | Snake首次生成 | ✅ |
-| snake | 每周日00:00 | Snake更新 | ✅ |
-| blog | 每周一16:00 | 博客同步 | ✅ |
-| quote | 每天14:00 | 名言更新 | ✅ |
-| profile-views | 每天00:00 | 统计更新 | ✅ 新增 |
-| auto-label | Issue/PR创建 | 自动标签 | ✅ 新增 |
-| welcome | 首次贡献 | 欢迎消息 | ✅ 新增 |
-| stale | 每天16:00 | 清理过期 | ✅ 新增 |
-
----
-
-## 🎯 关键改进对比
-
-### vs v2.0
-
-| 特性 | v2.0 | v3.0 (当前) | 提升 |
-|------|------|-------------|------|
-| 卡片数量 | 0 | 3 | +3 |
-| 面板数量 | 0 | 1 | +1 |
-| 动画元素 | 124 | 162 | +31% |
-| 工作流数量 | 4 | 8 | +100% |
-| 本地SVG | 2 | 5 | +150% |
-| 分隔线数量 | 6 | 10 | +67% |
-| 文件大小 | 25KB | 102KB | +308% |
-| 视觉丰富度 | ⭐⭐⭐⭐ | ⭐⭐⭐⭐⭐ | +25% |
-
----
-
-## 📱 兼容性确认
-
-| 平台 | 状态 | 备注 |
-|------|------|------|
-| GitHub Web (Desktop) | ✅ | 完美支持 |
-| GitHub Mobile (iOS) | ✅ | 动画正常 |
-| GitHub Mobile (Android) | ✅ | 动画正常 |
-| Chrome/Edge | ✅ | 最佳体验 |
-| Firefox | ✅ | 完全兼容 |
-| Safari | ✅ | SMIL支持 |
-
----
-
-## ⚠️ 注意事项
-
-### 1. Snake动画仍需首次生成
-**操作**:
 ```
-前往: https://github.com/badhope/badhope/actions
-运行: Initial Snake Generation
-等待: 1-2分钟
+badhope/
+├── README.md                       # Auto-refreshing profile homepage
+├── QUICKSTART.md                   # 5-minute quick start
+├── DEPLOYMENT-CHECKLIST.md         # Step-by-step deployment guide
+├── docs/                           # GitHub Pages documentation site
+│   ├── _config.yml                 # Jekyll configuration
+│   ├── index.md                    # Landing page
+│   ├── SNAKE-SETUP.md              # Snake animation guide
+│   ├── ANIMATION-GUIDE.md          # SVG & visual effects reference
+│   ├── MIGRATION-GUIDE.md          # Migration notes between revisions
+│   ├── PROJECT-REVIEW-SUMMARY.md   # Project review and rationale
+│   ├── QUICK-REFERENCE.md          # One-page cheat sheet
+│   └── profile-readme-spec.md      # Formal profile README specification
+├── assets/                         # Static assets (SVG, images)
+│   ├── banner/                     # Top-of-page banners
+│   ├── dividers/                   # Section dividers
+│   └── effects/                    # Decorative effects
+├── scripts/                        # Automation
+│   ├── common/                     # Shared utilities
+│   ├── tests/                      # Tests for top-level scripts
+│   ├── common/tests/               # Tests for the common package
+│   ├── update_projects.py          # Sync featured + more projects
+│   ├── update_blog.py              # Sync recent articles
+│   ├── update_quote.py             # Daily quote refresh
+│   ├── generate_svg.py             # Regenerate dynamic SVGs
+│   └── test_scripts.py             # Unified test runner
+└── .github/workflows/              # GitHub Actions
+    ├── update-projects.yml         # 4x daily projects sync
+    ├── blog.yml                    # Blog + daily quote
+    ├── snake.yml                   # Snake animation generator
+    ├── update-svg-stats.yml        # Dynamic SVG regeneration
+    └── deploy-docs.yml             # GitHub Pages documentation
 ```
 
-### 2. Activity Graph可能需要配置
-**服务**: github-readme-activity-graph.vercel.app
-**状态**: 已集成，自动获取数据
-**延迟**: 首次加载可能需要几分钟
+## Optimization principles
 
-### 3. 外部服务国内访问
-- demolab服务可能稍慢
-- vercel.app在国内有CDN节点
-- 总体可接受
+1. **Single source of truth for configuration** – All environment-driven
+   configuration is loaded through
+   [`scripts/common/config.py`](../scripts/common/config.py). Every
+   script reads the same dataclass, so a new flag only needs to be
+   added in one place.
+2. **Marker-based README updates** – Updates target explicit
+   `<!-- marker:start -->` / `<!-- marker:end -->` blocks in the README.
+   This keeps the human-authored content (text, tables, images) safe
+   while letting the automation replace only the dynamic sections.
+3. **Common utilities** – The `scripts/common` package owns every
+   cross-cutting concern: HTTP retries, GitHub API client, Markdown
+   formatting, README IO, and structured exceptions.
+4. **Tested** – Every script has a dedicated unit test module under
+   `scripts/tests/`; common utilities are tested under
+   `scripts/common/tests/`. CI runs the whole suite before pushing.
+5. **Asset-friendly** – All 23 SVG assets are referenced in `README.md`
+   (top section and the dedicated "Asset Showcase" section) so nothing
+   is dead weight.
+6. **Workflow consolidation** – Previously there were two `blog` and
+   two `snake` workflows; they have been merged into single
+   authoritative files.
 
----
+## Operational rules
 
-## 🎉 最终评分
-
-| 维度 | 评分 | 说明 |
-|------|------|------|
-| **视觉效果** | ⭐⭐⭐⭐⭐ | 5/5 - 极其丰富 |
-| **动画多样性** | ⭐⭐⭐⭐⭐ | 5/5 - 10种类型 |
-| **卡片设计** | ⭐⭐⭐⭐⭐ | 5/5 - 精美独特 |
-| **自动化程度** | ⭐⭐⭐⭐⭐ | 5/5 - 8个工作流 |
-| **性能优化** | ⭐⭐⭐⭐ | 4/5 - 良好平衡 |
-| **兼容性** | ⭐⭐⭐⭐⭐ | 5/5 - 全平台 |
-| **文档完整** | ⭐⭐⭐⭐⭐ | 5/5 - 详细说明 |
-
-**综合评分**: ⭐⭐⭐⭐⭐ **4.9/5**
-
----
-
-## 🚀 下一步行动
-
-### 必须执行
-- [ ] 触发Snake动画首次生成
-- [ ] 验证Activity Graph显示
-- [ ] 检查所有卡片渲染
-
-### 建议执行
-- [ ] 测试移动端显示效果
-- [ ] 验证所有工作流运行
-- [ ] 收集访客反馈
-
-### 可选优化
-- [ ] 添加更多项目卡片
-- [ ] 自定义Spotify集成
-- [ ] 创建个人网站链接
-
----
-
-## 📚 相关文档
-
-1. **DEPLOYMENT-CHECKLIST.md** - 部署检查报告
-2. **QUICKSTART.md** - 快速启动指南
-3. **docs/SNAKE-SETUP.md** - Snake配置说明
-4. **docs/ANIMATION-GUIDE.md** - 动画详细指南
-5. **docs/OPTIMIZATION-SUMMARY.md** - 本文档
-
----
-
-**优化完成时间**: 2026-04-04
-**版本**: v3.0 Enhanced Edition
-**下一个版本计划**: v4.0 - Interactive Features (待规划)
-
-🎊 **恭喜！你的GitHub Profile现在是超级豪华版了！** 🎊
+* **Always** add or update a `<!-- marker -->` block in `README.md`
+  before writing a new script that mutates the README. Without the
+  marker, `update_section()` logs a warning and skips the change.
+* **Always** add a test when you add functionality. Run
+  `python -m scripts.test_scripts` locally before opening a PR.
+* **Always** update this document when the layout changes.

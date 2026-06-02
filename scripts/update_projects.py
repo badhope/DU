@@ -1,250 +1,220 @@
 #!/usr/bin/env python3
-"""
-自动获取 GitHub 仓库信息并更新 README.md
-支持灵活配置，适应仓库名称和描述的变化
+"""Update the Featured Projects sections of ``README.md``.
+
+This script talks to the GitHub REST API, picks the user's top repositories
+(non-fork, non-archived) and renders them into two sections of ``README.md``:
+
+* ``<!-- projects:start -->`` ... ``<!-- projects:end -->``
+  The two-column "Top Projects" card grid that appears in the
+  :guilabel:`Featured Projects` section.
+* ``<!-- more-projects:start -->`` ... ``<!-- more-projects:end -->``
+  The "More Projects" Markdown table that lists additional repositories.
+
+Both sections are kept up to date automatically. Filtering, sizing and
+exclusions are controlled via environment variables - see
+:mod:`scripts.common.config` for the full list.
+
+Usage::
+
+    python -m scripts.update_projects
+
+The script never raises raw ``requests`` exceptions; it converts them to
+project-specific errors so the GitHub Action logs are easier to read.
 """
 
-import requests
-import re
-import logging
-import os
-import time
-from typing import List, Dict, Optional
-from functools import wraps
+from __future__ import annotations
 
-logging.basicConfig(
-    level=logging.INFO,
-    format='[%(asctime)s] %(levelname)s - %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
+import sys
+from typing import List
+
+from scripts.common.config import get_config
+from scripts.common.exceptions import (
+    ConfigError,
+    GitHubAPIError,
+    NetworkError,
+    READMEError,
+    RateLimitError,
 )
-logger = logging.getLogger(__name__)
+from scripts.common.format import (
+    format_more_projects_table,
+    format_project_table,
+)
+from scripts.common.github import GitHubClient
+from scripts.common.logger import get_logger
+from scripts.common.readme import read_readme, update_section, write_readme
 
-# 从环境变量获取配置，支持灵活配置
-GITHUB_API_URL = os.environ.get("GITHUB_API_URL", "https://api.github.com")
-USERNAME = os.environ.get("GITHUB_USERNAME", "badhope")
-DEFAULT_LIMIT = int(os.environ.get("PROJECTS_LIMIT", "4"))
+logger = get_logger("scripts.update_projects")
 
-
-def retry_on_failure(max_retries: int = 3, delay: float = 2.0):
-    """装饰器：失败时重试"""
-    def decorator(func):
-        @wraps(func)
-        def wrapper(*args, **kwargs):
-            last_exception = None
-            for attempt in range(max_retries):
-                try:
-                    return func(*args, **kwargs)
-                except Exception as e:
-                    last_exception = e
-                    logger.warning(f"尝试 {attempt + 1}/{max_retries} 失败: {e}")
-                    if attempt < max_retries - 1:
-                        time.sleep(delay * (attempt + 1))
-            logger.error(f"所有 {max_retries} 次尝试均失败")
-            raise last_exception
-        return wrapper
-    return decorator
+PROJECTS_START = "<!-- projects:start -->"
+PROJECTS_END = "<!-- projects:end -->"
+MORE_PROJECTS_START = "<!-- more-projects:start -->"
+MORE_PROJECTS_END = "<!-- more-projects:end -->"
 
 
-@retry_on_failure(max_retries=3, delay=2.0)
-def get_top_repos(limit: int = DEFAULT_LIMIT) -> List[Dict]:
+def _fetch_repositories(client: GitHubClient) -> List[dict]:
+    """Fetch and filter the user's repositories.
+
+    The list is sorted by star count (descending) and includes only the
+    non-archived, non-forked repositories that the configuration allows.
     """
-    获取星星最高的仓库（只获取原创项目，过滤掉fork的）
-    
-    Args:
-        limit: 返回的仓库数量
-        
-    Returns:
-        仓库信息列表
-    """
-    url = f"{GITHUB_API_URL}/users/{USERNAME}/repos"
-    
-    # 支持分页获取所有仓库
-    params = {
-        "sort": "stargazers",
-        "per_page": 100,
-        "type": "owner"
-    }
-    
-    headers = {}
-    if token := os.environ.get('GITHUB_TOKEN'):
-        headers['Authorization'] = f'token {token}'
-        logger.info("已使用 GitHub Token 进行认证")
-    
+    config = get_config()
     try:
-        all_repos = []
-        page = 1
-        
-        # 分页获取所有仓库
-        while True:
-            params['page'] = page
-            response = requests.get(url, params=params, headers=headers, timeout=30)
-            response.raise_for_status()
-            
-            repos = response.json()
-            if not repos:
-                break
-            
-            all_repos.extend(repos)
-            page += 1
-            
-            # 检查是否还有更多页面
-            link_header = response.headers.get('Link', '')
-            if 'rel="next"' not in link_header:
-                break
-        
-        # 只保留原创项目（fork=False）
-        own_repos = [repo for repo in all_repos if not repo.get('fork', False)]
-        
-        # 按星星数排序
-        repos = sorted(own_repos, key=lambda x: x.get('stargazers_count', 0), reverse=True)[:limit]
-        
-        logger.info(f"成功获取 {len(repos)} 个原创项目（共 {len(own_repos)} 个原创项目）")
-        
-        result = []
-        for repo in repos:
-            # 获取更多仓库信息
-            result.append({
-                "name": repo.get('name', ''),
-                "full_name": repo.get('full_name', ''),
-                "description": repo.get('description') or "暂无描述",
-                "url": repo.get('html_url', ''),
-                "stars": repo.get('stargazers_count', 0),
-                "language": repo.get('language') or "N/A",
-                "forks": repo.get('forks_count', 0),
-                "updated_at": repo.get('updated_at', '')[:10] if repo.get('updated_at') else "",
-                "license": repo.get('license', {}).get('name', 'N/A') if repo.get('license') else 'N/A',
-                "topics": repo.get('topics', []),
-                "archived": repo.get('archived', False)
-            })
-        
-        return result
-        
-    except requests.RequestException as e:
-        logger.error(f"获取项目失败: {e}")
+        repos = list(
+            client.iter_user_repos(
+                username=config.github.username,
+                type="owner",
+                sort="stargazers",
+                direction="desc",
+            )
+        )
+    except RateLimitError as exc:
+        logger.error("GitHub rate limit reached (reset at %s)", exc.reset_at)
+        raise
+    except GitHubAPIError as exc:
+        logger.error("GitHub API error: %s", exc)
         raise
 
+    logger.info(
+        "Fetched %d raw repositories for %s",
+        len(repos),
+        config.github.username,
+    )
 
-def format_project_card(repo: Dict) -> str:
+    filtered = client.filter_repositories(
+        repos,
+        include_forks=False,
+        include_archived=False,
+        required_topic=config.projects.required_topic,
+        excluded_names=config.projects.excluded_repos,
+    )
+    sorted_repos = client.sort_repositories(
+        filtered, by="stargazers_count", descending=True
+    )
+    summaries = [client.extract_repo_summary(r) for r in sorted_repos]
+    logger.info("Filtered down to %d active repositories", len(summaries))
+    return summaries
+
+
+def _render_featured(repositories: List[dict], limit: int) -> str:
+    """Render the "Top Projects" two-column grid."""
+    if limit < 1:
+        return "_No projects to display._"
+    table = format_project_table(
+        repositories[:limit],
+        columns=2,
+        badge_color="58a6ff",
+        language_color_hex="3776AB",
+    )
+    return table
+
+
+def _render_more_projects(repositories: List[dict], start: int, limit: int) -> str:
+    """Render the "More Projects" table starting at ``start`` index."""
+    if limit < 1:
+        return "_No additional projects to display._"
+    extras = repositories[start : start + limit]
+    if not extras:
+        return "_No additional projects to display._"
+    return format_more_projects_table(
+        extras,
+        badge_color="58a6ff",
+        language_color_hex="3776AB",
+    )
+
+
+def update_readme(
+    featured_limit: int,
+    more_projects_start: int,
+    more_projects_limit: int,
+) -> bool:
+    """Run the full update pipeline.
+
+    Returns ``True`` if the README was modified, ``False`` otherwise.
     """
-    格式化单个项目卡片
-    
-    Args:
-        repo: 项目信息字典
-        
-    Returns:
-        格式化的 Markdown 字符串
-    """
-    # 跳过归档项目
-    if repo.get('archived'):
-        return ""
-    
-    # 构建标签
-    tags = []
-    if repo.get('topics'):
-        tags.extend(repo['topics'][:3])  # 最多显示3个标签
-    
-    tags_str = ""
-    if tags:
-        tags_str = "\n\n**标签**: " + ", ".join([f"`{tag}`" for tag in tags])
-    
-    return f"""### [{repo['name']}]({repo['url']})
+    config = get_config()
+    client = GitHubClient(config.github)
 
-{repo['description']}{tags_str}
-
-![Stars](https://img.shields.io/github/stars/{repo['full_name']}?style=flat-square&color=58a6ff)
-![Language](https://img.shields.io/github/languages/top/{repo['full_name']}?style=flat-square&color=3776AB)
-![Forks](https://img.shields.io/github/forks/{repo['full_name']}?style=flat-square&color=93c5fd)
-![Last Commit](https://img.shields.io/github/last-commit/{repo['full_name']}?style=flat-square&color=c9d1d9)"""
-
-
-def update_readme_projects(readme_path: str = "README.md") -> bool:
-    """
-    更新 README.md 中的特色项目部分
-    
-    Args:
-        readme_path: README 文件路径
-        
-    Returns:
-        是否更新成功
-    """
     try:
-        with open(readme_path, 'r', encoding='utf-8') as f:
-            content = f.read()
-    except FileNotFoundError:
-        logger.error(f"README.md 文件未找到: {readme_path}")
+        repositories = _fetch_repositories(client)
+    except (NetworkError, GitHubAPIError) as exc:
+        logger.error("Could not fetch repositories: %s", exc)
         return False
-    except Exception as e:
-        logger.error(f"读取文件失败: {e}")
+
+    if not repositories:
+        logger.warning("No repositories to render - skipping update")
         return False
-    
+
+    featured_section = _render_featured(repositories, featured_limit)
+    more_projects_section = _render_more_projects(
+        repositories, more_projects_start, more_projects_limit
+    )
+
     try:
-        repos = get_top_repos(limit=DEFAULT_LIMIT)
-    except Exception as e:
-        logger.error(f"获取仓库列表失败: {e}")
+        content = read_readme()
+    except READMEError as exc:
+        logger.error("Could not read README: %s", exc)
         return False
-    
-    if not repos:
-        logger.warning("未能获取项目列表，跳过更新")
+
+    new_content, changed_a = update_section(
+        content, PROJECTS_START, PROJECTS_END, featured_section
+    )
+    new_content, changed_b = update_section(
+        new_content, MORE_PROJECTS_START, MORE_PROJECTS_END, more_projects_section
+    )
+
+    if not (changed_a or changed_b):
+        logger.info("README is already up to date")
         return False
-    
-    # 过滤归档项目
-    active_repos = [repo for repo in repos if not repo.get('archived')]
-    
-    rows = []
-    for i in range(0, len(active_repos), 2):
-        left = format_project_card(active_repos[i])
-        
-        if i + 1 < len(active_repos):
-            right = format_project_card(active_repos[i + 1])
-        else:
-            right = ""
-        
-        rows.append(f"""<tr>
-<td width="50%">
 
-{left}
-
-</td>
-<td width="50%">
-
-{right}
-
-</td>
-</tr>""")
-    
-    projects_md = "<table>\n" + "\n".join(rows) + "\n</table>"
-    
-    pattern = r'<!-- projects:start -->.*?<!-- projects:end -->'
-    replacement = f'<!-- projects:start -->\n\n{projects_md}\n\n<!-- projects:end -->'
-    
-    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-    
-    if new_content == content:
-        logger.info("项目内容未变化，无需更新")
-        return False
-    
     try:
-        with open(readme_path, 'w', encoding='utf-8') as f:
-            f.write(new_content)
-        logger.info("✅ README.md 项目部分更新成功")
-        return True
-    except Exception as e:
-        logger.error(f"写入文件失败: {e}")
+        write_readme(new_content)
+    except READMEError as exc:
+        logger.error("Could not write README: %s", exc)
         return False
 
+    logger.info(
+        "Updated README - featured: %d, more-projects: %d",
+        featured_limit,
+        min(more_projects_limit, max(0, len(repositories) - more_projects_start)),
+    )
+    return True
 
-def main():
-    """主入口"""
-    logger.info("🚀 开始更新特色项目...")
-    logger.info(f"配置: 用户名={USERNAME}, 限制数量={DEFAULT_LIMIT}")
-    
-    success = update_readme_projects()
-    
-    if success:
-        logger.info("✅ 项目更新完成")
-    else:
-        logger.error("❌ 项目更新失败")
+
+def main() -> int:
+    """Command line entry point returning a Unix exit code."""
+    logger.info("=" * 60)
+    logger.info("Featured Projects Update")
+    logger.info("=" * 60)
+
+    try:
+        config = get_config()
+    except ConfigError as exc:
+        logger.error("Invalid configuration: %s", exc)
+        return 2
+
+    featured_limit = config.projects.limit
+    more_projects_start = config.projects.limit
+    more_projects_limit = config.projects.more_projects_limit
+
+    logger.info(
+        "Configured: featured=%d, more-projects start=%d, count=%d",
+        featured_limit,
+        more_projects_start,
+        more_projects_limit,
+    )
+
+    updated = update_readme(
+        featured_limit=featured_limit,
+        more_projects_start=more_projects_start,
+        more_projects_limit=more_projects_limit,
+    )
+
+    if updated:
+        logger.info("README updated successfully")
+        return 0
+    logger.warning("README was not modified")
+    return 1
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

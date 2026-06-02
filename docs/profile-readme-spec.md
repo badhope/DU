@@ -1,5 +1,7 @@
 # badhope/github.io Profile README Specification
 
+> 📅 最近更新: 2026-05-29 - 增加 marker 规范、common 模块说明
+
 ## Overview
 
 This document specifies the design, structure, and automation strategy for the `badhope/badhope` GitHub Profile README repository.
@@ -18,7 +20,6 @@ This document specifies the design, structure, and automation strategy for the `
 | Email | x18825407105@outlook.com |
 | Homepage | https://badhope.github.io/github.io/ |
 | CSDN | https://blog.csdn.net/weixin_56622231 |
-| Juejin | https://juejin.cn/user/2350111542479753 |
 
 ---
 

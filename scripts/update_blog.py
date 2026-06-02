@@ -1,211 +1,223 @@
 #!/usr/bin/env python3
-"""
-Enhanced Blog Sync Script - Starry Sky Theme
-Fetches latest posts from CSDN and updates README.md.
+"""Update the "Recent Articles" section of ``README.md``.
+
+The script pulls the latest blog posts from the configured source(s),
+formats them using :mod:`scripts.common.format` and writes the result into
+the ``<!-- blog:start -->`` ... ``<!-- blog:end -->`` markers.
+
+The CSDN source is hard-coded today. The architecture is intentionally
+pluggable: each source is implemented as its own function that returns a
+list of ``{title, url, source, date}`` dicts.
 """
 
-import re
+from __future__ import annotations
+
 import logging
+import re
+import sys
+import xml.etree.ElementTree as ET
 from datetime import datetime
-from typing import List, Dict, Optional
+from email.utils import parsedate_to_datetime
+from typing import Dict, List, Protocol
 
-try:
-    import requests
-    from requests.exceptions import RequestException, Timeout, ConnectionError
-except ImportError:
-    raise ImportError(
-        "requests library is required. Install with: pip install requests"
-    )
+import requests
 
-try:
-    from scripts.config import get_config
-    from scripts.helpers import (
-        read_readme, write_readme, READMEError, NetworkError, logger, retry_on_failure
-    )
-except ImportError:
-    from config import get_config
-    from helpers import (
-        read_readme, write_readme, READMEError, NetworkError, logger, retry_on_failure
-    )
+from scripts.common.config import BlogConfig, Config, get_config
+from scripts.common.exceptions import (
+    ConfigError,
+    NetworkError,
+    READMEError,
+)
+from scripts.common.format import format_blog_markdown
+from scripts.common.http import create_session
+from scripts.common.logger import get_logger
+from scripts.common.readme import read_readme, update_section, write_readme
+
+logger = get_logger("scripts.update_blog")
+
+BLOG_START = "<!-- blog:start -->"
+BLOG_END = "<!-- blog:end -->"
 
 
-@retry_on_failure(max_retries=3, delay=1.0)
-def fetch_csdn_posts(config, limit: int = 3) -> List[Dict[str, str]]:
-    """
-    Fetch posts from CSDN RSS feed.
-    
-    Args:
-        config: Blog configuration or full Config object
-        limit: Maximum number of posts to fetch
-        
-    Returns:
-        List of post dictionaries
-        
-    Raises:
-        NetworkError: If fetching fails after retries
-    """
-    posts = []
-    
-    # Handle both cases: config is a full Config or just BlogConfig
-    blog_config = config.blog if hasattr(config, 'blog') else config
-    
-    headers = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
-    }
-    
+class BlogSource(Protocol):
+    """Anything that can fetch blog posts given a configuration object."""
+
+    def __call__(self, config: Config) -> List[Dict[str, str]]: ...
+
+
+def _format_rfc822_date(value: str) -> str:
+    """Parse an RFC-822 date (RSS) into ``YYYY-MM-DD``; return ``""`` on failure."""
+    if not value:
+        return ""
     try:
-        response = requests.get(
+        return parsedate_to_datetime(value).strftime("%Y-%m-%d")
+    except (ValueError, TypeError):
+        return ""
+
+
+def fetch_csdn_posts(config: Config) -> List[Dict[str, str]]:
+    """Fetch the latest posts from the CSDN RSS feed configured in ``config.blog``."""
+    blog_config: BlogConfig = config.blog
+    if not blog_config.enabled:
+        logger.info("CSDN blog source is disabled")
+        return []
+
+    session = create_session(timeout=blog_config.max_posts and config.github.timeout)
+    headers = {
+        "User-Agent": (
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+            "AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/120.0 Safari/537.36"
+        )
+    }
+
+    try:
+        response = session.get(
             blog_config.csdn_rss_url,
             headers=headers,
-            timeout=blog_config.timeout
+            timeout=config.github.timeout,
         )
         response.raise_for_status()
-        
-        import xml.etree.ElementTree as ET
+    except requests.RequestException as exc:
+        raise NetworkError(f"CSDN request failed: {exc}") from exc
+
+    try:
         root = ET.fromstring(response.content)
-        
-        for item in root.findall(".//item")[:limit]:
-            title = item.findtext("title", "")
-            link = item.findtext("link", "")
-            pub_date = item.findtext("pubDate", "")
-            
-            # Parse RFC-822 date format (e.g., "Fri, 22 May 2026 12:00:00 GMT")
-            formatted_date = ""
-            if pub_date:
-                try:
-                    from email.utils import parsedate_to_datetime
-                    dt = parsedate_to_datetime(pub_date)
-                    formatted_date = dt.strftime("%Y-%m-%d")
-                except (ImportError, ValueError):
-                    # Fallback if parsing fails
-                    pass
-            
-            if title and link:
-                posts.append({
-                    "title": title,
-                    "url": link,
-                    "source": "CSDN",
-                    "date": formatted_date
-                })
-        
-        logger.info(f"Fetched {len(posts)} posts from CSDN")
-        
-    except Timeout:
-        raise NetworkError(f"CSDN request timed out after {blog_config.timeout}s")
-    except ConnectionError as e:
-        raise NetworkError(f"CSDN connection error: {e}")
-    except RequestException as e:
-        raise NetworkError(f"CSDN request failed: {e}")
-    except Exception as e:
-        raise NetworkError(f"CSDN processing error: {e}")
-    
+    except ET.ParseError as exc:
+        raise NetworkError(f"CSDN RSS parse error: {exc}") from exc
+
+    posts: List[Dict[str, str]] = []
+    for item in root.findall(".//item")[: blog_config.max_posts]:
+        title = (item.findtext("title") or "").strip()
+        link = (item.findtext("link") or "").strip()
+        pub_date = item.findtext("pubDate") or ""
+        if not (title and link):
+            continue
+        posts.append(
+            {
+                "title": title,
+                "url": link,
+                "source": "CSDN",
+                "date": _format_rfc822_date(pub_date),
+            }
+        )
+
+    logger.info("Fetched %d CSDN posts", len(posts))
     return posts
 
 
-def format_blog_markdown(posts: List[Dict[str, str]]) -> str:
-    """
-    Format blog posts as markdown.
-    
-    Args:
-        posts: List of post dictionaries
-        
-    Returns:
-        str: Formatted markdown string
-    """
-    if not posts:
-        return '<small>文章同步中...</small>'
-    
-    md_lines = []
-    
-    for i, post in enumerate(posts[:3], 1):
-        date_str = f" · {post['date']}" if post['date'] else ""
-        
-        md_lines.append(
-            f'<small>{i}. 📕 <a href="{post["url"]}" '
-            f'style="color:#a5f3fc;text-decoration:none;">{post["title"]}</a>{date_str}</small>'
-        )
-    
-    return '<br>\n'.join(md_lines)
+# Registry of blog sources. New sources can be added by appending a callable
+# that follows the BlogSource protocol.
+DEFAULT_SOURCES: List[BlogSource] = [fetch_csdn_posts]
 
 
-def update_readme_with_blog(posts: List[Dict[str, str]], readme_path: str = "README.md") -> bool:
-    """
-    Update README with blog posts.
-    
-    Args:
-        posts: List of post dictionaries
-        readme_path: Path to README file
-        
-    Returns:
-        bool: True if successful
-    """
+def collect_posts(config: Config, sources: List[BlogSource]) -> List[Dict[str, str]]:
+    """Run each source in order and merge the results, capped at ``max_posts``."""
+    all_posts: List[Dict[str, str]] = []
+    for source in sources:
+        try:
+            posts = source(config)
+        except NetworkError as exc:
+            logger.error("Source %s failed: %s", source.__name__, exc)
+            continue
+        all_posts.extend(posts)
+        if len(all_posts) >= config.blog.max_posts:
+            break
+    return all_posts[: config.blog.max_posts]
+
+
+def render_blog_section(posts: List[Dict[str, str]], config: Config) -> str:
+    """Build the inner content for the blog marker block."""
+    formatted = format_blog_markdown(posts, max_posts=config.blog.max_posts)
+    return (
+        f'<b>📚 最新文章</b>\n<br>\n'
+        f'<small>_更新于 {datetime.now().strftime("%Y-%m-%d")}_</small>\n'
+        f"<br><br>\n{formatted}"
+    )
+
+
+def update_readme(posts: List[Dict[str, str]], config: Config) -> bool:
+    """Replace the blog section in ``README.md`` and return whether it changed."""
     try:
         content = read_readme()
-    except READMEError as e:
-        logger.error(str(e))
+    except READMEError as exc:
+        logger.error(str(exc))
         return False
-    
-    blog_markdown = format_blog_markdown(posts)
-    
-    blog_section = f'<b>📚 最新文章</b>\n<br>\n<small>_更新于 {datetime.now().strftime("%Y-%m-%d")}_</small>\n<br><br>\n{blog_markdown}'
-    
-    pattern = r'<!-- blog:start -->.*?<!-- blog:end -->'
-    replacement = f'<!-- blog:start -->\n\n{blog_section}\n\n<!-- blog:end -->'
-    
-    # 检查标记位置
-    start_idx = content.find('<!-- blog:start -->')
-    end_idx = content.find('<!-- blog:end -->')
-    match = re.search(pattern, content, flags=re.DOTALL)
-    
-    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-    
-    if new_content == content:
-        # 检查是否替换成功但内容相同（内容未变化）
-        if match:
-            logger.info("博客内容已是最新，无需更新")
-            return True  # 内容已是最新，视为成功
-        else:
-            logger.warning("Could not find blog markers in README.md")
-            return False
-    
+
+    section = render_blog_section(posts, config)
+    new_content, changed = update_section(
+        content, BLOG_START, BLOG_END, section
+    )
+
+    if not changed:
+        if BLOG_START in content and BLOG_END in content:
+            logger.info("Blog content is already up to date")
+            return True
+        logger.error("Could not find blog markers in README.md")
+        return False
+
     try:
         write_readme(new_content)
-        logger.info(f"Blog section updated with {len(posts)} posts")
-        return True
-    except READMEError as e:
-        logger.error(str(e))
+    except READMEError as exc:
+        logger.error(str(exc))
         return False
+    logger.info("Blog section updated with %d posts", len(posts))
+    return True
 
 
-def main():
-    """Main entry point."""
+def main(sources: List[BlogSource] = None) -> int:
+    """Command line entry point."""
     logger.info("=" * 60)
-    logger.info("📚 Blog Sync Script - Enhanced Version")
+    logger.info("Blog Sync")
     logger.info("=" * 60)
-    
-    config = get_config()
-    
-    all_posts = []
-    
+
     try:
-        logger.info("📡 Fetching CSDN posts...")
-        csdn_posts = fetch_csdn_posts(config, limit=config.blog.max_posts)
-        all_posts.extend(csdn_posts)
-    except NetworkError as e:
-        logger.error(f"Failed to fetch CSDN posts: {e}")
-    
-    logger.info(f"📊 Total posts fetched: {len(all_posts)}")
-    
-    if all_posts:
-        if update_readme_with_blog(all_posts[:config.blog.max_posts]):
-            logger.info("✨ README updated successfully!")
-        else:
-            logger.error("❌ Failed to update README")
-    else:
-        logger.warning("⚠️ No posts fetched, skipping README update")
-    
-    logger.info("=" * 60)
+        config = get_config()
+    except ConfigError as exc:
+        logger.error("Invalid configuration: %s", exc)
+        return 2
+
+    posts = collect_posts(config, sources or DEFAULT_SOURCES)
+    if not posts:
+        logger.warning("No posts fetched; skipping README update")
+        return 1
+
+    if update_readme(posts, config):
+        logger.info("README blog section updated successfully")
+        return 0
+    logger.error("Failed to update README blog section")
+    return 1
+
+
+# Backwards-compatible helpers preserved for the test suite
+def format_blog_section(posts: List[Dict[str, str]]) -> str:  # pragma: no cover
+    return format_blog_markdown(posts, max_posts=len(posts))
+
+
+def update_readme_with_blog(
+    posts: List[Dict[str, str]], readme_path: str = "README.md"
+) -> bool:  # pragma: no cover
+    """Legacy wrapper used by older tests and workflows."""
+    from scripts.common.readme import get_readme_path
+    try:
+        content = read_readme(get_readme_path(readme_path))
+    except READMEError:
+        return False
+    formatted = format_blog_markdown(posts, max_posts=len(posts))
+    pattern = re.compile(
+        re.escape(BLOG_START) + r".*?" + re.escape(BLOG_END), flags=re.DOTALL
+    )
+    new_content = pattern.sub(
+        f"{BLOG_START}\n\n{formatted}\n\n{BLOG_END}", content
+    )
+    if new_content == content:
+        return True
+    try:
+        write_readme(new_content, get_readme_path(readme_path))
+        return True
+    except READMEError:
+        return False
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

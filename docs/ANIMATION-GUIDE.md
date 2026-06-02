@@ -1,5 +1,7 @@
 # 动态效果优化指南
 
+> 📅 最近更新: 2026-05-29 - 新增 23 SVG 全部引用、Asset Showcase 区域、生成脚本统一为 `scripts/generate_svg.py`
+
 ## 🎨 已实现的动态效果
 
 ### 1. 全局动态背景 (Dynamic Starfield)

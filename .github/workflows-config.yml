@@ -2,10 +2,11 @@
 # This file documents the environment setup and dependencies for all workflows
 
 workflows:
-  # Snake Animation Generation
+  # Snake Animation Generation (also handles first-time creation via workflow_dispatch)
   snake:
     name: "Generate Contribution Snake"
     triggers:
+      - push: true
       - schedule: "0 16 * * 0"  # Weekly on Sunday at midnight UTC+8
       - workflow_dispatch: true
     requirements:
@@ -13,21 +14,11 @@ workflows:
       - Platane/snk@v3 action
       - peaceiris/actions-gh-pages@v3 action
     outputs:
-      branch: snake-animation
+      branch: output
       files:
         - github-contribution-grid-snake.svg
         - github-contribution-grid-snake-dark.svg
-
-  # Initial Snake Generation (one-time setup)
-  init-snake:
-    name: "Initial Snake Generation"
-    triggers:
-      - workflow_dispatch: true
-    requirements:
-      - ubuntu-latest runner
-      - Platane/snk@v3 action
-      - peaceiris/actions-gh-pages@v3 action
-    note: "Run this once to create the snake-animation branch"
+    note: "First-time generation is performed by triggering this workflow via workflow_dispatch. The output branch will be created automatically."
 
   # Blog Synchronization
   blog:

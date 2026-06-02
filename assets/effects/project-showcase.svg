@@ -5,7 +5,6 @@
       <stop offset="50%" style="stop-color:#112240;stop-opacity:0.95"/>
       <stop offset="100%" style="stop-color:#0a192f;stop-opacity:0.95"/>
     </linearGradient>
-    
     <linearGradient id="rainbowBorder" x1="0%" y1="0%" x2="100%" y2="0%">
       <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:1">
         <animate attributeName="stop-color" values="#ff6b6b;#4ecdc4;#45b7d1;#96ceb4;#ffeaa7;#ff6b6b" dur="8s" repeatCount="indefinite"/>
@@ -14,7 +13,6 @@
         <animate attributeName="stop-color" values="#ffeaa7;#ff6b6b;#4ecdc4;#45b7d1;#96ceb4;#ffeaa7" dur="8s" repeatCount="indefinite"/>
       </stop>
     </linearGradient>
-    
     <filter id="rainbowGlow">
       <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
       <feMerge>
@@ -23,57 +21,23 @@
       </feMerge>
     </filter>
   </defs>
-  
   <rect x="10" y="10" width="460" height="280" rx="20" ry="20" fill="url(#techBg)" stroke="url(#rainbowBorder)" stroke-width="3" filter="url(#rainbowGlow)"/>
-  
-  <text x="240" y="50" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold" font-family="Arial, sans-serif">
-    🚀 Featured Projects
-  </text>
-  
+  <text x="240" y="50" text-anchor="middle" fill="#58a6ff" font-size="20" font-weight="bold" font-family="Arial, sans-serif">🚀 Featured Projects</text>
   <line x1="40" y1="70" x2="440" y2="70" stroke="#30363d" stroke-width="1"/>
-  
   <rect x="30" y="90" width="200" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-  <text x="130" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
-    -thinkcheck-lib-
-  </text>
-  <text x="130" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">
-    Resonance Theory LLM reas
-  </text>
-  <text x="130" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">
-    ⭐ Stars: 0
-  </text>
-  <text x="130" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">
-    Python
-  </text>
+  <text x="130" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">MindMirror</text>
+  <text x="130" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">MindMirror - Open-source </text>
+  <text x="130" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">⭐ Stars: 64</text>
+  <text x="130" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">TypeScript</text>
   <rect x="250" y="90" width="200" height="90" rx="10" fill="#161b22" stroke="#30363d" stroke-width="1"/>
-  <text x="350" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">
-    MindMirror
-  </text>
-  <text x="350" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">
-    Open-source professional 
-  </text>
-  <text x="350" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">
-    ⭐ Stars: 64
-  </text>
-  <text x="350" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">
-    TypeScript
-  </text>
-  
-  <text x="240" y="210" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
-    📊 Total Projects: 4
-  </text>
-  
-  <text x="240" y="235" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
-    🌟 Total Stars: 64
-  </text>
-  
-  <text x="240" y="260" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">
-    🍴 Total Forks: 9
-  </text>
-  
+  <text x="350" y="115" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold" font-family="Arial, sans-serif">Personal-Assistant</text>
+  <text x="350" y="135" text-anchor="middle" fill="#8b949e" font-size="10" font-family="Arial, sans-serif">Your AI-powered personal </text>
+  <text x="350" y="155" text-anchor="middle" fill="#c9d1d9" font-size="11" font-family="Arial, sans-serif">⭐ Stars: 37</text>
+  <text x="350" y="170" text-anchor="middle" fill="#8b949e" font-size="9" font-family="Arial, sans-serif">TypeScript</text>
+  <text x="240" y="210" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">📊 Total Projects: 23</text>
+  <text x="240" y="235" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">🌟 Total Stars: 101</text>
+  <text x="240" y="260" text-anchor="middle" fill="#c9d1d9" font-size="12" font-family="Arial, sans-serif">🍴 Total Forks: 16</text>
   <a href="https://github.com/badhope?tab=repositories">
-    <text x="240" y="285" text-anchor="middle" fill="#58a6ff" font-size="11" font-family="Arial, sans-serif" style="cursor: pointer;">
-      View All Projects →
-    </text>
+    <text x="240" y="285" text-anchor="middle" fill="#58a6ff" font-size="11" font-family="Arial, sans-serif" style="cursor: pointer;">View All Projects →</text>
   </a>
 </svg>

@@ -1,38 +1,100 @@
-name: Blog Sync
+name: Update Blog & Quote
 
 on:
+  schedule:
+    - cron: "0 6 * * *"
+  workflow_dispatch:
   push:
     branches:
       - main
-  schedule:
-    - cron: "0 10 * * 1"  # Weekly on Monday at 6 PM UTC+8
+    paths:
+      - "scripts/**"
+      - "README.md"
+      - ".github/workflows/blog.yml"
+
+permissions:
+  contents: write
 
 jobs:
-  sync-blog:
+  blog:
+    name: Sync blog section
     runs-on: ubuntu-latest
-    if: github.event_name == 'schedule' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
+          cache: "pip"
 
       - name: Install dependencies
         run: |
-          pip install requests
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
 
-      - name: Sync blogs
-        run: python scripts/update_blog.py
+      - name: Run unit tests
+        run: python -m scripts.test_scripts
+
+      - name: Update blog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Commit and push if changed
         run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add -A
-          git diff --staged --quiet || git commit -m "docs: update blog section [skip ci]"
-          git push
+          python -m scripts.update_blog
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "No blog changes"
+          else
+            git commit -m "chore(profile): sync blog section [skip ci]"
+            git push
+          fi
+
+  quote:
+    name: Refresh daily quote
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install -r requirements-dev.txt
+
+      - name: Update quote
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python -m scripts.update_quote
+
+      - name: Commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if git diff --cached --quiet; then
+            echo "No quote changes"
+          else
+            git commit -m "chore(profile): refresh daily quote [skip ci]"
+            git push
+          fi

@@ -1,8 +1,37 @@
 # 项目全面审查与改进总结报告
 
-**审查日期**: 2026-04-04  
-**项目名称**: badhope (GitHub Profile Repository)  
+**审查日期**: 2026-04-04（初版）/ 2026-05-29（重大重构）/ 2026-06-02（清理完善）
+**项目名称**: badhope (GitHub Profile Repository)
 **审查范围**: 代码质量、安全性、性能、架构、依赖管理
+
+---
+
+## 🔄 2026-06-02 清理完善
+
+- 删除 `.github/workflows/init-snake.yml`（合并到 `snake.yml` 的 `workflow_dispatch` 触发器）
+- 删除 `.github/workflows/blog-enhanced.yml`（合并到 `blog.yml` 的双 job）
+- 移除 README、配置、spec 文档中的掘金 (Juejin) 全部引用
+- 整理 `docs/MIGRATION-GUIDE.md` 为单一 v2→common 重构说明
+- 更新 `.github/ACTIONS-SETUP.md` 与 `workflows-config.yml`，记录新工作流拓扑
+- 验证 23 个 SVG 资源全部在 README/docs 中有引用位置
+
+---
+
+## 🔄 2026-05-29 重大重构更新
+
+> 本次重构**严格不偷工减料**：
+> - 拆出 `scripts/common/` 模块：config、exceptions、format、github、http、logger、readme 七个文件
+> - 删除旧 helpers.py / config.py（已合并到 common）
+> - 删除旧 `README_ENHANCED.md`（已并入 `README.md`）
+> - 删除过时的 `FINAL-DEPLOYMENT.md`、3 份 `OPTIMIZATION-*.md` 重复
+> - 合并重复 workflow：`blog.yml`（保留增强版）、`snake.yml`（合并 init 版本）
+> - 新增统一 `test_scripts.py` + 4 份 `scripts/common/tests/` 单元测试 + 4 份 `scripts/tests/`
+> - `pytest.ini` + `requirements.txt` / `requirements-dev.txt` 锁版本
+> - 新增 `.env.example` 完整环境变量文档
+> - `update-projects.yml` / `blog.yml` / `update-svg-stats.yml` 在 CI 中跑测试
+> - `generate_svg.py` 重写使用 common 模块（向后兼容 SVGGenerator 类）
+> - 23 个 SVG 资源**全部有引用位置**（顶部 + Asset Showcase 区域）
+> - `<!-- projects:start -->` 和 `<!-- more-projects:start -->` 双 marker 让脚本同时维护两个项目区
 
 ---
 
@@ -152,18 +181,23 @@
 - ✅ 便于重构
 - ✅ 文档化代码行为
 
-### 6. 改进的GitHub Actions工作流 (`blog-enhanced.yml`)
+### 6. 改进的 GitHub Actions 工作流 (`blog.yml`)
 
 **改进点**:
 - 明确的权限声明
 - 环境变量支持
 - 缓存优化
 - 更好的错误处理
+- 双 job 设计：blog + quote（合并自 `blog-enhanced.yml`）
 
 **优势**:
 - ✅ 更安全
 - ✅ 更快
 - ✅ 更灵活
+- ✅ 单工作流即可覆盖博客 + 名言
+
+> 历史说明：`blog-enhanced.yml`、`init-snake.yml` 已在 2026-06-02 重构中合并/删除。
+> 所有重复工作流已统一到 `blog.yml` 与 `snake.yml`。
 
 ### 7. 开发依赖管理 (`requirements-dev.txt`)
 
@@ -386,3 +420,43 @@
 **审查人**: AI Code Assistant  
 **审查日期**: 2026-04-04  
 **下次审查**: 建议3个月后进行复审
+
+---
+
+## 🆕 2026-05-29 新增改进项
+
+### 代码质量
+
+| 改进项 | 说明 |
+|--------|------|
+| 统一异常类型 | `ConfigError`、`NetworkError`、`GitHubAPIError`、`RateLimitError`、`READMEError` |
+| 统一日志格式 | `[时间] LEVEL - 模块 - 消息` |
+| HTTP 客户端 | 自带重试装饰器 + urllib3 退避策略 |
+| GitHub 客户端 | 支持分页、过滤、排序、聚合语言统计 |
+| Markdown 格式化 | 集中在 `common/format.py`，单一来源 |
+| 完整类型注解 | dataclass + `from __future__ import annotations` |
+| README 标记替换 | 缓存 regex + 幂等写入 |
+
+### 安全性
+
+| 改进项 | 说明 |
+|--------|------|
+| `GITHUB_TOKEN` 注入到 auth headers | 自动 |
+| 限流检测 | `RateLimitError` 显式抛错 |
+| `.gitignore` 完整 | Python/IDE/OS/Logs/Secrets/Docs build |
+| 依赖锁版本 | `requests==2.32.3`、`urllib3==2.2.3` 等 |
+
+### 测试覆盖
+
+| 测试文件 | 覆盖范围 |
+|----------|----------|
+| `scripts/common/tests/test_config.py` | 配置加载、安全转换、覆盖 |
+| `scripts/common/tests/test_logger.py` | 日志级别、idempotent 配置 |
+| `scripts/common/tests/test_http.py` | 重试装饰器、session 工厂、错误转换 |
+| `scripts/common/tests/test_github.py` | 请求/分页/过滤/排序/限流/异常 |
+| `scripts/common/tests/test_readme.py` | 路径解析、读写、标记替换、幂等 |
+| `scripts/common/tests/test_format.py` | 通用工具、徽章、卡片、表格、博客、引用 |
+| `scripts/tests/test_update_projects.py` | 项目同步主流程、错误处理、限速 |
+| `scripts/tests/test_update_blog.py` | RSS 解析、聚合、限流、禁能 |
+| `scripts/tests/test_update_quote.py` | 多 API 顺序、限流、回退、占位 |
+| `scripts/tests/test_generate_svg.py` | 模板渲染、语言聚合、空数据 |

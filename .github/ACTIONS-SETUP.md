@@ -1,44 +1,48 @@
 # GitHub Actions 配置完整说明
 
-**配置时间**: 2026-04-04
-**版本**: v3.0 - Full Configuration
+**最后更新**: 2026-06-02
+**版本**: v4.0 - Unified Configuration (Juejin removed, init-snake merged)
 
 ---
 
 ## 📋 配置文件清单
 
-### 必需配置文件（已全部创建）
-
-#### 1. 工作流文件 (8个)
+### 工作流文件 (7个)
 位置: `.github/workflows/`
 
-| 文件名 | 功能 | 触发条件 | 状态 |
-|--------|------|----------|------|
-| `init-snake.yml` | Snake动画首次生成 | 手动触发 | ✅ |
-| `snake.yml` | Snake每周更新 | 每周日00:00 + 手动 | ✅ |
-| `blog.yml` | 博客文章同步 | 每周一16:00 + 手动 | ✅ |
-| `quote.yml` | 每日名言更新 | 每天14:00 + 手动 | ✅ |
-| `profile-views.yml` | 访问统计更新 | 每天00:00 + 手动 | ✅ |
-| `auto-label.yml` | 自动标签管理 | Issue/PR创建时 | ✅ |
-| `welcome.yml` | 欢迎新贡献者 | 首次Issue/PR | ✅ |
-| `stale.yml` | 清理过期Issue/PR | 每天16:00 + 手动 | ✅ |
+| 文件名 | 功能 | 触发条件 |
+|--------|------|----------|
+| `snake.yml` | Snake 动画每周更新（首次生成已合并） | push、cron 每周日 00:00 (UTC+8)、workflow_dispatch |
+| `blog.yml` | 博客文章同步 + 每日名言（双 job） | cron 每周一 16:00 (UTC+8)、workflow_dispatch |
+| `quote.yml` | 每日名言更新（独立） | cron 每天 14:00 (UTC+8)、workflow_dispatch |
+| `update-projects.yml` | 自动更新 Featured Projects / More Projects | push、workflow_dispatch |
+| `update-svg-stats.yml` | 自动生成 stats-panel.svg 与 project-showcase.svg | push、workflow_dispatch |
+| `deploy-docs.yml` | GitHub Pages 文档部署 | push to main、workflow_dispatch |
+| `profile-views.yml` | 访问统计更新 | cron 每天 00:00 (UTC+8)、workflow_dispatch |
+| `auto-label.yml` | 自动标签管理 | Issue/PR 创建时 |
+| `welcome.yml` | 欢迎新贡献者 | 首次 Issue/PR |
+| `stale.yml` | 清理过期 Issue/PR | cron 每天 16:00 (UTC+8)、workflow_dispatch |
 
-#### 2. 依赖管理
+> 之前的 `init-snake.yml`、`blog-enhanced.yml` 已被合并入 `snake.yml` 和 `blog.yml`，
+> 减少了 2 个重复工作流文件。
+
+### 依赖管理
 - ✅ `.github/dependabot.yml` - 自动更新依赖
-- ✅ `requirements.txt` - Python依赖包
-- ✅ `runtime.txt` - Python版本指定
-- ✅ `.python-version` - pyenv版本文件
+- ✅ `requirements.txt` - 生产依赖
+- ✅ `requirements-dev.txt` - 开发依赖
+- ✅ `runtime.txt` - Python 版本指定
+- ✅ `.python-version` - pyenv 版本文件
 
-#### 3. 模板文件
-- ✅ `.github/pull_request_template.md` - PR模板
-- ✅ `.github/issue_template.md` - Bug报告模板
+### 模板文件
+- ✅ `.github/pull_request_template.md` - PR 模板
+- ✅ `.github/issue_template.md` - Bug 报告模板
 - ✅ `.github/issue_template_feature.md` - 功能请求模板
 
-#### 4. 其他配置
+### 其他配置
 - ✅ `.github/FUNDING.yml` - 赞助配置
 - ✅ `.github/workflows-config.yml` - 工作流详细配置文档
-- ✅ `.gitignore` - Git忽略规则
-- ✅ `LICENSE` - MIT许可证
+- ✅ `.gitignore` - Git 忽略规则
+- ✅ `LICENSE` - MIT 许可证
 
 ---
 
@@ -48,26 +52,23 @@
 
 ```yaml
 触发条件:
-  - 定时: 每周日凌晨00:00 (UTC+8)
-  - 手动: workflow_dispatch
-
-运行环境:
-  - OS: ubuntu-latest
-  - 依赖: Platane/snk@v3, peaceiris/actions-gh-pages@v3
-
-输出:
-  - 分支: snake-animation
-  - 文件: github-contribution-grid-snake.svg
-         github-contribution-grid-snake-dark.svg
-
-权限:
-  - GITHUB_TOKEN: 自动提供
+  - push: 自动在 README 推送后重生成
+  - 定时: 每周日凌晨 00:00 (UTC+8)
+  - 手动: workflow_dispatch（首次生成）
 ```
 
-**首次设置**:
-1. 手动运行 `init-snake.yml`
-2. 等待1-2分钟
-3. 验证snake-animation分支创建成功
+**运行环境**:
+- OS: ubuntu-latest
+- 依赖: Platane/snk@v3, peaceiris/actions-gh-pages@v3
+
+**输出**:
+- 分支: `output`
+- 文件: `github-contribution-grid-snake.svg`、`github-contribution-grid-snake-dark.svg`
+
+**权限**: `GITHUB_TOKEN` 自动提供
+
+> 旧的 `init-snake.yml` 已合并到本工作流的 `workflow_dispatch` 触发器，
+> 首次使用只需手动触发一次即可创建 `output` 分支。
 
 ---
 
@@ -75,26 +76,28 @@
 
 ```yaml
 触发条件:
-  - 定时: 每周一16:00 (UTC+8)
+  - 定时: 每周一 16:00 (UTC+8)
   - 手动: workflow_dispatch
-
-运行环境:
-  - OS: ubuntu-latest
-  - Python: 3.11
-  - 依赖: requests, feedparser, pyyaml
-
-脚本:
-  - scripts/update_blog.py
-
-数据源:
-  - CSDN RSS: https://blog.csdn.net/weixin_56622231/rss/list
-  - 掘金API: https://api.juejin.cn/content_api/v1/article/query
 ```
 
-**配置说明**:
-- 自动从CSDN和掘金获取最新文章
-- 更新README中的blog section
-- 使用[skip ci]避免循环触发
+**运行环境**:
+- OS: ubuntu-latest
+- Python: 3.11
+- 依赖: requests, feedparser
+
+**Job 1 - blog**:
+- 脚本: `scripts/update_blog.py`
+- 数据源: CSDN RSS (`https://blog.csdn.net/weixin_56622231/rss/list`)
+
+**Job 2 - quote**:
+- 脚本: `scripts/update_quote.py`
+- 数据源: zenquotes.io API、quotable.io API、内置 fallback 库
+
+**说明**:
+- 自动从 CSDN RSS 获取最新文章
+- 更新 README 中的 blog section
+- 使用 `[skip ci]` 避免循环触发
+- 掘金源已移除（用户决定不再使用）
 
 ---
 
@@ -102,97 +105,176 @@
 
 ```yaml
 触发条件:
-  - 定时: 每天14:00 (UTC+8)
+  - 定时: 每天 14:00 (UTC+8)
   - 手动: workflow_dispatch
-
-运行环境:
-  - OS: ubuntu-latest
-  - Python: 3.11
-  - 依赖: requests, pyyaml
-
-脚本:
-  - scripts/update_quote.py
-
-数据源:
-  - zenquotes.io API
-  - quotable.io API
-  - 本地备用语录库
 ```
+
+**运行环境**:
+- OS: ubuntu-latest
+- Python: 3.11
+- 依赖: requests
+
+**脚本**:
+- `scripts/update_quote.py`
+
+**数据源**:
+- zenquotes.io API
+- quotable.io API
+- 本地备用语录库
+
+> 如果 `blog.yml` 已经包含 quote job，本工作流可视为冗余备份；
+> 保留它是为了在 blog 工作流失败时仍能保证每日名言更新。
 
 ---
 
-### 4. Auto Label (auto-label.yml)
+### 4. Update Projects (update-projects.yml)
+
+```yaml
+触发条件:
+  - push: 修改 scripts/common/、scripts/update_projects.py、README.md 时
+  - 手动: workflow_dispatch
+```
+
+**功能**:
+- 调用 GitHub REST API 拉取所有仓库
+- 通过 `common.github.GitHubClient` 过滤 / 排序 / 抽取摘要
+- 更新 README 的 `<!-- projects:start -->` 与 `<!-- more-projects:start -->` 两个 marker
+
+**运行步骤**:
+1. 安装 Python 依赖
+2. 跑 `pytest`（保证脚本可用）
+3. 跑 `scripts/update_projects.py`
+
+---
+
+### 5. Update SVG Stats (update-svg-stats.yml)
+
+```yaml
+触发条件:
+  - push: 修改 scripts/common/、scripts/generate_svg.py 时
+  - 手动: workflow_dispatch
+```
+
+**功能**:
+- 调用 `scripts/generate_svg.py`
+- 生成 `assets/effects/stats-panel.svg` 与 `assets/effects/project-showcase.svg`
+- 兼容旧的 `SVGGenerator` 类
+
+**运行步骤**:
+1. 安装 Python 依赖
+2. 跑 `pytest`
+3. 跑 `scripts/generate_svg.py`
+
+---
+
+### 6. Deploy Docs (deploy-docs.yml)
+
+```yaml
+触发条件:
+  - push to main: 自动部署
+  - 手动: workflow_dispatch
+```
+
+**功能**:
+- 构建 `docs/` 目录为 Jekyll 站点
+- 推送到 `gh-pages` 分支
+- GitHub Pages 自动发布
+
+---
+
+### 7. Profile Views (profile-views.yml)
+
+```yaml
+触发条件:
+  - 定时: 每天 00:00 (UTC+8)
+  - 手动: workflow_dispatch
+```
+
+**功能**:
+- 通过 komarev.com 服务追踪 README 浏览数
+- 更新 README 中的访问统计徽章
+
+---
+
+### 8. Auto Label (auto-label.yml)
 
 ```yaml
 触发条件:
   - issues: [opened]
   - pull_request: [opened]
-
-功能:
-  - 新Issue自动添加 'triage' 标签
-  - 新PR自动添加 'review-needed' 标签
-
-依赖:
-  - actions/github-script@v7
 ```
+
+**功能**:
+- 新 Issue 自动添加 `triage` 标签
+- 新 PR 自动添加 `review-needed` 标签
+
+**依赖**: `actions/github-script@v7`
 
 ---
 
-### 5. Welcome (welcome.yml)
+### 9. Welcome (welcome.yml)
 
 ```yaml
 触发条件:
   - issues: [opened] (首次)
   - pull_request_target: [opened] (首次)
-
-功能:
-  - 检测首次贡献者
-  - 发送欢迎消息
-  - 提供贡献指南链接
-
-依赖:
-  - actions/first-interaction@v1
 ```
+
+**功能**:
+- 检测首次贡献者
+- 发送欢迎消息
+- 提供贡献指南链接
+
+**依赖**: `actions/first-interaction@v1`
 
 ---
 
-### 6. Stale (stale.yml)
+### 10. Stale (stale.yml)
 
 ```yaml
 触发条件:
-  - 定时: 每天16:00 (UTC+8)
+  - 定时: 每天 16:00 (UTC+8)
   - 手动: workflow_dispatch
-
-配置:
-  - days-before-stale: 30天
-  - days-before-close: 7天
-  - 排除标签: pinned, important, bug
-
-依赖:
-  - actions/stale@v9
 ```
+
+**配置**:
+- days-before-stale: 30 天
+- days-before-close: 7 天
+- 排除标签: pinned, important, bug
+
+**依赖**: `actions/stale@v9`
 
 ---
 
 ## 📦 依赖管理
 
-### Python依赖 (requirements.txt)
+### Python 生产依赖 (requirements.txt)
 
 ```txt
-requests>=2.31.0,<3.0.0     # HTTP请求
-feedparser>=6.0.10,<7.0.0   # RSS解析
-pyyaml>=6.0.1,<7.0.0        # YAML配置
-colorama>=0.4.6,<1.0.0      # Windows彩色输出（可选）
+requests>=2.32,<3.0
+urllib3>=2.2,<3.0
+```
+
+### Python 开发依赖 (requirements-dev.txt)
+
+```txt
+-r requirements.txt
+pytest>=8.0
+pytest-cov>=5.0
+pytest-mock>=3.12
+ruff>=0.5
+mypy>=1.10
 ```
 
 **安装命令**:
 ```bash
 pip install -r requirements.txt
+pip install -r requirements-dev.txt   # 开发者
 ```
 
-### GitHub Actions依赖
+### GitHub Actions 依赖
 
-所有工作流使用的actions版本都是稳定的：
+所有工作流使用的 actions 版本都是稳定的：
 - `actions/checkout@v4`
 - `actions/setup-python@v5`
 - `actions/upload-artifact@v4`
@@ -202,28 +284,28 @@ pip install -r requirements.txt
 - `Platane/snk@v3`
 - `peaceiris/actions-gh-pages@v3`
 
-**自动更新**: dependabot.yml配置为每周一检查更新
+**自动更新**: dependabot.yml 配置为每周一检查更新
 
 ---
 
-## 🔐 权限和Secrets
+## 🔐 权限和 Secrets
 
-### 必需的Secrets
+### 必需的 Secrets
 
 | Secret | 来源 | 用途 |
 |--------|------|------|
-| `GITHUB_TOKEN` | 自动提供 | 所有工作流的GitHub API访问 |
+| `GITHUB_TOKEN` | 自动提供 | 所有工作流的 GitHub API 访问 |
 
-**注意**: `GITHUB_TOKEN`由GitHub Actions自动提供，无需手动配置。
+**注意**: `GITHUB_TOKEN` 由 GitHub Actions 自动提供，无需手动配置。
 
 ### 权限范围
 
-所有工作流使用默认权限：
+所有工作流使用最小权限：
 ```yaml
 permissions:
-  contents: write  # 提交和推送文件
-  issues: write    # 管理Issue标签
-  pull-requests: write  # 管理PR标签
+  contents: write       # 提交和推送文件
+  issues: write         # 管理 Issue 标签
+  pull-requests: write  # 管理 PR 标签
 ```
 
 ---
@@ -241,24 +323,28 @@ env:
 ### 工作流特定变量
 
 ```yaml
-# blog.yml 和 quote.yml
+# update-projects.yml / update-svg-stats.yml / blog.yml / quote.yml
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 ```
+
+> 旧版本的 `JUEJIN_USER_ID` 等环境变量已不再使用，可以从 Secrets 列表中删除。
 
 ---
 
 ## ⏰ 时区说明
 
-所有cron表达式使用**UTC时间**，已转换为北京时间(UTC+8)：
+所有 cron 表达式使用 **UTC 时间**，已转换为北京时间 (UTC+8)：
 
-| 工作流 | UTC时间 | 北京时间 |
-|--------|---------|----------|
-| snake | 0 16 * * 0 | 周日00:00 |
-| blog | 0 8 * * 1 | 周一16:00 |
-| quote | 0 6 * * * | 每天14:00 |
-| stale | 0 8 * * * | 每天16:00 |
-| profile-views | 0 0 * * * | 每天08:00 |
+| 工作流 | Cron (UTC) | 北京时间 |
+|--------|------------|----------|
+| snake | `0 16 * * 0` | 周日 00:00 |
+| blog | `0 8 * * 1` | 周一 16:00 |
+| quote | `0 6 * * *` | 每天 14:00 |
+| stale | `0 8 * * *` | 每天 16:00 |
+| profile-views | `0 16 * * *` | 每天 00:00 |
+| update-projects | (push + manual) | - |
+| update-svg-stats | (push + manual) | - |
 
 ---
 
@@ -274,30 +360,30 @@ env:
 
 **常见问题**:
 
-#### 1. Snake生成失败
+#### 1. Snake 生成失败
 ```
-错误: Branch 'snake-animation' not found
-解决: 先运行 init-snake.yml 工作流
+错误: Branch 'output' not found
+解决: 通过 workflow_dispatch 手动触发一次 snake.yml 即可创建
 ```
 
-#### 2. Blog同步失败
+#### 2. Blog 同步失败
 ```
 错误: ModuleNotFoundError: No module named 'requests'
-解决: 检查工作流中的pip install步骤
+解决: 检查工作流中的 pip install 步骤
 ```
 
 #### 3. 权限错误
 ```
 错误: Resource not accessible by integration
-解决: 检查仓库Settings > Actions > General permissions
+解决: 检查仓库 Settings > Actions > General permissions
 ```
 
 ### 手动触发表单
 
-所有支持手动触发的工作流都可以在Actions页面手动运行：
+所有支持手动触发的工作流都可以在 Actions 页面手动运行：
 1. 选择工作流
 2. 点击 "Run workflow"
-3. 选择分支（通常是main）
+3. 选择分支（通常是 main）
 4. 点击 "Run workflow" 按钮
 
 ---
@@ -316,9 +402,9 @@ env:
 
 ### 依赖更新
 
-Dependabot会自动创建PR更新过时的依赖：
+Dependabot 会自动创建 PR 更新过时的依赖：
 - 检查频率: 每周一
-- PR标签: `dependencies`
+- PR 标签: `dependencies`
 - 自动合并: 需手动审核
 
 ---
@@ -326,20 +412,20 @@ Dependabot会自动创建PR更新过时的依赖：
 ## 🎯 最佳实践
 
 ### 1. 定期清理
-- stale工作流自动清理30天无活动的Issue/PR
-- 手动检查snake-animation分支大小
+- stale 工作流自动清理 30 天无活动的 Issue/PR
+- 手动检查 `output` 分支大小
 
 ### 2. 备份配置
-- workflows-config.yml包含所有配置文档
-- 定期导出Actions运行日志
+- `workflows-config.yml` 包含所有配置文档
+- 定期导出 Actions 运行日志
 
 ### 3. 测试变更
-- 修改工作流后使用workflow_dispatch测试
-- 检查[skip ci]避免循环触发
+- 修改工作流后使用 `workflow_dispatch` 测试
+- 检查 `[skip ci]` 避免循环触发
 
 ### 4. 文档维护
 - 更新配置时同步更新本文档
-- 保持requirements.txt与实际依赖一致
+- 保持 `requirements.txt` 与实际依赖一致
 
 ---
 
@@ -354,7 +440,7 @@ on:
     - cron: "分 时 日 月 星期"
 ```
 
-**Cron格式**:
+**Cron 格式**:
 ```
 ┌───────────── 分钟 (0 - 59)
 │ ┌───────────── 小时 (0 - 23)
@@ -372,29 +458,31 @@ on:
 3. 更新 `workflows-config.yml` 文档
 4. 测试新工作流
 
-### 更新Python依赖
+### 更新 Python 依赖
 
 1. 修改 `requirements.txt`
 2. 提交更改
-3. Dependabot会自动检查更新
-4. 或者手动运行pip update
+3. Dependabot 会自动检查更新
+4. 或者手动运行 `pip install --upgrade`
 
 ---
 
 ## ✅ 配置检查清单
 
-- [x] 8个工作流文件已创建
-- [x] dependabot.yml配置完成
-- [x] requirements.txt包含所有依赖
-- [x] runtime.txt指定Python版本
-- [x] PR和Issue模板已创建
-- [x] FUNDING.yml配置完成
-- [x] workflows-config.yml文档完整
-- [x] .gitignore配置合理
-- [x] LICENSE文件存在
-- [x] 所有cron表达式已验证
+- [x] 7 个核心工作流文件（无重复）
+- [x] 2 个 GitHub 页面相关工作流（profile-views、auto-label、welcome、stale）
+- [x] dependabot.yml 配置完成
+- [x] requirements.txt / requirements-dev.txt 分层管理
+- [x] runtime.txt 指定 Python 版本
+- [x] PR 和 Issue 模板已创建
+- [x] FUNDING.yml 配置完成
+- [x] workflows-config.yml 文档完整
+- [x] .gitignore 配置合理
+- [x] LICENSE 文件存在
+- [x] 所有 cron 表达式已验证
 - [x] 权限配置正确
-- [x] Secrets配置说明清晰
+- [x] Secrets 配置说明清晰
+- [x] 掘金相关脚本 / 配置 / 工作流已全部移除
 
 ---
 
@@ -402,25 +490,27 @@ on:
 
 ### 首次设置步骤
 
-1. **推送代码到GitHub**
+1. **推送代码到 GitHub**
    ```bash
    git push origin main
    ```
 
-2. **触发Snake动画生成**
+2. **触发 Snake 动画生成**
    - 前往 Actions 标签
-   - 运行 "Initial Snake Generation"
-   - 等待1-2分钟
+   - 选择 "Generate Contribution Snake" 工作流
+   - 点击 "Run workflow"
+   - 等待 1-2 分钟
+   - `output` 分支会被自动创建
 
 3. **验证工作流运行**
-   - 检查Actions页面
+   - 检查 Actions 页面
    - 确认所有工作流状态为绿色
-   - 查看Profile更新效果
+   - 查看 Profile 更新效果
 
 4. **监控首次运行**
-   - 观察第二天quote是否更新
-   - 检查下周一blog是否同步
-   - 验证周日snake是否重新生成
+   - 观察第二天 quote 是否更新
+   - 检查下周一 blog 是否同步
+   - 验证周日 snake 是否重新生成
 
 ---
 
@@ -428,12 +518,12 @@ on:
 
 如有配置问题：
 1. 检查本文档的故障排查部分
-2. 查看Actions运行日志
-3. 参考GitHub Actions官方文档
-4. 创建Issue寻求帮助
+2. 查看 Actions 运行日志
+3. 参考 GitHub Actions 官方文档
+4. 创建 Issue 寻求帮助
 
 ---
 
-**最后更新**: 2026-04-04
+**最后更新**: 2026-06-02
 **维护者**: badhope
-**文档版本**: v3.0
+**文档版本**: v4.0

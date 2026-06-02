@@ -1,154 +1,68 @@
-# 🚀 快速启动指南
+# 🚀 Quick Start
 
-## ✅ 已完成的优化
+Get the `badhope/badhope` profile repository up and running in 5 minutes.
 
-你的GitHub Profile已经全面重构完成!主要改进包括:
-
-### 1. 全新布局设计
-- ✨ **单卡片流式布局**: 从上到下依次展示,不再繁杂
-- 🎨 **现代化视觉**: 清晰的分区,更好的可读性
-- 📱 **响应式设计**: 适配各种屏幕尺寸
-
-### 2. 增强动画效果
-- 🌟 **动态Header**: 渐变色彩+闪烁星星
-- 💫 **动画分隔线**: 旋转菱形+脉冲光点
-- 🎭 **科技卡片背景**: 代码符号+浮动粒子
-
-### 3. Snake贪吃蛇动画
-- 🐍 **贡献网格蛇**: 展示你的GitHub贡献历史
-- ⏰ **自动更新**: 每周日凌晨自动重新生成
-- 🌓 **深色主题**: 与整体风格统一
-
-### 4. 稳定的外部集成
-- 📊 **GitHub Stats**: 实时统计数据
-- 🔥 **Streak追踪**: 连续贡献天数
-- 👁️ **访问计数**: 个人资料浏览次数
-
----
-
-## 🔧 最后一步: 生成Snake动画
-
-Snake动画需要手动触发一次初始生成,之后会自动更新。
-
-### 方法1: 通过GitHub网页(推荐)
-
-1. 访问: https://github.com/badhope/badhope/actions
-2. 左侧找到 **"Initial Snake Generation"**
-3. 点击右侧的 **"Run workflow"** 按钮
-4. 在下拉菜单中再次点击 **"Run workflow"**
-5. 等待1-2分钟,动画就会生成完成!
-
-### 方法2: 使用GitHub CLI
-
-如果你安装了GitHub CLI:
+## 1. Clone the repository
 
 ```bash
-gh workflow run init-snake.yml
+git clone https://github.com/badhope/badhope.git
+cd badhope
 ```
 
-### 验证是否成功
+## 2. Install dependencies
 
-生成完成后,访问以下链接应该能看到蛇形动画:
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -r requirements-dev.txt
 ```
-https://raw.githubusercontent.com/badhope/badhope/output/github-contribution-grid-snake-dark.svg
+
+## 3. Configure environment variables
+
+```bash
+cp .env.example .env
+# edit .env and provide GITHUB_TOKEN (optional for local dev)
 ```
 
----
+## 4. Run the automation
 
-## 📋 查看效果
+```bash
+# Update featured projects from GitHub
+python -m scripts.update_projects
 
-推送后,访问你的GitHub主页即可看到全新Profile:
+# Sync latest blog posts
+python -m scripts.update_blog
 
-👉 **https://github.com/badhope**
+# Refresh the daily quote
+python -m scripts.update_quote
 
-### 预期效果
+# Regenerate dynamic SVGs
+python -m scripts.generate_svg
+```
 
-从上到下你会看到:
+## 5. Run the test suite
 
-1. **Header区域**: 姓名、头衔、社交链接徽章
-2. **About Me**: 个人介绍和技术方向
-3. **Tech Stack**: 完整的技术栈徽章展示
-4. **GitHub Stats**: 三个统计图表(Stats/Top Langs/Streak)
-5. **Featured Projects**: 精选项目卡片
-6. **Contribution Snake**: 贪吃蛇贡献动画
-7. **Daily Quote**: 每日名言(自动更新)
-8. **Blog Posts**: 最新文章(每周同步)
-9. **Footer**: 联系方式和感谢语
+```bash
+python -m scripts.test_scripts
+# or with coverage
+pytest --cov=scripts
+```
 
----
+## 6. First-time Snake setup
 
-## 🎯 后续维护
+The Contribution Snake is generated into the `output` branch. On a fresh
+repository the branch does not exist yet, so the README image will 404
+until you trigger the workflow once:
 
-### 自动化工作流
+1. Open the **Actions** tab.
+2. Choose **Generate Contribution Snake**.
+3. Click **Run workflow** → **Run workflow**.
 
-所有工作流都已配置好,无需手动干预:
+Full instructions live in [docs/SNAKE-SETUP.md](docs/SNAKE-SETUP.md).
 
-| 工作流 | 频率 | 说明 |
-|--------|------|------|
-| Daily Quote | 每天14:00 | 自动更新每日名言 |
-| Blog Sync | 每周一16:00 | 同步CSDN文章 |
-| Snake Animation | 每周日00:00 | 重新生成贡献蛇 |
-| Update Projects | 每天00:00 | 自动更新特色项目列表 |
-| Deploy Docs | 推送到main分支时 | 自动部署技术文档 |
+## Where to look next
 
-### 手动触发
-
-如需立即更新,可前往Actions页面手动运行对应工作流。
-
-### 环境变量配置
-
-脚本支持通过环境变量进行配置,更加灵活:
-
-| 变量名 | 默认值 | 说明 |
-|--------|--------|------|
-| `GITHUB_USERNAME` | badhope | GitHub用户名 |
-| `PROJECTS_LIMIT` | 4 | 显示的项目数量 |
-| `CSDN_USER_ID` | weixin_56622231 | CSDN用户ID |
-| `CSDN_RSS_URL` | - | CSDN RSS订阅地址 |
-| `MAX_POSTS` | 3 | 博客文章数量 |
-| `REQUEST_TIMEOUT` | 10 | 请求超时时间(秒) |
-| `MAX_RETRIES` | 3 | 最大重试次数 |
-
-### 自定义内容
-
-- **修改个人信息**: 编辑 `README.md` 顶部区域
-- **添加项目**: 项目会自动从GitHub获取,无需手动添加
-- **更改技术栈**: 修改 "Tech Stack" 部分的徽章
-- **调整颜色**: 编辑SVG文件中的渐变色定义
-
----
-
-## 🐛 常见问题
-
-### Q: 图片不显示?
-A: 确保使用相对路径(`./assets/...`),已为你配置好。
-
-### Q: Snake动画看不到?
-A: 需要先手动触发一次初始生成,见上方"生成Snake动画"步骤。
-
-### Q: Stats不更新?
-A: GitHub Stats服务有缓存,通常延迟几小时到一天。
-
-### Q: 如何修改布局?
-A: 直接编辑 `README.md`,采用简单的垂直布局,易于维护。
-
----
-
-## 📚 相关文档
-
-- [Assets使用指南](assets/README-assets-guide.md)
-- [Snake动画配置](docs/SNAKE-SETUP.md)
-- [项目完整文档](docs/README.md)
-
----
-
-## 🎉 完成!
-
-现在你的GitHub Profile已经焕然一新,具有:
-- ✨ 现代化的视觉效果
-- 🚀 清晰的单卡片布局
-- 🐍 动态的贡献蛇动画
-- 📊 实时的数据统计
-- 🔄 自动的内容更新
-
-享受你的全新Profile吧! 🌟
+- [docs/README.md](docs/README.md) – full project documentation
+- [docs/OPTIMIZATION-SUMMARY.md](docs/OPTIMIZATION-SUMMARY.md) – layout & rules
+- [docs/QUICK-REFERENCE.md](docs/QUICK-REFERENCE.md) – one-page cheat sheet
+- [DEPLOYMENT-CHECKLIST.md](DEPLOYMENT-CHECKLIST.md) – deployment status report

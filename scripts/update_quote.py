@@ -1,166 +1,158 @@
 #!/usr/bin/env python3
-"""
-Enhanced Daily Quote Update Script - Starry Sky Theme
-Fetches a quote and updates README.md with the new content.
+"""Update the daily quote section of ``README.md``.
+
+The script tries every API listed in ``config.quote.apis`` in order. If all
+APIs fail, it falls back to one of the curated ``fallback_quotes``. The
+chosen quote is written into the ``<!-- quote:start -->`` ...
+``<!-- quote:end -->`` block of ``README.md``.
 """
 
-import re
+from __future__ import annotations
+
 import random
-import logging
-from typing import Dict, Optional
+import sys
+from typing import Dict, List, Optional
 
-try:
-    import requests
-    from requests.exceptions import RequestException, Timeout, ConnectionError
-except ImportError:
-    raise ImportError(
-        "requests library is required. Install with: pip install requests"
-    )
+import requests
 
-try:
-    from scripts.config import get_config
-    from scripts.helpers import (
-        read_readme, write_readme, READMEError, NetworkError, logger
-    )
-except ImportError:
-    from config import get_config
-    from helpers import (
-        read_readme, write_readme, READMEError, NetworkError, logger
-    )
+from scripts.common.config import Config, get_config
+from scripts.common.exceptions import ConfigError, NetworkError, READMEError
+from scripts.common.format import format_quote
+from scripts.common.http import create_session
+from scripts.common.logger import get_logger
+from scripts.common.readme import read_readme, update_section, write_readme
+
+logger = get_logger("scripts.update_quote")
+
+QUOTE_START = "<!-- quote:start -->"
+QUOTE_END = "<!-- quote:end -->"
 
 
-def fetch_quote_from_api(api_url: str, timeout: int) -> Optional[Dict[str, str]]:
-    """
-    Fetch quote from a single API.
-    
-    Args:
-        api_url: API endpoint URL
-        timeout: Request timeout in seconds
-        
-    Returns:
-        Quote dictionary or None
+def _fetch_from_single_api(
+    session: requests.Session, api_url: str, timeout: int
+) -> Optional[Dict[str, str]]:
+    """Hit a single quote API and normalize the response to a dict.
+
+    Returns ``None`` for malformed or empty responses so the caller can try
+    the next API in the list.
     """
     try:
-        response = requests.get(api_url, timeout=timeout)
+        response = session.get(api_url, timeout=timeout)
         response.raise_for_status()
-        
         data = response.json()
-        
-        if isinstance(data, list) and len(data) > 0:
-            return {
-                "text": data[0].get("q", ""),
-                "author": data[0].get("a", "")
-            }
-        elif isinstance(data, dict):
-            return {
-                "text": data.get("content", ""),
-                "author": data.get("author", "")
-            }
-        
-        return None
-        
-    except (RequestException, ValueError, KeyError) as e:
-        logger.debug(f"API {api_url} failed: {e}")
+    except (requests.RequestException, ValueError) as exc:
+        logger.debug("API %s failed: %s", api_url, exc)
         return None
 
+    if isinstance(data, list) and data:
+        item = data[0]
+        text = item.get("q") or item.get("content")
+        author = item.get("a") or item.get("author")
+        if text:
+            return {"text": str(text).strip(), "author": str(author or "").strip()}
+        return None
 
-def fetch_quote(config) -> Dict[str, str]:
-    """
-    Fetch quote from multiple APIs with fallback.
-    
-    Args:
-        config: Quote configuration
-        
-    Returns:
-        Quote dictionary
-    """
+    if isinstance(data, dict):
+        text = data.get("content") or data.get("text") or data.get("quote")
+        author = data.get("author")
+        if text:
+            return {"text": str(text).strip(), "author": str(author or "").strip()}
+
+    return None
+
+
+def fetch_quote(config: Config) -> Dict[str, str]:
+    """Try every API in order, falling back to a curated quote when needed."""
+    session = create_session(timeout=config.quote.timeout)
     for api_url in config.quote.apis:
-        try:
-            quote = fetch_quote_from_api(api_url, config.quote.timeout)
-            if quote and quote.get("text"):
-                logger.info(f"Successfully fetched quote from {api_url}")
-                return quote
-        except Exception as e:
-            logger.debug(f"Failed to fetch from {api_url}: {e}")
-            continue
-    
-    logger.warning("All APIs failed, using fallback quote")
+        quote = _fetch_from_single_api(session, api_url, config.quote.timeout)
+        if quote and quote["text"]:
+            logger.info("Fetched quote from %s", api_url)
+            return quote
+        logger.debug("No quote returned by %s", api_url)
+
+    logger.warning("All quote APIs failed; using fallback")
     return random.choice(config.quote.fallback_quotes)
 
 
-def format_quote_markdown(quote: Dict[str, str]) -> str:
-    """
-    Format quote as markdown.
-    
-    Args:
-        quote: Quote dictionary with text and author
-        
-    Returns:
-        str: Formatted markdown string
-    """
-    text = quote.get("text", "")
-    author = quote.get("author", "")
-    
-    if author:
-        return f'<b>✨ 每日星语</b>\n<br>\n<small>— {author}: "{text}"</small>'
-    return f'<b>✨ 每日星语</b>\n<br>\n<small>"{text}"</small>'
-
-
-def update_readme_with_quote(quote_text: str) -> bool:
-    """
-    Update README with quote.
-    
-    Args:
-        quote_text: Formatted quote text
-        
-    Returns:
-        bool: True if successful
-    """
+def update_readme(quote: Dict[str, str]) -> bool:
+    """Write the formatted quote into the README."""
+    formatted = format_quote(quote)
     try:
         content = read_readme()
-    except READMEError as e:
-        logger.error(str(e))
+    except READMEError as exc:
+        logger.error(str(exc))
         return False
-    
-    pattern = r'(<!-- quote:start -->)\s*\n.*?\n(<!-- quote:end -->)'
-    replacement = f'\\1\n\n{quote_text}\n\n\\2'
-    
-    new_content = re.sub(pattern, replacement, content, flags=re.DOTALL)
-    
-    if new_content == content:
-        logger.warning("Could not find quote markers in README.md")
+
+    new_content, changed = update_section(
+        content, QUOTE_START, QUOTE_END, formatted
+    )
+    if not changed:
+        if QUOTE_START in content and QUOTE_END in content:
+            logger.info("Quote is already up to date")
+            return True
+        logger.error("Could not find quote markers in README.md")
         return False
-    
+
     try:
         write_readme(new_content)
-        logger.info("Quote updated successfully")
-        return True
-    except READMEError as e:
-        logger.error(str(e))
+    except READMEError as exc:
+        logger.error(str(exc))
         return False
+    logger.info("Quote section updated")
+    return True
 
 
-def main():
-    """Main entry point."""
+def main() -> int:
+    """Command line entry point."""
     logger.info("=" * 60)
-    logger.info("🌟 Daily Star Quote Update Script - Enhanced Version")
+    logger.info("Daily Quote Update")
     logger.info("=" * 60)
-    
-    config = get_config()
-    
+
+    try:
+        config = get_config()
+    except ConfigError as exc:
+        logger.error("Invalid configuration: %s", exc)
+        return 2
+
     quote = fetch_quote(config)
-    
-    logger.info(f'📝 Quote: "{quote["text"]}" — {quote["author"]}')
-    
-    quote_markdown = format_quote_markdown(quote)
-    
-    if update_readme_with_quote(quote_markdown):
-        logger.info("✨ README updated with fresh star quote!")
-    else:
-        logger.error("❌ Failed to update README")
-    
-    logger.info("=" * 60)
+    logger.info("Selected quote: \"%s\" — %s", quote["text"], quote["author"])
+
+    if update_readme(quote):
+        logger.info("README quote section updated")
+        return 0
+    logger.error("Failed to update README quote section")
+    return 1
+
+
+# Backwards compatible helpers for older tests / workflows
+def fetch_quote_from_api(  # pragma: no cover
+    api_url: str, timeout: int = 10
+) -> Optional[Dict[str, str]]:
+    session = create_session(timeout=timeout)
+    return _fetch_from_single_api(session, api_url, timeout)
+
+
+def format_quote_markdown(quote: Dict[str, str]) -> str:  # pragma: no cover
+    return format_quote(quote)
+
+
+def update_readme_with_quote(quote_text: str) -> bool:  # pragma: no cover
+    try:
+        content = read_readme()
+    except READMEError:
+        return False
+    new_content, changed = update_section(
+        content, QUOTE_START, QUOTE_END, quote_text
+    )
+    if not changed:
+        return False
+    try:
+        write_readme(new_content)
+        return True
+    except READMEError:
+        return False
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
