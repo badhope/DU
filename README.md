@@ -297,7 +297,7 @@ The largest universal agent skill library — production-ready skills with seman
 
 <b>✨ 每日星语</b>
 <br>
-<small>— Lolly Daskal: "Trust is built and maintained by many small actions over time."</small>
+<small>— John Wooden: "Whatever you do in life, surround yourself with smart people who'll argue with you."</small>
 
 <!-- quote:end -->
 
