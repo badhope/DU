@@ -27,14 +27,14 @@
   <text x="50" y="110" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">Languages</text>
   <rect x="50" y="120" width="169" height="20" rx="3" fill="#3776AB" opacity="0.8"/>
   <text x="134.5" y="134" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Python 48.3%</text>
-  <rect x="50" y="145" width="150" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
-  <text x="125.0" y="159" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TypeScript 42.9%</text>
+  <rect x="50" y="145" width="149" height="20" rx="3" fill="#3178C6" opacity="0.8"/>
+  <text x="124.5" y="159" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">TypeScript 42.7%</text>
   <rect x="50" y="170" width="9" height="20" rx="3" fill="#8b949e" opacity="0.8"/>
-  <text x="54.5" y="184" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Vue 2.7%</text>
-  <rect x="50" y="195" width="5" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
-  <text x="52.5" y="209" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">JavaScript 1.6%</text>
-  <rect x="50" y="220" width="5" height="20" rx="3" fill="#E34F26" opacity="0.8"/>
-  <text x="52.5" y="234" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">HTML 1.6%</text>
+  <text x="54.5" y="184" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">Vue 2.6%</text>
+  <rect x="50" y="195" width="6" height="20" rx="3" fill="#E34F26" opacity="0.8"/>
+  <text x="53.0" y="209" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">HTML 1.8%</text>
+  <rect x="50" y="220" width="5" height="20" rx="3" fill="#F7DF1E" opacity="0.8"/>
+  <text x="52.5" y="234" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">JavaScript 1.6%</text>
   <rect x="50" y="245" width="3" height="20" rx="3" fill="#1572B6" opacity="0.8"/>
   <text x="51.5" y="259" text-anchor="middle" fill="#ffffff" font-size="11" font-family="Arial, sans-serif">CSS 1.1%</text>
   <text x="50" y="170" fill="#c9d1d9" font-size="14" font-weight="bold" font-family="Arial, sans-serif">Frameworks</text>
