@@ -217,9 +217,9 @@ Your AI-powered personal secretary for managing code repositories, local files, 
 
 ### [DATA-AI](https://github.com/badhope/DATA-AI)
 
-A comprehensive AI assistant framework built on LangChain ecosystem with advanced agent orchestration, RAG capabilities, multi-modal document processing, and office automation
+Enterprise AI Agent Framework for the modern office · FastAPI + React 19 · streaming chat, multi-agent teams, RAG, memory, code sandbox and 30+ office tools in one platform
 
-**标签**: `ai-agent`, `automation`, `data-analysis`
+**标签**: `agent-framework`, `ai-agent`, `anthropic`
 
 ![Stars](https://img.shields.io/github/stars/badhope/DATA-AI?style=flat-square&color=58a6ff) ![Language](https://img.shields.io/github/languages/top/badhope/DATA-AI?style=flat-square&color=3776AB) ![Forks](https://img.shields.io/github/forks/badhope/DATA-AI?style=flat-square&color=93c5fd) ![Last Commit](https://img.shields.io/github/last-commit/badhope/DATA-AI?style=flat-square&color=c9d1d9)
 
@@ -248,9 +248,9 @@ The largest universal agent skill library — production-ready skills with seman
 |---------|-------------|------|-------|
 | [national_stats](https://github.com/badhope/national_stats) | 区域产业经济分析平台 - 面向求职的可复用分析工具，以深圳半导体产业为例 | ![Language](https://img.shields.io/github/languages/top/badhope/national_stats?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/national_stats?style=flat-square&color=58a6ff) |
 | [TaskFlow](https://github.com/badhope/TaskFlow) | 📱 TaskFlow - 现代化、跨平台（Web/Android/iOS）的 Todo &amp; 任务管理 App。AI... | ![Language](https://img.shields.io/github/languages/top/badhope/TaskFlow?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/TaskFlow?style=flat-square&color=58a6ff) |
-| [badhope](https://github.com/badhope/badhope) | MindMirror - Professional psychological assessment platfo... | ![Language](https://img.shields.io/github/languages/top/badhope/badhope?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/badhope?style=flat-square&color=58a6ff) |
-| [NetTools-Hub](https://github.com/badhope/NetTools-Hub) | 🛠️ One-stop navigation platform for 120+ actively maintai... | ![Language](https://img.shields.io/github/languages/top/badhope/NetTools-Hub?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/NetTools-Hub?style=flat-square&color=58a6ff) |
+| [NetTools-Hub](https://github.com/badhope/NetTools-Hub) | 🛠️ One-stop navigation for 120+ actively-maintained open-... | ![Language](https://img.shields.io/github/languages/top/badhope/NetTools-Hub?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/NetTools-Hub?style=flat-square&color=58a6ff) |
 | [Data-Agent](https://github.com/badhope/Data-Agent) | Intelligent data assistant powered by LangChain, supporti... | ![Language](https://img.shields.io/github/languages/top/badhope/Data-Agent?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/Data-Agent?style=flat-square&color=58a6ff) |
+| [ScholarLib](https://github.com/badhope/ScholarLib) | 📚 A curated, open-access scholarly library of Computer Sc... | ![Language](https://img.shields.io/github/languages/top/badhope/ScholarLib?style=flat-square&color=3776AB) | ![Stars](https://img.shields.io/github/stars/badhope/ScholarLib?style=flat-square&color=58a6ff) |
 
 <!-- more-projects:end -->
 
@@ -297,7 +297,7 @@ The largest universal agent skill library — production-ready skills with seman
 
 <b>✨ 每日星语</b>
 <br>
-<small>— John Wooden: "Whatever you do in life, surround yourself with smart people who'll argue with you."</small>
+<small>— Mark Twain: "Courage is resistance to fear, mastery of fear - not absence of fear."</small>
 
 <!-- quote:end -->
 
@@ -309,9 +309,9 @@ The largest universal agent skill library — production-ready skills with seman
 <br>
 <small>_更新于 2026-06-02_</small>
 <br><br>
-<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161000831" style="color:#a5f3fc;text-decoration:none;">感知机：从原理到应用的完整解析</a> · 2026-06-02</small><br>
-<small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161614257" style="color:#a5f3fc;text-decoration:none;">机器学习聚类分析：从原理到应用的生动解析</a> · 2026-06-02</small><br>
-<small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161603255" style="color:#a5f3fc;text-decoration:none;">字节跳动2026年算法面试高频题及最优解法（附实战演练）</a> · 2026-06-02</small>
+<small>1. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161634854" style="color:#a5f3fc;text-decoration:none;">B站（哔哩哔哩）面试全流程与入职攻略，领取你的面试指南</a> · 2026-06-02</small><br>
+<small>2. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161000831" style="color:#a5f3fc;text-decoration:none;">感知机：从原理到应用的完整解析</a> · 2026-06-02</small><br>
+<small>3. 📕 <a href="https://blog.csdn.net/weixin_56622231/article/details/161614257" style="color:#a5f3fc;text-decoration:none;">机器学习聚类分析：从原理到应用的生动解析</a> · 2026-06-02</small>
 
 <!-- blog:end -->
 

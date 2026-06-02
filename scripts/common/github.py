@@ -247,9 +247,17 @@ class GitHubClient:
         include_archived: bool = False,
         required_topic: Optional[str] = None,
         excluded_names: Optional[List[str]] = None,
+        excluded_full_names: Optional[List[str]] = None,
     ) -> List[Dict[str, Any]]:
-        """Apply project-level filters to a list of repository payloads."""
+        """Apply project-level filters to a list of repository payloads.
+
+        ``excluded_names`` matches ``repo["name"]`` (e.g. ``"MindMirror"``).
+        ``excluded_full_names`` matches ``repo["full_name"]`` (e.g.
+        ``"badhope/badhope"``) and is the right way to drop the user's own
+        profile repository from a list of featured projects.
+        """
         excluded = set(excluded_names or [])
+        excluded_full = {name.lower() for name in (excluded_full_names or [])}
         result: List[Dict[str, Any]] = []
         for repo in repos:
             if not include_forks and repo.get("fork"):
@@ -257,6 +265,9 @@ class GitHubClient:
             if not include_archived and repo.get("archived"):
                 continue
             if repo.get("name") in excluded:
+                continue
+            full_name = (repo.get("full_name") or "").lower()
+            if full_name and full_name in excluded_full:
                 continue
             if required_topic:
                 topics = repo.get("topics") or []

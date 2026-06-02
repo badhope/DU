@@ -86,6 +86,9 @@ def _fetch_repositories(client: GitHubClient) -> List[dict]:
         include_archived=False,
         required_topic=config.projects.required_topic,
         excluded_names=config.projects.excluded_repos,
+        # Always drop the profile repository itself (e.g. ``badhope/badhope``)
+        # and anything else explicitly listed in excluded_repos by full name.
+        excluded_full_names=[f"{config.github.username}/{config.github.username}"],
     )
     sorted_repos = client.sort_repositories(
         filtered, by="stargazers_count", descending=True
