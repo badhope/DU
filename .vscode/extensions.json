@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "vue.volar",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "editorconfig.editorconfig",
+    "ms-playwright.playwright",
+    "bradlc.vscode-tailwindcss"
+  ],
+  "unwantedRecommendations": ["octref.vetur", "hookyqr.beautify"]
+}

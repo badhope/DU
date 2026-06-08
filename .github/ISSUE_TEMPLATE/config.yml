@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 讨论与想法
+    url: https://github.com/badhope/mistverse/discussions
+    about: 临时问题、想法、闲聊请去 Discussions
+  - name: 安全漏洞
+    url: https://github.com/badhope/mistverse/security/advisories/new
+    about: 私有漏洞报告请走 Security Advisories（不要在 Issue 公开）
