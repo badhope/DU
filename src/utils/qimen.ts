@@ -17,18 +17,15 @@
  *  - 击刑/入墓/空亡
  */
 
-import {
-  calcBazi, TIANGAN, DIZHI,
-  type TianGan, type DiZhi,
-} from './bazi'
+import { calcBazi, TIANGAN, DIZHI, type TianGan, type DiZhi } from './bazi'
 
 // ============ 节气三元表 ============
 // 24 节气中每一节的上元/中元/下元局数（用 1-9 表示）
 // 阳遁（冬至→夏至）：三元的局数 顺 1-9
 // 阴遁（夏至→冬至）：三元的局数 逆 9-1
-type ThreeYuan = [number, number, number]  // [上元, 中元, 下元]
+type ThreeYuan = [number, number, number] // [上元, 中元, 下元]
 
-const SANYUAN: Record<string, { dun: '阳遁' | '阴遁', ju: ThreeYuan }> = {
+const SANYUAN: Record<string, { dun: '阳遁' | '阴遁'; ju: ThreeYuan }> = {
   // 阳遁 12 节
   冬至: { dun: '阳遁', ju: [1, 7, 4] },
   小寒: { dun: '阳遁', ju: [2, 8, 5] },
@@ -59,38 +56,80 @@ const SANYUAN: Record<string, { dun: '阳遁' | '阴遁', ju: ThreeYuan }> = {
 
 // 节气顺序（按公历月份）
 const JIEQI_ORDER = [
-  '小寒', '大寒', '立春', '雨水', '惊蛰', '春分', '清明', '谷雨', '立夏', '小满', '芒种', '夏至',
-  '小暑', '大暑', '立秋', '处暑', '白露', '秋分', '寒露', '霜降', '立冬', '小雪', '大雪', '冬至',
+  '小寒',
+  '大寒',
+  '立春',
+  '雨水',
+  '惊蛰',
+  '春分',
+  '清明',
+  '谷雨',
+  '立夏',
+  '小满',
+  '芒种',
+  '夏至',
+  '小暑',
+  '大暑',
+  '立秋',
+  '处暑',
+  '白露',
+  '秋分',
+  '寒露',
+  '霜降',
+  '立冬',
+  '小雪',
+  '大雪',
+  '冬至',
 ]
 // 每个节气对应大致的月份分界日（公历）
-const JIEQI_MONTH_DAY: Array<{ name: string, m: number, d: number }> = [
-  { name: '小寒', m: 1, d: 5 }, { name: '大寒', m: 1, d: 20 },
-  { name: '立春', m: 2, d: 4 }, { name: '雨水', m: 2, d: 19 },
-  { name: '惊蛰', m: 3, d: 5 }, { name: '春分', m: 3, d: 20 },
-  { name: '清明', m: 4, d: 4 }, { name: '谷雨', m: 4, d: 20 },
-  { name: '立夏', m: 5, d: 5 }, { name: '小满', m: 5, d: 20 },
-  { name: '芒种', m: 6, d: 5 }, { name: '夏至', m: 6, d: 21 },
-  { name: '小暑', m: 7, d: 7 }, { name: '大暑', m: 7, d: 22 },
-  { name: '立秋', m: 8, d: 7 }, { name: '处暑', m: 8, d: 23 },
-  { name: '白露', m: 9, d: 7 }, { name: '秋分', m: 9, d: 22 },
-  { name: '寒露', m: 10, d: 8 }, { name: '霜降', m: 10, d: 23 },
-  { name: '立冬', m: 11, d: 7 }, { name: '小雪', m: 11, d: 22 },
-  { name: '大雪', m: 12, d: 7 }, { name: '冬至', m: 12, d: 21 },
+const JIEQI_MONTH_DAY: Array<{ name: string; m: number; d: number }> = [
+  { name: '小寒', m: 1, d: 5 },
+  { name: '大寒', m: 1, d: 20 },
+  { name: '立春', m: 2, d: 4 },
+  { name: '雨水', m: 2, d: 19 },
+  { name: '惊蛰', m: 3, d: 5 },
+  { name: '春分', m: 3, d: 20 },
+  { name: '清明', m: 4, d: 4 },
+  { name: '谷雨', m: 4, d: 20 },
+  { name: '立夏', m: 5, d: 5 },
+  { name: '小满', m: 5, d: 20 },
+  { name: '芒种', m: 6, d: 5 },
+  { name: '夏至', m: 6, d: 21 },
+  { name: '小暑', m: 7, d: 7 },
+  { name: '大暑', m: 7, d: 22 },
+  { name: '立秋', m: 8, d: 7 },
+  { name: '处暑', m: 8, d: 23 },
+  { name: '白露', m: 9, d: 7 },
+  { name: '秋分', m: 9, d: 22 },
+  { name: '寒露', m: 10, d: 8 },
+  { name: '霜降', m: 10, d: 23 },
+  { name: '立冬', m: 11, d: 7 },
+  { name: '小雪', m: 11, d: 22 },
+  { name: '大雪', m: 12, d: 7 },
+  { name: '冬至', m: 12, d: 21 },
 ]
 
 // ============ 九宫 ============
 // 9 宫对应的卦象、九宫数、位置（行/列）
 // 后天八卦 9 宫：戴九履一、左三右七、二四为肩、六八为足、五居中央
-export const JIU_GONG: Array<{ num: number, gua: string, gong: string, row: number, col: number, element: '木' | '火' | '土' | '金' | '水', nature: '吉' | '中' | '凶' }> = [
-  { num: 1, gua: '坎', gong: '坎', row: 1, col: 1, element: '水', nature: '中' },  // 北
-  { num: 2, gua: '坤', gong: '坤', row: 0, col: 1, element: '土', nature: '凶' },  // 西南
-  { num: 3, gua: '震', gong: '震', row: 2, col: 0, element: '木', nature: '吉' },  // 东
-  { num: 4, gua: '巽', gong: '巽', row: 0, col: 2, element: '木', nature: '吉' },  // 东南
-  { num: 5, gua: '中', gong: '中', row: 1, col: 1, element: '土', nature: '中' },  // 中（寄宫）
-  { num: 6, gua: '乾', gong: '乾', row: 0, col: 0, element: '金', nature: '吉' },  // 西北
-  { num: 7, gua: '兑', gong: '兑', row: 2, col: 2, element: '金', nature: '凶' },  // 西
-  { num: 8, gua: '艮', gong: '艮', row: 1, col: 0, element: '土', nature: '吉' },  // 东北
-  { num: 9, gua: '离', gong: '离', row: 1, col: 2, element: '火', nature: '中' },  // 南
+export const JIU_GONG: Array<{
+  num: number
+  gua: string
+  gong: string
+  row: number
+  col: number
+  element: '木' | '火' | '土' | '金' | '水'
+  nature: '吉' | '中' | '凶'
+}> = [
+  { num: 1, gua: '坎', gong: '坎', row: 1, col: 1, element: '水', nature: '中' }, // 北
+  { num: 2, gua: '坤', gong: '坤', row: 0, col: 1, element: '土', nature: '凶' }, // 西南
+  { num: 3, gua: '震', gong: '震', row: 2, col: 0, element: '木', nature: '吉' }, // 东
+  { num: 4, gua: '巽', gong: '巽', row: 0, col: 2, element: '木', nature: '吉' }, // 东南
+  { num: 5, gua: '中', gong: '中', row: 1, col: 1, element: '土', nature: '中' }, // 中（寄宫）
+  { num: 6, gua: '乾', gong: '乾', row: 0, col: 0, element: '金', nature: '吉' }, // 西北
+  { num: 7, gua: '兑', gong: '兑', row: 2, col: 2, element: '金', nature: '凶' }, // 西
+  { num: 8, gua: '艮', gong: '艮', row: 1, col: 0, element: '土', nature: '吉' }, // 东北
+  { num: 9, gua: '离', gong: '离', row: 1, col: 2, element: '火', nature: '中' }, // 南
 ]
 // 用 row/col 排序 9 宫（1-9 顺序）
 JIU_GONG.sort((a, b) => {
@@ -102,21 +141,40 @@ JIU_GONG.sort((a, b) => {
 // 戊己庚辛壬癸丁丙乙
 // 戊 = 一局（坎）所在宫，依局数递推到对应宫
 export const SAN_QI_LIU_YI = ['戊', '己', '庚', '辛', '壬', '癸', '丁', '丙', '乙'] as const
-export const SAN_QI = new Set(['乙', '丙', '丁'])  // 三奇
+export const SAN_QI = new Set(['乙', '丙', '丁']) // 三奇
 export const LIU_YI = new Set(['戊', '己', '庚', '辛', '壬', '癸'])
 
 // 三奇五行属性
 export const QI_WUXING: Record<string, '木' | '火' | '土' | '金' | '水'> = {
-  乙: '木', 丙: '火', 丁: '火',
+  乙: '木',
+  丙: '火',
+  丁: '火',
 }
 
 // ============ 九星 ============
-export const JIU_XING = ['天蓬', '天芮', '天冲', '天辅', '天禽', '天心', '天柱', '天任', '天英'] as const
-export type JiuXing = typeof JIU_XING[number]
+export const JIU_XING = [
+  '天蓬',
+  '天芮',
+  '天冲',
+  '天辅',
+  '天禽',
+  '天心',
+  '天柱',
+  '天任',
+  '天英',
+] as const
+export type JiuXing = (typeof JIU_XING)[number]
 // 九星吉凶
 export const XING_NATURE: Record<JiuXing, '吉' | '中' | '凶'> = {
-  天蓬: '凶', 天芮: '凶', 天冲: '吉', 天辅: '吉',
-  天禽: '中', 天心: '吉', 天柱: '中', 天任: '吉', 天英: '中',
+  天蓬: '凶',
+  天芮: '凶',
+  天冲: '吉',
+  天辅: '吉',
+  天禽: '中',
+  天心: '吉',
+  天柱: '中',
+  天任: '吉',
+  天英: '中',
 }
 export const XING_DESC: Record<JiuXing, string> = {
   天蓬: '主水 · 盗贼 · 隐匿',
@@ -132,11 +190,17 @@ export const XING_DESC: Record<JiuXing, string> = {
 
 // ============ 八门 ============
 export const BA_MEN = ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门'] as const
-export type BaMen = typeof BA_MEN[number]
+export type BaMen = (typeof BA_MEN)[number]
 // 八门吉凶
 export const MEN_NATURE: Record<BaMen, '吉' | '中' | '凶'> = {
-  休门: '吉', 生门: '吉', 伤门: '凶', 杜门: '中',
-  景门: '中', 死门: '凶', 惊门: '凶', 开门: '吉',
+  休门: '吉',
+  生门: '吉',
+  伤门: '凶',
+  杜门: '中',
+  景门: '中',
+  死门: '凶',
+  惊门: '凶',
+  开门: '吉',
 }
 export const MEN_DESC: Record<BaMen, string> = {
   休门: '休养生息 · 求财吉',
@@ -153,10 +217,16 @@ export const MEN_DESC: Record<BaMen, string> = {
 // 阳遁：值符→腾蛇→太阴→六合→勾陈（白虎）→朱雀（玄武）→九地→九天 顺行
 // 阴遁：值符→九天→九地→朱雀→勾陈→六合→太阴→腾蛇 逆行
 export const BA_SHEN = ['值符', '腾蛇', '太阴', '六合', '勾陈', '朱雀', '九地', '九天'] as const
-export type BaShen = typeof BA_SHEN[number]
+export type BaShen = (typeof BA_SHEN)[number]
 export const SHEN_NATURE: Record<BaShen, '吉' | '中' | '凶'> = {
-  值符: '吉', 腾蛇: '凶', 太阴: '吉', 六合: '吉',
-  勾陈: '中', 朱雀: '凶', 九地: '中', 九天: '吉',
+  值符: '吉',
+  腾蛇: '凶',
+  太阴: '吉',
+  六合: '吉',
+  勾陈: '中',
+  朱雀: '凶',
+  九地: '中',
+  九天: '吉',
 }
 export const SHEN_DESC: Record<BaShen, string> = {
   值符: '尊贵之位 · 大吉',
@@ -172,30 +242,61 @@ export const SHEN_DESC: Record<BaShen, string> = {
 // ============ 九宫 → 九星（地盘） ============
 // 9 宫与 9 星的对应关系（地盘九星位）
 const GONG_TO_STAR: Record<number, JiuXing> = {
-  1: '天蓬', 2: '天芮', 3: '天冲', 4: '天辅', 5: '天禽',
-  6: '天柱', 7: '天心', 8: '天任', 9: '天英',
+  1: '天蓬',
+  2: '天芮',
+  3: '天冲',
+  4: '天辅',
+  5: '天禽',
+  6: '天柱',
+  7: '天心',
+  8: '天任',
+  9: '天英',
 }
 // 九宫 → 八门（地盘八门位）
 const GONG_TO_MEN: Record<number, BaMen | '中'> = {
-  1: '休门', 2: '死门', 3: '伤门', 4: '杜门', 5: '中',
-  6: '开门', 7: '惊门', 8: '生门', 9: '景门',
+  1: '休门',
+  2: '死门',
+  3: '伤门',
+  4: '杜门',
+  5: '中',
+  6: '开门',
+  7: '惊门',
+  8: '生门',
+  9: '景门',
 }
 
 // ============ 五行关系（用纳音/河图）============
 // 九星/八门 与宫位五行生克定中/吉/凶（吉凶核心）
 
-function isWood(w: string) { return w === '木' }
-function isFire(w: string) { return w === '火' }
-function isEarth(w: string) { return w === '土' }
-function isMetal(w: string) { return w === '金' }
-function isWater(w: string) { return w === '水' }
+function isWood(w: string) {
+  return w === '木'
+}
+function isFire(w: string) {
+  return w === '火'
+}
+function isEarth(w: string) {
+  return w === '土'
+}
+function isMetal(w: string) {
+  return w === '金'
+}
+function isWater(w: string) {
+  return w === '水'
+}
 
 /** 击刑：九星落入与地盘同位的对冲宫（落宫克所到宫为击刑/入墓） */
 function hasPunish(star: JiuXing, gongIdx: number): boolean {
   // 简化的击刑表
   const punishMap: Record<JiuXing, number> = {
-    天蓬: 1, 天芮: 2, 天冲: 3, 天辅: 4, 天禽: 5,
-    天柱: 6, 天心: 7, 天任: 8, 天英: 9,
+    天蓬: 1,
+    天芮: 2,
+    天冲: 3,
+    天辅: 4,
+    天禽: 5,
+    天柱: 6,
+    天心: 7,
+    天任: 8,
+    天英: 9,
   }
   return punishMap[star] === gongIdx
 }
@@ -203,16 +304,27 @@ function hasPunish(star: JiuXing, gongIdx: number): boolean {
 /** 入墓：九星落入墓库之宫 */
 function hasTomb(star: JiuXing, gongIdx: number): boolean {
   const tombMap: Record<JiuXing, number> = {
-    天蓬: 2, 天芮: 7, 天冲: 8, 天辅: 9, 天禽: 5,
-    天柱: 3, 天心: 1, 天任: 6, 天英: 4,
+    天蓬: 2,
+    天芮: 7,
+    天冲: 8,
+    天辅: 9,
+    天禽: 5,
+    天柱: 3,
+    天心: 1,
+    天任: 6,
+    天英: 4,
   }
   return tombMap[star] === gongIdx
 }
 
 /** 空亡：60 甲子 10 个空亡 */
 const KONG_WANG: Record<string, string[]> = {
-  甲子: ['戌', '亥'], 甲戌: ['申', '酉'], 甲申: ['午', '未'], 甲午: ['辰', '巳'],
-  甲辰: ['寅', '卯'], 甲寅: ['子', '丑'],
+  甲子: ['戌', '亥'],
+  甲戌: ['申', '酉'],
+  甲申: ['午', '未'],
+  甲午: ['辰', '巳'],
+  甲辰: ['寅', '卯'],
+  甲寅: ['子', '丑'],
 }
 function getKongWang(dayGan: TianGan, dayZhi: DiZhi): string[] {
   const startZhi = dayZhi
@@ -229,11 +341,11 @@ function getJieqi(year: number, month: number, day: number): string {
   const target = new Date(year, month - 1, day).getTime()
   let bestName = '冬至'
   let bestDiff = Infinity
-  let prevName = '小寒'
+  const prevName = '小寒'
   for (let i = 0; i < JIEQI_MONTH_DAY.length; i++) {
     const j = JIEQI_MONTH_DAY[i]
     let jYear = year
-    if (j.name === '小寒' || j.name === '大寒') jYear = year  // 当年 1 月
+    if (j.name === '小寒' || j.name === '大寒') jYear = year // 当年 1 月
     const jDate = new Date(jYear, j.m - 1, j.d)
     const diff = target - jDate.getTime()
     // 找最近且已过
@@ -248,7 +360,7 @@ function getJieqi(year: number, month: number, day: number): string {
 function dayInJieqi(year: number, month: number, day: number): number {
   // 返回当月在当节第几天（1-15）
   const name = getJieqi(year, month, day)
-  const idx = JIEQI_MONTH_DAY.findIndex(j => j.name === name)
+  const idx = JIEQI_MONTH_DAY.findIndex((j) => j.name === name)
   const j = JIEQI_MONTH_DAY[idx]
   const jDate = new Date(year, j.m - 1, j.d)
   const target = new Date(year, month - 1, day)
@@ -262,7 +374,11 @@ function getYuan(year: number, month: number, day: number): '上元' | '中元' 
   return '下元'
 }
 
-function getJu(year: number, month: number, day: number): { dun: '阳遁' | '阴遁', ju: number, yuan: '上元' | '中元' | '下元', jieqi: string } {
+function getJu(
+  year: number,
+  month: number,
+  day: number,
+): { dun: '阳遁' | '阴遁'; ju: number; yuan: '上元' | '中元' | '下元'; jieqi: string } {
   const jieqi = getJieqi(year, month, day)
   const yuan = getYuan(year, month, day)
   const config = SANYUAN[jieqi]
@@ -271,7 +387,7 @@ function getJu(year: number, month: number, day: number): { dun: '阳遁' | '阴
 }
 
 // ============ 60 甲子序号 ============
-const JIAZI_60: Array<{ gan: TianGan, zhi: DiZhi }> = []
+const JIAZI_60: Array<{ gan: TianGan; zhi: DiZhi }> = []
 for (let i = 0; i < 60; i++) {
   JIAZI_60.push({
     gan: TIANGAN[i % 10] as TianGan,
@@ -302,53 +418,54 @@ function getMenSeq(dun: '阳遁' | '阴遁'): BaMen[] {
 }
 
 function getXingSeq(dun: '阳遁' | '阴遁'): JiuXing[] {
-  if (dun === '阳遁') return ['天蓬', '天芮', '天冲', '天辅', '天禽', '天心', '天柱', '天任', '天英']
+  if (dun === '阳遁')
+    return ['天蓬', '天芮', '天冲', '天辅', '天禽', '天心', '天柱', '天任', '天英']
   return ['天英', '天任', '天柱', '天心', '天禽', '天辅', '天冲', '天芮', '天蓬']
 }
 
 // ============ 真奇门排盘 ============
 export interface QimenPalace {
-  gong: string          // 宫名（坎/坤/震/巽/中/乾/兑/艮/离）
-  num: number           // 9 宫数
+  gong: string // 宫名（坎/坤/震/巽/中/乾/兑/艮/离）
+  num: number // 9 宫数
   row: number
   col: number
-  diPan: string         // 地盘干
-  tianPan: string       // 天盘干
-  star: JiuXing         // 九星
-  men: BaMen | '中'     // 八门
-  shen: BaShen          // 八神
+  diPan: string // 地盘干
+  tianPan: string // 天盘干
+  star: JiuXing // 九星
+  men: BaMen | '中' // 八门
+  shen: BaShen // 八神
   starNature: '吉' | '中' | '凶'
   menNature: '吉' | '中' | '凶'
   shenNature: '吉' | '中' | '凶'
-  starDesc: string      // 九星释义
-  menDesc: string       // 八门释义
-  shenDesc: string      // 八神释义
+  starDesc: string // 九星释义
+  menDesc: string // 八门释义
+  shenDesc: string // 八神释义
   judge: '大吉' | '吉' | '中' | '凶' | '大凶'
   brief: string
-  isKong: boolean       // 空亡
-  isPunish: boolean     // 击刑
-  isTomb: boolean       // 入墓
+  isKong: boolean // 空亡
+  isPunish: boolean // 击刑
+  isTomb: boolean // 入墓
 }
 
 export interface QimenResult {
   // 基础
-  ju: number            // 局数 1-9
+  ju: number // 局数 1-9
   dun: '阳遁' | '阴遁'
   yuan: '上元' | '中元' | '下元'
-  jieqi: string         // 节气名
+  jieqi: string // 节气名
   // 时间
-  shiGan: TianGan      // 时干
-  shiZhi: DiZhi         // 时支
+  shiGan: TianGan // 时干
+  shiZhi: DiZhi // 时支
   trueSolarHour: number // 真太阳时
   // 60 甲子
   dayGan: TianGan
   dayZhi: DiZhi
-  dayJiazi: number       // 60 甲子序
+  dayJiazi: number // 60 甲子序
   // 值符值使
   zhiFuStar: JiuXing
   zhiShiMen: BaMen
-  zhiFuGong: number      // 值符落宫
-  zhiShiGong: number     // 值使落宫
+  zhiFuGong: number // 值符落宫
+  zhiShiGong: number // 值使落宫
   // 九宫
   palace: QimenPalace[]
   // 评分
@@ -376,12 +493,15 @@ export interface QimenResult {
  * @param longitude 经度（东经为正），默认 120（北京时间基准）
  */
 export function calcQimen(
-  year: number, month: number, day: number, hour: number,
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
   longitude: number = 120,
 ): QimenResult {
   // 1) 真太阳时
-  const solarDiff = (longitude - 120) * 4   // 分钟
-  let trueSolarHour = (hour + solarDiff / 60 + 24) % 24
+  const solarDiff = (longitude - 120) * 4 // 分钟
+  const trueSolarHour = (hour + solarDiff / 60 + 24) % 24
 
   // 2) 通过 calcBazi 获取日柱（用真太阳时可能跨日）
   const bz = calcBazi(year, month, day, hour, longitude)
@@ -409,7 +529,7 @@ export function calcQimen(
   const gongDiPan: Record<number, TianGan> = {}
   for (let g = 1; g <= 9; g++) {
     // 求 (g - n) mod 9 找索引
-    const idx = ((g - ju) % 9 + 9) % 9
+    const idx = (((g - ju) % 9) + 9) % 9
     const gan = SAN_QI_LIU_YI[idx]
     gongDiPan[g] = gan
   }
@@ -421,7 +541,7 @@ export function calcQimen(
   const shiGanIdx = TIANGAN.indexOf(shiGan)
   // 时辰落宫 = shiGanIdx + 1（奇门遁甲中的 1-9 宫位）
   // 戊→1 己→2 庚→3 辛→4 壬→5 癸→6 丁→7 丙→8 乙→9
-  const shiGong = ((shiGanIdx + 1) % 9) || 9
+  const shiGong = (shiGanIdx + 1) % 9 || 9
   // 值符星 = 时辰落宫的地盘星
   const zhiFuStar = GONG_TO_STAR[shiGong]
   // 值符落宫 = 时辰地盘干所在宫
@@ -443,7 +563,14 @@ export function calcQimen(
   // 休=1 生=8 伤=3 杜=4 景=9 死=2 惊=7 开=6
   const zhiShiGong = (() => {
     const map: Record<BaMen, number> = {
-      休门: 1, 生门: 8, 伤门: 3, 杜门: 4, 景门: 9, 死门: 2, 惊门: 7, 开门: 6,
+      休门: 1,
+      生门: 8,
+      伤门: 3,
+      杜门: 4,
+      景门: 9,
+      死门: 2,
+      惊门: 7,
+      开门: 6,
     }
     return map[zhiShiMen]
   })()
@@ -464,9 +591,9 @@ export function calcQimen(
   // 10) 八神 = 从值符宫起按阳遁顺/阴遁逆排列 8 神
 
   // ============ 构建 9 宫 ============
-  const palace: QimenPalace[] = JIU_GONG.map(g => {
+  const palace: QimenPalace[] = JIU_GONG.map((g) => {
     const gongNum = g.num
-    const gInfo = JIU_GONG.find(x => x.num === gongNum)!
+    const gInfo = JIU_GONG.find((x) => x.num === gongNum)!
     const row = gInfo.row
     const col = gInfo.col
     // 地盘干
@@ -484,8 +611,15 @@ export function calcQimen(
     // 旋转偏移 = zhiFuGong - 1
     const xingOffset = zhiFuGong - 1
     const originalStarPos: Record<number, JiuXing> = {
-      1: '天蓬', 2: '天芮', 3: '天冲', 4: '天辅', 5: '天禽',
-      6: '天柱', 7: '天心', 8: '天任', 9: '天英',
+      1: '天蓬',
+      2: '天芮',
+      3: '天冲',
+      4: '天辅',
+      5: '天禽',
+      6: '天柱',
+      7: '天心',
+      8: '天任',
+      9: '天英',
     }
     // 1 蓬位 飞 到 zhiFuGong；2 芮位 飞 到 zhiFuGong+1 ...
     // 反推：现在 gongNum 宫的天盘星 = 原本在 (gongNum - xingOffset) 宫的星
@@ -494,19 +628,24 @@ export function calcQimen(
 
     // 天盘八门
     const originalMenPos: Record<number, BaMen | '中'> = {
-      1: '休门', 2: '死门', 3: '伤门', 4: '杜门', 5: '中',
-      6: '开门', 7: '惊门', 8: '生门', 9: '景门',
+      1: '休门',
+      2: '死门',
+      3: '伤门',
+      4: '杜门',
+      5: '中',
+      6: '开门',
+      7: '惊门',
+      8: '生门',
+      9: '景门',
     }
-    const menOffset = zhiShiGong - 1  // 1 休 飞 到 zhiShiGong
+    const menOffset = zhiShiGong - 1 // 1 休 飞 到 zhiShiGong
     const menOriginalGong = ((gongNum - menOffset - 1 + 9) % 9) + 1
     const men: BaMen | '中' = originalMenPos[menOriginalGong]
 
     // 八神：从值符宫起 按阳遁顺 / 阴遁逆 排 8 神
     const shenSeq = getShenSeq(dun)
-    const shenIdx = ((gongNum - zhiFuGong + (dun === '阳遁' ? 0 : 0)) % 8 + 8) % 8
-    const shen = dun === '阳遁'
-      ? shenSeq[shenIdx]
-      : shenSeq[shenIdx]  // 数组本身已按阴遁排好
+    const shenIdx = (((gongNum - zhiFuGong + (dun === '阳遁' ? 0 : 0)) % 8) + 8) % 8
+    const shen = dun === '阳遁' ? shenSeq[shenIdx] : shenSeq[shenIdx] // 数组本身已按阴遁排好
 
     const starNature = XING_NATURE[star]
     const menNature: '吉' | '中' | '凶' = men === '中' ? '中' : MEN_NATURE[men as BaMen]
@@ -540,12 +679,14 @@ export function calcQimen(
     else if (score <= -4) judge = '大凶'
     else if (score <= -2) judge = '凶'
 
-    const brief = `${star}${men === '中' ? '' : men}·${shen} · ${isKong ? '空 ' : ''}${punish ? '刑 ' : ''}${tomb ? '墓' : ''}`.trim()
+    const brief =
+      `${star}${men === '中' ? '' : men}·${shen} · ${isKong ? '空 ' : ''}${punish ? '刑 ' : ''}${tomb ? '墓' : ''}`.trim()
 
     return {
       gong: gInfo.gong,
       num: gongNum,
-      row, col,
+      row,
+      col,
       diPan,
       tianPan: tianPanGan,
       star,
@@ -566,16 +707,66 @@ export function calcQimen(
   })
 
   // ============ 评分 ============
-  const bigJiCount = palace.filter(p => p.judge === '大吉').length
-  const jiCount = palace.filter(p => p.judge === '吉').length
-  const xiongCount = palace.filter(p => p.judge === '凶' || p.judge === '大凶').length
+  const bigJiCount = palace.filter((p) => p.judge === '大吉').length
+  const jiCount = palace.filter((p) => p.judge === '吉').length
+  const xiongCount = palace.filter((p) => p.judge === '凶' || p.judge === '大凶').length
   const baseScore = 50 + bigJiCount * 10 + jiCount * 5 - xiongCount * 7
   const scores = {
-    career: Math.max(0, Math.min(100, baseScore + (palace.find(p => p.num === 3)?.judge === '大吉' || palace.find(p => p.num === 3)?.judge === '吉' ? 8 : -5))),
-    wealth: Math.max(0, Math.min(100, baseScore + (palace.find(p => p.num === 8)?.judge === '大吉' || palace.find(p => p.num === 8)?.judge === '吉' ? 8 : -5))),
-    relationship: Math.max(0, Math.min(100, baseScore + (palace.find(p => p.num === 6)?.judge === '大吉' || palace.find(p => p.num === 6)?.judge === '吉' ? 8 : -5))),
-    health: Math.max(0, Math.min(100, baseScore + (palace.find(p => p.num === 1)?.judge === '大吉' || palace.find(p => p.num === 1)?.judge === '吉' ? 8 : -5))),
-    social: Math.max(0, Math.min(100, baseScore + (palace.find(p => p.num === 9)?.judge === '大吉' || palace.find(p => p.num === 9)?.judge === '吉' ? 8 : -5))),
+    career: Math.max(
+      0,
+      Math.min(
+        100,
+        baseScore +
+          (palace.find((p) => p.num === 3)?.judge === '大吉' ||
+          palace.find((p) => p.num === 3)?.judge === '吉'
+            ? 8
+            : -5),
+      ),
+    ),
+    wealth: Math.max(
+      0,
+      Math.min(
+        100,
+        baseScore +
+          (palace.find((p) => p.num === 8)?.judge === '大吉' ||
+          palace.find((p) => p.num === 8)?.judge === '吉'
+            ? 8
+            : -5),
+      ),
+    ),
+    relationship: Math.max(
+      0,
+      Math.min(
+        100,
+        baseScore +
+          (palace.find((p) => p.num === 6)?.judge === '大吉' ||
+          palace.find((p) => p.num === 6)?.judge === '吉'
+            ? 8
+            : -5),
+      ),
+    ),
+    health: Math.max(
+      0,
+      Math.min(
+        100,
+        baseScore +
+          (palace.find((p) => p.num === 1)?.judge === '大吉' ||
+          palace.find((p) => p.num === 1)?.judge === '吉'
+            ? 8
+            : -5),
+      ),
+    ),
+    social: Math.max(
+      0,
+      Math.min(
+        100,
+        baseScore +
+          (palace.find((p) => p.num === 9)?.judge === '大吉' ||
+          palace.find((p) => p.num === 9)?.judge === '吉'
+            ? 8
+            : -5),
+      ),
+    ),
   }
 
   // 总结
@@ -590,24 +781,33 @@ export function calcQimen(
   advice.push(`值符星${zhiFuStar}，${XING_DESC[zhiFuStar]}。`)
   advice.push(`值使门${zhiShiMen}，${MEN_DESC[zhiShiMen]}。`)
   // 最吉宫
-  const bestGong = palace.find(p => p.judge === '大吉')
+  const bestGong = palace.find((p) => p.judge === '大吉')
   if (bestGong) {
-    advice.push(`最吉方位：${bestGong.gong}宫（${['北','西南','东','东南','中','西北','西','东北','南'][bestGong.num - 1]}），主${XING_DESC[bestGong.star]}。`)
+    advice.push(
+      `最吉方位：${bestGong.gong}宫（${['北', '西南', '东', '东南', '中', '西北', '西', '东北', '南'][bestGong.num - 1]}），主${XING_DESC[bestGong.star]}。`,
+    )
   }
   // 最凶宫
-  const worstGong = palace.find(p => p.judge === '大凶')
+  const worstGong = palace.find((p) => p.judge === '大凶')
   if (worstGong) {
-    advice.push(`慎行方位：${worstGong.gong}宫（${['北','西南','东','东南','中','西北','西','东北','南'][worstGong.num - 1]}），${XING_DESC[worstGong.star]}${worstGong.isKong ? '逢空' : ''}${worstGong.isPunish ? '击刑' : ''}。`)
+    advice.push(
+      `慎行方位：${worstGong.gong}宫（${['北', '西南', '东', '东南', '中', '西北', '西', '东北', '南'][worstGong.num - 1]}），${XING_DESC[worstGong.star]}${worstGong.isKong ? '逢空' : ''}${worstGong.isPunish ? '击刑' : ''}。`,
+    )
   }
   if (kong.length) {
     advice.push(`日空亡：${kong.join('、')}，此方所求皆虚。`)
   }
 
   return {
-    ju, dun, yuan, jieqi,
-    shiGan, shiZhi,
+    ju,
+    dun,
+    yuan,
+    jieqi,
+    shiGan,
+    shiZhi,
     trueSolarHour: Math.round(trueSolarHour * 10) / 10,
-    dayGan, dayZhi,
+    dayGan,
+    dayZhi,
     dayJiazi,
     zhiFuStar,
     zhiShiMen,

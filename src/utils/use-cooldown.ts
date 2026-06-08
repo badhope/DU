@@ -35,7 +35,7 @@ export interface CooldownController {
   // 计算
   currentUserLocked: ComputedRef<boolean>
   isFree: ComputedRef<boolean>
-  isActive: ComputedRef<boolean>   // 是否重事类
+  isActive: ComputedRef<boolean> // 是否重事类
   profiles: ComputedRef<NonNullable<ReturnType<typeof useAppStore>['divinatorProfiles']>>
   activeUser: ComputedRef<NonNullable<ReturnType<typeof useAppStore>['activeDivinator']> | null>
   // 方法
@@ -46,7 +46,11 @@ export interface CooldownController {
   /** 重置绕过标记 */
   resetBypass(): void
   /** 起卦成功提交记录 */
-  commit(brief: string, fullInput?: Record<string, unknown>, fullOutput?: Record<string, unknown>): void
+  commit(
+    brief: string,
+    fullInput?: Record<string, unknown>,
+    fullOutput?: Record<string, unknown>,
+  ): void
   /** 弹窗关闭 */
   onCooldownClose(): void
   /** 弹窗 → 换人 */
@@ -88,7 +92,10 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
 
   const guard = (): boolean => {
     if (isFree.value) return true
-    if (!app.activeDivinatorKey) { showAddUser.value = true; return false }
+    if (!app.activeDivinatorKey) {
+      showAddUser.value = true
+      return false
+    }
     if (currentUserLocked.value && !forceBypass.value) {
       cooldownRecord.value = app.checkTodayDivination(app.activeDivinatorKey, tool) || null
       showCooldown.value = true
@@ -97,8 +104,12 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     return true
   }
 
-  const bypass = (): void => { forceBypass.value = true }
-  const resetBypass = (): void => { forceBypass.value = false }
+  const bypass = (): void => {
+    forceBypass.value = true
+  }
+  const resetBypass = (): void => {
+    forceBypass.value = false
+  }
 
   const commit = (
     brief: string,
@@ -128,7 +139,9 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     forceBypass.value = false
   }
 
-  const onCooldownClose = () => { showCooldown.value = false }
+  const onCooldownClose = () => {
+    showCooldown.value = false
+  }
   const onCooldownSwitchUser = () => {
     showCooldown.value = false
     showAddUser.value = true
@@ -138,9 +151,15 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     // 改为返回上一页（如占卜类页面间切换），不强制重启销毁栈
     const pages = getCurrentPages() || []
     if (pages.length > 1) {
-      try { uni.navigateBack({ delta: 1 }) } catch { uni.reLaunch({ url: '/pages/index/index' }) }
+      try {
+        uni.navigateBack({ delta: 1 })
+      } catch {
+        uni.reLaunch({ url: '/pages/index/index' })
+      }
     } else {
-      try { uni.reLaunch({ url: '/pages/index/index' }) } catch (e) {
+      try {
+        uni.reLaunch({ url: '/pages/index/index' })
+      } catch (e) {
         if (typeof console !== 'undefined') console.warn('[use-cooldown] reLaunch 失败', e)
       }
     }
@@ -150,7 +169,9 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     forceBypass.value = true
   }
 
-  const onAddUser = () => { showAddUser.value = true }
+  const onAddUser = () => {
+    showAddUser.value = true
+  }
   const confirmAddUser = () => {
     const n = newUserName.value.trim()
     if (!n) return

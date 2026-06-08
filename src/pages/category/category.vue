@@ -1,5 +1,8 @@
 <template>
-  <view class="cat-page" :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']">
+  <view
+    class="cat-page"
+    :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
+  >
     <!-- 背景 -->
     <view class="taiji-bg">
       <TaijiBg />
@@ -13,11 +16,22 @@
     <view v-if="cat" class="cat-hero" :style="heroStyle">
       <view class="cat-hero-bg" :style="heroBgStyle" />
       <view class="cat-hero-content">
-        <text class="cat-hero-glyph" :style="{ color: category.accent, textShadow: '0 0 24rpx ' + category.accent }">{{ category.glyph }}</text>
+        <text
+          class="cat-hero-glyph"
+          :style="{ color: category.accent, textShadow: '0 0 24rpx ' + category.accent }"
+          >
+{{ category.glyph }}
+</text
+        >
         <text class="cat-hero-name" :style="{ color: category.accent }">{{ category.name }}</text>
         <text class="cat-hero-en">{{ category.enName }}</text>
         <text class="cat-hero-sub">{{ category.subtitle }} · {{ tools.length }} 项</text>
-        <view class="cat-hero-divider" :style="{ background: 'linear-gradient(90deg, transparent, ' + category.accent + ', transparent)' }" />
+        <view
+          class="cat-hero-divider"
+          :style="{
+            background: 'linear-gradient(90deg, transparent, ' + category.accent + ', transparent)',
+          }"
+        />
         <text class="cat-hero-desc">{{ CATEGORY_DESC[cat] || '' }}</text>
       </view>
     </view>
@@ -26,7 +40,10 @@
     <view class="tools">
       <view class="section-title">
         <text class="section-title-text">入 口</text>
-        <text class="section-title-line" :style="{ background: 'linear-gradient(90deg, ' + category.accent + ', transparent)' }" />
+        <text
+          class="section-title-line"
+          :style="{ background: 'linear-gradient(90deg, ' + category.accent + ', transparent)' }"
+        />
       </view>
 
       <view class="tool-grid">
@@ -35,7 +52,7 @@
           :key="tool.key"
           class="t-card"
           :class="['t-' + tool.status, 't-card-anim']"
-          :style="{ animationDelay: (i * 0.06) + 's' }"
+          :style="{ animationDelay: i * 0.06 + 's' }"
           @click="onClick(tool)"
         >
           <view class="t-card-inner">
@@ -51,7 +68,11 @@
               <text class="t-desc">{{ tool.desc }}</text>
               <view class="t-status">
                 <view class="t-dot" :style="{ background: statusColor(tool.status) }" />
-                <text class="t-status-text" :style="{ color: statusColor(tool.status) }">{{ statusText(tool.status) }}</text>
+                <text class="t-status-text" :style="{ color: statusColor(tool.status) }">
+{{
+                  statusText(tool.status)
+                }}
+</text>
               </view>
             </view>
             <text class="t-arrow">›</text>
@@ -76,21 +97,31 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import { CATEGORIES, getToolsByCategory, READY_COUNT, type Tool, type CategoryKey } from '@/config/tools'
+import {
+  CATEGORIES,
+  getToolsByCategory,
+  READY_COUNT,
+  type Tool,
+  type CategoryKey,
+} from '@/config/tools'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()
 const statusBarHeight = ref(44)
-try { const sys = uni.getSystemInfoSync(); statusBarHeight.value = sys.statusBarHeight ?? 0 } catch (e) {}
+try {
+  const sys = uni.getSystemInfoSync()
+  statusBarHeight.value = sys.statusBarHeight ?? 0
+} catch (e) {}
 
 const CATEGORY_DESC: Record<CategoryKey, string> = {
-  mingli:   '命理以生辰为根，推演人生格局。本类聚合中国传统的命理之术，从五行八字到奇门遁甲，窥探天地人之间的因果脉络。',
+  mingli:
+    '命理以生辰为根，推演人生格局。本类聚合中国传统的命理之术，从五行八字到奇门遁甲，窥探天地人之间的因果脉络。',
   zhongshu: '占卜以当下为镜，照见未来吉凶。蓍草、塔罗、灵签，形式各异，其本皆为起心动念间的一问。',
-  guwu:     '古物以器为引，融合象、数、理。三式与术数之学，既是文化的延续，也是古人观天的智慧。',
-  jian:     '健康以气血为本，关注身心之衡。十二经络、五运六气，将古老的生命观融入现代养生。',
-  xiuxin:   '修心以静为径，回归内在清明。在喧嚣中觅一处静观，调息、内照、刹那明悟。',
+  guwu: '古物以器为引，融合象、数、理。三式与术数之学，既是文化的延续，也是古人观天的智慧。',
+  jian: '健康以气血为本，关注身心之衡。十二经络、五运六气，将古老的生命观融入现代养生。',
+  xiuxin: '修心以静为径，回归内在清明。在喧嚣中觅一处静观，调息、内照、刹那明悟。',
   shenghuo: '生活以日为尺，落地日常所需。黄历择日、十二属相，让传统智慧回归柴米油盐。',
-  life:     '管理占卜人档案、查看占卜记录。一日同人同工具不宜二占，恐心念不诚，反失灵验。',
+  life: '管理占卜人档案、查看占卜记录。一日同人同工具不宜二占，恐心念不诚，反失灵验。',
 }
 
 function getCategoryKey(): CategoryKey {
@@ -102,9 +133,11 @@ function getCategoryKey(): CategoryKey {
 }
 
 const cat = ref<CategoryKey>(getCategoryKey())
-const category = computed(() => CATEGORIES.find(c => c.key === cat.value) || CATEGORIES[0])
-const tools = computed(() => getToolsByCategory().find(g => g.category.key === cat.value)?.tools || [])
-const readyCount = computed(() => tools.value.filter(t => t.status === 'ready').length)
+const category = computed(() => CATEGORIES.find((c) => c.key === cat.value) || CATEGORIES[0])
+const tools = computed(
+  () => getToolsByCategory().find((g) => g.category.key === cat.value)?.tools || [],
+)
+const readyCount = computed(() => tools.value.filter((t) => t.status === 'ready').length)
 const plannedCount = computed(() => tools.value.length - readyCount.value)
 
 const heroStyle = computed(() => ({
@@ -142,11 +175,12 @@ const VERSES = [
 ]
 const verseIdx = ref(0)
 const currentVerse = computed(() => VERSES[verseIdx.value % VERSES.length])
-function nextVerse() { verseIdx.value++ }
+function nextVerse() {
+  verseIdx.value++
+}
 </script>
 
 <style scoped>
-
 .cat-page {
   position: relative;
   min-height: 100vh;
@@ -284,15 +318,22 @@ function nextVerse() { verseIdx.value++ }
 }
 
 @keyframes cardIn {
-  from { opacity: 0; transform: translateX(20rpx); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .t-card:active {
   transform: scale(0.98);
 }
 
-.t-card.t-planned, .t-card.t-wip {
+.t-card.t-planned,
+.t-card.t-wip {
   opacity: 0.6;
 }
 
@@ -326,7 +367,7 @@ function nextVerse() { verseIdx.value++ }
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.25) 0%, transparent 60%);
+  background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25) 0%, transparent 60%);
   pointer-events: none;
 }
 
@@ -430,7 +471,9 @@ function nextVerse() { verseIdx.value++ }
   z-index: 0;
 }
 
-.t-card:active .t-glow { opacity: 0.3; }
+.t-card:active .t-glow {
+  opacity: 0.3;
+}
 
 /* ===== 底部 ===== */
 .footer {

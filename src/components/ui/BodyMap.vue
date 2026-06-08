@@ -14,7 +14,11 @@
 
     <!-- 经脉类型筛选 -->
     <view class="filter-bar">
-      <view class="f-btn" :class="{ active: !showQi && !showYin && !showYang }" @click="resetFilter">全 部</view>
+      <view class="f-btn" :class="{ active: !showQi && !showYin && !showYang }" @click="resetFilter"
+        >
+全 部
+</view
+      >
       <view class="f-btn f-qi" :class="{ active: showQi }" @click="toggleQi">8 奇 经</view>
       <view class="f-btn f-yin" :class="{ active: showYin }" @click="toggleYin">阴 经</view>
       <view class="f-btn f-yang" :class="{ active: showYang }" @click="toggleYang">阳 经</view>
@@ -71,10 +75,32 @@
         />
 
         <!-- 头颈分隔线（中央十字） -->
-        <line x1="190" y1="40" x2="190" y2="780" stroke="rgba(212,175,55,0.15)" stroke-width="0.5" stroke-dasharray="4 4" />
+        <line
+          x1="190"
+          y1="40"
+          x2="190"
+          y2="780"
+          stroke="rgba(212,175,55,0.15)"
+          stroke-width="0.5"
+          stroke-dasharray="4 4"
+        />
         <!-- 肩/腰线 -->
-        <line x1="130" y1="230" x2="280" y2="230" stroke="rgba(212,175,55,0.1)" stroke-width="0.5" />
-        <line x1="135" y1="500" x2="265" y2="500" stroke="rgba(212,175,55,0.1)" stroke-width="0.5" />
+        <line
+          x1="130"
+          y1="230"
+          x2="280"
+          y2="230"
+          stroke="rgba(212,175,55,0.1)"
+          stroke-width="0.5"
+        />
+        <line
+          x1="135"
+          y1="500"
+          x2="265"
+          y2="500"
+          stroke="rgba(212,175,55,0.1)"
+          stroke-width="0.5"
+        />
 
         <!-- 经络线 -->
         <g v-for="m in visibleMeridians" :key="m.id" class="meridian-group">
@@ -82,13 +108,13 @@
             :d="pointsToPathD(m.path)"
             :stroke="m.color"
             :stroke-width="isSelected(m.id) ? 4 : 1.8"
-            :opacity="isSelected(m.id) ? 1 : (selectedId ? 0.18 : 0.7)"
+            :opacity="isSelected(m.id) ? 1 : selectedId ? 0.18 : 0.7"
             fill="none"
             :filter="isSelected(m.id) ? 'url(#strongGlow)' : 'url(#glow)'"
             stroke-linecap="round"
             stroke-linejoin="round"
+            style="cursor: pointer"
             @click.stop="onMeridianClick(m)"
-            style="cursor: pointer;"
           />
           <!-- 标签 -->
           <text
@@ -100,9 +126,11 @@
             font-family="KaiTi, STKaiti, serif"
             font-weight="700"
             :opacity="isSelected(m.id) ? 1 : 0.85"
-            style="user-select: none; pointer-events: none;"
+            style="user-select: none; pointer-events: none"
             text-anchor="middle"
-          >{{ m.name }}</text>
+          >
+            {{ m.name }}
+          </text>
 
           <!-- 穴位点 -->
           <g v-if="isSelected(m.id) || showAllPoints">
@@ -116,20 +144,22 @@
               :stroke="'#FFF'"
               :stroke-width="isSelected(m.id) ? 1.5 : 0.8"
               :opacity="isSelected(m.id) ? 1 : 0.7"
-              style="cursor: pointer;"
+              style="cursor: pointer"
               @click.stop="onAcupointClick(m, p)"
             />
             <text
-              v-if="isSelected(m.id)"
               v-for="(p, i) in m.acupoints"
+              v-if="isSelected(m.id)"
               :key="`t-${i}`"
               :x="p.x + 8"
               :y="p.y - 4"
               fill="#FFF"
               font-size="10"
               font-family="KaiTi, STKaiti, serif"
-              style="user-select: none; pointer-events: none;"
-            >{{ p.acupoint }}</text>
+              style="user-select: none; pointer-events: none"
+            >
+              {{ p.acupoint }}
+            </text>
           </g>
         </g>
       </svg>
@@ -165,10 +195,34 @@
     <view v-if="selectedMeridian" class="detail-mask" @click.self="closeDetail">
       <view class="detail-card card-mystic anim-fade-up">
         <view class="dc-header" :style="{ borderBottomColor: selectedMeridian.color }">
-          <view class="dc-glyph" :style="{ color: selectedMeridian.color, textShadow: `0 0 20rpx ${selectedMeridian.color}` }">☯</view>
+          <view
+            class="dc-glyph"
+            :style="{
+              color: selectedMeridian.color,
+              textShadow: `0 0 20rpx ${selectedMeridian.color}`,
+            }"
+            >
+☯
+</view
+          >
           <view class="dc-info">
-            <text class="dc-name" :style="{ color: selectedMeridian.color }">{{ selectedMeridian.name }}</text>
-            <text class="dc-side">{{ side === 'front' ? '正 面' : '背 面' }} · {{ selectedMeridian.category === 'yin' ? '阴经' : selectedMeridian.category === 'yang' ? '阳经' : '奇经' }}</text>
+            <text class="dc-name" :style="{ color: selectedMeridian.color }">
+{{
+              selectedMeridian.name
+            }}
+</text>
+            <text class="dc-side"
+              >
+{{ side === 'front' ? '正 面' : '背 面' }} ·
+              {{
+                selectedMeridian.category === 'yin'
+                  ? '阴经'
+                  : selectedMeridian.category === 'yang'
+                    ? '阳经'
+                    : '奇经'
+              }}
+</text
+            >
           </view>
         </view>
 
@@ -202,11 +256,36 @@
         <!-- 穴位详情 -->
         <view v-if="acupointDetail" class="ac-detail">
           <text class="ad-title">· {{ acupointDetail.name }} · 详 情</text>
-          <view class="ad-row"><text class="ad-label">所属经脉：</text><text class="ad-val">{{ acupointDetail.jingluo }}</text></view>
-          <view class="ad-row"><text class="ad-label">位    置：</text><text class="ad-val">{{ acupointDetail.location }}</text></view>
-          <view class="ad-row"><text class="ad-label">功    能：</text><text class="ad-val">{{ acupointDetail.function }}</text></view>
-          <view class="ad-row"><text class="ad-label">主    治：</text><text class="ad-val">{{ acupointDetail.indication.join(' · ') }}</text></view>
-          <view class="ad-row"><text class="ad-label">方    法：</text><text class="ad-val">{{ acupointDetail.method }}</text></view>
+          <view class="ad-row"
+            >
+<text class="ad-label">所属经脉：</text
+            ><text class="ad-val">{{ acupointDetail.jingluo }}</text>
+</view
+          >
+          <view class="ad-row"
+            >
+<text class="ad-label">位 置：</text
+            ><text class="ad-val">{{ acupointDetail.location }}</text>
+</view
+          >
+          <view class="ad-row"
+            >
+<text class="ad-label">功 能：</text
+            ><text class="ad-val">{{ acupointDetail.function }}</text>
+</view
+          >
+          <view class="ad-row"
+            >
+<text class="ad-label">主 治：</text
+            ><text class="ad-val">{{ acupointDetail.indication.join(' · ') }}</text>
+</view
+          >
+          <view class="ad-row"
+            >
+<text class="ad-label">方 法：</text
+            ><text class="ad-val">{{ acupointDetail.method }}</text>
+</view
+          >
         </view>
 
         <view class="dc-actions">
@@ -235,7 +314,7 @@ import { getAcupoint, type Acupoint } from '@/utils/jingluo'
 const props = defineProps<{
   initialSide?: 'front' | 'back'
   initialShowAll?: boolean
-  initialMeridians?: string[]   // 初始要显示的经络 id 列表（空=全部）
+  initialMeridians?: string[] // 初始要显示的经络 id 列表（空=全部）
 }>()
 
 const side = ref<'front' | 'back'>(props.initialSide || 'front')
@@ -252,30 +331,37 @@ const showAllPoints = ref(true)
 
 const bodyOutlineFront = BODY_OUTLINE_FRONT
 const bodyOutlineBack = BODY_OUTLINE_BACK
-const bodyLimbs = computed(() => side.value === 'front' ? BODY_LIMBS_FRONT : BODY_LIMBS_BACK)
+const bodyLimbs = computed(() => (side.value === 'front' ? BODY_LIMBS_FRONT : BODY_LIMBS_BACK))
 
 /** 当前视图下的所有经络 */
 const currentMeridians = computed(() => {
   const all = [...MERIDIAN_PATHS, ...QIJING_PATHS]
-  return all.filter(m => m.side === side.value)
+  return all.filter((m) => m.side === side.value)
 })
 
 /** 经过滤显示的经络 */
 const visibleMeridians = computed(() => {
   let list = currentMeridians.value
   // 初始只显示选中
-  if (props.initialMeridians && props.initialMeridians.length > 0 && !showQi.value && !showYin.value && !showYang.value && !selectedId.value) {
-    list = list.filter(m => props.initialMeridians!.includes(m.id))
+  if (
+    props.initialMeridians &&
+    props.initialMeridians.length > 0 &&
+    !showQi.value &&
+    !showYin.value &&
+    !showYang.value &&
+    !selectedId.value
+  ) {
+    list = list.filter((m) => props.initialMeridians!.includes(m.id))
   }
-  if (showQi.value) list = list.filter(m => m.category === 'qi')
-  if (showYin.value) list = list.filter(m => m.category === 'yin')
-  if (showYang.value) list = list.filter(m => m.category === 'yang')
+  if (showQi.value) list = list.filter((m) => m.category === 'qi')
+  if (showYin.value) list = list.filter((m) => m.category === 'yin')
+  if (showYang.value) list = list.filter((m) => m.category === 'yang')
   return list
 })
 
 const selectedMeridian = computed<MeridianPath | null>(() => {
   if (!selectedId.value) return null
-  return [...MERIDIAN_PATHS, ...QIJING_PATHS].find(m => m.id === selectedId.value) || null
+  return [...MERIDIAN_PATHS, ...QIJING_PATHS].find((m) => m.id === selectedId.value) || null
 })
 
 function isSelected(id: string) {
@@ -341,69 +427,336 @@ function resetFilter() {
 </script>
 
 <style scoped>
-.bm-container { display: flex; flex-direction: column; gap: var(--sp-2); padding: var(--sp-2) var(--sp-2); }
+.bm-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  padding: var(--sp-2) var(--sp-2);
+}
 
 /* 视图切换 */
-.side-bar { display: flex; gap: var(--sp-2); }
-.side-btn { flex: 1; display: flex; align-items: center; justify-content: center; gap: var(--sp-1); padding: var(--sp-2); background: rgba(10,10,18,0.5); border: 1rpx solid rgba(212,175,55,0.2); border-radius: var(--r-md); cursor: pointer; }
-.side-btn.active { background: linear-gradient(135deg, #5B3A8E, #C8302A); border-color: var(--color-liu); color: var(--color-bai); }
-.side-glyph { font-size: 28rpx; font-family: 'KaiTi', serif; font-weight: 700; }
-.side-label { font-size: var(--fs-sm); font-family: 'KaiTi', serif; letter-spacing: 0.1em; }
+.side-bar {
+  display: flex;
+  gap: var(--sp-2);
+}
+.side-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-1);
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.5);
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--r-md);
+  cursor: pointer;
+}
+.side-btn.active {
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
+  border-color: var(--color-liu);
+  color: var(--color-bai);
+}
+.side-glyph {
+  font-size: 28rpx;
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.side-label {
+  font-size: var(--fs-sm);
+  font-family: 'KaiTi', serif;
+  letter-spacing: 0.1em;
+}
 
 /* 过滤器 */
-.filter-bar { display: flex; gap: 4rpx; padding: 4rpx; background: rgba(10,10,18,0.5); border-radius: var(--r-sm); }
-.f-btn { flex: 1; text-align: center; padding: 8rpx 0; font-size: var(--fs-xs); color: var(--color-bai-2); border-radius: 4rpx; cursor: pointer; }
-.f-btn.active { color: var(--color-bai); }
-.f-qi.active { background: linear-gradient(135deg, #9B59B6, #C8302A); }
-.f-yin.active { background: linear-gradient(135deg, #5B8ECC, #5B3A8E); }
-.f-yang.active { background: linear-gradient(135deg, #E8A03E, #C8302A); }
+.filter-bar {
+  display: flex;
+  gap: 4rpx;
+  padding: 4rpx;
+  background: rgba(10, 10, 18, 0.5);
+  border-radius: var(--r-sm);
+}
+.f-btn {
+  flex: 1;
+  text-align: center;
+  padding: 8rpx 0;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  border-radius: 4rpx;
+  cursor: pointer;
+}
+.f-btn.active {
+  color: var(--color-bai);
+}
+.f-qi.active {
+  background: linear-gradient(135deg, #9b59b6, #c8302a);
+}
+.f-yin.active {
+  background: linear-gradient(135deg, #5b8ecc, #5b3a8e);
+}
+.f-yang.active {
+  background: linear-gradient(135deg, #e8a03e, #c8302a);
+}
 
 /* SVG */
-.bm-svg-wrap { position: relative; background: rgba(10,10,18,0.5); border: 1rpx solid rgba(212,175,55,0.2); border-radius: var(--r-md); padding: var(--sp-2); overflow: hidden; }
-.bm-svg { width: 100%; height: 1000rpx; display: block; transform: scale(v-bind(zoom)); transform-origin: center top; transition: transform 0.2s; }
+.bm-svg-wrap {
+  position: relative;
+  background: rgba(10, 10, 18, 0.5);
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--r-md);
+  padding: var(--sp-2);
+  overflow: hidden;
+}
+.bm-svg {
+  width: 100%;
+  height: 1000rpx;
+  display: block;
+  transform: scale(v-bind(zoom));
+  transform-origin: center top;
+  transition: transform 0.2s;
+}
 
-.zoom-bar { display: flex; align-items: center; gap: 4rpx; margin-top: var(--sp-2); padding-top: var(--sp-2); border-top: 1rpx solid rgba(212,175,55,0.15); }
-.z-btn { width: 60rpx; height: 60rpx; display: flex; align-items: center; justify-content: center; background: rgba(212,175,55,0.15); color: var(--color-liu); font-size: 24rpx; border-radius: var(--r-sm); cursor: pointer; }
-.z-btn.z-reset { width: auto; padding: 0 16rpx; font-size: var(--fs-xs); }
-.z-val { flex: 1; text-align: center; font-size: var(--fs-xs); color: var(--color-bai-2); }
+.zoom-bar {
+  display: flex;
+  align-items: center;
+  gap: 4rpx;
+  margin-top: var(--sp-2);
+  padding-top: var(--sp-2);
+  border-top: 1rpx solid rgba(212, 175, 55, 0.15);
+}
+.z-btn {
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--color-liu);
+  font-size: 24rpx;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+}
+.z-btn.z-reset {
+  width: auto;
+  padding: 0 16rpx;
+  font-size: var(--fs-xs);
+}
+.z-val {
+  flex: 1;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+}
 
 /* 经络选择列表 */
-.meridian-list { padding: var(--sp-2); background: rgba(10,10,18,0.4); border: 1rpx solid rgba(212,175,55,0.15); border-radius: var(--r-md); }
-.ml-title { display: block; font-size: var(--fs-sm); color: var(--color-liu); font-family: 'KaiTi', serif; letter-spacing: 0.15em; margin-bottom: var(--sp-2); }
-.ml-grid { display: flex; flex-wrap: wrap; gap: 4rpx; }
-.ml-item { display: inline-flex; align-items: center; gap: 4rpx; padding: 4rpx 12rpx; background: rgba(20,20,28,0.5); border: 1rpx solid; border-radius: 4rpx; cursor: pointer; }
-.ml-dot { width: 8rpx; height: 8rpx; border-radius: 50%; }
-.ml-name { font-size: var(--fs-xs); color: var(--color-bai); font-family: 'KaiTi', serif; }
+.meridian-list {
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.4);
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
+  border-radius: var(--r-md);
+}
+.ml-title {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  letter-spacing: 0.15em;
+  margin-bottom: var(--sp-2);
+}
+.ml-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+}
+.ml-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4rpx;
+  padding: 4rpx 12rpx;
+  background: rgba(20, 20, 28, 0.5);
+  border: 1rpx solid;
+  border-radius: 4rpx;
+  cursor: pointer;
+}
+.ml-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+}
+.ml-name {
+  font-size: var(--fs-xs);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+}
 
 /* 详情弹窗 */
-.detail-mask { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.7); backdrop-filter: blur(8rpx); display: flex; align-items: center; justify-content: center; padding: var(--sp-4); }
-.detail-card { width: 100%; max-width: 700rpx; max-height: 90vh; overflow-y: auto; padding: var(--sp-4); background: linear-gradient(180deg, rgba(20,12,30,0.95), rgba(40,20,50,0.95)); border: 1rpx solid rgba(212,175,55,0.3); border-radius: var(--r-lg); }
-.dc-header { display: flex; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-3); padding-bottom: var(--sp-3); border-bottom: 2rpx solid; }
-.dc-glyph { font-size: 60rpx; font-family: 'KaiTi', serif; font-weight: 700; }
-.dc-info { flex: 1; }
-.dc-name { display: block; font-size: var(--fs-xl); font-family: 'KaiTi', serif; font-weight: 700; letter-spacing: 0.1em; }
-.dc-side { display: block; font-size: var(--fs-xs); color: var(--color-bai-2); margin-top: 2rpx; }
+.detail-mask {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8rpx);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--sp-4);
+}
+.detail-card {
+  width: 100%;
+  max-width: 700rpx;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: var(--sp-4);
+  background: linear-gradient(180deg, rgba(20, 12, 30, 0.95), rgba(40, 20, 50, 0.95));
+  border: 1rpx solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--r-lg);
+}
+.dc-header {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-3);
+  padding-bottom: var(--sp-3);
+  border-bottom: 2rpx solid;
+}
+.dc-glyph {
+  font-size: 60rpx;
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.dc-info {
+  flex: 1;
+}
+.dc-name {
+  display: block;
+  font-size: var(--fs-xl);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.dc-side {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  margin-top: 2rpx;
+}
 
-.dc-stats { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-3); }
-.dc-stat { flex: 1; padding: var(--sp-2); background: rgba(10,10,18,0.5); border: 1rpx solid rgba(212,175,55,0.15); border-radius: var(--r-sm); text-align: center; }
-.dc-stat-num { display: block; font-size: 32rpx; color: var(--color-liu); font-family: 'KaiTi', serif; font-weight: 700; }
-.dc-stat-label { display: block; font-size: var(--fs-xs); color: var(--color-bai-2); }
+.dc-stats {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+.dc-stat {
+  flex: 1;
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.5);
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
+  border-radius: var(--r-sm);
+  text-align: center;
+}
+.dc-stat-num {
+  display: block;
+  font-size: 32rpx;
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.dc-stat-label {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+}
 
-.dc-section { display: block; font-size: var(--fs-sm); color: var(--color-liu); font-family: 'KaiTi', serif; margin: var(--sp-2) 0; }
-.acupoint-list { display: flex; flex-direction: column; gap: 4rpx; max-height: 400rpx; overflow-y: auto; }
-.al-item { display: flex; align-items: center; gap: var(--sp-2); padding: 8rpx var(--sp-2); background: rgba(10,10,18,0.4); border-left: 4rpx solid; border-radius: 4rpx; cursor: pointer; }
-.al-item.hit { background: rgba(212,175,55,0.15); }
-.al-dot { width: 8rpx; height: 8rpx; border-radius: 50%; }
-.al-name { font-size: var(--fs-sm); color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 700; min-width: 100rpx; }
-.al-coord { font-size: var(--fs-xs); color: var(--color-bai-2); margin-left: auto; }
+.dc-section {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  margin: var(--sp-2) 0;
+}
+.acupoint-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+.al-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 8rpx var(--sp-2);
+  background: rgba(10, 10, 18, 0.4);
+  border-left: 4rpx solid;
+  border-radius: 4rpx;
+  cursor: pointer;
+}
+.al-item.hit {
+  background: rgba(212, 175, 55, 0.15);
+}
+.al-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+}
+.al-name {
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  min-width: 100rpx;
+}
+.al-coord {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  margin-left: auto;
+}
 
-.ac-detail { padding: var(--sp-3); margin-top: var(--sp-2); background: linear-gradient(135deg, rgba(91,58,142,0.15), rgba(200,48,42,0.1)); border: 1rpx solid rgba(212,175,55,0.2); border-radius: var(--r-sm); }
-.ad-title { display: block; font-size: var(--fs-sm); color: var(--color-liu); font-family: 'KaiTi', serif; margin-bottom: var(--sp-2); }
-.ad-row { display: flex; padding: 4rpx 0; font-size: var(--fs-xs); line-height: 1.7; }
-.ad-label { width: 140rpx; color: var(--color-bai-2); flex-shrink: 0; }
-.ad-val { flex: 1; color: var(--color-bai); }
+.ac-detail {
+  padding: var(--sp-3);
+  margin-top: var(--sp-2);
+  background: linear-gradient(135deg, rgba(91, 58, 142, 0.15), rgba(200, 48, 42, 0.1));
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+  border-radius: var(--r-sm);
+}
+.ad-title {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  margin-bottom: var(--sp-2);
+}
+.ad-row {
+  display: flex;
+  padding: 4rpx 0;
+  font-size: var(--fs-xs);
+  line-height: 1.7;
+}
+.ad-label {
+  width: 140rpx;
+  color: var(--color-bai-2);
+  flex-shrink: 0;
+}
+.ad-val {
+  flex: 1;
+  color: var(--color-bai);
+}
 
-.dc-actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-3); }
-.dc-btn { flex: 1; padding: var(--sp-2); text-align: center; font-size: var(--fs-sm); border-radius: var(--r-md); font-family: 'KaiTi', serif; letter-spacing: 0.1em; }
-.dc-btn-primary { background: linear-gradient(135deg, #5B3A8E, #C8302A); color: var(--color-bai); }
+.dc-actions {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-3);
+}
+.dc-btn {
+  flex: 1;
+  padding: var(--sp-2);
+  text-align: center;
+  font-size: var(--fs-sm);
+  border-radius: var(--r-md);
+  font-family: 'KaiTi', serif;
+  letter-spacing: 0.1em;
+}
+.dc-btn-primary {
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
+  color: var(--color-bai);
+}
 </style>

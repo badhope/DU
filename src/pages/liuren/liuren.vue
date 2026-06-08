@@ -12,13 +12,24 @@
 
       <view class="form-row">
         <text class="form-label">年</text>
-        <picker mode="number" :value="form.year" :min="1900" :max="2100" @change="onPick('year', $event)">
+        <picker
+          mode="number"
+          :value="form.year"
+          :min="1900"
+          :max="2100"
+          @change="onPick('year', $event)"
+        >
           <view class="form-picker">{{ form.year }} 年</view>
         </picker>
       </view>
       <view class="form-row">
         <text class="form-label">月</text>
-        <picker mode="selector" :value="form.month - 1" :range="monthRange" @change="onPick('month', $event)">
+        <picker
+          mode="selector"
+          :value="form.month - 1"
+          :range="monthRange"
+          @change="onPick('month', $event)"
+        >
           <view class="form-picker">{{ form.month }} 月</view>
         </picker>
       </view>
@@ -30,7 +41,12 @@
       </view>
       <view class="form-row">
         <text class="form-label">时</text>
-        <picker mode="selector" :value="form.hour" :range="hourRange" @change="onPick('hour', $event)">
+        <picker
+          mode="selector"
+          :value="form.hour"
+          :range="hourRange"
+          @change="onPick('hour', $event)"
+        >
           <view class="form-picker">{{ form.hour }}:00</view>
         </picker>
       </view>
@@ -48,7 +64,7 @@
 
     <view v-else class="result">
       <!-- 大六壬天地盘可视化 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .04s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.04s">
         <LiuRenDaChart :result="result" />
       </view>
 
@@ -77,7 +93,7 @@
       </view>
 
       <!-- 天地盘 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .05s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.05s">
         <text class="card-title title-mystic">天 盘 · 地 盘</text>
         <text class="card-tip">月 将 {{ result.monthJiang }} · 占 时 {{ result.hourZhi }}时</text>
 
@@ -88,13 +104,23 @@
           </view>
           <view class="pan-row">
             <text class="pan-td-label">天盘</text>
-            <text v-for="(p, i) in result.tianPan" :key="'t' + i" class="pan-td" :class="'gen-' + natureClass(p.general)">
+            <text
+              v-for="(p, i) in result.tianPan"
+              :key="'t' + i"
+              class="pan-td"
+              :class="'gen-' + natureClass(p.general)"
+            >
               {{ p.general }}
             </text>
           </view>
           <view class="pan-row">
             <text class="pan-td-label">地盘</text>
-            <text v-for="(p, i) in result.diPan" :key="'d' + i" class="pan-td" :class="'gen-' + natureClass(p.general)">
+            <text
+              v-for="(p, i) in result.diPan"
+              :key="'d' + i"
+              class="pan-td"
+              :class="'gen-' + natureClass(p.general)"
+            >
               {{ p.general }}
             </text>
           </view>
@@ -102,7 +128,7 @@
       </view>
 
       <!-- 四课 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .1s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.1s">
         <text class="card-title title-mystic">四 课</text>
         <text class="card-tip">日干 {{ result.dayGan }} · 日支 {{ result.dayZhi }}</text>
         <view class="ke-list">
@@ -114,30 +140,46 @@
             <view class="ke-pair">
               <text class="ke-zhi">{{ k.zhi }}</text>
               <text class="ke-arrow">→</text>
-              <text class="ke-general" :class="'gen-' + natureClass(k.general)">{{ k.general }}</text>
+              <text class="ke-general" :class="'gen-' + natureClass(k.general)">
+{{
+                k.general
+              }}
+</text>
             </view>
           </view>
         </view>
       </view>
 
       <!-- 三传 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .15s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.15s">
         <text class="card-title title-mystic">三 传</text>
         <text class="card-tip">贼 克 法 · 初 中 末 传</text>
         <view class="sc-flow">
           <view class="sc-item">
             <text class="sc-label">初 传</text>
-            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.chu)">{{ result.sanChuan.chu }}</text>
+            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.chu)">
+{{
+              result.sanChuan.chu
+            }}
+</text>
           </view>
           <text class="sc-arrow">→</text>
           <view class="sc-item">
             <text class="sc-label">中 传</text>
-            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.zhong)">{{ result.sanChuan.zhong }}</text>
+            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.zhong)">
+{{
+              result.sanChuan.zhong
+            }}
+</text>
           </view>
           <text class="sc-arrow">→</text>
           <view class="sc-item">
             <text class="sc-label">末 传</text>
-            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.mo)">{{ result.sanChuan.mo }}</text>
+            <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.mo)">
+{{
+              result.sanChuan.mo
+            }}
+</text>
           </view>
         </view>
         <text class="sc-desc">课体：{{ result.ketiDesc }}</text>
@@ -221,19 +263,32 @@ const judgeLevel = computed(() => {
 
 function calculate() {
   if (!cd.guard()) return
-  const y = form.value.year, m = form.value.month, d = form.value.day
-  if (y < 1900 || y > 2100) { uni.showToast({ title: '年份需 1900-2100', icon: 'none' }); return }
-  if (m < 1 || m > 12) { uni.showToast({ title: '月份需 1-12', icon: 'none' }); return }
+  const y = form.value.year,
+    m = form.value.month,
+    d = form.value.day
+  if (y < 1900 || y > 2100) {
+    uni.showToast({ title: '年份需 1900-2100', icon: 'none' })
+    return
+  }
+  if (m < 1 || m > 12) {
+    uni.showToast({ title: '月份需 1-12', icon: 'none' })
+    return
+  }
   const dim = new Date(y, m, 0).getDate()
-  if (d < 1 || d > dim) { uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' }); return }
+  if (d < 1 || d > dim) {
+    uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' })
+    return
+  }
   loading.value = true
   setTimeout(() => {
     try {
       result.value = calcLiuren(y, m, d, form.value.hour)
       loading.value = false
-      cd.commit(`${result.value.keti} · ${result.value.judge} · 初传${result.value.sanChuan.chu}`,
+      cd.commit(
+        `${result.value.keti} · ${result.value.judge} · 初传${result.value.sanChuan.chu}`,
         { ...form.value },
-        { keti: result.value.keti, judge: result.value.judge, sanChuan: result.value.sanChuan })
+        { keti: result.value.keti, judge: result.value.judge, sanChuan: result.value.sanChuan },
+      )
     } catch (e) {
       loading.value = false
       uni.showModal({ title: '排盘失败', content: '请检查日期输入', showCancel: false })
@@ -241,7 +296,9 @@ function calculate() {
   }, 700)
 }
 
-function reset() { result.value = null }
+function reset() {
+  result.value = null
+}
 </script>
 
 <style scoped>
@@ -252,7 +309,11 @@ function reset() { result.value = null }
   overflow: hidden;
 }
 
-.taiji-bg { position: fixed; inset: 0; z-index: var(--z-bg); }
+.taiji-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
 
 .form {
   position: relative;
@@ -319,8 +380,12 @@ function reset() { result.value = null }
   padding: var(--sp-4);
 }
 
-.card.lv-good { border-color: rgba(79, 174, 111, 0.4); }
-.card.lv-bad  { border-color: rgba(200, 48, 42, 0.4); }
+.card.lv-good {
+  border-color: rgba(79, 174, 111, 0.4);
+}
+.card.lv-bad {
+  border-color: rgba(200, 48, 42, 0.4);
+}
 
 .card-title {
   display: block;
@@ -358,9 +423,22 @@ function reset() { result.value = null }
   text-shadow: 0 0 12rpx currentColor;
 }
 
-.sum-judge.jd-大吉, .sum-judge.jd-吉 { color: #4FAE6F; border-color: #4FAE6F; background: rgba(79, 174, 111, 0.1); }
-.sum-judge.jd-中 { color: var(--color-liu); border-color: var(--color-liu); }
-.sum-judge.jd-凶, .sum-judge.jd-大凶 { color: var(--color-zhu); border-color: var(--color-zhu); background: rgba(200, 48, 42, 0.1); }
+.sum-judge.jd-大吉,
+.sum-judge.jd-吉 {
+  color: #4fae6f;
+  border-color: #4fae6f;
+  background: rgba(79, 174, 111, 0.1);
+}
+.sum-judge.jd-中 {
+  color: var(--color-liu);
+  border-color: var(--color-liu);
+}
+.sum-judge.jd-凶,
+.sum-judge.jd-大凶 {
+  color: var(--color-zhu);
+  border-color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.1);
+}
 
 .sum-keti {
   font-size: var(--fs-md);
@@ -435,7 +513,8 @@ function reset() { result.value = null }
   margin-bottom: 4rpx;
 }
 
-.pan-th, .pan-td {
+.pan-th,
+.pan-td {
   text-align: center;
   font-size: 22rpx;
   padding: 6rpx 2rpx;
@@ -461,9 +540,17 @@ function reset() { result.value = null }
   border-radius: 4rpx;
 }
 
-.pan-td.gen-good { color: #4FAE6F; background: rgba(79, 174, 111, 0.15); }
-.pan-td.gen-bad  { color: var(--color-zhu); background: rgba(200, 48, 42, 0.15); }
-.pan-td.gen-mid  { color: var(--color-bai-2); }
+.pan-td.gen-good {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.15);
+}
+.pan-td.gen-bad {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.15);
+}
+.pan-td.gen-mid {
+  color: var(--color-bai-2);
+}
 
 /* ===== 四课 ===== */
 .ke-list {
@@ -482,7 +569,10 @@ function reset() { result.value = null }
   border-radius: var(--r-md);
 }
 
-.ke-info { display: flex; flex-direction: column; }
+.ke-info {
+  display: flex;
+  flex-direction: column;
+}
 
 .ke-name {
   font-size: var(--fs-md);
@@ -528,9 +618,18 @@ function reset() { result.value = null }
   text-align: center;
 }
 
-.ke-general.gen-good { color: #4FAE6F; background: rgba(79, 174, 111, 0.15); }
-.ke-general.gen-bad  { color: var(--color-zhu); background: rgba(200, 48, 42, 0.15); }
-.ke-general.gen-mid  { color: var(--color-bai); background: rgba(100, 100, 120, 0.2); }
+.ke-general.gen-good {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.15);
+}
+.ke-general.gen-bad {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.15);
+}
+.ke-general.gen-mid {
+  color: var(--color-bai);
+  background: rgba(100, 100, 120, 0.2);
+}
 
 /* ===== 三传 ===== */
 .sc-flow {
@@ -566,9 +665,15 @@ function reset() { result.value = null }
   text-shadow: 0 0 12rpx currentColor;
 }
 
-.sc-general.gen-good { color: #4FAE6F; }
-.sc-general.gen-bad  { color: var(--color-zhu); }
-.sc-general.gen-mid  { color: var(--color-liu); }
+.sc-general.gen-good {
+  color: #4fae6f;
+}
+.sc-general.gen-bad {
+  color: var(--color-zhu);
+}
+.sc-general.gen-mid {
+  color: var(--color-liu);
+}
 
 .sc-arrow {
   color: var(--color-liu);

@@ -18,17 +18,20 @@ export interface JiaoResult {
 
 export const JIAO_MAP: Record<JiaoType, JiaoResult> = {
   sheng: {
-    type: 'sheng', icon: '〇●',
+    type: 'sheng',
+    icon: '〇●',
     meaning: '圣 筊',
     advice: '神明允诺 · 所求可成 · 心意已遂',
   },
   xiao: {
-    type: 'xiao', icon: '●●',
+    type: 'xiao',
+    icon: '●●',
     meaning: '笑 筊',
     advice: '神明笑而不答 · 意味难明 · 宜重新整理问题再问',
   },
   yin: {
-    type: 'yin', icon: '〇〇',
+    type: 'yin',
+    icon: '〇〇',
     meaning: '阴 筊',
     advice: '神明不允 · 此事宜止 · 不可强求',
   },
@@ -37,7 +40,10 @@ export const JIAO_MAP: Record<JiaoType, JiaoResult> = {
 /**
  * 基于问题的哈希稳定生成一个结果
  */
-export function castJiao(question: string, times: number = 3): {
+export function castJiao(
+  question: string,
+  times: number = 3,
+): {
   results: JiaoResult[]
   final: JiaoType
   finalResult: JiaoResult
@@ -52,8 +58,8 @@ export function castJiao(question: string, times: number = 3): {
     results.push(JIAO_MAP[types[Math.abs(h) % types.length]])
   }
   const counts: Record<JiaoType, number> = { sheng: 0, xiao: 0, yin: 0 }
-  results.forEach(r => counts[r.type]++)
-  const final = (Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0]) as JiaoType
+  results.forEach((r) => counts[r.type]++)
+  const final = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0] as JiaoType
 
   const summaryMap: Record<string, string> = {
     sheng: '三次连掷 · 圣筊为主 · 神明显允 · 放心去做',

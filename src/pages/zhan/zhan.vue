@@ -12,7 +12,16 @@
       <view class="dur-section">
         <text class="dur-label">· 时 长</text>
         <view class="dur-list">
-          <view v-for="d in durations" :key="d" class="dur-btn" :class="{ active: duration === d }" @click="duration = d">{{ d }} 分</view>
+          <view
+            v-for="d in durations"
+            :key="d"
+            class="dur-btn"
+            :class="{ active: duration === d }"
+            @click="duration = d"
+            >
+{{ d }} 分
+</view
+          >
         </view>
         <view class="custom-dur">
           <text class="cd-label">自定义：</text>
@@ -23,7 +32,13 @@
       <view class="mode-section">
         <text class="dur-label">· 方 式</text>
         <view class="mode-list">
-          <view v-for="m in modes" :key="m.key" class="mode-btn" :class="{ active: mode === m.key }" @click="mode = m.key as Mode">
+          <view
+            v-for="m in modes"
+            :key="m.key"
+            class="mode-btn"
+            :class="{ active: mode === m.key }"
+            @click="mode = m.key as Mode"
+          >
             <text class="mode-glyph">{{ m.glyph }}</text>
             <text class="mode-name">{{ m.name }}</text>
             <text class="mode-desc">{{ m.desc }}</text>
@@ -57,7 +72,12 @@
 
         <!-- 念珠 -->
         <view class="beads">
-          <text v-for="i in 18" :key="i" class="bead" :class="{ active: i === currentBead, passed: i < currentBead }">
+          <text
+            v-for="i in 18"
+            :key="i"
+            class="bead"
+            :class="{ active: i === currentBead, passed: i < currentBead }"
+          >
             <text class="bead-inner"></text>
           </text>
         </view>
@@ -143,7 +163,7 @@ const modes = [
   { key: 'nian' as Mode, name: '念诵', glyph: '佛', desc: '六字大明咒' },
 ]
 
-const currentMode = computed(() => modes.find(m => m.key === mode.value)!)
+const currentMode = computed(() => modes.find((m) => m.key === mode.value)!)
 
 const doneMessages = [
   '心如止水 · 诸缘放下',
@@ -258,7 +278,9 @@ function stop() {
   finished.value = true
   doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
   app.addHistory({
-    tool: 'zhan', toolName: '坐禅计时', category: '修心',
+    tool: 'zhan',
+    toolName: '坐禅计时',
+    category: '修心',
     input: { duration: duration.value, mode: mode.value },
     output: { breath: breathCount.value, beads: beadCount.value },
     brief: `${currentMode.value.name} ${duration.value}分 · 呼吸${breathCount.value}轮`,
@@ -273,7 +295,9 @@ function finish() {
   finished.value = true
   doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
   app.addHistory({
-    tool: 'zhan', toolName: '坐禅计时', category: '修心',
+    tool: 'zhan',
+    toolName: '坐禅计时',
+    category: '修心',
     input: { duration: duration.value, mode: mode.value },
     output: { breath: breathCount.value, beads: beadCount.value },
     brief: `${currentMode.value.name} ${duration.value}分圆满 · 呼吸${breathCount.value}轮`,
@@ -297,14 +321,47 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.zhan-page { min-height: 100vh; padding-bottom: var(--sp-6); }
-.setup, .running, .done { margin: var(--sp-2); }
-.card-mystic { padding: var(--sp-4); }
-.setup-title { display: block; text-align: center; font-size: var(--fs-md); letter-spacing: 0.2em; margin-bottom: var(--sp-2); }
-.setup-sub { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai-2); margin-bottom: var(--sp-4); }
-.dur-section, .mode-section { margin: var(--sp-3) 0; }
-.dur-label { display: block; font-size: var(--fs-sm); color: var(--color-liu); margin-bottom: var(--sp-2); }
-.dur-list { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.zhan-page {
+  min-height: 100vh;
+  padding-bottom: var(--sp-6);
+}
+.setup,
+.running,
+.done {
+  margin: var(--sp-2);
+}
+.card-mystic {
+  padding: var(--sp-4);
+}
+.setup-title {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-2);
+}
+.setup-sub {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  margin-bottom: var(--sp-4);
+}
+.dur-section,
+.mode-section {
+  margin: var(--sp-3) 0;
+}
+.dur-label {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  margin-bottom: var(--sp-2);
+}
+.dur-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+}
 .dur-btn {
   flex: 1;
   min-width: 100rpx;
@@ -316,12 +373,36 @@ onUnmounted(() => {
   color: var(--color-bai-2);
   font-size: var(--fs-sm);
 }
-.dur-btn.active { background: linear-gradient(135deg, #1B3A5C, #5B3A8E); color: var(--color-bai); border-color: var(--color-liu); }
-.custom-dur { display: flex; align-items: center; margin-top: var(--sp-2); gap: var(--sp-2); }
-.cd-label { font-size: var(--fs-sm); color: var(--color-bai-3); }
-.cd-inp { flex: 1; padding: var(--sp-2); background: rgba(10, 10, 18, 0.6); color: var(--color-bai); font-size: var(--fs-sm); border-radius: var(--r-sm); border: 1rpx solid rgba(212, 175, 55, 0.2); }
+.dur-btn.active {
+  background: linear-gradient(135deg, #1b3a5c, #5b3a8e);
+  color: var(--color-bai);
+  border-color: var(--color-liu);
+}
+.custom-dur {
+  display: flex;
+  align-items: center;
+  margin-top: var(--sp-2);
+  gap: var(--sp-2);
+}
+.cd-label {
+  font-size: var(--fs-sm);
+  color: var(--color-bai-3);
+}
+.cd-inp {
+  flex: 1;
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.6);
+  color: var(--color-bai);
+  font-size: var(--fs-sm);
+  border-radius: var(--r-sm);
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+}
 
-.mode-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.mode-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
 .mode-btn {
   display: flex;
   align-items: center;
@@ -332,12 +413,15 @@ onUnmounted(() => {
   cursor: pointer;
   gap: var(--sp-2);
 }
-.mode-btn.active { border-color: var(--color-liu); background: rgba(91, 58, 142, 0.2); }
+.mode-btn.active {
+  border-color: var(--color-liu);
+  background: rgba(91, 58, 142, 0.2);
+}
 .mode-glyph {
   width: 80rpx;
   height: 80rpx;
   border-radius: 50%;
-  background: linear-gradient(135deg, #1B3A5C, #5B3A8E);
+  background: linear-gradient(135deg, #1b3a5c, #5b3a8e);
   color: var(--color-bai);
   display: flex;
   align-items: center;
@@ -346,19 +430,61 @@ onUnmounted(() => {
   font-family: 'KaiTi', serif;
   font-weight: 700;
 }
-.mode-info { flex: 1; display: flex; flex-direction: column; }
-.mode-name { font-size: var(--fs-md); color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 600; }
-.mode-desc { font-size: var(--fs-xs); color: var(--color-bai-3); }
+.mode-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.mode-name {
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 600;
+}
+.mode-desc {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
 
-.setup-tip { font-size: var(--fs-xs); color: var(--color-bai-3); text-align: center; margin: var(--sp-3) 0; }
-.form-actions { display: flex; justify-content: center; margin-top: var(--sp-4); }
-.btn-zhu { padding: var(--sp-3) var(--sp-6); background: linear-gradient(135deg, #1B3A5C, #5B3A8E); color: var(--color-bai); font-size: var(--fs-md); border-radius: var(--r-md); letter-spacing: 0.2em; min-width: 320rpx; text-align: center; }
+.setup-tip {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  text-align: center;
+  margin: var(--sp-3) 0;
+}
+.form-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-4);
+}
+.btn-zhu {
+  padding: var(--sp-3) var(--sp-6);
+  background: linear-gradient(135deg, #1b3a5c, #5b3a8e);
+  color: var(--color-bai);
+  font-size: var(--fs-md);
+  border-radius: var(--r-md);
+  letter-spacing: 0.2em;
+  min-width: 320rpx;
+  text-align: center;
+}
 
 /* 计时中 */
-.run-card { padding: var(--sp-5) var(--sp-4); text-align: center; }
-.run-mode { display: block; font-size: var(--fs-sm); color: var(--color-liu); letter-spacing: 0.2em; }
+.run-card {
+  padding: var(--sp-5) var(--sp-4);
+  text-align: center;
+}
+.run-mode {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  letter-spacing: 0.2em;
+}
 
-.breath-wrap { display: flex; justify-content: center; padding: var(--sp-5) 0; }
+.breath-wrap {
+  display: flex;
+  justify-content: center;
+  padding: var(--sp-5) 0;
+}
 .breath-ring {
   width: 380rpx;
   height: 380rpx;
@@ -372,14 +498,44 @@ onUnmounted(() => {
   box-shadow: 0 0 60rpx rgba(91, 58, 142, 0.4);
   transition: all 1s ease;
 }
-.breath-ring.inhale { transform: scale(1.15); box-shadow: 0 0 100rpx rgba(91, 58, 142, 0.6); }
-.breath-ring.hold { transform: scale(1.1); }
-.breath-ring.exhale { transform: scale(0.85); box-shadow: 0 0 30rpx rgba(91, 58, 142, 0.3); }
-.breath-ring.pause { transform: scale(1); }
-.breath-time { font-size: 120rpx; font-family: 'KaiTi', serif; color: var(--color-bai); font-weight: 700; text-shadow: 0 0 20rpx rgba(212, 175, 55, 0.5); }
-.breath-label { font-size: var(--fs-md); color: var(--color-liu); font-family: 'KaiTi', serif; margin-top: var(--sp-2); }
+.breath-ring.inhale {
+  transform: scale(1.15);
+  box-shadow: 0 0 100rpx rgba(91, 58, 142, 0.6);
+}
+.breath-ring.hold {
+  transform: scale(1.1);
+}
+.breath-ring.exhale {
+  transform: scale(0.85);
+  box-shadow: 0 0 30rpx rgba(91, 58, 142, 0.3);
+}
+.breath-ring.pause {
+  transform: scale(1);
+}
+.breath-time {
+  font-size: 120rpx;
+  font-family: 'KaiTi', serif;
+  color: var(--color-bai);
+  font-weight: 700;
+  text-shadow: 0 0 20rpx rgba(212, 175, 55, 0.5);
+}
+.breath-label {
+  font-size: var(--fs-md);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  margin-top: var(--sp-2);
+}
 
-.beads { display: flex; flex-wrap: wrap; gap: 12rpx; justify-content: center; margin: var(--sp-4) 0; max-width: 600rpx; margin-left: auto; margin-right: auto; }
+.beads {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+  justify-content: center;
+  margin: var(--sp-4) 0;
+  max-width: 600rpx;
+  margin-left: auto;
+  margin-right: auto;
+}
 .bead {
   width: 32rpx;
   height: 32rpx;
@@ -390,15 +546,28 @@ onUnmounted(() => {
   align-items: center;
   justify-content: center;
 }
-.bead.passed .bead-inner { background: var(--color-liu); }
+.bead.passed .bead-inner {
+  background: var(--color-liu);
+}
 .bead.active {
-  background: linear-gradient(135deg, #C8302A, #D4AF37);
+  background: linear-gradient(135deg, #c8302a, #d4af37);
   border-color: var(--color-liu);
   box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.6);
   transform: scale(1.3);
 }
-.bead-inner { width: 12rpx; height: 12rpx; border-radius: 50%; background: transparent; }
-.bead-text { display: block; text-align: center; font-size: var(--fs-xs); color: var(--color-bai-3); margin-top: var(--sp-2); }
+.bead-inner {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: transparent;
+}
+.bead-text {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  margin-top: var(--sp-2);
+}
 
 .nian-card {
   margin: var(--sp-4) auto;
@@ -408,15 +577,44 @@ onUnmounted(() => {
   border-radius: var(--r-md);
   max-width: 500rpx;
 }
-.nian-num { display: block; font-size: 60rpx; color: #C8B5E8; font-family: 'KaiTi', serif; font-weight: 700; }
-.nian-text { display: block; font-size: var(--fs-md); color: #C8B5E8; font-family: 'KaiTi', serif; letter-spacing: 0.3em; }
+.nian-num {
+  display: block;
+  font-size: 60rpx;
+  color: #c8b5e8;
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.nian-text {
+  display: block;
+  font-size: var(--fs-md);
+  color: #c8b5e8;
+  font-family: 'KaiTi', serif;
+  letter-spacing: 0.3em;
+}
 
-.countdown { margin: var(--sp-4) 0; }
-.cd-num { display: block; font-size: 60rpx; color: var(--color-liu); font-family: 'KaiTi', serif; font-weight: 700; }
-.cd-label { display: block; font-size: var(--fs-xs); color: var(--color-bai-3); }
+.countdown {
+  margin: var(--sp-4) 0;
+}
+.cd-num {
+  display: block;
+  font-size: 60rpx;
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.cd-label {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
 
-.run-actions { display: flex; gap: var(--sp-2); margin-top: var(--sp-4); }
-.btn-liu, .btn-bad {
+.run-actions {
+  display: flex;
+  gap: var(--sp-2);
+  margin-top: var(--sp-4);
+}
+.btn-liu,
+.btn-bad {
   flex: 1;
   text-align: center;
   padding: var(--sp-3) 0;
@@ -424,17 +622,69 @@ onUnmounted(() => {
   border-radius: var(--r-md);
   letter-spacing: 0.2em;
 }
-.btn-liu { background: transparent; color: var(--color-liu); border: 1rpx solid var(--color-liu); }
-.btn-bad { background: rgba(200, 48, 42, 0.2); color: #F5C5C0; border: 1rpx solid #C8302A; }
+.btn-liu {
+  background: transparent;
+  color: var(--color-liu);
+  border: 1rpx solid var(--color-liu);
+}
+.btn-bad {
+  background: rgba(200, 48, 42, 0.2);
+  color: #f5c5c0;
+  border: 1rpx solid #c8302a;
+}
 
 /* 完成 */
-.done { padding: var(--sp-6) var(--sp-4); text-align: center; }
-.done-glyph { display: block; font-size: 140rpx; color: var(--color-liu); text-shadow: 0 0 30rpx rgba(212, 175, 55, 0.5); margin-bottom: var(--sp-3); }
-.done-title { display: block; font-size: var(--fs-lg); letter-spacing: 0.2em; margin-bottom: var(--sp-2); }
-.done-sub { display: block; font-size: var(--fs-sm); color: var(--color-bai-3); margin-bottom: var(--sp-4); }
-.done-stats { display: flex; justify-content: space-around; gap: var(--sp-3); margin: var(--sp-4) 0; }
-.ds-cell { display: flex; flex-direction: column; }
-.ds-num { font-size: 60rpx; color: var(--color-liu); font-family: 'KaiTi', serif; font-weight: 700; }
-.ds-label { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.done-msg { display: block; text-align: center; font-size: var(--fs-md); color: var(--color-bai); font-family: 'KaiTi', serif; margin: var(--sp-4) 0; line-height: 1.7; letter-spacing: 0.1em; }
+.done {
+  padding: var(--sp-6) var(--sp-4);
+  text-align: center;
+}
+.done-glyph {
+  display: block;
+  font-size: 140rpx;
+  color: var(--color-liu);
+  text-shadow: 0 0 30rpx rgba(212, 175, 55, 0.5);
+  margin-bottom: var(--sp-3);
+}
+.done-title {
+  display: block;
+  font-size: var(--fs-lg);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-2);
+}
+.done-sub {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-3);
+  margin-bottom: var(--sp-4);
+}
+.done-stats {
+  display: flex;
+  justify-content: space-around;
+  gap: var(--sp-3);
+  margin: var(--sp-4) 0;
+}
+.ds-cell {
+  display: flex;
+  flex-direction: column;
+}
+.ds-num {
+  font-size: 60rpx;
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.ds-label {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.done-msg {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  margin: var(--sp-4) 0;
+  line-height: 1.7;
+  letter-spacing: 0.1em;
+}
 </style>

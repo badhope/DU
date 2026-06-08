@@ -1,5 +1,8 @@
 <template>
-  <view class="page" :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']">
+  <view
+    class="page"
+    :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
+  >
     <view class="taiji-bg"><TaijiBg /></view>
     <TopBar title="吉日择时" subtitle="AUSPICIOUS DAY" />
 
@@ -34,7 +37,7 @@
 
     <view v-else class="result">
       <!-- 吉日日历热图 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .04s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.04s">
         <JiRiChart :result="result" />
       </view>
 
@@ -44,7 +47,12 @@
         <text class="hd-period">{{ result.period.start }} 至 {{ result.period.end }}</text>
       </view>
 
-      <view v-for="(d, i) in result.bestDays" :key="i" class="day card-mystic anim-fade-up" :style="{ animationDelay: (i * 0.05) + 's' }">
+      <view
+        v-for="(d, i) in result.bestDays"
+        :key="i"
+        class="day card-mystic anim-fade-up"
+        :style="{ animationDelay: i * 0.05 + 's' }"
+      >
         <view class="day-top">
           <view class="day-rank">
             <text class="rk-num">#{{ i + 1 }}</text>
@@ -54,10 +62,18 @@
             <text class="day-date">{{ d.day.date }}</text>
             <text class="day-gz">{{ d.day.ganzhi }} 日 · {{ d.day.shengxiao }}年</text>
           </view>
-          <view class="day-fortune" :class="'lv-' + d.day.fortune"><text>{{ d.day.fortune }}</text></view>
+          <view class="day-fortune" :class="'lv-' + d.day.fortune"
+            >
+<text>{{ d.day.fortune }}</text>
+</view
+          >
         </view>
         <view class="day-tags">
-          <text class="day-tag" :class="d.day.zhiShenType === '黄道' ? 'g' : 'b'">{{ d.day.zhiShen }}（{{ d.day.zhiShenType }}）</text>
+          <text class="day-tag" :class="d.day.zhiShenType === '黄道' ? 'g' : 'b'"
+            >
+{{ d.day.zhiShen }}（{{ d.day.zhiShenType }}）
+</text
+          >
           <text class="day-tag">建除 · {{ d.day.jianchu }}</text>
           <text class="day-tag">宿 · {{ d.day.xiu }}（{{ d.day.xiuFortune }}）</text>
           <text class="day-tag">{{ d.day.chong }}</text>
@@ -96,9 +112,12 @@ const form = reactive({ event: 'jiaqin' })
 const result = ref<JiriResult | null>(null)
 const loading = ref(false)
 async function calculate() {
-  if (!form.event) { uni.showToast({ title: '请选择事项', icon: 'none' }); return }
+  if (!form.event) {
+    uni.showToast({ title: '请选择事项', icon: 'none' })
+    return
+  }
   loading.value = true
-  await new Promise(r => setTimeout(r, 600))
+  await new Promise((r) => setTimeout(r, 600))
   try {
     result.value = findJiri(form.event, 30)
     app.addHistory({
@@ -107,7 +126,7 @@ async function calculate() {
       category: '生活',
       input: { event: form.event },
       output: { bestCount: result.value.bestDays.length, top1: result.value.bestDays[0]?.day.date },
-      brief: `${result.value.event} · 最佳 ${result.value.bestDays[0]?.day.date } (${result.value.bestDays[0]?.score}分)`,
+      brief: `${result.value.event} · 最佳 ${result.value.bestDays[0]?.day.date} (${result.value.bestDays[0]?.score}分)`,
     })
   } catch (e) {
     uni.showModal({ title: '择日失败', content: '请重试', showCancel: false })
@@ -118,57 +137,260 @@ async function calculate() {
 </script>
 
 <style scoped>
-.page { min-height: 100vh; padding-bottom: var(--sp-6); }
-.setup, .result { display: flex; flex-direction: column; gap: var(--sp-3); margin: 0 var(--sp-2); margin-top: var(--sp-2); }
-.setup { padding: var(--sp-4); }
-.form-title { display: block; text-align: center; font-size: var(--fs-md); letter-spacing: 0.2em; margin-bottom: var(--sp-2); }
-.form-sub { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai-2); margin-bottom: var(--sp-4); }
-.form-tip { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--color-bai-3); text-align: center; }
-.form-actions { margin-top: var(--sp-4); display: flex; justify-content: center; }
+.page {
+  min-height: 100vh;
+  padding-bottom: var(--sp-6);
+}
+.setup,
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin: 0 var(--sp-2);
+  margin-top: var(--sp-2);
+}
+.setup {
+  padding: var(--sp-4);
+}
+.form-title {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-2);
+}
+.form-sub {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  margin-bottom: var(--sp-4);
+}
+.form-tip {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  text-align: center;
+}
+.form-actions {
+  margin-top: var(--sp-4);
+  display: flex;
+  justify-content: center;
+}
 
-.event-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--sp-2); }
-.ev-cell { display: flex; flex-direction: column; align-items: center; padding: var(--sp-3) var(--sp-2); background: rgba(10, 10, 18, 0.5); border: 1rpx solid rgba(212, 175, 55, 0.15); border-radius: var(--r-sm); }
-.ev-cell.active { border-color: var(--color-liu); background: rgba(212, 175, 55, 0.1); }
-.ev-glyph { font-size: 56rpx; font-family: 'KaiTi', serif; color: var(--color-liu); font-weight: 700; }
-.ev-name { font-size: var(--fs-sm); color: var(--color-bai); margin-top: 4rpx; }
-.ev-desc { font-size: 18rpx; color: var(--color-bai-3); margin-top: 2rpx; }
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: var(--sp-2);
+}
+.ev-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-2);
+  background: rgba(10, 10, 18, 0.5);
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
+  border-radius: var(--r-sm);
+}
+.ev-cell.active {
+  border-color: var(--color-liu);
+  background: rgba(212, 175, 55, 0.1);
+}
+.ev-glyph {
+  font-size: 56rpx;
+  font-family: 'KaiTi', serif;
+  color: var(--color-liu);
+  font-weight: 700;
+}
+.ev-name {
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  margin-top: 4rpx;
+}
+.ev-desc {
+  font-size: 18rpx;
+  color: var(--color-bai-3);
+  margin-top: 2rpx;
+}
 
-.btn-zhu { padding: var(--sp-3) var(--sp-6); background: linear-gradient(135deg, #D4AF37, #4FAE6F); color: var(--color-bai); font-size: var(--fs-md); border-radius: var(--r-md); letter-spacing: 0.2em; min-width: 320rpx; text-align: center; }
-.btn-zhu.is-loading { opacity: 0.6; }
-.btn-liu { padding: var(--sp-3) var(--sp-6); background: transparent; color: var(--color-liu); border: 1rpx solid var(--color-liu); font-size: var(--fs-md); border-radius: var(--r-md); letter-spacing: 0.2em; min-width: 320rpx; text-align: center; }
+.btn-zhu {
+  padding: var(--sp-3) var(--sp-6);
+  background: linear-gradient(135deg, #d4af37, #4fae6f);
+  color: var(--color-bai);
+  font-size: var(--fs-md);
+  border-radius: var(--r-md);
+  letter-spacing: 0.2em;
+  min-width: 320rpx;
+  text-align: center;
+}
+.btn-zhu.is-loading {
+  opacity: 0.6;
+}
+.btn-liu {
+  padding: var(--sp-3) var(--sp-6);
+  background: transparent;
+  color: var(--color-liu);
+  border: 1rpx solid var(--color-liu);
+  font-size: var(--fs-md);
+  border-radius: var(--r-md);
+  letter-spacing: 0.2em;
+  min-width: 320rpx;
+  text-align: center;
+}
 
-.card-mystic { padding: var(--sp-3); }
-.header { padding: var(--sp-4); text-align: center; }
-.hd-event { display: block; font-size: var(--fs-md); color: var(--color-liu); font-family: 'KaiTi', serif; font-weight: 700; }
-.hd-sub { display: block; font-size: var(--fs-sm); color: var(--color-bai); margin-top: var(--sp-2); }
-.hd-period { display: block; font-size: var(--fs-xs); color: var(--color-bai-3); margin-top: 4rpx; font-family: monospace; }
+.card-mystic {
+  padding: var(--sp-3);
+}
+.header {
+  padding: var(--sp-4);
+  text-align: center;
+}
+.hd-event {
+  display: block;
+  font-size: var(--fs-md);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.hd-sub {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  margin-top: var(--sp-2);
+}
+.hd-period {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  margin-top: 4rpx;
+  font-family: monospace;
+}
 
-.day { padding: var(--sp-3); }
-.day-top { display: flex; align-items: center; gap: var(--sp-2); }
-.day-rank { display: flex; flex-direction: column; align-items: center; width: 90rpx; }
-.rk-num { font-size: var(--fs-sm); color: var(--color-bai-3); font-family: monospace; }
-.rk-score { font-size: 40rpx; color: var(--color-liu); font-weight: 700; font-family: 'KaiTi', serif; }
-.day-info { flex: 1; }
-.day-date { display: block; font-size: var(--fs-md); color: var(--color-bai); font-family: monospace; }
-.day-gz { display: block; font-size: var(--fs-xs); color: var(--color-liu); font-family: 'KaiTi', serif; }
-.day-fortune { padding: 4rpx 12rpx; border-radius: var(--r-sm); font-size: var(--fs-xs); }
-.day-fortune.lv-吉 { background: #4FAE6F; color: #fff; }
-.day-fortune.lv-平 { background: #D4AF37; color: #000; }
-.day-fortune.lv-凶 { background: #C8302A; color: #fff; }
+.day {
+  padding: var(--sp-3);
+}
+.day-top {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.day-rank {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90rpx;
+}
+.rk-num {
+  font-size: var(--fs-sm);
+  color: var(--color-bai-3);
+  font-family: monospace;
+}
+.rk-score {
+  font-size: 40rpx;
+  color: var(--color-liu);
+  font-weight: 700;
+  font-family: 'KaiTi', serif;
+}
+.day-info {
+  flex: 1;
+}
+.day-date {
+  display: block;
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: monospace;
+}
+.day-gz {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+}
+.day-fortune {
+  padding: 4rpx 12rpx;
+  border-radius: var(--r-sm);
+  font-size: var(--fs-xs);
+}
+.day-fortune.lv-吉 {
+  background: #4fae6f;
+  color: #fff;
+}
+.day-fortune.lv-平 {
+  background: #d4af37;
+  color: #000;
+}
+.day-fortune.lv-凶 {
+  background: #c8302a;
+  color: #fff;
+}
 
-.day-tags { display: flex; flex-wrap: wrap; gap: 4rpx; margin-top: var(--sp-2); }
-.day-tag { padding: 4rpx 12rpx; font-size: var(--fs-xs); border-radius: var(--r-sm); background: rgba(212, 175, 55, 0.15); color: var(--color-liu); font-family: 'KaiTi', serif; }
-.day-tag.g { background: #4FAE6F; color: #fff; }
-.day-tag.b { background: #C8302A; color: #fff; }
+.day-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin-top: var(--sp-2);
+}
+.day-tag {
+  padding: 4rpx 12rpx;
+  font-size: var(--fs-xs);
+  border-radius: var(--r-sm);
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+}
+.day-tag.g {
+  background: #4fae6f;
+  color: #fff;
+}
+.day-tag.b {
+  background: #c8302a;
+  color: #fff;
+}
 
-.day-yi-ji { margin-top: var(--sp-2); display: flex; flex-direction: column; gap: 4rpx; }
-.yj-block { display: flex; align-items: center; flex-wrap: wrap; gap: 4rpx; }
-.yj-t { width: 36rpx; font-size: var(--fs-xs); font-family: 'KaiTi', serif; font-weight: 700; }
-.yi .yj-t { color: #4FAE6F; }
-.ji .yj-t { color: #C8302A; }
-.yj-tag { padding: 2rpx 10rpx; font-size: 20rpx; border-radius: var(--r-sm); }
-.yj-tag.yi { background: rgba(79, 174, 111, 0.2); color: #8FD0A8; }
-.yj-tag.ji { background: rgba(200, 48, 42, 0.2); color: #F5C5C0; }
+.day-yi-ji {
+  margin-top: var(--sp-2);
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+.yj-block {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4rpx;
+}
+.yj-t {
+  width: 36rpx;
+  font-size: var(--fs-xs);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.yi .yj-t {
+  color: #4fae6f;
+}
+.ji .yj-t {
+  color: #c8302a;
+}
+.yj-tag {
+  padding: 2rpx 10rpx;
+  font-size: 20rpx;
+  border-radius: var(--r-sm);
+}
+.yj-tag.yi {
+  background: rgba(79, 174, 111, 0.2);
+  color: #8fd0a8;
+}
+.yj-tag.ji {
+  background: rgba(200, 48, 42, 0.2);
+  color: #f5c5c0;
+}
 
-.day-reason { display: block; margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--color-bai-2); font-family: 'KaiTi', serif; line-height: 1.7; }
+.day-reason {
+  display: block;
+  margin-top: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  font-family: 'KaiTi', serif;
+  line-height: 1.7;
+}
 </style>

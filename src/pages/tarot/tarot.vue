@@ -16,7 +16,7 @@
           v-for="(s, i) in spreads"
           :key="s.id"
           class="spread-card card-mystic anim-fade-up"
-          :style="{ animationDelay: (i * 0.1) + 's' }"
+          :style="{ animationDelay: i * 0.1 + 's' }"
           @click="onSelectSpread(s.id)"
         >
           <view class="spread-vis">
@@ -83,12 +83,21 @@
               </view>
             </view>
             <!-- 牌面 -->
-            <view class="card-face card-front" :style="{ background: 'linear-gradient(180deg, ' + c.card.color + ' 0%, #0A0A12 100%)' }">
+            <view
+              class="card-face card-front"
+              :style="{
+                background: 'linear-gradient(180deg, ' + c.card.color + ' 0%, #0A0A12 100%)',
+              }"
+            >
               <text class="card-num">{{ c.card.number }}</text>
               <text class="card-name-cn">{{ c.card.name }}</text>
               <text class="card-name-en">{{ c.card.nameEn }}</text>
               <view class="card-keywords">
-                <text v-for="(k, ki) in c.reversed ? c.card.revKeywords : c.card.upKeywords" :key="ki" class="kw">
+                <text
+                  v-for="(k, ki) in c.reversed ? c.card.revKeywords : c.card.upKeywords"
+                  :key="ki"
+                  class="kw"
+                >
                   {{ k }}
                 </text>
               </view>
@@ -109,7 +118,13 @@
         <text class="detail-en">{{ selectedCard.card.nameEn }}</text>
         <text class="detail-desc">{{ selectedCard.card.desc }}</text>
         <view class="detail-kw">
-          <text v-for="k in selectedCard.reversed ? selectedCard.card.revKeywords : selectedCard.card.upKeywords" :key="k" class="kw-chip">
+          <text
+            v-for="k in selectedCard.reversed
+              ? selectedCard.card.revKeywords
+              : selectedCard.card.upKeywords"
+            :key="k"
+            class="kw-chip"
+          >
             {{ k }}
           </text>
         </view>
@@ -142,9 +157,21 @@ interface Spread {
 }
 
 const SPREADS: Spread[] = [
-  { id: 'one',   name: '一张牌', desc: '直指当下心境',     count: 1, positions: ['当下'] },
-  { id: 'three', name: '三张牌', desc: '过去 · 现在 · 未来', count: 3, positions: ['过去', '现在', '未来'] },
-  { id: 'cross', name: '凯尔特十字', desc: '深度解读，五张牌阵', count: 5, positions: ['现状', '挑战', '潜意识', '建议', '结果'] },
+  { id: 'one', name: '一张牌', desc: '直指当下心境', count: 1, positions: ['当下'] },
+  {
+    id: 'three',
+    name: '三张牌',
+    desc: '过去 · 现在 · 未来',
+    count: 3,
+    positions: ['过去', '现在', '未来'],
+  },
+  {
+    id: 'cross',
+    name: '凯尔特十字',
+    desc: '深度解读，五张牌阵',
+    count: 5,
+    positions: ['现状', '挑战', '潜意识', '建议', '结果'],
+  },
 ]
 
 const stage = ref<'select-spread' | 'draw' | 'read'>('select-spread')
@@ -152,7 +179,9 @@ const currentSpread = ref<Spread>(SPREADS[0])
 
 const spreads = SPREADS
 
-const cards = ref<Array<{ card: TarotCard, flipped: boolean, reversed: boolean, drawAnim: boolean }>>([])
+const cards = ref<
+  Array<{ card: TarotCard; flipped: boolean; reversed: boolean; drawAnim: boolean }>
+>([])
 const drawnCount = ref(0)
 const selectedCardIdx = ref<number | null>(null)
 
@@ -162,7 +191,7 @@ const selectedCard = computed(() => {
 })
 
 function onSelectSpread(id: string) {
-  const s = SPREADS.find(x => x.id === id) || SPREADS[0]
+  const s = SPREADS.find((x) => x.id === id) || SPREADS[0]
   currentSpread.value = s
   stage.value = 'draw'
   drawnCount.value = 0
@@ -178,7 +207,11 @@ function getPosStyle(spreadId: string, idx: number, count: number) {
     const spacing = 28
     const totalWidth = (count - 1) * spacing
     const startLeft = 50 - totalWidth / 2
-    return { top: top + '%', left: (startLeft + idx * spacing) + '%', transform: 'translate(-50%, -50%)' }
+    return {
+      top: top + '%',
+      left: startLeft + idx * spacing + '%',
+      transform: 'translate(-50%, -50%)',
+    }
   }
   // cross：十字
   if (spreadId === 'cross') {
@@ -199,7 +232,7 @@ function getCardStyle(idx: number, count: number) {
     const spacing = 28
     const totalWidth = (count - 1) * spacing
     const startLeft = 50 - totalWidth / 2
-    return { top: '50%', left: (startLeft + idx * spacing) + '%', transform: 'translate(-50%, -50%)' }
+    return { top: '50%', left: startLeft + idx * spacing + '%', transform: 'translate(-50%, -50%)' }
   }
   // 5 张：十字
   if (count === 5) {
@@ -216,7 +249,10 @@ function drawOne() {
   if (drawnCount.value >= currentSpread.value.count) return
   try {
     const pool = drawCards(1)
-    if (!pool.length) { uni.showToast({ title: '卡池已空', icon: 'none' }); return }
+    if (!pool.length) {
+      uni.showToast({ title: '卡池已空', icon: 'none' })
+      return
+    }
     const c = pool[0]
     cards.value.push({ card: c, flipped: false, reversed: Math.random() > 0.5, drawAnim: true })
     drawnCount.value++
@@ -226,10 +262,12 @@ function drawOne() {
         stage.value = 'read'
         // 写入历史
         app.addHistory({
-          tool: 'tarot', toolName: '塔罗占卜', category: '占卜',
+          tool: 'tarot',
+          toolName: '塔罗占卜',
+          category: '占卜',
           input: { spread: currentSpread.value.id, question: '' },
           output: { count: cards.value.length, main: cards.value[0]?.card.name },
-          brief: `${currentSpread.value.name} · ${cards.value.map(c => c.card.name).join(' / ')}`,
+          brief: `${currentSpread.value.name} · ${cards.value.map((c) => c.card.name).join(' / ')}`,
         })
       }, 800)
     }
@@ -254,7 +292,6 @@ function restart() {
 </script>
 
 <style scoped>
-
 .tarot-page {
   position: relative;
   min-height: 100vh;
@@ -380,8 +417,17 @@ function restart() {
 }
 
 @keyframes deckPulse {
-  0%, 100% { box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.5), 0 0 0 0 rgba(212, 175, 55, 0.4); }
-  50%      { box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.5), 0 0 32rpx 4rpx rgba(212, 175, 55, 0.4); }
+  0%,
+  100% {
+    box-shadow:
+      0 4rpx 16rpx rgba(0, 0, 0, 0.5),
+      0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  50% {
+    box-shadow:
+      0 4rpx 16rpx rgba(0, 0, 0, 0.5),
+      0 0 32rpx 4rpx rgba(212, 175, 55, 0.4);
+  }
 }
 
 .deck-top:active {
@@ -446,9 +492,17 @@ function restart() {
 }
 
 @keyframes cardDrawIn {
-  0%   { transform: translate(-200rpx, -300rpx) scale(0.5) rotate(-180deg); opacity: 0; }
-  60%  { opacity: 1; }
-  100% { transform: translate(0, 0) scale(1) rotate(0); opacity: 1; }
+  0% {
+    transform: translate(-200rpx, -300rpx) scale(0.5) rotate(-180deg);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1) rotate(0);
+    opacity: 1;
+  }
 }
 
 .card-face {
@@ -477,7 +531,13 @@ function restart() {
   height: 80%;
   border: 1rpx solid rgba(212, 175, 55, 0.4);
   border-radius: 6rpx;
-  background: repeating-linear-gradient(45deg, transparent, transparent 8rpx, rgba(212, 175, 55, 0.1) 8rpx, rgba(212, 175, 55, 0.1) 16rpx);
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 8rpx,
+    rgba(212, 175, 55, 0.1) 8rpx,
+    rgba(212, 175, 55, 0.1) 16rpx
+  );
 }
 
 .back-glyph {
@@ -496,8 +556,12 @@ function restart() {
   color: var(--color-bai);
 }
 
-.card-flip.flipped .card-back { transform: rotateY(180deg); }
-.card-flip.flipped .card-front { transform: rotateY(360deg); }
+.card-flip.flipped .card-back {
+  transform: rotateY(180deg);
+}
+.card-flip.flipped .card-front {
+  transform: rotateY(360deg);
+}
 
 .card-num {
   font-size: var(--fs-md);

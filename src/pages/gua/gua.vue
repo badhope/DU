@@ -59,7 +59,10 @@
 
       <text class="preview-tip">卦已立 · 待解其义</text>
 
-      <view class="cast-action" style="display: flex; flex-direction: column; gap: 12rpx; align-items: center;">
+      <view
+        class="cast-action"
+        style="display: flex; flex-direction: column; gap: 12rpx; align-items: center"
+      >
         <view class="btn-zhu" @click="goInterpret">
           <text>解 卦</text>
         </view>
@@ -125,7 +128,11 @@ function cast() {
         yaoPattern.value = yao
         gua.value = yaoToGua(yao)
         casting.value = false
-        cd.commit(`${gua.value.name} · ${gua.value.symbol}`, { yao }, { id: gua.value.id, name: gua.value.name })
+        cd.commit(
+          `${gua.value.name} · ${gua.value.symbol}`,
+          { yao },
+          { id: gua.value.id, name: gua.value.name },
+        )
       } catch (e) {
         casting.value = false
         uni.showModal({ title: '起卦失败', content: '请重试', showCancel: false })
@@ -134,9 +141,19 @@ function cast() {
       nextTick(() => {
         try {
           const sym = document.querySelector('.preview-symbol')
-          if (sym) gsap.fromTo(sym, { scale: 0, rotation: 360, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)' })
+          if (sym)
+            gsap.fromTo(
+              sym,
+              { scale: 0, rotation: 360, opacity: 0 },
+              { scale: 1, rotation: 0, opacity: 1, duration: 0.9, ease: 'elastic.out(1, 0.5)' },
+            )
           const name = document.querySelector('.preview-name')
-          if (name) gsap.fromTo(name, { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' })
+          if (name)
+            gsap.fromTo(
+              name,
+              { y: 30, opacity: 0 },
+              { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' },
+            )
         } catch (e) {}
       })
     }
@@ -152,7 +169,6 @@ function goInterpret() {
 </script>
 
 <style scoped>
-
 .gua-page {
   position: relative;
   min-height: 100vh;
@@ -193,12 +209,16 @@ function goInterpret() {
   left: 8rpx;
   right: 8rpx;
   height: 16rpx;
-  background: linear-gradient(180deg, var(--color-tu) 0%, #6E5230 100%);
+  background: linear-gradient(180deg, var(--color-tu) 0%, #6e5230 100%);
   border-radius: 8rpx;
 }
 
-.scroll::before { top: -8rpx; }
-.scroll::after  { bottom: -8rpx; }
+.scroll::before {
+  top: -8rpx;
+}
+.scroll::after {
+  bottom: -8rpx;
+}
 
 .scroll-quote {
   display: block;
@@ -231,7 +251,7 @@ function goInterpret() {
   height: 200rpx;
   left: 50%;
   margin-left: -4rpx;
-  background: linear-gradient(180deg, #D4AF37 0%, #8B6F2A 100%);
+  background: linear-gradient(180deg, #d4af37 0%, #8b6f2a 100%);
   border-radius: 4rpx;
   box-shadow: 0 0 8rpx rgba(212, 175, 55, 0.5);
   transform-origin: center;
@@ -239,9 +259,17 @@ function goInterpret() {
 }
 
 @keyframes drop {
-  0%   { opacity: 0; transform: translateY(-200rpx) rotate(0); }
-  60%  { opacity: 1; }
-  100% { opacity: 1; transform: translateY(0) rotate(var(--r, 0deg)); }
+  0% {
+    opacity: 0;
+    transform: translateY(-200rpx) rotate(0);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotate(var(--r, 0deg));
+  }
 }
 
 .cast-tip {
@@ -304,7 +332,11 @@ function goInterpret() {
   font-family: 'KaiTi', serif;
 }
 
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 /* ===== 起卦完成 · 预览 ===== */
 .result-preview {
@@ -381,7 +413,7 @@ function goInterpret() {
 
 .preview-fortune.fortune-吉 {
   background: rgba(79, 174, 111, 0.15);
-  color: #4FAE6F;
+  color: #4fae6f;
   border-color: rgba(79, 174, 111, 0.5);
 }
 .preview-fortune.fortune-平 {
@@ -408,7 +440,7 @@ function goInterpret() {
 .btn-zhu {
   display: inline-block;
   padding: 14rpx 48rpx;
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   border-radius: 9999rpx;
   color: var(--color-bai);
   font-size: var(--fs-md);

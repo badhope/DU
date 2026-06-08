@@ -7,13 +7,4 @@ unpackage
 coverage
 .cache
 .vite
-# 业务源码与既有测试先不强制走 Prettier，避免一次性大改 diff；
-# 等后续单独的 chore 单独跑 `pnpm run format` 提交。
-src/**
-tests/**
-# 历史 README/CHANGELOG/SECURITY 较长且与本次 PR 无关，先放过
-README.md
-CHANGELOG.md
-.github/SECURITY.md
-# uni-app index.html 缩进特殊，不过 Prettier
 index.html

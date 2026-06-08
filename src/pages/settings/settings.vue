@@ -12,7 +12,7 @@
     </view>
 
     <!-- 字号 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .05s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.05s">
       <text class="card-title">字 体 大 小</text>
       <view class="seg">
         <view
@@ -28,7 +28,7 @@
     </view>
 
     <!-- 字体类型 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .07s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.07s">
       <text class="card-title">字 体 类 型</text>
       <view class="seg seg-4">
         <view
@@ -44,7 +44,7 @@
     </view>
 
     <!-- 主题 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .08s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.08s">
       <text class="card-title">主 题 色 调</text>
       <view class="seg seg-3">
         <view
@@ -61,7 +61,7 @@
     </view>
 
     <!-- 模式 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .09s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.09s">
       <text class="card-title">明 暗 模 式</text>
       <view class="seg seg-2">
         <view
@@ -77,28 +77,44 @@
     </view>
 
     <!-- 偏好开关 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .1s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.1s">
       <text class="card-title">偏 好 设 置</text>
       <view class="row">
         <text class="row-label">减 少 动 效</text>
-        <switch :checked="app.settings.reducedMotion" @change="onSwitch('reducedMotion', $event)" color="#D4AF37" />
+        <switch
+          :checked="app.settings.reducedMotion"
+          color="#D4AF37"
+          @change="onSwitch('reducedMotion', $event)"
+        />
       </view>
       <view class="row">
         <text class="row-label">声 音 反 馈</text>
-        <switch :checked="app.settings.soundEnabled" @change="onSwitch('soundEnabled', $event)" color="#D4AF37" />
+        <switch
+          :checked="app.settings.soundEnabled"
+          color="#D4AF37"
+          @change="onSwitch('soundEnabled', $event)"
+        />
       </view>
       <view class="row">
         <text class="row-label">触 觉 震 动</text>
-        <switch :checked="app.settings.hapticsEnabled" @change="onSwitch('hapticsEnabled', $event)" color="#D4AF37" />
+        <switch
+          :checked="app.settings.hapticsEnabled"
+          color="#D4AF37"
+          @change="onSwitch('hapticsEnabled', $event)"
+        />
       </view>
       <view class="row">
         <text class="row-label">首 启 提 示</text>
-        <switch :checked="app.settings.showGuide" @change="onSwitch('showGuide', $event)" color="#D4AF37" />
+        <switch
+          :checked="app.settings.showGuide"
+          color="#D4AF37"
+          @change="onSwitch('showGuide', $event)"
+        />
       </view>
     </view>
 
     <!-- 测试记录 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .15s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.15s">
       <view class="card-head">
         <text class="card-title">测 试 记 录</text>
         <text v-if="app.history.length" class="card-action" @click="confirmClear">清 空</text>
@@ -115,7 +131,7 @@
           v-for="(h, i) in app.history"
           :key="h.id"
           class="hist-item"
-          :style="{ animationDelay: (i * 0.04) + 's' }"
+          :style="{ animationDelay: i * 0.04 + 's' }"
           @click="openItem(h)"
         >
           <view class="hist-badge" :style="{ background: CATEGORY_COLOR[h.category] || '#5B3A8E' }">
@@ -133,7 +149,7 @@
     </view>
 
     <!-- 数据管理 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .2s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.2s">
       <text class="card-title">数 据 管 理</text>
       <view class="action-row">
         <view class="action-btn" @click="onClearCache">
@@ -146,7 +162,7 @@
     </view>
 
     <!-- 关于 -->
-    <view class="card card-mystic anim-fade-up" style="animation-delay: .25s">
+    <view class="card card-mystic anim-fade-up" style="animation-delay: 0.25s">
       <text class="card-title">关 于</text>
       <view class="about-row">
         <text class="about-key">名 称</text>
@@ -199,12 +215,12 @@ const FONT_FAM_OPTS = [
 
 const THEME_OPTS = [
   { key: 'xuanhuang' as const, label: '玄黄', color: '#D4AF37' },
-  { key: 'xuanzi' as const,    label: '玄紫', color: '#B49ED8' },
-  { key: 'xuanqing' as const,  label: '玄青', color: '#4DB6AC' },
+  { key: 'xuanzi' as const, label: '玄紫', color: '#B49ED8' },
+  { key: 'xuanqing' as const, label: '玄青', color: '#4DB6AC' },
 ]
 
 const MODE_OPTS = [
-  { key: 'dark' as const,  label: '☾ 暗' },
+  { key: 'dark' as const, label: '☾ 暗' },
   { key: 'light' as const, label: '☀ 亮' },
 ]
 
@@ -347,7 +363,9 @@ function onResetAll() {
   margin-bottom: var(--sp-2);
 }
 
-.card-head .card-title { margin-bottom: 0; }
+.card-head .card-title {
+  margin-bottom: 0;
+}
 
 .card-action {
   font-size: var(--fs-sm);
@@ -381,11 +399,11 @@ function onResetAll() {
   font-size: var(--fs-md);
   color: var(--color-bai-2);
   font-family: 'KaiTi', serif;
-  transition: all .2s var(--ease-mystic);
+  transition: all 0.2s var(--ease-mystic);
 }
 
 .seg-item.active {
-  background: linear-gradient(135deg, var(--color-liu) 0%, #8B6914 100%);
+  background: linear-gradient(135deg, var(--color-liu) 0%, #8b6914 100%);
   color: var(--color-bai);
   border-color: var(--color-liu);
   box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.4);
@@ -400,7 +418,7 @@ function onResetAll() {
   margin-right: var(--sp-1);
   vertical-align: middle;
   box-shadow: 0 0 12rpx currentColor;
-  transition: transform .2s var(--ease-mystic);
+  transition: transform 0.2s var(--ease-mystic);
 }
 .seg-item.active .seg-dot {
   transform: scale(1.3);
@@ -415,7 +433,9 @@ function onResetAll() {
   border-bottom: 1rpx solid rgba(212, 175, 55, 0.1);
 }
 
-.row:last-child { border-bottom: none; }
+.row:last-child {
+  border-bottom: none;
+}
 
 .row-label {
   font-size: var(--fs-md);
@@ -439,7 +459,7 @@ function onResetAll() {
   background: rgba(10, 10, 18, 0.4);
   border-radius: var(--r-md);
   border: 1rpx solid rgba(212, 175, 55, 0.1);
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .hist-item:active {
@@ -537,7 +557,7 @@ function onResetAll() {
   color: var(--color-liu);
   font-family: 'KaiTi', serif;
   letter-spacing: 0.1em;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .action-btn:active {
@@ -564,7 +584,9 @@ function onResetAll() {
   border-bottom: 1rpx solid rgba(212, 175, 55, 0.1);
 }
 
-.about-row:last-of-type { border-bottom: none; }
+.about-row:last-of-type {
+  border-bottom: none;
+}
 
 .about-key {
   font-size: var(--fs-sm);
@@ -593,11 +615,25 @@ function onResetAll() {
   line-height: 1.7;
 }
 
-.footer-space { height: 60rpx; }
+.footer-space {
+  height: 60rpx;
+}
 
 /* ===== 字号影响 ===== */
-.fs-sm .row-label, .fs-sm .hist-brief, .fs-sm .seg-item { font-size: 26rpx; }
-.fs-sm .card-title { font-size: 28rpx; }
-.fs-lg .row-label, .fs-lg .hist-brief, .fs-lg .seg-item { font-size: 34rpx; }
-.fs-lg .card-title { font-size: 36rpx; }
+.fs-sm .row-label,
+.fs-sm .hist-brief,
+.fs-sm .seg-item {
+  font-size: 26rpx;
+}
+.fs-sm .card-title {
+  font-size: 28rpx;
+}
+.fs-lg .row-label,
+.fs-lg .hist-brief,
+.fs-lg .seg-item {
+  font-size: 34rpx;
+}
+.fs-lg .card-title {
+  font-size: 36rpx;
+}
 </style>

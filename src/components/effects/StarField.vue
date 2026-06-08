@@ -24,21 +24,24 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 
-const props = withDefaults(defineProps<{
-  /** 数量 */
-  count?: number
-  /** 密度：low / mid / high */
-  density?: 'low' | 'mid' | 'high'
-  /** 颜色 */
-  colors?: 'gold' | 'white' | 'mixed'
-  /** 是否有流星 */
-  shooting?: boolean
-}>(), {
-  count: 50,
-  density: 'mid',
-  colors: 'mixed',
-  shooting: true,
-})
+const props = withDefaults(
+  defineProps<{
+    /** 数量 */
+    count?: number
+    /** 密度：low / mid / high */
+    density?: 'low' | 'mid' | 'high'
+    /** 颜色 */
+    colors?: 'gold' | 'white' | 'mixed'
+    /** 是否有流星 */
+    shooting?: boolean
+  }>(),
+  {
+    count: 50,
+    density: 'mid',
+    colors: 'mixed',
+    shooting: true,
+  },
+)
 
 const COLORS = {
   gold: ['#D4AF37', '#F5E6A8', '#B8941F'],
@@ -51,7 +54,15 @@ const actualCount = computed(() => {
   return Math.floor(props.count * m)
 })
 
-interface Star { id: number; top: number; left: number; size: 'sm' | 'md' | 'lg'; color: number; delay: number; dur: number }
+interface Star {
+  id: number
+  top: number
+  left: number
+  size: 'sm' | 'md' | 'lg'
+  color: number
+  delay: number
+  dur: number
+}
 const stars = ref<Star[]>([])
 
 function genStars() {
@@ -89,7 +100,12 @@ let meteorTimer: any = null
 onMounted(() => {
   genStars()
   if (props.shooting) {
-    meteorTimer = setInterval(() => { genMeteor() }, 6000 + Math.random() * 6000)
+    meteorTimer = setInterval(
+      () => {
+        genMeteor()
+      },
+      6000 + Math.random() * 6000,
+    )
   }
 })
 onBeforeUnmount(() => {
@@ -98,7 +114,13 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
-.sf-host { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.sf-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
 .sf-star {
   position: absolute;
   border-radius: 50%;
@@ -106,32 +128,75 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 4rpx rgba(245, 241, 232, 0.6);
   animation: sfTwinkle infinite ease-in-out;
 }
-.sf-sm { width: 2rpx; height: 2rpx; }
-.sf-md { width: 4rpx; height: 4rpx; }
-.sf-lg { width: 6rpx; height: 6rpx; box-shadow: 0 0 8rpx currentColor; }
-.sf-c-0 { background: #D4AF37; box-shadow: 0 0 6rpx #D4AF37; }
-.sf-c-1 { background: #F5F1E8; box-shadow: 0 0 4rpx #F5F1E8; }
-.sf-c-2 { background: #B8941F; box-shadow: 0 0 6rpx #B8941F; }
-.sf-c-3 { background: #5B3A8E; box-shadow: 0 0 6rpx #5B3A8E; }
-.sf-c-4 { background: #C8302A; box-shadow: 0 0 6rpx #C8302A; }
+.sf-sm {
+  width: 2rpx;
+  height: 2rpx;
+}
+.sf-md {
+  width: 4rpx;
+  height: 4rpx;
+}
+.sf-lg {
+  width: 6rpx;
+  height: 6rpx;
+  box-shadow: 0 0 8rpx currentColor;
+}
+.sf-c-0 {
+  background: #d4af37;
+  box-shadow: 0 0 6rpx #d4af37;
+}
+.sf-c-1 {
+  background: #f5f1e8;
+  box-shadow: 0 0 4rpx #f5f1e8;
+}
+.sf-c-2 {
+  background: #b8941f;
+  box-shadow: 0 0 6rpx #b8941f;
+}
+.sf-c-3 {
+  background: #5b3a8e;
+  box-shadow: 0 0 6rpx #5b3a8e;
+}
+.sf-c-4 {
+  background: #c8302a;
+  box-shadow: 0 0 6rpx #c8302a;
+}
 @keyframes sfTwinkle {
-  0%, 100% { opacity: 0.2; transform: scale(0.6); }
-  50%      { opacity: 1;   transform: scale(1.4); }
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.6);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
 }
 
 /* 流星 */
 .sf-meteor {
   position: absolute;
-  width: 4rpx; height: 4rpx;
-  background: linear-gradient(45deg, #FFFFFF, #D4AF37, transparent);
+  width: 4rpx;
+  height: 4rpx;
+  background: linear-gradient(45deg, #ffffff, #d4af37, transparent);
   border-radius: 50%;
-  box-shadow: 0 0 12rpx #D4AF37, 0 0 24rpx #FFFFFF;
+  box-shadow:
+    0 0 12rpx #d4af37,
+    0 0 24rpx #ffffff;
   animation: meteorFly 1.4s ease-out forwards;
   transform: translate(0, 0) rotate(35deg);
 }
 @keyframes meteorFly {
-  0%   { transform: translate(0, 0) rotate(35deg); opacity: 0; }
-  10%  { opacity: 1; }
-  100% { transform: translate(40vw, 60vh) rotate(35deg); opacity: 0; }
+  0% {
+    transform: translate(0, 0) rotate(35deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(40vw, 60vh) rotate(35deg);
+    opacity: 0;
+  }
 }
 </style>

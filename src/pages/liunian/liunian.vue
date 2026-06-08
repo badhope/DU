@@ -17,19 +17,33 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-          >{{ g }}</view>
+            >
+{{ g }}
+</view
+          >
         </view>
       </view>
 
       <view class="form-row">
         <text class="form-label">年</text>
-        <picker mode="number" :value="form.year" :min="1900" :max="2010" @change="onPick('year', $event)">
+        <picker
+          mode="number"
+          :value="form.year"
+          :min="1900"
+          :max="2010"
+          @change="onPick('year', $event)"
+        >
           <view class="form-picker">{{ form.year }} 年</view>
         </picker>
       </view>
       <view class="form-row">
         <text class="form-label">月</text>
-        <picker mode="selector" :value="form.month - 1" :range="monthRange" @change="onPick('month', $event)">
+        <picker
+          mode="selector"
+          :value="form.month - 1"
+          :range="monthRange"
+          @change="onPick('month', $event)"
+        >
           <view class="form-picker">{{ form.month }} 月</view>
         </picker>
       </view>
@@ -41,7 +55,12 @@
       </view>
       <view class="form-row">
         <text class="form-label">时</text>
-        <picker mode="selector" :value="form.hour" :range="hourRange" @change="onPick('hour', $event)">
+        <picker
+          mode="selector"
+          :value="form.hour"
+          :range="hourRange"
+          @change="onPick('hour', $event)"
+        >
           <view class="form-picker">{{ form.hour }}:00</view>
         </picker>
       </view>
@@ -77,25 +96,29 @@
       </view>
 
       <!-- 日主强弱 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .05s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.05s">
         <text class="card-title title-mystic">日 主 强 弱</text>
         <view class="ds-row">
           <text class="ds-score">{{ strength.score }}</text>
           <view class="ds-info">
             <text class="ds-level" :class="'lv-' + levelNum">{{ strength.level }}</text>
-            <text class="ds-text">用神：{{ yongName }} · 喜：{{ xiNames }} · 忌：{{ jiNames }}</text>
+            <text class="ds-text"
+              >
+用神：{{ yongName }} · 喜：{{ xiNames }} · 忌：{{ jiNames }}
+</text
+            >
           </view>
         </view>
         <view class="ds-bar">
           <view class="ds-fill" :style="{ width: strength.score + '%' }" />
-          <view class="ds-mark" style="left: 30%;">弱</view>
-          <view class="ds-mark" style="left: 55%;">中</view>
-          <view class="ds-mark" style="left: 70%;">旺</view>
+          <view class="ds-mark" style="left: 30%">弱</view>
+          <view class="ds-mark" style="left: 55%">中</view>
+          <view class="ds-mark" style="left: 70%">旺</view>
         </view>
       </view>
 
       <!-- 十步大运 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .1s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.1s">
         <text class="card-title title-mystic">十 步 大 运</text>
         <text class="card-tip">每 步 10 年 · 共 100 年流年</text>
         <view class="dy-list">
@@ -104,7 +127,7 @@
             :key="i"
             class="dy-item"
             :class="{ current: isCurrent(s) }"
-            :style="{ animationDelay: (i * 0.05) + 's' }"
+            :style="{ animationDelay: i * 0.05 + 's' }"
           >
             <view class="dy-age">
               <text class="dy-start">{{ s.startAge }}</text>
@@ -124,7 +147,7 @@
       </view>
 
       <!-- 流年 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .15s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.15s">
         <text class="card-title title-mystic">近 十 二 年 流 年</text>
         <text class="card-tip">自 起 运 年 起 · 每 年 干 支 + 十 神</text>
         <view class="ln-grid">
@@ -180,9 +203,15 @@ function onPick(field: 'year' | 'month' | 'day' | 'hour', e: any) {
   form.value[field] = v
 }
 
-const dayun = computed(() => bazi.value ? calcDayun(bazi.value, form.value.gender, form.value.year, form.value.month, form.value.day) : null as any)
-const strength = computed(() => bazi.value ? dayunStrength(bazi.value) : null as any)
-const liunian = computed(() => bazi.value && dayun.value ? liunians(bazi.value, dayun.value.qiyunYear, 12) : [])
+const dayun = computed(() =>
+  bazi.value
+    ? calcDayun(bazi.value, form.value.gender, form.value.year, form.value.month, form.value.day)
+    : (null as any),
+)
+const strength = computed(() => (bazi.value ? dayunStrength(bazi.value) : (null as any)))
+const liunian = computed(() =>
+  bazi.value && dayun.value ? liunians(bazi.value, dayun.value.qiyunYear, 12) : [],
+)
 
 const qiyunDesc = computed(() => {
   if (!dayun.value) return ''
@@ -203,12 +232,16 @@ const levelNum = computed(() => {
 
 const xiNames = computed(() => {
   if (!strength.value) return ''
-  return (strength.value as any).xi.map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name).join(' ')
+  return (strength.value as any).xi
+    .map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name)
+    .join(' ')
 })
 
 const jiNames = computed(() => {
   if (!strength.value) return ''
-  return (strength.value as any).ji.map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name).join(' ')
+  return (strength.value as any).ji
+    .map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name)
+    .join(' ')
 })
 
 const yongName = computed(() => {
@@ -224,12 +257,26 @@ function isCurrent(s: any) {
 }
 
 function calculate() {
-  const y = form.value.year, m = form.value.month, d = form.value.day
-  if (y < 1900 || y > 2100) { uni.showToast({ title: '年份需 1900-2100', icon: 'none' }); return }
-  if (m < 1 || m > 12) { uni.showToast({ title: '月份需 1-12', icon: 'none' }); return }
+  const y = form.value.year,
+    m = form.value.month,
+    d = form.value.day
+  if (y < 1900 || y > 2100) {
+    uni.showToast({ title: '年份需 1900-2100', icon: 'none' })
+    return
+  }
+  if (m < 1 || m > 12) {
+    uni.showToast({ title: '月份需 1-12', icon: 'none' })
+    return
+  }
   const dim = new Date(y, m, 0).getDate()
-  if (d < 1 || d > dim) { uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' }); return }
-  if (new Date(y, m - 1, d).getTime() > Date.now()) { uni.showToast({ title: '日期不能晚于今日', icon: 'none' }); return }
+  if (d < 1 || d > dim) {
+    uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' })
+    return
+  }
+  if (new Date(y, m - 1, d).getTime() > Date.now()) {
+    uni.showToast({ title: '日期不能晚于今日', icon: 'none' })
+    return
+  }
   loading.value = true
   setTimeout(() => {
     try {
@@ -250,7 +297,9 @@ function calculate() {
   }, 600)
 }
 
-function reset() { bazi.value = null }
+function reset() {
+  bazi.value = null
+}
 </script>
 
 <style scoped>
@@ -261,7 +310,11 @@ function reset() { bazi.value = null }
   overflow: hidden;
 }
 
-.taiji-bg { position: fixed; inset: 0; z-index: var(--z-bg); }
+.taiji-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
 
 /* ===== 表单 ===== */
 .form {
@@ -339,14 +392,17 @@ function reset() { bazi.value = null }
 }
 
 /* ===== 通用卡 ===== */
-.card, .qi-card {
+.card,
+.qi-card {
   position: relative;
   z-index: var(--z-content);
   margin: 0 var(--sp-2) var(--sp-3);
   padding: var(--sp-4);
 }
 
-.qi-card { margin-top: var(--sp-3); }
+.qi-card {
+  margin-top: var(--sp-3);
+}
 
 .card-title {
   display: block;
@@ -395,8 +451,12 @@ function reset() { bazi.value = null }
   margin-top: 4rpx;
 }
 
-.qi-val.rel-good { color: #4FAE6F; }
-.qi-val.rel-bad  { color: var(--color-zhu); }
+.qi-val.rel-good {
+  color: #4fae6f;
+}
+.qi-val.rel-bad {
+  color: var(--color-zhu);
+}
 
 .qi-desc {
   display: block;
@@ -423,7 +483,9 @@ function reset() { bazi.value = null }
   line-height: 1;
 }
 
-.ds-info { flex: 1; }
+.ds-info {
+  flex: 1;
+}
 
 .ds-level {
   display: block;
@@ -434,9 +496,17 @@ function reset() { bazi.value = null }
   margin-bottom: var(--sp-1);
 }
 
-.ds-level.lv-1, .ds-level.lv-2 { color: #5B8CBE; }
-.ds-level.lv-3 { color: #4FAE6F; }
-.ds-level.lv-4, .ds-level.lv-5 { color: var(--color-zhu); }
+.ds-level.lv-1,
+.ds-level.lv-2 {
+  color: #5b8cbe;
+}
+.ds-level.lv-3 {
+  color: #4fae6f;
+}
+.ds-level.lv-4,
+.ds-level.lv-5 {
+  color: var(--color-zhu);
+}
 
 .ds-text {
   display: block;
@@ -459,10 +529,10 @@ function reset() { bazi.value = null }
   top: 0;
   left: 0;
   height: 100%;
-  background: linear-gradient(90deg, #5B8CBE 0%, #4FAE6F 50%, var(--color-zhu) 100%);
+  background: linear-gradient(90deg, #5b8cbe 0%, #4fae6f 50%, var(--color-zhu) 100%);
   border-radius: 10rpx;
   box-shadow: 0 0 8rpx currentColor;
-  transition: width .8s var(--ease-bounce);
+  transition: width 0.8s var(--ease-bounce);
 }
 
 .ds-mark {
@@ -490,7 +560,7 @@ function reset() { bazi.value = null }
   background: rgba(10, 10, 18, 0.4);
   border: 1rpx solid rgba(212, 175, 55, 0.15);
   border-radius: var(--r-md);
-  transition: all .2s var(--ease-mystic);
+  transition: all 0.2s var(--ease-mystic);
 }
 
 .dy-item.current {
@@ -589,11 +659,11 @@ function reset() { bazi.value = null }
   background: rgba(10, 10, 18, 0.4);
   border: 1rpx solid rgba(212, 175, 55, 0.1);
   border-radius: var(--r-sm);
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .ln-cell.current {
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   border-color: var(--color-zhu);
   box-shadow: 0 0 12rpx var(--color-zhu);
 }
@@ -612,7 +682,11 @@ function reset() { bazi.value = null }
   margin-top: 2rpx;
 }
 
-.ln-cell.current .ln-ganzhi, .ln-cell.current .ln-ss, .ln-cell.current .ln-year { color: var(--color-bai); }
+.ln-cell.current .ln-ganzhi,
+.ln-cell.current .ln-ss,
+.ln-cell.current .ln-year {
+  color: var(--color-bai);
+}
 
 .ln-ss {
   font-size: var(--fs-xs);

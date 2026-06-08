@@ -10,13 +10,24 @@
 
       <view class="form-row">
         <text class="form-label">年</text>
-        <picker mode="number" :value="form.year" :min="1900" :max="2100" @change="onPick('year', $event)">
+        <picker
+          mode="number"
+          :value="form.year"
+          :min="1900"
+          :max="2100"
+          @change="onPick('year', $event)"
+        >
           <view class="form-picker">{{ form.year }} 年</view>
         </picker>
       </view>
       <view class="form-row">
         <text class="form-label">月</text>
-        <picker mode="selector" :value="form.month - 1" :range="monthRange" @change="onPick('month', $event)">
+        <picker
+          mode="selector"
+          :value="form.month - 1"
+          :range="monthRange"
+          @change="onPick('month', $event)"
+        >
           <view class="form-picker">{{ form.month }} 月</view>
         </picker>
       </view>
@@ -28,7 +39,12 @@
       </view>
       <view class="form-row">
         <text class="form-label">时</text>
-        <picker mode="selector" :value="form.hour" :range="hourRange" @change="onPick('hour', $event)">
+        <picker
+          mode="selector"
+          :value="form.hour"
+          :range="hourRange"
+          @change="onPick('hour', $event)"
+        >
           <view class="form-picker">{{ form.hour }}:00</view>
         </picker>
       </view>
@@ -44,96 +60,127 @@
       </view>
     </view>
 
-    <view v-else class="result"><ResultReveal :direction="'up'" :stagger="0.1">
-
-      <!-- 奇门遁甲可视化（核心） -->
-      <view class="card card-mystic card-hoverable anim-fade-up">
-        <text class="card-title title-mystic">奇 门 遁 甲 · 三 盘 九 宫</text>
-        <QiMenChart :result="result" />
-      </view>
-      <!-- 局数信息 -->
-      <view class="card card-mystic card-hoverable anim-fade-up">
-        <text class="card-title title-mystic">奇 门 局 息</text>
-        <view class="ju-row">
-          <view class="ju-cell">
-            <text class="ju-label">遁</text>
-            <text class="ju-val" :class="result.dun === '阳遁' ? 'rel-good' : 'rel-bad'">{{ result.dun }}</text>
+    <view v-else class="result"
+      >
+<ResultReveal :direction="'up'" :stagger="0.1">
+        <!-- 奇门遁甲可视化（核心） -->
+        <view class="card card-mystic card-hoverable anim-fade-up">
+          <text class="card-title title-mystic">奇 门 遁 甲 · 三 盘 九 宫</text>
+          <QiMenChart :result="result" />
+        </view>
+        <!-- 局数信息 -->
+        <view class="card card-mystic card-hoverable anim-fade-up">
+          <text class="card-title title-mystic">奇 门 局 息</text>
+          <view class="ju-row">
+            <view class="ju-cell">
+              <text class="ju-label">遁</text>
+              <text class="ju-val" :class="result.dun === '阳遁' ? 'rel-good' : 'rel-bad'">
+{{
+                result.dun
+              }}
+</text>
+            </view>
+            <view class="ju-cell">
+              <text class="ju-label">局 数</text>
+              <text class="ju-val">{{ result.ju }} 局</text>
+            </view>
+            <view class="ju-cell">
+              <text class="ju-label">元</text>
+              <text class="ju-val">{{ result.yuan }}</text>
+            </view>
+            <view class="ju-cell">
+              <text class="ju-label">时 辰</text>
+              <text class="ju-val">{{ result.shiGan }}{{ result.shiZhi }}</text>
+            </view>
           </view>
-          <view class="ju-cell">
-            <text class="ju-label">局 数</text>
-            <text class="ju-val">{{ result.ju }} 局</text>
-          </view>
-          <view class="ju-cell">
-            <text class="ju-label">元</text>
-            <text class="ju-val">{{ result.yuan }}</text>
-          </view>
-          <view class="ju-cell">
-            <text class="ju-label">时 辰</text>
-            <text class="ju-val">{{ result.shiGan }}{{ result.shiZhi }}</text>
+          <text class="ju-jieqi">{{ result.jieqi }}</text>
+          <view class="ju-zhifu">
+            <text class="zhifu-label"
+              >
+值符星：<text class="zhifu-val">{{ result.zhiFuStar }}</text
+              >　值使门：<text class="zhifu-val">{{ result.zhiShiMen }}</text>
+</text
+            >
           </view>
         </view>
-        <text class="ju-jieqi">{{ result.jieqi }}</text>
-        <view class="ju-zhifu">
-          <text class="zhifu-label">值符星：<text class="zhifu-val">{{ result.zhiFuStar }}</text>　值使门：<text class="zhifu-val">{{ result.zhiShiMen }}</text></text>
-        </view>
-      </view>
 
-      <!-- 九宫盘 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .1s">
-        <text class="card-title title-mystic">九 宫 三 盘</text>
-        <text class="card-tip">地 盘 干 / 天 盘 星 / 人 盘 门 / 八 神</text>
-        <view class="grid9">
-          <view
-            v-for="(p, i) in sortedPalace"
-            :key="i"
-            class="cell"
-            :class="'judge-' + p.judge"
-            :style="{ gridColumn: p.col + 1, gridRow: p.row + 1 }"
-          >
-            <view class="cell-gong">{{ p.gong }}宫</view>
-            <view class="cell-di">{{ p.diPan }}</view>
-            <view class="cell-tian">
-              <text class="ct-star">{{ p.star }}</text>
+        <!-- 九宫盘 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.1s">
+          <text class="card-title title-mystic">九 宫 三 盘</text>
+          <text class="card-tip">地 盘 干 / 天 盘 星 / 人 盘 门 / 八 神</text>
+          <view class="grid9">
+            <view
+              v-for="(p, i) in sortedPalace"
+              :key="i"
+              class="cell"
+              :class="'judge-' + p.judge"
+              :style="{ gridColumn: p.col + 1, gridRow: p.row + 1 }"
+            >
+              <view class="cell-gong">{{ p.gong }}宫</view>
+              <view class="cell-di">{{ p.diPan }}</view>
+              <view class="cell-tian">
+                <text class="ct-star">{{ p.star }}</text>
+              </view>
+              <view class="cell-men" :class="'mn-' + p.menNature">
+                <text>{{ p.men }}门</text>
+              </view>
+              <view class="cell-shen" :class="'sn-' + p.shenNature">
+                <text>{{ p.shen }}</text>
+              </view>
+              <view class="cell-judge" :class="'jd-' + p.judge">{{ p.judge }}</view>
             </view>
-            <view class="cell-men" :class="'mn-' + p.menNature">
-              <text>{{ p.men }}门</text>
-            </view>
-            <view class="cell-shen" :class="'sn-' + p.shenNature">
-              <text>{{ p.shen }}</text>
-            </view>
-            <view class="cell-judge" :class="'jd-' + p.judge">{{ p.judge }}</view>
           </view>
         </view>
-      </view>
 
-      <!-- 吉凶宫位解读 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .15s">
-        <text class="card-title title-mystic">宫 位 详 解</text>
-        <view class="palace-list">
-          <view v-for="(p, i) in sortedPalace" :key="i" class="pl-item" :class="'pl-' + p.judge">
-            <view class="pl-head">
-              <text class="pl-gong">{{ p.gong }}宫</text>
-              <text class="pl-judge" :class="'jd-' + p.judge">{{ p.judge }}</text>
+        <!-- 吉凶宫位解读 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.15s">
+          <text class="card-title title-mystic">宫 位 详 解</text>
+          <view class="palace-list">
+            <view v-for="(p, i) in sortedPalace" :key="i" class="pl-item" :class="'pl-' + p.judge">
+              <view class="pl-head">
+                <text class="pl-gong">{{ p.gong }}宫</text>
+                <text class="pl-judge" :class="'jd-' + p.judge">{{ p.judge }}</text>
+              </view>
+              <view class="pl-mid">
+                <text class="pl-key"
+                  >
+地盘干：<text class="pl-v">{{ p.diPan }}</text>
+</text
+                >
+                <text class="pl-key"
+                  >
+天盘干：<text class="pl-v">{{ p.tianPan }}</text>
+</text
+                >
+              </view>
+              <view class="pl-mid">
+                <text class="pl-key"
+                  >
+九星：<text class="pl-v" :class="'sn-' + p.starNature">{{ p.star }}</text>
+</text
+                >
+                <text class="pl-key"
+                  >
+八门：<text class="pl-v" :class="'mn-' + p.menNature">{{ p.men }}门</text>
+</text
+                >
+                <text class="pl-key"
+                  >
+八神：<text class="pl-v" :class="'sn-' + p.shenNature">{{ p.shen }}</text>
+</text
+                >
+              </view>
+              <text class="pl-brief">{{ p.brief }}</text>
             </view>
-            <view class="pl-mid">
-              <text class="pl-key">地盘干：<text class="pl-v">{{ p.diPan }}</text></text>
-              <text class="pl-key">天盘干：<text class="pl-v">{{ p.tianPan }}</text></text>
-            </view>
-            <view class="pl-mid">
-              <text class="pl-key">九星：<text class="pl-v" :class="'sn-' + p.starNature">{{ p.star }}</text></text>
-              <text class="pl-key">八门：<text class="pl-v" :class="'mn-' + p.menNature">{{ p.men }}门</text></text>
-              <text class="pl-key">八神：<text class="pl-v" :class="'sn-' + p.shenNature">{{ p.shen }}</text></text>
-            </view>
-            <text class="pl-brief">{{ p.brief }}</text>
           </view>
         </view>
-      </view>
 
-      <view class="reset">
-        <view class="btn-ghost" @click="reset">重 起 奇 门</view>
-      </view>
-    
-</ResultReveal></view>
+        <view class="reset">
+          <view class="btn-ghost" @click="reset">重 起 奇 门</view>
+        </view>
+      </ResultReveal>
+</view
+    >
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
       :show-cooldown="cd.showCooldown.value"
@@ -141,8 +188,8 @@
       :show-add-user="cd.showAddUser.value"
       :new-user-name="cd.newUserName.value"
       :new-user-remark="cd.newUserRemark.value"
-      @update:newUserName="(v: string) => cd.newUserName.value = v"
-      @update:newUserRemark="(v: string) => cd.newUserRemark.value = v"
+      @update:newUserName="(v: string) => (cd.newUserName.value = v)"
+      @update:newUserRemark="(v: string) => (cd.newUserRemark.value = v)"
       @close="cd.onCooldownClose"
       @switchUser="cd.onCooldownSwitchUser"
       @switchTool="cd.onCooldownSwitchTool"
@@ -151,10 +198,14 @@
       @confirmAddUser="cd.confirmAddUser"
     />
     <!-- 占卜推演 Loading -->
-    <LoadingSeal :visible="loading" :title="'玄 机 推 演 中'" :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']" :duration="2400" />
+    <LoadingSeal
+      :visible="loading"
+      :title="'玄 机 推 演 中'"
+      :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"
+      :duration="2400"
+    />
   </view>
 </template>
-
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -170,8 +221,8 @@ import LoadingSeal from '@/components/ui/LoadingSeal.vue'
 import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
-const cd = useCooldown({ tool: 'qimen', toolName: '奇门遁甲', category: '占卜' })
-const toolKey = 'qimen' as const
+const cd = useCooldown({ tool: 'mingmen', toolName: '奇门遁甲', category: '占卜' })
+const toolKey = 'mingmen' as const
 
 const form = ref({
   year: new Date().getFullYear(),
@@ -207,7 +258,7 @@ function calculate() {
     result.value = calcQimen(form.value.year, form.value.month, form.value.day, form.value.hour)
     loading.value = false
     app.addHistory({
-      tool: 'qimen',
+      tool: 'mingmen',
       toolName: '奇门遁甲',
       category: '命理',
       input: { ...form.value },
@@ -217,7 +268,9 @@ function calculate() {
   }, 700)
 }
 
-function reset() { result.value = null }
+function reset() {
+  result.value = null
+}
 </script>
 
 <style scoped>
@@ -228,7 +281,11 @@ function reset() { result.value = null }
   overflow: hidden;
 }
 
-.taiji-bg { position: fixed; inset: 0; z-index: var(--z-bg); }
+.taiji-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
 
 .form {
   position: relative;
@@ -342,8 +399,12 @@ function reset() { result.value = null }
   margin-top: 4rpx;
 }
 
-.ju-val.rel-good { color: #4FAE6F; }
-.ju-val.rel-bad  { color: var(--color-zhu); }
+.ju-val.rel-good {
+  color: #4fae6f;
+}
+.ju-val.rel-bad {
+  color: var(--color-zhu);
+}
 
 .ju-jieqi {
   display: block;
@@ -398,11 +459,27 @@ function reset() { result.value = null }
   min-height: 100rpx;
 }
 
-.cell.judge-大吉 { background: linear-gradient(135deg, rgba(79, 174, 111, 0.3) 0%, rgba(10, 10, 18, 0.5) 100%); border-color: #4FAE6F; box-shadow: 0 0 12rpx rgba(79, 174, 111, 0.4); }
-.cell.judge-吉   { background: linear-gradient(135deg, rgba(79, 174, 111, 0.15) 0%, rgba(10, 10, 18, 0.5) 100%); border-color: rgba(79, 174, 111, 0.4); }
-.cell.judge-中   { background: rgba(10, 10, 18, 0.5); }
-.cell.judge-凶   { background: linear-gradient(135deg, rgba(200, 48, 42, 0.15) 0%, rgba(10, 10, 18, 0.5) 100%); border-color: rgba(200, 48, 42, 0.4); }
-.cell.judge-大凶 { background: linear-gradient(135deg, rgba(200, 48, 42, 0.3) 0%, rgba(10, 10, 18, 0.5) 100%); border-color: var(--color-zhu); box-shadow: 0 0 12rpx rgba(200, 48, 42, 0.4); }
+.cell.judge-大吉 {
+  background: linear-gradient(135deg, rgba(79, 174, 111, 0.3) 0%, rgba(10, 10, 18, 0.5) 100%);
+  border-color: #4fae6f;
+  box-shadow: 0 0 12rpx rgba(79, 174, 111, 0.4);
+}
+.cell.judge-吉 {
+  background: linear-gradient(135deg, rgba(79, 174, 111, 0.15) 0%, rgba(10, 10, 18, 0.5) 100%);
+  border-color: rgba(79, 174, 111, 0.4);
+}
+.cell.judge-中 {
+  background: rgba(10, 10, 18, 0.5);
+}
+.cell.judge-凶 {
+  background: linear-gradient(135deg, rgba(200, 48, 42, 0.15) 0%, rgba(10, 10, 18, 0.5) 100%);
+  border-color: rgba(200, 48, 42, 0.4);
+}
+.cell.judge-大凶 {
+  background: linear-gradient(135deg, rgba(200, 48, 42, 0.3) 0%, rgba(10, 10, 18, 0.5) 100%);
+  border-color: var(--color-zhu);
+  box-shadow: 0 0 12rpx rgba(200, 48, 42, 0.4);
+}
 
 .cell-gong {
   position: absolute;
@@ -444,9 +521,18 @@ function reset() { result.value = null }
   margin-top: 2rpx;
 }
 
-.cell-men.mn-吉 { color: #4FAE6F; background: rgba(79, 174, 111, 0.15); }
-.cell-men.mn-中 { color: var(--color-liu); background: rgba(212, 175, 55, 0.15); }
-.cell-men.mn-凶 { color: var(--color-zhu); background: rgba(200, 48, 42, 0.15); }
+.cell-men.mn-吉 {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.15);
+}
+.cell-men.mn-中 {
+  color: var(--color-liu);
+  background: rgba(212, 175, 55, 0.15);
+}
+.cell-men.mn-凶 {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.15);
+}
 
 .cell-shen {
   font-size: 20rpx;
@@ -456,9 +542,18 @@ function reset() { result.value = null }
   margin-top: 2rpx;
 }
 
-.cell-shen.sn-吉 { color: #4FAE6F; background: rgba(79, 174, 111, 0.1); }
-.cell-shen.sn-凶 { color: var(--color-zhu); background: rgba(200, 48, 42, 0.1); }
-.cell-shen.sn-中 { color: var(--color-bai-2); background: rgba(100, 100, 120, 0.2); }
+.cell-shen.sn-吉 {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.1);
+}
+.cell-shen.sn-凶 {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.1);
+}
+.cell-shen.sn-中 {
+  color: var(--color-bai-2);
+  background: rgba(100, 100, 120, 0.2);
+}
 
 .cell-judge {
   position: absolute;
@@ -469,9 +564,17 @@ function reset() { result.value = null }
   font-weight: 700;
 }
 
-.cell-judge.jd-大吉, .cell-judge.jd-吉 { color: #4FAE6F; }
-.cell-judge.jd-中 { color: var(--color-liu); }
-.cell-judge.jd-凶, .cell-judge.jd-大凶 { color: var(--color-zhu); }
+.cell-judge.jd-大吉,
+.cell-judge.jd-吉 {
+  color: #4fae6f;
+}
+.cell-judge.jd-中 {
+  color: var(--color-liu);
+}
+.cell-judge.jd-凶,
+.cell-judge.jd-大凶 {
+  color: var(--color-zhu);
+}
 
 /* ===== 宫位列表 ===== */
 .palace-list {
@@ -487,8 +590,14 @@ function reset() { result.value = null }
   border-radius: var(--r-md);
 }
 
-.pl-item.pl-大吉, .pl-item.pl-吉 { border-color: rgba(79, 174, 111, 0.4); }
-.pl-item.pl-凶, .pl-item.pl-大凶 { border-color: rgba(200, 48, 42, 0.4); }
+.pl-item.pl-大吉,
+.pl-item.pl-吉 {
+  border-color: rgba(79, 174, 111, 0.4);
+}
+.pl-item.pl-凶,
+.pl-item.pl-大凶 {
+  border-color: rgba(200, 48, 42, 0.4);
+}
 
 .pl-head {
   display: flex;
@@ -512,9 +621,20 @@ function reset() { result.value = null }
   border-radius: var(--r-sm);
 }
 
-.pl-judge.jd-大吉, .pl-judge.jd-吉 { background: rgba(79, 174, 111, 0.2); color: #4FAE6F; }
-.pl-judge.jd-中 { background: rgba(212, 175, 55, 0.2); color: var(--color-liu); }
-.pl-judge.jd-凶, .pl-judge.jd-大凶 { background: rgba(200, 48, 42, 0.2); color: var(--color-zhu); }
+.pl-judge.jd-大吉,
+.pl-judge.jd-吉 {
+  background: rgba(79, 174, 111, 0.2);
+  color: #4fae6f;
+}
+.pl-judge.jd-中 {
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--color-liu);
+}
+.pl-judge.jd-凶,
+.pl-judge.jd-大凶 {
+  background: rgba(200, 48, 42, 0.2);
+  color: var(--color-zhu);
+}
 
 .pl-mid {
   display: flex;
@@ -536,10 +656,18 @@ function reset() { result.value = null }
   font-weight: 600;
 }
 
-.pl-v.sn-吉 { color: #4FAE6F; }
-.pl-v.sn-凶 { color: var(--color-zhu); }
-.pl-v.mn-吉 { color: #4FAE6F; }
-.pl-v.mn-凶 { color: var(--color-zhu); }
+.pl-v.sn-吉 {
+  color: #4fae6f;
+}
+.pl-v.sn-凶 {
+  color: var(--color-zhu);
+}
+.pl-v.mn-吉 {
+  color: #4fae6f;
+}
+.pl-v.mn-凶 {
+  color: var(--color-zhu);
+}
 
 .pl-brief {
   display: block;

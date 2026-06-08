@@ -1,7 +1,7 @@
 <template>
   <view class="us-bar" :class="{ 'us-bar-compact': compact }">
     <text class="us-label">· 今 日 为 谁 问 ·</text>
-    <scroll-view scroll-x class="us-scroll" v-if="divinators.length > 0">
+    <scroll-view v-if="divinators.length > 0" scroll-x class="us-scroll">
       <view class="us-list">
         <view
           v-for="u in divinators"
@@ -114,7 +114,7 @@ function onAdd() {
 }
 
 .us-item.active {
-  background: linear-gradient(135deg, #5B3A8E, #C8302A);
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
   color: var(--color-bai);
   border-color: var(--color-liu);
   box-shadow: 0 0 12rpx rgba(212, 175, 55, 0.3);

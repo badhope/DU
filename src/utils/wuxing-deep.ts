@@ -11,9 +11,34 @@
 import type { Wuxing } from './wuxing'
 
 // ============ 十二长生（阳顺阴逆） ============
-export type Changsheng = '长生' | '沐浴' | '冠带' | '临官' | '帝旺' | '衰' | '病' | '死' | '墓' | '绝' | '胎' | '养'
+export type Changsheng =
+  | '长生'
+  | '沐浴'
+  | '冠带'
+  | '临官'
+  | '帝旺'
+  | '衰'
+  | '病'
+  | '死'
+  | '墓'
+  | '绝'
+  | '胎'
+  | '养'
 
-const CHANGSHENG_NAMES: Changsheng[] = ['长生', '沐浴', '冠带', '临官', '帝旺', '衰', '病', '死', '墓', '绝', '胎', '养']
+const CHANGSHENG_NAMES: Changsheng[] = [
+  '长生',
+  '沐浴',
+  '冠带',
+  '临官',
+  '帝旺',
+  '衰',
+  '病',
+  '死',
+  '墓',
+  '绝',
+  '胎',
+  '养',
+]
 type DiZhi = '子' | '丑' | '寅' | '卯' | '辰' | '巳' | '午' | '未' | '申' | '酉' | '戌' | '亥'
 
 // 阳干：甲丙戊庚壬 顺行
@@ -24,10 +49,18 @@ type DiZhi = '子' | '丑' | '寅' | '卯' | '辰' | '巳' | '午' | '未' | '�
 //         庚/辛 始于 巳
 //         壬/癸 始于 申
 const YANG_START: Record<string, DiZhi> = {
-  甲: '亥', 丙: '寅', 戊: '寅', 庚: '巳', 壬: '申',
+  甲: '亥',
+  丙: '寅',
+  戊: '寅',
+  庚: '巳',
+  壬: '申',
 }
 const YIN_START: Record<string, DiZhi> = {
-  乙: '亥', 丁: '寅', 己: '寅', 辛: '巳', 癸: '申',
+  乙: '亥',
+  丁: '寅',
+  己: '寅',
+  辛: '巳',
+  癸: '申',
 }
 
 const ZHI_LIST: DiZhi[] = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
@@ -40,26 +73,26 @@ export function changsheng(gan: string, zhi: DiZhi): Changsheng {
   const targetIdx = ZHI_LIST.indexOf(zhi)
   let step: number
   if (isYang) {
-    step = ((targetIdx - startIdx) % 12 + 12) % 12
+    step = (((targetIdx - startIdx) % 12) + 12) % 12
   } else {
-    step = ((startIdx - targetIdx) % 12 + 12) % 12
+    step = (((startIdx - targetIdx) % 12) + 12) % 12
   }
   return CHANGSHENG_NAMES[step]
 }
 
 const CS_DESC: Record<Changsheng, string> = {
-  '长生': '生机初发，欣欣向荣',
-  '沐浴': '桃花沐浴，情感萌动',
-  '冠带': '初显才华，仪表堂堂',
-  '临官': '出仕临位，担当大任',
-  '帝旺': '气势鼎盛，巅峰状态',
-  '衰': '气数渐衰，宜守不宜攻',
-  '病': '虚弱不安，调养为宜',
-  '死': '气数已尽，另辟蹊径',
-  '墓': '入库收藏，厚积薄发',
-  '绝': '生机断绝，绝处逢生',
-  '胎': '受胎成形，孕育希望',
-  '养': '蓄养待时，韬光养晦',
+  长生: '生机初发，欣欣向荣',
+  沐浴: '桃花沐浴，情感萌动',
+  冠带: '初显才华，仪表堂堂',
+  临官: '出仕临位，担当大任',
+  帝旺: '气势鼎盛，巅峰状态',
+  衰: '气数渐衰，宜守不宜攻',
+  病: '虚弱不安，调养为宜',
+  死: '气数已尽，另辟蹊径',
+  墓: '入库收藏，厚积薄发',
+  绝: '生机断绝，绝处逢生',
+  胎: '受胎成形，孕育希望',
+  养: '蓄养待时，韬光养晦',
 }
 
 export function changshengDesc(cs: Changsheng): string {
@@ -164,7 +197,10 @@ export function xingge(wx: Wuxing, isStrong: boolean): string {
 }
 
 // ============ 养生要诀 ============
-const YANGSHENG: Record<Wuxing, { season: string; emotion: string; food: string; exercise: string; taboo: string }> = {
+const YANGSHENG: Record<
+  Wuxing,
+  { season: string; emotion: string; food: string; exercise: string; taboo: string }
+> = {
   mu: {
     season: '春养肝，宜早睡早起',
     emotion: '戒怒，常散步舒展',
@@ -208,35 +244,43 @@ export function yangsheng(wx: Wuxing) {
 
 // ============ 关系矩阵 ============
 export interface WuxingMatrix {
-  shengWo: Wuxing   // 生我 (reverse sheng)
-  woSheng: Wuxing   // 我生
-  keWo: Wuxing      // 克我 (reverse ke)
-  woKe: Wuxing      // 我克
-  tong: Wuxing      // 同我
+  shengWo: Wuxing // 生我 (reverse sheng)
+  woSheng: Wuxing // 我生
+  keWo: Wuxing // 克我 (reverse ke)
+  woKe: Wuxing // 我克
+  tong: Wuxing // 同我
 }
 
 import { SHENG, KE } from './wuxing'
 
 // 找到"生我"和"克我"
 const REVERSE_SHENG: Record<Wuxing, Wuxing> = {
-  mu: 'shui', huo: 'mu', tu: 'huo', jin: 'tu', shui: 'jin',
+  mu: 'shui',
+  huo: 'mu',
+  tu: 'huo',
+  jin: 'tu',
+  shui: 'jin',
 }
 const REVERSE_KE: Record<Wuxing, Wuxing> = {
-  mu: 'jin', huo: 'shui', tu: 'mu', jin: 'huo', shui: 'tu',
+  mu: 'jin',
+  huo: 'shui',
+  tu: 'mu',
+  jin: 'huo',
+  shui: 'tu',
 }
 
 export function matrix(wx: Wuxing): WuxingMatrix {
   return {
-    shengWo: REVERSE_SHENG[wx],  // 谁生我
-    woSheng: SHENG[wx],          // 我生谁
-    keWo: REVERSE_KE[wx],        // 谁克我
-    woKe: KE[wx],                // 我克谁
-    tong: wx,                    // 同我
+    shengWo: REVERSE_SHENG[wx], // 谁生我
+    woSheng: SHENG[wx], // 我生谁
+    keWo: REVERSE_KE[wx], // 谁克我
+    woKe: KE[wx], // 我克谁
+    tong: wx, // 同我
   }
 }
 
 // 完整关系矩阵
-export function relationMatrix(wx: Wuxing): { name: string, target: Wuxing, desc: string }[] {
+export function relationMatrix(wx: Wuxing): { name: string; target: Wuxing; desc: string }[] {
   return [
     { name: '我生', target: SHENG[wx], desc: '我付出，耗我之气' },
     { name: '生我', target: REVERSE_SHENG[wx], desc: '得扶助，吉' },
@@ -272,12 +316,15 @@ export function wangshuaiOf(count: number): WangShuaiLevel {
  * - 极弱 / 偏弱：宜生扶（用神 = 生我）；喜 = 生我、同类；忌 = 克我、我生
  * - 中和：以"被生"为用神（轻微补益）；喜 = 生我；忌 = 克我
  */
-export function wangshuai(counts: Record<Wuxing, number>, self: Wuxing): {
+export function wangshuai(
+  counts: Record<Wuxing, number>,
+  self: Wuxing,
+): {
   level: WangShuaiLevel
-  score: number        // 0-100，等价 strength
-  yong: Wuxing         // 用神
-  xi: Wuxing[]         // 喜神
-  ji: Wuxing[]         // 忌神
+  score: number // 0-100，等价 strength
+  yong: Wuxing // 用神
+  xi: Wuxing[] // 喜神
+  ji: Wuxing[] // 忌神
   desc: string
   advice: string[]
 } {
@@ -285,20 +332,34 @@ export function wangshuai(counts: Record<Wuxing, number>, self: Wuxing): {
   const level = wangshuaiOf(count)
   // 折算 strength 评分：极旺 85 / 偏旺 65 / 中和 50 / 偏弱 35 / 极弱 15
   const scoreMap: Record<WangShuaiLevel, number> = {
-    '极旺': 85, '偏旺': 65, '中和': 50, '偏弱': 35, '极弱': 15,
+    极旺: 85,
+    偏旺: 65,
+    中和: 50,
+    偏弱: 35,
+    极弱: 15,
   }
   const score = scoreMap[level]
-  const shengWo = REVERSE_SHENG[self]  // 谁生我
-  const keWo = REVERSE_KE[self]        // 谁克我
-  const woSheng = SHENG[self]          // 我生
-  const woKe = KE[self]                // 我克
+  const shengWo = REVERSE_SHENG[self] // 谁生我
+  const keWo = REVERSE_KE[self] // 谁克我
+  const woSheng = SHENG[self] // 我生
+  const woKe = KE[self] // 我克
 
   let yong: Wuxing
   let xi: Wuxing[] = []
   let ji: Wuxing[] = []
   let desc = ''
-  const selfName = self === 'mu' ? '木' : self === 'huo' ? '火' : self === 'tu' ? '土' : self === 'jin' ? '金' : '水'
-  const wxName = (w: Wuxing) => w === 'mu' ? '木' : w === 'huo' ? '火' : w === 'tu' ? '土' : w === 'jin' ? '金' : '水'
+  const selfName =
+    self === 'mu'
+      ? '木'
+      : self === 'huo'
+        ? '火'
+        : self === 'tu'
+          ? '土'
+          : self === 'jin'
+            ? '金'
+            : '水'
+  const wxName = (w: Wuxing) =>
+    w === 'mu' ? '木' : w === 'huo' ? '火' : w === 'tu' ? '土' : w === 'jin' ? '金' : '水'
   if (level === '极旺' || level === '偏旺') {
     yong = keWo
     xi = [woSheng, woKe]
@@ -324,7 +385,7 @@ export function wangshuai(counts: Record<Wuxing, number>, self: Wuxing): {
   // 方位
   advice.push(`居住/办公朝${bj.direction}为佳`)
   // 食物
-  advice.push(`饮食多${bj.food[0]}${bj.food[1] ? '、'+bj.food[1] : ''}`)
+  advice.push(`饮食多${bj.food[0]}${bj.food[1] ? '、' + bj.food[1] : ''}`)
   // 职业
   advice.push(`适合职业方向：${bj.career.slice(0, 3).join('、')}`)
   // 数字

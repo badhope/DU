@@ -9,19 +9,71 @@
  */
 
 export const BA_GONG = [
-  { name: '乾宫', pos: '手腕上方（金星丘）', desc: '主祖业 · 父母 · 权威', element: '金' as const, score: 78 },
-  { name: '兑宫', pos: '小指下方（太阴丘）', desc: '主艺术 · 才华 · 灵感', element: '金' as const, score: 75 },
-  { name: '离宫', pos: '中指下方（太阳丘）', desc: '主财富 · 领导 · 自信', element: '火' as const, score: 82 },
-  { name: '震宫', pos: '食指下方（木星丘）', desc: '主事业 · 进取 · 权威', element: '木' as const, score: 80 },
-  { name: '巽宫', pos: '食指根（巽宫丘）', desc: '主交际 · 灵活 · 适应', element: '木' as const, score: 73 },
-  { name: '坎宫', pos: '拇指球（金星丘）', desc: '主活力 · 健康 · 感情', element: '水' as const, score: 85 },
-  { name: '艮宫', pos: '拇指根（艮宫丘）', desc: '主家宅 · 稳定 · 储蓄', element: '土' as const, score: 76 },
-  { name: '坤宫', pos: '小指根（坤宫丘）', desc: '主情感 · 人缘 · 婚姻', element: '土' as const, score: 78 },
+  {
+    name: '乾宫',
+    pos: '手腕上方（金星丘）',
+    desc: '主祖业 · 父母 · 权威',
+    element: '金' as const,
+    score: 78,
+  },
+  {
+    name: '兑宫',
+    pos: '小指下方（太阴丘）',
+    desc: '主艺术 · 才华 · 灵感',
+    element: '金' as const,
+    score: 75,
+  },
+  {
+    name: '离宫',
+    pos: '中指下方（太阳丘）',
+    desc: '主财富 · 领导 · 自信',
+    element: '火' as const,
+    score: 82,
+  },
+  {
+    name: '震宫',
+    pos: '食指下方（木星丘）',
+    desc: '主事业 · 进取 · 权威',
+    element: '木' as const,
+    score: 80,
+  },
+  {
+    name: '巽宫',
+    pos: '食指根（巽宫丘）',
+    desc: '主交际 · 灵活 · 适应',
+    element: '木' as const,
+    score: 73,
+  },
+  {
+    name: '坎宫',
+    pos: '拇指球（金星丘）',
+    desc: '主活力 · 健康 · 感情',
+    element: '水' as const,
+    score: 85,
+  },
+  {
+    name: '艮宫',
+    pos: '拇指根（艮宫丘）',
+    desc: '主家宅 · 稳定 · 储蓄',
+    element: '土' as const,
+    score: 76,
+  },
+  {
+    name: '坤宫',
+    pos: '小指根（坤宫丘）',
+    desc: '主情感 · 人缘 · 婚姻',
+    element: '土' as const,
+    score: 78,
+  },
 ]
 
 // ============ 12 丘 ============
 export const SHI_ER_QIU: Array<{
-  name: string, pos: string, desc: string, element: '金' | '木' | '水' | '火' | '土', score: number
+  name: string
+  pos: string
+  desc: string
+  element: '金' | '木' | '水' | '火' | '土'
+  score: number
 }> = [
   { name: '金星丘', pos: '拇指球', desc: '主活力·情爱·体力', element: '土', score: 80 },
   { name: '木星丘', pos: '食指根', desc: '主权力·野心·领导', element: '木', score: 78 },
@@ -38,27 +90,103 @@ export const SHI_ER_QIU: Array<{
 ]
 
 export const SAN_ZHU = [
-  { name: '生命线', desc: '主寿元 · 体能 · 抗压力 · 弧大则精力旺盛', quality: '佳' as '佳' | '中' | '弱', score: 80 },
-  { name: '智慧线', desc: '主才智 · 思考 · 决断力 · 长而清晰则思维敏锐', quality: '佳' as '佳' | '中' | '弱', score: 78 },
-  { name: '感情线', desc: '主情感 · 婚姻 · 人际 · 入木三分则情深义重', quality: '佳' as '佳' | '中' | '弱', score: 75 },
+  {
+    name: '生命线',
+    desc: '主寿元 · 体能 · 抗压力 · 弧大则精力旺盛',
+    quality: '佳' as '佳' | '中' | '弱',
+    score: 80,
+  },
+  {
+    name: '智慧线',
+    desc: '主才智 · 思考 · 决断力 · 长而清晰则思维敏锐',
+    quality: '佳' as '佳' | '中' | '弱',
+    score: 78,
+  },
+  {
+    name: '感情线',
+    desc: '主情感 · 婚姻 · 人际 · 入木三分则情深义重',
+    quality: '佳' as '佳' | '中' | '弱',
+    score: 75,
+  },
 ]
 
 // ============ 八种特殊掌纹 ============
 export const BA_ZHONG_ZHANG_WEN: Array<{
-  name: string, position: string, desc: string, rarity: '极罕' | '罕' | '少' | '常', omen: '吉' | '中' | '凶', meaning: string
+  name: string
+  position: string
+  desc: string
+  rarity: '极罕' | '罕' | '少' | '常'
+  omen: '吉' | '中' | '凶'
+  meaning: string
 }> = [
-  { name: '凤眼纹', position: '中指第三节', desc: '中指中节有眼形纹', rarity: '极罕', omen: '吉', meaning: '主大贵 · 福泽绵长' },
-  { name: '通贯掌', position: '智慧/感情一线连', desc: '智慧线与感情线合为一', rarity: '罕', omen: '中', meaning: '主才干独特 · 自立门户' },
-  { name: '断掌', position: '手掌中央横断', desc: '主线中断或横纹明显', rarity: '少', omen: '中', meaning: '主性格刚毅 · 大起大落' },
-  { name: '十字纹', position: '掌心任意部位', desc: '十字形纹', rarity: '常', omen: '吉', meaning: '主某事有定 · 平安吉祥' },
-  { name: '井字纹', position: '掌心任意部位', desc: '井字形纹', rarity: '少', omen: '吉', meaning: '主财产稳固 · 守业有成' },
-  { name: '星纹', position: '掌心任意部位', desc: '星形纹（多线辐射）', rarity: '罕', omen: '中', meaning: '主变动 · 某事显赫一时' },
-  { name: '三角纹', position: '主线交汇处', desc: '三线相交成三角', rarity: '少', omen: '吉', meaning: '主才艺出众 · 智慧超人' },
-  { name: '岛纹', position: '主线中', desc: '主线中有眼形闭合', rarity: '少', omen: '凶', meaning: '主某段虚耗 · 健康需防' },
+  {
+    name: '凤眼纹',
+    position: '中指第三节',
+    desc: '中指中节有眼形纹',
+    rarity: '极罕',
+    omen: '吉',
+    meaning: '主大贵 · 福泽绵长',
+  },
+  {
+    name: '通贯掌',
+    position: '智慧/感情一线连',
+    desc: '智慧线与感情线合为一',
+    rarity: '罕',
+    omen: '中',
+    meaning: '主才干独特 · 自立门户',
+  },
+  {
+    name: '断掌',
+    position: '手掌中央横断',
+    desc: '主线中断或横纹明显',
+    rarity: '少',
+    omen: '中',
+    meaning: '主性格刚毅 · 大起大落',
+  },
+  {
+    name: '十字纹',
+    position: '掌心任意部位',
+    desc: '十字形纹',
+    rarity: '常',
+    omen: '吉',
+    meaning: '主某事有定 · 平安吉祥',
+  },
+  {
+    name: '井字纹',
+    position: '掌心任意部位',
+    desc: '井字形纹',
+    rarity: '少',
+    omen: '吉',
+    meaning: '主财产稳固 · 守业有成',
+  },
+  {
+    name: '星纹',
+    position: '掌心任意部位',
+    desc: '星形纹（多线辐射）',
+    rarity: '罕',
+    omen: '中',
+    meaning: '主变动 · 某事显赫一时',
+  },
+  {
+    name: '三角纹',
+    position: '主线交汇处',
+    desc: '三线相交成三角',
+    rarity: '少',
+    omen: '吉',
+    meaning: '主才艺出众 · 智慧超人',
+  },
+  {
+    name: '岛纹',
+    position: '主线中',
+    desc: '主线中有眼形闭合',
+    rarity: '少',
+    omen: '凶',
+    meaning: '主某段虚耗 · 健康需防',
+  },
 ]
 
 // ============ 12 流年 ============
-export const SHI_ER_LING: Array<{ name: string, pos: string, baseAge: number, desc: string }> = [
+export const SHI_ER_LING: Array<{ name: string; pos: string; baseAge: number; desc: string }> = [
   { name: '坎宫少年', pos: '坎宫位', baseAge: 5, desc: '坎主幼年 · 体魄与亲情' },
   { name: '艮宫童蒙', pos: '艮宫位', baseAge: 13, desc: '艮主少年 · 学业与家业' },
   { name: '震宫志学', pos: '震宫位', baseAge: 21, desc: '震主青年 · 志业与立身' },
@@ -107,12 +235,20 @@ export interface ShouxiangResult {
 }
 
 export function calcShouxiang(year: number, month: number, day: number): ShouxiangResult {
-  const base = 70 + (year + month + day) % 7 - 3
-  const baGong = BA_GONG.map((g, i) => ({ ...g, score: Math.max(50, Math.min(95, base + i + (year % 5) - 2)) }))
+  const base = 70 + ((year + month + day) % 7) - 3
+  const baGong = BA_GONG.map((g, i) => ({
+    ...g,
+    score: Math.max(50, Math.min(95, base + i + (year % 5) - 2)),
+  }))
   const sanZhu = SAN_ZHU.map((s, i) => ({
     ...s,
     score: Math.max(55, Math.min(95, base + i * 2 + (month % 3) - 1)),
-    quality: (base + i * 2 + (month % 3) - 1) > 80 ? '佳' as const : (base + i * 2 + (month % 3) - 1) > 65 ? '佳' as const : '中' as const,
+    quality:
+      base + i * 2 + (month % 3) - 1 > 80
+        ? ('佳' as const)
+        : base + i * 2 + (month % 3) - 1 > 65
+          ? ('佳' as const)
+          : ('中' as const),
   }))
 
   // 12 丘
@@ -165,12 +301,20 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
 
   // 实用建议
   const advice: string[] = []
-  const bestQ = shiErQiu.reduce((a, b) => a.score > b.score ? a : b)
-  const worstQ = shiErQiu.reduce((a, b) => a.score < b.score ? a : b)
+  const bestQ = shiErQiu.reduce((a, b) => (a.score > b.score ? a : b))
+  const worstQ = shiErQiu.reduce((a, b) => (a.score < b.score ? a : b))
   advice.push(`主运宫位：${sorted[0].name}（${sorted[0].desc}）`)
   advice.push(`最强丘：${bestQ.name} · ${bestQ.detail}`)
   if (worstQ.level === '凶') advice.push(`慎防：${worstQ.name} · ${worstQ.detail}`)
-  advice.push(`流年关注：${liuNian.filter(x => x.flow === '吉').slice(0, 2).map(x => x.name).join('、') || '守中'}`)
+  advice.push(
+    `流年关注：${
+      liuNian
+        .filter((x) => x.flow === '吉')
+        .slice(0, 2)
+        .map((x) => x.name)
+        .join('、') || '守中'
+    }`,
+  )
   advice.push('宜佩戴：玉/水晶/金器为常，或水晶阵以养气')
 
   return {
@@ -179,7 +323,8 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
     sanZhu,
     baZhangWen: BA_ZHONG_ZHANG_WEN,
     liuNian,
-    totalScore, level,
+    totalScore,
+    level,
     summary: `掌相总评 ${level} · 八宫${totalScore >= 70 ? '饱满' : '待养'} · 三线${avgSz > 75 ? '明朗' : '尚可'} · 12 丘${bestQ.level}`,
     bestArea: sorted[0].name,
     worstArea: sorted[sorted.length - 1].name,

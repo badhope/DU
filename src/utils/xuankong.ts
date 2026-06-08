@@ -21,7 +21,17 @@
 import { DIZHI, type DiZhi } from './bazi'
 
 // 九宫 1-9 顺序
-export const GONG_NAMES_9 = ['一白', '二黑', '三碧', '四绿', '五黄', '六白', '七赤', '八白', '九紫'] as const
+export const GONG_NAMES_9 = [
+  '一白',
+  '二黑',
+  '三碧',
+  '四绿',
+  '五黄',
+  '六白',
+  '七赤',
+  '八白',
+  '九紫',
+] as const
 export type GONG_NUM = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
 
 // 九宫方位
@@ -118,7 +128,13 @@ export interface XuanKongResult {
   yunPan: Record<number, GONG_NUM>
   liuNianPan: Record<number, GONG_NUM>
   /** 流年方位吉凶 */
-  directions: Array<{ dir: string; star: GONG_NUM; starName: string; level: '大吉' | '吉' | '平' | '凶' | '大凶'; advice: string }>
+  directions: Array<{
+    dir: string
+    star: GONG_NUM
+    starName: string
+    level: '大吉' | '吉' | '平' | '凶' | '大凶'
+    advice: string
+  }>
   /** 整体建议 */
   summary: string
   /** 当运 5 事 */
@@ -130,7 +146,12 @@ export interface XuanKongResult {
 /**
  * 完整排盘
  */
-export function calcXuanKong(year: number, month: number, day: number, hour: number): XuanKongResult {
+export function calcXuanKong(
+  year: number,
+  month: number,
+  day: number,
+  hour: number,
+): XuanKongResult {
   const yun = getYun(year)
   const yunPan = getYunPan(yun.num)
   const liuNianPan = getLiuNianPan(year)
@@ -164,7 +185,7 @@ export function calcXuanKong(year: number, month: number, day: number, hour: num
   const monthly = Array.from({ length: 12 }, (_, i) => {
     const m = i + 1
     // 简化：月紫白 = (年紫白 + 月序) mod 9
-    const star = (((liuNianPan[5] + m - 1) % 9) || 9) as GONG_NUM
+    const star = ((liuNianPan[5] + m - 1) % 9 || 9) as GONG_NUM
     const level = _starLevel(star)
     return {
       month: m,
@@ -175,13 +196,7 @@ export function calcXuanKong(year: number, month: number, day: number, hour: num
   })
 
   // 5 事
-  const fiveTips = [
-    _tip1(yun),
-    _tip2(directions),
-    _tip3(year),
-    _tip4(directions),
-    _tip5(monthly),
-  ]
+  const fiveTips = [_tip1(yun), _tip2(directions), _tip3(year), _tip4(directions), _tip5(monthly)]
 
   return {
     year,
@@ -220,14 +235,19 @@ function _monthAdvice(m: number, star: GONG_NUM, level: string): string {
 }
 
 function _tip1(y: XuanKongResult['yun']): string {
-  if (y.yuan === '下' && y.num === 8) return '下元 8 运 · 八白左辅当运 · 2004-2023 财星主导 · 适合置业'
-  if (y.yuan === '下' && y.num === 9) return '下元 9 运 · 九紫右弼当运 · 2024-2043 喜事主导 · 桃花科甲'
+  if (y.yuan === '下' && y.num === 8)
+    return '下元 8 运 · 八白左辅当运 · 2004-2023 财星主导 · 适合置业'
+  if (y.yuan === '下' && y.num === 9)
+    return '下元 9 运 · 九紫右弼当运 · 2024-2043 喜事主导 · 桃花科甲'
   if (y.yuan === '中' && y.num === 6) return '中元 6 运 · 六白武曲当运 · 偏财驿马 · 适合远行'
   return `${y.yuan}元${y.num}运主导 · ${y.desc}`
 }
 
 function _tip2(dirs: XuanKongResult['directions']): string {
-  const best = dirs.filter(d => d.level === '大吉').map(d => d.dir).join('、')
+  const best = dirs
+    .filter((d) => d.level === '大吉')
+    .map((d) => d.dir)
+    .join('、')
   return `大吉方位：${best || '无'} · 开门安床首选`
 }
 
@@ -238,12 +258,21 @@ function _tip3(year: number): string {
 }
 
 function _tip4(dirs: XuanKongResult['directions']): string {
-  const bad = dirs.filter(d => d.level === '大凶' || d.level === '凶').map(d => d.dir).join('、')
+  const bad = dirs
+    .filter((d) => d.level === '大凶' || d.level === '凶')
+    .map((d) => d.dir)
+    .join('、')
   return `凶煞方位：${bad || '无'} · 切忌动土开门`
 }
 
 function _tip5(months: XuanKongResult['monthly']): string {
-  const best = months.filter(m => m.level === '大吉').map(m => `${m.month}月`).join('、')
-  const worst = months.filter(m => m.level === '大凶').map(m => `${m.month}月`).join('、')
+  const best = months
+    .filter((m) => m.level === '大吉')
+    .map((m) => `${m.month}月`)
+    .join('、')
+  const worst = months
+    .filter((m) => m.level === '大凶')
+    .map((m) => `${m.month}月`)
+    .join('、')
   return `月运大吉：${best || '无'} · 月运大凶：${worst || '无'}`
 }

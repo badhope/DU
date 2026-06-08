@@ -6,19 +6,22 @@ import { kangxiStrokes } from './kangxi-strokes'
 
 export interface MasterMeta {
   key: MasterKey
-  name: string       // 师名
-  glyph: string      // 图腾
+  name: string // 师名
+  glyph: string // 图腾
   color: string
-  greeting: string   // 见面礼
-  farewell: string   // 告别语
-  domain: string[]   // 专业领域
-  style: string      // 表达风格
-  desc: string       // 介绍
+  greeting: string // 见面礼
+  farewell: string // 告别语
+  domain: string[] // 专业领域
+  style: string // 表达风格
+  desc: string // 介绍
 }
 
 export const MASTERS: Record<MasterKey, MasterMeta> = {
   'ai-gua': {
-    key: 'ai-gua', name: '解卦师', glyph: '卦', color: '#5B3A8E',
+    key: 'ai-gua',
+    name: '解卦师',
+    glyph: '卦',
+    color: '#5B3A8E',
     greeting: '卦象无形 · 大道有名',
     farewell: '卦终万象 · 愿君明心',
     domain: ['周易', '六爻', '梅花易数', '签诗', '占卜'],
@@ -26,7 +29,10 @@ export const MASTERS: Record<MasterKey, MasterMeta> = {
     desc: '专研周易五十之卦 · 善用易理解读人事 · 凡问必答。',
   },
   'ai-ming': {
-    key: 'ai-ming', name: '命理师', glyph: '命', color: '#8B1F1A',
+    key: 'ai-ming',
+    name: '命理师',
+    glyph: '命',
+    color: '#8B1F1A',
     greeting: '一命二运三风水',
     farewell: '命由天定 · 运由己造',
     domain: ['八字', '紫微', '星盘', '流年', '大运'],
@@ -34,7 +40,10 @@ export const MASTERS: Record<MasterKey, MasterMeta> = {
     desc: '通晓八字紫微星盘三大体系 · 擅看命理结构。',
   },
   'ai-feng': {
-    key: 'ai-feng', name: '风水师', glyph: '风', color: '#1F4E4A',
+    key: 'ai-feng',
+    name: '风水师',
+    glyph: '风',
+    color: '#1F4E4A',
     greeting: '藏风聚气 · 山水有情',
     farewell: '气顺人和 · 家宅安宁',
     domain: ['阳宅', '玄空飞星', '八宅', '罗盘'],
@@ -42,7 +51,10 @@ export const MASTERS: Record<MasterKey, MasterMeta> = {
     desc: '精研阳宅八宅玄空三大派 · 注重实际布局调整。',
   },
   'ai-name': {
-    key: 'ai-name', name: '起名师', glyph: '名', color: '#D4AF37',
+    key: 'ai-name',
+    name: '起名师',
+    glyph: '名',
+    color: '#D4AF37',
     greeting: '名以载道 · 字以传神',
     farewell: '好名相伴 · 一生顺遂',
     domain: ['生辰八字', '三才五格', '汉字音形义'],
@@ -50,7 +62,10 @@ export const MASTERS: Record<MasterKey, MasterMeta> = {
     desc: '深谙姓名学三才五格 · 注重字音字形字义。',
   },
   'ai-jiankang': {
-    key: 'ai-jiankang', name: '健康师', glyph: '健', color: '#4FAE6F',
+    key: 'ai-jiankang',
+    name: '健康师',
+    glyph: '健',
+    color: '#4FAE6F',
     greeting: '上工治未病',
     farewell: '饮食有节 · 起居有常',
     domain: ['节气养生', '体质', '经络', '食疗'],
@@ -58,7 +73,10 @@ export const MASTERS: Record<MasterKey, MasterMeta> = {
     desc: '通晓中医节气体质 · 提倡未病先防。',
   },
   'ai-xiuxin': {
-    key: 'ai-xiuxin', name: '修心师', glyph: '心', color: '#5B3A8E',
+    key: 'ai-xiuxin',
+    name: '修心师',
+    glyph: '心',
+    color: '#5B3A8E',
     greeting: '心安即是归处',
     farewell: '静观其变 · 心如止水',
     domain: ['禅修', '坐禅', '冥想', '内观', '调息'],
@@ -181,15 +199,15 @@ const WUXING_DESC: Record<string, string> = {
 
 // 风水方位吉凶
 const FENG_DIR: Record<string, string> = {
-  '东': '东方属木 · 主生发 · 宜动',
-  '南': '南方属火 · 主文明 · 宜文',
-  '西': '西方属金 · 主收获 · 宜静',
-  '北': '北方属水 · 主智慧 · 宜藏',
-  '东南': '东南属木 · 主文昌 · 宜学',
-  '东北': '东北属土 · 主稳定 · 宜守',
-  '西南': '西南属土 · 主坤德 · 宜柔',
-  '西北': '西北属金 · 主天门 · 宜动',
-  '中': '中央属土 · 主中正 · 宜平衡',
+  东: '东方属木 · 主生发 · 宜动',
+  南: '南方属火 · 主文明 · 宜文',
+  西: '西方属金 · 主收获 · 宜静',
+  北: '北方属水 · 主智慧 · 宜藏',
+  东南: '东南属木 · 主文昌 · 宜学',
+  东北: '东北属土 · 主稳定 · 宜守',
+  西南: '西南属土 · 主坤德 · 宜柔',
+  西北: '西北属金 · 主天门 · 宜动',
+  中: '中央属土 · 主中正 · 宜平衡',
 }
 
 const FENG_5ELE: Record<string, string> = {
@@ -206,16 +224,78 @@ const FENG_5ELE: Record<string, string> = {
 
 // 起名常用字
 const NAME_CHARS = {
-  male: ['梓', '宇', '浩', '轩', '瑞', '博', '俊', '昊', '子', '一', '泽', '思', '文', '鸿', '志', '国', '建', '嘉', '明', '俊', '林', '天', '德', '弘', '奕', '景', '睿', '哲', '宇', '霖'],
-  female: ['梓', '欣', '怡', '雨', '彤', '悦', '诗', '涵', '雅', '梦', '思', '语', '柔', '清', '颖', '雯', '瑶', '蕊', '玥', '琪', '昕', '若', '茜', '彤', '心', '晨', '月', '可', '若', '宁'],
+  male: [
+    '梓',
+    '宇',
+    '浩',
+    '轩',
+    '瑞',
+    '博',
+    '俊',
+    '昊',
+    '子',
+    '一',
+    '泽',
+    '思',
+    '文',
+    '鸿',
+    '志',
+    '国',
+    '建',
+    '嘉',
+    '明',
+    '俊',
+    '林',
+    '天',
+    '德',
+    '弘',
+    '奕',
+    '景',
+    '睿',
+    '哲',
+    '宇',
+    '霖',
+  ],
+  female: [
+    '梓',
+    '欣',
+    '怡',
+    '雨',
+    '彤',
+    '悦',
+    '诗',
+    '涵',
+    '雅',
+    '梦',
+    '思',
+    '语',
+    '柔',
+    '清',
+    '颖',
+    '雯',
+    '瑶',
+    '蕊',
+    '玥',
+    '琪',
+    '昕',
+    '若',
+    '茜',
+    '彤',
+    '心',
+    '晨',
+    '月',
+    '可',
+    '若',
+    '宁',
+  ],
 }
 
 const HEALTH_TIPS: Record<string, string> = {
-  '春': '春属木 · 主肝 · 宜疏肝理气 · 少酸多甘',
-  '夏': '夏属火 · 主心 · 宜清热养心 · 静心安神',
-  '秋': '秋属金 · 主肺 · 宜润肺生津 · 白色食物',
-  '冬': '冬属水 · 主肾 · 宜补肾藏精 · 黑色食物',
-  '长夏': '长夏属土 · 主脾 · 宜健脾化湿 · 黄色食物',
+  春: '春属木 · 主肝 · 宜疏肝理气 · 少酸多甘',
+  夏: '夏属火 · 主心 · 宜清热养心 · 静心安神',
+  秋: '秋属金 · 主肺 · 宜润肺生津 · 白色食物',
+  冬: '冬属水 · 主肾 · 宜补肾藏精 · 黑色食物',
+  长夏: '长夏属土 · 主脾 · 宜健脾化湿 · 黄色食物',
 }
 
 const ZEN_QUOTES: string[] = [
@@ -254,7 +334,9 @@ interface BuildContext {
   _context?: ContextSummary
 }
 
-function pick<T>(arr: T[]): T { return arr[Math.floor(Math.random() * arr.length)] }
+function pick<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
 
 // AI 解卦师
 export function aiGuaReply(ctx: BuildContext): ChatMessage {
@@ -265,7 +347,10 @@ export function aiGuaReply(ctx: BuildContext): ChatMessage {
   // 尝试匹配卦名
   let cite = ''
   for (const k of Object.keys(KUA)) {
-    if (q.includes(k)) { cite = `【${k}】${KUA[k]}`; break }
+    if (q.includes(k)) {
+      cite = `【${k}】${KUA[k]}`
+      break
+    }
   }
   // 关键词
   if (!cite) {
@@ -275,7 +360,9 @@ export function aiGuaReply(ctx: BuildContext): ChatMessage {
     else if (q.match(/健康|病|身/)) cite = '【颐卦】颐养天年 · 自养养人'
     else if (q.match(/家|宅|迁|住/)) cite = '【家人】治家有方 · 内外分明'
   }
-  const prefix = isFollowUp ? `承 君 前 问 · 续 解 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 解 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
   const templates: string[] = [
     `${prefix}吾观此问 · 卦象已现 · ${cite || '万事皆有其时'}\n\n请君细思：所问之事，最在意者何？若为眼前，则观眼下之象；若为长久，则察时机之变。`,
     `${prefix}解卦之要 · 不在卦象本身 · 在于时位之辨。\n\n${cite || '卦不可拘 · 变在其中'}\n\n君此问 · 应在 ${pick(['春', '夏', '秋', '冬'])} 之季见分晓。`,
@@ -305,17 +392,15 @@ export function aiMingReply(ctx: BuildContext): ChatMessage {
   else if (q.match(/健康|病|寿/)) cite = '《滴天髓》调候者 · 调济寒暖燥湿 · 是为用神'
   else if (q.match(/学|考试|读书/)) cite = '《子平真诠》印星者 · 生我之神 · 学术之象'
   else cite = '《滴天髓》 · 一命二运三风水 · 四积阴德五读书'
-  const prefix = isFollowUp ? `承 君 前 问 · 续 论 命 理 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 论 命 理 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
   const text = `${prefix}${profileStr ? `观君${profileStr}之造 · ` : ''}${cite}。\n\n${pick([
     '命由天定 · 运由己造 · 但行好事 · 莫问前程。',
     '格局高低 · 看用神之有情无情。',
     '行运十年一转 · 顺之者昌 · 逆之者困。',
     '一命二运三风水 · 命者先天 · 运者后天 · 风水者居处之变。',
-  ])}\n\n${pick([
-    '吾为君参详：',
-    '细论如下：',
-    '为君一解：',
-  ])}${pick([
+  ])}\n\n${pick(['吾为君参详：', '细论如下：', '为君一解：'])}${pick([
     '宜东方木运 · 可补命中所缺。',
     '此季当稳 · 待时而动方为上策。',
     '身旺用财 · 财运可期。',
@@ -329,14 +414,20 @@ export function aiFengReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
-  const prefix = isFollowUp ? `承 君 前 问 · 续 论 风 水 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 论 风 水 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
   let cite = ''
   for (const d of Object.keys(FENG_DIR)) {
-    if (q.includes(d)) { cite = FENG_DIR[d]; break }
+    if (q.includes(d)) {
+      cite = FENG_DIR[d]
+      break
+    }
   }
   for (const s of Object.keys(FENG_5ELE)) {
     if (q.includes(`${s}运`) || q.includes(FENG_5ELE[s].split('·')[0].trim())) {
-      cite = FENG_5ELE[s]; break
+      cite = FENG_5ELE[s]
+      break
     }
   }
   if (!cite) {
@@ -350,11 +441,11 @@ export function aiFengReply(ctx: BuildContext): ChatMessage {
     `${prefix}风水之要 · 在于藏风聚气。\n\n${cite || '请君描述宅之坐向'}\n\n吾观君所问 · 应 ${pick(['调整主卧', '调整客厅', '调整书房', '调整大门'])} 方位布局。具体：${pick(['东墙宜放木', '南墙宜简洁', '西墙不宜动', '北墙宜安'])}。`,
     `${prefix}阳宅之学 · 三要点：门 · 主 · 灶。\n\n${cite || '阳宅三要'}\n\n君之问 · 应注意：1. 大门宜开在 ${pick(['东南', '正南', '正北'])}；2. 主卧宜在 ${pick(['西北', '西南', '正南'])}；3. 灶位不宜对门。`,
     `${prefix}玄空飞星 · 注重时运。\n\n${cite || '运星轮转'}\n\n${pick([
-    '2024 后入下元 9 运 · 喜事主导',
-    '2024-2043 离卦当运 · 火气旺盛',
-    '八白财星刚退 · 九紫喜庆正来',
-    '当下飞星 1 旺 · 文昌可催',
-  ])}\n\n君可据此调整布局。`,
+      '2024 后入下元 9 运 · 喜事主导',
+      '2024-2043 离卦当运 · 火气旺盛',
+      '八白财星刚退 · 九紫喜庆正来',
+      '当下飞星 1 旺 · 文昌可催',
+    ])}\n\n君可据此调整布局。`,
   ]
   return { role: 'master', text: pick(templates), time: Date.now(), cite }
 }
@@ -364,11 +455,19 @@ export function aiNameReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
-  const prefix = isFollowUp ? `承 君 前 问 · 续 起 名 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
-  let name = ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 起 名 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
+  const name = ''
   // 提取姓氏（首字）
   const surname = q.match(/姓([\u4e00-\u9fa5])/)?.[1] || '王'
-  const gender = q.match(/男|公子|少侠/) ? 'male' : q.match(/女|姑娘|小姐/) ? 'female' : (ctx.profile?.gender === '女' ? 'female' : 'male')
+  const gender = q.match(/男|公子|少侠/)
+    ? 'male'
+    : q.match(/女|姑娘|小姐/)
+      ? 'female'
+      : ctx.profile?.gender === '女'
+        ? 'female'
+        : 'male'
   const chars = NAME_CHARS[gender]
   // 循环生成至找到一个五格大吉的候选名
   let nameCandidate = ''
@@ -381,7 +480,7 @@ export function aiNameReply(ctx: BuildContext): ChatMessage {
     const cand = `${surname}${c1}${c2}`
     const w = calcWuGe(cand)
     const goodCount = ([w.tian, w.ren, w.di, w.wai, w.zong] as number[])
-      .map(n => (wugeLevel(n).level === '吉' ? 1 : 0) as number)
+      .map((n) => (wugeLevel(n).level === '吉' ? 1 : 0) as number)
       .reduce((a, b) => a + b, 0)
     if (goodCount > bestGood) {
       bestGood = goodCount
@@ -401,8 +500,9 @@ export function aiNameReply(ctx: BuildContext): ChatMessage {
   const zongGe = wugeLevel(wuge.zong)
   const tianGe = wugeLevel(wuge.tian)
   const waiGe = wugeLevel(wuge.wai)
-  const totalGood = [tianGe, renGe, diGe, waiGe, zongGe].filter(g => g.level === '吉').length
-  const judgement = totalGood >= 3 ? '大吉之数 · 可取' : totalGood >= 2 ? '中吉之数 · 可用' : '平淡之数 · 仅供参考'
+  const totalGood = [tianGe, renGe, diGe, waiGe, zongGe].filter((g) => g.level === '吉').length
+  const judgement =
+    totalGood >= 3 ? '大吉之数 · 可取' : totalGood >= 2 ? '中吉之数 · 可用' : '平淡之数 · 仅供参考'
   const cite = `【${nameCandidate}】天格${wuge.tian}(${tianGe.level})· 人格${wuge.ren}(${renGe.level})· 地格${wuge.di}(${diGe.level})· 外格${wuge.wai}(${waiGe.level})· 总格${wuge.zong}(${zongGe.level})`
   const templates: string[] = [
     `${prefix}名以载道 · 字以传神。\n\n${cite}\n\n五格判词 · ${judgement}\n· 人格 ${wuge.ren} → ${renGe.desc}\n· 地格 ${wuge.di} → ${diGe.desc}\n· 总格 ${wuge.zong} → ${zongGe.desc}\n\n三才配置 · ${pick(['木火通明 · 主文昌', '土金相生 · 利事业', '水木清华 · 利学业', '金水相涵 · 利财官'])}\n\n君可参考。`,
@@ -412,10 +512,29 @@ export function aiNameReply(ctx: BuildContext): ChatMessage {
   return { role: 'master', text: pick(templates), time: Date.now(), cite }
 }
 
-function calcWuGe(name: string): { tian: number; ren: number; di: number; wai: number; zong: number } {
+function calcWuGe(name: string): {
+  tian: number
+  ren: number
+  di: number
+  wai: number
+  zong: number
+} {
   // 完整康熙字典五格计算（用 kangxi-strokes 查表）
   // 复姓识别：欧阳、司马、诸葛、上官、东方、皇甫、尉迟、司徒、公孙、令狐
-  const complexSurnames = ['欧阳', '司马', '诸葛', '上官', '东方', '皇甫', '尉迟', '司徒', '公孙', '令狐', '慕容', '长孙']
+  const complexSurnames = [
+    '欧阳',
+    '司马',
+    '诸葛',
+    '上官',
+    '东方',
+    '皇甫',
+    '尉迟',
+    '司徒',
+    '公孙',
+    '令狐',
+    '慕容',
+    '长孙',
+  ]
   const chars = name.split('')
   if (chars.length < 2) {
     return { tian: 1, ren: 1, di: 1, wai: 1, zong: 1 }
@@ -433,7 +552,7 @@ function calcWuGe(name: string): { tian: number; ren: number; di: number; wai: n
   if (givenChars.length === 0) {
     return { tian: 1, ren: 1, di: 1, wai: 1, zong: 1 }
   }
-  const strokes = [...surnameChars, ...givenChars].map(c => kangxiStrokes(c))
+  const strokes = [...surnameChars, ...givenChars].map((c) => kangxiStrokes(c))
   const surnameStrokes = strokes.slice(0, surnameLen).reduce((a, b) => a + b, 0)
   const givenStrokes = strokes.slice(surnameLen).reduce((a, b) => a + b, 0)
   const totalStrokes = surnameStrokes + givenStrokes
@@ -540,7 +659,8 @@ const WUGE_GOOD: Record<number, { level: '吉' | '半吉' | '凶'; desc: string 
 }
 
 const WUGE_DEFAULT_GOOD: { level: '吉' | '半吉' | '凶'; desc: string } = {
-  level: '半吉', desc: '需参考具体格局',
+  level: '半吉',
+  desc: '需参考具体格局',
 }
 
 function wugeLevel(num: number) {
@@ -555,12 +675,24 @@ export function aiJiankangReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
-  const prefix = isFollowUp ? `承 君 前 问 · 续 论 养 生 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 论 养 生 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
   const month = new Date().getMonth() + 1
-  const season = month >= 3 && month <= 5 ? '春' : month >= 6 && month <= 8 ? '夏' : month >= 9 && month <= 11 ? '秋' : '冬'
+  const season =
+    month >= 3 && month <= 5
+      ? '春'
+      : month >= 6 && month <= 8
+        ? '夏'
+        : month >= 9 && month <= 11
+          ? '秋'
+          : '冬'
   let cite = HEALTH_TIPS[season]
   for (const s of Object.keys(HEALTH_TIPS)) {
-    if (q.includes(s)) { cite = HEALTH_TIPS[s]; break }
+    if (q.includes(s)) {
+      cite = HEALTH_TIPS[s]
+      break
+    }
   }
   if (!cite) {
     if (q.match(/失眠|睡|多梦/)) cite = '【睡眠】心肾不交 · 宜温胆 · 泡脚 · 安神'
@@ -583,7 +715,9 @@ export function aiXiuxinReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
-  const prefix = isFollowUp ? `承 君 前 问 · 续 修 心 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n` : ''
+  const prefix = isFollowUp
+    ? `承 君 前 问 · 续 修 心 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
+    : ''
   const quote = pick(ZEN_QUOTES)
   let cite = ''
   if (q.match(/心烦|焦虑|急躁/)) cite = '【安心之法】心若清净 · 何处惹尘埃'
@@ -602,36 +736,80 @@ export function aiXiuxinReply(ctx: BuildContext): ChatMessage {
 // ============ 对话路由 ============
 
 /** 多轮上下文（自动从前文提炼"主题关键词"以增强回复） */
-function summarizeContext(msgs: ChatMessage[]): { themes: string[]; turnCount: number; recent: string } {
+function summarizeContext(msgs: ChatMessage[]): {
+  themes: string[]
+  turnCount: number
+  recent: string
+} {
   if (!msgs || msgs.length === 0) return { themes: [], turnCount: 0, recent: '' }
-  const userMsgs = msgs.filter(m => m.role === 'user')
+  const userMsgs = msgs.filter((m) => m.role === 'user')
   const themes: string[] = []
-  const text = userMsgs.map(m => m.text).join(' ').slice(0, 200)
+  const text = userMsgs
+    .map((m) => m.text)
+    .join(' ')
+    .slice(0, 200)
   // 提取关键词
-  const kws = ['事业', '工作', '官运', '升迁', '求财', '财运', '钱', '婚', '姻缘', '对象',
-               '感情', '桃花', '健康', '身体', '病', '学业', '考试', '子女', '家宅',
-               '出行', '诉讼', '官司', '父母', '孩子']
-  kws.forEach(k => { if (text.includes(k)) themes.push(k) })
+  const kws = [
+    '事业',
+    '工作',
+    '官运',
+    '升迁',
+    '求财',
+    '财运',
+    '钱',
+    '婚',
+    '姻缘',
+    '对象',
+    '感情',
+    '桃花',
+    '健康',
+    '身体',
+    '病',
+    '学业',
+    '考试',
+    '子女',
+    '家宅',
+    '出行',
+    '诉讼',
+    '官司',
+    '父母',
+    '孩子',
+  ]
+  kws.forEach((k) => {
+    if (text.includes(k)) themes.push(k)
+  })
   return {
     themes: Array.from(new Set(themes)).slice(0, 3),
     turnCount: userMsgs.length,
-    recent: userMsgs.slice(-2).map(m => m.text.slice(0, 30)).join(' | '),
+    recent: userMsgs
+      .slice(-2)
+      .map((m) => m.text.slice(0, 30))
+      .join(' | '),
   }
 }
 
 export function askMaster(master: MasterKey, ctx: BuildContext): ChatMessage {
   // 多轮上下文提示
-  const summary = ctx.prevMessages ? summarizeContext(ctx.prevMessages) : { themes: [], turnCount: 0, recent: '' }
+  const summary = ctx.prevMessages
+    ? summarizeContext(ctx.prevMessages)
+    : { themes: [], turnCount: 0, recent: '' }
   const enrichedCtx: BuildContext = { ...ctx, _context: summary }
   try {
     switch (master) {
-      case 'ai-gua': return aiGuaReply(enrichedCtx)
-      case 'ai-ming': return aiMingReply(enrichedCtx)
-      case 'ai-feng': return aiFengReply(enrichedCtx)
-      case 'ai-name': return aiNameReply(enrichedCtx)
-      case 'ai-jiankang': return aiJiankangReply(enrichedCtx)
-      case 'ai-xiuxin': return aiXiuxinReply(enrichedCtx)
-      default: return fallbackMsg(master)
+      case 'ai-gua':
+        return aiGuaReply(enrichedCtx)
+      case 'ai-ming':
+        return aiMingReply(enrichedCtx)
+      case 'ai-feng':
+        return aiFengReply(enrichedCtx)
+      case 'ai-name':
+        return aiNameReply(enrichedCtx)
+      case 'ai-jiankang':
+        return aiJiankangReply(enrichedCtx)
+      case 'ai-xiuxin':
+        return aiXiuxinReply(enrichedCtx)
+      default:
+        return fallbackMsg(master)
     }
   } catch (e) {
     if (typeof console !== 'undefined') console.error('[ai.ts] askMaster 异常', master, e)
@@ -652,7 +830,14 @@ function fallbackMsg(master: MasterKey): ChatMessage {
   }
 }
 
-export const ALL_MASTERS: MasterKey[] = ['ai-gua', 'ai-ming', 'ai-feng', 'ai-name', 'ai-jiankang', 'ai-xiuxin']
+export const ALL_MASTERS: MasterKey[] = [
+  'ai-gua',
+  'ai-ming',
+  'ai-feng',
+  'ai-name',
+  'ai-jiankang',
+  'ai-xiuxin',
+]
 
 /** 上下文摘要类型（内部用） */
 export interface ContextSummary {

@@ -13,13 +13,16 @@
 <script setup lang="ts">
 import { ref, computed, onMounted } from 'vue'
 
-withDefaults(defineProps<{
-  title: string
-  subtitle: string
-  showSettings?: boolean
-}>(), {
-  showSettings: true,
-})
+withDefaults(
+  defineProps<{
+    title: string
+    subtitle: string
+    showSettings?: boolean
+  }>(),
+  {
+    showSettings: true,
+  },
+)
 
 const statusBarHeight = ref(44)
 
@@ -136,6 +139,9 @@ onMounted(() => {
 
 /* 减少动效偏好 */
 @media (prefers-reduced-motion: reduce) {
-  .back-btn, .setting-btn { transition: none; }
+  .back-btn,
+  .setting-btn {
+    transition: none;
+  }
 }
 </style>

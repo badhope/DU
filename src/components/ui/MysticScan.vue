@@ -16,7 +16,7 @@
       <view class="ms-scanline"></view>
 
       <!-- 阶段提示 -->
-      <view class="ms-hint" :key="phase">
+      <view :key="phase" class="ms-hint">
         <text class="ms-hint-text">{{ hintText }}</text>
         <text class="ms-hint-sub">{{ hintSub }}</text>
       </view>
@@ -45,27 +45,30 @@
 <script setup lang="ts">
 import { ref, watch, onUnmounted } from 'vue'
 
-const props = withDefaults(defineProps<{
-  visible: boolean
-  /** 大师字形（玄/命/卦/宅/名/养） */
-  glyph?: string
-  /** 主题色（HSL/HEX 皆可） */
-  color?: string
-  /** 三个阶段标题 */
-  steps?: string[]
-  /** 三个阶段副标题（每阶段显示一行） */
-  hintSubs?: string[]
-  /** 扫描完成回调（务必在 props.visible 由 true→false 切换前被父组件决定） */
-}>(), {
-  glyph: '玄',
-  color: '#D4AF37',
-  steps: () => ['扫描', '感应', '解析'],
-  hintSubs: () => [
-    '请保持脸在屏幕前 · 聚气勿动',
-    '请保持手在屏幕前 · 静候感应',
-    '正在解析命盘 · 即将揭晓',
-  ],
-})
+const props = withDefaults(
+  defineProps<{
+    visible: boolean
+    /** 大师字形（玄/命/卦/宅/名/养） */
+    glyph?: string
+    /** 主题色（HSL/HEX 皆可） */
+    color?: string
+    /** 三个阶段标题 */
+    steps?: string[]
+    /** 三个阶段副标题（每阶段显示一行） */
+    hintSubs?: string[]
+    /** 扫描完成回调（务必在 props.visible 由 true→false 切换前被父组件决定） */
+  }>(),
+  {
+    glyph: '玄',
+    color: '#D4AF37',
+    steps: () => ['扫描', '感应', '解析'],
+    hintSubs: () => [
+      '请保持脸在屏幕前 · 聚气勿动',
+      '请保持手在屏幕前 · 静候感应',
+      '正在解析命盘 · 即将揭晓',
+    ],
+  },
+)
 
 const emit = defineEmits<{
   (e: 'done'): void
@@ -79,7 +82,7 @@ const hintSub = ref('')
 let timers: number[] = []
 
 function clearTimers() {
-  timers.forEach(t => clearTimeout(t))
+  timers.forEach((t) => clearTimeout(t))
   timers = []
 }
 
@@ -90,7 +93,9 @@ function playPhases() {
   // 阶段 1: 2.4s "请保持脸在屏幕前"
   hintText.value = '请保持脸在屏幕前'
   hintSub.value = props.hintSubs[0]
-  const t1a = setTimeout(() => { progress.value = 33 }, 50)
+  const t1a = setTimeout(() => {
+    progress.value = 33
+  }, 50)
   const t1b = setTimeout(() => {
     phase.value = 1
     hintText.value = '请保持手在屏幕前'
@@ -111,10 +116,13 @@ function playPhases() {
   timers.push(t1a, t1b, t2a, tDone)
 }
 
-watch(() => props.visible, (v) => {
-  if (v) playPhases()
-  else clearTimers()
-})
+watch(
+  () => props.visible,
+  (v) => {
+    if (v) playPhases()
+    else clearTimers()
+  },
+)
 
 onUnmounted(clearTimers)
 </script>
@@ -165,9 +173,28 @@ onUnmounted(clearTimers)
   border: 2rpx solid;
   border-color: v-bind('props.color') transparent v-bind('props.color') transparent;
 }
-.ms-ring-outer { width: 320rpx; height: 320rpx; border-width: 4rpx; animation: ring-spin 3s linear infinite; opacity: 0.6; }
-.ms-ring-mid   { width: 240rpx; height: 240rpx; border-width: 3rpx; animation: ring-spin 2s linear infinite reverse; opacity: 0.8; }
-.ms-ring-inner { width: 160rpx; height: 160rpx; border-width: 2rpx; animation: ring-spin 1.5s linear infinite; opacity: 1; box-shadow: 0 0 30rpx v-bind('props.color'); }
+.ms-ring-outer {
+  width: 320rpx;
+  height: 320rpx;
+  border-width: 4rpx;
+  animation: ring-spin 3s linear infinite;
+  opacity: 0.6;
+}
+.ms-ring-mid {
+  width: 240rpx;
+  height: 240rpx;
+  border-width: 3rpx;
+  animation: ring-spin 2s linear infinite reverse;
+  opacity: 0.8;
+}
+.ms-ring-inner {
+  width: 160rpx;
+  height: 160rpx;
+  border-width: 2rpx;
+  animation: ring-spin 1.5s linear infinite;
+  opacity: 1;
+  box-shadow: 0 0 30rpx v-bind('props.color');
+}
 
 .ms-glyph {
   position: relative;
@@ -175,13 +202,29 @@ onUnmounted(clearTimers)
   font-family: 'KaiTi', 'STKaiti', serif;
   font-weight: 700;
   color: v-bind('props.color');
-  text-shadow: 0 0 30rpx v-bind('props.color'), 0 0 60rpx v-bind('props.color');
+  text-shadow:
+    0 0 30rpx v-bind('props.color'),
+    0 0 60rpx v-bind('props.color');
   animation: glyph-pulse 2s ease-in-out infinite;
   z-index: 2;
 }
 
-@keyframes ring-spin { to { transform: rotate(360deg); } }
-@keyframes glyph-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.12); opacity: 0.85; } }
+@keyframes ring-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes glyph-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
 
 /* ── 横向扫描线 ── */
 .ms-scanline {
@@ -196,10 +239,20 @@ onUnmounted(clearTimers)
   z-index: 0;
 }
 @keyframes scan-move {
-  0%   { transform: translateY(-200rpx); opacity: 0; }
-  20%  { opacity: 1; }
-  80%  { opacity: 1; }
-  100% { transform: translateY(200rpx); opacity: 0; }
+  0% {
+    transform: translateY(-200rpx);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(200rpx);
+    opacity: 0;
+  }
 }
 
 /* ── 阶段提示 ── */
@@ -212,8 +265,14 @@ onUnmounted(clearTimers)
   animation: hint-in 0.5s ease-out;
 }
 @keyframes hint-in {
-  from { opacity: 0; transform: translateY(20rpx); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .ms-hint-text {
   font-size: 44rpx;
@@ -258,7 +317,9 @@ onUnmounted(clearTimers)
   align-items: center;
   gap: 8rpx;
   opacity: 0.4;
-  transition: opacity 0.3s, transform 0.3s;
+  transition:
+    opacity 0.3s,
+    transform 0.3s;
 }
 .ms-step.active {
   opacity: 1;

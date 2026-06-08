@@ -17,25 +17,47 @@
         </view>
         <view class="form-row">
           <text class="form-label">年</text>
-          <picker mode="number" :value="form.man.year" :min="1900" :max="2010" @change="onPick('man', 'year', $event)">
+          <picker
+            mode="number"
+            :value="form.man.year"
+            :min="1900"
+            :max="2010"
+            @change="onPick('man', 'year', $event)"
+          >
             <view class="form-picker">{{ form.man.year }} 年</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">月</text>
-          <picker mode="selector" :value="form.man.month - 1" :range="monthRange" @change="onPick('man', 'month', $event)">
+          <picker
+            mode="selector"
+            :value="form.man.month - 1"
+            :range="monthRange"
+            @change="onPick('man', 'month', $event)"
+          >
             <view class="form-picker">{{ form.man.month }} 月</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">日</text>
-          <picker mode="number" :value="form.man.day" :min="1" :max="31" @change="onPick('man', 'day', $event)">
+          <picker
+            mode="number"
+            :value="form.man.day"
+            :min="1"
+            :max="31"
+            @change="onPick('man', 'day', $event)"
+          >
             <view class="form-picker">{{ form.man.day }} 日</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">时</text>
-          <picker mode="selector" :value="form.man.hour" :range="hourRange" @change="onPick('man', 'hour', $event)">
+          <picker
+            mode="selector"
+            :value="form.man.hour"
+            :range="hourRange"
+            @change="onPick('man', 'hour', $event)"
+          >
             <view class="form-picker">{{ form.man.hour }}:00</view>
           </picker>
         </view>
@@ -49,25 +71,47 @@
         </view>
         <view class="form-row">
           <text class="form-label">年</text>
-          <picker mode="number" :value="form.woman.year" :min="1900" :max="2010" @change="onPick('woman', 'year', $event)">
+          <picker
+            mode="number"
+            :value="form.woman.year"
+            :min="1900"
+            :max="2010"
+            @change="onPick('woman', 'year', $event)"
+          >
             <view class="form-picker">{{ form.woman.year }} 年</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">月</text>
-          <picker mode="selector" :value="form.woman.month - 1" :range="monthRange" @change="onPick('woman', 'month', $event)">
+          <picker
+            mode="selector"
+            :value="form.woman.month - 1"
+            :range="monthRange"
+            @change="onPick('woman', 'month', $event)"
+          >
             <view class="form-picker">{{ form.woman.month }} 月</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">日</text>
-          <picker mode="number" :value="form.woman.day" :min="1" :max="31" @change="onPick('woman', 'day', $event)">
+          <picker
+            mode="number"
+            :value="form.woman.day"
+            :min="1"
+            :max="31"
+            @change="onPick('woman', 'day', $event)"
+          >
             <view class="form-picker">{{ form.woman.day }} 日</view>
           </picker>
         </view>
         <view class="form-row">
           <text class="form-label">时</text>
-          <picker mode="selector" :value="form.woman.hour" :range="hourRange" @change="onPick('woman', 'hour', $event)">
+          <picker
+            mode="selector"
+            :value="form.woman.hour"
+            :range="hourRange"
+            @change="onPick('woman', 'hour', $event)"
+          >
             <view class="form-picker">{{ form.woman.hour }}:00</view>
           </picker>
         </view>
@@ -81,158 +125,198 @@
     </view>
 
     <!-- 结果 -->
-    <view v-else class="result"><ResultReveal :direction="'up'" :stagger="0.1">
-
-      <!-- 总分卡 -->
-      <view class="score-card card-mystic anim-fade-up card-hoverable" :class="'lv-' + scoreLevelClass">
-        <view class="score-circle">
-          <text class="score-num">{{ result.score.total }}</text>
-          <text class="score-unit">/ 100</text>
+    <view v-else class="result"
+      >
+<ResultReveal :direction="'up'" :stagger="0.1">
+        <!-- 总分卡 -->
+        <view
+          class="score-card card-mystic anim-fade-up card-hoverable"
+          :class="'lv-' + scoreLevelClass"
+        >
+          <view class="score-circle">
+            <text class="score-num">{{ result.score.total }}</text>
+            <text class="score-unit">/ 100</text>
+          </view>
+          <text class="score-level title-mystic">{{ result.score.level }}</text>
+          <text class="score-brief">{{ result.score.brief }}</text>
+          <view class="score-bars">
+            <view class="score-bar">
+              <text class="bar-name">年 命</text>
+              <view class="bar-track"
+                >
+<view class="bar-fill" :style="{ width: result.score.year + '%' }"
+              />
+</view>
+              <text class="bar-val">{{ result.score.year }}</text>
+            </view>
+            <view class="score-bar">
+              <text class="bar-name">日 柱</text>
+              <view class="bar-track"
+                >
+<view class="bar-fill" :style="{ width: result.score.day + '%' }"
+              />
+</view>
+              <text class="bar-val">{{ result.score.day }}</text>
+            </view>
+            <view class="score-bar">
+              <text class="bar-name">五 行</text>
+              <view class="bar-track"
+                >
+<view class="bar-fill" :style="{ width: result.score.wuxing + '%' }"
+              />
+</view>
+              <text class="bar-val">{{ result.score.wuxing }}</text>
+            </view>
+            <view class="score-bar">
+              <text class="bar-name">强 弱</text>
+              <view class="bar-track"
+                >
+<view class="bar-fill" :style="{ width: result.score.strength + '%' }"
+              />
+</view>
+              <text class="bar-val">{{ result.score.strength }}</text>
+            </view>
+          </view>
         </view>
-        <text class="score-level title-mystic">{{ result.score.level }}</text>
-        <text class="score-brief">{{ result.score.brief }}</text>
-        <view class="score-bars">
-          <view class="score-bar">
-            <text class="bar-name">年 命</text>
-            <view class="bar-track"><view class="bar-fill" :style="{ width: result.score.year + '%' }" /></view>
-            <text class="bar-val">{{ result.score.year }}</text>
-          </view>
-          <view class="score-bar">
-            <text class="bar-name">日 柱</text>
-            <view class="bar-track"><view class="bar-fill" :style="{ width: result.score.day + '%' }" /></view>
-            <text class="bar-val">{{ result.score.day }}</text>
-          </view>
-          <view class="score-bar">
-            <text class="bar-name">五 行</text>
-            <view class="bar-track"><view class="bar-fill" :style="{ width: result.score.wuxing + '%' }" /></view>
-            <text class="bar-val">{{ result.score.wuxing }}</text>
-          </view>
-          <view class="score-bar">
-            <text class="bar-name">强 弱</text>
-            <view class="bar-track"><view class="bar-fill" :style="{ width: result.score.strength + '%' }" /></view>
-            <text class="bar-val">{{ result.score.strength }}</text>
-          </view>
-        </view>
-      </view>
 
-      <!-- 双方四柱 -->
-      <view class="duo card-mystic anim-fade-up card-hoverable" style="animation-delay: .1s">
-        <text class="card-title title-mystic">双 方 命 盘</text>
-        <view class="duo-row">
-          <view class="duo-side">
-            <text class="duo-name">{{ result.man.name || '男' }}</text>
-            <text class="duo-tag" :style="{ background: '#C8302A' }">{{ result.man.dayMaster }} · {{ result.man.nayin }}</text>
-            <text class="duo-strength">日主 {{ result.man.strength }}</text>
-            <view class="duo-pillars">
-              <view v-for="(p, i) in manPillars" :key="'m' + i" class="duo-pillar">
-                <text class="duo-pname">{{ p.label }}</text>
-                <text class="duo-pcell">{{ p.gan }}</text>
-                <text class="duo-pcell">{{ p.zhi }}</text>
+        <!-- 双方四柱 -->
+        <view class="duo card-mystic anim-fade-up card-hoverable" style="animation-delay: 0.1s">
+          <text class="card-title title-mystic">双 方 命 盘</text>
+          <view class="duo-row">
+            <view class="duo-side">
+              <text class="duo-name">{{ result.man.name || '男' }}</text>
+              <text class="duo-tag" :style="{ background: '#C8302A' }"
+                >
+{{ result.man.dayMaster }} · {{ result.man.nayin }}
+</text
+              >
+              <text class="duo-strength">日主 {{ result.man.strength }}</text>
+              <view class="duo-pillars">
+                <view v-for="(p, i) in manPillars" :key="'m' + i" class="duo-pillar">
+                  <text class="duo-pname">{{ p.label }}</text>
+                  <text class="duo-pcell">{{ p.gan }}</text>
+                  <text class="duo-pcell">{{ p.zhi }}</text>
+                </view>
+              </view>
+            </view>
+            <view class="duo-vs">
+              <text>×</text>
+            </view>
+            <view class="duo-side">
+              <text class="duo-name">{{ result.woman.name || '女' }}</text>
+              <text class="duo-tag" :style="{ background: '#5B3A8E' }"
+                >
+{{ result.woman.dayMaster }} · {{ result.woman.nayin }}
+</text
+              >
+              <text class="duo-strength">日主 {{ result.woman.strength }}</text>
+              <view class="duo-pillars">
+                <view v-for="(p, i) in womanPillars" :key="'w' + i" class="duo-pillar">
+                  <text class="duo-pname">{{ p.label }}</text>
+                  <text class="duo-pcell">{{ p.gan }}</text>
+                  <text class="duo-pcell">{{ p.zhi }}</text>
+                </view>
               </view>
             </view>
           </view>
-          <view class="duo-vs">
-            <text>×</text>
+        </view>
+
+        <!-- 年命 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.15s">
+          <text class="card-title title-mystic">年 命 纳 音</text>
+          <view class="yn-row">
+            <view class="yn-block">
+              <text class="yn-label">男 命</text>
+              <text class="yn-val">{{ result.yearNayin.man }}</text>
+            </view>
+            <view class="yn-rel" :class="'rel-' + result.yearNayin.relation">
+              <text>{{ REL_GLYPH[result.yearNayin.relation] }}</text>
+            </view>
+            <view class="yn-block">
+              <text class="yn-label">女 命</text>
+              <text class="yn-val">{{ result.yearNayin.woman }}</text>
+            </view>
           </view>
-          <view class="duo-side">
-            <text class="duo-name">{{ result.woman.name || '女' }}</text>
-            <text class="duo-tag" :style="{ background: '#5B3A8E' }">{{ result.woman.dayMaster }} · {{ result.woman.nayin }}</text>
-            <text class="duo-strength">日主 {{ result.woman.strength }}</text>
-            <view class="duo-pillars">
-              <view v-for="(p, i) in womanPillars" :key="'w' + i" class="duo-pillar">
-                <text class="duo-pname">{{ p.label }}</text>
-                <text class="duo-pcell">{{ p.gan }}</text>
-                <text class="duo-pcell">{{ p.zhi }}</text>
+          <text class="yn-desc">{{ result.yearNayin.desc }}</text>
+        </view>
+
+        <!-- 日柱 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.2s">
+          <text class="card-title title-mystic">日 柱 合 婚</text>
+          <view class="dz-row">
+            <view class="dz-block">
+              <text class="dz-label">日 干</text>
+              <view class="dz-pair">
+                <text class="dz-char">{{ result.dayGan.man }}</text>
+                <text class="dz-rel" :class="'rel-' + result.dayGan.relation">
+{{
+                  REL_GLYPH[result.dayGan.relation]
+                }}
+</text>
+                <text class="dz-char">{{ result.dayGan.woman }}</text>
               </view>
+              <text class="dz-desc">{{ result.dayGan.desc }}</text>
+            </view>
+            <view class="dz-divider" />
+            <view class="dz-block">
+              <text class="dz-label">日 支</text>
+              <view class="dz-pair">
+                <text class="dz-char">{{ result.dayZhi.man }}</text>
+                <text class="dz-rel" :class="'rel-' + result.dayZhi.relation">
+{{
+                  REL_GLYPH[result.dayZhi.relation]
+                }}
+</text>
+                <text class="dz-char">{{ result.dayZhi.woman }}</text>
+              </view>
+              <text class="dz-desc">{{ result.dayZhi.desc }}</text>
             </view>
           </view>
         </view>
-      </view>
 
-      <!-- 年命 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .15s">
-        <text class="card-title title-mystic">年 命 纳 音</text>
-        <view class="yn-row">
-          <view class="yn-block">
-            <text class="yn-label">男 命</text>
-            <text class="yn-val">{{ result.yearNayin.man }}</text>
-          </view>
-          <view class="yn-rel" :class="'rel-' + result.yearNayin.relation">
-            <text>{{ REL_GLYPH[result.yearNayin.relation] }}</text>
-          </view>
-          <view class="yn-block">
-            <text class="yn-label">女 命</text>
-            <text class="yn-val">{{ result.yearNayin.woman }}</text>
-          </view>
-        </view>
-        <text class="yn-desc">{{ result.yearNayin.desc }}</text>
-      </view>
-
-      <!-- 日柱 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .2s">
-        <text class="card-title title-mystic">日 柱 合 婚</text>
-        <view class="dz-row">
-          <view class="dz-block">
-            <text class="dz-label">日 干</text>
-            <view class="dz-pair">
-              <text class="dz-char">{{ result.dayGan.man }}</text>
-              <text class="dz-rel" :class="'rel-' + result.dayGan.relation">{{ REL_GLYPH[result.dayGan.relation] }}</text>
-              <text class="dz-char">{{ result.dayGan.woman }}</text>
+        <!-- 五行 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.25s">
+          <text class="card-title title-mystic">五 行 分 布</text>
+          <view class="wx-table">
+            <view class="wx-thead">
+              <text class="wx-th">五 行</text>
+              <text class="wx-th">男</text>
+              <text class="wx-th">女</text>
+              <text class="wx-th">差</text>
             </view>
-            <text class="dz-desc">{{ result.dayGan.desc }}</text>
-          </view>
-          <view class="dz-divider" />
-          <view class="dz-block">
-            <text class="dz-label">日 支</text>
-            <view class="dz-pair">
-              <text class="dz-char">{{ result.dayZhi.man }}</text>
-              <text class="dz-rel" :class="'rel-' + result.dayZhi.relation">{{ REL_GLYPH[result.dayZhi.relation] }}</text>
-              <text class="dz-char">{{ result.dayZhi.woman }}</text>
+            <view v-for="wx in wuxingList" :key="wx.key" class="wx-trow">
+              <text class="wx-td" :style="{ color: wx.color }">{{ wx.name }}</text>
+              <text class="wx-td">{{ result.wuxing.man[wx.key] || 0 }}</text>
+              <text class="wx-td">{{ result.wuxing.woman[wx.key] || 0 }}</text>
+              <text class="wx-td" :class="{ diff: (result.wuxing.diff[wx.key] || 0) >= 2 }">
+{{
+                result.wuxing.diff[wx.key] || 0
+              }}
+</text>
             </view>
-            <text class="dz-desc">{{ result.dayZhi.desc }}</text>
+          </view>
+          <view v-if="result.wuxing.complement.length" class="wx-comp">
+            <text class="comp-title">五 行 互 补</text>
+            <view v-for="(c, i) in result.wuxing.complement" :key="i" class="comp-item">
+              <text class="comp-glyph">·</text>
+              <text class="comp-text">{{ c.desc }}</text>
+            </view>
           </view>
         </view>
-      </view>
 
-      <!-- 五行 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .25s">
-        <text class="card-title title-mystic">五 行 分 布</text>
-        <view class="wx-table">
-          <view class="wx-thead">
-            <text class="wx-th">五 行</text>
-            <text class="wx-th">男</text>
-            <text class="wx-th">女</text>
-            <text class="wx-th">差</text>
-          </view>
-          <view v-for="wx in wuxingList" :key="wx.key" class="wx-trow">
-            <text class="wx-td" :style="{ color: wx.color }">{{ wx.name }}</text>
-            <text class="wx-td">{{ result.wuxing.man[wx.key] || 0 }}</text>
-            <text class="wx-td">{{ result.wuxing.woman[wx.key] || 0 }}</text>
-            <text class="wx-td" :class="{ diff: (result.wuxing.diff[wx.key] || 0) >= 2 }">{{ result.wuxing.diff[wx.key] || 0 }}</text>
+        <!-- 建议 -->
+        <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.3s">
+          <text class="card-title title-mystic">合 婚 建 议</text>
+          <view v-for="(s, i) in result.suggestions" :key="i" class="sug-item">
+            <text class="sug-num">{{ i + 1 }}</text>
+            <text class="sug-text">{{ s }}</text>
           </view>
         </view>
-        <view v-if="result.wuxing.complement.length" class="wx-comp">
-          <text class="comp-title">五 行 互 补</text>
-          <view v-for="(c, i) in result.wuxing.complement" :key="i" class="comp-item">
-            <text class="comp-glyph">·</text>
-            <text class="comp-text">{{ c.desc }}</text>
-          </view>
-        </view>
-      </view>
 
-      <!-- 建议 -->
-      <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: .3s">
-        <text class="card-title title-mystic">合 婚 建 议</text>
-        <view v-for="(s, i) in result.suggestions" :key="i" class="sug-item">
-          <text class="sug-num">{{ i + 1 }}</text>
-          <text class="sug-text">{{ s }}</text>
+        <view class="reset">
+          <view class="btn-ghost" @click="reset">重 新 合 婚</view>
         </view>
-      </view>
-
-      <view class="reset">
-        <view class="btn-ghost" @click="reset">重 新 合 婚</view>
-      </view>
-</ResultReveal>
+      </ResultReveal>
     </view>
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
@@ -241,8 +325,8 @@
       :show-add-user="cd.showAddUser.value"
       :new-user-name="cd.newUserName.value"
       :new-user-remark="cd.newUserRemark.value"
-      @update:newUserName="(v: string) => cd.newUserName.value = v"
-      @update:newUserRemark="(v: string) => cd.newUserRemark.value = v"
+      @update:newUserName="(v: string) => (cd.newUserName.value = v)"
+      @update:newUserRemark="(v: string) => (cd.newUserRemark.value = v)"
       @close="cd.onCooldownClose"
       @switchUser="cd.onCooldownSwitchUser"
       @switchTool="cd.onCooldownSwitchTool"
@@ -251,10 +335,14 @@
       @confirmAddUser="cd.confirmAddUser"
     />
     <!-- 占卜推演 Loading -->
-    <LoadingSeal :visible="loading" :title="'玄 机 推 演 中'" :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']" :duration="2400" />
+    <LoadingSeal
+      :visible="loading"
+      :title="'玄 机 推 演 中'"
+      :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"
+      :duration="2400"
+    />
   </view>
 </template>
-
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -276,8 +364,16 @@ const cd = useCooldown({ tool: 'hehun', toolName: '八字合婚', category: '合
 const toolKey = 'hehun' as const
 
 const REL_GLYPH: Record<string, string> = {
-  '天干合': '合', '六合': '合', '三合': '合', '比和': '比', '相生': '生', '相克': '克', '六冲': '冲', '六害': '害', '无特殊': '平',
-  '合': '合',
+  天干合: '合',
+  六合: '合',
+  三合: '合',
+  比和: '比',
+  相生: '生',
+  相克: '克',
+  六冲: '冲',
+  六害: '害',
+  无特殊: '平',
+  合: '合',
 }
 
 const form = ref({
@@ -288,7 +384,7 @@ const form = ref({
 // 若用户档案已存在，自动预填对应方（按本人性别映射 男→man / 女→woman）
 if (app.profile) {
   const p = app.profile
-  const self: { name: string, year: number, month: number, day: number, hour: number } = {
+  const self: { name: string; year: number; month: number; day: number; hour: number } = {
     name: p.nickname || (p.gender === 'female' ? '李四' : '张三'),
     year: typeof p.birthYear === 'number' ? p.birthYear : 1990,
     month: typeof p.birthMonth === 'number' ? p.birthMonth : 1,
@@ -313,15 +409,15 @@ function onPick(side: 'man' | 'woman', field: 'year' | 'month' | 'day' | 'hour',
   form.value[side][field] = v
 }
 
-const wuxingList = WUXING_LIST.map(k => WUXING_META[k])
+const wuxingList = WUXING_LIST.map((k) => WUXING_META[k])
 
 const manPillars = computed(() => {
   if (!result.value) return []
   return [
     { label: '年', gan: result.value.man.bazi.year.gan, zhi: result.value.man.bazi.year.zhi },
     { label: '月', gan: result.value.man.bazi.month.gan, zhi: result.value.man.bazi.month.zhi },
-    { label: '日', gan: result.value.man.bazi.day.gan,   zhi: result.value.man.bazi.day.zhi },
-    { label: '时', gan: result.value.man.bazi.hour.gan,  zhi: result.value.man.bazi.hour.zhi },
+    { label: '日', gan: result.value.man.bazi.day.gan, zhi: result.value.man.bazi.day.zhi },
+    { label: '时', gan: result.value.man.bazi.hour.gan, zhi: result.value.man.bazi.hour.zhi },
   ]
 })
 const womanPillars = computed(() => {
@@ -329,8 +425,8 @@ const womanPillars = computed(() => {
   return [
     { label: '年', gan: result.value.woman.bazi.year.gan, zhi: result.value.woman.bazi.year.zhi },
     { label: '月', gan: result.value.woman.bazi.month.gan, zhi: result.value.woman.bazi.month.zhi },
-    { label: '日', gan: result.value.woman.bazi.day.gan,   zhi: result.value.woman.bazi.day.zhi },
-    { label: '时', gan: result.value.woman.bazi.hour.gan,  zhi: result.value.woman.bazi.hour.zhi },
+    { label: '日', gan: result.value.woman.bazi.day.gan, zhi: result.value.woman.bazi.day.zhi },
+    { label: '时', gan: result.value.woman.bazi.hour.gan, zhi: result.value.woman.bazi.hour.zhi },
   ]
 })
 
@@ -386,7 +482,9 @@ function isValidDate(y: number, m: number, d: number): boolean {
   return d >= 1 && d <= daysInMonth
 }
 
-function reset() { result.value = null }
+function reset() {
+  result.value = null
+}
 </script>
 
 <style scoped>
@@ -397,7 +495,11 @@ function reset() { result.value = null }
   overflow: hidden;
 }
 
-.taiji-bg { position: fixed; inset: 0; z-index: var(--z-bg); }
+.taiji-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
 
 /* ===== 表单 ===== */
 .form {
@@ -458,7 +560,8 @@ function reset() { result.value = null }
   letter-spacing: 0.2em;
 }
 
-.form-input, .form-picker {
+.form-input,
+.form-picker {
   flex: 1;
   font-size: var(--fs-md);
   color: var(--color-bai);
@@ -497,9 +600,15 @@ function reset() { result.value = null }
   text-align: center;
 }
 
-.score-card.lv-good { border-color: rgba(79, 174, 111, 0.5); }
-.score-card.lv-mid  { border-color: rgba(212, 175, 55, 0.5); }
-.score-card.lv-bad  { border-color: rgba(200, 48, 42, 0.5); }
+.score-card.lv-good {
+  border-color: rgba(79, 174, 111, 0.5);
+}
+.score-card.lv-mid {
+  border-color: rgba(212, 175, 55, 0.5);
+}
+.score-card.lv-bad {
+  border-color: rgba(200, 48, 42, 0.5);
+}
 
 .score-circle {
   width: 200rpx;
@@ -515,8 +624,14 @@ function reset() { result.value = null }
   box-shadow: 0 0 32rpx rgba(212, 175, 55, 0.4);
 }
 
-.lv-good .score-circle { border-color: #4FAE6F; box-shadow: 0 0 32rpx rgba(79, 174, 111, 0.4); }
-.lv-bad  .score-circle { border-color: var(--color-zhu); box-shadow: 0 0 32rpx rgba(200, 48, 42, 0.4); }
+.lv-good .score-circle {
+  border-color: #4fae6f;
+  box-shadow: 0 0 32rpx rgba(79, 174, 111, 0.4);
+}
+.lv-bad .score-circle {
+  border-color: var(--color-zhu);
+  box-shadow: 0 0 32rpx rgba(200, 48, 42, 0.4);
+}
 
 .score-num {
   font-size: 72rpx;
@@ -526,8 +641,12 @@ function reset() { result.value = null }
   line-height: 1;
 }
 
-.lv-good .score-num { color: #4FAE6F; }
-.lv-bad  .score-num { color: var(--color-zhu); }
+.lv-good .score-num {
+  color: #4fae6f;
+}
+.lv-bad .score-num {
+  color: var(--color-zhu);
+}
 
 .score-unit {
   font-size: var(--fs-sm);
@@ -579,13 +698,19 @@ function reset() { result.value = null }
 
 .bar-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--color-liu), #FFD700);
+  background: linear-gradient(90deg, var(--color-liu), #ffd700);
   box-shadow: 0 0 8rpx var(--color-liu);
-  transition: width .8s var(--ease-bounce);
+  transition: width 0.8s var(--ease-bounce);
 }
 
-.lv-good .bar-fill { background: linear-gradient(90deg, #4FAE6F, #7FE0A0); box-shadow: 0 0 8rpx #4FAE6F; }
-.lv-bad  .bar-fill { background: linear-gradient(90deg, var(--color-zhu), #E04A3A); box-shadow: 0 0 8rpx var(--color-zhu); }
+.lv-good .bar-fill {
+  background: linear-gradient(90deg, #4fae6f, #7fe0a0);
+  box-shadow: 0 0 8rpx #4fae6f;
+}
+.lv-bad .bar-fill {
+  background: linear-gradient(90deg, var(--color-zhu), #e04a3a);
+  box-shadow: 0 0 8rpx var(--color-zhu);
+}
 
 .bar-val {
   width: 40rpx;
@@ -674,7 +799,8 @@ function reset() { result.value = null }
 }
 
 /* ===== 年命 / 日柱 ===== */
-.yn-row, .dz-row {
+.yn-row,
+.dz-row {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -705,7 +831,8 @@ function reset() { result.value = null }
   margin-top: 4rpx;
 }
 
-.yn-rel, .dz-rel {
+.yn-rel,
+.dz-rel {
   width: 60rpx;
   height: 60rpx;
   border-radius: 50%;
@@ -720,7 +847,8 @@ function reset() { result.value = null }
   border: 2rpx solid var(--color-liu);
 }
 
-.yn-desc, .dz-desc {
+.yn-desc,
+.dz-desc {
   display: block;
   text-align: center;
   font-size: var(--fs-sm);
@@ -776,11 +904,33 @@ function reset() { result.value = null }
   background: rgba(212, 175, 55, 0.2);
 }
 
-.rel-合, .rel-天干合, .rel-六合, .rel-三合 { background: #4FAE6F; border-color: #4FAE6F; color: var(--color-bai); }
-.rel-比和 { background: var(--color-liu); border-color: var(--color-liu); }
-.rel-相生 { background: #5B8CBE; border-color: #5B8CBE; }
-.rel-相克, .rel-六冲, .rel-六害 { background: var(--color-zhu); border-color: var(--color-zhu); }
-.rel-无特殊, .rel-平 { background: rgba(100, 100, 120, 0.5); border-color: rgba(150, 150, 170, 0.5); }
+.rel-合,
+.rel-天干合,
+.rel-六合,
+.rel-三合 {
+  background: #4fae6f;
+  border-color: #4fae6f;
+  color: var(--color-bai);
+}
+.rel-比和 {
+  background: var(--color-liu);
+  border-color: var(--color-liu);
+}
+.rel-相生 {
+  background: #5b8cbe;
+  border-color: #5b8cbe;
+}
+.rel-相克,
+.rel-六冲,
+.rel-六害 {
+  background: var(--color-zhu);
+  border-color: var(--color-zhu);
+}
+.rel-无特殊,
+.rel-平 {
+  background: rgba(100, 100, 120, 0.5);
+  border-color: rgba(150, 150, 170, 0.5);
+}
 
 /* ===== 五行表 ===== */
 .wx-table {
@@ -792,7 +942,8 @@ function reset() { result.value = null }
   padding: var(--sp-2);
 }
 
-.wx-thead, .wx-trow {
+.wx-thead,
+.wx-trow {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   align-items: center;
@@ -819,7 +970,9 @@ function reset() { result.value = null }
   font-weight: 600;
 }
 
-.wx-td:first-child { text-align: left; }
+.wx-td:first-child {
+  text-align: left;
+}
 
 .wx-td.diff {
   color: var(--color-zhu);
@@ -870,7 +1023,9 @@ function reset() { result.value = null }
   border-bottom: 1rpx solid rgba(212, 175, 55, 0.1);
 }
 
-.sug-item:last-child { border-bottom: none; }
+.sug-item:last-child {
+  border-bottom: none;
+}
 
 .sug-num {
   width: 36rpx;
@@ -882,7 +1037,7 @@ function reset() { result.value = null }
   font-size: var(--fs-sm);
   color: var(--color-bai);
   background: var(--color-liu);
-  color: #0A0A12;
+  color: #0a0a12;
   font-family: 'KaiTi', serif;
   font-weight: 700;
   flex-shrink: 0;

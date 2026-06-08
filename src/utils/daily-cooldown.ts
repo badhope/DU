@@ -21,24 +21,24 @@ import type { ToolKey } from '../stores'
 
 export interface DivinationRecord {
   id: string
-  date: string               // 'YYYY-MM-DD' 本地日
-  userKey: string            // 用户标识
-  userName: string           // 用户显示名
+  date: string // 'YYYY-MM-DD' 本地日
+  userKey: string // 用户标识
+  userName: string // 用户显示名
   tool: ToolKey
   toolName: string
-  brief: string              // 一句话结果摘要
+  brief: string // 一句话结果摘要
   timestamp: number
 }
 
 export interface DivinatorProfile {
-  key: string                // 唯一键（默认 = name）
+  key: string // 唯一键（默认 = name）
   name: string
-  remark?: string            // 备注（家父/母亲/自己/孩子等）
+  remark?: string // 备注（家父/母亲/自己/孩子等）
   createdAt: number
   totalCount: number
-  lastDate?: string          // 最后占卜日
+  lastDate?: string // 最后占卜日
   // 工具到期日
-  toolCooldown: Partial<Record<ToolKey, string>>   // toolKey -> 'YYYY-MM-DD' 可以再次占卜
+  toolCooldown: Partial<Record<ToolKey, string>> // toolKey -> 'YYYY-MM-DD' 可以再次占卜
 }
 
 export type CooldownType = 'once-per-day' | 'free'
@@ -80,7 +80,7 @@ export const COOLDOWN_TYPE: Record<string, CooldownType> = {
 
 export const COOLDOWN_LABEL: Record<CooldownType, string> = {
   'once-per-day': '一 日 一 占',
-  'free': '随 时 可 测',
+  free: '随 时 可 测',
 }
 
 /** 重事类工具白名单（UI 提示用） */
@@ -142,9 +142,7 @@ export function checkCooldown(
   const t = COOLDOWN_TYPE[tool] || 'free'
   if (t === 'free') return { type: 'free', allowed: true }
   // 查找同人同日同工具记录
-  const hit = records.find(
-    r => r.date === date && r.userKey === userKey && r.tool === tool,
-  )
+  const hit = records.find((r) => r.date === date && r.userKey === userKey && r.tool === tool)
   if (!hit) return { type: t, allowed: true }
   // 已存在记录
   return {
@@ -250,7 +248,7 @@ export function countTodayByUser(
   userKey: string,
   today: string = todayStr(),
 ): number {
-  return records.filter(r => r.date === today && r.userKey === userKey).length
+  return records.filter((r) => r.date === today && r.userKey === userKey).length
 }
 
 /** 计算用户今日某工具是否已测 */
@@ -260,7 +258,7 @@ export function hasTodayRecord(
   tool: ToolKey,
   today: string = todayStr(),
 ): DivinationRecord | undefined {
-  return records.find(r => r.date === today && r.userKey === userKey && r.tool === tool)
+  return records.find((r) => r.date === today && r.userKey === userKey && r.tool === tool)
 }
 
 /** 列出用户最近 N 天占卜 */
@@ -270,8 +268,8 @@ export function listRecent(
   days = 7,
 ): DivinationRecord[] {
   return records
-    .filter(r => r.userKey === userKey)
-    .filter(r => r.date >= daysAgoStr(days))
+    .filter((r) => r.userKey === userKey)
+    .filter((r) => r.date >= daysAgoStr(days))
     .sort((a, b) => b.timestamp - a.timestamp)
 }
 
@@ -282,8 +280,8 @@ export function groupByDate(
 ): Record<string, DivinationRecord[]> {
   const map: Record<string, DivinationRecord[]> = {}
   records
-    .filter(r => r.userKey === userKey)
-    .forEach(r => {
+    .filter((r) => r.userKey === userKey)
+    .forEach((r) => {
       if (!map[r.date]) map[r.date] = []
       map[r.date].push(r)
     })
