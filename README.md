@@ -3,7 +3,7 @@
 中国传统文化工具集：命理、占卜、古物、健康、修心、生活、辅助师七大类 49 个工具。
 
 - 框架：uni-app x · Vue 3 · TypeScript（strict）· Vite 5
-- 状态：Pinia + `localStorage`（`mistverse-state-v1`）
+- 状态：Pinia + `localStorage`（`mistverse-state-v2`）
 - 部署：GitHub Pages via `actions/deploy-pages`
 - 在线：[badhope.github.io/mistverse](https://badhope.github.io/mistverse/)
 
@@ -53,8 +53,13 @@ push 到 `main` → GitHub Actions 自动 type-check + build + 部署到 GitHub 
 mistverse/
 ├── .github/
 │   ├── workflows/deploy.yml    # type-check + build + GitHub Pages 部署
-│   ├── workflows/ci.yml        # type-check + build（PR 与 main 均触发）
-│   └── CODEOWNERS              # 审查指派
+│   ├── workflows/ci.yml        # format / lint / test / audit / build
+│   ├── workflows/gitleaks.yml  # 密钥扫描
+│   ├── workflows/codeql.yml    # 静态代码安全分析
+│   ├── ISSUE_TEMPLATE/         # bug / feature / config
+│   ├── CODEOWNERS              # 审查指派
+│   ├── PULL_REQUEST_TEMPLATE.md
+│   └── SECURITY.md
 ├── src/
 │   ├── components/
 │   │   ├── charts/             # 24 个图表组件
@@ -63,15 +68,39 @@ mistverse/
 │   ├── config/tools.ts         # 工具元数据
 │   ├── designs/                # tokens.css / animations.css
 │   ├── pages/                  # 49 个页面（含 ai/ 子目录）
-│   ├── static/                 # 静态资源
+│   ├── static/                 # 静态资源（logo.png、robots.txt）
 │   ├── stores/                 # Pinia
 │   ├── utils/                  # 44 个算法模块
 │   ├── App.vue
+│   ├── env.d.ts
 │   ├── main.ts
 │   ├── manifest.json
-│   └── pages.json
+│   ├── pages.json
+│   ├── shime-uni.d.ts
+│   └── uni.scss
+├── tests/                      # vitest 单元测试
+├── CHANGELOG.md
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
 ├── LICENSE                     # MIT
-└── README.md
+├── README.md
+├── SECURITY.md                 # 根目录兜底，GitHub Security 标签优选此项
+├── commitlint.config.js
+├── lefthook.yml
+├── vitest.config.ts
+├── vite.config.ts
+├── tsconfig.json
+├── .editorconfig
+├── .gitattributes
+├── .gitignore
+├── .git-blame-ignore-revs
+├── .node-version               # 20
+├── .npmrc
+├── .nvmrc
+├── .prettierrc.json
+├── .prettierignore
+├── .eslintrc.cjs
+└── .vscode/                    # 推荐与项目设置
 ```
 
 ## 许可

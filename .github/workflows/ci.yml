@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -59,10 +60,31 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm run test
 
+  audit:
+    name: Dependency audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # 阻断生产依赖中的高危漏洞，dev 依赖只警告
+      - name: Audit production dependencies
+        run: pnpm audit --prod --audit-level=high
+        continue-on-error: false
+      - name: Audit dev dependencies (warn only)
+        run: pnpm audit --audit-level=high
+        continue-on-error: true
+
   build:
     name: Type check & build
     runs-on: ubuntu-latest
-    needs: [format, lint, test]
+    needs: [format, lint, test, audit]
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
