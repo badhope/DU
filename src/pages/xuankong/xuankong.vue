@@ -164,7 +164,6 @@ import {
   type XuanKongResult,
   type GONG_NUM,
 } from '@/utils/xuankong'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'

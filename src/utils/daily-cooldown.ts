@@ -2,7 +2,7 @@
  * 玄枢 MISTVERSE · 一日同人同工具不重测 核心逻辑
  *
  * 业务规则：
- *  - 重事类工具（liuyao/gua/ziwei/bazi/hehun/xuankong/tieban/mingji/qimen/xiaoliuren）
+ *  - 重事类工具（liuyao/gua/ziwei/bazi/hehun/xuankong/tieban/mingji/mingmen/xiaoliuren）
  *    同人 + 同日 + 同工具 不可重测
  *  - 同人同日不同工具：允许（不卡日）
  *  - 同日不同人：允许（家父与家子各自独立）
@@ -53,7 +53,7 @@ export const COOLDOWN_TYPE: Record<string, CooldownType> = {
   xuankong: 'once-per-day',
   tieban: 'once-per-day',
   mingji: 'once-per-day',
-  qimen: 'once-per-day',
+  mingmen: 'once-per-day',
   xiaoliuren: 'once-per-day',
   // 自由类
   tarot: 'free',

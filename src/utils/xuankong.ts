@@ -18,8 +18,6 @@
  * 简化：基于九宫飞星轨迹 + 流年紫白
  */
 
-import { DIZHI, type DiZhi } from './bazi'
-
 // 九宫 1-9 顺序
 export const GONG_NAMES_9 = [
   '一白',
