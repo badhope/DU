@@ -26,6 +26,6 @@
 
 ## 数据安全
 
-- 所有占卜数据存于浏览器 localStorage（key: `mistverse-state-v1`）
+- 所有占卜数据存于浏览器 localStorage（key: `mistverse-state-v2`）
 - 不上传任何个人数据到服务器
 - 客户端计算，无第三方分析
