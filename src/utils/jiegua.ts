@@ -208,7 +208,7 @@ function calcShiying(gua: Gua): Shiying {
   const liuqinList: Liuqin[] = ['父母', '兄弟', '子孙', '妻财', '官鬼']
   // 简化：按上卦属宫从 liuqinList 顺推
   const palace = upper
-  const baseIdx = { qian: 0, dui: 0, li: 2, zhen: 3, xun: 3, kan: 1, gen: 1, kun: 4 }[palace]
+  const _baseIdx = { qian: 0, dui: 0, li: 2, zhen: 3, xun: 3, kan: 1, gen: 1, kun: 4 }[palace]
   // 这里采用"八卦属宫"定六亲位（简化）：本宫第 1 爻起
   // 为演示效果，按爻位简单映射
   const shiLiuqin = liuqinList[(shiPos - 1) % 5]

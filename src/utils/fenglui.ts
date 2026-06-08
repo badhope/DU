@@ -188,7 +188,7 @@ export interface ErShiSiShanItem {
 // ============ 玄空飞星 ============
 // 1-9 运分对应 2004-2023 七运；2024 进入八运（2004-2023 二十年）
 // 七运（2004-2023）：天运为七（兑）；八运（2024-2043）：八（艮）
-const YUN_MING_XING: Record<number, number> = {
+const _YUN_MING_XING: Record<number, number> = {
   1: 1,
   2: 2,
   3: 3,

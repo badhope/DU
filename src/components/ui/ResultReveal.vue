@@ -43,7 +43,7 @@ const props = withDefaults(
 const hostRef = ref<HTMLElement | null>(null)
 const played = ref(false)
 
-function fromVars(el: HTMLElement) {
+function fromVars(_el: HTMLElement) {
   const offset = 40
   switch (props.from) {
     case 'up':

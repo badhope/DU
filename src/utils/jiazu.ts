@@ -106,7 +106,8 @@ export function buildFamilyTree(
   const currentGenIdx = Math.max(0, Math.min(generations.length - 1, Math.floor(yearSpan / 25)))
   const currentGen = generations[currentGenIdx]
   // 如果超过 25 年一个辈分 +5 代
-  const calcGen = generations.find((g, i) => year >= g.startYear && year <= g.endYear) || currentGen
+  const calcGen =
+    generations.find((g, _i) => year >= g.startYear && year <= g.endYear) || currentGen
   const currentZibei = calcGen.zibei
 
   // 取名建议

@@ -331,10 +331,15 @@ import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import { hehun, type HehunResult } from '@/utils/hehun'
 import { WUXING_META, WUXING_LIST } from '@/utils/wuxing'
-import { TIANGAN_WUXING, DIZHI_WUXING, DIZHI_DESC, HOUR_TO_DIZHI } from '@/utils/bazi'
-import HeHunChart from '@/components/charts/HeHunChart.vue'
+import {
+  TIANGAN_WUXING as _TIANGAN_WUXING,
+  DIZHI_WUXING as _DIZHI_WUXING,
+  DIZHI_DESC as _DIZHI_DESC,
+  HOUR_TO_DIZHI as _HOUR_TO_DIZHI,
+} from '@/utils/bazi'
+import _HeHunChart from '@/components/charts/HeHunChart.vue'
 import { useAppStore } from '@/stores'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -342,7 +347,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'hehun', toolName: '八字合婚', category: '合婚' })
-const toolKey = 'hehun' as const
+const _toolKey = 'hehun' as const
 
 const REL_GLYPH: Record<string, string> = {
   天干合: '合',

@@ -20,7 +20,7 @@
 
         <!-- 6 神将环（围绕中心） -->
         <g
-          v-for="(s, i) in sixShen"
+          v-for="(s, _i) in sixShen"
           :key="s.key"
           class="lr-shen"
           :class="{ active: s.key === result.shen.key }"
@@ -175,7 +175,7 @@ interface Result {
   threeRemainder: number
   advice: string
 }
-const props = defineProps<{ result: Result }>()
+const _props = defineProps<{ result: Result }>()
 
 const size = 480
 const cx = size / 2

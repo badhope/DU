@@ -60,7 +60,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref as _ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'

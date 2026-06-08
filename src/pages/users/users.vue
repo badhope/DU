@@ -116,7 +116,7 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
-import { useAppStore, type ToolKey } from '@/stores'
+import { useAppStore, type ToolKey as _ToolKey } from '@/stores'
 import { TOOLS } from '@/config/tools'
 
 const app = useAppStore()

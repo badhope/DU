@@ -53,7 +53,7 @@
       </view>
       <view v-else class="h-list">
         <view
-          v-for="(h, i) in app.history.slice(0, 6)"
+          v-for="(h, _i) in app.history.slice(0, 6)"
           :key="h.id"
           class="h-row"
           @click="goTool(h.tool)"
@@ -74,7 +74,7 @@
       <text class="card-title title-mystic">收 藏</text>
       <view class="fav-list">
         <view
-          v-for="(id, i) in app.favorites.slice(0, 4)"
+          v-for="(id, _i) in app.favorites.slice(0, 4)"
           :key="id"
           class="fav-row"
           @click="openFav(id)"
@@ -96,7 +96,7 @@
       </view>
       <view v-else class="n-list">
         <view
-          v-for="(n, i) in app.notes.slice(0, 4)"
+          v-for="(n, _i) in app.notes.slice(0, 4)"
           :key="n.id"
           class="n-row"
           @click="openNote(n.id)"
@@ -112,7 +112,7 @@
       <text class="card-title title-mystic">成 就 墙</text>
       <view class="ach-list">
         <view
-          v-for="(a, i) in app.achievements"
+          v-for="(a, _i) in app.achievements"
           :key="a.id"
           class="ach-cell"
           :class="{ unlocked: a.unlocked }"
@@ -143,7 +143,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { ref as _ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'

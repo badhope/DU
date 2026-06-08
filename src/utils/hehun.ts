@@ -10,8 +10,15 @@
  */
 
 import { calcBazi } from './bazi'
-import { TIANGAN, DIZHI, TIANGAN_WUXING, DIZHI_WUXING, type TianGan, type DiZhi } from './bazi'
-import { nayin, calcDayun, dayunStrength, shishen } from './bazi-deep'
+import {
+  TIANGAN as _TIANGAN,
+  DIZHI as _DIZHI,
+  TIANGAN_WUXING,
+  DIZHI_WUXING,
+  type TianGan,
+  type DiZhi,
+} from './bazi'
+import { nayin, calcDayun as _calcDayun, dayunStrength, shishen as _shishen } from './bazi-deep'
 import type { Wuxing } from './wuxing'
 import { SHENG, KE } from './wuxing'
 

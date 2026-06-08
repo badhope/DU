@@ -198,7 +198,7 @@ import TopBar from '@/components/ui/TopBar.vue'
 import QiMenChart from '@/components/charts/QiMenChart.vue'
 import { calcQimen, type QimenResult } from '@/utils/qimen'
 import { useAppStore } from '@/stores'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -206,7 +206,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'mingmen', toolName: '奇门遁甲', category: '占卜' })
-const toolKey = 'mingmen' as const
+const _toolKey = 'mingmen' as const
 
 const form = ref({
   year: new Date().getFullYear(),

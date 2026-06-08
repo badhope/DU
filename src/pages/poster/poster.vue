@@ -146,7 +146,7 @@ import {
   renderPoster,
   buildPosterFromHistory,
   type PosterConfig,
-  type PosterTemplate,
+  type PosterTemplate as _PosterTemplate,
 } from '@/utils/poster-renderer'
 
 const app = useAppStore()
@@ -362,7 +362,7 @@ function saveImage() {
     uni.saveImageToPhotosAlbum({
       filePath: resultImage.value,
       success: () => uni.showToast({ title: '已保存到相册', icon: 'success' }),
-      fail: (e) => uni.showToast({ title: '保存失败', icon: 'none' }),
+      fail: (_e) => uni.showToast({ title: '保存失败', icon: 'none' }),
     })
   } else {
     uni.showToast({ title: '请先生成海报', icon: 'none' })
@@ -381,7 +381,7 @@ function share() {
       scene: 'WXSceneSession',
       imageUrl: resultImage.value,
       success: () => uni.showToast({ title: '分享成功', icon: 'success' }),
-      fail: (e) => uni.showToast({ title: '分享已取消', icon: 'none' }),
+      fail: (_e) => uni.showToast({ title: '分享已取消', icon: 'none' }),
     })
   } else {
     uni.showToast({ title: '请先生成海报', icon: 'none' })

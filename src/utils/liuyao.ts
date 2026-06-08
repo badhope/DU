@@ -19,7 +19,13 @@
  *           适度简化为可读代码
  */
 
-import { DIZHI, TIANGAN_WUXING, DIZHI_WUXING, type DiZhi, type TianGan } from './bazi'
+import {
+  DIZHI,
+  TIANGAN_WUXING as _TIANGAN_WUXING,
+  DIZHI_WUXING,
+  type DiZhi,
+  type TianGan,
+} from './bazi'
 import { SHENG, KE } from './wuxing'
 
 // ============ 类型定义 ============
@@ -460,7 +466,7 @@ function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
 }
 
 /** 通过卦名查卦 */
-function findGuaByName(name: string): GuaFull | undefined {
+function _findGuaByName(name: string): GuaFull | undefined {
   return GUA_PALACE.find((g) => g.name === name) as GuaFull | undefined
 }
 

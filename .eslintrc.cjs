@@ -46,7 +46,7 @@ module.exports = {
     'vue/html-closing-bracket-newline': 'off',
     'vue/first-attribute-linebreak': 'off',
     // v-for 的索引变量 i/j/k 等常用作占位，放宽为 warn
-    'vue/no-unused-vars': 'warn',
+    'vue/no-unused-vars': ['warn', { ignorePattern: '^_' }],
     // 业务代码大量使用 v-if/v-for 同级，先降级为 warn，待后续重构
     'vue/no-use-v-if-with-v-for': 'warn',
     'vue/no-mutating-props': 'warn',

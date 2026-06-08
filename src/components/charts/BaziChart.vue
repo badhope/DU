@@ -177,8 +177,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import {
-  TIANGAN,
-  DIZHI,
+  TIANGAN as _TIANGAN,
+  DIZHI as _DIZHI,
   TIANGAN_WUXING,
   DIZHI_WUXING,
   calcBazi,

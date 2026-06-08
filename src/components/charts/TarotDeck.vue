@@ -176,7 +176,7 @@
 
 <script setup lang="ts">
 import { computed, ref, watch } from 'vue'
-import { TAROT_DECK, drawCards, type TarotCard } from '@/utils/tarot'
+import { TAROT_DECK as _TAROT_DECK, drawCards, type TarotCard } from '@/utils/tarot'
 import { uid } from '@/utils/chart-utils'
 
 const props = defineProps<{ question?: string; cards?: TarotCard[] }>()

@@ -4,3 +4,7 @@
 7b3f1b68252f005574ac02c4cadcfafb80be36c7
 # PR #23: bilingual rewrite + conflict cleanup
 a065128a00bc84ed436d57abdfff09a8ee73f332
+# PR #24: deep cleanup — eslint-config-prettier, ToolKey sync, CI pnpm 10
+3315d8f8add7690ee535afa84b071583ad9619c2
+# PR #25: stale refs, unused imports, duplicate config, typo
+d66850c99ecd151b97e04a8ace03379b8fcb756b

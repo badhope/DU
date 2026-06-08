@@ -221,7 +221,12 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { ZODIAC_META, type AstroResult, type AstroPlanet, type Zodiac } from '@/utils/astro'
+import {
+  ZODIAC_META,
+  type AstroResult,
+  type AstroPlanet as _AstroPlanet,
+  type Zodiac,
+} from '@/utils/astro'
 import { ringSectorPath, polar, uid } from '@/utils/chart-utils'
 
 const props = defineProps<{ result: AstroResult }>()
@@ -321,7 +326,7 @@ const planetMarkers = computed(() => {
     const offset = ((i % 4) - 1.5) * 6 // 错开避免重叠
     const deg = baseDeg + offset
     const pos = polar(cx, cy, rPlanet, deg)
-    const isBigThree =
+    const _isBigThree =
       ['太阳', '月亮', '上升'].includes(p.name) || (p.name === props.result.sun && false)
     const GLYPH: Record<string, string> = {
       太阳: '☉',

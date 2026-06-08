@@ -9,10 +9,10 @@
 
 import { calcBazi, TIANGAN_WUXING, DIZHI_WUXING, type Wuxing } from './bazi'
 import { WUXING_META } from './wuxing'
-import { kangxiStrokes, nameStrokes } from './kangxi-strokes'
+import { kangxiStrokes, nameStrokes as _nameStrokes } from './kangxi-strokes'
 
 // 简化的汉字五行表（部首→五行）— 去重后用程序化合并
-const CN_WX: Record<string, Wuxing> = { 木: 'mu', 火: 'huo', 土: 'tu', 金: 'jin', 水: 'shui' }
+const _CN_WX: Record<string, Wuxing> = { 木: 'mu', 火: 'huo', 土: 'tu', 金: 'jin', 水: 'shui' }
 const _RAW_RADICAL: Array<[string, Wuxing]> = [
   ['木', 'mu'],
   ['林', 'mu'],
@@ -174,7 +174,7 @@ const _RAW_STROKE: Array<[string, number]> = [
   ['玄', 5],
   ['玉', 5],
 ]
-const STROKE_MAP: Record<string, number> = Object.fromEntries(_RAW_STROKE)
+const _STROKE_MAP: Record<string, number> = Object.fromEntries(_RAW_STROKE)
 
 function strokeOf(c: string): number {
   // 用真康熙字典笔画，未命中时回退到部首近似（避免 charcode 假算法）

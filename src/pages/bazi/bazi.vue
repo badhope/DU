@@ -286,14 +286,14 @@ import { ref, computed, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import BaziChart from '@/components/charts/BaziChart.vue'
+import _BaziChart from '@/components/charts/BaziChart.vue'
 import {
   calcBazi,
   TIANGAN_WUXING,
   DIZHI_WUXING,
   TIANGAN_YINYANG,
   TIANGAN_DESC,
-  DIZHI_DESC,
+  DIZHI_DESC as _DIZHI_DESC,
   HOUR_TO_DIZHI,
 } from '@/utils/bazi'
 import { WUXING_META, WUXING_LIST, type Wuxing } from '@/utils/wuxing'
@@ -308,7 +308,7 @@ import {
   trueSolarTime,
 } from '@/utils/bazi-deep'
 import { useAppStore } from '@/stores'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -316,7 +316,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'bazi', toolName: '八字排盘', category: '命理' })
-const toolKey = 'bazi' as const
+const _toolKey = 'bazi' as const
 
 const form = ref({
   year: new Date().getFullYear(),

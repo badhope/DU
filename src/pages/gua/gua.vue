@@ -91,7 +91,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from 'vue'
+import { ref, onMounted as _onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
@@ -101,7 +101,7 @@ import { yaoToGua, castYaoSticks, type Gua } from '@/utils/gua'
 import { useAppStore } from '@/stores'
 import { useCooldown } from '@/utils/use-cooldown'
 
-const app = useAppStore()
+const _app = useAppStore()
 const cd = useCooldown({ tool: 'gua', toolName: '今日一卦', category: '占卜' })
 const { showCooldown, cooldownRecord, showAddUser, newUserName, newUserRemark } = cd
 

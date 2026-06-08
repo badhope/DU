@@ -146,9 +146,9 @@ export interface XuanKongResult {
  */
 export function calcXuanKong(
   year: number,
-  month: number,
-  day: number,
-  hour: number,
+  _month: number,
+  _day: number,
+  _hour: number,
 ): XuanKongResult {
   const yun = getYun(year)
   const yunPan = getYunPan(yun.num)
@@ -168,7 +168,7 @@ export function calcXuanKong(
   ]
   const directions = dirKeys.map(({ pos, dir }) => {
     const star = liuNianPan[pos]
-    const meta = GONG_DIR[star]
+    const _meta = GONG_DIR[star]
     const level = _starLevel(star)
     return {
       dir,

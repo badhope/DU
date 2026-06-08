@@ -541,7 +541,7 @@ export function taiyuan(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi:
 export function minggong(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi: DiZhi } {
   // 命宫 = 寅起正月，顺数至生月；再从卯起子时，顺数至生时
   const month = bazi.month.zhi
-  const monthStart = DIZHI.indexOf(month) // 寅=2, 卯=3 ...
+  const _monthStart = DIZHI.indexOf(month) // 寅=2, 卯=3 ...
   // 实际：从寅开始，正月在寅
   // 简化：以月支序号起
   const monthZhiIdx = DIZHI.indexOf(month)
@@ -632,31 +632,8 @@ export function calcDayun(
   //         阴男/阳女 → 出生到上一个节气（逆行）的天数
   // 每 3 天 = 1 年
   const birthDate = new Date(birthYear, birthMonth - 1, birthDay)
-  let diffDays = 0
-  if (direction === '顺') {
-    // 找下一个节
-    const jieqiOrder: DiZhi[] = [
-      '寅',
-      '卯',
-      '辰',
-      '巳',
-      '午',
-      '未',
-      '申',
-      '酉',
-      '戌',
-      '亥',
-      '子',
-      '丑',
-    ]
-    const currentZhi = bazi.month.zhi
-    const currentIdx = jieqiOrder.indexOf(currentZhi)
-    // 用一个近似：直接计算 15 天（每月约 30 天，过中气后约 15 天到下一节气）
-    // 更精确：查 jieqiDay（已在 bazi.ts 导出）
-    diffDays = 15 // 简化
-  } else {
-    diffDays = 15
-  }
+  // 精确起运需查节气表，此处用简化估算（立春基准）
+  // 更精确：查 jieqiDay（已在 bazi.ts 导出）
   // 更精确：用节气平均间隔 30.43 天
   // 起运天数 = 节气到出生日距离（顺）或 反向（逆）
   // 近似：以"出生到本月节气" + "到下月节气"为参考

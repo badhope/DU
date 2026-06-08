@@ -263,7 +263,7 @@ const SUN_DATE: Array<[number, number, Zodiac]> = [
 export function sunSign(month: number, day: number): Zodiac {
   for (let i = 0; i < SUN_DATE.length; i++) {
     const [m, d, z] = SUN_DATE[i]
-    const [nm, nd] = SUN_DATE[(i + 1) % SUN_DATE.length]
+    const [_nm, _nd] = SUN_DATE[(i + 1) % SUN_DATE.length]
     if (m === month && day >= d) return z
     // 处理跨年（摩羯 12.22 - 1.19）
     if (i === 9 && month === 12 && day >= 22) return '摩羯'

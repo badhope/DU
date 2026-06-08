@@ -364,7 +364,7 @@ const minorRanks: Array<{
 
 const minorCards: TarotCard[] = []
 minorSuits.forEach((s) => {
-  minorRanks.forEach((r, i) => {
+  minorRanks.forEach((r, _i) => {
     minorCards.push({
       id: 22 + minorCards.length,
       name: `${s.name}${r.name}`,

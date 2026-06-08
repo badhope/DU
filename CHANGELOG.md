@@ -13,7 +13,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 - Fix `localStorage` key docs (`v1` → `v2`) to match `src/stores/index.ts`
 - `package.json`: add `"private": true` to prevent accidental `npm publish`
-- `package.json`: add `engines.node >=20` / `engines.pnpm >=9`
+- `package.json`: add `engines.node >=20` / `engines.pnpm >=10`
 - `package.json`: add `author` field (`badhope <https://github.com/badhope>`)
 - Add `pnpm audit` step to CI (block on high-severity prod deps, warn on dev)
 - Add CodeQL workflow (`javascript-typescript`)
@@ -41,8 +41,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 - **Stale dependency removed**: `playwright` (unused, project uses vitest + happy-dom) and `prettier-plugin-vue` (Prettier has built-in Vue support since v3)
 - **VSCode extensions cleaned**: remove `ms-playwright.playwright` and `bradlc.vscode-tailwindcss` recommendations (neither is used); add `bradlc.vscode-tailwindcss` to unwanted list
 - **`.prettierignore` cleaned**: remove blanket `src/**` / `tests/**` / `README.md` / `CHANGELOG.md` / `.github/SECURITY.md` exclusions (temporary workaround from earlier PR, no longer needed)
-- **`.git-blame-ignore-revs` populated**: add commit hashes for PR #22 and #23 (bulk refactor/formatting commits)
+- **`.git-blame-ignore-revs` populated**: add commit hashes for PR #22–#25 (bulk refactor/formatting commits)
 - **Deleted file**: `security_best_practices_report.md` (one-off internal audit report; findings merged into `SECURITY.md` and `CHANGELOG.md`)
+
+### Fixed
+
+- **`daily-cooldown.ts`**: `qimen` → `mingmen` — cooldown for 奇门遁甲 was registered under wrong key, breaking daily limit (#25)
+- **`eslint-config-prettier`**: add to resolve Prettier/ESLint `no-extra-semi` conflict (#24)
+- **CI pnpm version**: all jobs updated from pnpm 9 to pnpm 10 to match lockfile format (#24)
+- **`shime-uni.d.ts`**: rename to `shims-uni.d.ts` (typo fix) (#25)
+- **Duplicate `.nvmrc`**: deleted (`.node-version` already exists) (#25)
+- **Unused imports removed**: `calcBazi` (tieban), `TIANGAN`/`DIZHI` (wufu, hehun), `DIZHI`/`DiZhi` (xuankong), `DIZHI_WUXING` (yunshi, dayun-life), `TIANGAN_WUXING` (liuyao), `UserSwitcher` (bazi, hehun, qimen, tieban, xiaoliuren, xuankong, zhuge) (#24, #25)
+- **Unused variables prefixed**: 51 files — all `@typescript-eslint/no-unused-vars` and `vue/no-unused-vars` warnings resolved with `_` prefix convention
 
 ## [1.0.1] - 2026-06-08
 
