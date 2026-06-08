@@ -148,7 +148,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'zhuge', toolName: '诸葛神数', category: '占卜' })
-const toolKey = 'zhuge' as const
+const _toolKey = 'zhuge' as const
 const form = ref({ n1: 1, n2: 1, n3: 1 })
 const result = ref<ZhugeQian | null>(null)
 const loading = ref(false)

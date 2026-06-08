@@ -340,7 +340,7 @@ export function calcWufu(
   for (let i = 0; i < liunian.length; i++) {
     const y = liunian[i]
     const step = dayun.steps.find((s) => y.age >= s.startAge && y.age <= s.endAge)
-    const stepIdx = step ? dayun.steps.indexOf(step) : 0
+    const _stepIdx = step ? dayun.steps.indexOf(step) : 0
     const sShou = Math.max(
       20,
       Math.min(
