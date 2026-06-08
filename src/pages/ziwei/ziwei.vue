@@ -60,10 +60,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -78,9 +77,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 用户切换器 -->
         <view class="card card-mystic card-hoverable anim-fade-up" style="margin-bottom: 16rpx">
           <UserSwitcher tool="ziwei" @addUser="cd.onAddUser" @select="cd.switchUser" />
@@ -89,20 +87,16 @@
         <!-- 命格总览 -->
         <view class="overview card-mystic card-hoverable anim-fade-up">
           <text class="card-title title-mystic">{{ result.mingGe }}</text>
-          <text class="ov-sub"
-            >
-{{ result.wuju }} · 年干 {{ result.yearGan }} · 命宫 {{ result.mingGong.zhi }}
-</text
-          >
+          <text class="ov-sub">
+            {{ result.wuju }} · 年干 {{ result.yearGan }} · 命宫 {{ result.mingGong.zhi }}
+          </text>
           <text class="ov-summary">{{ result.summary }}</text>
           <view class="score-grid">
             <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
               <text class="s-name">{{ s.name }}</text>
-              <view class="s-bar"
-                >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-              />
-</view>
+              <view class="s-bar">
+                <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+              </view>
               <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
             </view>
           </view>

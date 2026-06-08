@@ -203,10 +203,9 @@
             v-if="selectedGongData.sihua[i]"
             class="ds-sihua"
             :style="{ color: siHuaColor(selectedGongData.sihua[i]) }"
-            >
-·{{ selectedGongData.sihua[i] }}
-</text
           >
+            ·{{ selectedGongData.sihua[i] }}
+          </text>
         </view>
       </view>
       <text class="d-interp">{{ selectedGongData.interpretation }}</text>
@@ -218,11 +217,9 @@
       <view class="s-grid">
         <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>

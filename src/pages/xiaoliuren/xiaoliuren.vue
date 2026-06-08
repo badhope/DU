@@ -65,9 +65,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <view
           class="shen-card card-mystic anim-fade-up card-hoverable"
           :style="{ borderColor: levelColor }"
@@ -125,10 +124,9 @@
                   color:
                     s.totalScore >= 80 ? '#4FAE6F' : s.totalScore >= 60 ? '#D4AF37' : '#C8302A',
                 }"
-                >
-{{ s.totalScore }}
-</text
               >
+                {{ s.totalScore }}
+              </text>
             </view>
           </view>
         </view>
@@ -137,8 +135,7 @@
           <view class="btn-liu" @click="result = null">重 起 一 课</view>
         </view>
       </ResultReveal>
-</view
-    >
+    </view>
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
       :show-cooldown="cd.showCooldown.value"

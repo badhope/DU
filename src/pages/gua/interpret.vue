@@ -71,33 +71,21 @@
           </view>
         </view>
         <view class="legend">
-          <view class="leg-item"
-            >
-<view class="leg-dot leg-shi" /><text
-              >
-世爻（{{ jiegua.shiying.shi }} 爻·{{ jiegua.shiying.shiLiuqin }}）
-</text
-            >
-</view
-          >
-          <view class="leg-item"
-            >
-<view class="leg-dot leg-ying" /><text
-              >
-应爻（{{ jiegua.shiying.ying }} 爻·{{ jiegua.shiying.yingLiuqin }}）
-</text
-            >
-</view
-          >
-          <view class="leg-item"
-            >
-<view class="leg-dot leg-yong" /><text
-              >
-用神（{{ jiegua.yongshen.yaoPos }} 爻·{{ jiegua.yongshen.name }}）
-</text
-            >
-</view
-          >
+          <view class="leg-item">
+            <view class="leg-dot leg-shi" /><text>
+              世爻（{{ jiegua.shiying.shi }} 爻·{{ jiegua.shiying.shiLiuqin }}）
+            </text>
+          </view>
+          <view class="leg-item">
+            <view class="leg-dot leg-ying" /><text>
+              应爻（{{ jiegua.shiying.ying }} 爻·{{ jiegua.shiying.yingLiuqin }}）
+            </text>
+          </view>
+          <view class="leg-item">
+            <view class="leg-dot leg-yong" /><text>
+              用神（{{ jiegua.yongshen.yaoPos }} 爻·{{ jiegua.yongshen.name }}）
+            </text>
+          </view>
         </view>
       </view>
 
@@ -117,16 +105,12 @@
       <view class="card-mystic anim-fade-up yong-card" style="animation-delay: 0.3s">
         <text class="sec-title title-mystic">用 神 分 析</text>
         <view class="yong-head">
-          <text class="yong-name" :class="'yong-status-' + yongStatusLevel"
-            >
-{{ jiegua.yongshen.name }} · {{ jiegua.yongshen.status }}
-</text
-          >
-          <text class="yong-pos"
-            >
-第 {{ jiegua.yongshen.yaoPos }} 爻 · 五行属 {{ jiegua.yongshen.wuxing }}
-</text
-          >
+          <text class="yong-name" :class="'yong-status-' + yongStatusLevel">
+            {{ jiegua.yongshen.name }} · {{ jiegua.yongshen.status }}
+          </text>
+          <text class="yong-pos">
+            第 {{ jiegua.yongshen.yaoPos }} 爻 · 五行属 {{ jiegua.yongshen.wuxing }}
+          </text>
         </view>
         <text class="yong-reason">{{ jiegua.yongshen.reason }}</text>
         <text class="yong-status-desc">{{ jiegua.yongshen.statusDesc }}</text>

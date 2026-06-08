@@ -75,11 +75,9 @@
       <view class="header card-mystic anim-fade-up">
         <text class="hd-sx">{{ result.shengxiao }} · 今 日</text>
         <text class="hd-gz">{{ result.todayGanzhi }} 日</text>
-        <text class="hd-level" :class="'lv-' + result.level"
-          >
-{{ result.level }} · 总分 {{ result.scores.total }}
-</text
-        >
+        <text class="hd-level" :class="'lv-' + result.level">
+          {{ result.level }} · 总分 {{ result.scores.total }}
+        </text>
         <text class="hd-advice">· {{ result.advice }} ·</text>
       </view>
 
@@ -87,11 +85,9 @@
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>
@@ -114,10 +110,8 @@
           <view class="lk-cell">
             <text class="lk-lab">颜 色</text>
             <text class="lk-val" :style="{ color: lkColor(result.lucky.wuxing) }">
-{{
-              result.lucky.color
-            }}
-</text>
+              {{ result.lucky.color }}
+            </text>
           </view>
           <view class="lk-cell">
             <text class="lk-lab">数 字</text>
@@ -162,7 +156,7 @@ function onPickSX(e: any) {
   form.shengxiao = SX_LIST[e.detail.value]
 }
 function onPick(k: string, e: any) {
-  (form as any)[k] = Number(e.detail.value)
+  ;(form as any)[k] = Number(e.detail.value)
 }
 
 const result = ref<YunshiResult | null>(null)

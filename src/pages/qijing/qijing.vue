@@ -44,12 +44,10 @@
               <text v-for="(s, k) in q.symptoms" :key="k" class="qij-sym">{{ s }}</text>
             </view>
             <text class="qij-fn-title">· 主要穴位（{{ q.acupoints.length }} 穴）</text>
-            <text class="qij-points"
-              >
-{{ q.acupoints.slice(0, 12).join(' · ')
+            <text class="qij-points">
+              {{ q.acupoints.slice(0, 12).join(' · ')
               }}<text v-if="q.acupoints.length > 12"> · …</text>
-</text
-            >
+            </text>
           </view>
         </view>
       </view>
@@ -99,12 +97,10 @@
               <text v-for="(s, k) in j.pathologies" :key="k" class="jl-sym">{{ s }}</text>
             </view>
             <text class="jl-fn-title">· 主要穴位（{{ j.acupoints.length }} 穴）</text>
-            <text class="jl-points"
-              >
-{{ j.acupoints.slice(0, 8).join(' · ')
+            <text class="jl-points">
+              {{ j.acupoints.slice(0, 8).join(' · ')
               }}<text v-if="j.acupoints.length > 8"> · …</text>
-</text
-            >
+            </text>
           </view>
         </view>
       </view>
@@ -127,6 +123,7 @@
         <view class="sym-quick">
           <text class="sym-q-title">· 常见症状：</text>
           <view class="sym-tags">
+            <!-- prettier-ignore -->
             <text
               v-for="s in quickSymptoms"
               :key="s"
@@ -136,9 +133,8 @@
                 diagnose()
               "
             >
-{{ s }}
-</text
-            >
+              {{ s }}
+            </text>
           </view>
         </view>
       </view>

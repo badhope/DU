@@ -40,9 +40,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 诸葛神数可视化 -->
         <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.04s">
           <ZhugeChart :qian="result" />
@@ -52,10 +51,8 @@
           <view class="qian-head">
             <text class="qh-num">第 {{ result.num }} 签</text>
             <text class="qh-level" :style="{ color: levelColor(result.score) }">
-{{
-              result.level
-            }}
-</text>
+              {{ result.level }}
+            </text>
           </view>
           <text class="qh-gua">{{ result.gua }} · {{ result.title }}</text>
           <text class="qh-poem">{{ result.poem }}</text>
@@ -63,10 +60,8 @@
           <view class="qh-stats">
             <text class="qs-label">总评</text>
             <text class="qs-num" :style="{ color: levelColor(result.score) }">
-{{
-              result.score
-            }}
-</text>
+              {{ result.score }}
+            </text>
             <text class="qs-max">/ 100</text>
           </view>
         </view>
@@ -76,11 +71,9 @@
           <view class="score-list">
             <view v-for="(s, i) in scoreList" :key="i" class="s-row">
               <text class="s-name">{{ s.name }}</text>
-              <view class="s-bar"
-                >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-              />
-</view>
+              <view class="s-bar">
+                <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+              </view>
               <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
             </view>
           </view>
@@ -162,7 +155,7 @@ const result = ref<ZhugeQian | null>(null)
 const loading = ref(false)
 
 function onPick(k: string, e: any) {
-  (form.value as any)[k] = Number(e.detail.value)
+  ;(form.value as any)[k] = Number(e.detail.value)
 }
 
 function calculate() {

@@ -17,15 +17,11 @@
           <text class="ps-name">{{ result.man.name }}</text>
           <view class="ps-bz">
             <text class="psb-gan" :style="{ color: wuColor(ganWx(result.man.bazi.day.gan)) }">
-{{
-              result.man.bazi.day.gan
-            }}
-</text>
+              {{ result.man.bazi.day.gan }}
+            </text>
             <text class="psb-zhi" :style="{ color: wuColor(zhiWx(result.man.bazi.day.zhi)) }">
-{{
-              result.man.bazi.day.zhi
-            }}
-</text>
+              {{ result.man.bazi.day.zhi }}
+            </text>
           </view>
           <text class="ps-meta">{{ result.man.dayMaster }}（{{ result.man.strength }}）</text>
           <text class="ps-ny">年命 {{ result.man.nayin }}</text>
@@ -38,15 +34,11 @@
           <text class="ps-name">{{ result.woman.name }}</text>
           <view class="ps-bz">
             <text class="psb-gan" :style="{ color: wuColor(ganWx(result.woman.bazi.day.gan)) }">
-{{
-              result.woman.bazi.day.gan
-            }}
-</text>
+              {{ result.woman.bazi.day.gan }}
+            </text>
             <text class="psb-zhi" :style="{ color: wuColor(zhiWx(result.woman.bazi.day.zhi)) }">
-{{
-              result.woman.bazi.day.zhi
-            }}
-</text>
+              {{ result.woman.bazi.day.zhi }}
+            </text>
           </view>
           <text class="ps-meta">{{ result.woman.dayMaster }}（{{ result.woman.strength }}）</text>
           <text class="ps-ny">年命 {{ result.woman.nayin }}</text>

@@ -9,11 +9,9 @@
     <view class="checkin-card card-mystic anim-fade-up" :class="{ done: checkedToday }">
       <view class="ci-glyph">{{ checkedToday ? '✓' : '签' }}</view>
       <text class="ci-title">{{ checkedToday ? '今日已签' : '今日签到' }}</text>
-      <text class="ci-sub"
-        >
-连续 {{ app.checkin.streak }} 天 · 累计 {{ app.checkin.totalDays }} 天
-</text
-      >
+      <text class="ci-sub">
+        连续 {{ app.checkin.streak }} 天 · 累计 {{ app.checkin.totalDays }} 天
+      </text>
       <view class="ci-points">{{ app.checkin.points }} <text class="ci-unit">积分</text></view>
       <view class="ci-btn" :class="{ done: checkedToday }" @click="doCheck">
         <text>{{ checkedToday ? '已 完 成' : '点 击 签 到' }}</text>

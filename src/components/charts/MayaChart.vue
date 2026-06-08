@@ -175,10 +175,8 @@
         >
           <text class="wc-day">{{ i + 1 }}</text>
           <text class="wc-glyph" :style="{ color: MAYA_SEAL_META[s.seal].color }">
-{{
-            MAYA_SEAL_META[s.seal].glyph
-          }}
-</text>
+            {{ MAYA_SEAL_META[s.seal].glyph }}
+          </text>
           <text class="wc-name">{{ s.seal }}</text>
         </view>
       </view>
@@ -190,11 +188,9 @@
       <view class="s-grid">
         <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>

@@ -33,10 +33,8 @@
         <view class="jq-row">
           <text class="jq-row-label">· 五行：</text>
           <text class="jq-row-val" :style="{ color: WX_META[nowJieqi.wuxing].color }">
-{{
-            WX_META[nowJieqi.wuxing].name
-          }}
-</text>
+            {{ WX_META[nowJieqi.wuxing].name }}
+          </text>
         </view>
         <view class="jq-foods">
           <text class="jq-foods-label">· 宜食</text>
@@ -70,11 +68,9 @@
             </view>
             <view class="jq-row-info">
               <text class="jq-row-name">{{ j.name }}（{{ j.solarTerm }}）</text>
-              <text class="jq-row-date"
-                >
-{{ j.month }}月{{ j.day }}日 · {{ j.season }} · {{ WX_META[j.wuxing].name }}
-</text
-              >
+              <text class="jq-row-date">
+                {{ j.month }}月{{ j.day }}日 · {{ j.season }} · {{ WX_META[j.wuxing].name }}
+              </text>
             </view>
             <text class="jq-row-sx">{{ j.shengxiao }}</text>
           </view>
@@ -102,42 +98,32 @@
           <view class="wy-cell">
             <text class="wy-label">中 运</text>
             <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zhongYun].color }">
-{{
-              WX_META[wuyunInfo.zhongYun].name
-            }}
-</text>
+              {{ WX_META[wuyunInfo.zhongYun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">主 运</text>
             <text class="wy-val" :style="{ color: WX_META[wuyunInfo.dayun].color }">
-{{
-              WX_META[wuyunInfo.dayun].name
-            }}
-</text>
+              {{ WX_META[wuyunInfo.dayun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">客 运</text>
             <text class="wy-val" :style="{ color: WX_META[wuyunInfo.keYun].color }">
-{{
-              WX_META[wuyunInfo.keYun].name
-            }}
-</text>
+              {{ WX_META[wuyunInfo.keYun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">司 天</text>
             <text class="wy-val" :style="{ color: WX_META[wuyunInfo.sitian].color }">
-{{
-              WX_META[wuyunInfo.sitian].name
-            }}
-</text>
+              {{ WX_META[wuyunInfo.sitian].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">在 泉</text>
             <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zaiquan].color }">
-{{
-              WX_META[wuyunInfo.zaiquan].name
-            }}
-</text>
+              {{ WX_META[wuyunInfo.zaiquan].name }}
+            </text>
           </view>
         </view>
         <text class="wy-prin">{{ wuyunInfo.principle }}</text>
@@ -158,11 +144,9 @@
             <text class="m-mark-t">{{ m.step }}</text>
           </view>
           <view class="m-info">
-            <text class="m-name" :style="{ color: WX_META[m.wx].color }"
-              >
-{{ WX_META[m.wx].name }}运
-</text
-            >
+            <text class="m-name" :style="{ color: WX_META[m.wx].color }">
+              {{ WX_META[m.wx].name }}运
+            </text>
             <text class="m-prin">{{ m.principle }}</text>
             <text class="m-days">{{ m.days }} · 主病：{{ m.health }}</text>
           </view>

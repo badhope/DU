@@ -73,10 +73,8 @@
         <view class="qian-head" :style="{ background: levelColor(qian.level) }">
           <text class="qian-num">第 {{ qian.num }} 签</text>
           <text class="qian-level" :style="{ borderColor: levelTextColor(qian.level) }">
-{{
-            qian.level
-          }}
-</text>
+            {{ qian.level }}
+          </text>
         </view>
         <view class="qian-body">
           <text class="qian-title">{{ qian.title }}</text>
@@ -86,13 +84,10 @@
               v-show="line"
               :key="i"
               class="poem-line"
-              >
-{{ line.trim()
-              }}{{
-                i < qian.poem.split(/[，。]/).length - 1 ? (i % 2 === 0 ? '，' : '。') : ''
-              }}
-</text
             >
+              {{ line.trim()
+              }}{{ i < qian.poem.split(/[，。]/).length - 1 ? (i % 2 === 0 ? '，' : '。') : '' }}
+            </text>
           </view>
           <text class="qian-inter">· 解：{{ qian.interpretation }}</text>
 

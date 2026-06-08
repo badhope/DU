@@ -90,11 +90,9 @@
       </view>
       <view class="header card-mystic anim-fade-up">
         <text class="hd-sn">{{ result.surname }} 氏</text>
-        <text class="hd-gen"
-          >
-第 {{ result.currentGen }} 世 · 字辈「{{ result.currentZibei }}」
-</text
-        >
+        <text class="hd-gen">
+          第 {{ result.currentGen }} 世 · 字辈「{{ result.currentZibei }}」
+        </text>
         <text class="hd-poem">{{ result.poem }}</text>
       </view>
 
@@ -159,7 +157,7 @@ function onPickSurname(e: any) {
   form.surname = SURNAME_LIST[e.detail.value]
 }
 function onPick(k: string, e: any) {
-  (form as any)[k] = Number(e.detail.value)
+  ;(form as any)[k] = Number(e.detail.value)
 }
 function onPickGender(e: any) {
   form.gender = e.detail.value === 0 ? '男' : '女'

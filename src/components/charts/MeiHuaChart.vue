@@ -167,40 +167,30 @@
         <view class="hr-cell">
           <text class="hrc-label">主卦</text>
           <text class="hrc-symbol" :style="{ color: result.upper.color }">
-{{
-            result.upper.symbol
-          }}
-</text>
+            {{ result.upper.symbol }}
+          </text>
           <text class="hrc-name" :style="{ color: result.upper.color }">
-{{
-            result.upper.name
-          }}
-</text>
+            {{ result.upper.name }}
+          </text>
           <text class="hrc-wx">{{ result.upper.wuxing }}</text>
         </view>
         <text class="hex-sep">+</text>
         <view class="hr-cell">
           <text class="hrc-label">下卦</text>
           <text class="hrc-symbol" :style="{ color: result.lower.color }">
-{{
-            result.lower.symbol
-          }}
-</text>
+            {{ result.lower.symbol }}
+          </text>
           <text class="hrc-name" :style="{ color: result.lower.color }">
-{{
-            result.lower.name
-          }}
-</text>
+            {{ result.lower.name }}
+          </text>
           <text class="hrc-wx">{{ result.lower.wuxing }}</text>
         </view>
         <text class="hex-sep">→</text>
         <view class="hr-cell">
           <text class="hrc-label">变卦</text>
           <text class="hrc-symbol" :style="{ color: result.bian.color }">
-{{
-            result.bian.symbol
-          }}
-</text>
+            {{ result.bian.symbol }}
+          </text>
           <text class="hrc-name" :style="{ color: result.bian.color }">{{ result.bian.name }}</text>
           <text class="hrc-wx">{{ result.bian.wuxing }}</text>
         </view>
@@ -214,11 +204,9 @@
       <view class="s-grid">
         <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>

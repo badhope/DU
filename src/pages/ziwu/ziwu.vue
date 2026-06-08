@@ -22,30 +22,24 @@
     <view v-if="tab === 'now'" class="now-card card-mystic anim-fade-up">
       <text class="now-time">{{ currentTime }}</text>
       <text class="now-zhi">· {{ currentJing.zhiName }}（{{ currentJing.shengxiao }}时）·</text>
-      <text class="now-jing" :style="{ color: '#D4AF37' }"
-        >
-{{ currentJing.jingluoName }}（{{ currentJing.organ }}）
-</text
-      >
+      <text class="now-jing" :style="{ color: '#D4AF37' }">
+        {{ currentJing.jingluoName }}（{{ currentJing.organ }}）
+      </text>
       <text class="now-state">{{ currentJing.qiState }}：{{ currentJing.principle }}</text>
       <view class="now-bests">
         <text class="nb-title">· 宜</text>
         <view class="nb-tags">
           <text v-for="(b, i) in currentJing.bestActivity" :key="i" class="nb-tag good">
-{{
-            b
-          }}
-</text>
+            {{ b }}
+          </text>
         </view>
       </view>
       <view class="now-bests">
         <text class="nb-title bad">· 忌</text>
         <view class="nb-tags">
           <text v-for="(a, i) in currentJing.avoidActivity" :key="i" class="nb-tag bad">
-{{
-            a
-          }}
-</text>
+            {{ a }}
+          </text>
         </view>
       </view>
       <view v-if="lgPoint.acupoint" class="linggui">
@@ -81,31 +75,23 @@
           </view>
           <view class="z-body">
             <view class="z-info">
-              <text
-                class="z-jlname"
-                :style="{ color: z.qiState === '旺' ? '#4FAE6F' : '#D4AF37' }"
-                >
-{{ z.jingluoName }}
-</text
-              >
+              <text class="z-jlname" :style="{ color: z.qiState === '旺' ? '#4FAE6F' : '#D4AF37' }">
+                {{ z.jingluoName }}
+              </text>
               <text class="z-organ">（{{ z.organ }}）</text>
             </view>
             <text class="z-prin">{{ z.principle }}</text>
             <view class="z-act">
               <text class="act-label">宜</text>
               <text v-for="(b, k) in z.bestActivity" :key="'b' + k" class="act-tag good">
-{{
-                b
-              }}
-</text>
+                {{ b }}
+              </text>
             </view>
             <view class="z-act">
               <text class="act-label">忌</text>
               <text v-for="(a, k) in z.avoidActivity" :key="'a' + k" class="act-tag bad">
-{{
-                a
-              }}
-</text>
+                {{ a }}
+              </text>
             </view>
           </view>
         </view>
@@ -117,11 +103,9 @@
       <text class="table-title">· 灵龟八法 · 八脉交会</text>
       <view class="lg-intro card-mystic">
         <text class="lg-info-title">· 八法流注</text>
-        <text class="lg-info-text"
-          >
-灵龟八法按八脉交会穴按时辰顺序开阖，每 2 小时轮换一穴，临床用于按时取穴。
-</text
-        >
+        <text class="lg-info-text">
+          灵龟八法按八脉交会穴按时辰顺序开阖，每 2 小时轮换一穴，临床用于按时取穴。
+        </text>
       </view>
       <view class="lg-grid">
         <view

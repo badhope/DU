@@ -92,11 +92,9 @@
           <text class="gc-label">本 卦</text>
           <text class="gc-name">{{ result.benGua.name }}</text>
           <text class="gc-symbol">{{ result.benGua.symbol }}</text>
-          <text class="gc-meta"
-            >
-{{ result.benGua.palaceName }} · 世在第{{ result.benGua.shiPos }}爻
-</text
-          >
+          <text class="gc-meta">
+            {{ result.benGua.palaceName }} · 世在第{{ result.benGua.shiPos }}爻
+          </text>
           <view class="yao-stack">
             <view v-for="(y, i) in result.benGua.yaoList" :key="i" class="yao-row">
               <text class="y-pos">{{ y.pos }}爻</text>
@@ -171,23 +169,19 @@
         <text class="ct-title">· 用 神 与 伏 神</text>
         <view class="ys-block">
           <text class="ys-label">用神</text>
-          <text class="ys-name"
-            >
-{{ result.yongshen.name
+          <text class="ys-name">
+            {{ result.yongshen.name
             }}{{
               result.yongshen.yaoPos
                 ? ' · 立于第 ' + result.yongshen.yaoPos + ' 爻'
                 : ' · 卦中无此用神'
             }}
-</text
-          >
+          </text>
           <text class="ys-reason">{{ result.yongshen.reason }}</text>
           <view class="ys-status-row">
             <text class="ys-status" :class="`ys-status-${result.yongshen.status}`">
-{{
-              result.yongshen.status
-            }}
-</text>
+              {{ result.yongshen.status }}
+            </text>
             <text class="ys-status-desc">{{ result.yongshen.statusDesc }}</text>
           </view>
         </view>
@@ -212,40 +206,32 @@
             <text class="ls-label">流 年</text>
             <text class="ls-zhi">{{ result.liushi.year.zhi }}</text>
             <text class="ls-yao">
-{{
-              result.liushi.year.yaoPos ? '第 ' + result.liushi.year.yaoPos + ' 爻' : '无'
-            }}
-</text>
+              {{ result.liushi.year.yaoPos ? '第 ' + result.liushi.year.yaoPos + ' 爻' : '无' }}
+            </text>
             <text class="ls-text">{{ result.liushi.year.text }}</text>
           </view>
           <view class="ls-item">
             <text class="ls-label">流 月</text>
             <text class="ls-zhi">{{ result.liushi.month.zhi }}</text>
             <text class="ls-yao">
-{{
-              result.liushi.month.yaoPos ? '第 ' + result.liushi.month.yaoPos + ' 爻' : '无'
-            }}
-</text>
+              {{ result.liushi.month.yaoPos ? '第 ' + result.liushi.month.yaoPos + ' 爻' : '无' }}
+            </text>
             <text class="ls-text">{{ result.liushi.month.text }}</text>
           </view>
           <view class="ls-item">
             <text class="ls-label">流 日</text>
             <text class="ls-zhi">{{ result.liushi.day.zhi }}</text>
             <text class="ls-yao">
-{{
-              result.liushi.day.yaoPos ? '第 ' + result.liushi.day.yaoPos + ' 爻' : '无'
-            }}
-</text>
+              {{ result.liushi.day.yaoPos ? '第 ' + result.liushi.day.yaoPos + ' 爻' : '无' }}
+            </text>
             <text class="ls-text">{{ result.liushi.day.text }}</text>
           </view>
           <view class="ls-item">
             <text class="ls-label">流 时</text>
             <text class="ls-zhi">{{ result.liushi.hour.zhi }}</text>
             <text class="ls-yao">
-{{
-              result.liushi.hour.yaoPos ? '第 ' + result.liushi.hour.yaoPos + ' 爻' : '无'
-            }}
-</text>
+              {{ result.liushi.hour.yaoPos ? '第 ' + result.liushi.hour.yaoPos + ' 爻' : '无' }}
+            </text>
             <text class="ls-text">{{ result.liushi.hour.text }}</text>
           </view>
         </view>
@@ -350,10 +336,9 @@
             class="ac-btn ac-btn-primary"
             :class="{ disabled: !newUserName.trim() }"
             @click="confirmAddUser"
-            >
-添 加
-</view
           >
+            添 加
+          </view>
         </view>
       </view>
     </view>

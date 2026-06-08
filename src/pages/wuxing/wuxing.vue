@@ -88,10 +88,9 @@
         class="tab"
         :class="{ active: tab === t.key }"
         @click="tab = t.key as any"
-        >
-{{ t.label }}
-</view
       >
+        {{ t.label }}
+      </view>
     </view>
 
     <!-- 基础信息 -->
@@ -141,10 +140,8 @@
           </view>
           <view class="mr-target">
             <text class="mr-glyph" :style="{ color: WUXING_META[r.target].color }">
-{{
-              WUXING_META[r.target].name
-            }}
-</text>
+              {{ WUXING_META[r.target].name }}
+            </text>
           </view>
         </view>
       </view>

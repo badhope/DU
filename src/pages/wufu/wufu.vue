@@ -18,10 +18,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -90,11 +89,9 @@
           <view class="ov-info">
             <text class="ov-level title-mystic">{{ result.level }}</text>
             <text class="ov-nayin">{{ result.nayin.name }} · {{ result.nayin.desc }}</text>
-            <text class="ov-strength"
-              >
-日主 {{ WX_META[result.strength.yong].name }}（{{ result.strength.level }}）
-</text
-            >
+            <text class="ov-strength">
+              日主 {{ WX_META[result.strength.yong].name }}（{{ result.strength.level }}）
+            </text>
           </view>
         </view>
         <text class="ov-summary">{{ result.summary }}</text>
@@ -159,11 +156,9 @@
           <text class="pk-title">· 最佳五年</text>
           <view v-for="(b, i) in result.bestAges" :key="'b' + i" class="pk-row">
             <text class="pk-age">{{ b.age }} 岁</text>
-            <text class="pk-key" :style="{ color: fuColor(b.type) }"
-              >
-{{ FU_LABEL[b.type] }}最盛
-</text
-            >
+            <text class="pk-key" :style="{ color: fuColor(b.type) }">
+              {{ FU_LABEL[b.type] }}最盛
+            </text>
             <text class="pk-desc">{{ b.desc }}</text>
           </view>
         </view>
@@ -171,11 +166,9 @@
           <text class="pk-title">· 最弱五年</text>
           <view v-for="(w, i) in result.worstAges" :key="'w' + i" class="pk-row worst">
             <text class="pk-age">{{ w.age }} 岁</text>
-            <text class="pk-key" :style="{ color: fuColor(w.type) }"
-              >
-{{ FU_LABEL[w.type] }}最弱
-</text
-            >
+            <text class="pk-key" :style="{ color: fuColor(w.type) }">
+              {{ FU_LABEL[w.type] }}最弱
+            </text>
             <text class="pk-desc">{{ w.desc }}</text>
           </view>
         </view>

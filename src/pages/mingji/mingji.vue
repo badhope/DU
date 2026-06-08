@@ -23,10 +23,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -39,9 +38,8 @@
       </view>
     </view>
 
-    <view v-if="result" class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-if="result" class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 用户切换器 -->
         <view class="card card-mystic card-hoverable anim-fade-up" style="margin-bottom: 16rpx">
           <UserSwitcher :tool="toolKey" @addUser="cd.onAddUser" @select="cd.switchUser" />
@@ -55,12 +53,10 @@
         <view class="overall card-mystic card-hoverable anim-fade-up">
           <text class="ov-name">{{ result.name }}</text>
           <view class="ov-row">
-            <view class="ov-num"
-              >
-<text class="ov-val">{{ result.score }}</text
+            <view class="ov-num">
+              <text class="ov-val">{{ result.score }}</text
               ><text class="ov-unit">/ 100</text>
-</view
-            >
+            </view>
             <text class="ov-level" :class="'lv-' + result.level">{{ result.level }}</text>
           </view>
           <text class="ov-sum">{{ result.summary }}</text>
@@ -72,10 +68,8 @@
             <view v-for="(c, i) in charList" :key="i" class="char-cell">
               <text class="char-glyph">{{ c.ch }}</text>
               <text class="char-el" :style="{ color: WX_META[c.wx].color }">
-{{
-                WX_META[c.wx].name
-              }}
-</text>
+                {{ WX_META[c.wx].name }}
+              </text>
               <text class="char-type">{{ c.type }}</text>
             </view>
           </view>
@@ -116,11 +110,9 @@
           <text class="card-title title-mystic">五 行 平 衡</text>
           <view v-for="(c, k) in balanceList" :key="k" class="bal-row">
             <text class="bal-name" :style="{ color: c.color }">{{ c.name }}</text>
-            <view class="bal-bar"
-              >
-<view class="bal-fill" :style="{ width: c.percent + '%', background: c.color }"
-            />
-</view>
+            <view class="bal-bar">
+              <view class="bal-fill" :style="{ width: c.percent + '%', background: c.color }" />
+            </view>
             <text class="bal-val">{{ c.count }} / {{ result.totalStrokes }}</text>
           </view>
           <text class="bal-advice">· {{ result.advice }}</text>

@@ -29,10 +29,9 @@
             class="t-btn"
             :class="{ active: times === t }"
             @click="times = t"
-            >
-{{ t }} 次
-</view
           >
+            {{ t }} 次
+          </view>
         </view>
       </view>
 

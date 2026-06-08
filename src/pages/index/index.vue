@@ -67,10 +67,9 @@
           <view
             class="entry-glyph"
             :style="{ color: cat.accent, textShadow: '0 0 16rpx ' + cat.accent }"
-            >
-{{ cat.glyph }}
-</view
           >
+            {{ cat.glyph }}
+          </view>
           <view class="entry-body">
             <text class="entry-name" :style="{ color: cat.accent }">{{ cat.name }}</text>
             <text class="entry-sub">{{ cat.subtitle }}</text>

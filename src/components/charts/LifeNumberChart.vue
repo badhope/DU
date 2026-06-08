@@ -139,51 +139,32 @@
         <text class="dh-num" :style="{ color: selectedMeta.color }">{{ selectedMeta.num }}</text>
         <view>
           <text class="dh-name">{{ selectedMeta.name }}</text>
-          <text class="dh-glyph"
-            >
-{{ selectedMeta.glyph }} · {{ selectedMeta.element }} · 守护
+          <text class="dh-glyph">
+            {{ selectedMeta.glyph }} · {{ selectedMeta.element }} · 守护
             {{ selectedMeta.planet }}
-</text
-          >
+          </text>
         </view>
       </view>
       <view class="detail-grid">
-        <view class="dg-cell"
-          >
-<text class="dg-l">德性</text><text class="dg-v">{{ selectedMeta.virtue }}</text>
-</view
-        >
-        <view class="dg-cell"
-          >
-<text class="dg-l">缺陷</text><text class="dg-v">{{ selectedMeta.flaw }}</text>
-</view
-        >
-        <view class="dg-cell"
-          >
-<text class="dg-l">事业</text><text class="dg-v">{{ selectedMeta.career }}</text>
-</view
-        >
-        <view class="dg-cell"
-          >
-<text class="dg-l">婚恋</text
-          ><text class="dg-v">{{ selectedMeta.relationship }}</text>
-</view
-        >
-        <view class="dg-cell"
-          >
-<text class="dg-l">健康</text><text class="dg-v">{{ selectedMeta.health }}</text>
-</view
-        >
-        <view class="dg-cell"
-          >
-<text class="dg-l">幸运</text
-          ><text class="dg-v"
-            >
-{{ selectedMeta.luckyColor }} · {{ selectedMeta.luckyDay }}
-</text
-          >
-</view
-        >
+        <view class="dg-cell">
+          <text class="dg-l">德性</text><text class="dg-v">{{ selectedMeta.virtue }}</text>
+        </view>
+        <view class="dg-cell">
+          <text class="dg-l">缺陷</text><text class="dg-v">{{ selectedMeta.flaw }}</text>
+        </view>
+        <view class="dg-cell">
+          <text class="dg-l">事业</text><text class="dg-v">{{ selectedMeta.career }}</text>
+        </view>
+        <view class="dg-cell">
+          <text class="dg-l">婚恋</text><text class="dg-v">{{ selectedMeta.relationship }}</text>
+        </view>
+        <view class="dg-cell">
+          <text class="dg-l">健康</text><text class="dg-v">{{ selectedMeta.health }}</text>
+        </view>
+        <view class="dg-cell">
+          <text class="dg-l">幸运</text
+          ><text class="dg-v"> {{ selectedMeta.luckyColor }} · {{ selectedMeta.luckyDay }} </text>
+        </view>
       </view>
       <text class="detail-desc">{{ selectedMeta.description }}</text>
     </view>

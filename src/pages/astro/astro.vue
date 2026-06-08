@@ -83,10 +83,9 @@
             <text
               class="b3-glyph"
               :style="{ color: b.meta.color, textShadow: `0 0 20rpx ${b.meta.color}` }"
-              >
-{{ b.meta.glyph }}
-</text
             >
+              {{ b.meta.glyph }}
+            </text>
             <text class="b3-name" :style="{ color: b.meta.color }">{{ b.sign }}</text>
             <text class="b3-elem">{{ b.meta.element }} · {{ b.meta.quality }}</text>
             <text class="b3-ruler">守护 · {{ b.meta.ruler }}</text>
@@ -100,9 +99,8 @@
         <view class="elem-list">
           <view v-for="(c, k) in result.elementCounts" :key="k" class="elem-row">
             <text class="er-name">{{ k }}</text>
-            <view class="er-bar"
-              >
-<view
+            <view class="er-bar">
+              <view
                 class="er-fill"
                 :style="{
                   width: c * 18 + '%',
@@ -115,16 +113,14 @@
                           ? '#D4AF37'
                           : '#1B3A5C',
                 }"
-            />
-</view>
+              />
+            </view>
             <text class="er-num">{{ c }}</text>
           </view>
         </view>
-        <text class="dominant"
-          >
-主导元素：{{ result.dominantElement }} · 主导性质：{{ result.dominantQuality }}
-</text
-        >
+        <text class="dominant">
+          主导元素：{{ result.dominantElement }} · 主导性质：{{ result.dominantQuality }}
+        </text>
       </view>
 
       <!-- 10 行星 -->
@@ -134,10 +130,8 @@
           <view v-for="(p, i) in result.planets" :key="i" class="pl-row">
             <text class="pl-name">{{ p.name }}</text>
             <text class="pl-glyph" :style="{ color: ZODIAC_META[p.sign].color }">
-{{
-              ZODIAC_META[p.sign].glyph
-            }}
-</text>
+              {{ ZODIAC_META[p.sign].glyph }}
+            </text>
             <text class="pl-sign" :style="{ color: ZODIAC_META[p.sign].color }">{{ p.sign }}</text>
             <text v-if="p.retrograde" class="pl-rx">逆行</text>
             <text class="pl-mean">{{ p.meaning }}</text>
@@ -150,11 +144,9 @@
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-row">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>

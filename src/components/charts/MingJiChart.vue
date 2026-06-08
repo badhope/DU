@@ -109,40 +109,28 @@
     <view class="mjc-ge card-mystic">
       <text class="b-title title-mystic">三 才 五 格</text>
       <view class="ge-row">
-        <view class="ge-cell"
-          >
-<text class="gc-l">天格</text><text class="gc-v">{{ result.wuGe.tianGe }}</text>
-</view
-        >
-        <view class="ge-cell primary"
-          >
-<text class="gc-l">人格</text><text class="gc-v">{{ result.wuGe.renGe }}</text>
-</view
-        >
-        <view class="ge-cell"
-          >
-<text class="gc-l">地格</text><text class="gc-v">{{ result.wuGe.diGe }}</text>
-</view
-        >
-        <view class="ge-cell"
-          >
-<text class="gc-l">外格</text><text class="gc-v">{{ result.wuGe.waiGe }}</text>
-</view
-        >
-        <view class="ge-cell primary"
-          >
-<text class="gc-l">总格</text><text class="gc-v">{{ result.wuGe.zongGe }}</text>
-</view
-        >
+        <view class="ge-cell">
+          <text class="gc-l">天格</text><text class="gc-v">{{ result.wuGe.tianGe }}</text>
+        </view>
+        <view class="ge-cell primary">
+          <text class="gc-l">人格</text><text class="gc-v">{{ result.wuGe.renGe }}</text>
+        </view>
+        <view class="ge-cell">
+          <text class="gc-l">地格</text><text class="gc-v">{{ result.wuGe.diGe }}</text>
+        </view>
+        <view class="ge-cell">
+          <text class="gc-l">外格</text><text class="gc-v">{{ result.wuGe.waiGe }}</text>
+        </view>
+        <view class="ge-cell primary">
+          <text class="gc-l">总格</text><text class="gc-v">{{ result.wuGe.zongGe }}</text>
+        </view>
       </view>
       <view class="ge-meta">
         <text class="gm-l">三才：</text><text class="gm-v">{{ result.wuGe.sanCai }}</text>
         <text class="gm-l gm-l2">吉凶：</text
         ><text class="gm-v" :style="{ color: jiColor(result.wuGe.jiXiong) }">
-{{
-          result.wuGe.jiXiong
-        }}
-</text>
+          {{ result.wuGe.jiXiong }}
+        </text>
       </view>
       <text class="gm-desc">{{ result.wuGe.desc }}</text>
     </view>
@@ -154,11 +142,9 @@
         <view v-for="(c, i) in result.name.split('')" :key="i" class="rad-cell">
           <text class="rc-char" :style="{ color: charColor(i) }">{{ c }}</text>
           <text class="rc-st">笔画 {{ strokes[i] }}</text>
-          <text class="rc-wx" :style="{ color: charColor(i) }"
-            >
-{{ wxName(result.charWx[i]) }}行
-</text
-          >
+          <text class="rc-wx" :style="{ color: charColor(i) }">
+            {{ wxName(result.charWx[i]) }}行
+          </text>
         </view>
       </view>
     </view>

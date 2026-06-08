@@ -80,41 +80,29 @@
           <view class="ty-cell" :style="{ borderColor: WX_META[result.ti.wuxing].color }">
             <text class="ty-name">体 卦</text>
             <text class="ty-sym" :style="{ color: WX_META[result.ti.wuxing].color }">
-{{
-              result.ti.symbol
-            }}
-</text>
-            <text class="ty-wx" :style="{ color: WX_META[result.ti.wuxing].color }"
-              >
-{{ result.ti.name }} ({{ WX_META[result.ti.wuxing].name }})
-</text
-            >
+              {{ result.ti.symbol }}
+            </text>
+            <text class="ty-wx" :style="{ color: WX_META[result.ti.wuxing].color }">
+              {{ result.ti.name }} ({{ WX_META[result.ti.wuxing].name }})
+            </text>
           </view>
           <view class="ty-cell" :style="{ borderColor: WX_META[result.yong.wuxing].color }">
             <text class="ty-name">用 卦</text>
             <text class="ty-sym" :style="{ color: WX_META[result.yong.wuxing].color }">
-{{
-              result.yong.symbol
-            }}
-</text>
-            <text class="ty-wx" :style="{ color: WX_META[result.yong.wuxing].color }"
-              >
-{{ result.yong.name }} ({{ WX_META[result.yong.wuxing].name }})
-</text
-            >
+              {{ result.yong.symbol }}
+            </text>
+            <text class="ty-wx" :style="{ color: WX_META[result.yong.wuxing].color }">
+              {{ result.yong.name }} ({{ WX_META[result.yong.wuxing].name }})
+            </text>
           </view>
           <view class="ty-cell" :style="{ borderColor: WX_META[result.bian.wuxing].color }">
             <text class="ty-name">变 卦</text>
             <text class="ty-sym" :style="{ color: WX_META[result.bian.wuxing].color }">
-{{
-              result.bian.symbol
-            }}
-</text>
-            <text class="ty-wx" :style="{ color: WX_META[result.bian.wuxing].color }"
-              >
-{{ result.bian.name }} ({{ WX_META[result.bian.wuxing].name }})
-</text
-            >
+              {{ result.bian.symbol }}
+            </text>
+            <text class="ty-wx" :style="{ color: WX_META[result.bian.wuxing].color }">
+              {{ result.bian.name }} ({{ WX_META[result.bian.wuxing].name }})
+            </text>
           </view>
         </view>
         <text class="ty-inter">{{ result.interpretation }}</text>
@@ -126,11 +114,9 @@
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-cell">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>

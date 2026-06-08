@@ -136,11 +136,9 @@
       </view>
       <view class="poem-tag">
         <text class="pt-l">当前世代：</text>
-        <text class="pt-v" style="color: #d4af37"
-          >
-{{ result.currentGen }} 世（{{ result.currentZibei }}字辈）
-</text
-        >
+        <text class="pt-v" style="color: #d4af37">
+          {{ result.currentGen }} 世（{{ result.currentZibei }}字辈）
+        </text>
       </view>
     </view>
 

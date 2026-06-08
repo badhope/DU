@@ -9,31 +9,23 @@
     <view v-if="profile" class="form card-mystic anim-fade-up">
       <view class="form-avatar">
         <text class="ava-glyph">
-{{
-          profile.gender === 'female' ? '♀' : profile.gender === 'male' ? '♂' : '☉'
-        }}
-</text>
+          {{ profile.gender === 'female' ? '♀' : profile.gender === 'male' ? '♂' : '☉' }}
+        </text>
       </view>
       <text class="form-name">{{ profile.nickname }}</text>
       <text class="form-time">建档于 {{ formatDate(profile.createdAt) }}</text>
       <view class="form-info">
-        <text class="fi-row"
-          >
-📅 {{ profile.birthYear }}年{{ profile.birthMonth }}月{{ profile.birthDay }}日
+        <text class="fi-row">
+          📅 {{ profile.birthYear }}年{{ profile.birthMonth }}月{{ profile.birthDay }}日
           {{ profile.birthHour }}:00
-</text
-        >
-        <text class="fi-row"
-          >
-📍 {{ profile.birthplace || '未填' }} · 经度 {{ profile.longitude }}°E
-</text
-        >
-        <text class="fi-row"
-          >
-👤
+        </text>
+        <text class="fi-row">
+          📍 {{ profile.birthplace || '未填' }} · 经度 {{ profile.longitude }}°E
+        </text>
+        <text class="fi-row">
+          👤
           {{ profile.gender === 'male' ? '男' : profile.gender === 'female' ? '女' : '其他' }}
-</text
-        >
+        </text>
       </view>
       <view class="menu-item" @click="goTo('users')">
         <text class="mi-glyph">👥</text>
@@ -67,10 +59,9 @@
             class="g-btn"
             :class="{ active: form.gender === g.value }"
             @click="form.gender = g.value as any"
-            >
-{{ g.label }}
-</view
           >
+            {{ g.label }}
+          </view>
         </view>
       </view>
       <view class="form-row">

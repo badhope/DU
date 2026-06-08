@@ -226,15 +226,11 @@
         <text class="yh-l">用神：</text>
         <text class="yh-v">{{ result.yongshen.name }}</text>
         <text class="yh-pos">
-{{
-          result.yongshen.yaoPos ? `立第 ${result.yongshen.yaoPos} 爻` : '卦中无此爻'
-        }}
-</text>
+          {{ result.yongshen.yaoPos ? `立第 ${result.yongshen.yaoPos} 爻` : '卦中无此爻' }}
+        </text>
         <text class="yh-st" :style="{ color: statusColor(result.yongshen.status) }">
-{{
-          result.yongshen.status
-        }}
-</text>
+          {{ result.yongshen.status }}
+        </text>
       </view>
       <text class="ys-reason">{{ result.yongshen.statusDesc }}</text>
     </view>
@@ -244,11 +240,9 @@
       <text class="b-title title-mystic">五 维 评 分</text>
       <view v-for="(f, k) in fortunesList" :key="k" class="fort-row">
         <text class="fr-l">{{ f.label }}</text>
-        <view class="fr-bar"
-          >
-<view class="fr-fill" :style="{ width: f.score + '%', background: f.color }"
-        />
-</view>
+        <view class="fr-bar">
+          <view class="fr-fill" :style="{ width: f.score + '%', background: f.color }" />
+        </view>
         <text class="fr-v" :style="{ color: f.color }">{{ f.score }}</text>
         <text class="fr-t" :style="{ color: f.color }">{{ f.text }}</text>
       </view>

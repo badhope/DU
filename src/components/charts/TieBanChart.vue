@@ -126,27 +126,18 @@
 
     <view class="tbc-card card-mystic">
       <text class="b-title title-mystic">本 卦 详 解</text>
-      <view class="d-row"
-        >
-<text class="dr-l">事业</text><text class="dr-v">{{ result.benGua.career }}</text>
-</view
-      >
-      <view class="d-row"
-        >
-<text class="dr-l">财运</text><text class="dr-v">{{ result.benGua.wealth }}</text>
-</view
-      >
-      <view class="d-row"
-        >
-<text class="dr-l">六亲</text
-        ><text class="dr-v">{{ result.benGua.relationship }}</text>
-</view
-      >
-      <view class="d-row"
-        >
-<text class="dr-l">健康</text><text class="dr-v">{{ result.benGua.health }}</text>
-</view
-      >
+      <view class="d-row">
+        <text class="dr-l">事业</text><text class="dr-v">{{ result.benGua.career }}</text>
+      </view>
+      <view class="d-row">
+        <text class="dr-l">财运</text><text class="dr-v">{{ result.benGua.wealth }}</text>
+      </view>
+      <view class="d-row">
+        <text class="dr-l">六亲</text><text class="dr-v">{{ result.benGua.relationship }}</text>
+      </view>
+      <view class="d-row">
+        <text class="dr-l">健康</text><text class="dr-v">{{ result.benGua.health }}</text>
+      </view>
     </view>
 
     <view class="tbc-year card-mystic">

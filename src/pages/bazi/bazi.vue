@@ -72,10 +72,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -91,18 +90,15 @@
     </view>
 
     <!-- 排盘结果 -->
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <view class="bazi-card card-mystic anim-fade-up card-hoverable">
           <text class="result-title title-mystic">命 盘</text>
-          <text class="result-sub"
-            >
-{{ form.year }}年{{ form.month }}月{{ form.day }}日 · {{ hourZhiName }} · 真太阳时{{
+          <text class="result-sub">
+            {{ form.year }}年{{ form.month }}月{{ form.day }}日 · {{ hourZhiName }} · 真太阳时{{
               trueSolar.label
             }}
-</text
-          >
+          </text>
 
           <!-- 四柱：横排 -->
           <view class="pillars">
@@ -131,10 +127,8 @@
                 <view v-for="(c, j) in p.canggan" :key="j" class="cang-row">
                   <text class="cang-level" :class="'lv-' + c.level">{{ c.level }}</text>
                   <text class="cang-gan" :style="{ color: WUXING_META[c.wuxing].color }">
-{{
-                    c.gan
-                  }}
-</text>
+                    {{ c.gan }}
+                  </text>
                 </view>
               </view>
             </view>

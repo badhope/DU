@@ -1,10 +1,8 @@
 <template>
   <view class="tw-wrap">
-    <text class="tw-text" :class="['tw-' + theme]"
-      >
-{{ shown }}<text v-if="showCursor" class="tw-cursor"
-    />
-</text>
+    <text class="tw-text" :class="['tw-' + theme]">
+      {{ shown }}<text v-if="showCursor" class="tw-cursor" />
+    </text>
   </view>
 </template>
 

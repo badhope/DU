@@ -62,9 +62,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 铁板神数可视化 -->
         <view class="card card-mystic card-hoverable anim-fade-up" style="animation-delay: 0.04s">
           <TieBanChart :result="result" />
@@ -79,10 +78,8 @@
           <view class="score-row">
             <text class="sc-label">总评</text>
             <text class="sc-num" :style="{ color: scoreColor(result.score) }">
-{{
-              result.score
-            }}
-</text>
+              {{ result.score }}
+            </text>
             <text class="sc-max">/ 100</text>
           </view>
         </view>
@@ -121,11 +118,9 @@
             <view v-for="(q, i) in result.liuQin" :key="i" class="lq-row">
               <text class="lq-key">{{ q.label }}</text>
               <text class="lq-num">{{ q.num }}</text>
-              <text class="lq-gua" :style="{ color: scoreColor(q.gua.score) }"
-                >
-{{ q.gua.trigram }} {{ q.gua.name }}
-</text
-              >
+              <text class="lq-gua" :style="{ color: scoreColor(q.gua.score) }">
+                {{ q.gua.trigram }} {{ q.gua.name }}
+              </text>
               <text class="lq-poem">{{ q.gua.poem }}</text>
             </view>
           </view>
@@ -151,8 +146,7 @@
           <view class="btn-liu" @click="result = null">重 新 推 算</view>
         </view>
       </ResultReveal>
-</view
-    >
+    </view>
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
       :show-cooldown="cd.showCooldown.value"

@@ -10,16 +10,12 @@
         <view class="cd-msg">
           <text class="msg-line msg-name">「{{ record?.userName || '' }}」</text>
           <text class="msg-line msg-date">今日（{{ friendlyDate(record?.date || '') }}）</text>
-          <text class="msg-line msg-tool"
-            >
-已测 <text class="hl">{{ record?.toolName }}</text>
-</text
-          >
-          <text class="msg-line msg-brief"
-            >
-结果：<text class="hl-brief">{{ record?.brief }}</text>
-</text
-          >
+          <text class="msg-line msg-tool">
+            已测 <text class="hl">{{ record?.toolName }}</text>
+          </text>
+          <text class="msg-line msg-brief">
+            结果：<text class="hl-brief">{{ record?.brief }}</text>
+          </text>
         </view>
 
         <view class="cd-tip">

@@ -54,36 +54,27 @@
     <view v-else class="result">
       <view class="kin-card card-mystic anim-fade-up" :style="{ borderColor: result.sealColor }">
         <text class="kin-num">Kin {{ result.kin }}</text>
-        <text class="kin-tone" :style="{ color: result.toneColor }"
-          >
-{{ result.tone }} · {{ result.toneName }}
-</text
-        >
+        <text class="kin-tone" :style="{ color: result.toneColor }">
+          {{ result.tone }} · {{ result.toneName }}
+        </text>
         <text
           class="kin-glyph"
           :style="{ color: result.sealColor, textShadow: `0 0 20rpx ${result.sealColor}` }"
-          >
-{{ result.sealGlyph }}
-</text
         >
+          {{ result.sealGlyph }}
+        </text>
         <text class="kin-seal" :style="{ color: result.sealColor }">{{ result.sealName }}</text>
         <text class="kin-meaning">{{ result.sealMeaning }} · {{ result.toneMeaning }}</text>
         <view class="kin-stats">
-          <text class="ks-row"
-            >
-<text class="ks-k">力量</text><text class="ks-v">{{ result.sealPower }}</text>
-</text
-          >
-          <text class="ks-row"
-            >
-<text class="ks-k">行动</text><text class="ks-v">{{ result.sealAction }}</text>
-</text
-          >
-          <text class="ks-row"
-            >
-<text class="ks-k">本质</text><text class="ks-v">{{ result.sealEssence }}</text>
-</text
-          >
+          <text class="ks-row">
+            <text class="ks-k">力量</text><text class="ks-v">{{ result.sealPower }}</text>
+          </text>
+          <text class="ks-row">
+            <text class="ks-k">行动</text><text class="ks-v">{{ result.sealAction }}</text>
+          </text>
+          <text class="ks-row">
+            <text class="ks-k">本质</text><text class="ks-v">{{ result.sealEssence }}</text>
+          </text>
         </view>
       </view>
 
@@ -101,11 +92,9 @@
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-row">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>
@@ -123,10 +112,9 @@
             <text
               class="wv-glyph"
               :style="{ color: MAYA_SEAL_META[s as keyof typeof MAYA_SEAL_META]?.color }"
-              >
-{{ MAYA_SEAL_META[s as keyof typeof MAYA_SEAL_META]?.glyph }}
-</text
             >
+              {{ MAYA_SEAL_META[s as keyof typeof MAYA_SEAL_META]?.glyph }}
+            </text>
             <text class="wv-name">{{ s }}</text>
           </view>
         </view>

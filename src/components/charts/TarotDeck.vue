@@ -2,21 +2,15 @@
   <view class="tdc">
     <!-- 牌阵类型选择 -->
     <view class="tdc-bar">
-      <view class="sp-btn" :class="{ active: spread === 'three' }" @click="spread = 'three'"
-        >
-三牌阵
-</view
-      >
-      <view class="sp-btn" :class="{ active: spread === 'celtic' }" @click="spread = 'celtic'"
-        >
-凯尔特
-</view
-      >
-      <view class="sp-btn" :class="{ active: spread === 'cross' }" @click="spread = 'cross'"
-        >
-十字阵
-</view
-      >
+      <view class="sp-btn" :class="{ active: spread === 'three' }" @click="spread = 'three'">
+        三牌阵
+      </view>
+      <view class="sp-btn" :class="{ active: spread === 'celtic' }" @click="spread = 'celtic'">
+        凯尔特
+      </view>
+      <view class="sp-btn" :class="{ active: spread === 'cross' }" @click="spread = 'cross'">
+        十字阵
+      </view>
     </view>
 
     <!-- 牌阵画布 -->
@@ -148,11 +142,9 @@
     <!-- 操作按钮 -->
     <view class="tdc-actions">
       <view class="abtn" @click="drawAll"><text>重 新 抽 牌</text></view>
-      <view v-if="allFlipped" class="abtn abtn-rev" @click="reverseAll"
-        >
-<text>翻 转 全 部</text>
-</view
-      >
+      <view v-if="allFlipped" class="abtn abtn-rev" @click="reverseAll">
+        <text>翻 转 全 部</text>
+      </view>
     </view>
 
     <!-- 选中牌详情 -->
@@ -167,10 +159,9 @@
           v-for="(kw, i) in isReversed ? selectedCard.revKeywords : selectedCard.upKeywords"
           :key="i"
           class="tk-tag"
-          >
-{{ kw }}
-</text
         >
+          {{ kw }}
+        </text>
       </view>
       <text class="td-desc">{{ selectedCard.desc }}</text>
     </view>

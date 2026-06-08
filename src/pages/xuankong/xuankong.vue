@@ -29,9 +29,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 玄空飞星可视化（核心） -->
         <view class="card card-mystic card-hoverable anim-fade-up">
           <text class="card-title title-mystic">玄 空 飞 星 · 九 宫 飞 星 图</text>
@@ -126,8 +125,7 @@
           <view class="btn-liu" @click="result = null">重 新 排 盘</view>
         </view>
       </ResultReveal>
-</view
-    >
+    </view>
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
       :show-cooldown="cd.showCooldown.value"
@@ -180,7 +178,7 @@ const result = ref<XuanKongResult | null>(null)
 const loading = ref(false)
 
 function onPick(k: string, e: any) {
-  (form.value as any)[k] = Number(e.detail.value)
+  ;(form.value as any)[k] = Number(e.detail.value)
 }
 
 function calculate() {

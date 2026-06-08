@@ -23,10 +23,9 @@
               :key="j"
               class="pcc-gan"
               :style="{ color: wuxingColor(ganWx(c.gan)) }"
-              >
-{{ c.gan }}
-</text
             >
+              {{ c.gan }}
+            </text>
           </view>
         </view>
       </view>
@@ -105,18 +104,14 @@
           </svg>
         </view>
         <view class="r-info">
-          <text class="ri-line"
-            >
-日主：<text :style="{ color: wuxingColor(dayMasterWx) }">{{ dayMaster }}</text
+          <text class="ri-line">
+            日主：<text :style="{ color: wuxingColor(dayMasterWx) }">{{ dayMaster }}</text
             >（{{ masterMeta.name }}）
-</text
-          >
+          </text>
           <text class="ri-line">强弱：{{ strengthLevel }}（{{ strengthScore }}）</text>
-          <text class="ri-line"
-            >
-用神：<text :style="{ color: wuxingColor(yongShen) }">{{ yongShenName }}</text>
-</text
-          >
+          <text class="ri-line">
+            用神：<text :style="{ color: wuxingColor(yongShen) }">{{ yongShenName }}</text>
+          </text>
         </view>
       </view>
 
@@ -130,11 +125,9 @@
             :class="{ active: s.startAge <= currentAge && s.endAge >= currentAge }"
           >
             <text class="dys-age">{{ s.startAge }}-{{ s.endAge }}</text>
-            <text class="dys-gz" :style="{ color: wuxingColor(ganWx(s.gan)) }"
-              >
-{{ s.gan }}{{ s.zhi }}
-</text
-            >
+            <text class="dys-gz" :style="{ color: wuxingColor(ganWx(s.gan)) }">
+              {{ s.gan }}{{ s.zhi }}
+            </text>
             <text class="dys-ss">{{ s.shishen }}</text>
             <text class="dys-ny">{{ s.nayin }}</text>
           </view>
@@ -145,10 +138,9 @@
             v-if="currentStep"
             class="dn-gz"
             :style="{ color: wuxingColor(ganWx(currentStep.gan)) }"
-            >
-{{ currentStep.gan }}{{ currentStep.zhi }} · {{ currentStep.shishen }}
-</text
           >
+            {{ currentStep.gan }}{{ currentStep.zhi }} · {{ currentStep.shishen }}
+          </text>
         </view>
       </view>
     </view>
@@ -161,11 +153,9 @@
           <view v-for="(c, i) in shishenCounts" :key="i" class="ss-cell">
             <text class="ssc-name">{{ c.name }}</text>
             <text class="ssc-count">{{ c.count }}</text>
-            <view class="ssc-bar"
-              >
-<view class="ssc-fill" :style="{ width: Math.min(100, c.count * 25) + '%' }"
-            />
-</view>
+            <view class="ssc-bar">
+              <view class="ssc-fill" :style="{ width: Math.min(100, c.count * 25) + '%' }" />
+            </view>
           </view>
         </view>
       </view>

@@ -18,10 +18,9 @@
             class="dur-btn"
             :class="{ active: duration === d }"
             @click="duration = d"
-            >
-{{ d }} 分
-</view
           >
+            {{ d }} 分
+          </view>
         </view>
         <view class="custom-dur">
           <text class="cd-label">自定义：</text>

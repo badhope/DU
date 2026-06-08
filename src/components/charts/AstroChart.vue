@@ -152,11 +152,9 @@
         <text class="bt-label">{{ bt.label }}</text>
         <text class="bt-name" :style="{ color: bt.meta.color }">{{ bt.sign }}</text>
         <text class="bt-glyph">{{ bt.meta.glyph }}</text>
-        <text class="bt-arc"
-          >
-{{ bt.meta.archetype }} · {{ bt.meta.element }}{{ bt.meta.quality }}
-</text
-        >
+        <text class="bt-arc">
+          {{ bt.meta.archetype }} · {{ bt.meta.element }}{{ bt.meta.quality }}
+        </text>
       </view>
     </view>
 
@@ -168,24 +166,16 @@
       </view>
       <text class="pd-meaning">{{ selectedP.meaning }}</text>
       <text class="pd-meta">{{ selectedP.signMeta.desc }}</text>
-      <view class="pd-row"
-        >
-<text class="pdr-l">守护星：</text
-        ><text class="pdr-v">{{ selectedP.signMeta.ruler }}</text>
-</view
-      >
-      <view class="pd-row"
-        >
-<text class="pdr-l">对宫：</text
-        ><text class="pdr-v">{{ selectedP.signMeta.polar }}</text>
-</view
-      >
-      <view class="pd-row"
-        >
-<text class="pdr-l">对应身体：</text
+      <view class="pd-row">
+        <text class="pdr-l">守护星：</text><text class="pdr-v">{{ selectedP.signMeta.ruler }}</text>
+      </view>
+      <view class="pd-row">
+        <text class="pdr-l">对宫：</text><text class="pdr-v">{{ selectedP.signMeta.polar }}</text>
+      </view>
+      <view class="pd-row">
+        <text class="pdr-l">对应身体：</text
         ><text class="pdr-v">{{ selectedP.signMeta.bodyPart }}</text>
-</view
-      >
+      </view>
       <view v-if="selectedP.retrograde" class="pd-retro">⚠ 当前逆行 · 内省与重新审视</view>
     </view>
 
@@ -201,11 +191,9 @@
         >
           <text class="ec-name" :style="{ color: e.color }">{{ e.name }}</text>
           <text class="ec-count">{{ e.count }}</text>
-          <view class="ec-bar"
-            >
-<view class="ec-fill" :style="{ width: e.percent + '%', background: e.color }"
-          />
-</view>
+          <view class="ec-bar">
+            <view class="ec-fill" :style="{ width: e.percent + '%', background: e.color }" />
+          </view>
         </view>
       </view>
       <view class="qual-row">

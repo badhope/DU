@@ -8,16 +8,12 @@
 
     <view class="header card-mystic anim-fade-up">
       <text class="hd-sub">今 日 · {{ today.date }}</text>
-      <text class="hd-gz"
-        >
-{{ today.ganzhi }} 日 · {{ today.zhiShen }}（{{ today.zhiShenType }}日）
-</text
-      >
-      <text class="hd-lunar"
-        >
-{{ today.lunarMonth }}{{ today.lunarDay }} · {{ today.shengxiao }}年
-</text
-      >
+      <text class="hd-gz">
+        {{ today.ganzhi }} 日 · {{ today.zhiShen }}（{{ today.zhiShenType }}日）
+      </text>
+      <text class="hd-lunar">
+        {{ today.lunarMonth }}{{ today.lunarDay }} · {{ today.shengxiao }}年
+      </text>
       <view class="hd-tags">
         <text class="hd-tag" :class="'lv-' + today.fortune">{{ today.fortune }}</text>
         <text class="hd-tag">建除 · {{ today.jianchu }}</text>

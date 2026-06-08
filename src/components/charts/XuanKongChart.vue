@@ -4,11 +4,9 @@
     <view class="xkc-bar">
       <view class="pbtn" :class="{ active: pan === 'yun' }" @click="pan = 'yun'">运 盘</view>
       <view class="pbtn" :class="{ active: pan === 'liu' }" @click="pan = 'liu'">流 年 盘</view>
-      <view class="pbtn" :class="{ active: pan === 'over' }" @click="pan = 'over'"
-        >
-流 年 叠 运
-</view
-      >
+      <view class="pbtn" :class="{ active: pan === 'over' }" @click="pan = 'over'">
+        流 年 叠 运
+      </view>
     </view>
 
     <view class="xkc-canvas">
@@ -121,10 +119,8 @@
       <view class="d-head">
         <text class="dh-pos">{{ selectedCell.dir }}（{{ selectedCell.starName }}）</text>
         <text class="dh-lvl" :style="{ color: levelColor(selectedCell.level) }">
-{{
-          selectedCell.level
-        }}
-</text>
+          {{ selectedCell.level }}
+        </text>
       </view>
       <text class="d-advice">{{ selectedCell.advice }}</text>
       <view class="d-meta">

@@ -18,10 +18,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -199,11 +198,9 @@
         </view>
 
         <view class="legend">
-          <text class="leg-item"
-            >
-<text class="leg-dot" style="background: #d4af37"></text>总分
-</text
-          >
+          <text class="leg-item">
+            <text class="leg-dot" style="background: #d4af37"></text>总分
+          </text>
           <text class="leg-item"><text class="leg-dot" style="background: #4fae6f"></text>吉</text>
           <text class="leg-item"><text class="leg-dot" style="background: #c8302a"></text>凶</text>
         </view>
@@ -221,11 +218,9 @@
           <view class="stage-score">
             <text class="stage-num">{{ s.avgScore }}</text>
             <text class="stage-desc">{{ s.desc }}</text>
-            <text class="stage-best"
-              >
-最佳 {{ s.bestYear.age }} 岁 · 最弱 {{ s.worstYear.age }} 岁
-</text
-            >
+            <text class="stage-best">
+              最佳 {{ s.bestYear.age }} 岁 · 最弱 {{ s.worstYear.age }} 岁
+            </text>
           </view>
         </view>
       </view>
@@ -250,12 +245,10 @@
               <text class="tp-type">{{ tp.type }}</text>
               <text class="tp-level" :class="'lv-' + tp.level">{{ tp.level }}</text>
             </view>
-            <text class="tp-gz"
-              >
-{{ tp.ganzhi }}（{{ WX_META[tp.wuxing].name }}） · 大运
+            <text class="tp-gz">
+              {{ tp.ganzhi }}（{{ WX_META[tp.wuxing].name }}） · 大运
               {{ tp.dayunName || '本运' }}
-</text
-            >
+            </text>
             <text class="tp-desc">{{ tp.desc }}</text>
           </view>
         </view>
@@ -263,25 +256,19 @@
 
       <!-- 流年详情（选中后展示） -->
       <view v-if="selected" class="detail card-mystic anim-fade-up" style="animation-delay: 0.25s">
-        <text class="card-title title-mystic"
-          >
-{{ selected.age }} 岁 · {{ selected.year }} {{ selected.ganzhi }}
-</text
-        >
-        <text class="card-tip"
-          >
-{{ WX_META[selected.wuxing].name }}年 · 大运 {{ selected.dayunName }}
-</text
-        >
+        <text class="card-title title-mystic">
+          {{ selected.age }} 岁 · {{ selected.year }} {{ selected.ganzhi }}
+        </text>
+        <text class="card-tip">
+          {{ WX_META[selected.wuxing].name }}年 · 大运 {{ selected.dayunName }}
+        </text>
 
         <view class="d5">
           <view v-for="(item, idx) in d5List" :key="idx" class="d5-cell">
             <text class="d5-name">{{ item.name }}</text>
-            <view class="d5-bar"
-              >
-<view class="d5-fill" :style="{ width: item.val + '%', background: item.color }"
-            />
-</view>
+            <view class="d5-bar">
+              <view class="d5-fill" :style="{ width: item.val + '%', background: item.color }" />
+            </view>
             <text class="d5-val" :style="{ color: item.color }">{{ item.val }}</text>
           </view>
         </view>
@@ -289,10 +276,8 @@
         <view class="d-tags">
           <text class="d-tag level" :class="'lv-' + selected.level">{{ selected.level }}</text>
           <text class="d-tag stage" :style="{ borderColor: stageColor(selected.stage) }">
-{{
-            stageName(selected.stage)
-          }}
-</text>
+            {{ stageName(selected.stage) }}
+          </text>
         </view>
 
         <view class="d-text">
@@ -335,10 +320,8 @@
             <text class="y-age">{{ y.age }}</text>
             <text class="y-gz">{{ y.ganzhi }}</text>
             <text class="y-wx" :style="{ color: WX_META[y.wuxing].color }">
-{{
-              WX_META[y.wuxing].name
-            }}
-</text>
+              {{ WX_META[y.wuxing].name }}
+            </text>
             <text class="y-lv" :class="'lv-' + y.level">{{ y.level }}</text>
             <text class="y-total">{{ y.scores.total }}</text>
           </view>

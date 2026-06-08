@@ -96,50 +96,34 @@
       >
         <view class="wx-dot" :style="{ background: m.color }" />
         <view class="wx-name">{{ m.name }}行</view>
-        <view class="wx-bar"
-          >
-<view class="wx-fill" :style="{ width: m.score + '%', background: m.color }"
-        />
-</view>
+        <view class="wx-bar">
+          <view class="wx-fill" :style="{ width: m.score + '%', background: m.color }" />
+        </view>
         <view class="wx-val" :style="{ color: m.color }">{{ m.score }}</view>
       </view>
     </view>
 
     <!-- 选中详情 -->
     <view v-if="selected" class="wxc-detail card-mystic">
-      <view class="detail-row"
-        >
-<text class="dr-label">五行：</text
+      <view class="detail-row">
+        <text class="dr-label">五行：</text
         ><text class="dr-val" :style="{ color: selected.color }">{{ selected.name }}</text>
-</view
-      >
-      <view class="detail-row"
-        >
-<text class="dr-label">方位：</text
-        ><text class="dr-val">{{ selected.direction }}</text>
-</view
-      >
-      <view class="detail-row"
-        >
-<text class="dr-label">季节：</text><text class="dr-val">{{ selected.season }}</text>
-</view
-      >
-      <view class="detail-row"
-        >
-<text class="dr-label">脏腑：</text><text class="dr-val">{{ selected.organ }}</text>
-</view
-      >
-      <view class="detail-row"
-        >
-<text class="dr-label">情志：</text
-        ><text class="dr-val">{{ selected.emotion }}</text>
-</view
-      >
-      <view class="detail-row"
-        >
-<text class="dr-label">德性：</text><text class="dr-val">{{ selected.virtue }}</text>
-</view
-      >
+      </view>
+      <view class="detail-row">
+        <text class="dr-label">方位：</text><text class="dr-val">{{ selected.direction }}</text>
+      </view>
+      <view class="detail-row">
+        <text class="dr-label">季节：</text><text class="dr-val">{{ selected.season }}</text>
+      </view>
+      <view class="detail-row">
+        <text class="dr-label">脏腑：</text><text class="dr-val">{{ selected.organ }}</text>
+      </view>
+      <view class="detail-row">
+        <text class="dr-label">情志：</text><text class="dr-val">{{ selected.emotion }}</text>
+      </view>
+      <view class="detail-row">
+        <text class="dr-label">德性：</text><text class="dr-val">{{ selected.virtue }}</text>
+      </view>
       <view class="detail-desc">{{ selected.desc }}</view>
     </view>
   </view>

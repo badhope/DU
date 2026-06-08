@@ -60,9 +60,8 @@
       </view>
     </view>
 
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 奇门遁甲可视化（核心） -->
         <view class="card card-mystic card-hoverable anim-fade-up">
           <text class="card-title title-mystic">奇 门 遁 甲 · 三 盘 九 宫</text>
@@ -75,10 +74,8 @@
             <view class="ju-cell">
               <text class="ju-label">遁</text>
               <text class="ju-val" :class="result.dun === '阳遁' ? 'rel-good' : 'rel-bad'">
-{{
-                result.dun
-              }}
-</text>
+                {{ result.dun }}
+              </text>
             </view>
             <view class="ju-cell">
               <text class="ju-label">局 数</text>
@@ -95,12 +92,10 @@
           </view>
           <text class="ju-jieqi">{{ result.jieqi }}</text>
           <view class="ju-zhifu">
-            <text class="zhifu-label"
-              >
-值符星：<text class="zhifu-val">{{ result.zhiFuStar }}</text
+            <text class="zhifu-label">
+              值符星：<text class="zhifu-val">{{ result.zhiFuStar }}</text
               >　值使门：<text class="zhifu-val">{{ result.zhiShiMen }}</text>
-</text
-            >
+            </text>
           </view>
         </view>
 
@@ -142,33 +137,23 @@
                 <text class="pl-judge" :class="'jd-' + p.judge">{{ p.judge }}</text>
               </view>
               <view class="pl-mid">
-                <text class="pl-key"
-                  >
-地盘干：<text class="pl-v">{{ p.diPan }}</text>
-</text
-                >
-                <text class="pl-key"
-                  >
-天盘干：<text class="pl-v">{{ p.tianPan }}</text>
-</text
-                >
+                <text class="pl-key">
+                  地盘干：<text class="pl-v">{{ p.diPan }}</text>
+                </text>
+                <text class="pl-key">
+                  天盘干：<text class="pl-v">{{ p.tianPan }}</text>
+                </text>
               </view>
               <view class="pl-mid">
-                <text class="pl-key"
-                  >
-九星：<text class="pl-v" :class="'sn-' + p.starNature">{{ p.star }}</text>
-</text
-                >
-                <text class="pl-key"
-                  >
-八门：<text class="pl-v" :class="'mn-' + p.menNature">{{ p.men }}门</text>
-</text
-                >
-                <text class="pl-key"
-                  >
-八神：<text class="pl-v" :class="'sn-' + p.shenNature">{{ p.shen }}</text>
-</text
-                >
+                <text class="pl-key">
+                  九星：<text class="pl-v" :class="'sn-' + p.starNature">{{ p.star }}</text>
+                </text>
+                <text class="pl-key">
+                  八门：<text class="pl-v" :class="'mn-' + p.menNature">{{ p.men }}门</text>
+                </text>
+                <text class="pl-key">
+                  八神：<text class="pl-v" :class="'sn-' + p.shenNature">{{ p.shen }}</text>
+                </text>
               </view>
               <text class="pl-brief">{{ p.brief }}</text>
             </view>
@@ -179,8 +164,7 @@
           <view class="btn-ghost" @click="reset">重 起 奇 门</view>
         </view>
       </ResultReveal>
-</view
-    >
+    </view>
     <!-- 冷却提示 + 添加用户 -->
     <ToolGuard
       :show-cooldown="cd.showCooldown.value"

@@ -62,18 +62,14 @@
             <text class="day-date">{{ d.day.date }}</text>
             <text class="day-gz">{{ d.day.ganzhi }} 日 · {{ d.day.shengxiao }}年</text>
           </view>
-          <view class="day-fortune" :class="'lv-' + d.day.fortune"
-            >
-<text>{{ d.day.fortune }}</text>
-</view
-          >
+          <view class="day-fortune" :class="'lv-' + d.day.fortune">
+            <text>{{ d.day.fortune }}</text>
+          </view>
         </view>
         <view class="day-tags">
-          <text class="day-tag" :class="d.day.zhiShenType === '黄道' ? 'g' : 'b'"
-            >
-{{ d.day.zhiShen }}（{{ d.day.zhiShenType }}）
-</text
-          >
+          <text class="day-tag" :class="d.day.zhiShenType === '黄道' ? 'g' : 'b'">
+            {{ d.day.zhiShen }}（{{ d.day.zhiShenType }}）
+          </text>
           <text class="day-tag">建除 · {{ d.day.jianchu }}</text>
           <text class="day-tag">宿 · {{ d.day.xiu }}（{{ d.day.xiuFortune }}）</text>
           <text class="day-tag">{{ d.day.chong }}</text>

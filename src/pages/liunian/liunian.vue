@@ -17,10 +17,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -102,11 +101,9 @@
           <text class="ds-score">{{ strength.score }}</text>
           <view class="ds-info">
             <text class="ds-level" :class="'lv-' + levelNum">{{ strength.level }}</text>
-            <text class="ds-text"
-              >
-用神：{{ yongName }} · 喜：{{ xiNames }} · 忌：{{ jiNames }}
-</text
-            >
+            <text class="ds-text">
+              用神：{{ yongName }} · 喜：{{ xiNames }} · 忌：{{ jiNames }}
+            </text>
           </view>
         </view>
         <view class="ds-bar">

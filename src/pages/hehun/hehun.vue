@@ -125,9 +125,8 @@
     </view>
 
     <!-- 结果 -->
-    <view v-else class="result"
-      >
-<ResultReveal :direction="'up'" :stagger="0.1">
+    <view v-else class="result">
+      <ResultReveal :direction="'up'" :stagger="0.1">
         <!-- 总分卡 -->
         <view
           class="score-card card-mystic anim-fade-up card-hoverable"
@@ -142,38 +141,30 @@
           <view class="score-bars">
             <view class="score-bar">
               <text class="bar-name">年 命</text>
-              <view class="bar-track"
-                >
-<view class="bar-fill" :style="{ width: result.score.year + '%' }"
-              />
-</view>
+              <view class="bar-track">
+                <view class="bar-fill" :style="{ width: result.score.year + '%' }" />
+              </view>
               <text class="bar-val">{{ result.score.year }}</text>
             </view>
             <view class="score-bar">
               <text class="bar-name">日 柱</text>
-              <view class="bar-track"
-                >
-<view class="bar-fill" :style="{ width: result.score.day + '%' }"
-              />
-</view>
+              <view class="bar-track">
+                <view class="bar-fill" :style="{ width: result.score.day + '%' }" />
+              </view>
               <text class="bar-val">{{ result.score.day }}</text>
             </view>
             <view class="score-bar">
               <text class="bar-name">五 行</text>
-              <view class="bar-track"
-                >
-<view class="bar-fill" :style="{ width: result.score.wuxing + '%' }"
-              />
-</view>
+              <view class="bar-track">
+                <view class="bar-fill" :style="{ width: result.score.wuxing + '%' }" />
+              </view>
               <text class="bar-val">{{ result.score.wuxing }}</text>
             </view>
             <view class="score-bar">
               <text class="bar-name">强 弱</text>
-              <view class="bar-track"
-                >
-<view class="bar-fill" :style="{ width: result.score.strength + '%' }"
-              />
-</view>
+              <view class="bar-track">
+                <view class="bar-fill" :style="{ width: result.score.strength + '%' }" />
+              </view>
               <text class="bar-val">{{ result.score.strength }}</text>
             </view>
           </view>
@@ -185,11 +176,9 @@
           <view class="duo-row">
             <view class="duo-side">
               <text class="duo-name">{{ result.man.name || '男' }}</text>
-              <text class="duo-tag" :style="{ background: '#C8302A' }"
-                >
-{{ result.man.dayMaster }} · {{ result.man.nayin }}
-</text
-              >
+              <text class="duo-tag" :style="{ background: '#C8302A' }">
+                {{ result.man.dayMaster }} · {{ result.man.nayin }}
+              </text>
               <text class="duo-strength">日主 {{ result.man.strength }}</text>
               <view class="duo-pillars">
                 <view v-for="(p, i) in manPillars" :key="'m' + i" class="duo-pillar">
@@ -204,11 +193,9 @@
             </view>
             <view class="duo-side">
               <text class="duo-name">{{ result.woman.name || '女' }}</text>
-              <text class="duo-tag" :style="{ background: '#5B3A8E' }"
-                >
-{{ result.woman.dayMaster }} · {{ result.woman.nayin }}
-</text
-              >
+              <text class="duo-tag" :style="{ background: '#5B3A8E' }">
+                {{ result.woman.dayMaster }} · {{ result.woman.nayin }}
+              </text>
               <text class="duo-strength">日主 {{ result.woman.strength }}</text>
               <view class="duo-pillars">
                 <view v-for="(p, i) in womanPillars" :key="'w' + i" class="duo-pillar">
@@ -249,10 +236,8 @@
               <view class="dz-pair">
                 <text class="dz-char">{{ result.dayGan.man }}</text>
                 <text class="dz-rel" :class="'rel-' + result.dayGan.relation">
-{{
-                  REL_GLYPH[result.dayGan.relation]
-                }}
-</text>
+                  {{ REL_GLYPH[result.dayGan.relation] }}
+                </text>
                 <text class="dz-char">{{ result.dayGan.woman }}</text>
               </view>
               <text class="dz-desc">{{ result.dayGan.desc }}</text>
@@ -263,10 +248,8 @@
               <view class="dz-pair">
                 <text class="dz-char">{{ result.dayZhi.man }}</text>
                 <text class="dz-rel" :class="'rel-' + result.dayZhi.relation">
-{{
-                  REL_GLYPH[result.dayZhi.relation]
-                }}
-</text>
+                  {{ REL_GLYPH[result.dayZhi.relation] }}
+                </text>
                 <text class="dz-char">{{ result.dayZhi.woman }}</text>
               </view>
               <text class="dz-desc">{{ result.dayZhi.desc }}</text>
@@ -289,10 +272,8 @@
               <text class="wx-td">{{ result.wuxing.man[wx.key] || 0 }}</text>
               <text class="wx-td">{{ result.wuxing.woman[wx.key] || 0 }}</text>
               <text class="wx-td" :class="{ diff: (result.wuxing.diff[wx.key] || 0) >= 2 }">
-{{
-                result.wuxing.diff[wx.key] || 0
-              }}
-</text>
+                {{ result.wuxing.diff[wx.key] || 0 }}
+              </text>
             </view>
           </view>
           <view v-if="result.wuxing.complement.length" class="wx-comp">

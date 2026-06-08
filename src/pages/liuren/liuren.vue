@@ -141,10 +141,8 @@
               <text class="ke-zhi">{{ k.zhi }}</text>
               <text class="ke-arrow">→</text>
               <text class="ke-general" :class="'gen-' + natureClass(k.general)">
-{{
-                k.general
-              }}
-</text>
+                {{ k.general }}
+              </text>
             </view>
           </view>
         </view>
@@ -158,28 +156,22 @@
           <view class="sc-item">
             <text class="sc-label">初 传</text>
             <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.chu)">
-{{
-              result.sanChuan.chu
-            }}
-</text>
+              {{ result.sanChuan.chu }}
+            </text>
           </view>
           <text class="sc-arrow">→</text>
           <view class="sc-item">
             <text class="sc-label">中 传</text>
             <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.zhong)">
-{{
-              result.sanChuan.zhong
-            }}
-</text>
+              {{ result.sanChuan.zhong }}
+            </text>
           </view>
           <text class="sc-arrow">→</text>
           <view class="sc-item">
             <text class="sc-label">末 传</text>
             <text class="sc-general" :class="'gen-' + natureClass(result.sanChuan.mo)">
-{{
-              result.sanChuan.mo
-            }}
-</text>
+              {{ result.sanChuan.mo }}
+            </text>
           </view>
         </view>
         <text class="sc-desc">课体：{{ result.ketiDesc }}</text>

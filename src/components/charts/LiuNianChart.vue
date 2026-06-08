@@ -145,22 +145,16 @@
     <view v-if="selected" class="lyc-detail card-mystic">
       <view class="detail-head">
         <text class="dh-year">{{ selected.year }}年</text>
-        <text class="dh-gz"
-          >
-{{ selected.ganZhi || selected.gan + selected.zhi }} · {{ selected.shishen || '' }}
-</text
-        >
+        <text class="dh-gz">
+          {{ selected.ganZhi || selected.gan + selected.zhi }} · {{ selected.shishen || '' }}
+        </text>
       </view>
       <view class="detail-body">
-        <text class="db-line"
-          >
-流年强度：<text :style="{ color: currentScore >= 0 ? '#D4AF37' : '#C8302A' }"
-            >
-{{ currentScore > 0 ? '吉' : '凶' }}{{ Math.abs(currentScore) }}
-</text
-          >
-</text
-        >
+        <text class="db-line">
+          流年强度：<text :style="{ color: currentScore >= 0 ? '#D4AF37' : '#C8302A' }">
+            {{ currentScore > 0 ? '吉' : '凶' }}{{ Math.abs(currentScore) }}
+          </text>
+        </text>
         <text class="db-line">事业：{{ careerText(currentScore) }}</text>
         <text class="db-line">财帛：{{ wealthText(currentScore) }}</text>
         <text class="db-line">健康：{{ healthText(currentScore) }}</text>

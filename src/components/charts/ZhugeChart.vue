@@ -101,47 +101,34 @@
 
     <view class="zgc-detail card-mystic">
       <text class="b-title title-mystic">各 签 详 解</text>
-      <view class="zd-row"
-        >
-<text class="zr-l">事业</text><text class="zr-v">{{ qian.career }}</text>
-</view
-      >
-      <view class="zd-row"
-        >
-<text class="zr-l">求财</text><text class="zr-v">{{ qian.wealth }}</text>
-</view
-      >
-      <view class="zd-row"
-        >
-<text class="zr-l">婚姻</text><text class="zr-v">{{ qian.marriage }}</text>
-</view
-      >
-      <view class="zd-row"
-        >
-<text class="zr-l">疾病</text><text class="zr-v">{{ qian.health }}</text>
-</view
-      >
-      <view class="zd-row"
-        >
-<text class="zr-l">出行</text><text class="zr-v">{{ qian.travel }}</text>
-</view
-      >
+      <view class="zd-row">
+        <text class="zr-l">事业</text><text class="zr-v">{{ qian.career }}</text>
+      </view>
+      <view class="zd-row">
+        <text class="zr-l">求财</text><text class="zr-v">{{ qian.wealth }}</text>
+      </view>
+      <view class="zd-row">
+        <text class="zr-l">婚姻</text><text class="zr-v">{{ qian.marriage }}</text>
+      </view>
+      <view class="zd-row">
+        <text class="zr-l">疾病</text><text class="zr-v">{{ qian.health }}</text>
+      </view>
+      <view class="zd-row">
+        <text class="zr-l">出行</text><text class="zr-v">{{ qian.travel }}</text>
+      </view>
     </view>
 
     <view class="zgc-score card-mystic">
       <text class="b-title title-mystic">总 评</text>
-      <view class="zs-bar"
-        >
-<view
+      <view class="zs-bar">
+        <view
           class="zs-fill"
           :style="{ width: qian.score + '%', background: levelColor(qian.level) }"
-      />
-</view>
-      <text class="zs-val" :style="{ color: levelColor(qian.level) }"
-        >
-{{ qian.score }} 分 · {{ qian.level }}
-</text
-      >
+        />
+      </view>
+      <text class="zs-val" :style="{ color: levelColor(qian.level) }">
+        {{ qian.score }} 分 · {{ qian.level }}
+      </text>
     </view>
   </view>
 </template>

@@ -53,12 +53,10 @@
       <view class="overall card-mystic anim-fade-up">
         <text class="card-title title-mystic">掌 相 总 评</text>
         <view class="ov-row">
-          <view class="ov-num"
-            >
-<text class="ov-val">{{ result.totalScore }}</text
+          <view class="ov-num">
+            <text class="ov-val">{{ result.totalScore }}</text
             ><text class="ov-unit">/ 100</text>
-</view
-          >
+          </view>
           <text class="ov-level" :class="'lv-' + result.level">{{ result.level }}</text>
         </view>
         <text class="ov-sum">{{ result.summary }}</text>

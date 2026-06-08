@@ -36,12 +36,10 @@
         <text class="tr-rank" :style="{ color: i < 3 ? THEME.liu : THEME.fg2 }">{{ i + 1 }}</text>
         <view class="tr-main">
           <text class="tr-date">{{ b.day.date }}</text>
-          <text class="tr-meta"
-            >
-{{ b.day.ganzhi }} · {{ b.day.zhiShen
+          <text class="tr-meta">
+            {{ b.day.ganzhi }} · {{ b.day.zhiShen
             }}{{ b.day.zhiShenType === '黄道' ? '·黄道' : '' }}
-</text
-          >
+          </text>
         </view>
         <text class="tr-score" :style="{ color: scColor(b.score) }">{{ b.score }}</text>
       </view>

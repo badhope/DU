@@ -44,10 +44,9 @@
           class="ac-btn ac-btn-primary"
           :class="{ disabled: !newUserName.trim() }"
           @click="emit('confirmAddUser')"
-          >
-添 加
-</view
         >
+          添 加
+        </view>
       </view>
     </view>
   </view>

@@ -2,39 +2,27 @@
   <view class="qmc">
     <!-- 局信息 -->
     <view class="qmc-info">
-      <view class="info-cell"
-        >
-<text class="ic-l">局</text><text class="ic-v">{{ result.ju }} 局</text>
-</view
-      >
-      <view class="info-cell"
-        >
-<text class="ic-l">元</text><text class="ic-v">{{ result.yuan }}</text>
-</view
-      >
-      <view class="info-cell"
-        >
-<text class="ic-l">遁</text><text class="ic-v">{{ result.dun }}</text>
-</view
-      >
-      <view class="info-cell"
-        >
-<text class="ic-l">时</text
+      <view class="info-cell">
+        <text class="ic-l">局</text><text class="ic-v">{{ result.ju }} 局</text>
+      </view>
+      <view class="info-cell">
+        <text class="ic-l">元</text><text class="ic-v">{{ result.yuan }}</text>
+      </view>
+      <view class="info-cell">
+        <text class="ic-l">遁</text><text class="ic-v">{{ result.dun }}</text>
+      </view>
+      <view class="info-cell">
+        <text class="ic-l">时</text
         ><text class="ic-v">{{ result.shiGan }}{{ result.shiZhi }}时</text>
-</view
-      >
-      <view class="info-cell"
-        >
-<text class="ic-l">值符</text
+      </view>
+      <view class="info-cell">
+        <text class="ic-l">值符</text
         ><text class="ic-v" :style="{ color: '#D4AF37' }">{{ result.zhiFuStar }}</text>
-</view
-      >
-      <view class="info-cell"
-        >
-<text class="ic-l">值使</text
+      </view>
+      <view class="info-cell">
+        <text class="ic-l">值使</text
         ><text class="ic-v" :style="{ color: '#D4AF37' }">{{ result.zhiShiMen }}门</text>
-</view
-      >
+      </view>
     </view>
 
     <!-- 盘选择 -->
@@ -233,57 +221,36 @@
       <view class="d-head">
         <text class="dh-gong">{{ selectedPalace.gong }}宫</text>
         <text class="dh-judge" :style="{ color: judgeColor(selectedPalace.judge) }">
-{{
-          selectedPalace.judge
-        }}
-</text>
+          {{ selectedPalace.judge }}
+        </text>
       </view>
       <text class="d-brief">{{ selectedPalace.brief }}</text>
       <view class="d-layers">
-        <view class="dl-row"
-          >
-<text class="dlr-l">地 盘：</text
-          ><text class="dlr-v">{{ selectedPalace.diPan }}</text>
-</view
-        >
-        <view class="dl-row"
-          >
-<text class="dlr-l">天 盘：</text
-          ><text class="dlr-v" :style="{ color: starColor(selectedPalace.starNature) }"
-            >
-{{ selectedPalace.star }}（{{ selectedPalace.starNature }}）
-</text
-          >
-</view
-        >
-        <view class="dl-row"
-          >
-<text class="dlr-l">人 盘：</text
-          ><text class="dlr-v" :style="{ color: menColor(selectedPalace.menNature) }"
-            >
-{{ selectedPalace.men }}门（{{ selectedPalace.menNature }}）
-</text
-          >
-</view
-        >
-        <view class="dl-row"
-          >
-<text class="dlr-l">神 盘：</text
-          ><text class="dlr-v" :style="{ color: shenColor(selectedPalace.shenNature) }"
-            >
-{{ selectedPalace.shen }}（{{ selectedPalace.shenNature }}）
-</text
-          >
-</view
-        >
+        <view class="dl-row">
+          <text class="dlr-l">地 盘：</text><text class="dlr-v">{{ selectedPalace.diPan }}</text>
+        </view>
+        <view class="dl-row">
+          <text class="dlr-l">天 盘：</text
+          ><text class="dlr-v" :style="{ color: starColor(selectedPalace.starNature) }">
+            {{ selectedPalace.star }}（{{ selectedPalace.starNature }}）
+          </text>
+        </view>
+        <view class="dl-row">
+          <text class="dlr-l">人 盘：</text
+          ><text class="dlr-v" :style="{ color: menColor(selectedPalace.menNature) }">
+            {{ selectedPalace.men }}门（{{ selectedPalace.menNature }}）
+          </text>
+        </view>
+        <view class="dl-row">
+          <text class="dlr-l">神 盘：</text
+          ><text class="dlr-v" :style="{ color: shenColor(selectedPalace.shenNature) }">
+            {{ selectedPalace.shen }}（{{ selectedPalace.shenNature }}）
+          </text>
+        </view>
       </view>
-      <text class="d-desc"
-        >
-{{ selectedPalace.starDesc }}；{{ selectedPalace.menDesc }}；{{
-          selectedPalace.shenDesc
-        }}
-</text
-      >
+      <text class="d-desc">
+        {{ selectedPalace.starDesc }}；{{ selectedPalace.menDesc }}；{{ selectedPalace.shenDesc }}
+      </text>
     </view>
 
     <!-- 用神提示 -->

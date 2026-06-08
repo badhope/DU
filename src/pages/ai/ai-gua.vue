@@ -11,10 +11,9 @@
       <view
         class="h-glyph"
         :style="{ color: master.color, textShadow: `0 0 30rpx ${master.color}` }"
-        >
-{{ master.glyph }}
-</view
       >
+        {{ master.glyph }}
+      </view>
       <view class="h-info">
         <text class="h-name" :style="{ color: master.color }">{{ master.name }}</text>
         <text class="h-style">{{ master.style }}</text>
@@ -37,10 +36,8 @@
         :class="[m.role, i === lastMsgIndex ? 'msg-new' : '']"
       >
         <view class="msg-avatar" :class="m.role">
-{{
-          m.role === 'user' ? '你' : master.glyph
-        }}
-</view>
+          {{ m.role === 'user' ? '你' : master.glyph }}
+        </view>
         <view class="msg-body">
           <view class="msg-bubble" :class="m.role === 'master' ? 'text-shimmer' : ''">
             <Typewriter
@@ -93,10 +90,9 @@
           class="q-item card-hoverable lift"
           :style="{ animationDelay: i * 0.04 + 's' }"
           @click="askQ(q)"
-          >
-{{ q }}
-</view
         >
+          {{ q }}
+        </view>
       </view>
     </view>
 

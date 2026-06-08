@@ -268,13 +268,11 @@
       </view>
       <view class="dc-row">
         <text class="dr-l">喜神方位：</text
-        ><text class="dr-v"
-          >
-{{ result.lucky.direction }}方 · 颜色{{ result.lucky.color }} · 数{{
+        ><text class="dr-v">
+          {{ result.lucky.direction }}方 · 颜色{{ result.lucky.color }} · 数{{
             result.lucky.number
           }}
-</text
-        >
+        </text>
       </view>
     </view>
   </view>

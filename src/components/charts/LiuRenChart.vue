@@ -121,9 +121,8 @@
       </view>
       <view class="d-score">
         <text class="ds-l">总评：</text>
-        <view class="ds-bar"
-          >
-<view
+        <view class="ds-bar">
+          <view
             class="ds-fill"
             :style="{
               width: result.shen.totalScore + '%',
@@ -134,8 +133,8 @@
                     ? '#B8B2A0'
                     : '#C8302A',
             }"
-        />
-</view>
+          />
+        </view>
         <text class="ds-val">{{ result.shen.totalScore }}</text>
       </view>
     </view>

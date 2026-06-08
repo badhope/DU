@@ -20,16 +20,12 @@
       </view>
       <view class="fh-score">
         <text class="fs-l">总评：</text>
-        <view class="fs-bar"
-          >
-<view class="fs-fill" :style="{ width: result.totalScore + '%', background: lvColor }"
-        />
-</view>
-        <text class="fs-v" :style="{ color: lvColor }"
-          >
-{{ result.totalScore }} 分 · {{ result.level }}
-</text
-        >
+        <view class="fs-bar">
+          <view class="fs-fill" :style="{ width: result.totalScore + '%', background: lvColor }" />
+        </view>
+        <text class="fs-v" :style="{ color: lvColor }">
+          {{ result.totalScore }} 分 · {{ result.level }}
+        </text>
       </view>
       <text class="fh-best">最佳方位：{{ result.bestDirection }}</text>
     </view>

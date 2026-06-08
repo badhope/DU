@@ -42,10 +42,8 @@
       <!-- 当前心境 -->
       <view class="xj-now card-mystic anim-fade-up">
         <text class="xj-now-glyph" :style="{ color: chosenMeta.color }">
-{{
-          chosenMeta.glyph
-        }}
-</text>
+          {{ chosenMeta.glyph }}
+        </text>
         <text class="xj-now-name">{{ chosenMeta.name }} · {{ chosenMeta.desc }}</text>
       </view>
 
@@ -53,16 +51,12 @@
       <view class="zhenju card-mystic anim-fade-up" style="animation-delay: 0.05s">
         <text class="zhenju-text">{{ currentZhenju.text }}</text>
         <view class="zhenju-foot">
-          <text class="zj-src"
-            >
-— {{ currentZhenju.source
-            }}<text v-if="currentZhenju.author" class="zj-author"
-              >
-·{{ currentZhenju.author }}
-</text
-            >
-</text
-          >
+          <text class="zj-src">
+            — {{ currentZhenju.source
+            }}<text v-if="currentZhenju.author" class="zj-author">
+              ·{{ currentZhenju.author }}
+            </text>
+          </text>
           <text class="zj-cat">{{ currentZhenju.category }}</text>
         </view>
       </view>
@@ -88,19 +82,16 @@
             class="cat-tab"
             :class="{ active: cat === c }"
             @click="cat = c"
-            >
-{{ c }}
-</view
           >
+            {{ c }}
+          </view>
         </view>
         <view class="cat-list">
           <view v-for="(z, i) in catList" :key="i" class="cat-item" @click="currentZhenju = z">
             <text class="cat-text">{{ z.text }}</text>
-            <text class="cat-src"
-              >
-— {{ z.source }}<text v-if="z.author">·{{ z.author }}</text>
-</text
-            >
+            <text class="cat-src">
+              — {{ z.source }}<text v-if="z.author">·{{ z.author }}</text>
+            </text>
           </view>
         </view>
       </view>

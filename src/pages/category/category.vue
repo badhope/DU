@@ -19,10 +19,9 @@
         <text
           class="cat-hero-glyph"
           :style="{ color: category.accent, textShadow: '0 0 24rpx ' + category.accent }"
-          >
-{{ category.glyph }}
-</text
         >
+          {{ category.glyph }}
+        </text>
         <text class="cat-hero-name" :style="{ color: category.accent }">{{ category.name }}</text>
         <text class="cat-hero-en">{{ category.enName }}</text>
         <text class="cat-hero-sub">{{ category.subtitle }} · {{ tools.length }} 项</text>
@@ -69,10 +68,8 @@
               <view class="t-status">
                 <view class="t-dot" :style="{ background: statusColor(tool.status) }" />
                 <text class="t-status-text" :style="{ color: statusColor(tool.status) }">
-{{
-                  statusText(tool.status)
-                }}
-</text>
+                  {{ statusText(tool.status) }}
+                </text>
               </view>
             </view>
             <text class="t-arrow">›</text>

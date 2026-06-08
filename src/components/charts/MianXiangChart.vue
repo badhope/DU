@@ -125,22 +125,15 @@
       </view>
       <text class="d-desc">{{ selectedPoint.desc }}</text>
       <view class="d-meta">
-        <view class="dm-row"
-          >
-<text class="dmr-l">主：</text><text class="dmr-v">{{ selectedPoint.zhu }}</text>
-</view
-        >
-        <view class="dm-row"
-          >
-<text class="dmr-l">应：</text><text class="dmr-v">{{ selectedPoint.ying }}</text>
-</view
-        >
-        <view class="dm-row"
-          >
-<text class="dmr-l">吉相：</text
-          ><text class="dmr-v">{{ selectedPoint.jixiang }}</text>
-</view
-        >
+        <view class="dm-row">
+          <text class="dmr-l">主：</text><text class="dmr-v">{{ selectedPoint.zhu }}</text>
+        </view>
+        <view class="dm-row">
+          <text class="dmr-l">应：</text><text class="dmr-v">{{ selectedPoint.ying }}</text>
+        </view>
+        <view class="dm-row">
+          <text class="dmr-l">吉相：</text><text class="dmr-v">{{ selectedPoint.jixiang }}</text>
+        </view>
       </view>
     </view>
 

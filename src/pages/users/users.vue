@@ -20,17 +20,13 @@
       <view v-if="app.activeDivinator" class="ac-active">
         <text class="ac-name">{{ app.activeDivinator.name }}</text>
         <text v-if="app.activeDivinator.remark" class="ac-remark">
-{{
-          app.activeDivinator.remark
-        }}
-</text>
+          {{ app.activeDivinator.remark }}
+        </text>
         <view class="ac-stats">
           <text class="stat">总 测 {{ app.activeDivinator.totalCount }} 次</text>
-          <text v-if="app.activeDivinator.lastDate" class="stat"
-            >
-最 近 {{ formatDate(app.activeDivinator.lastDate) }}
-</text
-          >
+          <text v-if="app.activeDivinator.lastDate" class="stat">
+            最 近 {{ formatDate(app.activeDivinator.lastDate) }}
+          </text>
         </view>
       </view>
       <text v-else class="ac-empty">未 激 活 · 请 添 加 占 卜 人</text>
@@ -104,10 +100,9 @@
               v-if="u.key !== app.activeDivinatorKey"
               class="ua-btn ua-btn-li"
               @click="onSwitch(u.key)"
-              >
-切 换 激 活
-</view
             >
+              切 换 激 活
+            </view>
             <view class="ua-btn ua-btn-secondary" @click="onEditRemark(u.key)">修 改 备 注</view>
             <view class="ua-btn ua-btn-danger" @click="onDelete(u.key)">删 除</view>
           </view>

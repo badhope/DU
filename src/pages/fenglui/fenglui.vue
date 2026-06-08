@@ -19,10 +19,9 @@
             class="g-btn"
             :class="{ active: form.gender === g }"
             @click="form.gender = g as any"
-            >
-{{ g }}
-</view
           >
+            {{ g }}
+          </view>
         </view>
       </view>
 
@@ -57,28 +56,20 @@
       <view class="overall card-mystic anim-fade-up">
         <text class="card-title title-mystic">八 宅 总 评</text>
         <view class="ov-info">
-          <text class="ov-line"
-            >
-<text class="ov-l">命 卦</text>
-            <text class="ov-v"
-              >
-{{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua].name }}）
-</text
-            >
-</text
-          >
-          <text class="ov-line"
-            >
-<text class="ov-l">生旺方</text>
+          <text class="ov-line">
+            <text class="ov-l">命 卦</text>
+            <text class="ov-v">
+              {{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua].name }}）
+            </text>
+          </text>
+          <text class="ov-line">
+            <text class="ov-l">生旺方</text>
             <text class="ov-v">{{ result.bestDirection }}</text>
-</text
-          >
-          <text class="ov-line"
-            >
-<text class="ov-l">总 评</text>
+          </text>
+          <text class="ov-line">
+            <text class="ov-l">总 评</text>
             <text class="ov-v" :class="'lv-' + result.level">{{ result.level }}</text>
-</text
-          >
+          </text>
         </view>
         <text class="ov-sum">{{ result.summary }}</text>
       </view>
@@ -124,10 +115,9 @@
                   ? result.baGua.find((x) => x.name === r)!.level === '吉'
                   : false,
               }"
-              >
-{{ r }}
-</text
             >
+              {{ r }}
+            </text>
           </view>
         </view>
       </view>
@@ -155,7 +145,7 @@ import { calcFenglui, BA_ZHAI_GUA, type FengluiResult } from '@/utils/fenglui'
 const app = useAppStore()
 const form = ref({ year: 1990, gender: '男' as '男' | '女' })
 function onPick(k: string, e: any) {
-  (form.value as any)[k] = Number(e.detail.value)
+  ;(form.value as any)[k] = Number(e.detail.value)
 }
 const result = ref<FengluiResult | null>(null)
 const loading = ref(false)

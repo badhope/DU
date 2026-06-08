@@ -14,11 +14,13 @@
 
     <!-- 经脉类型筛选 -->
     <view class="filter-bar">
-      <view class="f-btn" :class="{ active: !showQi && !showYin && !showYang }" @click="resetFilter"
-        >
-全 部
-</view
+      <view
+        class="f-btn"
+        :class="{ active: !showQi && !showYin && !showYang }"
+        @click="resetFilter"
       >
+        全 部
+      </view>
       <view class="f-btn f-qi" :class="{ active: showQi }" @click="toggleQi">8 奇 经</view>
       <view class="f-btn f-yin" :class="{ active: showYin }" @click="toggleYin">阴 经</view>
       <view class="f-btn f-yang" :class="{ active: showYang }" @click="toggleYang">阳 经</view>
@@ -201,19 +203,15 @@
               color: selectedMeridian.color,
               textShadow: `0 0 20rpx ${selectedMeridian.color}`,
             }"
-            >
-☯
-</view
           >
+            ☯
+          </view>
           <view class="dc-info">
             <text class="dc-name" :style="{ color: selectedMeridian.color }">
-{{
-              selectedMeridian.name
-            }}
-</text>
-            <text class="dc-side"
-              >
-{{ side === 'front' ? '正 面' : '背 面' }} ·
+              {{ selectedMeridian.name }}
+            </text>
+            <text class="dc-side">
+              {{ side === 'front' ? '正 面' : '背 面' }} ·
               {{
                 selectedMeridian.category === 'yin'
                   ? '阴经'
@@ -221,8 +219,7 @@
                     ? '阳经'
                     : '奇经'
               }}
-</text
-            >
+            </text>
           </view>
         </view>
 
@@ -256,36 +253,26 @@
         <!-- 穴位详情 -->
         <view v-if="acupointDetail" class="ac-detail">
           <text class="ad-title">· {{ acupointDetail.name }} · 详 情</text>
-          <view class="ad-row"
-            >
-<text class="ad-label">所属经脉：</text
+          <view class="ad-row">
+            <text class="ad-label">所属经脉：</text
             ><text class="ad-val">{{ acupointDetail.jingluo }}</text>
-</view
-          >
-          <view class="ad-row"
-            >
-<text class="ad-label">位 置：</text
+          </view>
+          <view class="ad-row">
+            <text class="ad-label">位 置：</text
             ><text class="ad-val">{{ acupointDetail.location }}</text>
-</view
-          >
-          <view class="ad-row"
-            >
-<text class="ad-label">功 能：</text
+          </view>
+          <view class="ad-row">
+            <text class="ad-label">功 能：</text
             ><text class="ad-val">{{ acupointDetail.function }}</text>
-</view
-          >
-          <view class="ad-row"
-            >
-<text class="ad-label">主 治：</text
+          </view>
+          <view class="ad-row">
+            <text class="ad-label">主 治：</text
             ><text class="ad-val">{{ acupointDetail.indication.join(' · ') }}</text>
-</view
-          >
-          <view class="ad-row"
-            >
-<text class="ad-label">方 法：</text
+          </view>
+          <view class="ad-row">
+            <text class="ad-label">方 法：</text
             ><text class="ad-val">{{ acupointDetail.method }}</text>
-</view
-          >
+          </view>
         </view>
 
         <view class="dc-actions">

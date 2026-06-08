@@ -34,12 +34,10 @@
       <view class="ck-row">
         <view class="ck-info">
           <text class="ck-label">每 日 签 到</text>
-          <text class="ck-sub"
-            >
-连续 {{ app.checkin.streak }} 天 · 累计 {{ app.checkin.totalDays }} 天 ·
+          <text class="ck-sub">
+            连续 {{ app.checkin.streak }} 天 · 累计 {{ app.checkin.totalDays }} 天 ·
             {{ app.checkin.points }} 积分
-</text
-          >
+          </text>
         </view>
         <view class="ck-btn" :class="{ done: app.todayCheckedIn }">
           <text>{{ app.todayCheckedIn ? '✓ 已签' : '签到' }}</text>

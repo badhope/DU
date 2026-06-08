@@ -57,37 +57,29 @@
         <view class="g-cell" :style="{ borderColor: result.primary.color }">
           <text class="g-label">生 命 数</text>
           <text class="g-num" :style="{ color: result.primary.color }">
-{{
-            result.number.lifePath
-          }}
-</text>
+            {{ result.number.lifePath }}
+          </text>
           <text class="g-name">{{ result.primary.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.expressionMeta.color }">
           <text class="g-label">表 现 数</text>
           <text class="g-num" :style="{ color: result.expressionMeta.color }">
-{{
-            result.number.expression
-          }}
-</text>
+            {{ result.number.expression }}
+          </text>
           <text class="g-name">{{ result.expressionMeta.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.soulMeta.color }">
           <text class="g-label">灵 魂 数</text>
           <text class="g-num" :style="{ color: result.soulMeta.color }">
-{{
-            result.number.soulUrge
-          }}
-</text>
+            {{ result.number.soulUrge }}
+          </text>
           <text class="g-name">{{ result.soulMeta.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.destinyMeta.color }">
           <text class="g-label">命 运 数</text>
           <text class="g-num" :style="{ color: result.destinyMeta.color }">
-{{
-            result.number.destiny
-          }}
-</text>
+            {{ result.number.destiny }}
+          </text>
           <text class="g-name">{{ result.destinyMeta.name }}</text>
         </view>
       </view>
@@ -101,20 +93,15 @@
         <text
           class="pr-glyph"
           :style="{ color: result.primary.color, textShadow: `0 0 20rpx ${result.primary.color}` }"
-          >
-{{ result.primary.glyph }}
-</text
         >
-        <text class="pr-name" :style="{ color: result.primary.color }"
-          >
-{{ result.primary.num }} · {{ result.primary.name }}
-</text
-        >
-        <text class="pr-element"
-          >
-五行 · {{ result.primary.element }} · 守护 · {{ result.primary.planet }}
-</text
-        >
+          {{ result.primary.glyph }}
+        </text>
+        <text class="pr-name" :style="{ color: result.primary.color }">
+          {{ result.primary.num }} · {{ result.primary.name }}
+        </text>
+        <text class="pr-element">
+          五行 · {{ result.primary.element }} · 守护 · {{ result.primary.planet }}
+        </text>
         <text class="pr-desc">{{ result.primary.description }}</text>
         <view class="pr-tags">
           <text class="pr-tag virtue">德 · {{ result.primary.virtue }}</text>
@@ -125,26 +112,18 @@
       <!-- 4 维建议 -->
       <view class="advice card-mystic card anim-fade-up" style="animation-delay: 0.15s">
         <text class="card-title title-mystic">四 维 建 议</text>
-        <view class="ad-row"
-          >
-<text class="ad-k">事业</text><text class="ad-v">{{ result.advice.career }}</text>
-</view
-        >
-        <view class="ad-row"
-          >
-<text class="ad-k">爱情</text><text class="ad-v">{{ result.advice.love }}</text>
-</view
-        >
-        <view class="ad-row"
-          >
-<text class="ad-k">健康</text><text class="ad-v">{{ result.advice.health }}</text>
-</view
-        >
-        <view class="ad-row"
-          >
-<text class="ad-k">财富</text><text class="ad-v">{{ result.advice.wealth }}</text>
-</view
-        >
+        <view class="ad-row">
+          <text class="ad-k">事业</text><text class="ad-v">{{ result.advice.career }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">爱情</text><text class="ad-v">{{ result.advice.love }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">健康</text><text class="ad-v">{{ result.advice.health }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">财富</text><text class="ad-v">{{ result.advice.wealth }}</text>
+        </view>
       </view>
 
       <!-- 五维评分 -->
@@ -152,11 +131,9 @@
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-row">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"
-            >
-<view class="s-fill" :style="{ width: s.val + '%', background: s.color }"
-          />
-</view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>
