@@ -11,8 +11,6 @@
 
 import {
   calcBazi,
-  TIANGAN,
-  DIZHI,
   TIANGAN_WUXING,
   DIZHI_WUXING,
   TIANGAN_YINYANG,
@@ -342,8 +340,7 @@ export function calcWufu(
   for (let i = 0; i < liunian.length; i++) {
     const y = liunian[i]
     const step = dayun.steps.find((s) => y.age >= s.startAge && y.age <= s.endAge)
-    const stepIdx = step ? dayun.steps.indexOf(step) : 0
-    const dayunBoost = stepIdx <= 3 ? 5 : stepIdx <= 6 ? 3 : -2
+    const _stepIdx = step ? dayun.steps.indexOf(step) : 0
     const sShou = Math.max(
       20,
       Math.min(

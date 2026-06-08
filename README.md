@@ -227,7 +227,7 @@ mistverse/
 │   ├── main.ts
 │   ├── manifest.json     # uni-app x app manifest
 │   ├── pages.json        # uni-app x routes
-│   ├── shime-uni.d.ts
+│   ├── shims-uni.d.ts
 │   └── uni.scss          # global SCSS variables
 ├── tests/                # vitest unit tests
 ├── CHANGELOG.md

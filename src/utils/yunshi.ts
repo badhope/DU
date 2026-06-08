@@ -6,7 +6,7 @@
  *  - 宜忌、幸运色、幸运数字
  */
 
-import { calcBazi, TIANGAN_WUXING, DIZHI_WUXING, type Wuxing } from './bazi'
+import { calcBazi, TIANGAN_WUXING, type Wuxing } from './bazi'
 import { SHENG, KE } from './wuxing'
 
 const SHENGXIAO_LIST = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪']

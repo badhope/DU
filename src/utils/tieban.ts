@@ -21,8 +21,6 @@
  *  - 大运 / 流年 → 由母数加时间参数
  */
 
-import { calcBazi } from './bazi'
-
 export interface TiebanShenGong {
   /** 先天八卦数 → 卦名 */
   key: string

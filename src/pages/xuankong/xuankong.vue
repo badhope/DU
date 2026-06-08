@@ -164,7 +164,6 @@ import {
   type XuanKongResult,
   type GONG_NUM,
 } from '@/utils/xuankong'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -172,7 +171,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'xuankong', toolName: '玄空飞星', category: '风水' })
-const toolKey = 'xuankong' as const
+const _toolKey = 'xuankong' as const
 const form = ref({ year: new Date().getFullYear() })
 const result = ref<XuanKongResult | null>(null)
 const loading = ref(false)
