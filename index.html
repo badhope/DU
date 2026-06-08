@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      var coverSupport = 'CSS' in window && typeof CSS.supports === 'function' && (CSS.supports('top: env(a)') ||
+        CSS.supports('top: constant(a)'))
+      document.write(
+        '<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0' +
+        (coverSupport ? ', viewport-fit=cover' : '') + '" />')
+    </script>
+    <title>玄枢 MISTVERSE · 风水玄学</title>
+    <meta name="description" content="玄枢 MISTVERSE - 一站式命理/占卜/古物/健康/修心/生活/AI 七大领域共 49 个玄学工具" />
+    <meta name="keywords" content="玄学, 风水, 命理, 占卜, 八字, 五行, 紫微斗数, 奇门遁甲, 大六壬, 梅花易数, 灵签, 杯筊, 面相, 手相, 命名, 老黄历, 吉日, 运势, 家谱, 节气, 养生, 冥想, 坐禅" />
+    <meta name="theme-color" content="#0a0a12" />
+    <!--preload-links-->
+    <!--app-context-->
+  </head>
+  <body>
+    <div id="app"><!--app-html--></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

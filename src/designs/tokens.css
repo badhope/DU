@@ -1,0 +1,127 @@
+/**
+ * 玄枢 MISTVERSE · 全局 CSS 变量
+ * 用 CSS custom properties 替代 SCSS 变量，跨端通用无需预处理器
+ */
+
+page {
+  /* 主色 */
+  --color-xuan: #0A0A12;
+  --color-xuan-2: #14141C;
+  --color-xuan-3: #1F1F2B;
+  --color-zhu: #C8302A;
+  --color-zhu-2: #E04A3A;
+  --color-liu: #D4AF37;
+  --color-qing: #1F4E4A;
+  --color-zi: #5B3A8E;
+  --color-bai: #F5F1E8;
+  --color-bai-2: #B8B2A0;
+  --color-bai-3: #6B6655;
+
+  /* 五行色 */
+  --color-jin: #E8E4D8;
+  --color-mu: #2F7D4F;
+  --color-shui: #1B3A5C;
+  --color-huo: #C8302A;
+  --color-tu: #A87C4F;
+
+  /* 字号 (经用户反馈调大 · 注重视觉舒适度) */
+  --fs-xs: 26rpx;
+  --fs-sm: 30rpx;
+  --fs-base: 34rpx;
+  --fs-md: 38rpx;
+  --fs-lg: 46rpx;
+  --fs-xl: 58rpx;
+  --fs-2xl: 76rpx;
+  --fs-3xl: 108rpx;
+
+  /* 间距 */
+  --sp-1: 8rpx;
+  --sp-2: 16rpx;
+  --sp-3: 24rpx;
+  --sp-4: 32rpx;
+  --sp-5: 48rpx;
+  --sp-6: 64rpx;
+  --sp-7: 96rpx;
+
+  /* 圆角 */
+  --r-sm: 8rpx;
+  --r-md: 16rpx;
+  --r-lg: 24rpx;
+  --r-xl: 32rpx;
+  --r-full: 9999rpx;
+
+  /* 阴影 */
+  --sh-glow-zhu: 0 0 24rpx rgba(200, 48, 42, 0.4);
+  --sh-glow-liu: 0 0 32rpx rgba(212, 175, 55, 0.35);
+  --sh-glow-zi:  0 0 24rpx rgba(91, 58, 142, 0.5);
+  --sh-card: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+
+  /* 缓动 */
+  --ease-mystic: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* z-index */
+  --z-bg: 0;
+  --z-content: 10;
+  --z-toolbar: 50;
+  --z-modal: 100;
+  --z-toast: 200;
+
+  /* 安全区 */
+  --safe-top: 0px;
+  --safe-bottom: 0px;
+  --safe-left: 0px;
+  --safe-right: 0px;
+
+  /* 内容宽度限制（响应式） */
+  --content-max-width: 100%;
+
+  background: var(--color-xuan);
+  color: var(--color-bai);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', '思源黑体', sans-serif;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+}
+
+/* ============================================================
+   字号档（用户设置 · 整体放大便于阅读）
+   ============================================================ */
+.fs-sm { --fs-xs: 24rpx; --fs-sm: 28rpx; --fs-base: 32rpx; --fs-md: 36rpx; --fs-lg: 42rpx; --fs-xl: 52rpx; --fs-2xl: 68rpx; --fs-3xl: 96rpx; }
+.fs-md { /* 默认 */ }
+.fs-lg { --fs-xs: 28rpx; --fs-sm: 32rpx; --fs-base: 36rpx; --fs-md: 42rpx; --fs-lg: 50rpx; --fs-xl: 64rpx; --fs-2xl: 84rpx; --fs-3xl: 120rpx; }
+
+/* ============================================================
+   字体档（用户设置）
+   ============================================================ */
+.font-kaiti    { --font-mystic: '霞鹜文楷', 'STKaiti', 'KaiTi', '楷体', serif; }
+.font-songti   { --font-mystic: 'STSong', 'SimSun', '宋体', serif; }
+.font-zhuanshu { --font-mystic: 'STZhongsong', 'STKaiti', 'KaiTi', serif; letter-spacing: 0.1em; }
+.font-heiti    { --font-mystic: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif; }
+
+/* ============================================================
+   主题（用户设置）
+   ============================================================ */
+.theme-xuanhuang  { /* 默认 · 玄黑 + 流金 + 朱砂 */ }
+.theme-xuanzi     { --color-liu: #B49ED8; --color-zhu: #7C4DFF; }
+.theme-xuanqing   { --color-liu: #4DB6AC; --color-zhu: #00897B; }
+
+/* ============================================================
+   亮色模式（用户设置）
+   ============================================================ */
+.mode-light {
+  --color-xuan: #F5F1E8;
+  --color-xuan-2: #EBE6D6;
+  --color-xuan-3: #DCD5BF;
+  --color-bai: #1A1A22;
+  --color-bai-2: #4A4A55;
+  --color-bai-3: #888280;
+  --sh-card: 0 8rpx 24rpx rgba(80, 60, 30, 0.12);
+  /* 五行色在亮色背景下的浅色变体（更易读） */
+  --color-jin:  #B5944A;
+  --color-mu:   #1F6B3F;
+  --color-shui: #1F4E7A;
+  --color-huo:  #B02822;
+  --color-tu:   #8B6234;
+  background: var(--color-xuan);
+  color: var(--color-bai);
+}

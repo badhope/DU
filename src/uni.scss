@@ -1,0 +1,28 @@
+/**
+ * 玄枢 MISTVERSE · 全局样式
+ * 覆盖 uni-app 默认主题，注入玄学色系
+ * 注意：SCSS 变量已迁移至 tokens.css (CSS custom properties)
+ * uni.scss 仅保留 uni-app 框架所需的主题覆盖变量
+ */
+
+/* 主色重定义（硬编码值，与 tokens.css 保持同步） */
+$uni-color-primary: #C8302A;
+$uni-color-success: #2F7D4F;
+$uni-color-warning: #D4AF37;
+$uni-color-error: #C8302A;
+
+/* 文字 */
+$uni-text-color: #F5F1E8;
+$uni-text-color-inverse: #0A0A12;
+$uni-text-color-grey: #6B6655;
+$uni-text-color-placeholder: #6B6655;
+$uni-text-color-disable: #6B6655;
+
+/* 背景 */
+$uni-bg-color: #0A0A12;
+$uni-bg-color-grey: #14141C;
+$uni-bg-color-hover: #1F1F2B;
+$uni-bg-color-mask: rgba(10, 10, 18, 0.85);
+
+/* 边框 */
+$uni-border-color: rgba(212, 175, 55, 0.2);
