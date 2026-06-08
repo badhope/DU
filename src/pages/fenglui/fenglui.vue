@@ -145,7 +145,7 @@ import { calcFenglui, BA_ZHAI_GUA, type FengluiResult } from '@/utils/fenglui'
 const app = useAppStore()
 const form = ref({ year: 1990, gender: '男' as '男' | '女' })
 function onPick(k: string, e: any) {
-  (form.value as any)[k] = Number(e.detail.value)
+  ;(form.value as any)[k] = Number(e.detail.value)
 }
 const result = ref<FengluiResult | null>(null)
 const loading = ref(false)
