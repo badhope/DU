@@ -632,31 +632,8 @@ export function calcDayun(
   //         阴男/阳女 → 出生到上一个节气（逆行）的天数
   // 每 3 天 = 1 年
   const birthDate = new Date(birthYear, birthMonth - 1, birthDay)
-  let _diffDays = 0
-  if (direction === '顺') {
-    // 找下一个节
-    const jieqiOrder: DiZhi[] = [
-      '寅',
-      '卯',
-      '辰',
-      '巳',
-      '午',
-      '未',
-      '申',
-      '酉',
-      '戌',
-      '亥',
-      '子',
-      '丑',
-    ]
-    const currentZhi = bazi.month.zhi
-    const _currentIdx = jieqiOrder.indexOf(currentZhi)
-    // 用一个近似：直接计算 15 天（每月约 30 天，过中气后约 15 天到下一节气）
-    // 更精确：查 jieqiDay（已在 bazi.ts 导出）
-    _diffDays = 15 // 简化
-  } else {
-    _diffDays = 15
-  }
+  // 精确起运需查节气表，此处用简化估算（立春基准）
+  // 更精确：查 jieqiDay（已在 bazi.ts 导出）
   // 更精确：用节气平均间隔 30.43 天
   // 起运天数 = 节气到出生日距离（顺）或 反向（逆）
   // 近似：以"出生到本月节气" + "到下月节气"为参考
