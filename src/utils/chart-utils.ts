@@ -15,7 +15,13 @@ export function polar(cx: number, cy: number, r: number, deg: number): { x: numb
 }
 
 /** SVG arc 路径 */
-export function arcPath(cx: number, cy: number, r: number, startDeg: number, endDeg: number): string {
+export function arcPath(
+  cx: number,
+  cy: number,
+  r: number,
+  startDeg: number,
+  endDeg: number,
+): string {
   const start = polar(cx, cy, r, endDeg)
   const end = polar(cx, cy, r, startDeg)
   const largeArc = endDeg - startDeg <= 180 ? 0 : 1
@@ -23,7 +29,14 @@ export function arcPath(cx: number, cy: number, r: number, startDeg: number, end
 }
 
 /** 圆环扇形路径（用于环形进度/五环图） */
-export function ringSectorPath(cx: number, cy: number, rOuter: number, rInner: number, startDeg: number, endDeg: number): string {
+export function ringSectorPath(
+  cx: number,
+  cy: number,
+  rOuter: number,
+  rInner: number,
+  startDeg: number,
+  endDeg: number,
+): string {
   const a1 = polar(cx, cy, rOuter, endDeg)
   const a2 = polar(cx, cy, rOuter, startDeg)
   const b1 = polar(cx, cy, rInner, startDeg)
@@ -40,14 +53,34 @@ export function ringSectorPath(cx: number, cy: number, rOuter: number, rInner: n
 
 /** 12 星座顺序 */
 export const ZODIAC_ORDER = [
-  '白羊', '金牛', '双子', '巨蟹', '狮子', '处女',
-  '天秤', '天蝎', '射手', '摩羯', '水瓶', '双鱼',
+  '白羊',
+  '金牛',
+  '双子',
+  '巨蟹',
+  '狮子',
+  '处女',
+  '天秤',
+  '天蝎',
+  '射手',
+  '摩羯',
+  '水瓶',
+  '双鱼',
 ] as const
 
 /** 12 地支顺序（用于命盘） */
 export const DIZHI_ORDER = [
-  '子', '丑', '寅', '卯', '辰', '巳',
-  '午', '未', '申', '酉', '戌', '亥',
+  '子',
+  '丑',
+  '寅',
+  '卯',
+  '辰',
+  '巳',
+  '午',
+  '未',
+  '申',
+  '酉',
+  '戌',
+  '亥',
 ] as const
 
 /** 五行颜色（与 tokens.css 对齐） */

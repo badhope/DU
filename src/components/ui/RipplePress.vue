@@ -7,28 +7,36 @@
 <template>
   <view class="ripple-host" :class="['ripple-press', { 'is-disabled': disabled }]" @tap="onTap">
     <slot />
-    <view v-for="r in ripples" :key="r.id" class="ripple" :style="{ left: r.x + 'px', top: r.y + 'px', width: r.size + 'px', height: r.size + 'px' }" />
+    <view
+      v-for="r in ripples"
+      :key="r.id"
+      class="ripple"
+      :style="{ left: r.x + 'px', top: r.y + 'px', width: r.size + 'px', height: r.size + 'px' }"
+    />
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  /** 涟漪颜色 */
-  color?: string
-  /** 禁用 */
-  disabled?: boolean
-  /** 缩放反馈 */
-  scaleFeedback?: boolean
-  /** 节流（ms） */
-  throttle?: number
-}>(), {
-  color: 'rgba(212, 175, 55, 0.5)',
-  disabled: false,
-  scaleFeedback: true,
-  throttle: 200,
-})
+const props = withDefaults(
+  defineProps<{
+    /** 涟漪颜色 */
+    color?: string
+    /** 禁用 */
+    disabled?: boolean
+    /** 缩放反馈 */
+    scaleFeedback?: boolean
+    /** 节流（ms） */
+    throttle?: number
+  }>(),
+  {
+    color: 'rgba(212, 175, 55, 0.5)',
+    disabled: false,
+    scaleFeedback: true,
+    throttle: 200,
+  },
+)
 
 const emit = defineEmits<{ (e: 'tap', evt: any): void }>()
 const ripples = ref<Array<{ id: number; x: number; y: number; size: number }>>([])
@@ -43,7 +51,8 @@ function onTap(e: any) {
 
   // 解析坐标
   const target = e.currentTarget
-  let x = 0, y = 0
+  let x = 0,
+    y = 0
   if (target && target.getBoundingClientRect) {
     const rect = target.getBoundingClientRect()
     if (e.touches && e.touches.length) {
@@ -68,17 +77,27 @@ function onTap(e: any) {
   const id = ++rippleId
   ripples.value.push({ id, x, y, size })
   setTimeout(() => {
-    ripples.value = ripples.value.filter(r => r.id !== id)
+    ripples.value = ripples.value.filter((r) => r.id !== id)
   }, 720)
   emit('tap', e)
 }
 </script>
 
 <style scoped>
-.ripple-host { position: relative; overflow: hidden; }
-.ripple-press { transition: transform 0.18s var(--ease-mystic); }
-.ripple-press:active { transform: scale(0.96); }
-.ripple-press.is-disabled { opacity: 0.5; pointer-events: none; }
+.ripple-host {
+  position: relative;
+  overflow: hidden;
+}
+.ripple-press {
+  transition: transform 0.18s var(--ease-mystic);
+}
+.ripple-press:active {
+  transform: scale(0.96);
+}
+.ripple-press.is-disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
 .ripple {
   position: absolute;
   background: v-bind(color);
@@ -89,7 +108,13 @@ function onTap(e: any) {
   mix-blend-mode: screen;
 }
 @keyframes ripple-expand {
-  0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
-  100% { transform: translate(-50%, -50%) scale(2.5); opacity: 0; }
+  0% {
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2.5);
+    opacity: 0;
+  }
 }
 </style>

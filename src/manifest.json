@@ -18,9 +18,7 @@
     "modules": {},
     "distribute": {
       "android": {
-        "permissions": [
-          "<uses-permission android:name=\"android.permission.INTERNET\"/>"
-        ]
+        "permissions": ["<uses-permission android:name=\"android.permission.INTERNET\"/>"]
       },
       "ios": {},
       "sdkConfigs": {}

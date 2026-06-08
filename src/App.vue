@@ -6,14 +6,26 @@ function injectSafeAreaVars() {
   try {
     // 优先 uni-app 自带 API；H5 端没有则跳过
     // @ts-ignore
-    const sys = (typeof uni !== 'undefined' && uni.getSystemInfoSync) ? uni.getSystemInfoSync() : null
+    const sys = typeof uni !== 'undefined' && uni.getSystemInfoSync ? uni.getSystemInfoSync() : null
     if (!sys) return
-    const top = (sys.statusBarHeight && Number.isFinite(sys.statusBarHeight)) ? sys.statusBarHeight + 'px' : '0px'
-    const bottom = (sys.safeAreaInsets?.bottom && Number.isFinite(sys.safeAreaInsets.bottom))
-      ? sys.safeAreaInsets.bottom + 'px'
-      : (sys.safeArea?.height && sys.screenHeight ? Math.max(0, sys.screenHeight - sys.safeArea.height - sys.safeArea.top) + 'px' : '0px')
-    const left = (sys.safeAreaInsets?.left && Number.isFinite(sys.safeAreaInsets.left)) ? sys.safeAreaInsets.left + 'px' : '0px'
-    const right = (sys.safeAreaInsets?.right && Number.isFinite(sys.safeAreaInsets.right)) ? sys.safeAreaInsets.right + 'px' : '0px'
+    const top =
+      sys.statusBarHeight && Number.isFinite(sys.statusBarHeight)
+        ? sys.statusBarHeight + 'px'
+        : '0px'
+    const bottom =
+      sys.safeAreaInsets?.bottom && Number.isFinite(sys.safeAreaInsets.bottom)
+        ? sys.safeAreaInsets.bottom + 'px'
+        : sys.safeArea?.height && sys.screenHeight
+          ? Math.max(0, sys.screenHeight - sys.safeArea.height - sys.safeArea.top) + 'px'
+          : '0px'
+    const left =
+      sys.safeAreaInsets?.left && Number.isFinite(sys.safeAreaInsets.left)
+        ? sys.safeAreaInsets.left + 'px'
+        : '0px'
+    const right =
+      sys.safeAreaInsets?.right && Number.isFinite(sys.safeAreaInsets.right)
+        ? sys.safeAreaInsets.right + 'px'
+        : '0px'
     const style = `--safe-top:${top};--safe-bottom:${bottom};--safe-left:${left};--safe-right:${right};`
     if (typeof document !== 'undefined') {
       const prev = document.documentElement.getAttribute('data-safe') || ''
@@ -44,7 +56,15 @@ onHide(() => {
 page {
   background: var(--color-xuan);
   color: var(--color-bai);
-  font-family: var(--font-mystic, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', '思源黑体', sans-serif);
+  font-family: var(
+    --font-mystic,
+    -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    'Microsoft YaHei',
+    '思源黑体',
+    sans-serif
+  );
   font-size: var(--fs-base);
   line-height: 1.6;
   /* 安全区适配（H5/iOS/Android 通用） */
@@ -56,34 +76,83 @@ page {
 }
 
 /* ===== 工具类 ===== */
-.flex { display: flex; }
-.flex-col { display: flex; flex-direction: column; }
-.items-center { align-items: center; }
-.justify-center { justify-content: center; }
-.justify-between { justify-content: space-between; }
-.text-center { text-align: center; }
-.relative { position: relative; }
-.absolute { position: absolute; }
-.safe-pb { padding-bottom: env(safe-area-inset-bottom); }
-.safe-pt { padding-top: env(safe-area-inset-top); }
+.flex {
+  display: flex;
+}
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
+.items-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.justify-between {
+  justify-content: space-between;
+}
+.text-center {
+  text-align: center;
+}
+.relative {
+  position: relative;
+}
+.absolute {
+  position: absolute;
+}
+.safe-pb {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.safe-pt {
+  padding-top: env(safe-area-inset-top);
+}
 
 /* ===== 文字色彩 ===== */
-.text-xuan  { color: var(--color-xuan); }
-.text-zhu   { color: var(--color-zhu); }
-.text-liu   { color: var(--color-liu); }
-.text-bai   { color: var(--color-bai); }
-.text-bai-2 { color: var(--color-bai-2); }
-.text-bai-3 { color: var(--color-bai-3); }
-.text-jin   { color: var(--color-jin); }
-.text-mu    { color: var(--color-mu); }
-.text-shui  { color: var(--color-shui); }
-.text-huo   { color: var(--color-huo); }
-.text-tu    { color: var(--color-tu); }
+.text-xuan {
+  color: var(--color-xuan);
+}
+.text-zhu {
+  color: var(--color-zhu);
+}
+.text-liu {
+  color: var(--color-liu);
+}
+.text-bai {
+  color: var(--color-bai);
+}
+.text-bai-2 {
+  color: var(--color-bai-2);
+}
+.text-bai-3 {
+  color: var(--color-bai-3);
+}
+.text-jin {
+  color: var(--color-jin);
+}
+.text-mu {
+  color: var(--color-mu);
+}
+.text-shui {
+  color: var(--color-shui);
+}
+.text-huo {
+  color: var(--color-huo);
+}
+.text-tu {
+  color: var(--color-tu);
+}
 
 /* ===== 背景 ===== */
-.bg-xuan  { background: var(--color-xuan); }
-.bg-xuan-2 { background: var(--color-xuan-2); }
-.bg-xuan-3 { background: var(--color-xuan-3); }
+.bg-xuan {
+  background: var(--color-xuan);
+}
+.bg-xuan-2 {
+  background: var(--color-xuan-2);
+}
+.bg-xuan-3 {
+  background: var(--color-xuan-3);
+}
 
 /* ===== 古风标题 ===== */
 .title-mystic {
@@ -93,10 +162,25 @@ page {
   text-shadow: 0 0 12rpx rgba(212, 175, 55, 0.5);
 }
 
-.title-xl { font-size: var(--fs-3xl); font-weight: 700; line-height: 1.2; }
-.title-lg { font-size: var(--fs-2xl); font-weight: 600; line-height: 1.3; }
-.title-md { font-size: var(--fs-xl); font-weight: 600; line-height: 1.4; }
-.title-sm { font-size: var(--fs-lg); font-weight: 500; }
+.title-xl {
+  font-size: var(--fs-3xl);
+  font-weight: 700;
+  line-height: 1.2;
+}
+.title-lg {
+  font-size: var(--fs-2xl);
+  font-weight: 600;
+  line-height: 1.3;
+}
+.title-md {
+  font-size: var(--fs-xl);
+  font-weight: 600;
+  line-height: 1.4;
+}
+.title-sm {
+  font-size: var(--fs-lg);
+  font-weight: 500;
+}
 
 /* ===== 朱砂按钮 ===== */
 .btn-zhu {
@@ -105,7 +189,7 @@ page {
   align-items: center;
   justify-content: center;
   padding: var(--sp-3) var(--sp-5);
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   color: var(--color-bai);
   border-radius: var(--r-full);
   font-size: var(--fs-md);
@@ -122,7 +206,12 @@ page {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, transparent 30%, rgba(255,255,255,0.2) 50%, transparent 70%);
+  background: linear-gradient(
+    120deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.2) 50%,
+    transparent 70%
+  );
   transform: translateX(-100%);
   transition: transform 0.6s ease;
 }
@@ -141,7 +230,10 @@ page {
   box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.6);
 }
 
-.btn-zhu.is-loading { opacity: 0.7; pointer-events: none; }
+.btn-zhu.is-loading {
+  opacity: 0.7;
+  pointer-events: none;
+}
 
 .btn-ghost {
   display: inline-flex;
@@ -206,66 +298,142 @@ page {
 
 /* ===== 入场动画 ===== */
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(40rpx); }
-  to   { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(40rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 @keyframes rotate360 {
-  from { transform: rotate(0deg); }
-  to   { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 @keyframes shimmer {
-  0%   { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.3); }
-  50%      { box-shadow: 0 0 32rpx rgba(200, 48, 42, 0.7); }
+  0%,
+  100% {
+    box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 32rpx rgba(200, 48, 42, 0.7);
+  }
 }
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-8rpx); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8rpx);
+  }
 }
 @keyframes stamp {
-  0%   { transform: scale(2) rotate(-15deg); opacity: 0; }
-  60%  { transform: scale(0.95) rotate(2deg); opacity: 1; }
-  100% { transform: scale(1) rotate(0); opacity: 1; }
+  0% {
+    transform: scale(2) rotate(-15deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.95) rotate(2deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
 }
 @keyframes slideInRight {
-  from { opacity: 0; transform: translateX(60rpx); }
-  to   { opacity: 1; transform: translateX(0); }
+  from {
+    opacity: 0;
+    transform: translateX(60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 @keyframes pulse-soft {
-  0%, 100% { opacity: 0.7; }
-  50%      { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.7;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
-.anim-fade-up   { animation: fadeInUp 0.6s var(--ease-mystic) both; }
-.anim-fade      { animation: fadeIn 0.8s ease both; }
-.anim-rotate    { animation: rotate360 60s linear infinite; }
-.anim-float     { animation: float 4s ease-in-out infinite; }
-.anim-pulse     { animation: pulse-glow 2.4s ease-in-out infinite; }
-.anim-pulse-soft { animation: pulse-soft 3s ease-in-out infinite; }
-.anim-stamp     { animation: stamp 0.6s var(--ease-bounce) both; }
-.anim-slide-in  { animation: slideInRight 0.5s var(--ease-mystic) both; }
+.anim-fade-up {
+  animation: fadeInUp 0.6s var(--ease-mystic) both;
+}
+.anim-fade {
+  animation: fadeIn 0.8s ease both;
+}
+.anim-rotate {
+  animation: rotate360 60s linear infinite;
+}
+.anim-float {
+  animation: float 4s ease-in-out infinite;
+}
+.anim-pulse {
+  animation: pulse-glow 2.4s ease-in-out infinite;
+}
+.anim-pulse-soft {
+  animation: pulse-soft 3s ease-in-out infinite;
+}
+.anim-stamp {
+  animation: stamp 0.6s var(--ease-bounce) both;
+}
+.anim-slide-in {
+  animation: slideInRight 0.5s var(--ease-mystic) both;
+}
 
 /* 减少动效偏好：尊重系统设置 */
 @media (prefers-reduced-motion: reduce) {
-  .anim-fade-up, .anim-fade, .anim-stamp, .anim-slide-in {
+  .anim-fade-up,
+  .anim-fade,
+  .anim-stamp,
+  .anim-slide-in {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
   }
-  .anim-rotate, .anim-float, .anim-pulse, .anim-pulse-soft {
+  .anim-rotate,
+  .anim-float,
+  .anim-pulse,
+  .anim-pulse-soft {
     animation: none !important;
   }
-  * { transition-duration: 0.01ms !important; }
+  * {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* ===== 滚动条隐藏 ===== */
-::-webkit-scrollbar { display: none; width: 0; height: 0; }
+::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
 
 /* ============================================================
    响应式断点 · 适配 iPad / 桌面 / 横屏
@@ -285,7 +453,9 @@ page {
     margin-right: auto;
   }
   /* 卡片圆角放大 */
-  .card-mystic { border-radius: calc(var(--r-lg) * 1.4); }
+  .card-mystic {
+    border-radius: calc(var(--r-lg) * 1.4);
+  }
 }
 
 /* iPad 横屏 / 桌面 */
@@ -293,10 +463,16 @@ page {
   :root {
     --content-max-width: 880px;
   }
-  .card-mystic { border-radius: calc(var(--r-lg) * 1.6); }
+  .card-mystic {
+    border-radius: calc(var(--r-lg) * 1.6);
+  }
   /* 字体适度放大 */
-  .title-xl { font-size: calc(var(--fs-3xl) * 1.1); }
-  .title-lg { font-size: calc(var(--fs-2xl) * 1.1); }
+  .title-xl {
+    font-size: calc(var(--fs-3xl) * 1.1);
+  }
+  .title-lg {
+    font-size: calc(var(--fs-2xl) * 1.1);
+  }
 }
 
 /* 超宽屏（>1440 桌面） */
@@ -304,20 +480,30 @@ page {
   :root {
     --content-max-width: 1040px;
   }
-  .card-mystic { border-radius: calc(var(--r-lg) * 1.8); }
+  .card-mystic {
+    border-radius: calc(var(--r-lg) * 1.8);
+  }
 }
 
 /* 横屏适配 · 小屏幕 */
 @media (max-height: 500px) and (orientation: landscape) {
   /* 横屏时状态栏高度变化 */
-  page { padding-top: 0; }
+  page {
+    padding-top: 0;
+  }
 }
 
 /* 触摸设备优化 */
 @media (hover: none) and (pointer: coarse) {
   /* 触屏：按钮加大命中区 */
-  .btn-zhu, .btn-ghost { min-height: 88rpx; }
+  .btn-zhu,
+  .btn-ghost {
+    min-height: 88rpx;
+  }
   /* 禁用悬停态（避免移动端卡顿） */
-  .btn-zhu:hover, .btn-ghost:hover { transform: none; }
+  .btn-zhu:hover,
+  .btn-ghost:hover {
+    transform: none;
+  }
 }
 </style>

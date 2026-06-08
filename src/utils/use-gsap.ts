@@ -9,8 +9,13 @@ import { ref, onMounted, onBeforeUnmount, type Ref } from 'vue'
 import { gsap } from 'gsap'
 
 /** 入场：fade up cascade */
-export function useCascadeReveal(selector: string | Ref<HTMLElement | null>, options: { delay?: number; stagger?: number; duration?: number; distance?: number } = {}) {
-  const target = (typeof selector === 'string' ? ref<HTMLElement | null>(null) : selector) as Ref<HTMLElement | null>
+export function useCascadeReveal(
+  selector: string | Ref<HTMLElement | null>,
+  options: { delay?: number; stagger?: number; duration?: number; distance?: number } = {},
+) {
+  const target = (
+    typeof selector === 'string' ? ref<HTMLElement | null>(null) : selector
+  ) as Ref<HTMLElement | null>
   const played = ref(false)
   const { delay = 0, stagger = 0.08, duration = 0.7, distance = 40 } = options
 
@@ -21,12 +26,24 @@ export function useCascadeReveal(selector: string | Ref<HTMLElement | null>, opt
     if (typeof selector === 'string') {
       const items = el.querySelectorAll(selector as string)
       if (items.length === 0) {
-        gsap.fromTo(el, { opacity: 0, y: distance }, { opacity: 1, y: 0, duration, delay, ease: 'power3.out' })
+        gsap.fromTo(
+          el,
+          { opacity: 0, y: distance },
+          { opacity: 1, y: 0, duration, delay, ease: 'power3.out' },
+        )
       } else {
-        gsap.fromTo(items, { opacity: 0, y: distance }, { opacity: 1, y: 0, duration, stagger, delay, ease: 'power3.out' })
+        gsap.fromTo(
+          items,
+          { opacity: 0, y: distance },
+          { opacity: 1, y: 0, duration, stagger, delay, ease: 'power3.out' },
+        )
       }
     } else {
-      gsap.fromTo(el, { opacity: 0, y: distance }, { opacity: 1, y: 0, duration, delay, ease: 'power3.out' })
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: distance },
+        { opacity: 1, y: 0, duration, delay, ease: 'power3.out' },
+      )
     }
   }
 
@@ -38,7 +55,10 @@ export function useCascadeReveal(selector: string | Ref<HTMLElement | null>, opt
 }
 
 /** 数字滚动动画（0 → target） */
-export function useCountUp(target: Ref<number>, options: { duration?: number; decimals?: number } = {}) {
+export function useCountUp(
+  target: Ref<number>,
+  options: { duration?: number; decimals?: number } = {},
+) {
   const { duration = 1.6, decimals = 0 } = options
   const display = ref(0)
   const obj = { v: 0 }
@@ -63,7 +83,10 @@ export function useCountUp(target: Ref<number>, options: { duration?: number; de
 }
 
 /** 进度条从 0 → target 平滑增长 */
-export function useProgressBar(target: Ref<number>, options: { duration?: number; delay?: number } = {}) {
+export function useProgressBar(
+  target: Ref<number>,
+  options: { duration?: number; delay?: number } = {},
+) {
   const { duration = 1.2, delay = 0.2 } = options
   const width = ref(0)
   const obj = { v: 0 }
@@ -75,7 +98,9 @@ export function useProgressBar(target: Ref<number>, options: { duration?: number
       duration,
       delay,
       ease: 'power2.out',
-      onUpdate: () => { width.value = obj.v },
+      onUpdate: () => {
+        width.value = obj.v
+      },
     })
   }
 
@@ -87,14 +112,19 @@ export function useProgressBar(target: Ref<number>, options: { duration?: number
 }
 
 /** SVG 路径绘制 */
-export function usePathDraw(selector: string | Ref<HTMLElement | null>, options: { duration?: number; delay?: number } = {}) {
+export function usePathDraw(
+  selector: string | Ref<HTMLElement | null>,
+  options: { duration?: number; delay?: number } = {},
+) {
   const { duration = 2, delay = 0.2 } = options
-  const target = (typeof selector === 'string' ? ref<HTMLElement | null>(null) : selector) as Ref<HTMLElement | null>
+  const target = (
+    typeof selector === 'string' ? ref<HTMLElement | null>(null) : selector
+  ) as Ref<HTMLElement | null>
 
   function play() {
     if (!target.value || typeof window === 'undefined') return
     const paths = target.value.querySelectorAll('path, circle, line, polyline, polygon')
-    paths.forEach(p => {
+    paths.forEach((p) => {
       const total = (p as SVGPathElement).getTotalLength?.() || 1000
       gsap.set(p, { strokeDasharray: total, strokeDashoffset: total })
       gsap.to(p, {
@@ -162,23 +192,29 @@ export function useMagnetic(strength: number = 0.3) {
 }
 
 /** 滚动响应：进入视口时触发 */
-export function useRevealOnScroll(selector: string, options: { threshold?: number; once?: boolean; className?: string } = {}) {
+export function useRevealOnScroll(
+  selector: string,
+  options: { threshold?: number; once?: boolean; className?: string } = {},
+) {
   const { threshold = 0.15, once = true, className = 'reveal-on' } = options
   const observer = ref<IntersectionObserver | null>(null)
 
   onMounted(() => {
     if (typeof window === 'undefined') return
-    observer.value = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(className)
-          if (once) observer.value?.unobserve(entry.target)
-        } else if (!once) {
-          entry.target.classList.remove(className)
-        }
-      })
-    }, { threshold })
-    document.querySelectorAll(selector).forEach(el => {
+    observer.value = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add(className)
+            if (once) observer.value?.unobserve(entry.target)
+          } else if (!once) {
+            entry.target.classList.remove(className)
+          }
+        })
+      },
+      { threshold },
+    )
+    document.querySelectorAll(selector).forEach((el) => {
       el.classList.add('reveal-init')
       observer.value?.observe(el)
     })
@@ -190,7 +226,10 @@ export function useRevealOnScroll(selector: string, options: { threshold?: numbe
 }
 
 /** 占卜摇卦：粒子随机旋转 + 抖 */
-export function useShakeRoll(target: Ref<HTMLElement | null>, options: { duration?: number; intensity?: number } = {}) {
+export function useShakeRoll(
+  target: Ref<HTMLElement | null>,
+  options: { duration?: number; intensity?: number } = {},
+) {
   const { duration = 1.6, intensity = 12 } = options
   const playing = ref(false)
 
@@ -198,12 +237,38 @@ export function useShakeRoll(target: Ref<HTMLElement | null>, options: { duratio
     if (!target.value || typeof window === 'undefined' || playing.value) return
     playing.value = true
     const tl = gsap.timeline({
-      onComplete: () => { playing.value = false },
+      onComplete: () => {
+        playing.value = false
+      },
     })
-    tl.to(target.value, { rotation: intensity, x: -intensity, y: -intensity, duration: duration / 8, ease: 'power1.inOut' })
-      .to(target.value, { rotation: -intensity, x: intensity, y: intensity, duration: duration / 8, ease: 'power1.inOut' })
-      .to(target.value, { rotation: intensity * 0.7, x: -intensity * 0.7, y: intensity * 0.5, duration: duration / 6, ease: 'power1.inOut' })
-      .to(target.value, { rotation: -intensity * 0.4, x: intensity * 0.4, y: -intensity * 0.3, duration: duration / 6, ease: 'power1.inOut' })
+    tl.to(target.value, {
+      rotation: intensity,
+      x: -intensity,
+      y: -intensity,
+      duration: duration / 8,
+      ease: 'power1.inOut',
+    })
+      .to(target.value, {
+        rotation: -intensity,
+        x: intensity,
+        y: intensity,
+        duration: duration / 8,
+        ease: 'power1.inOut',
+      })
+      .to(target.value, {
+        rotation: intensity * 0.7,
+        x: -intensity * 0.7,
+        y: intensity * 0.5,
+        duration: duration / 6,
+        ease: 'power1.inOut',
+      })
+      .to(target.value, {
+        rotation: -intensity * 0.4,
+        x: intensity * 0.4,
+        y: -intensity * 0.3,
+        duration: duration / 6,
+        ease: 'power1.inOut',
+      })
       .to(target.value, { rotation: 0, x: 0, y: 0, duration: duration / 3, ease: 'back.out(1.2)' })
   }
 

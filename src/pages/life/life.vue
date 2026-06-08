@@ -1,5 +1,8 @@
 <template>
-  <view class="page" :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']">
+  <view
+    class="page"
+    :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
+  >
     <view class="taiji-bg"><TaijiBg /></view>
     <TopBar title="生命灵数" subtitle="LIFE PATH NUMBER" />
 
@@ -9,13 +12,24 @@
 
       <view class="form-row">
         <text class="form-label">年</text>
-        <picker mode="number" :value="form.year" :min="1900" :max="2010" @change="onPick('year', $event)">
+        <picker
+          mode="number"
+          :value="form.year"
+          :min="1900"
+          :max="2010"
+          @change="onPick('year', $event)"
+        >
           <view class="form-picker">{{ form.year }} 年</view>
         </picker>
       </view>
       <view class="form-row">
         <text class="form-label">月</text>
-        <picker mode="selector" :value="form.month - 1" :range="monthRange" @change="onPick('month', $event)">
+        <picker
+          mode="selector"
+          :value="form.month - 1"
+          :range="monthRange"
+          @change="onPick('month', $event)"
+        >
           <view class="form-picker">{{ form.month }} 月</view>
         </picker>
       </view>
@@ -42,31 +56,52 @@
       <view class="grid-4 card-mystic anim-fade-up">
         <view class="g-cell" :style="{ borderColor: result.primary.color }">
           <text class="g-label">生 命 数</text>
-          <text class="g-num" :style="{ color: result.primary.color }">{{ result.number.lifePath }}</text>
+          <text class="g-num" :style="{ color: result.primary.color }">
+            {{ result.number.lifePath }}
+          </text>
           <text class="g-name">{{ result.primary.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.expressionMeta.color }">
           <text class="g-label">表 现 数</text>
-          <text class="g-num" :style="{ color: result.expressionMeta.color }">{{ result.number.expression }}</text>
+          <text class="g-num" :style="{ color: result.expressionMeta.color }">
+            {{ result.number.expression }}
+          </text>
           <text class="g-name">{{ result.expressionMeta.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.soulMeta.color }">
           <text class="g-label">灵 魂 数</text>
-          <text class="g-num" :style="{ color: result.soulMeta.color }">{{ result.number.soulUrge }}</text>
+          <text class="g-num" :style="{ color: result.soulMeta.color }">
+            {{ result.number.soulUrge }}
+          </text>
           <text class="g-name">{{ result.soulMeta.name }}</text>
         </view>
         <view class="g-cell" :style="{ borderColor: result.destinyMeta.color }">
           <text class="g-label">命 运 数</text>
-          <text class="g-num" :style="{ color: result.destinyMeta.color }">{{ result.number.destiny }}</text>
+          <text class="g-num" :style="{ color: result.destinyMeta.color }">
+            {{ result.number.destiny }}
+          </text>
           <text class="g-name">{{ result.destinyMeta.name }}</text>
         </view>
       </view>
 
       <!-- 主导数详批 -->
-      <view class="primary card-mystic card anim-fade-up" style="animation-delay: .1s" :style="{ borderColor: result.primary.color }">
-        <text class="pr-glyph" :style="{ color: result.primary.color, textShadow: `0 0 20rpx ${result.primary.color}` }">{{ result.primary.glyph }}</text>
-        <text class="pr-name" :style="{ color: result.primary.color }">{{ result.primary.num }} · {{ result.primary.name }}</text>
-        <text class="pr-element">五行 · {{ result.primary.element }} · 守护 · {{ result.primary.planet }}</text>
+      <view
+        class="primary card-mystic card anim-fade-up"
+        style="animation-delay: 0.1s"
+        :style="{ borderColor: result.primary.color }"
+      >
+        <text
+          class="pr-glyph"
+          :style="{ color: result.primary.color, textShadow: `0 0 20rpx ${result.primary.color}` }"
+        >
+          {{ result.primary.glyph }}
+        </text>
+        <text class="pr-name" :style="{ color: result.primary.color }">
+          {{ result.primary.num }} · {{ result.primary.name }}
+        </text>
+        <text class="pr-element">
+          五行 · {{ result.primary.element }} · 守护 · {{ result.primary.planet }}
+        </text>
         <text class="pr-desc">{{ result.primary.description }}</text>
         <view class="pr-tags">
           <text class="pr-tag virtue">德 · {{ result.primary.virtue }}</text>
@@ -75,26 +110,36 @@
       </view>
 
       <!-- 4 维建议 -->
-      <view class="advice card-mystic card anim-fade-up" style="animation-delay: .15s">
+      <view class="advice card-mystic card anim-fade-up" style="animation-delay: 0.15s">
         <text class="card-title title-mystic">四 维 建 议</text>
-        <view class="ad-row"><text class="ad-k">事业</text><text class="ad-v">{{ result.advice.career }}</text></view>
-        <view class="ad-row"><text class="ad-k">爱情</text><text class="ad-v">{{ result.advice.love }}</text></view>
-        <view class="ad-row"><text class="ad-k">健康</text><text class="ad-v">{{ result.advice.health }}</text></view>
-        <view class="ad-row"><text class="ad-k">财富</text><text class="ad-v">{{ result.advice.wealth }}</text></view>
+        <view class="ad-row">
+          <text class="ad-k">事业</text><text class="ad-v">{{ result.advice.career }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">爱情</text><text class="ad-v">{{ result.advice.love }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">健康</text><text class="ad-v">{{ result.advice.health }}</text>
+        </view>
+        <view class="ad-row">
+          <text class="ad-k">财富</text><text class="ad-v">{{ result.advice.wealth }}</text>
+        </view>
       </view>
 
       <!-- 五维评分 -->
-      <view class="scores card-mystic card anim-fade-up" style="animation-delay: .2s">
+      <view class="scores card-mystic card anim-fade-up" style="animation-delay: 0.2s">
         <text class="card-title title-mystic">五 维 评 分</text>
         <view v-for="(s, i) in scoreList" :key="i" class="s-row">
           <text class="s-name">{{ s.name }}</text>
-          <view class="s-bar"><view class="s-fill" :style="{ width: s.val + '%', background: s.color }" /></view>
+          <view class="s-bar">
+            <view class="s-fill" :style="{ width: s.val + '%', background: s.color }" />
+          </view>
           <text class="s-val" :style="{ color: s.color }">{{ s.val }}</text>
         </view>
       </view>
 
       <!-- 9 年周期 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: .25s">
+      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.25s">
         <text class="card-title title-mystic">九 年 周 期</text>
         <view class="cyc-list">
           <view v-for="(c, i) in result.cycle" :key="i" class="cyc-row" :class="cycCls(c.cycle)">
@@ -121,7 +166,7 @@ import { fullLifeResult, type LifeNumberResult } from '@/utils/life'
 
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15 })
-const monthRange = Array.from({ length: 12 }, (_, i) => (i + 1) + '月')
+const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
 const result = ref<LifeNumberResult | null>(null)
 const loading = ref(false)
 
@@ -132,18 +177,31 @@ function onPick(k: string, e: any) {
 }
 
 function calculate() {
-  const y = form.value.year, m = form.value.month, d = form.value.day
-  if (y < 1900 || y > new Date().getFullYear()) { uni.showToast({ title: `年份需 1900-${new Date().getFullYear()}`, icon: 'none' }); return }
-  if (m < 1 || m > 12) { uni.showToast({ title: '月份需 1-12', icon: 'none' }); return }
+  const y = form.value.year,
+    m = form.value.month,
+    d = form.value.day
+  if (y < 1900 || y > new Date().getFullYear()) {
+    uni.showToast({ title: `年份需 1900-${new Date().getFullYear()}`, icon: 'none' })
+    return
+  }
+  if (m < 1 || m > 12) {
+    uni.showToast({ title: '月份需 1-12', icon: 'none' })
+    return
+  }
   const dim = new Date(y, m, 0).getDate()
-  if (d < 1 || d > dim) { uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' }); return }
+  if (d < 1 || d > dim) {
+    uni.showToast({ title: `${m}月只有${dim}天`, icon: 'none' })
+    return
+  }
   loading.value = true
   setTimeout(() => {
     try {
       result.value = fullLifeResult(y, m, d)
       loading.value = false
       app.addHistory({
-        tool: 'life', toolName: '生命灵数', category: '命理',
+        tool: 'life',
+        toolName: '生命灵数',
+        category: '命理',
         input: { ...form.value },
         output: { lifePath: result.value.number.lifePath, name: result.value.primary.name },
         brief: `生命数 ${result.value.number.lifePath} · ${result.value.primary.name}`,
@@ -155,61 +213,290 @@ function calculate() {
   }, 600)
 }
 
-const scoreList = computed(() => result.value ? [
-  { name: '事业', val: (result.value as any).scores?.career ?? 60, color: '#D4AF37' },
-  { name: '财运', val: (result.value as any).scores?.wealth ?? 60, color: '#C8302A' },
-  { name: '婚姻', val: (result.value as any).scores?.relationship ?? 60, color: '#5B3A8E' },
-  { name: '健康', val: (result.value as any).scores?.health ?? 60, color: '#4FAE6F' },
-  { name: '人际', val: (result.value as any).scores?.social ?? 60, color: '#1B3A5C' },
-] : [])
+const scoreList = computed(() =>
+  result.value
+    ? [
+        { name: '事业', val: (result.value as any).scores?.career ?? 60, color: '#D4AF37' },
+        { name: '财运', val: (result.value as any).scores?.wealth ?? 60, color: '#C8302A' },
+        { name: '婚姻', val: (result.value as any).scores?.relationship ?? 60, color: '#5B3A8E' },
+        { name: '健康', val: (result.value as any).scores?.health ?? 60, color: '#4FAE6F' },
+        { name: '人际', val: (result.value as any).scores?.social ?? 60, color: '#1B3A5C' },
+      ]
+    : [],
+)
 
 function cycCls(p: string) {
-  return p === '播种' ? 'cyc-sow' : p === '生长' ? 'cyc-grow' : p === '收获' ? 'cyc-harv' : 'cyc-end'
+  return p === '播种'
+    ? 'cyc-sow'
+    : p === '生长'
+      ? 'cyc-grow'
+      : p === '收获'
+        ? 'cyc-harv'
+        : 'cyc-end'
 }
 </script>
 
 <style scoped>
-.page { position: relative; min-height: 100vh; padding: 0 var(--sp-3) var(--sp-8); overflow: hidden; }
-.taiji-bg { position: fixed; inset: 0; z-index: var(--z-bg); }
-.form { position: relative; z-index: var(--z-content); margin: var(--sp-3) var(--sp-2); padding: var(--sp-4); text-align: center; }
-.form-title { font-size: var(--fs-2xl); display: block; margin-bottom: var(--sp-2); }
-.form-sub { font-size: var(--fs-sm); color: var(--color-bai-2); letter-spacing: .1em; margin-bottom: var(--sp-4); }
-.form-row { display: flex; align-items: center; padding: var(--sp-2) var(--sp-3); margin-bottom: var(--sp-1); background: rgba(10,10,18,.5); border: 1rpx solid rgba(212,175,55,.15); border-radius: var(--r-md); }
-.form-label { width: 80rpx; text-align: left; font-size: var(--fs-md); color: var(--color-liu); font-family: 'KaiTi', serif; letter-spacing: .2em; }
-.form-picker { flex: 1; text-align: left; font-size: var(--fs-md); color: var(--color-bai); padding: var(--sp-1) 0; }
-.form-tip { font-size: var(--fs-xs); color: var(--color-bai-3); margin-top: var(--sp-2); line-height: 1.6; }
-.form-actions { margin-top: var(--sp-4); display: flex; justify-content: center; }
-.result { position: relative; z-index: var(--z-content); display: flex; flex-direction: column; gap: var(--sp-3); margin: 0 var(--sp-2); }
-.card { padding: var(--sp-4); }
-.grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--sp-2); padding: var(--sp-3); }
-.g-cell { padding: var(--sp-3); background: rgba(10,10,18,.5); border: 2rpx solid; border-radius: var(--r-md); text-align: center; }
-.g-label { display: block; font-size: 20rpx; color: var(--color-bai-3); letter-spacing: .2em; }
-.g-num { display: block; font-size: 80rpx; font-family: 'KaiTi', serif; font-weight: 700; line-height: 1; margin: 4rpx 0; text-shadow: 0 0 20rpx currentColor; }
-.g-name { display: block; font-size: var(--fs-sm); color: var(--color-bai); font-family: 'KaiTi', serif; }
-.primary { text-align: center; border: 2rpx solid; }
-.pr-glyph { display: block; font-size: 100rpx; line-height: 1; margin: var(--sp-2) 0; }
-.pr-name { display: block; font-size: var(--fs-xl); font-family: 'KaiTi', serif; font-weight: 700; margin-bottom: var(--sp-1); }
-.pr-element { display: block; font-size: var(--fs-sm); color: var(--color-bai-2); margin-bottom: var(--sp-2); }
-.pr-desc { display: block; font-size: var(--fs-md); color: var(--color-bai); font-family: 'KaiTi', serif; line-height: 1.7; margin-bottom: var(--sp-3); padding: 0 var(--sp-3); }
-.pr-tags { display: flex; flex-direction: column; gap: var(--sp-1); padding: 0 var(--sp-3); }
-.pr-tag { display: block; font-size: var(--fs-sm); font-family: 'KaiTi', serif; padding: var(--sp-1) var(--sp-2); border-radius: var(--r-sm); }
-.pr-tag.virtue { color: #4FAE6F; background: rgba(79,174,111,.1); }
-.pr-tag.flaw { color: var(--color-zhu); background: rgba(200,48,42,.1); }
-.card-title { display: block; font-size: var(--fs-md); text-align: center; margin-bottom: var(--sp-3); letter-spacing: .2em; }
-.ad-row { display: flex; gap: var(--sp-2); padding: var(--sp-2); background: rgba(10,10,18,.4); border-radius: var(--r-md); margin-bottom: 6rpx; }
-.ad-k { width: 80rpx; font-size: var(--fs-sm); color: var(--color-liu); font-family: 'KaiTi', serif; font-weight: 700; flex-shrink: 0; }
-.ad-v { flex: 1; font-size: var(--fs-sm); color: var(--color-bai); font-family: 'KaiTi', serif; line-height: 1.6; }
-.s-row { display: flex; align-items: center; gap: var(--sp-2); margin-bottom: 6rpx; }
-.s-name { width: 70rpx; font-size: var(--fs-sm); color: var(--color-bai-2); font-family: 'KaiTi', serif; }
-.s-bar { flex: 1; height: 18rpx; background: rgba(10,10,18,.6); border-radius: var(--r-full); overflow: hidden; }
-.s-fill { height: 100%; transition: width .8s var(--ease-bounce); box-shadow: 0 0 6rpx currentColor; }
-.s-val { width: 50rpx; text-align: right; font-size: var(--fs-sm); font-family: 'KaiTi', serif; font-weight: 700; }
-.cyc-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6rpx; }
-.cyc-row { padding: var(--sp-2); border-radius: var(--r-sm); text-align: center; }
-.cyc-sow { background: rgba(212,175,55,.1); border: 1rpx solid rgba(212,175,55,.3); }
-.cyc-grow { background: rgba(47,125,79,.1); border: 1rpx solid rgba(47,125,79,.3); }
-.cyc-harv { background: rgba(200,48,42,.1); border: 1rpx solid rgba(200,48,42,.3); }
-.cyc-end { background: rgba(91,58,142,.1); border: 1rpx solid rgba(91,58,142,.3); }
-.cy-year { display: block; font-size: var(--fs-sm); color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 600; }
-.cy-phase { display: block; font-size: 20rpx; color: var(--color-bai-2); font-family: 'KaiTi', serif; }
+.page {
+  position: relative;
+  min-height: 100vh;
+  padding: 0 var(--sp-3) var(--sp-8);
+  overflow: hidden;
+}
+.taiji-bg {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-bg);
+}
+.form {
+  position: relative;
+  z-index: var(--z-content);
+  margin: var(--sp-3) var(--sp-2);
+  padding: var(--sp-4);
+  text-align: center;
+}
+.form-title {
+  font-size: var(--fs-2xl);
+  display: block;
+  margin-bottom: var(--sp-2);
+}
+.form-sub {
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  letter-spacing: 0.1em;
+  margin-bottom: var(--sp-4);
+}
+.form-row {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-2) var(--sp-3);
+  margin-bottom: var(--sp-1);
+  background: rgba(10, 10, 18, 0.5);
+  border: 1rpx solid rgba(212, 175, 55, 0.15);
+  border-radius: var(--r-md);
+}
+.form-label {
+  width: 80rpx;
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  letter-spacing: 0.2em;
+}
+.form-picker {
+  flex: 1;
+  text-align: left;
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  padding: var(--sp-1) 0;
+}
+.form-tip {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  margin-top: var(--sp-2);
+  line-height: 1.6;
+}
+.form-actions {
+  margin-top: var(--sp-4);
+  display: flex;
+  justify-content: center;
+}
+.result {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin: 0 var(--sp-2);
+}
+.card {
+  padding: var(--sp-4);
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+}
+.g-cell {
+  padding: var(--sp-3);
+  background: rgba(10, 10, 18, 0.5);
+  border: 2rpx solid;
+  border-radius: var(--r-md);
+  text-align: center;
+}
+.g-label {
+  display: block;
+  font-size: 20rpx;
+  color: var(--color-bai-3);
+  letter-spacing: 0.2em;
+}
+.g-num {
+  display: block;
+  font-size: 80rpx;
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  line-height: 1;
+  margin: 4rpx 0;
+  text-shadow: 0 0 20rpx currentColor;
+}
+.g-name {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+}
+.primary {
+  text-align: center;
+  border: 2rpx solid;
+}
+.pr-glyph {
+  display: block;
+  font-size: 100rpx;
+  line-height: 1;
+  margin: var(--sp-2) 0;
+}
+.pr-name {
+  display: block;
+  font-size: var(--fs-xl);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  margin-bottom: var(--sp-1);
+}
+.pr-element {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  margin-bottom: var(--sp-2);
+}
+.pr-desc {
+  display: block;
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  line-height: 1.7;
+  margin-bottom: var(--sp-3);
+  padding: 0 var(--sp-3);
+}
+.pr-tags {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: 0 var(--sp-3);
+}
+.pr-tag {
+  display: block;
+  font-size: var(--fs-sm);
+  font-family: 'KaiTi', serif;
+  padding: var(--sp-1) var(--sp-2);
+  border-radius: var(--r-sm);
+}
+.pr-tag.virtue {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.1);
+}
+.pr-tag.flaw {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.1);
+}
+.card-title {
+  display: block;
+  font-size: var(--fs-md);
+  text-align: center;
+  margin-bottom: var(--sp-3);
+  letter-spacing: 0.2em;
+}
+.ad-row {
+  display: flex;
+  gap: var(--sp-2);
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.4);
+  border-radius: var(--r-md);
+  margin-bottom: 6rpx;
+}
+.ad-k {
+  width: 80rpx;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.ad-v {
+  flex: 1;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  line-height: 1.6;
+}
+.s-row {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: 6rpx;
+}
+.s-name {
+  width: 70rpx;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  font-family: 'KaiTi', serif;
+}
+.s-bar {
+  flex: 1;
+  height: 18rpx;
+  background: rgba(10, 10, 18, 0.6);
+  border-radius: var(--r-full);
+  overflow: hidden;
+}
+.s-fill {
+  height: 100%;
+  transition: width 0.8s var(--ease-bounce);
+  box-shadow: 0 0 6rpx currentColor;
+}
+.s-val {
+  width: 50rpx;
+  text-align: right;
+  font-size: var(--fs-sm);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.cyc-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6rpx;
+}
+.cyc-row {
+  padding: var(--sp-2);
+  border-radius: var(--r-sm);
+  text-align: center;
+}
+.cyc-sow {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1rpx solid rgba(212, 175, 55, 0.3);
+}
+.cyc-grow {
+  background: rgba(47, 125, 79, 0.1);
+  border: 1rpx solid rgba(47, 125, 79, 0.3);
+}
+.cyc-harv {
+  background: rgba(200, 48, 42, 0.1);
+  border: 1rpx solid rgba(200, 48, 42, 0.3);
+}
+.cyc-end {
+  background: rgba(91, 58, 142, 0.1);
+  border: 1rpx solid rgba(91, 58, 142, 0.3);
+}
+.cy-year {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 600;
+}
+.cy-phase {
+  display: block;
+  font-size: 20rpx;
+  color: var(--color-bai-2);
+  font-family: 'KaiTi', serif;
+}
 </style>

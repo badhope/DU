@@ -31,7 +31,10 @@
         :style="getNodeStyle(i)"
         @click="onNodeClick(wx.key)"
       >
-        <view class="wx-circle" :style="{ background: wx.gradient, boxShadow: '0 0 32rpx ' + wx.color }">
+        <view
+          class="wx-circle"
+          :style="{ background: wx.gradient, boxShadow: '0 0 32rpx ' + wx.color }"
+        >
           <text class="wx-glyph">{{ wx.name }}</text>
         </view>
         <text class="wx-pinyin">{{ wx.pinyin }}</text>
@@ -39,24 +42,34 @@
       </view>
 
       <view class="compass-center">
-        <text class="center-tip" v-if="!relation">{{ centerHint }}</text>
+        <text v-if="!relation" class="center-tip">{{ centerHint }}</text>
         <view v-else class="center-rel anim-stamp">
           <text class="rel-type" :class="'rel-' + relation">{{ RELATION_DESC[relation] }}</text>
           <text class="rel-pair">{{ pairLabel }}</text>
         </view>
       </view>
 
-      <svg v-if="selected && other" class="relation-line" :viewBox="'0 0 100 100'" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <svg
+        v-if="selected && other"
+        class="relation-line"
+        :viewBox="'0 0 100 100'"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
         <line
-          :x1="selectedCoord.x" :y1="selectedCoord.y"
-          :x2="otherCoord.x"    :y2="otherCoord.y"
-          :stroke="lineColor" stroke-width="0.6" stroke-dasharray="1.5,1"
-          style="filter: drop-shadow(0 0 1rpx currentColor);"
+          :x1="selectedCoord.x"
+          :y1="selectedCoord.y"
+          :x2="otherCoord.x"
+          :y2="otherCoord.y"
+          :stroke="lineColor"
+          stroke-width="0.6"
+          stroke-dasharray="1.5,1"
+          style="filter: drop-shadow(0 0 1rpx currentColor)"
         />
       </svg>
     </view>
 
-    <view class="legend card-mystic anim-fade-up" style="animation-delay: .2s">
+    <view class="legend card-mystic anim-fade-up" style="animation-delay: 0.2s">
       <view class="legend-item">
         <text class="legend-line legend-sheng" />
         <text class="legend-text">相生：木 → 火 → 土 → 金 → 水 → 木</text>
@@ -68,18 +81,24 @@
     </view>
 
     <!-- Tab 切换 -->
-    <view v-if="selected" class="tabs anim-fade-up" style="animation-delay: .25s">
+    <view v-if="selected" class="tabs anim-fade-up" style="animation-delay: 0.25s">
       <view
         v-for="t in TABS"
         :key="t.key"
         class="tab"
         :class="{ active: tab === t.key }"
         @click="tab = t.key as any"
-      >{{ t.label }}</view>
+      >
+        {{ t.label }}
+      </view>
     </view>
 
     <!-- 基础信息 -->
-    <view v-if="selected && tab === 'base'" class="detail card-mystic anim-fade-up" style="animation-delay: .3s">
+    <view
+      v-if="selected && tab === 'base'"
+      class="detail card-mystic anim-fade-up"
+      style="animation-delay: 0.3s"
+    >
       <view class="detail-head">
         <view class="detail-dot" :style="{ background: selected.gradient }" />
         <text class="title-mystic title-md">{{ selected.name }} · {{ selected.virtue }}</text>
@@ -106,29 +125,34 @@
     </view>
 
     <!-- 关系矩阵 -->
-    <view v-if="selected && tab === 'matrix'" class="card card-mystic anim-fade-up" style="animation-delay: .3s">
+    <view
+      v-if="selected && tab === 'matrix'"
+      class="card card-mystic anim-fade-up"
+      style="animation-delay: 0.3s"
+    >
       <text class="card-title title-mystic">关 系 矩 阵</text>
       <text class="card-tip">以 {{ selected.name }} 为太极点 · 五行生克流转</text>
       <view class="matrix">
-        <view
-          v-for="(r, i) in matrixList"
-          :key="i"
-          class="matrix-row"
-          :class="'mrow-' + r.name"
-        >
+        <view v-for="(r, i) in matrixList" :key="i" class="matrix-row" :class="'mrow-' + r.name">
           <view class="mr-label">
             <text class="mr-name">{{ r.name }}</text>
             <text class="mr-desc">{{ r.desc }}</text>
           </view>
           <view class="mr-target">
-            <text class="mr-glyph" :style="{ color: WUXING_META[r.target].color }">{{ WUXING_META[r.target].name }}</text>
+            <text class="mr-glyph" :style="{ color: WUXING_META[r.target].color }">
+              {{ WUXING_META[r.target].name }}
+            </text>
           </view>
         </view>
       </view>
     </view>
 
     <!-- 缺失补救 -->
-    <view v-if="selected && tab === 'buji'" class="card card-mystic anim-fade-up" style="animation-delay: .3s">
+    <view
+      v-if="selected && tab === 'buji'"
+      class="card card-mystic anim-fade-up"
+      style="animation-delay: 0.3s"
+    >
       <text class="card-title title-mystic">缺 失 补 救</text>
       <text class="card-tip">生辰 / 起名 / 居所 · 实用补救方案</text>
       <view class="buji-list">
@@ -169,7 +193,11 @@
     </view>
 
     <!-- 性格 -->
-    <view v-if="selected && tab === 'xingge'" class="card card-mystic anim-fade-up" style="animation-delay: .3s">
+    <view
+      v-if="selected && tab === 'xingge'"
+      class="card card-mystic anim-fade-up"
+      style="animation-delay: 0.3s"
+    >
       <text class="card-title title-mystic">性 格 特 质</text>
       <text class="card-tip">旺 则 扬 长 · 弱 则 弥 短</text>
       <view class="xg-block xg-strong">
@@ -183,7 +211,11 @@
     </view>
 
     <!-- 养生 -->
-    <view v-if="selected && tab === 'yangsheng'" class="card card-mystic anim-fade-up" style="animation-delay: .3s">
+    <view
+      v-if="selected && tab === 'yangsheng'"
+      class="card card-mystic anim-fade-up"
+      style="animation-delay: 0.3s"
+    >
       <text class="card-title title-mystic">养 生 要 诀</text>
       <text class="card-tip">顺 时 之 养 · 调 息 调 神</text>
       <view class="ys-list">
@@ -220,13 +252,19 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import { WUXING_META, WUXING_LIST, wuxingRelation, RELATION_DESC, type Wuxing } from '@/utils/wuxing'
+import {
+  WUXING_META,
+  WUXING_LIST,
+  wuxingRelation,
+  RELATION_DESC,
+  type Wuxing,
+} from '@/utils/wuxing'
 import { relationMatrix, getBuji, xingge, yangsheng as yangshengFn } from '@/utils/wuxing-deep'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()
 
-const nodes = WUXING_LIST.map(k => WUXING_META[k])
+const nodes = WUXING_LIST.map((k) => WUXING_META[k])
 const TABS = [
   { key: 'base', label: '基础' },
   { key: 'matrix', label: '关系' },
@@ -235,22 +273,22 @@ const TABS = [
   { key: 'yangsheng', label: '养生' },
 ]
 
-const COORDS: Array<{ x: number, y: number }> = [
+const COORDS: Array<{ x: number; y: number }> = [
   { x: 50, y: 5 },
   { x: 95, y: 38 },
   { x: 79, y: 90 },
   { x: 21, y: 90 },
-  { x: 5,  y: 38 },
+  { x: 5, y: 38 },
 ]
 
 function getNodeStyle(i: number) {
   return {
     left: COORDS[i].x + '%',
-    top:  COORDS[i].y + '%',
+    top: COORDS[i].y + '%',
   }
 }
 
-const selected = ref<typeof WUXING_META[Wuxing] | null>(null)
+const selected = ref<(typeof WUXING_META)[Wuxing] | null>(null)
 const other = ref<Wuxing | null>(null)
 const relation = ref<keyof typeof RELATION_DESC | null>(null)
 const tab = ref<'base' | 'matrix' | 'buji' | 'xingge' | 'yangsheng'>('base')
@@ -262,8 +300,8 @@ const pairLabel = computed(() => {
 
 const centerHint = '点击节点 · 探索生克'
 
-const selectedIdx = computed(() => selected.value ? WUXING_LIST.indexOf(selected.value.key) : -1)
-const otherIdx = computed(() => other.value ? WUXING_LIST.indexOf(other.value) : -1)
+const selectedIdx = computed(() => (selected.value ? WUXING_LIST.indexOf(selected.value.key) : -1))
+const otherIdx = computed(() => (other.value ? WUXING_LIST.indexOf(other.value) : -1))
 
 const selectedCoord = computed(() => COORDS[selectedIdx.value] || { x: 50, y: 50 })
 const otherCoord = computed(() => COORDS[otherIdx.value] || { x: 50, y: 50 })
@@ -274,13 +312,13 @@ const lineColor = computed(() => {
   return '#D4AF37'
 })
 
-const matrixList = computed(() => selected.value ? relationMatrix(selected.value.key) : [])
-const buji = computed(() => selected.value ? getBuji(selected.value.key) : null as any)
+const matrixList = computed(() => (selected.value ? relationMatrix(selected.value.key) : []))
+const buji = computed(() => (selected.value ? getBuji(selected.value.key) : (null as any)))
 const xgText = computed(() => ({
   strong: selected.value ? xingge(selected.value.key, true) : '',
   weak: selected.value ? xingge(selected.value.key, false) : '',
 }))
-const yangsheng = computed(() => selected.value ? yangshengFn(selected.value.key) : null as any)
+const yangsheng = computed(() => (selected.value ? yangshengFn(selected.value.key) : (null as any)))
 
 function onNodeClick(k: Wuxing) {
   if (!selected.value) {
@@ -300,7 +338,6 @@ function onNodeClick(k: Wuxing) {
 </script>
 
 <style scoped>
-
 .wuxing-page {
   position: relative;
   min-height: 100vh;
@@ -361,8 +398,15 @@ function onNodeClick(k: Wuxing) {
   border-radius: 50%;
 }
 
-.ring-2 { inset: 12%; border-color: rgba(212, 175, 55, 0.25); border-style: dashed; }
-.ring-3 { inset: 25%; border-color: rgba(200, 48, 42, 0.3); }
+.ring-2 {
+  inset: 12%;
+  border-color: rgba(212, 175, 55, 0.25);
+  border-style: dashed;
+}
+.ring-3 {
+  inset: 25%;
+  border-color: rgba(200, 48, 42, 0.3);
+}
 
 .bagua {
   position: absolute;
@@ -370,11 +414,32 @@ function onNodeClick(k: Wuxing) {
   color: rgba(212, 175, 55, 0.4);
   font-weight: 600;
 }
-.ba-1 { top: 4%;  left: 50%; transform: translateX(-50%); }
-.ba-2 { right: 4%; top: 50%;  transform: translateY(-50%); }
-.ba-3 { bottom: 4%; left: 50%; transform: translateX(-50%); }
-.ba-4 { left: 4%; top: 50%;   transform: translateY(-50%); }
-.ba-5 { top: 50%; left: 50%;  transform: translate(-50%, -50%); font-size: 56rpx; }
+.ba-1 {
+  top: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ba-2 {
+  right: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ba-3 {
+  bottom: 4%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.ba-4 {
+  left: 4%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.ba-5 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 56rpx;
+}
 
 .wx-node {
   position: absolute;
@@ -455,8 +520,12 @@ function onNodeClick(k: Wuxing) {
 }
 
 @keyframes lineDraw {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .center-tip {
@@ -489,9 +558,21 @@ function onNodeClick(k: Wuxing) {
   white-space: nowrap;
 }
 
-.rel-type.rel-sheng, .rel-type.rel-be-sheng { color: #4FAE6F; border-color: #4FAE6F; box-shadow: 0 0 16rpx rgba(79, 174, 111, 0.5); }
-.rel-type.rel-ke, .rel-type.rel-be-ke { color: var(--color-zhu); border-color: var(--color-zhu); box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.5); }
-.rel-type.rel-tong { color: var(--color-liu); }
+.rel-type.rel-sheng,
+.rel-type.rel-be-sheng {
+  color: #4fae6f;
+  border-color: #4fae6f;
+  box-shadow: 0 0 16rpx rgba(79, 174, 111, 0.5);
+}
+.rel-type.rel-ke,
+.rel-type.rel-be-ke {
+  color: var(--color-zhu);
+  border-color: var(--color-zhu);
+  box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.5);
+}
+.rel-type.rel-tong {
+  color: var(--color-liu);
+}
 
 .rel-pair {
   font-size: 22rpx;
@@ -521,8 +602,14 @@ function onNodeClick(k: Wuxing) {
   border-radius: 2rpx;
 }
 
-.legend-sheng { background: #4FAE6F; box-shadow: 0 0 8rpx #4FAE6F; }
-.legend-ke { background: var(--color-zhu); box-shadow: 0 0 8rpx var(--color-zhu); }
+.legend-sheng {
+  background: #4fae6f;
+  box-shadow: 0 0 8rpx #4fae6f;
+}
+.legend-ke {
+  background: var(--color-zhu);
+  box-shadow: 0 0 8rpx var(--color-zhu);
+}
 
 .legend-text {
   font-size: var(--fs-sm);
@@ -551,18 +638,19 @@ function onNodeClick(k: Wuxing) {
   font-family: 'KaiTi', serif;
   color: var(--color-bai-2);
   border-radius: var(--r-full);
-  transition: all .2s ease;
+  transition: all 0.2s ease;
   letter-spacing: 0.1em;
 }
 
 .tab.active {
-  background: linear-gradient(135deg, var(--color-liu) 0%, #8B6914 100%);
+  background: linear-gradient(135deg, var(--color-liu) 0%, #8b6914 100%);
   color: var(--color-bai);
   box-shadow: 0 0 12rpx rgba(212, 175, 55, 0.4);
 }
 
 /* ===== 通用卡 ===== */
-.card, .detail {
+.card,
+.detail {
   position: relative;
   z-index: var(--z-content);
   margin: 0 var(--sp-2) var(--sp-3);
@@ -654,13 +742,25 @@ function onNodeClick(k: Wuxing) {
   border: 1rpx solid rgba(212, 175, 55, 0.1);
 }
 
-.matrix-row.mrow-我生 { border-left: 4rpx solid #5B8CBE; }
-.matrix-row.mrow-生我 { border-left: 4rpx solid #4FAE6F; }
-.matrix-row.mrow-我克 { border-left: 4rpx solid var(--color-liu); }
-.matrix-row.mrow-克我 { border-left: 4rpx solid var(--color-zhu); }
-.matrix-row.mrow-同我 { border-left: 4rpx solid #8B6F47; }
+.matrix-row.mrow-我生 {
+  border-left: 4rpx solid #5b8cbe;
+}
+.matrix-row.mrow-生我 {
+  border-left: 4rpx solid #4fae6f;
+}
+.matrix-row.mrow-我克 {
+  border-left: 4rpx solid var(--color-liu);
+}
+.matrix-row.mrow-克我 {
+  border-left: 4rpx solid var(--color-zhu);
+}
+.matrix-row.mrow-同我 {
+  border-left: 4rpx solid #8b6f47;
+}
 
-.mr-label { flex: 1; }
+.mr-label {
+  flex: 1;
+}
 
 .mr-name {
   display: block;
@@ -780,8 +880,12 @@ function onNodeClick(k: Wuxing) {
   margin-bottom: var(--sp-2);
 }
 
-.xg-block.xg-strong { border-left: 4rpx solid #4FAE6F; }
-.xg-block.xg-weak   { border-left: 4rpx solid var(--color-zhu); }
+.xg-block.xg-strong {
+  border-left: 4rpx solid #4fae6f;
+}
+.xg-block.xg-weak {
+  border-left: 4rpx solid var(--color-zhu);
+}
 
 .xg-tag {
   width: 60rpx;
@@ -796,8 +900,14 @@ function onNodeClick(k: Wuxing) {
   flex-shrink: 0;
 }
 
-.xg-strong .xg-tag { background: #4FAE6F; color: var(--color-bai); }
-.xg-weak   .xg-tag { background: var(--color-zhu); color: var(--color-bai); }
+.xg-strong .xg-tag {
+  background: #4fae6f;
+  color: var(--color-bai);
+}
+.xg-weak .xg-tag {
+  background: var(--color-zhu);
+  color: var(--color-bai);
+}
 
 .xg-text {
   flex: 1;
@@ -838,7 +948,9 @@ function onNodeClick(k: Wuxing) {
   font-family: 'KaiTi', serif;
 }
 
-.ys-taboo { color: var(--color-zhu); }
+.ys-taboo {
+  color: var(--color-zhu);
+}
 
 .action-hint {
   position: relative;

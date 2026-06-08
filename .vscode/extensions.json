@@ -3,9 +3,7 @@
     "vue.volar",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "editorconfig.editorconfig",
-    "ms-playwright.playwright",
-    "bradlc.vscode-tailwindcss"
+    "editorconfig.editorconfig"
   ],
-  "unwantedRecommendations": ["octref.vetur", "hookyqr.beautify"]
+  "unwantedRecommendations": ["octref.vetur", "hookyqr.beautify", "bradlc.vscode-tailwindcss"]
 }

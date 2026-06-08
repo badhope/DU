@@ -10,8 +10,12 @@
         <view class="cd-msg">
           <text class="msg-line msg-name">「{{ record?.userName || '' }}」</text>
           <text class="msg-line msg-date">今日（{{ friendlyDate(record?.date || '') }}）</text>
-          <text class="msg-line msg-tool">已测 <text class="hl">{{ record?.toolName }}</text></text>
-          <text class="msg-line msg-brief">结果：<text class="hl-brief">{{ record?.brief }}</text></text>
+          <text class="msg-line msg-tool">
+            已测 <text class="hl">{{ record?.toolName }}</text>
+          </text>
+          <text class="msg-line msg-brief">
+            结果：<text class="hl-brief">{{ record?.brief }}</text>
+          </text>
         </view>
 
         <view class="cd-tip">
@@ -69,9 +73,15 @@ const message = computed(() => {
 function onCloseMask() {
   emit('close')
 }
-function onSwitchUser() { emit('switchUser') }
-function onSwitchTool() { emit('switchTool') }
-function onIgnore() { emit('ignore') }
+function onSwitchUser() {
+  emit('switchUser')
+}
+function onSwitchTool() {
+  emit('switchTool')
+}
+function onIgnore() {
+  emit('ignore')
+}
 </script>
 
 <style scoped>
@@ -179,7 +189,7 @@ function onIgnore() { emit('ignore') }
 .cd-tip {
   padding: var(--sp-3);
   background: rgba(200, 48, 42, 0.1);
-  border-left: 4rpx solid #C8302A;
+  border-left: 4rpx solid #c8302a;
   border-radius: 4rpx;
   margin-bottom: var(--sp-3);
 }
@@ -188,7 +198,7 @@ function onIgnore() { emit('ignore') }
   display: block;
   font-family: 'KaiTi', serif;
   font-size: var(--fs-sm);
-  color: #F5C5C0;
+  color: #f5c5c0;
   line-height: 1.8;
   letter-spacing: 0.1em;
 }
@@ -200,7 +210,7 @@ function onIgnore() { emit('ignore') }
   border-radius: var(--r-sm);
   font-family: 'KaiTi', serif;
   font-size: var(--fs-sm);
-  color: #8FD0A8;
+  color: #8fd0a8;
   letter-spacing: 0.1em;
 }
 
@@ -227,7 +237,7 @@ function onIgnore() { emit('ignore') }
 }
 
 .cd-btn-primary {
-  background: linear-gradient(135deg, #5B3A8E, #C8302A);
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
   color: var(--color-bai);
   box-shadow: 0 4rpx 16rpx rgba(200, 48, 42, 0.3);
 }

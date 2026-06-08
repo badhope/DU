@@ -15,30 +15,56 @@ import type { Wuxing } from './wuxing'
 import { SHENG, KE } from './wuxing'
 
 // ============ 十二天盘神将 ============
-const TWELVE_GENERALS = ['贵人', '螣蛇', '朱雀', '六合', '勾陈', '青龙', '天空', '白虎', '太常', '玄武', '太阴', '天后'] as const
-type General = typeof TWELVE_GENERALS[number]
+const TWELVE_GENERALS = [
+  '贵人',
+  '螣蛇',
+  '朱雀',
+  '六合',
+  '勾陈',
+  '青龙',
+  '天空',
+  '白虎',
+  '太常',
+  '玄武',
+  '太阴',
+  '天后',
+] as const
+type General = (typeof TWELVE_GENERALS)[number]
 
-const GENERAL_DESC: Record<General, { nature: '吉' | '凶' | '中', desc: string }> = {
-  '贵人': { nature: '吉', desc: '大吉之主，逢凶化吉' },
-  '螣蛇': { nature: '凶', desc: '惊疑怪异' },
-  '朱雀': { nature: '凶', desc: '口舌文书' },
-  '六合': { nature: '吉', desc: '和合成事' },
-  '勾陈': { nature: '凶', desc: '迟滞拘泥' },
-  '青龙': { nature: '吉', desc: '喜庆财帛' },
-  '天空': { nature: '中', desc: '虚假不实' },
-  '白虎': { nature: '凶', desc: '血光凶灾' },
-  '太常': { nature: '吉', desc: '酒食财帛' },
-  '玄武': { nature: '凶', desc: '暗昧盗贼' },
-  '太阴': { nature: '吉', desc: '阴柔妇人' },
-  '天后': { nature: '吉', desc: '婚姻恩泽' },
+const GENERAL_DESC: Record<General, { nature: '吉' | '凶' | '中'; desc: string }> = {
+  贵人: { nature: '吉', desc: '大吉之主，逢凶化吉' },
+  螣蛇: { nature: '凶', desc: '惊疑怪异' },
+  朱雀: { nature: '凶', desc: '口舌文书' },
+  六合: { nature: '吉', desc: '和合成事' },
+  勾陈: { nature: '凶', desc: '迟滞拘泥' },
+  青龙: { nature: '吉', desc: '喜庆财帛' },
+  天空: { nature: '中', desc: '虚假不实' },
+  白虎: { nature: '凶', desc: '血光凶灾' },
+  太常: { nature: '吉', desc: '酒食财帛' },
+  玄武: { nature: '凶', desc: '暗昧盗贼' },
+  太阴: { nature: '吉', desc: '阴柔妇人' },
+  天后: { nature: '吉', desc: '婚姻恩泽' },
 }
 
 // 十二地支
 const ZHI = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'] as const
-type DiZhi = typeof ZHI[number]
+type DiZhi = (typeof ZHI)[number]
 
 // 月将（正月用登明亥，二月用河魁戌，... 十二月用丑）
-const MONTH_GENERAL: DiZhi[] = ['亥', '戌', '酉', '申', '未', '午', '巳', '辰', '卯', '寅', '丑', '子']
+const MONTH_GENERAL: DiZhi[] = [
+  '亥',
+  '戌',
+  '酉',
+  '申',
+  '未',
+  '午',
+  '巳',
+  '辰',
+  '卯',
+  '寅',
+  '丑',
+  '子',
+]
 
 // ============ 核心排课 ============
 export interface LiurenResult {
@@ -50,26 +76,40 @@ export interface LiurenResult {
   dayGan: string
   dayZhi: DiZhi
   hourZhi: DiZhi
-  monthJiang: General      // 月将
+  monthJiang: General // 月将
   // 天盘（12 神将 + 12 地支）
-  tianPan: Array<{ zhi: DiZhi, general: General, generalDesc: string }>
+  tianPan: Array<{ zhi: DiZhi; general: General; generalDesc: string }>
   // 地盘（占时支加月将所乘天盘）
-  diPan: Array<{ zhi: DiZhi, general: General, generalDesc: string }>
+  diPan: Array<{ zhi: DiZhi; general: General; generalDesc: string }>
   // 四课
-  fourKe: Array<{ ke: '第一课' | '第二课' | '第三课' | '第四课', zhi: DiZhi, general: General, desc: string }>
+  fourKe: Array<{
+    ke: '第一课' | '第二课' | '第三课' | '第四课'
+    zhi: DiZhi
+    general: General
+    desc: string
+  }>
   // 三传
-  sanChuan: { chu: General, zhong: General, mo: General, keti: string, desc: string }
+  sanChuan: { chu: General; zhong: General; mo: General; keti: string; desc: string }
   // 课体
   keti: string
   ketiDesc: string
   // 整体判断
   judge: '大吉' | '吉' | '中' | '凶' | '大凶'
   summary: string
-  lucky: { color: string, direction: string, number: number }
+  lucky: { color: string; direction: string; number: number }
 }
 
 const TIANGAN: Record<string, 'yang' | 'yin'> = {
-  甲: 'yang', 乙: 'yin', 丙: 'yang', 丁: 'yin', 戊: 'yang', 己: 'yin', 庚: 'yang', 辛: 'yin', 壬: 'yang', 癸: 'yin',
+  甲: 'yang',
+  乙: 'yin',
+  丙: 'yang',
+  丁: 'yin',
+  戊: 'yang',
+  己: 'yin',
+  庚: 'yang',
+  辛: 'yin',
+  壬: 'yang',
+  癸: 'yin',
 }
 
 // 贵神起例：阳贵（甲丙戊庚壬）：从日支起贵神
@@ -79,7 +119,7 @@ const YANG_GUIREN: Record<string, DiZhi> = { 甲: '丑', 丙: '亥', 戊: '丑',
 const YIN_GUIREN: Record<string, DiZhi> = { 乙: '子', 丁: '亥', 己: '申', 辛: '午', 癸: '巳' }
 
 // 求贵神
-function guirenStart(dayGan: string): { yang: DiZhi, yin: DiZhi } {
+function guirenStart(dayGan: string): { yang: DiZhi; yin: DiZhi } {
   const yy = TIANGAN[dayGan] || 'yang'
   return {
     yang: YANG_GUIREN[dayGan] || '丑',
@@ -134,35 +174,46 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   //  第二课：日干 阴神 = 阳神所乘地支上所乘天盘
   //  第三课：日支 阳神 = 日支上所乘天盘
   //  第四课：日支 阴神 = 阳神所乘地支上所乘天盘
-  const GAN_GONG: Record<string, DiZhi> = { 甲: '寅', 乙: '辰', 丙: '巳', 丁: '未', 戊: '巳', 己: '未', 庚: '申', 辛: '戌', 壬: '亥', 癸: '丑' }
+  const GAN_GONG: Record<string, DiZhi> = {
+    甲: '寅',
+    乙: '辰',
+    丙: '巳',
+    丁: '未',
+    戊: '巳',
+    己: '未',
+    庚: '申',
+    辛: '戌',
+    壬: '亥',
+    癸: '丑',
+  }
   const dayGanZhi = GAN_GONG[dayGan] as DiZhi
 
   // 查天盘
   const tianByZhi = (z: DiZhi): General => {
-    const item = tianPan.find(tp => tp.zhi === z)
+    const item = tianPan.find((tp) => tp.zhi === z)
     return item ? item.general : '贵人'
   }
   const diByZhi = (z: DiZhi): General => {
-    const item = diPan.find(tp => tp.zhi === z)
+    const item = diPan.find((tp) => tp.zhi === z)
     return item ? item.general : '贵人'
   }
 
   // 第一课：日干 阳
   const ke1Yang = tianByZhi(dayGanZhi)
   // 第二课：日干 阴
-  const ke1Zhi = tianPan.find(tp => tp.general === ke1Yang)?.zhi || dayGanZhi
+  const ke1Zhi = tianPan.find((tp) => tp.general === ke1Yang)?.zhi || dayGanZhi
   const ke2Yang = tianByZhi(ke1Zhi)
   // 第三课：日支 阳
   const ke3Yang = tianByZhi(dayZhi)
   // 第四课：日支 阴
-  const ke3Zhi = tianPan.find(tp => tp.general === ke3Yang)?.zhi || dayZhi
+  const ke3Zhi = tianPan.find((tp) => tp.general === ke3Yang)?.zhi || dayZhi
   const ke4Yang = tianByZhi(ke3Zhi)
 
   const fourKe = [
     { ke: '第一课' as const, zhi: dayGanZhi, general: ke1Yang, desc: '日干阳神 · 主事之始' },
-    { ke: '第二课' as const, zhi: ke1Zhi,    general: ke2Yang, desc: '日干阴神 · 主内情' },
-    { ke: '第三课' as const, zhi: dayZhi,     general: ke3Yang, desc: '日支阳神 · 主事之应' },
-    { ke: '第四课' as const, zhi: ke3Zhi,     general: ke4Yang, desc: '日支阴神 · 主隐秘' },
+    { ke: '第二课' as const, zhi: ke1Zhi, general: ke2Yang, desc: '日干阴神 · 主内情' },
+    { ke: '第三课' as const, zhi: dayZhi, general: ke3Yang, desc: '日支阳神 · 主事之应' },
+    { ke: '第四课' as const, zhi: ke3Zhi, general: ke4Yang, desc: '日支阴神 · 主隐秘' },
   ]
 
   // 三传（贼克法简化）：
@@ -172,44 +223,70 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   const gSet = new Set(generals)
   // 找有克 → 第一贼
   const KILL_LIST: General[] = ['白虎', '玄武', '勾陈', '朱雀', '螣蛇', '天空']
-  const keList = KILL_LIST.filter(k => gSet.has(k))
+  const keList = KILL_LIST.filter((k) => gSet.has(k))
   const chu: General = keList[0] || ke3Yang
   const zhong: General = generals[(generals.indexOf(chu) + 1) % 4] || ke2Yang
   const mo: General = generals[(generals.indexOf(chu) + 2) % 4] || ke1Yang
 
   // 课体判断（简化）
   let keti = '比用课'
-  const judgeCount = KILL_LIST.filter(k => gSet.has(k)).length
+  const judgeCount = KILL_LIST.filter((k) => gSet.has(k)).length
   if (judgeCount === 0) keti = '元首课'
   else if (judgeCount === 1) keti = '重审课'
   else if (judgeCount === 2) keti = '知一课'
   else keti = '杂派课'
 
   const ketiDesc = {
-    '比用课': '诸神相比，谋事难成',
-    '元首课': '元首统众，先难后易',
-    '重审课': '重新审视，可改旧图新',
-    '知一课': '知一达十，专一可成',
-    '杂派课': '众神杂出，谋事宜慎',
+    比用课: '诸神相比，谋事难成',
+    元首课: '元首统众，先难后易',
+    重审课: '重新审视，可改旧图新',
+    知一课: '知一达十，专一可成',
+    杂派课: '众神杂出，谋事宜慎',
   }[keti]
 
   // 吉凶判断（简化）：青龙/六合/贵人越多越吉
-  const goodCount = ['青龙', '六合', '贵人', '太常', '太阴', '天后'].filter(g => gSet.has(g as General)).length
-  const badCount = ['白虎', '玄武', '勾陈', '螣蛇', '天空', '朱雀'].filter(g => gSet.has(g as General)).length
+  const goodCount = ['青龙', '六合', '贵人', '太常', '太阴', '天后'].filter((g) =>
+    gSet.has(g as General),
+  ).length
+  const badCount = ['白虎', '玄武', '勾陈', '螣蛇', '天空', '朱雀'].filter((g) =>
+    gSet.has(g as General),
+  ).length
   const judge: LiurenResult['judge'] =
-    goodCount >= 4 ? '大吉' :
-    goodCount >= 2 ? '吉' :
-    badCount >= 4 ? '大凶' :
-    badCount >= 2 ? '凶' : '中'
+    goodCount >= 4
+      ? '大吉'
+      : goodCount >= 2
+        ? '吉'
+        : badCount >= 4
+          ? '大凶'
+          : badCount >= 2
+            ? '凶'
+            : '中'
 
   // 总结
   const summary = `${year}年${month}月${day}日${hourZhi}时课体「${keti}」，初传${chu}、中传${zhong}、末传${mo}。${judge}：${ketiDesc}。`
 
   // 喜神方位（简化）
-  const directionMap: Record<Wuxing, string> = { mu: '东', huo: '南', tu: '中', jin: '西', shui: '北' }
+  const directionMap: Record<Wuxing, string> = {
+    mu: '东',
+    huo: '南',
+    tu: '中',
+    jin: '西',
+    shui: '北',
+  }
   // 喜神五行：日干阳则喜水阴则喜金 ...（简化用日干）
   const dayGanWuxing: Wuxing = (() => {
-    const w = { 甲: 'mu', 乙: 'mu', 丙: 'huo', 丁: 'huo', 戊: 'tu', 己: 'tu', 庚: 'jin', 辛: 'jin', 壬: 'shui', 癸: 'shui' } as any
+    const w = {
+      甲: 'mu',
+      乙: 'mu',
+      丙: 'huo',
+      丁: 'huo',
+      戊: 'tu',
+      己: 'tu',
+      庚: 'jin',
+      辛: 'jin',
+      壬: 'shui',
+      癸: 'shui',
+    } as any
     return w[dayGan] as Wuxing
   })()
   const lucky = {
@@ -219,12 +296,29 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   }
 
   return {
-    year, month, day, hour,
-    dayGan, dayZhi, hourZhi,
-    monthJiang: (TWELVE_GENERALS[ZHI.indexOf(monthJiangZhi)] || '青龙') as typeof TWELVE_GENERALS[number],
-    tianPan, diPan, fourKe,
-    sanChuan: { chu: chu as General, zhong: zhong as General, mo: mo as General, keti: keti || '', desc: ketiDesc || '' },
-    keti: keti || '', ketiDesc: ketiDesc || '',
-    judge, summary, lucky,
+    year,
+    month,
+    day,
+    hour,
+    dayGan,
+    dayZhi,
+    hourZhi,
+    monthJiang: (TWELVE_GENERALS[ZHI.indexOf(monthJiangZhi)] ||
+      '青龙') as (typeof TWELVE_GENERALS)[number],
+    tianPan,
+    diPan,
+    fourKe,
+    sanChuan: {
+      chu: chu as General,
+      zhong: zhong as General,
+      mo: mo as General,
+      keti: keti || '',
+      desc: ketiDesc || '',
+    },
+    keti: keti || '',
+    ketiDesc: ketiDesc || '',
+    judge,
+    summary,
+    lucky,
   }
 }

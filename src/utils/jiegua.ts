@@ -28,8 +28,8 @@ export interface LiuqinShen {
 
 /** 世应爻位（1-6 爻） */
 export interface Shiying {
-  shi: number        // 世爻位置
-  ying: number       // 应爻位置
+  shi: number // 世爻位置
+  ying: number // 应爻位置
   shiLiuqin: Liuqin
   yingLiuqin: Liuqin
 }
@@ -49,17 +49,17 @@ export interface Biangua {
   lower: Trigram
   name: string
   symbol: string
-  reason: string     // 变卦原因
+  reason: string // 变卦原因
 }
 
 /** 用神分析 */
 export interface Yongshen {
-  yaoPos: number          // 用神爻位 1-6
-  name: Liuqin            // 用神六亲
+  yaoPos: number // 用神爻位 1-6
+  name: Liuqin // 用神六亲
   wuxing: string
-  reason: string          // 选取理由
-  status: '旺' | '相' | '休' | '囚' | '死'  // 五行状态
-  statusDesc: string      // 状态解释
+  reason: string // 选取理由
+  status: '旺' | '相' | '休' | '囚' | '死' // 五行状态
+  statusDesc: string // 状态解释
 }
 
 /** 伏神 */
@@ -78,22 +78,23 @@ export interface Advice {
 
 /** 完整解卦结果 */
 export interface JieguaResult {
-  gua: Gua                  // 本卦
+  gua: Gua // 本卦
   shiying: Shiying
   hugua: Hugua
   biangua: Biangua
   yongshen: Yongshen
-  fushen?: Fushen           // 缺位时才有
-  wuxingFlow: string[]      // 五行生克流
-  fortunes: {               // 分类运势
-    career: { score: number, text: string }
-    wealth: { score: number, text: string }
-    love:   { score: number, text: string }
-    health: { score: number, text: string }
-    study:  { score: number, text: string }
+  fushen?: Fushen // 缺位时才有
+  wuxingFlow: string[] // 五行生克流
+  fortunes: {
+    // 分类运势
+    career: { score: number; text: string }
+    wealth: { score: number; text: string }
+    love: { score: number; text: string }
+    health: { score: number; text: string }
+    study: { score: number; text: string }
   }
   advice: Advice[]
-  summary: string           // 综合解读
+  summary: string // 综合解读
   lucky: {
     color: string
     number: string
@@ -106,18 +107,18 @@ export interface JieguaResult {
 const YONGSHEN_MAP: Record<string, Liuqin> = {
   事业: '官鬼',
   求财: '妻财',
-  姻缘: '妻财',     // 男占婚看财，女占婚看官
+  姻缘: '妻财', // 男占婚看财，女占婚看官
   官运: '官鬼',
   学业: '父母',
-  病灾: '官鬼',     // 病爻看官鬼
+  病灾: '官鬼', // 病爻看官鬼
   家宅: '父母',
   出行: '父母',
-  谋望: '子孙',     // 谋望看子孙
+  谋望: '子孙', // 谋望看子孙
   求子: '子孙',
   失物: '妻财',
   诉讼: '官鬼',
   求官: '官鬼',
-  通用: '妻财',     // 默认
+  通用: '妻财', // 默认
 }
 
 export const YONGSHEN_TOPICS = [
@@ -132,7 +133,11 @@ export const YONGSHEN_TOPICS = [
 /**
  * 根据本卦 + 变爻生成解卦
  */
-export function jiegua(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP = '通用'): JieguaResult {
+export function jiegua(
+  gua: Gua,
+  yao: number[],
+  topic: keyof typeof YONGSHEN_MAP = '通用',
+): JieguaResult {
   // 1. 世应
   const shiying = calcShiying(gua)
   // 2. 互卦
@@ -154,7 +159,19 @@ export function jiegua(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP
   // 10. 幸运元素
   const lucky = calcLucky(gua)
 
-  return { gua, shiying, hugua, biangua, yongshen, fushen, wuxingFlow, fortunes, advice, summary, lucky }
+  return {
+    gua,
+    shiying,
+    hugua,
+    biangua,
+    yongshen,
+    fushen,
+    wuxingFlow,
+    fortunes,
+    advice,
+    summary,
+    lucky,
+  }
 }
 
 /**
@@ -233,7 +250,7 @@ function calcBiangua(gua: Gua, yao: number[]): Biangua {
   if (changes.length === 0) changes.push(Math.floor(Math.random() * 6))
 
   const newYao = [...yao]
-  changes.forEach(i => newYao[i] = newYao[i] === 1 ? 0 : 1)
+  changes.forEach((i) => (newYao[i] = newYao[i] === 1 ? 0 : 1))
 
   // 由 newYao 重组卦象
   const lowerBin = newYao.slice(0, 3)
@@ -242,11 +259,12 @@ function calcBiangua(gua: Gua, yao: number[]): Biangua {
   const lower = binToTrigram(lowerBin)
 
   // 查找变卦
-  const targetGua = GUA_LIST.find(g => g.upper === upper && g.lower === lower) || gua
+  const targetGua = GUA_LIST.find((g) => g.upper === upper && g.lower === lower) || gua
 
-  const reason = changes.length === 1
-    ? `第 ${changes[0] + 1} 爻发动，由${yao[changes[0]] === 1 ? '阳' : '阴'}变${newYao[changes[0]] === 1 ? '阳' : '阴'}`
-    : `${changes.length} 爻齐动，动而化之`
+  const reason =
+    changes.length === 1
+      ? `第 ${changes[0] + 1} 爻发动，由${yao[changes[0]] === 1 ? '阳' : '阴'}变${newYao[changes[0]] === 1 ? '阳' : '阴'}`
+      : `${changes.length} 爻齐动，动而化之`
 
   return { upper, lower, name: targetGua.name, symbol: targetGua.symbol, reason }
 }
@@ -267,7 +285,20 @@ function calcYongshen(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP)
   const upperWx = TRIGRAMS[gua.upper].wuxing
   // 五行旺衰（简化）：根据月令
   const month = new Date().getMonth() + 1
-  const seasonal: Record<number, string> = { 2: '木', 3: '木', 4: '木', 5: '火', 6: '火', 7: '火', 8: '土', 9: '土', 10: '土', 11: '金', 12: '金', 1: '水' }
+  const seasonal: Record<number, string> = {
+    2: '木',
+    3: '木',
+    4: '木',
+    5: '火',
+    6: '火',
+    7: '火',
+    8: '土',
+    9: '土',
+    10: '土',
+    11: '金',
+    12: '金',
+    1: '水',
+  }
   const seasonWx = seasonal[month] || '土'
   let status: Yongshen['status'] = '旺'
   if (upperWx === seasonWx) status = '旺'
@@ -326,7 +357,16 @@ function calcWuxingFlow(gua: Gua, biangua: Biangua): string[] {
 
 function calcFortunes(gua: Gua, biangua: Biangua, yongshen: Yongshen) {
   const base = gua.fortune === '吉' ? 75 : gua.fortune === '平' ? 60 : 40
-  const bonus = yongshen.status === '旺' ? 15 : yongshen.status === '相' ? 8 : yongshen.status === '休' ? -5 : yongshen.status === '囚' ? -12 : -20
+  const bonus =
+    yongshen.status === '旺'
+      ? 15
+      : yongshen.status === '相'
+        ? 8
+        : yongshen.status === '休'
+          ? -5
+          : yongshen.status === '囚'
+            ? -12
+            : -20
   const adjust = (i: number) => Math.max(20, Math.min(98, base + bonus + i))
 
   const t = (s: number) => {
@@ -340,13 +380,18 @@ function calcFortunes(gua: Gua, biangua: Biangua, yongshen: Yongshen) {
   return {
     career: { score: adjust(5), text: t(adjust(5)) },
     wealth: { score: adjust(0), text: t(adjust(0)) },
-    love:   { score: adjust(-3), text: t(adjust(-3)) },
+    love: { score: adjust(-3), text: t(adjust(-3)) },
     health: { score: adjust(8), text: t(adjust(8)) },
-    study:  { score: adjust(2), text: t(adjust(2)) },
+    study: { score: adjust(2), text: t(adjust(2)) },
   }
 }
 
-function calcAdvice(gua: Gua, biangua: Biangua, yongshen: Yongshen, topic: keyof typeof YONGSHEN_MAP): Advice[] {
+function calcAdvice(
+  gua: Gua,
+  biangua: Biangua,
+  yongshen: Yongshen,
+  topic: keyof typeof YONGSHEN_MAP,
+): Advice[] {
   const adv: Advice[] = []
   adv.push({
     title: '本卦总断',
@@ -370,9 +415,10 @@ function calcAdvice(gua: Gua, biangua: Biangua, yongshen: Yongshen, topic: keyof
   })
   adv.push({
     title: '趋避之方',
-    detail: yongshen.status === '旺' || yongshen.status === '相'
-      ? '用神得力，所谋可成。宜乘势而上，把握良机。'
-      : '用神失力，宜静守待时。不如韬光养晦，待时而动。',
+    detail:
+      yongshen.status === '旺' || yongshen.status === '相'
+        ? '用神得力，所谋可成。宜乘势而上，把握良机。'
+        : '用神失力，宜静守待时。不如韬光养晦，待时而动。',
     level: 'low',
   })
   return adv
@@ -390,7 +436,7 @@ function calcLucky(gua: Gua) {
   const upperIdx = { qian: 0, dui: 0, li: 1, zhen: 2, xun: 2, kan: 3, gen: 4, kun: 4 }[gua.upper]
   return {
     color: colors[upperIdx],
-    number: String(((gua.id % 9) || 9)),
+    number: String(gua.id % 9 || 9),
     direction: directions[upperIdx],
   }
 }

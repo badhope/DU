@@ -32,7 +32,9 @@
         </view>
         <view class="jq-row">
           <text class="jq-row-label">· 五行：</text>
-          <text class="jq-row-val" :style="{ color: WX_META[nowJieqi.wuxing].color }">{{ WX_META[nowJieqi.wuxing].name }}</text>
+          <text class="jq-row-val" :style="{ color: WX_META[nowJieqi.wuxing].color }">
+            {{ WX_META[nowJieqi.wuxing].name }}
+          </text>
         </view>
         <view class="jq-foods">
           <text class="jq-foods-label">· 宜食</text>
@@ -66,7 +68,9 @@
             </view>
             <view class="jq-row-info">
               <text class="jq-row-name">{{ j.name }}（{{ j.solarTerm }}）</text>
-              <text class="jq-row-date">{{ j.month }}月{{ j.day }}日 · {{ j.season }} · {{ WX_META[j.wuxing].name }}</text>
+              <text class="jq-row-date">
+                {{ j.month }}月{{ j.day }}日 · {{ j.season }} · {{ WX_META[j.wuxing].name }}
+              </text>
             </view>
             <text class="jq-row-sx">{{ j.shengxiao }}</text>
           </view>
@@ -93,23 +97,33 @@
         <view class="wy-grid">
           <view class="wy-cell">
             <text class="wy-label">中 运</text>
-            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zhongYun].color }">{{ WX_META[wuyunInfo.zhongYun].name }}</text>
+            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zhongYun].color }">
+              {{ WX_META[wuyunInfo.zhongYun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">主 运</text>
-            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.dayun].color }">{{ WX_META[wuyunInfo.dayun].name }}</text>
+            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.dayun].color }">
+              {{ WX_META[wuyunInfo.dayun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">客 运</text>
-            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.keYun].color }">{{ WX_META[wuyunInfo.keYun].name }}</text>
+            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.keYun].color }">
+              {{ WX_META[wuyunInfo.keYun].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">司 天</text>
-            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.sitian].color }">{{ WX_META[wuyunInfo.sitian].name }}</text>
+            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.sitian].color }">
+              {{ WX_META[wuyunInfo.sitian].name }}
+            </text>
           </view>
           <view class="wy-cell">
             <text class="wy-label">在 泉</text>
-            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zaiquan].color }">{{ WX_META[wuyunInfo.zaiquan].name }}</text>
+            <text class="wy-val" :style="{ color: WX_META[wuyunInfo.zaiquan].color }">
+              {{ WX_META[wuyunInfo.zaiquan].name }}
+            </text>
           </view>
         </view>
         <text class="wy-prin">{{ wuyunInfo.principle }}</text>
@@ -130,7 +144,9 @@
             <text class="m-mark-t">{{ m.step }}</text>
           </view>
           <view class="m-info">
-            <text class="m-name" :style="{ color: WX_META[m.wx].color }">{{ WX_META[m.wx].name }}运</text>
+            <text class="m-name" :style="{ color: WX_META[m.wx].color }">
+              {{ WX_META[m.wx].name }}运
+            </text>
             <text class="m-prin">{{ m.principle }}</text>
             <text class="m-days">{{ m.days }} · 主病：{{ m.health }}</text>
           </view>
@@ -173,11 +189,14 @@ const tabs = [
 
 const nowJieqi = computed(() => currentJieqi())
 const wuyunInfo = computed(() => wuyun(new Date().getFullYear()))
-const currentIdx = computed(() => JIEQI_24.findIndex(j => j.name === nowJieqi.value.name))
+const currentIdx = computed(() => JIEQI_24.findIndex((j) => j.name === nowJieqi.value.name))
 </script>
 
 <style scoped>
-.yangsheng-page { min-height: 100vh; padding-bottom: var(--sp-6); }
+.yangsheng-page {
+  min-height: 100vh;
+  padding-bottom: var(--sp-6);
+}
 .tab-bar {
   display: flex;
   gap: var(--sp-2);
@@ -195,39 +214,134 @@ const currentIdx = computed(() => JIEQI_24.findIndex(j => j.name === nowJieqi.va
   flex-direction: column;
   gap: 2rpx;
 }
-.tab-btn.active { background: linear-gradient(135deg, #4FAE6F, #8B6F47); color: var(--color-bai); }
-.tab-name { font-size: var(--fs-sm); font-weight: 600; }
-.tab-sub { font-size: 18rpx; color: var(--color-bai-3); }
-.tab-btn.active .tab-sub { color: var(--color-bai); opacity: 0.8; }
+.tab-btn.active {
+  background: linear-gradient(135deg, #4fae6f, #8b6f47);
+  color: var(--color-bai);
+}
+.tab-name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.tab-sub {
+  font-size: 18rpx;
+  color: var(--color-bai-3);
+}
+.tab-btn.active .tab-sub {
+  color: var(--color-bai);
+  opacity: 0.8;
+}
 
-.result { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0 var(--sp-2); margin-top: var(--sp-2); }
-.card-mystic { padding: var(--sp-4); }
-.card-title { display: block; font-size: var(--fs-md); letter-spacing: 0.2em; margin-bottom: var(--sp-2); text-align: center; }
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0 var(--sp-2);
+  margin-top: var(--sp-2);
+}
+.card-mystic {
+  padding: var(--sp-4);
+}
+.card-title {
+  display: block;
+  font-size: var(--fs-md);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
 
 /* 当前 */
-.now-jieqi { padding: var(--sp-5) var(--sp-4); }
-.jq-sub { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai-3); }
-.jq-name { display: block; text-align: center; font-size: 96rpx; font-family: 'KaiTi', serif; color: var(--color-liu); font-weight: 700; text-shadow: 0 0 30rpx rgba(212, 175, 55, 0.5); margin: var(--sp-2) 0; }
-.jq-en { display: block; text-align: center; font-size: var(--fs-xs); color: var(--color-bai-2); }
-.jq-shengxiao { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai); margin: var(--sp-1) 0; }
-.jq-nat { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai); line-height: 1.7; font-family: 'KaiTi', serif; margin: var(--sp-3) 0; }
-.jq-row { display: flex; align-items: baseline; gap: 4rpx; padding: 4rpx 0; font-size: var(--fs-sm); }
-.jq-row-label { color: var(--color-bai-3); }
-.jq-row-val { color: var(--color-bai); }
-.jq-foods { margin: var(--sp-2) 0; }
-.jq-foods-label { display: inline-block; font-size: var(--fs-sm); color: var(--color-liu); margin-right: 4rpx; }
-.jq-foods-label.bad { color: #C8302A; }
-.jq-foods-tags { display: flex; flex-wrap: wrap; gap: 4rpx; margin-top: 4rpx; }
+.now-jieqi {
+  padding: var(--sp-5) var(--sp-4);
+}
+.jq-sub {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-3);
+}
+.jq-name {
+  display: block;
+  text-align: center;
+  font-size: 96rpx;
+  font-family: 'KaiTi', serif;
+  color: var(--color-liu);
+  font-weight: 700;
+  text-shadow: 0 0 30rpx rgba(212, 175, 55, 0.5);
+  margin: var(--sp-2) 0;
+}
+.jq-en {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+}
+.jq-shengxiao {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  margin: var(--sp-1) 0;
+}
+.jq-nat {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  line-height: 1.7;
+  font-family: 'KaiTi', serif;
+  margin: var(--sp-3) 0;
+}
+.jq-row {
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  padding: 4rpx 0;
+  font-size: var(--fs-sm);
+}
+.jq-row-label {
+  color: var(--color-bai-3);
+}
+.jq-row-val {
+  color: var(--color-bai);
+}
+.jq-foods {
+  margin: var(--sp-2) 0;
+}
+.jq-foods-label {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  margin-right: 4rpx;
+}
+.jq-foods-label.bad {
+  color: #c8302a;
+}
+.jq-foods-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin-top: 4rpx;
+}
 .food-tag {
   padding: 4rpx 12rpx;
   font-size: var(--fs-xs);
   border-radius: var(--r-sm);
 }
-.food-tag.good { background: rgba(79, 174, 111, 0.2); color: #8FD0A8; }
-.food-tag.bad { background: rgba(200, 48, 42, 0.2); color: #F5C5C0; }
+.food-tag.good {
+  background: rgba(79, 174, 111, 0.2);
+  color: #8fd0a8;
+}
+.food-tag.bad {
+  background: rgba(200, 48, 42, 0.2);
+  color: #f5c5c0;
+}
 
 /* 24 节气 */
-.jq-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.jq-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
 .jq-row-card {
   background: rgba(10, 10, 18, 0.6);
   border-radius: var(--r-md);
@@ -236,9 +350,18 @@ const currentIdx = computed(() => JIEQI_24.findIndex(j => j.name === nowJieqi.va
   overflow: hidden;
   cursor: pointer;
 }
-.jq-row-card.open { box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.3); }
-.jq-row-card.active { background: rgba(212, 175, 55, 0.1); }
-.jq-row-head { display: flex; align-items: center; padding: var(--sp-3) var(--sp-4); gap: var(--sp-2); }
+.jq-row-card.open {
+  box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.3);
+}
+.jq-row-card.active {
+  background: rgba(212, 175, 55, 0.1);
+}
+.jq-row-head {
+  display: flex;
+  align-items: center;
+  padding: var(--sp-3) var(--sp-4);
+  gap: var(--sp-2);
+}
 .jq-row-mark {
   width: 80rpx;
   height: 80rpx;
@@ -250,50 +373,195 @@ const currentIdx = computed(() => JIEQI_24.findIndex(j => j.name === nowJieqi.va
   font-family: 'KaiTi', serif;
   font-weight: 700;
 }
-.jq-mark-text { font-size: var(--fs-sm); text-shadow: 0 0 6rpx rgba(0, 0, 0, 0.4); }
-.jq-row-info { flex: 1; display: flex; flex-direction: column; }
-.jq-row-name { font-size: var(--fs-md); color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 600; }
-.jq-row-date { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.jq-row-sx { font-size: 28rpx; }
-.jq-row-body { padding: 0 var(--sp-4) var(--sp-3); border-top: 1rpx solid rgba(212, 175, 55, 0.1); }
-.jq-row-nat { display: block; font-size: var(--fs-sm); color: var(--color-bai); margin: var(--sp-2) 0; font-family: 'KaiTi', serif; }
-.jq-row-h { display: block; font-size: var(--fs-sm); color: var(--color-liu); margin: 4rpx 0; }
-.jq-row-foods { display: flex; flex-wrap: wrap; gap: 4rpx; align-items: center; margin: 4rpx 0; }
-.jq-row-flabel { font-size: var(--fs-xs); color: var(--color-liu); }
-.jq-row-flabel.bad { color: #C8302A; }
+.jq-mark-text {
+  font-size: var(--fs-sm);
+  text-shadow: 0 0 6rpx rgba(0, 0, 0, 0.4);
+}
+.jq-row-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.jq-row-name {
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 600;
+}
+.jq-row-date {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.jq-row-sx {
+  font-size: 28rpx;
+}
+.jq-row-body {
+  padding: 0 var(--sp-4) var(--sp-3);
+  border-top: 1rpx solid rgba(212, 175, 55, 0.1);
+}
+.jq-row-nat {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  margin: var(--sp-2) 0;
+  font-family: 'KaiTi', serif;
+}
+.jq-row-h {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  margin: 4rpx 0;
+}
+.jq-row-foods {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  align-items: center;
+  margin: 4rpx 0;
+}
+.jq-row-flabel {
+  font-size: var(--fs-xs);
+  color: var(--color-liu);
+}
+.jq-row-flabel.bad {
+  color: #c8302a;
+}
 .jq-row-ftag {
   padding: 2rpx 8rpx;
   font-size: 20rpx;
   border-radius: 4rpx;
 }
-.jq-row-ftag.good { background: rgba(79, 174, 111, 0.15); color: #8FD0A8; }
-.jq-row-ftag.bad { background: rgba(200, 48, 42, 0.15); color: #F5C5C0; }
+.jq-row-ftag.good {
+  background: rgba(79, 174, 111, 0.15);
+  color: #8fd0a8;
+}
+.jq-row-ftag.bad {
+  background: rgba(200, 48, 42, 0.15);
+  color: #f5c5c0;
+}
 
 /* 五运六气 */
-.wy-title { display: block; text-align: center; font-size: var(--fs-md); color: var(--color-liu); margin-bottom: var(--sp-3); letter-spacing: 0.2em; }
-.wuyun { padding: var(--sp-4); }
-.wy-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; gap: var(--sp-2); margin-bottom: var(--sp-3); }
-.wy-cell { display: flex; flex-direction: column; align-items: center; padding: var(--sp-2); background: rgba(10, 10, 18, 0.4); border-radius: var(--r-sm); }
-.wy-label { font-size: 20rpx; color: var(--color-bai-3); }
-.wy-val { font-size: var(--fs-md); font-family: 'KaiTi', serif; font-weight: 700; }
-.wy-prin { display: block; font-size: var(--fs-sm); color: var(--color-bai); line-height: 1.7; font-family: 'KaiTi', serif; text-align: center; }
+.wy-title {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  color: var(--color-liu);
+  margin-bottom: var(--sp-3);
+  letter-spacing: 0.2em;
+}
+.wuyun {
+  padding: var(--sp-4);
+}
+.wy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+.wy-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--sp-2);
+  background: rgba(10, 10, 18, 0.4);
+  border-radius: var(--r-sm);
+}
+.wy-label {
+  font-size: 20rpx;
+  color: var(--color-bai-3);
+}
+.wy-val {
+  font-size: var(--fs-md);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.wy-prin {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  line-height: 1.7;
+  font-family: 'KaiTi', serif;
+  text-align: center;
+}
 
-.wy-jianqi { padding: var(--sp-4); }
-.jq-item { display: flex; padding: var(--sp-2) 0; border-bottom: 1rpx solid rgba(212, 175, 55, 0.1); font-size: var(--fs-sm); }
-.jq-num { width: 100rpx; color: var(--color-liu); }
-.jq-text { flex: 1; color: var(--color-bai); }
+.wy-jianqi {
+  padding: var(--sp-4);
+}
+.jq-item {
+  display: flex;
+  padding: var(--sp-2) 0;
+  border-bottom: 1rpx solid rgba(212, 175, 55, 0.1);
+  font-size: var(--fs-sm);
+}
+.jq-num {
+  width: 100rpx;
+  color: var(--color-liu);
+}
+.jq-text {
+  flex: 1;
+  color: var(--color-bai);
+}
 
-.wy-main { padding: var(--sp-4); }
-.m-item { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; border-bottom: 1rpx solid rgba(212, 175, 55, 0.1); }
-.m-item:last-child { border-bottom: 0; }
-.m-mark { width: 100rpx; height: 100rpx; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 700; }
-.m-mark-t { font-size: var(--fs-sm); text-shadow: 0 0 6rpx rgba(0, 0, 0, 0.4); }
-.m-info { flex: 1; display: flex; flex-direction: column; }
-.m-name { font-size: var(--fs-md); font-family: 'KaiTi', serif; font-weight: 700; }
-.m-prin { font-size: var(--fs-sm); color: var(--color-bai); font-family: 'KaiTi', serif; }
-.m-days { font-size: var(--fs-xs); color: var(--color-bai-3); }
+.wy-main {
+  padding: var(--sp-4);
+}
+.m-item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-2) 0;
+  border-bottom: 1rpx solid rgba(212, 175, 55, 0.1);
+}
+.m-item:last-child {
+  border-bottom: 0;
+}
+.m-mark {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.m-mark-t {
+  font-size: var(--fs-sm);
+  text-shadow: 0 0 6rpx rgba(0, 0, 0, 0.4);
+}
+.m-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.m-name {
+  font-size: var(--fs-md);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.m-prin {
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+}
+.m-days {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
 
-.wy-card { padding: var(--sp-4); }
-.wy-info { display: flex; flex-direction: column; gap: var(--sp-2); }
-.wy-line { font-size: var(--fs-sm); color: var(--color-bai); line-height: 1.7; font-family: 'KaiTi', serif; }
+.wy-card {
+  padding: var(--sp-4);
+}
+.wy-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+.wy-line {
+  font-size: var(--fs-sm);
+  color: var(--color-bai);
+  line-height: 1.7;
+  font-family: 'KaiTi', serif;
+}
 </style>

@@ -6,23 +6,102 @@
  *  - 大门/主卧/厨房/书房门位
  */
 
-export const BA_ZHAI_GUA: Record<string, { name: string, element: '木' | '火' | '土' | '金' | '水', description: string }> = {
+export const BA_ZHAI_GUA: Record<
+  string,
+  { name: string; element: '木' | '火' | '土' | '金' | '水'; description: string }
+> = {
   dong: { name: '东四宅', element: '木', description: '坎/艮/震/巽 · 生旺方位以东/东南/南/北为主' },
-  xi: { name: '西四宅', element: '金', description: '乾/兑/离/坤 · 生旺方位以西/西北/西南/东北为主' },
+  xi: {
+    name: '西四宅',
+    element: '金',
+    description: '乾/兑/离/坤 · 生旺方位以西/西北/西南/东北为主',
+  },
 }
 
 export const BA_GUA = [
-  { key: 'kan',   name: '坎', symbol: '☵', element: '水' as const, position: '北', fortune: 75, level: '中' as '吉' | '中' | '凶', meaning: '主事业 · 静思 · 水主智慧' },
-  { key: 'gen',   name: '艮', symbol: '☶', element: '土' as const, position: '东北', fortune: 80, level: '吉' as '吉' | '中' | '凶', meaning: '主止 · 安稳 · 慎行' },
-  { key: 'zhen',  name: '震', symbol: '☳', element: '木' as const, position: '东', fortune: 88, level: '吉' as '吉' | '中' | '凶', meaning: '主生发 · 行动 · 开创' },
-  { key: 'xun',   name: '巽', symbol: '☴', element: '木' as const, position: '东南', fortune: 82, level: '吉' as '吉' | '中' | '凶', meaning: '主入 · 顺 · 发展' },
-  { key: 'li',    name: '离', symbol: '☲', element: '火' as const, position: '南', fortune: 70, level: '中' as '吉' | '中' | '凶', meaning: '主文 · 礼 · 文明' },
-  { key: 'kun',   name: '坤', symbol: '☷', element: '土' as const, position: '西南', fortune: 65, level: '中' as '吉' | '中' | '凶', meaning: '主顺 · 厚德 · 包容' },
-  { key: 'dui',   name: '兑', symbol: '☱', element: '金' as const, position: '西', fortune: 55, level: '凶' as '吉' | '中' | '凶', meaning: '主悦 · 言语 · 慎言' },
-  { key: 'qian',  name: '乾', symbol: '☰', element: '金' as const, position: '西北', fortune: 50, level: '凶' as '吉' | '中' | '凶', meaning: '主健 · 严 · 领导' },
+  {
+    key: 'kan',
+    name: '坎',
+    symbol: '☵',
+    element: '水' as const,
+    position: '北',
+    fortune: 75,
+    level: '中' as '吉' | '中' | '凶',
+    meaning: '主事业 · 静思 · 水主智慧',
+  },
+  {
+    key: 'gen',
+    name: '艮',
+    symbol: '☶',
+    element: '土' as const,
+    position: '东北',
+    fortune: 80,
+    level: '吉' as '吉' | '中' | '凶',
+    meaning: '主止 · 安稳 · 慎行',
+  },
+  {
+    key: 'zhen',
+    name: '震',
+    symbol: '☳',
+    element: '木' as const,
+    position: '东',
+    fortune: 88,
+    level: '吉' as '吉' | '中' | '凶',
+    meaning: '主生发 · 行动 · 开创',
+  },
+  {
+    key: 'xun',
+    name: '巽',
+    symbol: '☴',
+    element: '木' as const,
+    position: '东南',
+    fortune: 82,
+    level: '吉' as '吉' | '中' | '凶',
+    meaning: '主入 · 顺 · 发展',
+  },
+  {
+    key: 'li',
+    name: '离',
+    symbol: '☲',
+    element: '火' as const,
+    position: '南',
+    fortune: 70,
+    level: '中' as '吉' | '中' | '凶',
+    meaning: '主文 · 礼 · 文明',
+  },
+  {
+    key: 'kun',
+    name: '坤',
+    symbol: '☷',
+    element: '土' as const,
+    position: '西南',
+    fortune: 65,
+    level: '中' as '吉' | '中' | '凶',
+    meaning: '主顺 · 厚德 · 包容',
+  },
+  {
+    key: 'dui',
+    name: '兑',
+    symbol: '☱',
+    element: '金' as const,
+    position: '西',
+    fortune: 55,
+    level: '凶' as '吉' | '中' | '凶',
+    meaning: '主悦 · 言语 · 慎言',
+  },
+  {
+    key: 'qian',
+    name: '乾',
+    symbol: '☰',
+    element: '金' as const,
+    position: '西北',
+    fortune: 50,
+    level: '凶' as '吉' | '中' | '凶',
+    meaning: '主健 · 严 · 领导',
+  },
 ]
 
-export const MEN_WEI: Array<{ key: string, name: string, recommended: string[] }> = [
+export const MEN_WEI: Array<{ key: string; name: string; recommended: string[] }> = [
   { key: 'dam', name: '大门', recommended: ['震', '巽', '艮', '离'] },
   { key: 'zhu', name: '主卧', recommended: ['坎', '震', '巽', '离'] },
   { key: 'chu', name: '厨房', recommended: ['巽', '离', '震'] },
@@ -49,14 +128,18 @@ export interface FengluiResult {
   /** 当前元运（1-9） */
   currentYun: number
   /** 向星飞布 9 宫（含 1-9 飞星） */
-  xiangPan: Array<{ gong: number, xing: number, level: '大吉' | '吉' | '中' | '凶' }>
+  xiangPan: Array<{ gong: number; xing: number; level: '大吉' | '吉' | '中' | '凶' }>
 }
 
 // ============ 24 山 ============
 // 24 山 = 八天干(无戊)+ 12 地支 + 8 卦（乾/坤/艮/巽/坎/离/震/兑）
 // 每卦管 3 山，共 24 山，每山 15°
 export const ER_SHI_SI_SHAN: Array<{
-  zhi: string, jia: string, position: string, element: '金' | '木' | '水' | '火' | '土', level: '吉' | '中' | '凶'
+  zhi: string
+  jia: string
+  position: string
+  element: '金' | '木' | '水' | '火' | '土'
+  level: '吉' | '中' | '凶'
 }> = [
   // 壬子癸（北 337.5°~22.5°）
   { zhi: '壬', jia: '子', position: '北偏东', element: '水', level: '中' },
@@ -106,19 +189,27 @@ export interface ErShiSiShanItem {
 // 1-9 运分对应 2004-2023 七运；2024 进入八运（2004-2023 二十年）
 // 七运（2004-2023）：天运为七（兑）；八运（2024-2043）：八（艮）
 const YUN_MING_XING: Record<number, number> = {
-  1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8, 9: 9,
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
 }
 
 export interface XuanKongResult {
   yun: number
-  xiang: number      // 向星 (向所临 1-9)
-  shan: number       // 山星 (山所临 1-9)
+  xiang: number // 向星 (向所临 1-9)
+  shan: number // 山星 (山所临 1-9)
   /** 向盘中宫飞星 */
-  xiangPan: Array<{ gong: number, xing: number, level: '大吉' | '吉' | '中' | '凶' }>
+  xiangPan: Array<{ gong: number; xing: number; level: '大吉' | '吉' | '中' | '凶' }>
   /** 山盘飞星 */
-  shanPan: Array<{ gong: number, xing: number, level: '大吉' | '吉' | '中' | '凶' }>
+  shanPan: Array<{ gong: number; xing: number; level: '大吉' | '吉' | '中' | '凶' }>
   /** 山星落宫与运盘的吉凶分布 */
-  luShen: Array<{ gong: number, xing: number, kind: '当旺' | '退煞' | '上元' | '生气' | '煞' }>
+  luShen: Array<{ gong: number; xing: number; kind: '当旺' | '退煞' | '上元' | '生气' | '煞' }>
   summary: string
 }
 
@@ -133,7 +224,11 @@ export function currentYun(year: number = new Date().getFullYear()): number {
 }
 
 /** 玄空飞星：按运数 + 山/向起宫，旋转排列 9 宫 */
-export function calcXuanKong(xiangIndex: number, shanIndex: number, yun: number = currentYun()): XuanKongResult {
+export function calcXuanKong(
+  xiangIndex: number,
+  shanIndex: number,
+  yun: number = currentYun(),
+): XuanKongResult {
   // 向盘：1 居中宫，向在的宫位起 yun，依次顺/逆
   // 简化：向星 1-9 直接填入向所临宫
   const xiangPan: XuanKongResult['xiangPan'] = []
@@ -151,9 +246,9 @@ export function calcXuanKong(xiangIndex: number, shanIndex: number, yun: number 
     shanPan.push({ gong: g, xing, level })
   }
   // 煞/旺
-  const luShen = xiangPan.map(p => {
+  const luShen = xiangPan.map((p) => {
     const isWang = p.xing === yun
-    const isTuiWang = (p.xing + yun) === 10  // 合十为旺
+    const isTuiWang = p.xing + yun === 10 // 合十为旺
     let kind: XuanKongResult['luShen'][0]['kind']
     if (isWang) kind = '当旺'
     else if (isTuiWang) kind = '退煞'
@@ -162,14 +257,14 @@ export function calcXuanKong(xiangIndex: number, shanIndex: number, yun: number 
     else kind = '上元'
     return { gong: p.gong, xing: p.xing, kind }
   })
-  const summary = `${yun}运 · 向${xiangIndex}宫 · 山${shanIndex}宫 · 当旺星${xiangPan.find(p => p.xing === yun)?.gong}宫`
+  const summary = `${yun}运 · 向${xiangIndex}宫 · 山${shanIndex}宫 · 当旺星${xiangPan.find((p) => p.xing === yun)?.gong}宫`
   return { yun, xiang: xiangIndex, shan: shanIndex, xiangPan, shanPan, luShen, summary }
 }
 
 function _xingLevel(xing: number, yun: number): '大吉' | '吉' | '中' | '凶' {
-  if (xing === yun) return '大吉'  // 当旺
-  if (xing + yun === 10) return '吉'  // 合十旺
-  if (Math.abs(xing - yun) === 1 || Math.abs(xing - yun) === 8) return '中'  // 挨星相生
+  if (xing === yun) return '大吉' // 当旺
+  if (xing + yun === 10) return '吉' // 合十旺
+  if (Math.abs(xing - yun) === 1 || Math.abs(xing - yun) === 8) return '中' // 挨星相生
   return '凶'
 }
 
@@ -185,7 +280,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
   if (num === 0) num = 9
 
   // 1=坎 2=坤 3=震 4=巽 5=中(男坤女艮) 6=乾 7=兑 8=艮 9=离
-  const map: Record<number, { gua: 'dong' | 'xi', guaName: string }> = {
+  const map: Record<number, { gua: 'dong' | 'xi'; guaName: string }> = {
     1: { gua: 'dong', guaName: '坎' },
     2: { gua: 'xi', guaName: '坤' },
     3: { gua: 'dong', guaName: '震' },
@@ -201,7 +296,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
   const zhaiGua = life.gua
 
   // 调整 8 宫吉凶（同属则吉，异属则凶）
-  const adjustedBaGua = BA_GUA.map(b => {
+  const adjustedBaGua = BA_GUA.map((b) => {
     const sameDong = ['坎', '艮', '震', '巽'].includes(b.name)
     const match = (zhaiGua === 'dong' && sameDong) || (zhaiGua === 'xi' && !sameDong)
     return {
@@ -211,7 +306,11 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
     }
   })
 
-  const bestDirection = adjustedBaGua.sort((a, b) => b.fortune - a.fortune)[0].name + '（' + adjustedBaGua[0].position + '）'
+  const bestDirection =
+    adjustedBaGua.sort((a, b) => b.fortune - a.fortune)[0].name +
+    '（' +
+    adjustedBaGua[0].position +
+    '）'
   const avgScore = Math.round(adjustedBaGua.reduce((s, b) => s + b.fortune, 0) / 8)
   let level: '大吉' | '吉' | '平' | '凶' = '平'
   if (avgScore >= 85) level = '大吉'
@@ -220,23 +319,38 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
 
   // 24 山扩展（带命卦吉凶调整）
   const lifeLevel: '吉' | '中' | '凶' = ['坎', '艮', '震', '巽'].includes(life.guaName)
-    ? (zhaiGua === 'dong' ? '吉' : '凶')
-    : (zhaiGua === 'xi' ? '吉' : '凶')
+    ? zhaiGua === 'dong'
+      ? '吉'
+      : '凶'
+    : zhaiGua === 'xi'
+      ? '吉'
+      : '凶'
   const erShiSiShan: ErShiSiShanItem[] = ER_SHI_SI_SHAN.map((s, idx) => {
     // 命卦同方为吉
-    const sameQun = ['坎', '艮', '震', '巽'].some(g => s.jia === g)
-    const sameMing = (['坎', '艮', '震', '巽'].includes(life.guaName) && sameQun) || (!['坎', '艮', '震', '巽'].includes(life.guaName) && !sameQun)
-    const level: '吉' | '中' | '凶' = sameMing ? '吉' : (s.level === '中' ? '中' : '凶')
+    const sameQun = ['坎', '艮', '震', '巽'].some((g) => s.jia === g)
+    const sameMing =
+      (['坎', '艮', '震', '巽'].includes(life.guaName) && sameQun) ||
+      (!['坎', '艮', '震', '巽'].includes(life.guaName) && !sameQun)
+    const level: '吉' | '中' | '凶' = sameMing ? '吉' : s.level === '中' ? '中' : '凶'
     return { ...s, level, baseLevel: s.level, index: idx }
   })
 
   // 玄空飞星
   const yun = currentYun()
-  const guaToNum: Record<string, number> = { 坎: 1, 坤: 2, 震: 3, 巽: 4, 乾: 6, 兑: 7, 艮: 8, 离: 9 }
+  const guaToNum: Record<string, number> = {
+    坎: 1,
+    坤: 2,
+    震: 3,
+    巽: 4,
+    乾: 6,
+    兑: 7,
+    艮: 8,
+    离: 9,
+  }
   const xiangIndex = guaToNum[life.guaName] || 1
-  const shanIndex = ((xiangIndex + 6 - 1) % 9) + 1   // 山对向
+  const shanIndex = ((xiangIndex + 6 - 1) % 9) + 1 // 山对向
   const xuanKong = calcXuanKong(xiangIndex, shanIndex, yun)
-  const xiangPan = xuanKong.xiangPan.map(p => ({ gong: p.gong, xing: p.xing, level: p.level }))
+  const xiangPan = xuanKong.xiangPan.map((p) => ({ gong: p.gong, xing: p.xing, level: p.level }))
 
   return {
     zhaiGua,
@@ -254,9 +368,12 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
       `主卧宜在生气/延年位`,
       `厨房忌设在财位`,
       `书房宜向文昌（巽/离）`,
-      `${yun}运当旺星${xiangPan.find(p => p.level === '大吉')?.gong || '—'}宫，宜此方开门/立向`,
+      `${yun}运当旺星${xiangPan.find((p) => p.level === '大吉')?.gong || '—'}宫，宜此方开门/立向`,
       '24 山向建议：',
-      ...erShiSiShan.filter(s => s.level === '吉').slice(0, 5).map(s => `· ${s.zhi}${s.jia}（${s.position}）· ${s.element} · 吉`),
+      ...erShiSiShan
+        .filter((s) => s.level === '吉')
+        .slice(0, 5)
+        .map((s) => `· ${s.zhi}${s.jia}（${s.position}）· ${s.element} · 吉`),
       lifeLevel === '吉' ? '命卦与宅卦同属，生气聚合' : '命卦与宅卦异属，宜借门/路化解',
     ],
     erShiSiShan,

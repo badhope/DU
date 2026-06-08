@@ -41,21 +41,28 @@
     <view v-else class="result">
       <!-- 当前心境 -->
       <view class="xj-now card-mystic anim-fade-up">
-        <text class="xj-now-glyph" :style="{ color: chosenMeta.color }">{{ chosenMeta.glyph }}</text>
+        <text class="xj-now-glyph" :style="{ color: chosenMeta.color }">
+          {{ chosenMeta.glyph }}
+        </text>
         <text class="xj-now-name">{{ chosenMeta.name }} · {{ chosenMeta.desc }}</text>
       </view>
 
       <!-- 拾句 -->
-      <view class="zhenju card-mystic anim-fade-up" style="animation-delay: .05s">
+      <view class="zhenju card-mystic anim-fade-up" style="animation-delay: 0.05s">
         <text class="zhenju-text">{{ currentZhenju.text }}</text>
         <view class="zhenju-foot">
-          <text class="zj-src">— {{ currentZhenju.source }}<text v-if="currentZhenju.author" class="zj-author">·{{ currentZhenju.author }}</text></text>
+          <text class="zj-src">
+            — {{ currentZhenju.source
+            }}<text v-if="currentZhenju.author" class="zj-author">
+              ·{{ currentZhenju.author }}
+            </text>
+          </text>
           <text class="zj-cat">{{ currentZhenju.category }}</text>
         </view>
       </view>
 
       <!-- 推荐 -->
-      <view class="recommend card-mystic anim-fade-up" style="animation-delay: .1s">
+      <view class="recommend card-mystic anim-fade-up" style="animation-delay: 0.1s">
         <text class="card-title title-mystic">同 心 境 推 荐</text>
         <view class="rec-list">
           <view v-for="(z, i) in recommend" :key="i" class="rec-item" @click="currentZhenju = z">
@@ -66,15 +73,25 @@
       </view>
 
       <!-- 分类 -->
-      <view class="cats card-mystic anim-fade-up" style="animation-delay: .15s">
+      <view class="cats card-mystic anim-fade-up" style="animation-delay: 0.15s">
         <text class="card-title title-mystic">分 类 浏 览</text>
         <view class="cat-tabs">
-          <view v-for="c in CATS" :key="c" class="cat-tab" :class="{ active: cat === c }" @click="cat = c">{{ c }}</view>
+          <view
+            v-for="c in CATS"
+            :key="c"
+            class="cat-tab"
+            :class="{ active: cat === c }"
+            @click="cat = c"
+          >
+            {{ c }}
+          </view>
         </view>
         <view class="cat-list">
           <view v-for="(z, i) in catList" :key="i" class="cat-item" @click="currentZhenju = z">
             <text class="cat-text">{{ z.text }}</text>
-            <text class="cat-src">— {{ z.source }}<text v-if="z.author">·{{ z.author }}</text></text>
+            <text class="cat-src">
+              — {{ z.source }}<text v-if="z.author">·{{ z.author }}</text>
+            </text>
           </view>
         </view>
       </view>
@@ -96,7 +113,15 @@ import { ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
-import { XINJING_META, dailyZhenju, randomZhenju, recommendByXinjing, byCategory, type Xinjing, type Zhenju } from '@/utils/zhenci'
+import {
+  XINJING_META,
+  dailyZhenju,
+  randomZhenju,
+  recommendByXinjing,
+  byCategory,
+  type Xinjing,
+  type Zhenju,
+} from '@/utils/zhenci'
 
 const app = useAppStore()
 
@@ -106,8 +131,8 @@ const chosen = ref<Xinjing | null>(null)
 const currentZhenju = ref<Zhenju>(dailyZhenju())
 const cat = ref<Zhenju['category']>('诗')
 
-const chosenMeta = computed(() => chosen.value ? XINJING_META[chosen.value] : XINJING_META.kunkun)
-const recommend = computed(() => chosen.value ? recommendByXinjing(chosen.value, 6) : [])
+const chosenMeta = computed(() => (chosen.value ? XINJING_META[chosen.value] : XINJING_META.kunkun))
+const recommend = computed(() => (chosen.value ? recommendByXinjing(chosen.value, 6) : []))
 const catList = computed(() => byCategory(cat.value).slice(0, 12))
 
 function choose(x: Xinjing) {
@@ -115,8 +140,11 @@ function choose(x: Xinjing) {
   const recs = recommendByXinjing(x, 1)
   if (recs.length) currentZhenju.value = recs[0]
   app.addHistory({
-    tool: 'shijian', toolName: '拾句', category: '修心',
-    input: { xinjing: x }, output: { text: currentZhenju.value.text },
+    tool: 'shijian',
+    toolName: '拾句',
+    category: '修心',
+    input: { xinjing: x },
+    output: { text: currentZhenju.value.text },
     brief: `${XINJING_META[x].name} · ${currentZhenju.value.text.slice(0, 12)}`,
   })
 }
@@ -131,14 +159,49 @@ function dailyPick() {
 </script>
 
 <style scoped>
-.shijian-page { min-height: 100vh; padding-bottom: var(--sp-6); }
-.form, .result { display: flex; flex-direction: column; gap: var(--sp-3); margin: 0 var(--sp-2); margin-top: var(--sp-2); }
-.form { padding: var(--sp-4); }
-.form-title { display: block; text-align: center; font-size: var(--fs-md); margin-bottom: var(--sp-2); letter-spacing: 0.2em; }
-.form-sub { display: block; text-align: center; font-size: var(--fs-sm); color: var(--color-bai-2); margin-bottom: var(--sp-4); }
-.form-tip { margin-top: var(--sp-2); font-size: var(--fs-xs); color: var(--color-bai-3); text-align: center; }
-.form-actions { margin-top: var(--sp-3); display: flex; gap: var(--sp-2); justify-content: center; }
-.btn-zhu, .btn-liu {
+.shijian-page {
+  min-height: 100vh;
+  padding-bottom: var(--sp-6);
+}
+.form,
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+  margin: 0 var(--sp-2);
+  margin-top: var(--sp-2);
+}
+.form {
+  padding: var(--sp-4);
+}
+.form-title {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-md);
+  margin-bottom: var(--sp-2);
+  letter-spacing: 0.2em;
+}
+.form-sub {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-sm);
+  color: var(--color-bai-2);
+  margin-bottom: var(--sp-4);
+}
+.form-tip {
+  margin-top: var(--sp-2);
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  text-align: center;
+}
+.form-actions {
+  margin-top: var(--sp-3);
+  display: flex;
+  gap: var(--sp-2);
+  justify-content: center;
+}
+.btn-zhu,
+.btn-liu {
   flex: 1;
   text-align: center;
   padding: var(--sp-3) 0;
@@ -146,8 +209,15 @@ function dailyPick() {
   border-radius: var(--r-md);
   letter-spacing: 0.2em;
 }
-.btn-zhu { background: linear-gradient(135deg, #C8302A, #D4AF37); color: var(--color-bai); }
-.btn-liu { background: transparent; color: var(--color-liu); border: 1rpx solid var(--color-liu); }
+.btn-zhu {
+  background: linear-gradient(135deg, #c8302a, #d4af37);
+  color: var(--color-bai);
+}
+.btn-liu {
+  background: transparent;
+  color: var(--color-liu);
+  border: 1rpx solid var(--color-liu);
+}
 
 .xj-grid {
   display: grid;
@@ -163,7 +233,7 @@ function dailyPick() {
   border-radius: var(--r-md);
   background: rgba(10, 10, 18, 0.4);
   cursor: pointer;
-  transition: all .3s;
+  transition: all 0.3s;
 }
 .xj-card:active {
   background: rgba(212, 175, 55, 0.2);
@@ -229,8 +299,12 @@ function dailyPick() {
   font-size: var(--fs-xs);
   color: var(--color-bai-3);
 }
-.zj-src { font-family: 'KaiTi', serif; }
-.zj-author { color: var(--color-bai-2); }
+.zj-src {
+  font-family: 'KaiTi', serif;
+}
+.zj-author {
+  color: var(--color-bai-2);
+}
 .zj-cat {
   padding: 4rpx 12rpx;
   background: rgba(212, 175, 55, 0.2);
@@ -238,21 +312,33 @@ function dailyPick() {
   border-radius: var(--r-sm);
 }
 
-.recommend, .cats { padding: var(--sp-4); }
-.card-title { display: block; font-size: var(--fs-md); letter-spacing: 0.2em; margin-bottom: var(--sp-3); text-align: center; }
-.rec-list, .cat-list {
+.recommend,
+.cats {
+  padding: var(--sp-4);
+}
+.card-title {
+  display: block;
+  font-size: var(--fs-md);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-3);
+  text-align: center;
+}
+.rec-list,
+.cat-list {
   display: flex;
   flex-direction: column;
   gap: var(--sp-2);
 }
-.rec-item, .cat-item {
+.rec-item,
+.cat-item {
   padding: var(--sp-3);
   background: rgba(10, 10, 18, 0.5);
   border-radius: var(--r-sm);
   border-left: 4rpx solid var(--color-liu);
   cursor: pointer;
 }
-.rec-text, .cat-text {
+.rec-text,
+.cat-text {
   display: block;
   font-size: var(--fs-sm);
   color: var(--color-bai);
@@ -260,7 +346,8 @@ function dailyPick() {
   font-family: 'KaiTi', serif;
   margin-bottom: 4rpx;
 }
-.rec-src, .cat-src {
+.rec-src,
+.cat-src {
   font-size: var(--fs-xs);
   color: var(--color-bai-3);
 }

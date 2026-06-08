@@ -53,7 +53,7 @@
       </view>
 
       <!-- 世应爻位 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .1s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.1s">
         <text class="sec-title title-mystic">世 应 爻 位</text>
         <view class="yao-strip">
           <view
@@ -66,19 +66,31 @@
               'yao-yong': i === jiegua.yongshen.yaoPos,
             }"
           >
-            <text class="yao-num">{{ ['初','二','三','四','五','上'][i-1] }}</text>
+            <text class="yao-num">{{ ['初', '二', '三', '四', '五', '上'][i - 1] }}</text>
             <text class="yao-line"></text>
           </view>
         </view>
         <view class="legend">
-          <view class="leg-item"><view class="leg-dot leg-shi" /><text>世爻（{{ jiegua.shiying.shi }} 爻·{{ jiegua.shiying.shiLiuqin }}）</text></view>
-          <view class="leg-item"><view class="leg-dot leg-ying" /><text>应爻（{{ jiegua.shiying.ying }} 爻·{{ jiegua.shiying.yingLiuqin }}）</text></view>
-          <view class="leg-item"><view class="leg-dot leg-yong" /><text>用神（{{ jiegua.yongshen.yaoPos }} 爻·{{ jiegua.yongshen.name }}）</text></view>
+          <view class="leg-item">
+            <view class="leg-dot leg-shi" /><text>
+              世爻（{{ jiegua.shiying.shi }} 爻·{{ jiegua.shiying.shiLiuqin }}）
+            </text>
+          </view>
+          <view class="leg-item">
+            <view class="leg-dot leg-ying" /><text>
+              应爻（{{ jiegua.shiying.ying }} 爻·{{ jiegua.shiying.yingLiuqin }}）
+            </text>
+          </view>
+          <view class="leg-item">
+            <view class="leg-dot leg-yong" /><text>
+              用神（{{ jiegua.yongshen.yaoPos }} 爻·{{ jiegua.yongshen.name }}）
+            </text>
+          </view>
         </view>
       </view>
 
       <!-- 互卦与变卦分析 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .2s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.2s">
         <text class="sec-title title-mystic">互 卦</text>
         <view class="sub-row">
           <text class="sub-symbol">{{ jiegua.hugua.symbol }}</text>
@@ -90,11 +102,15 @@
       </view>
 
       <!-- 用神分析 -->
-      <view class="card-mystic anim-fade-up yong-card" style="animation-delay: .3s">
+      <view class="card-mystic anim-fade-up yong-card" style="animation-delay: 0.3s">
         <text class="sec-title title-mystic">用 神 分 析</text>
         <view class="yong-head">
-          <text class="yong-name" :class="'yong-status-' + yongStatusLevel">{{ jiegua.yongshen.name }} · {{ jiegua.yongshen.status }}</text>
-          <text class="yong-pos">第 {{ jiegua.yongshen.yaoPos }} 爻 · 五行属 {{ jiegua.yongshen.wuxing }}</text>
+          <text class="yong-name" :class="'yong-status-' + yongStatusLevel">
+            {{ jiegua.yongshen.name }} · {{ jiegua.yongshen.status }}
+          </text>
+          <text class="yong-pos">
+            第 {{ jiegua.yongshen.yaoPos }} 爻 · 五行属 {{ jiegua.yongshen.wuxing }}
+          </text>
         </view>
         <text class="yong-reason">{{ jiegua.yongshen.reason }}</text>
         <text class="yong-status-desc">{{ jiegua.yongshen.statusDesc }}</text>
@@ -105,7 +121,7 @@
       </view>
 
       <!-- 五行生克 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .4s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.4s">
         <text class="sec-title title-mystic">五 行 流 转</text>
         <view class="flow-list">
           <view v-for="(line, i) in jiegua.wuxingFlow" :key="i" class="flow-row">
@@ -116,10 +132,15 @@
       </view>
 
       <!-- 分类运势 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .5s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.5s">
         <text class="sec-title title-mystic">分 项 运 势</text>
         <view class="fortune-grid">
-          <view v-for="(f, i) in fortuneList" :key="i" class="fortune-cell" :class="'ft-' + levelClass(f.score)">
+          <view
+            v-for="(f, i) in fortuneList"
+            :key="i"
+            class="fortune-cell"
+            :class="'ft-' + levelClass(f.score)"
+          >
             <text class="ft-label">{{ f.label }}</text>
             <text class="ft-score">{{ f.score }}</text>
             <text class="ft-text">{{ f.text }}</text>
@@ -128,10 +149,15 @@
       </view>
 
       <!-- 建议 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .6s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.6s">
         <text class="sec-title title-mystic">解 卦 箴 言</text>
         <view class="advice-list">
-          <view v-for="(a, i) in jiegua.advice" :key="i" class="advice-item" :class="'adv-' + a.level">
+          <view
+            v-for="(a, i) in jiegua.advice"
+            :key="i"
+            class="advice-item"
+            :class="'adv-' + a.level"
+          >
             <text class="adv-title">{{ a.title }}</text>
             <text class="adv-detail">{{ a.detail }}</text>
           </view>
@@ -139,7 +165,7 @@
       </view>
 
       <!-- 幸运元素 -->
-      <view class="card-mystic anim-fade-up" style="animation-delay: .7s">
+      <view class="card-mystic anim-fade-up" style="animation-delay: 0.7s">
         <text class="sec-title title-mystic">天 机 暗 示</text>
         <view class="lucky-row">
           <view class="lucky-cell">
@@ -158,7 +184,7 @@
       </view>
 
       <!-- 综合解读 -->
-      <view class="summary-card anim-fade-up" style="animation-delay: .8s">
+      <view class="summary-card anim-fade-up" style="animation-delay: 0.8s">
         <text class="summary-title title-mystic">总 断</text>
         <text class="summary-text">{{ jiegua.summary }}</text>
       </view>
@@ -186,7 +212,14 @@ import { jiegua as jieguaFn, YONGSHEN_TOPICS, type JieguaResult } from '@/utils/
 const title = '解卦'
 const subtitle = 'INTERPRETATION'
 
-type YONGSHEN_MAP_FIX = { 通用: string, 事业: string, 求财: string, 姻缘: string, 学业: string, 健康: string }
+type YONGSHEN_MAP_FIX = {
+  通用: string
+  事业: string
+  求财: string
+  姻缘: string
+  学业: string
+  健康: string
+}
 
 const TOPICS = YONGSHEN_TOPICS
 
@@ -202,17 +235,23 @@ onMounted(() => {
   const opt = ((cur as any)?.options || {}) as Record<string, string>
   guaId.value = parseInt(opt.id) || 1
   const yaoStr = opt.yao || '1,1,1,1,1,1'
-  yaoPattern.value = yaoStr.split(',').map(s => parseInt(s) || 0)
-  try { const sys = uni.getSystemInfoSync(); } catch (e) {}
+  yaoPattern.value = yaoStr.split(',').map((s) => parseInt(s) || 0)
+  try {
+    const sys = uni.getSystemInfoSync()
+  } catch (e) {}
   // 入场
   setTimeout(() => {
     try {
-      gsap.fromTo('.topic-card', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' })
+      gsap.fromTo(
+        '.topic-card',
+        { y: 20, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
+      )
     } catch (e) {}
   }, 200)
 })
 
-const gua = computed(() => GUA_LIST.find(g => g.id === guaId.value) || GUA_LIST[0])
+const gua = computed(() => GUA_LIST.find((g) => g.id === guaId.value) || GUA_LIST[0])
 
 function setTopic(k: string) {
   topic.value = k as any
@@ -222,8 +261,16 @@ function doInterpret() {
   jiegua.value = jieguaFn(gua.value, yaoPattern.value, topic.value as any)
   setTimeout(() => {
     try {
-      gsap.fromTo('.gua-show', { scale: 0.95, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out' })
-      gsap.fromTo('.card-mystic', { y: 16, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.2 })
+      gsap.fromTo(
+        '.gua-show',
+        { scale: 0.95, opacity: 0 },
+        { scale: 1, opacity: 1, duration: 0.6, ease: 'power2.out' },
+      )
+      gsap.fromTo(
+        '.card-mystic',
+        { y: 16, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.2 },
+      )
     } catch (e) {}
   }, 100)
 }
@@ -263,7 +310,6 @@ function goBack() {
 </script>
 
 <style scoped>
-
 .interp-page {
   position: relative;
   min-height: 100vh;
@@ -329,7 +375,7 @@ function goBack() {
 }
 
 .topic-btn.active {
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   border-color: var(--color-liu);
   box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.5);
 }
@@ -357,7 +403,7 @@ function goBack() {
   margin-top: 8rpx;
   display: inline-block;
   padding: 14rpx 48rpx;
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   border-radius: 9999rpx;
   color: var(--color-bai);
   font-size: var(--fs-md);
@@ -446,7 +492,7 @@ function goBack() {
 
 .gua-fortune.fortune-吉 {
   background: rgba(79, 174, 111, 0.15);
-  color: #4FAE6F;
+  color: #4fae6f;
   border-color: rgba(79, 174, 111, 0.5);
 }
 .gua-fortune.fortune-平 {
@@ -515,9 +561,18 @@ function goBack() {
   background: var(--color-bai-3);
 }
 
-.yao-cell.yao-shi .yao-line { background: var(--color-liu); width: 32rpx; }
-.yao-cell.yao-ying .yao-line { background: var(--color-zi); width: 32rpx; }
-.yao-cell.yao-yong .yao-line { background: var(--color-zhu); width: 32rpx; }
+.yao-cell.yao-shi .yao-line {
+  background: var(--color-liu);
+  width: 32rpx;
+}
+.yao-cell.yao-ying .yao-line {
+  background: var(--color-zi);
+  width: 32rpx;
+}
+.yao-cell.yao-yong .yao-line {
+  background: var(--color-zhu);
+  width: 32rpx;
+}
 
 .legend {
   display: flex;
@@ -540,9 +595,15 @@ function goBack() {
   height: 12rpx;
   border-radius: 9999rpx;
 }
-.leg-shi { background: var(--color-liu); }
-.leg-ying { background: var(--color-zi); }
-.leg-yong { background: var(--color-zhu); }
+.leg-shi {
+  background: var(--color-liu);
+}
+.leg-ying {
+  background: var(--color-zi);
+}
+.leg-yong {
+  background: var(--color-zhu);
+}
 
 /* ===== 用神卡 ===== */
 .yong-card {
@@ -565,11 +626,26 @@ function goBack() {
   border-radius: 9999rpx;
 }
 
-.yong-status-旺 { color: #4FAE6F; background: rgba(79, 174, 111, 0.15); }
-.yong-status-相 { color: #4FAE6F; background: rgba(79, 174, 111, 0.08); }
-.yong-status-休 { color: var(--color-liu); background: rgba(212, 175, 55, 0.1); }
-.yong-status-囚 { color: var(--color-zhu); background: rgba(200, 48, 42, 0.1); }
-.yong-status-死 { color: var(--color-zhu); background: rgba(200, 48, 42, 0.2); }
+.yong-status-旺 {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.15);
+}
+.yong-status-相 {
+  color: #4fae6f;
+  background: rgba(79, 174, 111, 0.08);
+}
+.yong-status-休 {
+  color: var(--color-liu);
+  background: rgba(212, 175, 55, 0.1);
+}
+.yong-status-囚 {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.1);
+}
+.yong-status-死 {
+  color: var(--color-zhu);
+  background: rgba(200, 48, 42, 0.2);
+}
 
 .yong-pos {
   font-size: var(--fs-xs);
@@ -577,7 +653,8 @@ function goBack() {
   letter-spacing: 0.05em;
 }
 
-.yong-reason, .yong-status-desc {
+.yong-reason,
+.yong-status-desc {
   display: block;
   font-size: var(--fs-sm);
   color: var(--color-bai-2);
@@ -656,10 +733,22 @@ function goBack() {
   border-radius: var(--r-sm);
 }
 
-.fortune-cell.ft-ji { border-color: rgba(79, 174, 111, 0.5); background: rgba(79, 174, 111, 0.08); }
-.fortune-cell.ft-xi { border-color: rgba(79, 174, 111, 0.3); background: rgba(79, 174, 111, 0.04); }
-.fortune-cell.ft-xiong { border-color: rgba(200, 48, 42, 0.3); background: rgba(200, 48, 42, 0.05); }
-.fortune-cell.ft-dxiong { border-color: rgba(200, 48, 42, 0.5); background: rgba(200, 48, 42, 0.1); }
+.fortune-cell.ft-ji {
+  border-color: rgba(79, 174, 111, 0.5);
+  background: rgba(79, 174, 111, 0.08);
+}
+.fortune-cell.ft-xi {
+  border-color: rgba(79, 174, 111, 0.3);
+  background: rgba(79, 174, 111, 0.04);
+}
+.fortune-cell.ft-xiong {
+  border-color: rgba(200, 48, 42, 0.3);
+  background: rgba(200, 48, 42, 0.05);
+}
+.fortune-cell.ft-dxiong {
+  border-color: rgba(200, 48, 42, 0.5);
+  background: rgba(200, 48, 42, 0.1);
+}
 
 .ft-label {
   font-size: var(--fs-xs);
@@ -676,8 +765,14 @@ function goBack() {
   line-height: 1;
 }
 
-.ft-ji .ft-score, .ft-xi .ft-score { color: #4FAE6F; }
-.ft-xiong .ft-score, .ft-dxiong .ft-score { color: var(--color-zhu); }
+.ft-ji .ft-score,
+.ft-xi .ft-score {
+  color: #4fae6f;
+}
+.ft-xiong .ft-score,
+.ft-dxiong .ft-score {
+  color: var(--color-zhu);
+}
 
 .ft-text {
   font-size: 18rpx;
@@ -700,9 +795,15 @@ function goBack() {
   border-radius: 0 var(--r-sm) var(--r-sm) 0;
 }
 
-.advice-item.adv-high { border-left-color: var(--color-zhu); }
-.advice-item.adv-mid { border-left-color: var(--color-liu); }
-.advice-item.adv-low { border-left-color: var(--color-zi); }
+.advice-item.adv-high {
+  border-left-color: var(--color-zhu);
+}
+.advice-item.adv-mid {
+  border-left-color: var(--color-liu);
+}
+.advice-item.adv-low {
+  border-left-color: var(--color-zi);
+}
 
 .adv-title {
   display: block;
@@ -713,7 +814,9 @@ function goBack() {
   margin-bottom: 4rpx;
 }
 
-.adv-high .adv-title { color: var(--color-zhu); }
+.adv-high .adv-title {
+  color: var(--color-zhu);
+}
 
 .adv-detail {
   display: block;
@@ -796,7 +899,8 @@ function goBack() {
   margin-bottom: 20rpx;
 }
 
-.btn-zhu, .btn-ghost {
+.btn-zhu,
+.btn-ghost {
   padding: 14rpx 36rpx;
   border-radius: 9999rpx;
   font-size: var(--fs-md);
@@ -806,7 +910,7 @@ function goBack() {
 }
 
 .btn-zhu {
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   color: var(--color-bai);
   box-shadow: 0 0 16rpx rgba(200, 48, 42, 0.4);
 }

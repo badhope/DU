@@ -28,7 +28,10 @@ import { SHENG, KE } from './wuxing'
 export type Bagua = 'qian' | 'dui' | 'li' | 'zhen' | 'xun' | 'kan' | 'gen' | 'kun'
 
 /** 八卦单卦常量（与 jiegua/gua.ts 保持一致） */
-export const BAGUA: Record<Bagua, { name: string; symbol: string; nature: string; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu' }> = {
+export const BAGUA: Record<
+  Bagua,
+  { name: string; symbol: string; nature: string; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu' }
+> = {
   qian: { name: '乾', symbol: '☰', nature: '天', wuxing: 'jin' },
   dui: { name: '兑', symbol: '☱', nature: '泽', wuxing: 'jin' },
   li: { name: '离', symbol: '☲', nature: '火', wuxing: 'huo' },
@@ -41,14 +44,14 @@ export const BAGUA: Record<Bagua, { name: string; symbol: string; nature: string
 
 /** 八宫 */
 export type Palace =
-  | 'qian'   // 乾宫（金）
-  | 'kun'    // 坤宫（土）
-  | 'kan'    // 坎宫（水）
-  | 'li'     // 离宫（火）
-  | 'zhen'   // 震宫（木）
-  | 'xun'    // 巽宫（木）
-  | 'dui'    // 兑宫（金）
-  | 'gen'    // 艮宫（土）
+  | 'qian' // 乾宫（金）
+  | 'kun' // 坤宫（土）
+  | 'kan' // 坎宫（水）
+  | 'li' // 离宫（火）
+  | 'zhen' // 震宫（木）
+  | 'xun' // 巽宫（木）
+  | 'dui' // 兑宫（金）
+  | 'gen' // 艮宫（土）
 
 /** 六亲 */
 export type Liuqin = '父母' | '兄弟' | '子孙' | '妻财' | '官鬼'
@@ -61,18 +64,19 @@ export type YaoPos = 1 | 2 | 3 | 4 | 5 | 6
 
 /** 一爻信息 */
 export interface YaoInfo {
-  pos: YaoPos               // 爻位 1-6
-  type: YaoType             // 1=阳, 0=阴
+  pos: YaoPos // 爻位 1-6
+  type: YaoType // 1=阳, 0=阴
   isYang: boolean
-  isMoving: boolean         // 动爻？
-  dizhi: DiZhi              // 爻地支
-  tiangan: TianGan          // 爻天干（纳甲）
-  liuqin: Liuqin            // 六亲
-  shen: string[]            // 神煞（天乙/驿马/桃花/华盖）
-  isShi: boolean            // 世爻？
-  isYing: boolean           // 应爻？
-  isFushen: boolean         // 伏神？（与本爻同一爻位，卦中缺位时用）
-  bian?: {                  // 变爻（动爻才有）
+  isMoving: boolean // 动爻？
+  dizhi: DiZhi // 爻地支
+  tiangan: TianGan // 爻天干（纳甲）
+  liuqin: Liuqin // 六亲
+  shen: string[] // 神煞（天乙/驿马/桃花/华盖）
+  isShi: boolean // 世爻？
+  isYing: boolean // 应爻？
+  isFushen: boolean // 伏神？（与本爻同一爻位，卦中缺位时用）
+  bian?: {
+    // 变爻（动爻才有）
     type: YaoType
     dizhi: DiZhi
     tiangan: TianGan
@@ -85,9 +89,20 @@ export type YongshenKey = '父母' | '兄弟' | '子孙' | '妻财' | '官鬼' |
 
 /** 用神所测之事 */
 export type Topic =
-  | '事业' | '求财' | '姻缘' | '官运' | '学业'
-  | '健康' | '家宅' | '出行' | '谋望' | '求子'
-  | '失物' | '诉讼' | '求官' | '通用'
+  | '事业'
+  | '求财'
+  | '姻缘'
+  | '官运'
+  | '学业'
+  | '健康'
+  | '家宅'
+  | '出行'
+  | '谋望'
+  | '求子'
+  | '失物'
+  | '诉讼'
+  | '求官'
+  | '通用'
 
 /** 神煞 */
 export type ShenshaKey = '天乙贵人' | '驿马' | '桃花' | '华盖'
@@ -124,10 +139,10 @@ export interface LiuyaoResult {
 
   // 2. 起卦过程
   castProcess: {
-    step: number                // 第几步（1-6）
-    rawNumber: number           // 原始数（大衍 49）
-    leftSticks: number          // 余数（1/2/3/4）
-    yang: YaoType               // 0/1
+    step: number // 第几步（1-6）
+    rawNumber: number // 原始数（大衍 49）
+    leftSticks: number // 余数（1/2/3/4）
+    yang: YaoType // 0/1
     desc: string
   }[]
 
@@ -136,13 +151,13 @@ export interface LiuyaoResult {
     palace: Palace
     palaceName: string
     palaceWuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu'
-    name: string                // 卦名
+    name: string // 卦名
     upper: Bagua
     lower: Bagua
     symbol: string
-    yaoList: YaoInfo[]          // 6 爻（自下而上 1-6）
-    shiPos: YaoPos              // 世爻位
-    yingPos: YaoPos             // 应爻位
+    yaoList: YaoInfo[] // 6 爻（自下而上 1-6）
+    shiPos: YaoPos // 世爻位
+    yingPos: YaoPos // 应爻位
   }
 
   // 4. 变卦（动爻数 0 时 = 本卦）
@@ -151,8 +166,8 @@ export interface LiuyaoResult {
     upper: Bagua
     lower: Bagua
     symbol: string
-    yaoList: YaoInfo[]          // 变卦 6 爻
-    reason: string              // 变卦原因
+    yaoList: YaoInfo[] // 变卦 6 爻
+    reason: string // 变卦原因
   }
 
   // 5. 互卦
@@ -161,7 +176,7 @@ export interface LiuyaoResult {
     upper: Bagua
     lower: Bagua
     symbol: string
-    yaoList: YaoInfo[]          // 互卦 6 爻
+    yaoList: YaoInfo[] // 互卦 6 爻
     desc: string
   }
 
@@ -201,9 +216,9 @@ export interface LiuyaoResult {
   fortunes: {
     career: { score: number; text: string }
     wealth: { score: number; text: string }
-    love:   { score: number; text: string }
+    love: { score: number; text: string }
     health: { score: number; text: string }
-    study:  { score: number; text: string }
+    study: { score: number; text: string }
   }
 
   // 12. 建议
@@ -236,38 +251,38 @@ export interface LiuyaoResult {
 const NAJIA_DIZHI: Record<Bagua, [DiZhi, DiZhi, DiZhi, DiZhi, DiZhi, DiZhi]> = {
   // [下卦爻1, 下卦爻2, 下卦爻3, 上卦爻1, 上卦爻2, 上卦爻3]
   qian: ['子', '寅', '辰', '午', '申', '戌'],
-  kun:  ['未', '巳', '丑', '酉', '亥', '卯'],
+  kun: ['未', '巳', '丑', '酉', '亥', '卯'],
   zhen: ['子', '寅', '辰', '午', '申', '戌'],
-  xun:  ['丑', '亥', '酉', '未', '巳', '卯'],
-  kan:  ['寅', '辰', '午', '申', '戌', '子'],
-  li:   ['卯', '丑', '亥', '酉', '未', '巳'],
-  gen:  ['辰', '午', '申', '戌', '子', '寅'],
-  dui:  ['巳', '卯', '丑', '亥', '酉', '未'],
+  xun: ['丑', '亥', '酉', '未', '巳', '卯'],
+  kan: ['寅', '辰', '午', '申', '戌', '子'],
+  li: ['卯', '丑', '亥', '酉', '未', '巳'],
+  gen: ['辰', '午', '申', '戌', '子', '寅'],
+  dui: ['巳', '卯', '丑', '亥', '酉', '未'],
 }
 
 const NAJIA_TIANGAN: Record<Bagua, [TianGan, TianGan, TianGan, TianGan, TianGan, TianGan]> = {
   // 内卦甲乙丙丁戊己庚辛壬癸？简化：内卦纳甲干
   // 乾：内甲 外壬；坤：内乙 外癸
   qian: ['甲', '甲', '甲', '壬', '壬', '壬'],
-  kun:  ['乙', '乙', '乙', '癸', '癸', '癸'],
+  kun: ['乙', '乙', '乙', '癸', '癸', '癸'],
   zhen: ['庚', '庚', '庚', '庚', '庚', '庚'],
-  xun:  ['辛', '辛', '辛', '辛', '辛', '辛'],
-  kan:  ['戊', '戊', '戊', '戊', '戊', '戊'],
-  li:   ['己', '己', '己', '己', '己', '己'],
-  gen:  ['丙', '丙', '丙', '丙', '丙', '丙'],
-  dui:  ['丁', '丁', '丁', '丁', '丁', '丁'],
+  xun: ['辛', '辛', '辛', '辛', '辛', '辛'],
+  kan: ['戊', '戊', '戊', '戊', '戊', '戊'],
+  li: ['己', '己', '己', '己', '己', '己'],
+  gen: ['丙', '丙', '丙', '丙', '丙', '丙'],
+  dui: ['丁', '丁', '丁', '丁', '丁', '丁'],
 }
 
 /** 单卦的阴阳爻位（自下而上 1-3） */
 const BAGUA_YAO: Record<Bagua, [YaoType, YaoType, YaoType]> = {
   qian: [1, 1, 1],
-  dui:  [1, 1, 0],
-  li:   [1, 0, 1],
+  dui: [1, 1, 0],
+  li: [1, 0, 1],
   zhen: [1, 0, 0],
-  xun:  [0, 1, 1],
-  kan:  [0, 1, 0],
-  gen:  [0, 0, 1],
-  kun:  [0, 0, 0],
+  xun: [0, 1, 1],
+  kan: [0, 1, 0],
+  gen: [0, 0, 1],
+  kun: [0, 0, 0],
 }
 
 // ============ 八宫六十四卦表 ============
@@ -294,93 +309,96 @@ interface GuaPalaceMeta {
  */
 export const GUA_PALACE: GuaPalaceMeta[] = [
   // ============ 乾宫（金）===========
-  { name: '乾为天',     upper: 'qian', lower: 'qian', palace: 'qian', shi: 6, step: 1 },
-  { name: '天风姤',     upper: 'qian', lower: 'xun',  palace: 'qian', shi: 1, step: 2 },
-  { name: '天山遁',     upper: 'qian', lower: 'gen',  palace: 'qian', shi: 2, step: 3 },
-  { name: '天地否',     upper: 'qian', lower: 'kun',  palace: 'qian', shi: 3, step: 4 },
-  { name: '风地观',     upper: 'xun',  lower: 'kun',  palace: 'qian', shi: 4, step: 5 },
-  { name: '山地剥',     upper: 'gen',  lower: 'gen',  palace: 'qian', shi: 5, step: 6 },
-  { name: '火地晋',     upper: 'li',   lower: 'kun',  palace: 'qian', shi: 4, step: 7 },
-  { name: '火天大有',   upper: 'li',   lower: 'qian', palace: 'qian', shi: 3, step: 8 },
+  { name: '乾为天', upper: 'qian', lower: 'qian', palace: 'qian', shi: 6, step: 1 },
+  { name: '天风姤', upper: 'qian', lower: 'xun', palace: 'qian', shi: 1, step: 2 },
+  { name: '天山遁', upper: 'qian', lower: 'gen', palace: 'qian', shi: 2, step: 3 },
+  { name: '天地否', upper: 'qian', lower: 'kun', palace: 'qian', shi: 3, step: 4 },
+  { name: '风地观', upper: 'xun', lower: 'kun', palace: 'qian', shi: 4, step: 5 },
+  { name: '山地剥', upper: 'gen', lower: 'gen', palace: 'qian', shi: 5, step: 6 },
+  { name: '火地晋', upper: 'li', lower: 'kun', palace: 'qian', shi: 4, step: 7 },
+  { name: '火天大有', upper: 'li', lower: 'qian', palace: 'qian', shi: 3, step: 8 },
 
   // ============ 坎宫（水）===========
-  { name: '坎为水',     upper: 'kan',  lower: 'kan',  palace: 'kan', shi: 6, step: 1 },
-  { name: '水泽节',     upper: 'kan',  lower: 'dui',  palace: 'kan', shi: 1, step: 2 },
-  { name: '水雷屯',     upper: 'kan',  lower: 'zhen', palace: 'kan', shi: 2, step: 3 },
-  { name: '水火既济',   upper: 'kan',  lower: 'li',   palace: 'kan', shi: 3, step: 4 },
-  { name: '泽火革',     upper: 'dui',  lower: 'li',   palace: 'kan', shi: 4, step: 5 },
-  { name: '雷火丰',     upper: 'zhen', lower: 'li',   palace: 'kan', shi: 5, step: 6 },
-  { name: '地火明夷',   upper: 'kun',  lower: 'li',   palace: 'kan', shi: 4, step: 7 },
-  { name: '地水师',     upper: 'kun',  lower: 'kan',  palace: 'kan', shi: 3, step: 8 },
+  { name: '坎为水', upper: 'kan', lower: 'kan', palace: 'kan', shi: 6, step: 1 },
+  { name: '水泽节', upper: 'kan', lower: 'dui', palace: 'kan', shi: 1, step: 2 },
+  { name: '水雷屯', upper: 'kan', lower: 'zhen', palace: 'kan', shi: 2, step: 3 },
+  { name: '水火既济', upper: 'kan', lower: 'li', palace: 'kan', shi: 3, step: 4 },
+  { name: '泽火革', upper: 'dui', lower: 'li', palace: 'kan', shi: 4, step: 5 },
+  { name: '雷火丰', upper: 'zhen', lower: 'li', palace: 'kan', shi: 5, step: 6 },
+  { name: '地火明夷', upper: 'kun', lower: 'li', palace: 'kan', shi: 4, step: 7 },
+  { name: '地水师', upper: 'kun', lower: 'kan', palace: 'kan', shi: 3, step: 8 },
 
   // ============ 艮宫（土）===========
-  { name: '艮为山',     upper: 'gen',  lower: 'gen',  palace: 'gen', shi: 6, step: 1 },
-  { name: '山火贲',     upper: 'gen',  lower: 'li',   palace: 'gen', shi: 1, step: 2 },
-  { name: '山天大畜',   upper: 'gen',  lower: 'qian', palace: 'gen', shi: 2, step: 3 },
-  { name: '山泽损',     upper: 'gen',  lower: 'dui',  palace: 'gen', shi: 3, step: 4 },
-  { name: '火泽睽',     upper: 'li',   lower: 'dui',  palace: 'gen', shi: 4, step: 5 },
-  { name: '天泽履',     upper: 'qian', lower: 'dui',  palace: 'gen', shi: 5, step: 6 },
-  { name: '风泽中孚',   upper: 'xun',  lower: 'dui',  palace: 'gen', shi: 4, step: 7 },
-  { name: '风山渐',     upper: 'xun',  lower: 'gen',  palace: 'gen', shi: 3, step: 8 },
+  { name: '艮为山', upper: 'gen', lower: 'gen', palace: 'gen', shi: 6, step: 1 },
+  { name: '山火贲', upper: 'gen', lower: 'li', palace: 'gen', shi: 1, step: 2 },
+  { name: '山天大畜', upper: 'gen', lower: 'qian', palace: 'gen', shi: 2, step: 3 },
+  { name: '山泽损', upper: 'gen', lower: 'dui', palace: 'gen', shi: 3, step: 4 },
+  { name: '火泽睽', upper: 'li', lower: 'dui', palace: 'gen', shi: 4, step: 5 },
+  { name: '天泽履', upper: 'qian', lower: 'dui', palace: 'gen', shi: 5, step: 6 },
+  { name: '风泽中孚', upper: 'xun', lower: 'dui', palace: 'gen', shi: 4, step: 7 },
+  { name: '风山渐', upper: 'xun', lower: 'gen', palace: 'gen', shi: 3, step: 8 },
 
   // ============ 震宫（木）===========
-  { name: '震为雷',     upper: 'zhen', lower: 'zhen', palace: 'zhen', shi: 6, step: 1 },
-  { name: '雷地豫',     upper: 'zhen', lower: 'kun',  palace: 'zhen', shi: 1, step: 2 },
-  { name: '雷水解',     upper: 'zhen', lower: 'kan',  palace: 'zhen', shi: 2, step: 3 },
-  { name: '雷风恒',     upper: 'zhen', lower: 'xun',  palace: 'zhen', shi: 3, step: 4 },
-  { name: '地风升',     upper: 'kun',  lower: 'xun',  palace: 'zhen', shi: 4, step: 5 },
-  { name: '水风井',     upper: 'kan',  lower: 'xun',  palace: 'zhen', shi: 5, step: 6 },
-  { name: '泽风大过',   upper: 'dui',  lower: 'xun',  palace: 'zhen', shi: 4, step: 7 },
-  { name: '泽雷随',     upper: 'dui',  lower: 'zhen', palace: 'zhen', shi: 3, step: 8 },
+  { name: '震为雷', upper: 'zhen', lower: 'zhen', palace: 'zhen', shi: 6, step: 1 },
+  { name: '雷地豫', upper: 'zhen', lower: 'kun', palace: 'zhen', shi: 1, step: 2 },
+  { name: '雷水解', upper: 'zhen', lower: 'kan', palace: 'zhen', shi: 2, step: 3 },
+  { name: '雷风恒', upper: 'zhen', lower: 'xun', palace: 'zhen', shi: 3, step: 4 },
+  { name: '地风升', upper: 'kun', lower: 'xun', palace: 'zhen', shi: 4, step: 5 },
+  { name: '水风井', upper: 'kan', lower: 'xun', palace: 'zhen', shi: 5, step: 6 },
+  { name: '泽风大过', upper: 'dui', lower: 'xun', palace: 'zhen', shi: 4, step: 7 },
+  { name: '泽雷随', upper: 'dui', lower: 'zhen', palace: 'zhen', shi: 3, step: 8 },
 
   // ============ 巽宫（木）===========
-  { name: '巽为风',     upper: 'xun',  lower: 'xun',  palace: 'xun', shi: 6, step: 1 },
-  { name: '风天小畜',   upper: 'xun',  lower: 'qian', palace: 'xun', shi: 1, step: 2 },
-  { name: '风火家人',   upper: 'xun',  lower: 'li',   palace: 'xun', shi: 2, step: 3 },
-  { name: '风雷益',     upper: 'xun',  lower: 'zhen', palace: 'xun', shi: 3, step: 4 },
-  { name: '天雷无妄',   upper: 'qian', lower: 'zhen', palace: 'xun', shi: 4, step: 5 },
-  { name: '火雷噬嗑',   upper: 'li',   lower: 'zhen', palace: 'xun', shi: 5, step: 6 },
-  { name: '山雷颐',     upper: 'gen',  lower: 'zhen', palace: 'xun', shi: 4, step: 7 },
-  { name: '山风蛊',     upper: 'gen',  lower: 'xun',  palace: 'xun', shi: 3, step: 8 },
+  { name: '巽为风', upper: 'xun', lower: 'xun', palace: 'xun', shi: 6, step: 1 },
+  { name: '风天小畜', upper: 'xun', lower: 'qian', palace: 'xun', shi: 1, step: 2 },
+  { name: '风火家人', upper: 'xun', lower: 'li', palace: 'xun', shi: 2, step: 3 },
+  { name: '风雷益', upper: 'xun', lower: 'zhen', palace: 'xun', shi: 3, step: 4 },
+  { name: '天雷无妄', upper: 'qian', lower: 'zhen', palace: 'xun', shi: 4, step: 5 },
+  { name: '火雷噬嗑', upper: 'li', lower: 'zhen', palace: 'xun', shi: 5, step: 6 },
+  { name: '山雷颐', upper: 'gen', lower: 'zhen', palace: 'xun', shi: 4, step: 7 },
+  { name: '山风蛊', upper: 'gen', lower: 'xun', palace: 'xun', shi: 3, step: 8 },
 
   // ============ 离宫（火）===========
-  { name: '离为火',     upper: 'li',   lower: 'li',   palace: 'li', shi: 6, step: 1 },
-  { name: '火山旅',     upper: 'li',   lower: 'gen',  palace: 'li', shi: 1, step: 2 },
-  { name: '火风鼎',     upper: 'li',   lower: 'xun',  palace: 'li', shi: 2, step: 3 },
-  { name: '火水未济',   upper: 'li',   lower: 'kan',  palace: 'li', shi: 3, step: 4 },
-  { name: '山水蒙',     upper: 'gen',  lower: 'kan',  palace: 'li', shi: 4, step: 5 },
-  { name: '风水涣',     upper: 'xun',  lower: 'kan',  palace: 'li', shi: 5, step: 6 },
-  { name: '天水讼',     upper: 'qian', lower: 'kan',  palace: 'li', shi: 4, step: 7 },
-  { name: '天火同人',   upper: 'qian', lower: 'li',   palace: 'li', shi: 3, step: 8 },
+  { name: '离为火', upper: 'li', lower: 'li', palace: 'li', shi: 6, step: 1 },
+  { name: '火山旅', upper: 'li', lower: 'gen', palace: 'li', shi: 1, step: 2 },
+  { name: '火风鼎', upper: 'li', lower: 'xun', palace: 'li', shi: 2, step: 3 },
+  { name: '火水未济', upper: 'li', lower: 'kan', palace: 'li', shi: 3, step: 4 },
+  { name: '山水蒙', upper: 'gen', lower: 'kan', palace: 'li', shi: 4, step: 5 },
+  { name: '风水涣', upper: 'xun', lower: 'kan', palace: 'li', shi: 5, step: 6 },
+  { name: '天水讼', upper: 'qian', lower: 'kan', palace: 'li', shi: 4, step: 7 },
+  { name: '天火同人', upper: 'qian', lower: 'li', palace: 'li', shi: 3, step: 8 },
 
   // ============ 坤宫（土）===========
-  { name: '坤为地',     upper: 'kun',  lower: 'kun',  palace: 'kun', shi: 6, step: 1 },
-  { name: '地雷复',     upper: 'kun',  lower: 'zhen', palace: 'kun', shi: 1, step: 2 },
-  { name: '地泽临',     upper: 'kun',  lower: 'dui',  palace: 'kun', shi: 2, step: 3 },
-  { name: '地天泰',     upper: 'kun',  lower: 'qian', palace: 'kun', shi: 3, step: 4 },
-  { name: '雷天大壮',   upper: 'zhen', lower: 'qian', palace: 'kun', shi: 4, step: 5 },
-  { name: '泽天夬',     upper: 'dui',  lower: 'qian', palace: 'kun', shi: 5, step: 6 },
-  { name: '水天需',     upper: 'kan',  lower: 'qian', palace: 'kun', shi: 4, step: 7 },
-  { name: '水地比',     upper: 'kan',  lower: 'kun',  palace: 'kun', shi: 3, step: 8 },
+  { name: '坤为地', upper: 'kun', lower: 'kun', palace: 'kun', shi: 6, step: 1 },
+  { name: '地雷复', upper: 'kun', lower: 'zhen', palace: 'kun', shi: 1, step: 2 },
+  { name: '地泽临', upper: 'kun', lower: 'dui', palace: 'kun', shi: 2, step: 3 },
+  { name: '地天泰', upper: 'kun', lower: 'qian', palace: 'kun', shi: 3, step: 4 },
+  { name: '雷天大壮', upper: 'zhen', lower: 'qian', palace: 'kun', shi: 4, step: 5 },
+  { name: '泽天夬', upper: 'dui', lower: 'qian', palace: 'kun', shi: 5, step: 6 },
+  { name: '水天需', upper: 'kan', lower: 'qian', palace: 'kun', shi: 4, step: 7 },
+  { name: '水地比', upper: 'kan', lower: 'kun', palace: 'kun', shi: 3, step: 8 },
 
   // ============ 兑宫（金）===========
-  { name: '兑为泽',     upper: 'dui',  lower: 'dui',  palace: 'dui', shi: 6, step: 1 },
-  { name: '泽水困',     upper: 'dui',  lower: 'kan',  palace: 'dui', shi: 1, step: 2 },
-  { name: '泽地萃',     upper: 'dui',  lower: 'kun',  palace: 'dui', shi: 2, step: 3 },
-  { name: '泽山咸',     upper: 'dui',  lower: 'gen',  palace: 'dui', shi: 3, step: 4 },
-  { name: '水山蹇',     upper: 'kan',  lower: 'gen',  palace: 'dui', shi: 4, step: 5 },
-  { name: '地山谦',     upper: 'kun',  lower: 'gen',  palace: 'dui', shi: 5, step: 6 },
-  { name: '雷山小过',   upper: 'zhen', lower: 'gen',  palace: 'dui', shi: 4, step: 7 },
-  { name: '雷泽归妹',   upper: 'zhen', lower: 'dui',  palace: 'dui', shi: 3, step: 8 },
+  { name: '兑为泽', upper: 'dui', lower: 'dui', palace: 'dui', shi: 6, step: 1 },
+  { name: '泽水困', upper: 'dui', lower: 'kan', palace: 'dui', shi: 1, step: 2 },
+  { name: '泽地萃', upper: 'dui', lower: 'kun', palace: 'dui', shi: 2, step: 3 },
+  { name: '泽山咸', upper: 'dui', lower: 'gen', palace: 'dui', shi: 3, step: 4 },
+  { name: '水山蹇', upper: 'kan', lower: 'gen', palace: 'dui', shi: 4, step: 5 },
+  { name: '地山谦', upper: 'kun', lower: 'gen', palace: 'dui', shi: 5, step: 6 },
+  { name: '雷山小过', upper: 'zhen', lower: 'gen', palace: 'dui', shi: 4, step: 7 },
+  { name: '雷泽归妹', upper: 'zhen', lower: 'dui', palace: 'dui', shi: 3, step: 8 },
 ]
 
 /** 卦宫五行 */
 const PALACE_WUXING: Record<Palace, 'jin' | 'mu' | 'shui' | 'huo' | 'tu'> = {
-  qian: 'jin', dui: 'jin',    // 乾兑属金
-  zhen: 'mu',  xun: 'mu',     // 震巽属木
-  kan: 'shui',                // 坎属水
-  li: 'huo',                  // 离属火
-  gen: 'tu',  kun: 'tu',      // 艮坤属土
+  qian: 'jin',
+  dui: 'jin', // 乾兑属金
+  zhen: 'mu',
+  xun: 'mu', // 震巽属木
+  kan: 'shui', // 坎属水
+  li: 'huo', // 离属火
+  gen: 'tu',
+  kun: 'tu', // 艮坤属土
 }
 
 /** 卦宫中文名 */
@@ -412,7 +430,7 @@ function getLiuqin(palaceWuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu', yaoDizhi:
   if (SHENG[yaoWx] === palaceWuxing) return '父母'
   if (KE[palaceWuxing] === yaoWx) return '妻财'
   if (KE[yaoWx] === palaceWuxing) return '官鬼'
-  return '兄弟'  // fallback（同五行）
+  return '兄弟' // fallback（同五行）
 }
 
 // ============ 卦象查找 ============
@@ -424,14 +442,18 @@ interface GuaFull extends GuaPalaceMeta {
 
 /** 卦象 → 卦名（按上卦+下卦查 64 卦） */
 function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
-  const meta = GUA_PALACE.find(g => g.upper === upper && g.lower === lower)
+  const meta = GUA_PALACE.find((g) => g.upper === upper && g.lower === lower)
   if (!meta) return undefined
   const upperYao = BAGUA_YAO[meta.upper]
   const lowerYao = BAGUA_YAO[meta.lower]
   // yaoBin: 自下而上 [爻1, 爻2, 爻3, 爻4, 爻5, 爻6] = [下卦爻1, 2, 3, 上卦爻1, 2, 3]
   const yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoType] = [
-    lowerYao[0], lowerYao[1], lowerYao[2],
-    upperYao[0], upperYao[1], upperYao[2],
+    lowerYao[0],
+    lowerYao[1],
+    lowerYao[2],
+    upperYao[0],
+    upperYao[1],
+    upperYao[2],
   ]
   const symbol = BAGUA[upper].symbol + BAGUA[lower].symbol
   return { ...meta, symbol, yaoBin }
@@ -439,7 +461,7 @@ function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
 
 /** 通过卦名查卦 */
 function findGuaByName(name: string): GuaFull | undefined {
-  return GUA_PALACE.find(g => g.name === name) as GuaFull | undefined
+  return GUA_PALACE.find((g) => g.name === name) as GuaFull | undefined
 }
 
 // ============ 蓍草起卦（大衍之数 50 → 49 → 三营成易）============
@@ -463,10 +485,13 @@ function castYaoStick(): { value: number; yang: YaoType; isOld: boolean; desc: s
   const yang = v === 7 || v === 9 ? 1 : 0
   const isOld = v === 6 || v === 9
   const desc =
-    v === 6 ? '老阴 ━ ━（动，变阳）' :
-    v === 7 ? '少阳 ━━━━━' :
-    v === 8 ? '少阴 ━ ━' :
-              '老阳 ━━━━━（动，变阴）'
+    v === 6
+      ? '老阴 ━ ━（动，变阳）'
+      : v === 7
+        ? '少阳 ━━━━━'
+        : v === 8
+          ? '少阴 ━ ━'
+          : '老阳 ━━━━━（动，变阴）'
   return { value: v, yang, isOld, desc }
 }
 
@@ -503,7 +528,7 @@ function buildYaoList(
       liuqin: lq,
       shen: [],
       isShi: pos === shi,
-      isYing: pos === (shi <= 3 ? shi + 3 : shi - 3) as YaoPos,
+      isYing: pos === ((shi <= 3 ? shi + 3 : shi - 3) as YaoPos),
       isFushen: false,
     })
   }
@@ -516,9 +541,16 @@ function buildBianGua(
   mainGua: GuaFull,
   yaoList: YaoInfo[],
   isMoving: boolean[],
-): { name: string; upper: Bagua; lower: Bagua; symbol: string; yaoList: YaoInfo[]; reason: string } {
+): {
+  name: string
+  upper: Bagua
+  lower: Bagua
+  symbol: string
+  yaoList: YaoInfo[]
+  reason: string
+} {
   // 没有动爻 → 变卦 = 本卦
-  if (!isMoving.some(m => m)) {
+  if (!isMoving.some((m) => m)) {
     return {
       name: mainGua.name,
       upper: mainGua.upper,
@@ -530,7 +562,7 @@ function buildBianGua(
   }
   // 动爻变阴变阳
   const newYaoBin: YaoType[] = mainGua.yaoBin.map((y, i) =>
-    isMoving[i] ? (y === 1 ? 0 : 1) as YaoType : y
+    isMoving[i] ? ((y === 1 ? 0 : 1) as YaoType) : y,
   )
   // 由 newYaoBin 重组卦象：上卦 = 爻 4-6，下卦 = 爻 1-3
   const lowerBin = [newYaoBin[0], newYaoBin[1], newYaoBin[2]]
@@ -563,16 +595,17 @@ function buildBianGua(
       liuqin: lq,
       shen: [],
       isShi: pos === target.shi,
-      isYing: pos === (target.shi <= 3 ? target.shi + 3 : target.shi - 3) as YaoPos,
+      isYing: pos === ((target.shi <= 3 ? target.shi + 3 : target.shi - 3) as YaoPos),
       isFushen: false,
     })
   }
 
-  const movingYaoCount = isMoving.filter(m => m).length
-  const movingPosList = isMoving.map((m, i) => m ? i + 1 : 0).filter(x => x > 0)
-  const reason = movingYaoCount === 1
-    ? `第 ${movingPosList[0]} 爻发动 · 由${yaoList[movingPosList[0] - 1].isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0] - 1] === 1 ? '阳' : '阴'}`
-    : `${movingYaoCount} 爻齐动：${movingPosList.join('、')} · 动而化之`
+  const movingYaoCount = isMoving.filter((m) => m).length
+  const movingPosList = isMoving.map((m, i) => (m ? i + 1 : 0)).filter((x) => x > 0)
+  const reason =
+    movingYaoCount === 1
+      ? `第 ${movingPosList[0]} 爻发动 · 由${yaoList[movingPosList[0] - 1].isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0] - 1] === 1 ? '阳' : '阴'}`
+      : `${movingYaoCount} 爻齐动：${movingPosList.join('、')} · 动而化之`
 
   return { name: target.name, upper, lower, symbol: target.symbol, yaoList: newYaoList, reason }
 }
@@ -580,8 +613,14 @@ function buildBianGua(
 function binToBagua(bin: number[]): Bagua {
   const key = bin.join('')
   const map: Record<string, Bagua> = {
-    '111': 'qian', '110': 'dui', '101': 'li', '100': 'zhen',
-    '011': 'xun', '010': 'kan', '001': 'gen', '000': 'kun',
+    '111': 'qian',
+    '110': 'dui',
+    '101': 'li',
+    '100': 'zhen',
+    '011': 'xun',
+    '010': 'kan',
+    '001': 'gen',
+    '000': 'kun',
   }
   return map[key] || 'kun'
 }
@@ -589,7 +628,12 @@ function binToBagua(bin: number[]): Bagua {
 // ============ 互卦推算 ============
 
 function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoType]): {
-  name: string; upper: Bagua; lower: Bagua; symbol: string; yaoList: YaoInfo[]; desc: string
+  name: string
+  upper: Bagua
+  lower: Bagua
+  symbol: string
+  yaoList: YaoInfo[]
+  desc: string
 } {
   // 互卦：2-3-4 爻 = 下互，3-4-5 爻 = 上互
   // 实际：下互 = 爻 2、3、4；上互 = 爻 3、4、5
@@ -636,16 +680,23 @@ function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoTyp
 
 // ============ 伏神（卦中缺位时从本宫卦借来）============
 
-function buildFushen(mainGua: GuaFull, yaoList: YaoInfo[], needed: Liuqin[]): Array<{
-  yaoPos: YaoPos; name: Liuqin; fromPalace: Palace; reason: string
+function buildFushen(
+  mainGua: GuaFull,
+  yaoList: YaoInfo[],
+  needed: Liuqin[],
+): Array<{
+  yaoPos: YaoPos
+  name: Liuqin
+  fromPalace: Palace
+  reason: string
 }> {
   const result: Array<{ yaoPos: YaoPos; name: Liuqin; fromPalace: Palace; reason: string }> = []
-  const foundLiuqins = new Set(yaoList.map(y => y.liuqin))
+  const foundLiuqins = new Set(yaoList.map((y) => y.liuqin))
   for (const need of needed) {
     if (foundLiuqins.has(need)) continue
     // 找本宫卦
-    const palaceGuas = GUA_PALACE.filter(g => g.palace === mainGua.palace)
-    const benGong = palaceGuas.find(g => g.step === 1)
+    const palaceGuas = GUA_PALACE.filter((g) => g.palace === mainGua.palace)
+    const benGong = palaceGuas.find((g) => g.step === 1)
     if (!benGong) continue
     const palaceWx = PALACE_WUXING[benGong.palace]
     const dizhis = NAJIA_DIZHI[benGong.lower].concat(NAJIA_DIZHI[benGong.upper])
@@ -673,10 +724,10 @@ function buildFushen(mainGua: GuaFull, yaoList: YaoInfo[], needed: Liuqin[]): Ar
 const YONGSHEN_MAP: Record<Topic, Liuqin> = {
   事业: '官鬼',
   求财: '妻财',
-  姻缘: '妻财',     // 简化：男看财星女看官星
+  姻缘: '妻财', // 简化：男看财星女看官星
   官运: '官鬼',
   学业: '父母',
-  健康: '官鬼',     // 病爻看官鬼
+  健康: '官鬼', // 病爻看官鬼
   家宅: '父母',
   出行: '父母',
   谋望: '子孙',
@@ -690,23 +741,24 @@ const YONGSHEN_MAP: Record<Topic, Liuqin> = {
 /** 农历月份转公历月份（简化版：直接用月） */
 function getCurrentDizhis(date: Date): { year: DiZhi; month: DiZhi; day: DiZhi; hour: DiZhi } {
   // 年支：(year - 4) % 12
-  const yearIdx = ((date.getFullYear() - 4) % 12 + 12) % 12
+  const yearIdx = (((date.getFullYear() - 4) % 12) + 12) % 12
   const yearZhi = DIZHI[yearIdx]
   // 月支：以节气简化（公历 2 月 = 寅月）
-  const monthIdx = ((date.getMonth() - 2 + 12 + 2) % 12)  // 1月=丑=1, 2月=寅=2 ...
+  const monthIdx = (date.getMonth() - 2 + 12 + 2) % 12 // 1月=丑=1, 2月=寅=2 ...
   // 实际上：公历 1 月 ≈ 丑，2 月 ≈ 寅，3 月 ≈ 卯 ... 即 monthZhiIdx = (month + 1) % 12
-  const monthZhi = DIZHI[((date.getMonth() + 1) % 12)]
+  const monthZhi = DIZHI[(date.getMonth() + 1) % 12]
   // 日支：1900-01-01 是甲戌日（戌=10）
   const baseDate = new Date(1900, 0, 1)
   const diffDays = Math.floor((date.getTime() - baseDate.getTime()) / 86400000)
-  const dayZhi = DIZHI[((10 + diffDays) % 12 + 12) % 12]
+  const dayZhi = DIZHI[(((10 + diffDays) % 12) + 12) % 12]
   // 时支：hour 转 (0-23) → (子=23-1, 丑=1-3, ...)
   let hourZhiIdx = 0
   const h = date.getHours()
   if (h >= 23 || h < 1) hourZhiIdx = 0
   else hourZhiIdx = Math.floor((h + 1) / 2)
   const hourZhi = DIZHI[hourZhiIdx]
-  void yearIdx; void monthIdx
+  void yearIdx
+  void monthIdx
   return { year: yearZhi, month: monthZhi, day: dayZhi, hour: hourZhi }
 }
 
@@ -722,32 +774,61 @@ function getCurrentDizhis(date: Date): { year: DiZhi; month: DiZhi; day: DiZhi; 
  */
 
 const TIANGUI: Record<TianGan, [DiZhi, DiZhi]> = {
-  甲: ['丑', '未'], 戊: ['丑', '未'],
-  乙: ['子', '申'], 己: ['子', '申'],
-  丙: ['亥', '酉'], 庚: ['亥', '酉'],
-  丁: ['亥', '酉'], 辛: ['亥', '酉'],
-  壬: ['巳', '卯'], 癸: ['巳', '卯'],
+  甲: ['丑', '未'],
+  戊: ['丑', '未'],
+  乙: ['子', '申'],
+  己: ['子', '申'],
+  丙: ['亥', '酉'],
+  庚: ['亥', '酉'],
+  丁: ['亥', '酉'],
+  辛: ['亥', '酉'],
+  壬: ['巳', '卯'],
+  癸: ['巳', '卯'],
 }
 
 const YIMA: Record<DiZhi, [DiZhi, DiZhi, DiZhi]> = {
-  寅: ['申', '申', '申'], 午: ['申', '申', '申'], 戌: ['申', '申', '申'],  // 寅午戌 见申
-  申: ['寅', '寅', '寅'], 子: ['寅', '寅', '寅'], 辰: ['寅', '寅', '寅'],  // 申子辰 见寅
-  巳: ['亥', '亥', '亥'], 酉: ['亥', '亥', '亥'], 丑: ['亥', '亥', '亥'],  // 巳酉丑 见亥
-  亥: ['巳', '巳', '巳'], 卯: ['巳', '巳', '巳'], 未: ['巳', '巳', '巳'],  // 亥卯未 见巳
+  寅: ['申', '申', '申'],
+  午: ['申', '申', '申'],
+  戌: ['申', '申', '申'], // 寅午戌 见申
+  申: ['寅', '寅', '寅'],
+  子: ['寅', '寅', '寅'],
+  辰: ['寅', '寅', '寅'], // 申子辰 见寅
+  巳: ['亥', '亥', '亥'],
+  酉: ['亥', '亥', '亥'],
+  丑: ['亥', '亥', '亥'], // 巳酉丑 见亥
+  亥: ['巳', '巳', '巳'],
+  卯: ['巳', '巳', '巳'],
+  未: ['巳', '巳', '巳'], // 亥卯未 见巳
 }
 
 const TAOHUA: Record<DiZhi, DiZhi> = {
-  寅: '卯', 午: '卯', 戌: '卯',
-  申: '酉', 子: '酉', 辰: '酉',
-  巳: '午', 酉: '午', 丑: '午',
-  亥: '子', 卯: '子', 未: '子',
+  寅: '卯',
+  午: '卯',
+  戌: '卯',
+  申: '酉',
+  子: '酉',
+  辰: '酉',
+  巳: '午',
+  酉: '午',
+  丑: '午',
+  亥: '子',
+  卯: '子',
+  未: '子',
 }
 
 const HUAGAI: Record<DiZhi, DiZhi> = {
-  寅: '戌', 午: '戌', 戌: '戌',
-  申: '辰', 子: '辰', 辰: '辰',
-  巳: '丑', 酉: '丑', 丑: '丑',
-  亥: '未', 卯: '未', 未: '未',
+  寅: '戌',
+  午: '戌',
+  戌: '戌',
+  申: '辰',
+  子: '辰',
+  辰: '辰',
+  巳: '丑',
+  酉: '丑',
+  丑: '丑',
+  亥: '未',
+  卯: '未',
+  未: '未',
 }
 
 function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): ShenshaDesc[] {
@@ -755,7 +836,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
   // 天乙贵人
   const guiren = TIANGUI[dayGan]
   for (const gz of guiren) {
-    const yao = yaoList.find(y => y.dizhi === gz)
+    const yao = yaoList.find((y) => y.dizhi === gz)
     if (yao) {
       result.push({
         key: '天乙贵人',
@@ -769,7 +850,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
   }
   // 驿马
   const yima = YIMA[dayZhi][0]
-  const yimaYao = yaoList.find(y => y.dizhi === yima)
+  const yimaYao = yaoList.find((y) => y.dizhi === yima)
   if (yimaYao) {
     result.push({
       key: '驿马',
@@ -782,7 +863,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
   }
   // 桃花
   const taohua = TAOHUA[dayZhi]
-  const thYao = yaoList.find(y => y.dizhi === taohua)
+  const thYao = yaoList.find((y) => y.dizhi === taohua)
   if (thYao) {
     result.push({
       key: '桃花',
@@ -795,7 +876,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
   }
   // 华盖
   const huagai = HUAGAI[dayZhi]
-  const hgYao = yaoList.find(y => y.dizhi === huagai)
+  const hgYao = yaoList.find((y) => y.dizhi === huagai)
   if (hgYao) {
     result.push({
       key: '华盖',
@@ -817,22 +898,25 @@ function monthWx(month: number): 'jin' | 'mu' | 'shui' | 'huo' | 'tu' {
   if (month >= 4 && month <= 6) return 'huo'
   if (month >= 7 && month <= 9) return 'tu'
   if (month >= 10 && month <= 11) return 'jin'
-  return 'shui'  // 12, 1
+  return 'shui' // 12, 1
 }
 
-function statusYongshen(yaoWx: 'jin' | 'mu' | 'shui' | 'huo' | 'tu', month: number): '旺' | '相' | '休' | '囚' | '死' {
+function statusYongshen(
+  yaoWx: 'jin' | 'mu' | 'shui' | 'huo' | 'tu',
+  month: number,
+): '旺' | '相' | '休' | '囚' | '死' {
   const m = monthWx(month)
   if (yaoWx === m) return '旺'
-  if (SHENG[m] === yaoWx) return '相'  // 月令生用神
-  if (SHENG[yaoWx] === m) return '休'  // 用神生月令
-  if (KE[m] === yaoWx) return '囚'    // 月令克用神
+  if (SHENG[m] === yaoWx) return '相' // 月令生用神
+  if (SHENG[yaoWx] === m) return '休' // 用神生月令
+  if (KE[m] === yaoWx) return '囚' // 月令克用神
   return '死'
 }
 
 // ============ 流时（流年/流月/流日/流时 → 对应爻位）============
 
 function findYaoByDizhi(yaoList: YaoInfo[], dz: DiZhi): YaoInfo | undefined {
-  return yaoList.find(y => y.dizhi === dz)
+  return yaoList.find((y) => y.dizhi === dz)
 }
 
 function buildLiushi(yaoList: YaoInfo[], date: Date): Liushi {
@@ -842,10 +926,32 @@ function buildLiushi(yaoList: YaoInfo[], date: Date): Liushi {
   const d = findYaoByDizhi(yaoList, dzs.day)
   const h = findYaoByDizhi(yaoList, dzs.hour)
   return {
-    year: { zhi: dzs.year, yaoPos: y?.pos || null, text: y ? `流年${dzs.year}临第 ${y.pos} 爻，主${y.liuqin}事动` : `流年${dzs.year}卦中无对应爻` },
-    month: { zhi: dzs.month, yaoPos: m?.pos || null, text: m ? `流月${dzs.month}临第 ${m.pos} 爻，主${m.liuqin}事动` : `流月${dzs.month}卦中无对应爻` },
-    day: { zhi: dzs.day, yaoPos: d?.pos || null, text: d ? `流日${dzs.day}临第 ${d.pos} 爻，主${d.liuqin}事动` : `流日${dzs.day}卦中无对应爻` },
-    hour: { zhi: dzs.hour, yaoPos: h?.pos || null, text: h ? `流时${dzs.hour}临第 ${h.pos} 爻，主${h.liuqin}事动` : `流时${dzs.hour}卦中无对应爻` },
+    year: {
+      zhi: dzs.year,
+      yaoPos: y?.pos || null,
+      text: y
+        ? `流年${dzs.year}临第 ${y.pos} 爻，主${y.liuqin}事动`
+        : `流年${dzs.year}卦中无对应爻`,
+    },
+    month: {
+      zhi: dzs.month,
+      yaoPos: m?.pos || null,
+      text: m
+        ? `流月${dzs.month}临第 ${m.pos} 爻，主${m.liuqin}事动`
+        : `流月${dzs.month}卦中无对应爻`,
+    },
+    day: {
+      zhi: dzs.day,
+      yaoPos: d?.pos || null,
+      text: d ? `流日${dzs.day}临第 ${d.pos} 爻，主${d.liuqin}事动` : `流日${dzs.day}卦中无对应爻`,
+    },
+    hour: {
+      zhi: dzs.hour,
+      yaoPos: h?.pos || null,
+      text: h
+        ? `流时${dzs.hour}临第 ${h.pos} 爻，主${h.liuqin}事动`
+        : `流时${dzs.hour}卦中无对应爻`,
+    },
   }
 }
 
@@ -859,18 +965,24 @@ function calcFortunes(
   hasMoving: boolean,
 ): LiuyaoResult['fortunes'] {
   // 基础分：根据本卦是否动爻、爻地支组合
-  const movingCount = yaoList.filter(y => y.isMoving).length
+  const movingCount = yaoList.filter((y) => y.isMoving).length
   const base = 60
   const movingBonus = movingCount === 0 ? -8 : movingCount === 1 ? 8 : movingCount === 2 ? 4 : -4
-  const yongBonus = yongshenStatus === '旺' ? 15
-    : yongshenStatus === '相' ? 8
-    : yongshenStatus === '休' ? -3
-    : yongshenStatus === '囚' ? -10
-    : yongshenStatus === '死' ? -18
-    : -5  // 缺
+  const yongBonus =
+    yongshenStatus === '旺'
+      ? 15
+      : yongshenStatus === '相'
+        ? 8
+        : yongshenStatus === '休'
+          ? -3
+          : yongshenStatus === '囚'
+            ? -10
+            : yongshenStatus === '死'
+              ? -18
+              : -5 // 缺
 
   // 变卦影响
-  const bianLiuqin = bianGua.yaoList.find(y => y.isYang)
+  const bianLiuqin = bianGua.yaoList.find((y) => y.isYang)
   let bianBonus = 0
   if (bianLiuqin) {
     const yaoWx = DIZHI_WUXING[bianLiuqin.dizhi]
@@ -880,15 +992,17 @@ function calcFortunes(
     else if (KE[yaoWx] === palaceWx) bianBonus = -5
   }
 
-  const adjust = (i: number) => Math.max(20, Math.min(98, base + movingBonus + yongBonus + bianBonus + i))
-  const t = (s: number) => s >= 85 ? '大吉' : s >= 70 ? '吉' : s >= 55 ? '平' : s >= 40 ? '小凶' : '凶'
+  const adjust = (i: number) =>
+    Math.max(20, Math.min(98, base + movingBonus + yongBonus + bianBonus + i))
+  const t = (s: number) =>
+    s >= 85 ? '大吉' : s >= 70 ? '吉' : s >= 55 ? '平' : s >= 40 ? '小凶' : '凶'
   void hasMoving
   return {
-    career: { score: adjust(5),  text: t(adjust(5)) },
-    wealth: { score: adjust(0),  text: t(adjust(0)) },
-    love:   { score: adjust(-3), text: t(adjust(-3)) },
-    health: { score: adjust(8),  text: t(adjust(8)) },
-    study:  { score: adjust(2),  text: t(adjust(2)) },
+    career: { score: adjust(5), text: t(adjust(5)) },
+    wealth: { score: adjust(0), text: t(adjust(0)) },
+    love: { score: adjust(-3), text: t(adjust(-3)) },
+    health: { score: adjust(8), text: t(adjust(8)) },
+    study: { score: adjust(2), text: t(adjust(2)) },
   }
 }
 
@@ -910,7 +1024,7 @@ function buildAdvice(
   })
   adv.push({
     title: '卦爻结构',
-    detail: `本卦 6 爻：${yaoList.map(y => `${y.pos}爻[${y.liuqin}·${y.dizhi}${y.isYang ? '阳' : '阴'}${y.isMoving ? '·动' : ''}]`).join(' · ')}。`,
+    detail: `本卦 6 爻：${yaoList.map((y) => `${y.pos}爻[${y.liuqin}·${y.dizhi}${y.isYang ? '阳' : '阴'}${y.isMoving ? '·动' : ''}]`).join(' · ')}。`,
     level: 'mid',
   })
   adv.push({
@@ -926,17 +1040,21 @@ function buildAdvice(
   if (shensha.length > 0) {
     adv.push({
       title: '神煞点醒',
-      detail: shensha.slice(0, 3).map(s => `${s.name}临第 ${s.yaoPos} 爻`).join(' · '),
+      detail: shensha
+        .slice(0, 3)
+        .map((s) => `${s.name}临第 ${s.yaoPos} 爻`)
+        .join(' · '),
       level: 'mid',
     })
   }
   adv.push({
     title: '趋避之方',
-    detail: yongshen.status === '旺' || yongshen.status === '相'
-      ? '用神得力，所谋可成。宜乘势而上，把握良机。'
-      : yongshen.status === '缺'
-      ? '用神缺失，需借伏神之力。可另择时机或调整方案。'
-      : '用神失力，宜静守待时。不如韬光养晦，待时而动。',
+    detail:
+      yongshen.status === '旺' || yongshen.status === '相'
+        ? '用神得力，所谋可成。宜乘势而上，把握良机。'
+        : yongshen.status === '缺'
+          ? '用神缺失，需借伏神之力。可另择时机或调整方案。'
+          : '用神失力，宜静守待时。不如韬光养晦，待时而动。',
     level: 'low',
   })
   return adv
@@ -951,16 +1069,24 @@ function buildSummary(
   fortunes: LiuyaoResult['fortunes'],
 ): string {
   const overall = fortunes.career.text
-  return `本卦 ${mainGua.name}（${PALACE_NAME[mainGua.palace]}），世在第 ${mainGua.shi} 爻。变卦 ${bianGua.name}。` +
+  return (
+    `本卦 ${mainGua.name}（${PALACE_NAME[mainGua.palace]}），世在第 ${mainGua.shi} 爻。变卦 ${bianGua.name}。` +
     `用神${yongshen.key}（${yongshen.name}）${yongshen.status}，${yongshen.statusDesc}` +
     `综合运势【${overall}】，${overall === '大吉' || overall === '吉' ? '宜顺势而上' : overall === '平' ? '宜守正待时' : '宜静观其变'}。`
+  )
 }
 
 // ============ 幸运元素 ============
 
 function buildLucky(mainGua: GuaFull) {
   const upperWx = PALACE_WUXING[mainGua.palace]
-  const colorMap: Record<string, string> = { jin: '金色/白色', mu: '青色/绿色', shui: '黑色/蓝色', huo: '赤色/紫色', tu: '黄色/棕色' }
+  const colorMap: Record<string, string> = {
+    jin: '金色/白色',
+    mu: '青色/绿色',
+    shui: '黑色/蓝色',
+    huo: '赤色/紫色',
+    tu: '黄色/棕色',
+  }
   const dirMap: Record<string, string> = { jin: '西', mu: '东', shui: '北', huo: '南', tu: '中央' }
   return {
     color: colorMap[upperWx] || '玄色',
@@ -1001,7 +1127,14 @@ export function liuyaoDivinate(
     }
     const yang = v === 7 || v === 9 ? 1 : 0
     const isOld = v === 6 || v === 9
-    const desc = v === 6 ? '老阴 ━ ━（动，变阳）' : v === 7 ? '少阳 ━━━━━' : v === 8 ? '少阴 ━ ━' : '老阳 ━━━━━（动，变阴）'
+    const desc =
+      v === 6
+        ? '老阴 ━ ━（动，变阳）'
+        : v === 7
+          ? '少阳 ━━━━━'
+          : v === 8
+            ? '少阴 ━ ━'
+            : '老阳 ━━━━━（动，变阴）'
     yaoBin[i] = yang as YaoType
     isMoving[i] = isOld
     castProcess.push({ step: i + 1, rawNumber: v, leftSticks: v, yang: yang as YaoType, desc })
@@ -1012,10 +1145,17 @@ export function liuyaoDivinate(
   const upperBin = [yaoBin[3], yaoBin[4], yaoBin[5]]
   const lower = binToBagua(lowerBin)
   const upper = binToBagua(upperBin)
-  const mainGua = findGua(upper, lower) || GUA_PALACE[0] as unknown as GuaFull
+  const mainGua = findGua(upper, lower) || (GUA_PALACE[0] as unknown as GuaFull)
 
   // 3. 推算 6 爻详细信息
-  const yaoList = buildYaoList(mainGua.yaoBin, mainGua.upper, mainGua.lower, mainGua.palace, mainGua.shi, isMoving)
+  const yaoList = buildYaoList(
+    mainGua.yaoBin,
+    mainGua.upper,
+    mainGua.lower,
+    mainGua.palace,
+    mainGua.shi,
+    isMoving,
+  )
 
   // 4. 变卦
   const bianGua = buildBianGua(mainGua, yaoList, isMoving)
@@ -1024,14 +1164,28 @@ export function liuyaoDivinate(
   const huGua = buildHuGua(mainGua.yaoBin)
 
   // 6. 伏卦 = 本宫卦
-  const palaceGuas = GUA_PALACE.filter(g => g.palace === mainGua.palace)
-  const benGong = palaceGuas.find(g => g.step === 1) || palaceGuas[0]
-  const fuGuaYaoBin = [BAGUA_YAO[benGong.lower][0], BAGUA_YAO[benGong.lower][1], BAGUA_YAO[benGong.lower][2], BAGUA_YAO[benGong.upper][0], BAGUA_YAO[benGong.upper][1], BAGUA_YAO[benGong.upper][2]] as [YaoType, YaoType, YaoType, YaoType, YaoType, YaoType]
-  const fuGuaYaoList = buildYaoList(fuGuaYaoBin, benGong.upper, benGong.lower, benGong.palace, benGong.shi, [false, false, false, false, false, false])
+  const palaceGuas = GUA_PALACE.filter((g) => g.palace === mainGua.palace)
+  const benGong = palaceGuas.find((g) => g.step === 1) || palaceGuas[0]
+  const fuGuaYaoBin = [
+    BAGUA_YAO[benGong.lower][0],
+    BAGUA_YAO[benGong.lower][1],
+    BAGUA_YAO[benGong.lower][2],
+    BAGUA_YAO[benGong.upper][0],
+    BAGUA_YAO[benGong.upper][1],
+    BAGUA_YAO[benGong.upper][2],
+  ] as [YaoType, YaoType, YaoType, YaoType, YaoType, YaoType]
+  const fuGuaYaoList = buildYaoList(
+    fuGuaYaoBin,
+    benGong.upper,
+    benGong.lower,
+    benGong.palace,
+    benGong.shi,
+    [false, false, false, false, false, false],
+  )
 
   // 7. 用神
   const yongshenName = YONGSHEN_MAP[topic] || '妻财'
-  const yaoYong = yaoList.find(y => y.liuqin === yongshenName)
+  const yaoYong = yaoList.find((y) => y.liuqin === yongshenName)
   const yongshenStatus: '旺' | '相' | '休' | '囚' | '死' | '缺' = yaoYong
     ? statusYongshen(DIZHI_WUXING[yaoYong.dizhi], date.getMonth() + 1)
     : '缺'
@@ -1065,12 +1219,12 @@ export function liuyaoDivinate(
   const baseDate = new Date(1900, 0, 1)
   const diffDays = Math.floor((date.getTime() - baseDate.getTime()) / 86400000)
   // 日干：1900-01-01 是甲戌日（甲=0）
-  const dayGanIdx = ((0 + diffDays) % 10 + 10) % 10
+  const dayGanIdx = (((0 + diffDays) % 10) + 10) % 10
   const dayGan = '甲乙丙丁戊己庚辛壬癸'[dayGanIdx] as TianGan
   const shensha = calcShensha(yaoList, dayGan, dayDizhis.day)
 
   // 11. 评分
-  const hasMoving = isMoving.some(m => m)
+  const hasMoving = isMoving.some((m) => m)
   const fortunes = calcFortunes(mainGua, yaoList, bianGua, yongshenStatus, hasMoving)
 
   // 12. 建议
@@ -1137,7 +1291,10 @@ export const TOPICS: Array<{ key: Topic; label: string; glyph: string }> = [
 ]
 
 /** 文本：六亲含义 */
-export const LIUQIN_DESC: Record<Liuqin, { name: Liuqin; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu'; desc: string }> = {
+export const LIUQIN_DESC: Record<
+  Liuqin,
+  { name: Liuqin; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu'; desc: string }
+> = {
   父母: { name: '父母', wuxing: 'tu', desc: '父母爻主文书、契约、长辈、庇护、城池' },
   兄弟: { name: '兄弟', wuxing: 'mu', desc: '兄弟爻主朋友、同辈、竞争、阻碍、劫财' },
   子孙: { name: '子孙', wuxing: 'huo', desc: '子孙爻主福德、解忧、后代、谋望、医' },
@@ -1146,13 +1303,16 @@ export const LIUQIN_DESC: Record<Liuqin, { name: Liuqin; wuxing: 'jin' | 'mu' | 
 }
 
 /** 文本：八卦基本信息 */
-export const BAGUA_INTRO: Record<Bagua, { name: string; nature: string; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu'; desc: string }> = {
+export const BAGUA_INTRO: Record<
+  Bagua,
+  { name: string; nature: string; wuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu'; desc: string }
+> = {
   qian: { name: '乾', nature: '天', wuxing: 'jin', desc: '乾为天 · 刚健中正 · 创始万物' },
-  dui:  { name: '兑', nature: '泽', wuxing: 'jin', desc: '兑为泽 · 悦乐喜悦 · 西方之象' },
-  li:   { name: '离', nature: '火', wuxing: 'huo', desc: '离为火 · 光明美丽 · 文明之象' },
-  zhen: { name: '震', nature: '雷', wuxing: 'mu',  desc: '震为雷 · 奋起震动 · 东方之象' },
-  xun:  { name: '巽', nature: '风', wuxing: 'mu',  desc: '巽为风 · 顺入谦逊 · 东南之象' },
-  kan:  { name: '坎', nature: '水', wuxing: 'shui', desc: '坎为水 · 重险智慧 · 北方之象' },
-  gen:  { name: '艮', nature: '山', wuxing: 'tu',  desc: '艮为山 · 止止静守 · 东北之象' },
-  kun:  { name: '坤', nature: '地', wuxing: 'tu',  desc: '坤为地 · 厚德载物 · 西南之象' },
+  dui: { name: '兑', nature: '泽', wuxing: 'jin', desc: '兑为泽 · 悦乐喜悦 · 西方之象' },
+  li: { name: '离', nature: '火', wuxing: 'huo', desc: '离为火 · 光明美丽 · 文明之象' },
+  zhen: { name: '震', nature: '雷', wuxing: 'mu', desc: '震为雷 · 奋起震动 · 东方之象' },
+  xun: { name: '巽', nature: '风', wuxing: 'mu', desc: '巽为风 · 顺入谦逊 · 东南之象' },
+  kan: { name: '坎', nature: '水', wuxing: 'shui', desc: '坎为水 · 重险智慧 · 北方之象' },
+  gen: { name: '艮', nature: '山', wuxing: 'tu', desc: '艮为山 · 止止静守 · 东北之象' },
+  kun: { name: '坤', nature: '地', wuxing: 'tu', desc: '坤为地 · 厚德载物 · 西南之象' },
 }

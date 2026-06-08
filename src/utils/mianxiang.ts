@@ -9,9 +9,30 @@
  */
 
 export const SAN_TING = [
-  { name: '上停', part: '发际至眉', age: '15-30 岁', desc: '早年运势 · 父母祖业 · 智慧根基', element: '木' as const, score: 75 },
-  { name: '中停', part: '眉至鼻准', age: '31-50 岁', desc: '中年运势 · 事业财禄 · 婚姻子嗣', element: '土' as const, score: 80 },
-  { name: '下停', part: '鼻准至地阁', age: '51 岁后', desc: '晚年运势 · 子女积德 · 归宿之境', element: '水' as const, score: 70 },
+  {
+    name: '上停',
+    part: '发际至眉',
+    age: '15-30 岁',
+    desc: '早年运势 · 父母祖业 · 智慧根基',
+    element: '木' as const,
+    score: 75,
+  },
+  {
+    name: '中停',
+    part: '眉至鼻准',
+    age: '31-50 岁',
+    desc: '中年运势 · 事业财禄 · 婚姻子嗣',
+    element: '土' as const,
+    score: 80,
+  },
+  {
+    name: '下停',
+    part: '鼻准至地阁',
+    age: '51 岁后',
+    desc: '晚年运势 · 子女积德 · 归宿之境',
+    element: '水' as const,
+    score: 70,
+  },
 ]
 
 export const WU_GUAN = [
@@ -39,7 +60,7 @@ export const SHI_ER_GONG = [
 
 // ============ 12 流年部位（男左女右 / 或统一起始）============
 // 传统面相 12 流年：自额至颐，按 12 部位循环
-export const LIU_NIAN_BUWEI: Array<{ name: string, pos: string, age: number, desc: string }> = [
+export const LIU_NIAN_BUWEI: Array<{ name: string; pos: string; age: number; desc: string }> = [
   { name: '火星', pos: '额上', age: 1, desc: '火星位 · 主幼年' },
   { name: '天仓', pos: '太阳穴', age: 9, desc: '天仓位 · 主少年' },
   { name: '山林', pos: '眉上', age: 17, desc: '山林位 · 主青年' },
@@ -57,22 +78,62 @@ export const LIU_NIAN_BUWEI: Array<{ name: string, pos: string, age: number, des
 // ============ 五形人 ============
 // 望诊：木形人（长/青）金形人（方/白）水形人（圆/黑）火形人（尖/赤）土形人（厚/黄）
 export const WU_XING_REN: Array<{
-  name: string, shape: string, color: string, character: string, career: string, health: string
+  name: string
+  shape: string
+  color: string
+  character: string
+  career: string
+  health: string
 }> = [
-  { name: '木形人', shape: '瘦长 · 青色 · 头隆额耸', color: '青', character: '仁慈 · 思虑深远', career: '文教/中医/文化', health: '肝胆需养 · 忌怒' },
-  { name: '火形人', shape: '尖锐 · 赤色 · 面红齿利', color: '赤', character: '热情 · 行动力强', career: '科技/演艺/IT', health: '心血管需养 · 忌急' },
-  { name: '土形人', shape: '敦厚 · 黄色 · 背厚面方', color: '黄', character: '稳重 · 包容守信', career: '建筑/农业/管理', health: '脾胃需养 · 忌湿' },
-  { name: '金形人', shape: '方正 · 白色 · 骨骼清奇', color: '白', character: '刚毅 · 重义讲信', career: '金融/法务/军警', health: '肺肠需养 · 忌悲' },
-  { name: '水形人', shape: '圆润 · 黑色 · 眉粗眼大', color: '黑', character: '智巧 · 灵活善变', career: '商业/外交/艺术', health: '肾膀胱需养 · 忌寒' },
+  {
+    name: '木形人',
+    shape: '瘦长 · 青色 · 头隆额耸',
+    color: '青',
+    character: '仁慈 · 思虑深远',
+    career: '文教/中医/文化',
+    health: '肝胆需养 · 忌怒',
+  },
+  {
+    name: '火形人',
+    shape: '尖锐 · 赤色 · 面红齿利',
+    color: '赤',
+    character: '热情 · 行动力强',
+    career: '科技/演艺/IT',
+    health: '心血管需养 · 忌急',
+  },
+  {
+    name: '土形人',
+    shape: '敦厚 · 黄色 · 背厚面方',
+    color: '黄',
+    character: '稳重 · 包容守信',
+    career: '建筑/农业/管理',
+    health: '脾胃需养 · 忌湿',
+  },
+  {
+    name: '金形人',
+    shape: '方正 · 白色 · 骨骼清奇',
+    color: '白',
+    character: '刚毅 · 重义讲信',
+    career: '金融/法务/军警',
+    health: '肺肠需养 · 忌悲',
+  },
+  {
+    name: '水形人',
+    shape: '圆润 · 黑色 · 眉粗眼大',
+    color: '黑',
+    character: '智巧 · 灵活善变',
+    career: '商业/外交/艺术',
+    health: '肾膀胱需养 · 忌寒',
+  },
 ]
 
 export interface ShiErGongItem {
   name: string
   pos: string
   desc: string
-  score: number       // 0-100 该宫流年吉凶
+  score: number // 0-100 该宫流年吉凶
   level: '大吉' | '吉' | '平' | '凶' | '大凶'
-  detail: string      // 该宫细评
+  detail: string // 该宫细评
 }
 
 export interface LiuNianItem {
@@ -101,19 +162,40 @@ export interface MianxiangResult {
 /**
  * 基于生辰年份（决定年龄段）生成对面相的运势评估
  */
-export function calcMianxiang(year: number, focusArea: string = '', currentAge: number = 0): MianxiangResult {
+export function calcMianxiang(
+  year: number,
+  focusArea: string = '',
+  currentAge: number = 0,
+): MianxiangResult {
   // 三停得分微调
   const base = 70 + (year % 7) - 3
-  const sanTing = SAN_TING.map((s, i) => ({ ...s, score: Math.max(50, Math.min(95, base + i * 2 + (year % 5) - 2)) }))
-  const wuGuan = WU_GUAN.map((g, i) => ({ ...g, fortune: Math.max(55, Math.min(95, g.fortune + (year % 5) - 2 + (i === 2 ? 4 : 0))) }))
+  const sanTing = SAN_TING.map((s, i) => ({
+    ...s,
+    score: Math.max(50, Math.min(95, base + i * 2 + (year % 5) - 2)),
+  }))
+  const wuGuan = WU_GUAN.map((g, i) => ({
+    ...g,
+    fortune: Math.max(55, Math.min(95, g.fortune + (year % 5) - 2 + (i === 2 ? 4 : 0))),
+  }))
 
   // 12 宫细化评分（按 4 大类分：命格/六亲/物质/福缘）
   const categoryBase: Record<number, number> = {
-    0: 80, 1: 70, 2: 65, 3: 75, 4: 80, 5: 70, 6: 60, 7: 75, 8: 78, 9: 72, 10: 70, 11: 73,
+    0: 80,
+    1: 70,
+    2: 65,
+    3: 75,
+    4: 80,
+    5: 70,
+    6: 60,
+    7: 75,
+    8: 78,
+    9: 72,
+    10: 70,
+    11: 73,
   }
   const yearSeed = (year + 5) % 9
   const shiErGongDetail: ShiErGongItem[] = SHI_ER_GONG.map((g, i) => {
-    let score = categoryBase[i] + (yearSeed * 7 + i * 11) % 19 - 9
+    let score = categoryBase[i] + ((yearSeed * 7 + i * 11) % 19) - 9
     // focus area 加权
     if (focusArea && g.name.includes(focusArea)) score += 8
     score = Math.max(40, Math.min(98, score))
@@ -128,7 +210,7 @@ export function calcMianxiang(year: number, focusArea: string = '', currentAge: 
   })
 
   // 12 流年部位（按当前年龄推算）
-  const ageNow = currentAge || (new Date().getFullYear() - year)
+  const ageNow = currentAge || new Date().getFullYear() - year
   const liuNian: LiuNianItem[] = LIU_NIAN_BUWEI.map((b, i) => {
     const ageInUser = ageNow - b.age
     let flow: '吉' | '平' | '凶'
@@ -162,11 +244,28 @@ export function calcMianxiang(year: number, focusArea: string = '', currentAge: 
 
   // 实用建议
   const advice: string[] = []
-  advice.push(`形局属${xingJuName}（${xingJu.shape}），主${xingJu.character}，宜从事${xingJu.career}。`)
-  advice.push(`流年关注：${liuNian.filter(x => x.flow === '吉').map(x => x.name).join('、') || '守中'}${liuNian.filter(x => x.flow === '凶').length ? ' · 慎行：' + liuNian.filter(x => x.flow === '凶').map(x => x.name).join('、') : ''}。`)
+  advice.push(
+    `形局属${xingJuName}（${xingJu.shape}），主${xingJu.character}，宜从事${xingJu.career}。`,
+  )
+  advice.push(
+    `流年关注：${
+      liuNian
+        .filter((x) => x.flow === '吉')
+        .map((x) => x.name)
+        .join('、') || '守中'
+    }${
+      liuNian.filter((x) => x.flow === '凶').length
+        ? ' · 慎行：' +
+          liuNian
+            .filter((x) => x.flow === '凶')
+            .map((x) => x.name)
+            .join('、')
+        : ''
+    }。`,
+  )
   // 12 宫最吉/最凶
-  const bestG = shiErGongDetail.reduce((a, b) => a.score > b.score ? a : b)
-  const worstG = shiErGongDetail.reduce((a, b) => a.score < b.score ? a : b)
+  const bestG = shiErGongDetail.reduce((a, b) => (a.score > b.score ? a : b))
+  const worstG = shiErGongDetail.reduce((a, b) => (a.score < b.score ? a : b))
   advice.push(`${bestG.name}（${bestG.pos}）${bestG.level}：${bestG.detail}`)
   if (worstG.level === '凶' || worstG.level === '大凶') {
     advice.push(`慎防${worstG.name}（${worstG.pos}）${worstG.level}：${worstG.detail}`)
@@ -174,19 +273,35 @@ export function calcMianxiang(year: number, focusArea: string = '', currentAge: 
   advice.push(`养生：${xingJu.health}。`)
 
   return {
-    sanTing, wuGuan, shiErGong: SHI_ER_GONG,
+    sanTing,
+    wuGuan,
+    shiErGong: SHI_ER_GONG,
     shiErGongDetail,
     liuNian,
     xingJu: WU_XING_REN,
     xingJuName,
-    totalScore, level,
+    totalScore,
+    level,
     summary: `${year}年生人 · ${xingJuName} · 面相总评 ${level} · 三停均匀 · 五官清朗`,
     advice,
   }
 }
 
-function _gongDetail(name: string, level: '大吉' | '吉' | '平' | '凶' | '大凶', idx: number): string {
-  const levelText = level === '大吉' ? '大吉' : level === '吉' ? '吉利' : level === '平' ? '平稳' : level === '凶' ? '欠佳' : '大凶'
+function _gongDetail(
+  name: string,
+  level: '大吉' | '吉' | '平' | '凶' | '大凶',
+  idx: number,
+): string {
+  const levelText =
+    level === '大吉'
+      ? '大吉'
+      : level === '吉'
+        ? '吉利'
+        : level === '平'
+          ? '平稳'
+          : level === '凶'
+            ? '欠佳'
+            : '大凶'
   const baseTexts: Record<string, string> = {
     命宫: '命运根基稳固，意志坚定',
     财帛宫: '财源丰隆，收入稳增',
@@ -204,7 +319,10 @@ function _gongDetail(name: string, level: '大吉' | '吉' | '平' | '凶' | '�
   return `${name}${levelText}：${baseTexts[name] || '运势平稳'}${level === '大吉' || level === '大凶' ? `，${level === '大吉' ? '宜积极进取' : '宜守正待时'}` : ''}`
 }
 
-function _liuNianDetail(b: { name: string, pos: string, desc: string }, flow: '吉' | '平' | '凶'): string {
+function _liuNianDetail(
+  b: { name: string; pos: string; desc: string },
+  flow: '吉' | '平' | '凶',
+): string {
   const f = flow === '吉' ? '顺' : flow === '平' ? '平' : '逆'
   return `${b.name}（${b.pos}）流年${f} · ${b.desc} · ${flow === '吉' ? '诸事可图' : flow === '平' ? '守中为宜' : '慎行避祸'}`
 }

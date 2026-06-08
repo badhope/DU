@@ -15,24 +15,27 @@ import { HOUR_TO_DIZHI, type DiZhi } from './bazi'
 
 export interface LiuShen {
   key: '大安' | '留连' | '速喜' | '赤口' | '小吉' | '空亡'
-  index: number     // 0-5
+  index: number // 0-5
   name: string
   wuxing: string
-  bodyPart: string  // 人体部位
+  bodyPart: string // 人体部位
   meaning: string
-  job: string       // 谋望
-  wealth: string    // 求财
-  illness: string   // 疾病
-  travel: string    // 出行
-  lawsuit: string   // 诉讼
-  marriage: string  // 婚姻
-  lost: string      // 失物
-  totalScore: number  // 总评
+  job: string // 谋望
+  wealth: string // 求财
+  illness: string // 疾病
+  travel: string // 出行
+  lawsuit: string // 诉讼
+  marriage: string // 婚姻
+  lost: string // 失物
+  totalScore: number // 总评
 }
 
 const LIU_SHEN: LiuShen[] = [
   {
-    key: '大安', index: 0, name: '大安', wuxing: '木',
+    key: '大安',
+    index: 0,
+    name: '大安',
+    wuxing: '木',
     bodyPart: '五官 · 肝',
     meaning: '身不动时 · 五行属木 · 颜色青色 · 方位东方',
     job: '求名 · 应试皆利',
@@ -45,7 +48,10 @@ const LIU_SHEN: LiuShen[] = [
     totalScore: 90,
   },
   {
-    key: '留连', index: 1, name: '留连', wuxing: '土',
+    key: '留连',
+    index: 1,
+    name: '留连',
+    wuxing: '土',
     bodyPart: '脾胃 · 肌肉',
     meaning: '卒然不动 · 五行属土 · 颜色黄色 · 方位中央',
     job: '求谋未成 · 守旧',
@@ -58,7 +64,10 @@ const LIU_SHEN: LiuShen[] = [
     totalScore: 50,
   },
   {
-    key: '速喜', index: 2, name: '速喜', wuxing: '火',
+    key: '速喜',
+    index: 2,
+    name: '速喜',
+    wuxing: '火',
     bodyPart: '心脏 · 小肠',
     meaning: '人便至时 · 五行属火 · 颜色红色 · 方位南方',
     job: '求谋 · 喜庆',
@@ -71,7 +80,10 @@ const LIU_SHEN: LiuShen[] = [
     totalScore: 85,
   },
   {
-    key: '赤口', index: 3, name: '赤口', wuxing: '金',
+    key: '赤口',
+    index: 3,
+    name: '赤口',
+    wuxing: '金',
     bodyPart: '肺脏 · 大肠',
     meaning: '官事凶时 · 五行属金 · 颜色白色 · 方位西方',
     job: '求名 · 防小人',
@@ -84,7 +96,10 @@ const LIU_SHEN: LiuShen[] = [
     totalScore: 30,
   },
   {
-    key: '小吉', index: 4, name: '小吉', wuxing: '木',
+    key: '小吉',
+    index: 4,
+    name: '小吉',
+    wuxing: '木',
     bodyPart: '肝 · 筋',
     meaning: '人来喜时 · 五行属木 · 颜色青色 · 方位东方',
     job: '求名 · 吉',
@@ -97,7 +112,10 @@ const LIU_SHEN: LiuShen[] = [
     totalScore: 75,
   },
   {
-    key: '空亡', index: 5, name: '空亡', wuxing: '水',
+    key: '空亡',
+    index: 5,
+    name: '空亡',
+    wuxing: '水',
     bodyPart: '肾 · 膀胱',
     meaning: '不吉之时 · 五行属水 · 颜色黑色 · 方位北方',
     job: '求名 · 不成',
@@ -115,7 +133,9 @@ const LIU_SHEN: LiuShen[] = [
  * 起课
  */
 export function calcXiaoLiuRen(
-  month: number, day: number, hour: number,
+  month: number,
+  day: number,
+  hour: number,
   question: 'job' | 'wealth' | 'illness' | 'travel' | 'lawsuit' | 'marriage' | 'lost' = 'job',
 ): {
   question: string
@@ -127,12 +147,25 @@ export function calcXiaoLiuRen(
   advice: string
 } {
   // 时辰 → 地支序号（子=0, 丑=1, ... 亥=11）
-  const hourZhi = HOUR_TO_DIZHI.find(z => {
+  const hourZhi = HOUR_TO_DIZHI.find((z) => {
     if (z.start > z.end) return hour >= z.start || hour < z.end
     return hour >= z.start && hour < z.end
   })
   const hourZhiName: DiZhi = (hourZhi?.zhi || '子') as DiZhi
-  const DIZHI_ORDER: DiZhi[] = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
+  const DIZHI_ORDER: DiZhi[] = [
+    '子',
+    '丑',
+    '寅',
+    '卯',
+    '辰',
+    '巳',
+    '午',
+    '未',
+    '申',
+    '酉',
+    '戌',
+    '亥',
+  ]
   const hourIdx = DIZHI_ORDER.indexOf(hourZhiName)
 
   // 传统起课法：
@@ -142,16 +175,21 @@ export function calcXiaoLiuRen(
   // 3) 从该位起时辰：到占时
   // 总步数 = (月份位移 + 日数位移 + 时辰位移) % 6
   // 月份位移 0 = 大安；日数从 1 起（1→当前位不动）；时辰从 1 起
-  const monthStep = ((month - 1) % 6 + 6) % 6  // 正月=0, 二月=1
-  const dayStep = ((day - 1) % 6 + 6) % 6      // 初一=0
-  const hourStep = ((hourIdx) % 6 + 6) % 6     // 子时=0
+  const monthStep = (((month - 1) % 6) + 6) % 6 // 正月=0, 二月=1
+  const dayStep = (((day - 1) % 6) + 6) % 6 // 初一=0
+  const hourStep = ((hourIdx % 6) + 6) % 6 // 子时=0
   const shenIndex = (monthStep + dayStep + hourStep) % 6
   const shen = LIU_SHEN[shenIndex]
   const threeRemainder = (month + day + hourIdx) % 3
 
   const questionMap = {
-    job: '谋望', wealth: '求财', illness: '疾病',
-    travel: '出行', lawsuit: '诉讼', marriage: '婚姻', lost: '失物',
+    job: '谋望',
+    wealth: '求财',
+    illness: '疾病',
+    travel: '出行',
+    lawsuit: '诉讼',
+    marriage: '婚姻',
+    lost: '失物',
   }
 
   return {
@@ -165,10 +203,18 @@ export function calcXiaoLiuRen(
   }
 }
 
-function _advice(s: LiuShen, q: 'job' | 'wealth' | 'illness' | 'travel' | 'lawsuit' | 'marriage' | 'lost'): string {
+function _advice(
+  s: LiuShen,
+  q: 'job' | 'wealth' | 'illness' | 'travel' | 'lawsuit' | 'marriage' | 'lost',
+): string {
   const m = {
-    job: s.job, wealth: s.wealth, illness: s.illness,
-    travel: s.travel, lawsuit: s.lawsuit, marriage: s.marriage, lost: s.lost,
+    job: s.job,
+    wealth: s.wealth,
+    illness: s.illness,
+    travel: s.travel,
+    lawsuit: s.lawsuit,
+    marriage: s.marriage,
+    lost: s.lost,
   } as const
   return m[q]
 }

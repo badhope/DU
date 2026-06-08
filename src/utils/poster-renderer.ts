@@ -46,10 +46,10 @@ export interface PosterMeta {
   key: PosterTemplate
   name: string
   desc: string
-  gradient: [string, string, string]  // 三色渐变
-  accent: string                      // 强调色
-  text: string                        // 主文字色
-  glow: string                        // 光晕色
+  gradient: [string, string, string] // 三色渐变
+  accent: string // 强调色
+  text: string // 主文字色
+  glow: string // 光晕色
 }
 
 // ============ 5 套模板定义 ============
@@ -109,12 +109,18 @@ export const TEMPLATES: PosterMeta[] = [
  *
  * 兼容 H5 / 微信小程序：使用 2d context
  */
-export function renderPoster(canvas: any, ctx: any, config: PosterConfig, width = 750, height = 1334): void {
+export function renderPoster(
+  canvas: any,
+  ctx: any,
+  config: PosterConfig,
+  width = 750,
+  height = 1334,
+): void {
   if (!ctx) {
     console.error('[poster] Canvas 2D context not available')
     return
   }
-  const tpl = TEMPLATES.find(t => t.key === config.template) || TEMPLATES[0]
+  const tpl = TEMPLATES.find((t) => t.key === config.template) || TEMPLATES[0]
 
   // 1. 背景渐变
   const bg = ctx.createLinearGradient(0, 0, 0, height)
@@ -125,14 +131,28 @@ export function renderPoster(canvas: any, ctx: any, config: PosterConfig, width 
   ctx.fillRect(0, 0, width, height)
 
   // 2. 装饰：底部光晕圆
-  const glow1 = ctx.createRadialGradient(width * 0.5, height * 0.85, 0, width * 0.5, height * 0.85, width * 0.7)
+  const glow1 = ctx.createRadialGradient(
+    width * 0.5,
+    height * 0.85,
+    0,
+    width * 0.5,
+    height * 0.85,
+    width * 0.7,
+  )
   glow1.addColorStop(0, tpl.glow)
   glow1.addColorStop(1, 'rgba(0,0,0,0)')
   ctx.fillStyle = glow1
   ctx.fillRect(0, 0, width, height)
 
   // 3. 装饰：顶部光晕圆
-  const glow2 = ctx.createRadialGradient(width * 0.3, height * 0.15, 0, width * 0.3, height * 0.15, width * 0.4)
+  const glow2 = ctx.createRadialGradient(
+    width * 0.3,
+    height * 0.15,
+    0,
+    width * 0.3,
+    height * 0.15,
+    width * 0.4,
+  )
   glow2.addColorStop(0, tpl.glow)
   glow2.addColorStop(1, 'rgba(0,0,0,0)')
   ctx.fillStyle = glow2
@@ -226,7 +246,14 @@ function drawCloud(ctx: any, cx: number, cy: number, dx: number, dy: number) {
   ctx.stroke()
 }
 
-function drawBadge(ctx: any, cx: number, cy: number, text: string, accent: string, textColor: string) {
+function drawBadge(
+  ctx: any,
+  cx: number,
+  cy: number,
+  text: string,
+  accent: string,
+  textColor: string,
+) {
   // 矩形徽章背景
   ctx.font = '24px KaiTi, STKaiti, serif'
   const textW = ctx.measureText(text).width
@@ -332,7 +359,14 @@ function drawDivider(ctx: any, cx: number, cy: number, w: number, color: string)
   ctx.globalAlpha = 1
 }
 
-function drawFooter(ctx: any, w: number, h: number, text: string, accent: string, textColor: string) {
+function drawFooter(
+  ctx: any,
+  w: number,
+  h: number,
+  text: string,
+  accent: string,
+  textColor: string,
+) {
   // 底部金边
   ctx.strokeStyle = accent
   ctx.lineWidth = 1
@@ -418,11 +452,7 @@ export function buildPosterFromHistory(
         glyph: '✦',
         title: out.card || '愚者',
         subtitle: '新的开始',
-        content: [
-          out.card || '愚者 · The Fool',
-          out.meaning || '新的旅程',
-          '无限可能',
-        ],
+        content: [out.card || '愚者 · The Fool', out.meaning || '新的旅程', '无限可能'],
         badge: 'TAROT · 塔罗之心',
       }
     case 'liuyao':

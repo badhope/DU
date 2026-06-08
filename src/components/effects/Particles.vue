@@ -23,13 +23,16 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const props = withDefaults(defineProps<{
-  count?: number
-  colors?: 'gold' | 'purple' | 'red' | 'mixed'
-}>(), {
-  count: 24,
-  colors: 'mixed',
-})
+const props = withDefaults(
+  defineProps<{
+    count?: number
+    colors?: 'gold' | 'purple' | 'red' | 'mixed'
+  }>(),
+  {
+    count: 24,
+    colors: 'mixed',
+  },
+)
 
 const COLORS = {
   gold: [0, 1, 2],
@@ -39,7 +42,16 @@ const COLORS = {
 }
 
 // 仅在 setup 时生成一次（粒子位置无需响应式），用 ref 保持引用稳定
-const particles = ref<Array<{ id: number, left: number, size: 'sm' | 'md' | 'lg', color: number, delay: number, dur: number }>>(
+const particles = ref<
+  Array<{
+    id: number
+    left: number
+    size: 'sm' | 'md' | 'lg'
+    color: number
+    delay: number
+    dur: number
+  }>
+>(
   Array.from({ length: props.count }, (_, i) => {
     const colors = COLORS[props.colors]
     const sizeRand = Math.random()
@@ -56,7 +68,12 @@ const particles = ref<Array<{ id: number, left: number, size: 'sm' | 'md' | 'lg'
 </script>
 
 <style scoped>
-.pt-host { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.pt-host {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
 .pt-particle {
   position: absolute;
   bottom: -8rpx;
@@ -66,19 +83,51 @@ const particles = ref<Array<{ id: number, left: number, size: 'sm' | 'md' | 'lg'
   animation: ptRise infinite linear;
   opacity: 0;
 }
-.pt-sm { width: 4rpx; height: 4rpx; }
-.pt-md { width: 8rpx; height: 8rpx; }
-.pt-lg { width: 12rpx; height: 12rpx; }
-.pt-c-0 { color: #D4AF37; }
-.pt-c-1 { color: #F5E6A8; }
-.pt-c-2 { color: #B8941F; }
-.pt-c-3 { color: #5B3A8E; }
-.pt-c-4 { color: #C8302A; }
+.pt-sm {
+  width: 4rpx;
+  height: 4rpx;
+}
+.pt-md {
+  width: 8rpx;
+  height: 8rpx;
+}
+.pt-lg {
+  width: 12rpx;
+  height: 12rpx;
+}
+.pt-c-0 {
+  color: #d4af37;
+}
+.pt-c-1 {
+  color: #f5e6a8;
+}
+.pt-c-2 {
+  color: #b8941f;
+}
+.pt-c-3 {
+  color: #5b3a8e;
+}
+.pt-c-4 {
+  color: #c8302a;
+}
 @keyframes ptRise {
-  0%   { transform: translateY(0)    scale(0.5); opacity: 0; }
-  20%  { opacity: 0.8; }
-  50%  { transform: translateY(-50vh) scale(1); opacity: 1; }
-  80%  { opacity: 0.6; }
-  100% { transform: translateY(-100vh) scale(0.3); opacity: 0; }
+  0% {
+    transform: translateY(0) scale(0.5);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.8;
+  }
+  50% {
+    transform: translateY(-50vh) scale(1);
+    opacity: 1;
+  }
+  80% {
+    opacity: 0.6;
+  }
+  100% {
+    transform: translateY(-100vh) scale(0.3);
+    opacity: 0;
+  }
 }
 </style>

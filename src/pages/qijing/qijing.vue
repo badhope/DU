@@ -44,7 +44,10 @@
               <text v-for="(s, k) in q.symptoms" :key="k" class="qij-sym">{{ s }}</text>
             </view>
             <text class="qij-fn-title">· 主要穴位（{{ q.acupoints.length }} 穴）</text>
-            <text class="qij-points">{{ q.acupoints.slice(0, 12).join(' · ') }}<text v-if="q.acupoints.length > 12"> · …</text></text>
+            <text class="qij-points">
+              {{ q.acupoints.slice(0, 12).join(' · ')
+              }}<text v-if="q.acupoints.length > 12"> · …</text>
+            </text>
           </view>
         </view>
       </view>
@@ -94,7 +97,10 @@
               <text v-for="(s, k) in j.pathologies" :key="k" class="jl-sym">{{ s }}</text>
             </view>
             <text class="jl-fn-title">· 主要穴位（{{ j.acupoints.length }} 穴）</text>
-            <text class="jl-points">{{ j.acupoints.slice(0, 8).join(' · ') }}<text v-if="j.acupoints.length > 8"> · …</text></text>
+            <text class="jl-points">
+              {{ j.acupoints.slice(0, 8).join(' · ')
+              }}<text v-if="j.acupoints.length > 8"> · …</text>
+            </text>
           </view>
         </view>
       </view>
@@ -102,10 +108,7 @@
 
     <!-- 模式 4：人体经络图 -->
     <view v-else-if="tab === 'bodymap'" class="result anim-fade-up">
-      <BodyMap
-        :initial-side="bodyMapSide"
-        :initial-meridians="highlightedMeridians"
-      />
+      <BodyMap :initial-side="bodyMapSide" :initial-meridians="highlightedMeridians" />
     </view>
 
     <!-- 模式 3：病症诊断 -->
@@ -120,7 +123,18 @@
         <view class="sym-quick">
           <text class="sym-q-title">· 常见症状：</text>
           <view class="sym-tags">
-            <text v-for="s in quickSymptoms" :key="s" class="sym-tag" @click="symptom = s; diagnose()">{{ s }}</text>
+            <!-- prettier-ignore -->
+            <text
+              v-for="s in quickSymptoms"
+              :key="s"
+              class="sym-tag"
+              @click="
+                symptom = s;
+                diagnose()
+              "
+            >
+              {{ s }}
+            </text>
           </view>
         </view>
       </view>
@@ -180,21 +194,44 @@ const tabs = [
   { key: 'diag', name: '病症', sub: 'DIAG.' },
 ]
 
-const quickSymptoms = ['失眠', '头痛', '胃痛', '腰痛', '易怒', '耳鸣', '水肿', '皮肤瘙痒', '颈肩痛', '牙痛', '手脚冰凉', '焦虑', '眼干', '痛经']
+const quickSymptoms = [
+  '失眠',
+  '头痛',
+  '胃痛',
+  '腰痛',
+  '易怒',
+  '耳鸣',
+  '水肿',
+  '皮肤瘙痒',
+  '颈肩痛',
+  '牙痛',
+  '手脚冰凉',
+  '焦虑',
+  '眼干',
+  '痛经',
+]
 
-const diagResult = ref<{ jingluoList: Jingluo[], matched: string[] }>({ jingluoList: [], matched: [] })
+const diagResult = ref<{ jingluoList: Jingluo[]; matched: string[] }>({
+  jingluoList: [],
+  matched: [],
+})
 
 function diagnose() {
   const s = symptom.value.trim()
-  if (s.length < 2) { uni.showToast({ title: '请输入至少 2 个字的症状', icon: 'none' }); return }
+  if (s.length < 2) {
+    uni.showToast({ title: '请输入至少 2 个字的症状', icon: 'none' })
+    return
+  }
   searched.value = true
   try {
     diagResult.value = jingluoBySymptom(s)
     if (diagResult.value.jingluoList.length) {
       app.addHistory({
-        tool: 'qijing', toolName: '奇经八脉', category: '健康',
+        tool: 'qijing',
+        toolName: '奇经八脉',
+        category: '健康',
         input: { symptom: s },
-        output: { jingluo: diagResult.value.jingluoList.map(j => j.name) },
+        output: { jingluo: diagResult.value.jingluoList.map((j) => j.name) },
         brief: `${s} · ${diagResult.value.jingluoList[0].name} 等`,
       })
     } else {
@@ -206,9 +243,18 @@ function diagnose() {
 }
 
 const NAME_TO_MERIDIAN_ID: Record<string, string> = {
-  '肺': 'lu', '大肠': 'dachang', '胃': 'wei', '脾': 'pi',
-  '心': 'xin', '小肠': 'xiaochang', '膀胱': 'pangguang', '肾': 'shen',
-  '心包': 'xinbao', '三焦': 'sanjiao', '胆': 'dan', '肝': 'gan',
+  肺: 'lu',
+  大肠: 'dachang',
+  胃: 'wei',
+  脾: 'pi',
+  心: 'xin',
+  小肠: 'xiaochang',
+  膀胱: 'pangguang',
+  肾: 'shen',
+  心包: 'xinbao',
+  三焦: 'sanjiao',
+  胆: 'dan',
+  肝: 'gan',
 }
 
 function goToBodyMap() {
@@ -227,14 +273,17 @@ function goToBodyMap() {
   const first = diagResult.value.jingluoList[0]
   if (first) {
     const backList = ['膀胱', '肾', '胆', '三焦']
-    bodyMapSide.value = backList.some(b => first.name.includes(b)) ? 'back' : 'front'
+    bodyMapSide.value = backList.some((b) => first.name.includes(b)) ? 'back' : 'front'
   }
   tab.value = 'bodymap'
 }
 </script>
 
 <style scoped>
-.qijing-page { min-height: 100vh; padding-bottom: var(--sp-6); }
+.qijing-page {
+  min-height: 100vh;
+  padding-bottom: var(--sp-6);
+}
 .tab-bar {
   display: flex;
   gap: var(--sp-2);
@@ -253,17 +302,36 @@ function goToBodyMap() {
   gap: 2rpx;
 }
 .tab-btn.active {
-  background: linear-gradient(135deg, #5B3A8E, #C8302A);
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
   color: var(--color-bai);
 }
-.tab-name { font-size: var(--fs-sm); font-weight: 600; }
-.tab-sub { font-size: 18rpx; color: var(--color-bai-3); }
-.tab-btn.active .tab-sub { color: var(--color-bai); opacity: 0.8; }
+.tab-name {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+}
+.tab-sub {
+  font-size: 18rpx;
+  color: var(--color-bai-3);
+}
+.tab-btn.active .tab-sub {
+  color: var(--color-bai);
+  opacity: 0.8;
+}
 
-.result { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0 var(--sp-2); margin-top: var(--sp-2); }
+.result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin: 0 var(--sp-2);
+  margin-top: var(--sp-2);
+}
 
 /* 八脉 */
-.qij-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.qij-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
 .qij-card {
   background: rgba(10, 10, 18, 0.6);
   border-radius: var(--r-md);
@@ -288,8 +356,12 @@ function goToBodyMap() {
   color: var(--color-bai);
   font-weight: 700;
 }
-.qij-yy.yin { background: #5B3A8E; }
-.qij-yy.yang { background: #C8302A; }
+.qij-yy.yin {
+  background: #5b3a8e;
+}
+.qij-yy.yang {
+  background: #c8302a;
+}
 .qij-name {
   font-size: var(--fs-md);
   color: var(--color-bai);
@@ -306,20 +378,45 @@ function goToBodyMap() {
   padding: var(--sp-3) var(--sp-4) var(--sp-4);
   border-top: 1rpx solid rgba(212, 175, 55, 0.15);
 }
-.qij-fn-title { display: block; font-size: var(--fs-sm); color: var(--color-liu); margin: var(--sp-2) 0 4rpx; }
-.qij-fns, .qij-syms { display: flex; flex-wrap: wrap; gap: 4rpx; margin-bottom: var(--sp-2); }
-.qij-fn, .qij-sym {
+.qij-fn-title {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  margin: var(--sp-2) 0 4rpx;
+}
+.qij-fns,
+.qij-syms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin-bottom: var(--sp-2);
+}
+.qij-fn,
+.qij-sym {
   padding: 4rpx 12rpx;
   font-size: var(--fs-xs);
   border-radius: var(--r-sm);
   background: rgba(212, 175, 55, 0.1);
   color: var(--color-bai-2);
 }
-.qij-sym { background: rgba(200, 48, 42, 0.15); color: #F5C5C0; }
-.qij-points { display: block; font-size: var(--fs-xs); color: var(--color-bai-2); line-height: 1.7; font-family: 'KaiTi', serif; }
+.qij-sym {
+  background: rgba(200, 48, 42, 0.15);
+  color: #f5c5c0;
+}
+.qij-points {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  line-height: 1.7;
+  font-family: 'KaiTi', serif;
+}
 
 /* 十二正经 */
-.jl-list { display: flex; flex-direction: column; gap: var(--sp-2); }
+.jl-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
 .jl-card {
   background: rgba(10, 10, 18, 0.6);
   border-radius: var(--r-md);
@@ -333,59 +430,228 @@ function goToBodyMap() {
   padding: var(--sp-3) var(--sp-4);
   gap: var(--sp-2);
 }
-.jl-info { flex: 1; display: flex; flex-direction: column; }
-.jl-name { font-size: var(--fs-md); color: var(--color-bai); font-family: 'KaiTi', serif; font-weight: 700; }
-.jl-full { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.jl-meta { display: flex; flex-direction: column; align-items: flex-end; }
-.jl-flow { font-size: var(--fs-sm); color: var(--color-liu); font-weight: 600; }
-.jl-shengxiao { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.jl-body { padding: var(--sp-3) var(--sp-4) var(--sp-4); border-top: 1rpx solid rgba(212, 175, 55, 0.15); }
-.jl-line { display: flex; padding: 4rpx 0; font-size: var(--fs-sm); }
-.jl-line-label { color: var(--color-bai-3); width: 160rpx; }
-.jl-line-val { color: var(--color-bai); }
-.jl-fn-title { display: block; font-size: var(--fs-sm); color: var(--color-liu); margin: var(--sp-2) 0 4rpx; }
-.jl-fns, .jl-syms { display: flex; flex-wrap: wrap; gap: 4rpx; margin-bottom: var(--sp-2); }
-.jl-fn, .jl-sym { padding: 4rpx 12rpx; font-size: var(--fs-xs); border-radius: var(--r-sm); background: rgba(212, 175, 55, 0.1); color: var(--color-bai-2); }
-.jl-sym { background: rgba(200, 48, 42, 0.15); color: #F5C5C0; }
-.jl-points { display: block; font-size: var(--fs-xs); color: var(--color-bai-2); line-height: 1.7; font-family: 'KaiTi', serif; }
+.jl-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.jl-name {
+  font-size: var(--fs-md);
+  color: var(--color-bai);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+}
+.jl-full {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.jl-meta {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+.jl-flow {
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  font-weight: 600;
+}
+.jl-shengxiao {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.jl-body {
+  padding: var(--sp-3) var(--sp-4) var(--sp-4);
+  border-top: 1rpx solid rgba(212, 175, 55, 0.15);
+}
+.jl-line {
+  display: flex;
+  padding: 4rpx 0;
+  font-size: var(--fs-sm);
+}
+.jl-line-label {
+  color: var(--color-bai-3);
+  width: 160rpx;
+}
+.jl-line-val {
+  color: var(--color-bai);
+}
+.jl-fn-title {
+  display: block;
+  font-size: var(--fs-sm);
+  color: var(--color-liu);
+  margin: var(--sp-2) 0 4rpx;
+}
+.jl-fns,
+.jl-syms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin-bottom: var(--sp-2);
+}
+.jl-fn,
+.jl-sym {
+  padding: 4rpx 12rpx;
+  font-size: var(--fs-xs);
+  border-radius: var(--r-sm);
+  background: rgba(212, 175, 55, 0.1);
+  color: var(--color-bai-2);
+}
+.jl-sym {
+  background: rgba(200, 48, 42, 0.15);
+  color: #f5c5c0;
+}
+.jl-points {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  line-height: 1.7;
+  font-family: 'KaiTi', serif;
+}
 
 /* 诊断 */
-.card-title { display: block; font-size: var(--fs-md); letter-spacing: 0.2em; margin-bottom: var(--sp-2); text-align: center; }
-.card-tip { display: block; text-align: center; font-size: var(--fs-xs); color: var(--color-bai-3); margin-bottom: var(--sp-3); }
-.card-mystic { padding: var(--sp-4); }
-.diag-input { display: flex; gap: var(--sp-2); margin-bottom: var(--sp-3); }
-.di-inp { flex: 1; padding: var(--sp-2) var(--sp-3); font-size: var(--fs-sm); background: rgba(10, 10, 18, 0.6); color: var(--color-bai); border-radius: var(--r-sm); border: 1rpx solid rgba(212, 175, 55, 0.2); }
-.di-btn { padding: var(--sp-2) var(--sp-4); background: linear-gradient(135deg, #C8302A, #D4AF37); color: var(--color-bai); font-size: var(--fs-sm); border-radius: var(--r-sm); font-weight: 600; }
-.sym-quick { margin-top: var(--sp-2); }
-.sym-q-title { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.sym-tags { display: flex; flex-wrap: wrap; gap: 4rpx; margin-top: 4rpx; }
+.card-title {
+  display: block;
+  font-size: var(--fs-md);
+  letter-spacing: 0.2em;
+  margin-bottom: var(--sp-2);
+  text-align: center;
+}
+.card-tip {
+  display: block;
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+  margin-bottom: var(--sp-3);
+}
+.card-mystic {
+  padding: var(--sp-4);
+}
+.diag-input {
+  display: flex;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+.di-inp {
+  flex: 1;
+  padding: var(--sp-2) var(--sp-3);
+  font-size: var(--fs-sm);
+  background: rgba(10, 10, 18, 0.6);
+  color: var(--color-bai);
+  border-radius: var(--r-sm);
+  border: 1rpx solid rgba(212, 175, 55, 0.2);
+}
+.di-btn {
+  padding: var(--sp-2) var(--sp-4);
+  background: linear-gradient(135deg, #c8302a, #d4af37);
+  color: var(--color-bai);
+  font-size: var(--fs-sm);
+  border-radius: var(--r-sm);
+  font-weight: 600;
+}
+.sym-quick {
+  margin-top: var(--sp-2);
+}
+.sym-q-title {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.sym-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin-top: 4rpx;
+}
 .sym-tag {
   padding: 4rpx 12rpx;
   font-size: var(--fs-xs);
   background: rgba(91, 58, 142, 0.2);
-  color: #C8B5E8;
+  color: #c8b5e8;
   border-radius: var(--r-sm);
   border: 1rpx solid rgba(91, 58, 142, 0.4);
 }
 
-.diag-result { display: flex; flex-direction: column; gap: var(--sp-2); }
+.diag-result {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
 .dr-card {
   padding: var(--sp-3);
   background: rgba(10, 10, 18, 0.5);
   border-radius: var(--r-sm);
   border-left: 4rpx solid var(--color-liu);
 }
-.dr-head { display: flex; align-items: baseline; gap: var(--sp-2); margin-bottom: 4rpx; }
-.dr-name { font-size: var(--fs-md); color: var(--color-liu); font-weight: 600; font-family: 'KaiTi', serif; }
-.dr-full { font-size: var(--fs-xs); color: var(--color-bai-3); }
-.dr-time { font-size: var(--fs-xs); color: #4FAE6F; margin-bottom: 4rpx; }
-.dr-syms { display: flex; flex-wrap: wrap; gap: 4rpx; margin: 4rpx 0; }
-.dr-sym { padding: 2rpx 8rpx; font-size: 20rpx; background: rgba(200, 48, 42, 0.15); color: #F5C5C0; border-radius: 6rpx; }
-.dr-fn { display: block; font-size: var(--fs-xs); color: var(--color-bai-2); line-height: 1.7; }
-.dr-bodymap-btn { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-3); margin-top: var(--sp-3); background: linear-gradient(135deg, #5B3A8E, #C8302A); color: var(--color-bai); border-radius: var(--r-md); font-family: 'KaiTi', serif; font-weight: 700; letter-spacing: 0.1em; cursor: pointer; }
-.bmb-glyph { font-size: 32rpx; }
-.bmb-text { flex: 1; font-size: var(--fs-sm); }
-.bmb-arrow { font-size: 32rpx; opacity: 0.7; }
-.diag-empty { text-align: center; padding: var(--sp-5) var(--sp-4); }
-.empty-text { color: var(--color-bai-3); font-size: var(--fs-sm); }
+.dr-head {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-bottom: 4rpx;
+}
+.dr-name {
+  font-size: var(--fs-md);
+  color: var(--color-liu);
+  font-weight: 600;
+  font-family: 'KaiTi', serif;
+}
+.dr-full {
+  font-size: var(--fs-xs);
+  color: var(--color-bai-3);
+}
+.dr-time {
+  font-size: var(--fs-xs);
+  color: #4fae6f;
+  margin-bottom: 4rpx;
+}
+.dr-syms {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4rpx;
+  margin: 4rpx 0;
+}
+.dr-sym {
+  padding: 2rpx 8rpx;
+  font-size: 20rpx;
+  background: rgba(200, 48, 42, 0.15);
+  color: #f5c5c0;
+  border-radius: 6rpx;
+}
+.dr-fn {
+  display: block;
+  font-size: var(--fs-xs);
+  color: var(--color-bai-2);
+  line-height: 1.7;
+}
+.dr-bodymap-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: var(--sp-3);
+  margin-top: var(--sp-3);
+  background: linear-gradient(135deg, #5b3a8e, #c8302a);
+  color: var(--color-bai);
+  border-radius: var(--r-md);
+  font-family: 'KaiTi', serif;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.bmb-glyph {
+  font-size: 32rpx;
+}
+.bmb-text {
+  flex: 1;
+  font-size: var(--fs-sm);
+}
+.bmb-arrow {
+  font-size: 32rpx;
+  opacity: 0.7;
+}
+.diag-empty {
+  text-align: center;
+  padding: var(--sp-5) var(--sp-4);
+}
+.empty-text {
+  color: var(--color-bai-3);
+  font-size: var(--fs-sm);
+}
 </style>

@@ -1,3 +1,6 @@
 # 把批量格式化/重构的 commit 从 git blame 中忽略
 # 用法：把要忽略的 commit hash 单独占一行写到这里
-# 例：abcdef0123456789...
+# PR #22: 安全 / 隐私 / 自动化加固
+7b3f1b68252f005574ac02c4cadcfafb80be36c7
+# PR #23: bilingual rewrite + conflict cleanup
+a065128a00bc84ed436d57abdfff09a8ee73f332

@@ -6,8 +6,8 @@
 
 ## 1. Supported versions · 支持的版本
 
-| Version | Support         |
-| ------- | --------------- |
+| Version | Support                   |
+| ------- | ------------------------- |
 | 1.x     | :white_check_mark: Active |
 
 ---
@@ -65,15 +65,15 @@ You should receive an acknowledgement within **72 hours**. We will coordinate a 
 
 ## 5. Threat model summary · 威胁模型摘要
 
-| Threat                             | Risk | Why                                                                 |
-|------------------------------------|------|---------------------------------------------------------------------|
-| Server-side data breach            | None | There is no server                                                   |
-| XSS via user input                 | Low  | No `v-html` / `innerHTML` / `eval` / `new Function`; Vue text interpolation is safe by default |
-| CSRF / session hijacking           | None | No cookies, no auth, no server                                       |
-| Tracking / fingerprinting          | None | No analytics SDKs, no CDN with cookies                               |
-| Malicious dependency update        | Low  | `pnpm audit` + `pnpm.overrides` for known-bad transitive deps       |
-| Supply-chain via lockfile          | Low  | `pnpm install --frozen-lockfile` in CI                               |
-| Local privilege escalation         | N/A  | No native code, no shell, no `nodeIntegration`                       |
+| Threat                      | Risk | Why                                                                                            |
+| --------------------------- | ---- | ---------------------------------------------------------------------------------------------- |
+| Server-side data breach     | None | There is no server                                                                             |
+| XSS via user input          | Low  | No `v-html` / `innerHTML` / `eval` / `new Function`; Vue text interpolation is safe by default |
+| CSRF / session hijacking    | None | No cookies, no auth, no server                                                                 |
+| Tracking / fingerprinting   | None | No analytics SDKs, no CDN with cookies                                                         |
+| Malicious dependency update | Low  | `pnpm audit` + `pnpm.overrides` for known-bad transitive deps                                  |
+| Supply-chain via lockfile   | Low  | `pnpm install --frozen-lockfile` in CI                                                         |
+| Local privilege escalation  | N/A  | No native code, no shell, no `nodeIntegration`                                                 |
 
 ---
 

@@ -1,62 +1,74 @@
 # Changelog
 
-所有重要变更记录在此文件。
+All notable changes to this project will be documented in this file.
 
-格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，
-版本遵循 [Semantic Versioning](https://semver.org/lang/zh-CN/)。
+Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
+versions follow [Semantic Versioning](https://semver.org/).
+
+---
 
 ## [Unreleased]
 
 ### Security
-- 修正 `localStorage` key 文档（`v1` → `v2`），与 `src/stores/index.ts` 实际值一致
-- `package.json` 加 `"private": true` 防止误 `npm publish`
-- `package.json` 加 `engines.node >=20` / `engines.pnpm >=9`
-- `package.json` 加 `author` 字段（`badhope <https://github.com/badhope>`）
-- 新增 `pnpm audit` 步骤到 CI（生产依赖高危阻断，dev 依赖只警告）
-- 新增 CodeQL workflow（`javascript-typescript`）
-- gitleaks 调度从 weekly 改为 daily
-- gitleaks 取消 `continue-on-error`，泄漏密钥直接失败
-- 新增 PR 模板的 "破坏性变更" 与 "CHANGELOG" 必填项
-- 新增 OG / Twitter / favicon meta 与 `robots.txt`
-- `postbuild:h5` 把 `robots.txt` 复制到 `dist/build/h5/` 根
-- `vue-i18n` 升级 `^9.1.9` → `^9.1.11`（修复 `Vue I18n Allows Prototype Pollution in handleFlatJson`）
-- `vite` 升级 `5.2.8` → `5.4.20`（修复 `launch-editor` 命令注入 + `server.fs` 绕过）
-- `pnpm.overrides` 强制 `jpeg-js@^0.4.4` / `@intlify/core-base@^9.1.11` / `@intlify/message-resolver@^9.1.11`，覆盖 uni-app 内置的 9.1.9 版本
+
+- Fix `localStorage` key docs (`v1` → `v2`) to match `src/stores/index.ts`
+- `package.json`: add `"private": true` to prevent accidental `npm publish`
+- `package.json`: add `engines.node >=20` / `engines.pnpm >=9`
+- `package.json`: add `author` field (`badhope <https://github.com/badhope>`)
+- Add `pnpm audit` step to CI (block on high-severity prod deps, warn on dev)
+- Add CodeQL workflow (`javascript-typescript`)
+- gitleaks schedule: weekly → daily
+- gitleaks: remove `continue-on-error` — leaked secrets now fail the build
+- Add "Breaking change" and "CHANGELOG" required fields to PR template
+- Add OG / Twitter / favicon meta and `robots.txt`
+- `postbuild:h5`: copy `robots.txt` to `dist/build/h5/` root
+- `vue-i18n` upgrade `^9.1.9` → `^9.1.11` (fix `Vue I18n Allows Prototype Pollution in handleFlatJson`)
+- `vite` upgrade `5.2.8` → `5.4.20` (fix `launch-editor` command injection + `server.fs` bypass)
+- `pnpm.overrides` force `jpeg-js@^0.4.4` / `@intlify/core-base@^9.1.11` / `@intlify/message-resolver@^9.1.11`, overriding uni-app's bundled 9.1.9
 
 ### Changed
-- `author` 从 `Mistverse Team` 改为 `badhope <https://github.com/badhope>`
-- README 目录结构补全（新增 workflows/codeql、tests、config 文件等）
-- `robots.txt` 移除 `Sitemap:` 引用（纯静态 hash SPA 无独立 sitemap）
-- README 移除不存在的 `public/` 目录说明
-- **README 全量重写**：英文主、中文辅；新增 11 节（项目介绍 / 49 工具分类 / 快速开始 / 技术栈 / 项目结构 / 贡献 / 安全 / 部署 / FAQ / 许可 / 中文简介）
-- **贡献 / 社区文件双语化**：`CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `.github/SECURITY.md` / `.github/PULL_REQUEST_TEMPLATE.md` / `.github/ISSUE_TEMPLATE/{bug_report,feature_request,config}.yml` 全部英文主、中文辅
-- **仓库自述 / 元数据**：`index.html` title / description / keywords / OG / Twitter / canonical 全部英文主、`<html lang="en">`；`package.json` `description` 改为英文
-- **工具 key 重命名**：`src/config/tools.ts` 中 古易心易 的 `key` 从 `qimen`（与 奇门遁甲 同名易混淆）改为 `guyi`
-- **清理死代码**：`src/pages.json` 删除指向不存在的 `src/components/mystic/` 的 `easycom.custom` 规则；该目录在仓库中不存在，仅在自动扫描外的死规则
-- **删除冗余文件**：根目录 `security_best_practices_report.md`（一次性的内部巡检报告，内容已并入 `SECURITY.md` 与 `CHANGELOG`，无需长期留存）
+
+- `author` changed from `Mistverse Team` to `badhope <https://github.com/badhope>`
+- README directory listing: add workflows/codeql, tests, config files
+- `robots.txt`: remove `Sitemap:` reference (pure static hash SPA has no separate sitemap)
+- README: remove reference to non-existent `public/` directory
+- **README full rewrite**: English-primary, Chinese-auxiliary; 11 sections (intro / 49 tools / quick start / tech stack / structure / contributing / security / deploy / FAQ / license / 中文简介)
+- **Community files bilingualized**: `CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `.github/SECURITY.md` / `.github/PULL_REQUEST_TEMPLATE.md` / `.github/ISSUE_TEMPLATE/{bug_report,feature_request,config}.yml` — all English-primary + Chinese-auxiliary
+- **Repo meta**: `index.html` title / description / keywords / OG / Twitter / canonical → English-primary, `<html lang="en">`; `package.json` `description` → English; `src/manifest.json` name / description / `h5.title` → English
+- **Tool key rename**: `src/config/tools.ts` — 古易心易 key `qimen` → `guyi` (avoid confusion with 奇门遁甲 which uses key `mingmen` + path `/pages/qimen/qimen`)
+- **ToolKey type sync**: `src/stores/index.ts` ToolKey union updated `qimen` → `guyi`
+- **Dead code removed**: `src/pages.json` — delete `easycom.custom` rule pointing to non-existent `src/components/mystic/` directory
+- **Stale dependency removed**: `playwright` (unused, project uses vitest + happy-dom) and `prettier-plugin-vue` (Prettier has built-in Vue support since v3)
+- **VSCode extensions cleaned**: remove `ms-playwright.playwright` and `bradlc.vscode-tailwindcss` recommendations (neither is used); add `bradlc.vscode-tailwindcss` to unwanted list
+- **`.prettierignore` cleaned**: remove blanket `src/**` / `tests/**` / `README.md` / `CHANGELOG.md` / `.github/SECURITY.md` exclusions (temporary workaround from earlier PR, no longer needed)
+- **`.git-blame-ignore-revs` populated**: add commit hashes for PR #22 and #23 (bulk refactor/formatting commits)
+- **Deleted file**: `security_best_practices_report.md` (one-off internal audit report; findings merged into `SECURITY.md` and `CHANGELOG.md`)
 
 ## [1.0.1] - 2026-06-08
 
 ### Added
-- 开发者配置：Prettier、ESLint、Vitest、Lefthook、commitlint、VSCode 推荐
-- `pnpm run lint` / `format` / `test` / `type-check` / `build:h5` 脚本
-- CI 拆为 format / lint / test / build 四个 job
-- Lefthook pre-commit（prettier + eslint）/ commit-msg（commitlint）
-- `.editorconfig` / `.gitattributes` / `.gitignore` 完善
-- `.github/ISSUE_TEMPLATE/config.yml` 关闭空白 issue
+
+- Developer tooling: Prettier, ESLint, Vitest, Lefthook, commitlint, VSCode recommendations
+- Scripts: `pnpm run lint` / `format` / `test` / `type-check` / `build:h5`
+- CI split into format / lint / test / build jobs
+- Lefthook pre-commit (prettier + eslint) / commit-msg (commitlint)
+- `.editorconfig` / `.gitattributes` / `.gitignore` improvements
+- `.github/ISSUE_TEMPLATE/config.yml`: disable blank issues
 
 ## [1.0.0] - 2026-06-08
 
 ### Added
-- 49 个核心工具：命理 6、占卜 6、古物 5、健康 4、修心 4、生活 4、其他 14、辅助师 6
-- 多用户管理（一日同人同工具不重测）
-- 仪式化扫描动画、AI 辅助师 3 阶段动画
-- GitHub Pages 部署（`actions/deploy-pages`）
-- gitleaks 密钥扫描
-- 开源协作文件：CONTRIBUTING、CODE_OF_CONDUCT、LICENSE（MIT）
-- 分支保护：所有改动必须走 PR
+
+- 49 core tools: Fate 6, Divination 6, Ancient Arts 5, Wellness 4, Cultivation 4, Life 4, Extended 14, AI Masters 6
+- Multi-user management (one divination per user per tool per day)
+- Ritual scan animation, AI master 3-stage animation
+- GitHub Pages deployment (`actions/deploy-pages`)
+- gitleaks secret scanning
+- Open-source collaboration files: CONTRIBUTING, CODE_OF_CONDUCT, LICENSE (MIT)
+- Branch protection: all changes must go through PR
 
 ### Security
-- TypeScript strict 模式
-- gitleaks 在 push / PR 阶段扫描
-- `localStorage` 隔离用户数据，无第三方分析
+
+- TypeScript strict mode
+- gitleaks scanning on push / PR
+- `localStorage` for user data isolation, no third-party analytics

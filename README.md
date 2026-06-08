@@ -29,99 +29,106 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 ### 2.1 Categories
 
-| # | Category    | 分类    | Subtitle       | Tools |
-|---|-------------|---------|----------------|------:|
-| 1 | **Fate**    | 命理    | Patterns of destiny | 17 |
-| 2 | **Divination** | 占卜 | Questions to heaven  | 8  |
-| 3 | **Ancient Arts** | 古物 | Tools of omen       | 7  |
-| 4 | **Wellness** | 健康   | Balance of body & mind | 5  |
-| 5 | **Cultivation** | 修心 | The path inward    | 6  |
-| 6 | **Life**    | 生活    | Everyday mirrors    | 5  |
-| 7 | **Users**   | 占卜人  | Multi-profile mgmt | 1  |
-| - | **AI Masters** (rolled into the 7 above) | AI 师 | In-browser rule-based chat advisors | 6 |
-|   | **Total**   |        |                  | **49** |
+| #   | Category                                 | 分类   | Subtitle                            |  Tools |
+| --- | ---------------------------------------- | ------ | ----------------------------------- | -----: |
+| 1   | **Fate**                                 | 命理   | Patterns of destiny                 |     17 |
+| 2   | **Divination**                           | 占卜   | Questions to heaven                 |      8 |
+| 3   | **Ancient Arts**                         | 古物   | Tools of omen                       |      7 |
+| 4   | **Wellness**                             | 健康   | Balance of body & mind              |      5 |
+| 5   | **Cultivation**                          | 修心   | The path inward                     |      6 |
+| 6   | **Life**                                 | 生活   | Everyday mirrors                    |      5 |
+| 7   | **Users**                                | 占卜人 | Multi-profile mgmt                  |      1 |
+| -   | **AI Masters** (rolled into the 7 above) | AI 师  | In-browser rule-based chat advisors |      6 |
+|     | **Total**                                |        |                                     | **49** |
 
 ### 2.2 Full tool list
 
 #### Fate (命理) — 17
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `wuxing` | Wu Xing Compass | 五行罗盘 | Five phases, generation & overcoming |
-| `bazi` | Bazi Chart | 八字排盘 | Four pillars of destiny |
-| `hehun` | Bazi Compatibility | 八字合婚 | Marriage compatibility from two charts |
-| `liunian` | Luck Cycles | 流年大运 | 10-year luck pillars |
-| `mingmen` | Qi Men Dun Jia | 奇门遁甲 | Time-based Qi Men three-board chart |
-| `liuren` | Da Liu Ren | 大六壬 | Grand Liu Ren heavenly / earthly plates |
-| `ziwei` | Zi Wei Dou Shu | 紫微斗数 | 14 main stars across 12 palaces |
-| `xuankong` | Xuan Kong Flying Stars | 玄空飞星 | Three-period nine-period flying star |
-| `tieban` | Tie Ban Shen Shu | 铁板神数 | Iron-plate numerology |
-| `xiaoliuren` | Xiao Liu Ren | 小六壬 | Quick Liu Ren with month + hour |
-| `zhuge` | Zhuge Divination | 诸葛神数 | 384-sign numeric oracle |
-| `life` | Life Path Number | 生命灵数 | 1-9 main, 33 sub-life numbers |
-| `astro` | Western Astrology | 西洋占星 | Tropical zodiac, 10 planetary aspects |
-| `maya` | Maya Calendar | 玛雅历 | Tzolkin 13-moon, 20-day cycle |
-| `ai-ming` | AI Fate Master | AI 命理师 | AI Bazi dialogue |
-| `profile` | Personal Profile | 个人档案 | One-time input, reused everywhere |
-| `dashboard` | MISTVERSE Console | 玄枢台 | All-chart dashboard |
+
+| Key          | Name                   | Name (中) | What it does                            |
+| ------------ | ---------------------- | --------- | --------------------------------------- |
+| `wuxing`     | Wu Xing Compass        | 五行罗盘  | Five phases, generation & overcoming    |
+| `bazi`       | Bazi Chart             | 八字排盘  | Four pillars of destiny                 |
+| `hehun`      | Bazi Compatibility     | 八字合婚  | Marriage compatibility from two charts  |
+| `liunian`    | Luck Cycles            | 流年大运  | 10-year luck pillars                    |
+| `mingmen`    | Qi Men Dun Jia         | 奇门遁甲  | Time-based Qi Men three-board chart     |
+| `liuren`     | Da Liu Ren             | 大六壬    | Grand Liu Ren heavenly / earthly plates |
+| `ziwei`      | Zi Wei Dou Shu         | 紫微斗数  | 14 main stars across 12 palaces         |
+| `xuankong`   | Xuan Kong Flying Stars | 玄空飞星  | Three-period nine-period flying star    |
+| `tieban`     | Tie Ban Shen Shu       | 铁板神数  | Iron-plate numerology                   |
+| `xiaoliuren` | Xiao Liu Ren           | 小六壬    | Quick Liu Ren with month + hour         |
+| `zhuge`      | Zhuge Divination       | 诸葛神数  | 384-sign numeric oracle                 |
+| `life`       | Life Path Number       | 生命灵数  | 1-9 main, 33 sub-life numbers           |
+| `astro`      | Western Astrology      | 西洋占星  | Tropical zodiac, 10 planetary aspects   |
+| `maya`       | Maya Calendar          | 玛雅历    | Tzolkin 13-moon, 20-day cycle           |
+| `ai-ming`    | AI Fate Master         | AI 命理师 | AI Bazi dialogue                        |
+| `profile`    | Personal Profile       | 个人档案  | One-time input, reused everywhere       |
+| `dashboard`  | MISTVERSE Console      | 玄枢台    | All-chart dashboard                     |
 
 #### Divination (占卜) — 8
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `gua` | Daily Hexagram | 每日一卦 | Yarrow-stalk I-Ching reading |
-| `liuyao` | Xuan Shu Yi Pan | 玄枢易盘 | Six-line hexagram with Na Jia |
-| `tarot` | Tarot Reading | 塔罗占卜 | 78-card Western tarot |
-| `meihua` | Plum Blossom | 梅花易数 | Time-based Mei Hua Yi Shu |
-| `guyi` | Gu Yi Heart Yi | 古易心易 | Ancient heart-yi variant |
-| `lingqian` | Spirit Lots | 灵签抽签 | Temple-style lot drawing |
-| `shuzhi` | Number Energy | 数字能量 | Phone-number magnetic field |
-| `jiaobei` | Moon Blocks | 杯筊问事 | Two-block yes/no oracle |
+
+| Key        | Name            | Name (中) | What it does                  |
+| ---------- | --------------- | --------- | ----------------------------- |
+| `gua`      | Daily Hexagram  | 每日一卦  | Yarrow-stalk I-Ching reading  |
+| `liuyao`   | Xuan Shu Yi Pan | 玄枢易盘  | Six-line hexagram with Na Jia |
+| `tarot`    | Tarot Reading   | 塔罗占卜  | 78-card Western tarot         |
+| `meihua`   | Plum Blossom    | 梅花易数  | Time-based Mei Hua Yi Shu     |
+| `guyi`     | Gu Yi Heart Yi  | 古易心易  | Ancient heart-yi variant      |
+| `lingqian` | Spirit Lots     | 灵签抽签  | Temple-style lot drawing      |
+| `shuzhi`   | Number Energy   | 数字能量  | Phone-number magnetic field   |
+| `jiaobei`  | Moon Blocks     | 杯筊问事  | Two-block yes/no oracle       |
 
 #### Ancient Arts (古物) — 7
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `mianxiang` | Face Reading | 面相分析 | Three courts & five features |
-| `shouxiang` | Palm Reading | 手相分析 | Mounts & lines |
-| `fenglui` | Yang Zhai Feng Shui | 阳宅风水 | Compass + 8-mansion layout |
-| `mingji` | Name Numerology | 命名测字 | Kangxi-stroke based scoring |
-| `ai-feng` | AI Feng Shui Master | AI 风水师 | AI-driven layout suggestions |
-| `ai-name` | AI Name Master | AI 起名师 | AI baby name generator |
-| _+ 1 in AI section_ | | | |
+
+| Key                 | Name                | Name (中) | What it does                 |
+| ------------------- | ------------------- | --------- | ---------------------------- |
+| `mianxiang`         | Face Reading        | 面相分析  | Three courts & five features |
+| `shouxiang`         | Palm Reading        | 手相分析  | Mounts & lines               |
+| `fenglui`           | Yang Zhai Feng Shui | 阳宅风水  | Compass + 8-mansion layout   |
+| `mingji`            | Name Numerology     | 命名测字  | Kangxi-stroke based scoring  |
+| `ai-feng`           | AI Feng Shui Master | AI 风水师 | AI-driven layout suggestions |
+| `ai-name`           | AI Name Master      | AI 起名师 | AI baby name generator       |
+| _+ 1 in AI section_ |                     |           |                              |
 
 #### Wellness (健康) — 5
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `qijing` | Eight Extra Meridians | 奇经八脉 | 8 extraordinary vessels map |
-| `ziwu` | Zi Wu Liu Zhu | 子午流注 | Hour-meridian clock |
-| `wufu` | Five Blessings | 五福测算 | Longevity/wealth/health/virtue/peace |
-| `yangsheng` | Solar Terms Wellness | 节气养生 | 24节气 health guidance |
-| `ai-jiankang` | AI Health Master | AI 健康师 | AI wellness advisor |
+
+| Key           | Name                  | Name (中) | What it does                         |
+| ------------- | --------------------- | --------- | ------------------------------------ |
+| `qijing`      | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
+| `ziwu`        | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
+| `wufu`        | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
+| `yangsheng`   | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
+| `ai-jiankang` | AI Health Master      | AI 健康师 | AI wellness advisor                  |
 
 #### Cultivation (修心) — 6
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `zhan` | Seated Meditation | 坐禅计时 | Timer with breathing guide |
-| `fangqi` | Relaxation | 放松冥想 | Guided breathing & body scan |
-| `shijian` | Quote of the Moment | 拾句 | Daily Zen snippet |
-| `dayun` | Great Cycle Review | 大运流转 | 90-year life review |
-| `checkin` | Daily Check-in | 每日签到 | Streak & achievements |
-| `ai-xiuxin` | AI Cultivation Master | AI 修心师 | AI inner-cultivation guide |
+
+| Key         | Name                  | Name (中) | What it does                 |
+| ----------- | --------------------- | --------- | ---------------------------- |
+| `zhan`      | Seated Meditation     | 坐禅计时  | Timer with breathing guide   |
+| `fangqi`    | Relaxation            | 放松冥想  | Guided breathing & body scan |
+| `shijian`   | Quote of the Moment   | 拾句      | Daily Zen snippet            |
+| `dayun`     | Great Cycle Review    | 大运流转  | 90-year life review          |
+| `checkin`   | Daily Check-in        | 每日签到  | Streak & achievements        |
+| `ai-xiuxin` | AI Cultivation Master | AI 修心师 | AI inner-cultivation guide   |
 
 #### Life (生活) — 5
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `huangli` | Traditional Almanac | 老黄历 | Daily Yi/Ji calendar |
-| `jiri` | Auspicious Day | 吉日择时 | Best time for wedding, signing, etc. |
-| `yunshi` | Today's Fortune | 今日运势 | 12-animal daily rating |
-| `jiazu` | Genealogy | 家谱排辈 | Generation-name ordering |
-| `poster` | Poster Share | 海报分享 | One-click long-image poster |
+
+| Key       | Name                | Name (中) | What it does                         |
+| --------- | ------------------- | --------- | ------------------------------------ |
+| `huangli` | Traditional Almanac | 老黄历    | Daily Yi/Ji calendar                 |
+| `jiri`    | Auspicious Day      | 吉日择时  | Best time for wedding, signing, etc. |
+| `yunshi`  | Today's Fortune     | 今日运势  | 12-animal daily rating               |
+| `jiazu`   | Genealogy           | 家谱排辈  | Generation-name ordering             |
+| `poster`  | Poster Share        | 海报分享  | One-click long-image poster          |
 
 #### Personal Center + Users — 4
-| Key | Name | Name (中) | What it does |
-|---|---|---|---|
-| `users` | Diviners | 占卜人 | Multi-user profile manager |
-| `profile` | Personal Profile | 个人档案 | (see Fate) |
-| `dashboard` | MISTVERSE Console | 玄枢台 | (see Fate) |
-| `checkin` | Daily Check-in | 每日签到 | (see Cultivation) |
+
+| Key         | Name              | Name (中) | What it does               |
+| ----------- | ----------------- | --------- | -------------------------- |
+| `users`     | Diviners          | 占卜人    | Multi-user profile manager |
+| `profile`   | Personal Profile  | 个人档案  | (see Fate)                 |
+| `dashboard` | MISTVERSE Console | 玄枢台    | (see Fate)                 |
+| `checkin`   | Daily Check-in    | 每日签到  | (see Cultivation)          |
 
 > **AI Masters** are in-browser rule-based chat advisors (no LLM, no network). They use the local data you entered plus the tool's output as context.
 
@@ -156,36 +163,36 @@ pnpm run preview         # (optional) serve the built bundle locally
 
 ### 3.4 All scripts
 
-| Script | What it does |
-|---|---|
-| `pnpm dev:h5` | H5 dev server with HMR |
-| `pnpm dev:mp-weixin` | WeChat MP dev (requires WeChat DevTools) |
-| `pnpm build:h5` | H5 production build |
-| `pnpm build:mp-weixin` | WeChat MP build |
-| `pnpm type-check` | `vue-tsc --noEmit` |
-| `pnpm lint` / `pnpm lint:fix` | ESLint over `.js .ts .vue .cjs` |
-| `pnpm format` / `pnpm format:check` | Prettier |
-| `pnpm test` / `pnpm test:watch` / `pnpm test:coverage` | Vitest |
-| `pnpm audit` | (CI only) `pnpm audit --prod --audit-level=high` |
+| Script                                                 | What it does                                     |
+| ------------------------------------------------------ | ------------------------------------------------ |
+| `pnpm dev:h5`                                          | H5 dev server with HMR                           |
+| `pnpm dev:mp-weixin`                                   | WeChat MP dev (requires WeChat DevTools)         |
+| `pnpm build:h5`                                        | H5 production build                              |
+| `pnpm build:mp-weixin`                                 | WeChat MP build                                  |
+| `pnpm type-check`                                      | `vue-tsc --noEmit`                               |
+| `pnpm lint` / `pnpm lint:fix`                          | ESLint over `.js .ts .vue .cjs`                  |
+| `pnpm format` / `pnpm format:check`                    | Prettier                                         |
+| `pnpm test` / `pnpm test:watch` / `pnpm test:coverage` | Vitest                                           |
+| `pnpm audit`                                           | (CI only) `pnpm audit --prod --audit-level=high` |
 
-Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baidu, jd, kuaishou, lark, qq, toutiao, harmony, xhs, quickapp-*).
+Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baidu, jd, kuaishou, lark, qq, toutiao, harmony, xhs, quickapp-\*).
 
 ---
 
 ## 4. Tech stack
 
-| Layer | Choice | Why |
-|---|---|---|
-| Framework | **uni-app x** (v3) | One codebase, web + mini-programs (WeChat, Alipay, Harmony, etc.) |
-| UI | **Vue 3** + Composition API + `<script setup>` | First-class TS, tree-shakeable |
-| Types | **TypeScript strict** | Catch mistakes at compile time |
-| Build | **Vite 5** | Fast HMR, ESM-native |
-| State | **Pinia 3** + `localStorage` (key: `mistverse-state-v2`) | Tiny, type-safe, persists locally |
-| Animations | **GSAP 3** + **OGL** | Timeline control + WebGL particle/star effects |
-| Tests | **Vitest 2** + `@vue/test-utils` + `happy-dom` | Same Vite pipeline, fast |
-| Hooks | **Lefthook** + **commitlint** | Pre-commit Prettier + ESLint, commit-msg lint |
-| CI | **GitHub Actions** (format, lint, test, audit, build, deploy) | Branch protection + signed deploy |
-| Deploy | **GitHub Pages** via `actions/deploy-pages@v4` | HTTPS, free, no custom domain needed |
+| Layer      | Choice                                                        | Why                                                               |
+| ---------- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Framework  | **uni-app x** (v3)                                            | One codebase, web + mini-programs (WeChat, Alipay, Harmony, etc.) |
+| UI         | **Vue 3** + Composition API + `<script setup>`                | First-class TS, tree-shakeable                                    |
+| Types      | **TypeScript strict**                                         | Catch mistakes at compile time                                    |
+| Build      | **Vite 5**                                                    | Fast HMR, ESM-native                                              |
+| State      | **Pinia 3** + `localStorage` (key: `mistverse-state-v2`)      | Tiny, type-safe, persists locally                                 |
+| Animations | **GSAP 3** + **OGL**                                          | Timeline control + WebGL particle/star effects                    |
+| Tests      | **Vitest 2** + `@vue/test-utils` + `happy-dom`                | Same Vite pipeline, fast                                          |
+| Hooks      | **Lefthook** + **commitlint**                                 | Pre-commit Prettier + ESLint, commit-msg lint                     |
+| CI         | **GitHub Actions** (format, lint, test, audit, build, deploy) | Branch protection + signed deploy                                 |
+| Deploy     | **GitHub Pages** via `actions/deploy-pages@v4`                | HTTPS, free, no custom domain needed                              |
 
 ---
 

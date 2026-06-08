@@ -9,19 +9,19 @@ export type Wuxing = 'jin' | 'mu' | 'shui' | 'huo' | 'tu'
 
 export interface WuxingMeta {
   key: Wuxing
-  name: string         // 中文
+  name: string // 中文
   pinyin: string
-  symbol: string       // 符号
-  color: string        // 主色
-  colorHex: string     // hex 用于 canvas/svg
-  gradient: string     // 渐变 CSS
-  textColor: string    // 在该色块上的文字色
-  season: string       // 对应季节
-  direction: string    // 对应方位
-  organ: string        // 对应脏器
-  emotion: string      // 对应情志
-  virtue: string       // 对应德
-  desc: string         // 描述
+  symbol: string // 符号
+  color: string // 主色
+  colorHex: string // hex 用于 canvas/svg
+  gradient: string // 渐变 CSS
+  textColor: string // 在该色块上的文字色
+  season: string // 对应季节
+  direction: string // 对应方位
+  organ: string // 对应脏器
+  emotion: string // 对应情志
+  virtue: string // 对应德
+  desc: string // 描述
 }
 
 export const WUXING_META: Record<Wuxing, WuxingMeta> = {
@@ -129,12 +129,15 @@ export const KE: Record<Wuxing, Wuxing> = {
 }
 
 /** 判断 a 与 b 的关系：'sheng' 生 b / 'be-sheng' 被 b 生 / 'ke' 克 b / 'be-ke' 被 b 克 / 'tong' 同 */
-export function wuxingRelation(a: Wuxing, b: Wuxing): 'sheng' | 'be-sheng' | 'ke' | 'be-ke' | 'tong' {
+export function wuxingRelation(
+  a: Wuxing,
+  b: Wuxing,
+): 'sheng' | 'be-sheng' | 'ke' | 'be-ke' | 'tong' {
   if (a === b) return 'tong'
-  if (SHENG[a] === b) return 'sheng'   // a 生 b
+  if (SHENG[a] === b) return 'sheng' // a 生 b
   if (SHENG[b] === a) return 'be-sheng' // b 生 a (a 被生)
-  if (KE[a] === b) return 'ke'         // a 克 b
-  return 'be-ke'                       // a 被克
+  if (KE[a] === b) return 'ke' // a 克 b
+  return 'be-ke' // a 被克
 }
 
 export const RELATION_DESC: Record<string, string> = {

@@ -14,7 +14,7 @@ function todayStr(d: Date = new Date()): string {
 // ============ 占卜用户与记录（与 daily-cooldown 同步） ============
 export interface DivinationRecord {
   id: string
-  date: string               // 'YYYY-MM-DD' 本地日
+  date: string // 'YYYY-MM-DD' 本地日
   userKey: string
   userName: string
   tool: ToolKey
@@ -30,23 +30,63 @@ export interface DivinatorProfile {
   createdAt: number
   totalCount: number
   lastDate?: string
-  toolCooldown: Partial<Record<ToolKey, string>>   // toolKey -> 'YYYY-MM-DD' 可以再次占卜
+  toolCooldown: Partial<Record<ToolKey, string>> // toolKey -> 'YYYY-MM-DD' 可以再次占卜
 }
 
 // ============ 工具 key 集合（与 config/tools.ts 保持一致） ============
 export type ToolKey =
-  | 'wuxing' | 'bazi' | 'hehun' | 'liunian' | 'mingmen' | 'liuren'
-  | 'gua' | 'tarot' | 'meihua' | 'lingqian' | 'shuzhi' | 'jiaobei' | 'liuyao'
-  | 'mianxiang' | 'shouxiang' | 'qimen' | 'fenglui' | 'mingji'
-  | 'qijing' | 'ziwu' | 'wufu' | 'yangsheng'
-  | 'zhan' | 'fangqi' | 'shijian' | 'dayun'
-  | 'huangli' | 'jiri' | 'yunshi' | 'jiazu'
+  | 'wuxing'
+  | 'bazi'
+  | 'hehun'
+  | 'liunian'
+  | 'mingmen'
+  | 'liuren'
+  | 'gua'
+  | 'tarot'
+  | 'meihua'
+  | 'lingqian'
+  | 'shuzhi'
+  | 'jiaobei'
+  | 'liuyao'
+  | 'mianxiang'
+  | 'shouxiang'
+  | 'guyi'
+  | 'fenglui'
+  | 'mingji'
+  | 'qijing'
+  | 'ziwu'
+  | 'wufu'
+  | 'yangsheng'
+  | 'zhan'
+  | 'fangqi'
+  | 'shijian'
+  | 'dayun'
+  | 'huangli'
+  | 'jiri'
+  | 'yunshi'
+  | 'jiazu'
   // 高阶命理
-  | 'ziwei' | 'xuankong' | 'tieban' | 'xiaoliuren' | 'zhuge' | 'life' | 'astro' | 'maya'
+  | 'ziwei'
+  | 'xuankong'
+  | 'tieban'
+  | 'xiaoliuren'
+  | 'zhuge'
+  | 'life'
+  | 'astro'
+  | 'maya'
   // AI 助手
-  | 'ai-gua' | 'ai-ming' | 'ai-feng' | 'ai-name' | 'ai-jiankang' | 'ai-xiuxin'
+  | 'ai-gua'
+  | 'ai-ming'
+  | 'ai-feng'
+  | 'ai-name'
+  | 'ai-jiankang'
+  | 'ai-xiuxin'
   // 个人中心
-  | 'profile' | 'dashboard' | 'checkin' | 'poster' | 'users'
+  | 'profile'
+  | 'dashboard'
+  | 'checkin'
+  | 'poster'
+  | 'users'
 
 export type ThemeKey = 'xuanhuang' | 'xuanzi' | 'xuanqing'
 export type FontKey = 'kaiti' | 'songti' | 'zhuanshu' | 'heiti'
@@ -60,7 +100,7 @@ export interface UserProfile {
   birthMonth: number
   birthDay: number
   birthHour: number
-  longitude: number    // 经度 (东经正，西经负)
+  longitude: number // 经度 (东经正，西经负)
   birthplace: string
   createdAt: number
 }
@@ -95,26 +135,26 @@ export interface Achievement {
   icon: string
   unlocked: boolean
   unlockTime?: number
-  progress: number  // 0-100
+  progress: number // 0-100
   target: number
   current: number
 }
 
 /** AI 六师聊天会话 */
 export interface ChatSession {
-  masterKey: string                  // 'ai-gua' | 'ai-ming' | ...
+  masterKey: string // 'ai-gua' | 'ai-ming' | ...
   messages: Array<{
     role: 'user' | 'master'
     text: string
     time: number
     cite?: string
   }>
-  persona?: string                    // 用户设置的 persona（可选）
+  persona?: string // 用户设置的 persona（可选）
   lastActiveTime: number
 }
 
 export interface CheckinInfo {
-  lastDate: string  // YYYY-MM-DD
+  lastDate: string // YYYY-MM-DD
   streak: number
   totalDays: number
   points: number
@@ -134,37 +174,199 @@ interface PersistState {
     i18n: 'zh-CN' | 'zh-TW' | 'en' | 'ja'
   }
   profile: UserProfile | null
-  favorites: string[]              // 收藏的 history id
+  favorites: string[] // 收藏的 history id
   notes: Note[]
   achievements: Achievement[]
   checkin: CheckinInfo
-  chatSessions: Record<string, ChatSession>   // AI 六师聊天记录（按 masterKey 分组）
-  divinationRecords: DivinationRecord[]     // 全部占卜记录（用于一日同人同工具检查）
-  divinatorProfiles: Record<string, DivinatorProfile>   // 用户档案
-  activeDivinatorKey: string                  // 当前激活用户 key
+  chatSessions: Record<string, ChatSession> // AI 六师聊天记录（按 masterKey 分组）
+  divinationRecords: DivinationRecord[] // 全部占卜记录（用于一日同人同工具检查）
+  divinatorProfiles: Record<string, DivinatorProfile> // 用户档案
+  activeDivinatorKey: string // 当前激活用户 key
 }
 
 const STORAGE_KEY = 'mistverse-state-v2'
 
 const DEFAULT_ACHIEVEMENTS: Achievement[] = [
-  { id: 'first-use',     name: '初窥玄门',  desc: '首次使用任意工具',           icon: '☯', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'use-3-tools',   name: '触类旁通',  desc: '使用 3 个不同工具',          icon: '三', unlocked: false, progress: 0, target: 3, current: 0 },
-  { id: 'use-10-tools',  name: '玄学十全',  desc: '使用 10 个不同工具',         icon: '十', unlocked: false, progress: 0, target: 10, current: 0 },
-  { id: 'use-30-tools',  name: '玄枢全览',  desc: '使用全部 49 工具',           icon: '卐', unlocked: false, progress: 0, target: 49, current: 0 },
-  { id: 'checkin-7',     name: '七日一复',  desc: '连续签到 7 天',              icon: '七', unlocked: false, progress: 0, target: 7, current: 0 },
-  { id: 'checkin-30',    name: '月圆玄明',  desc: '连续签到 30 天',             icon: '月', unlocked: false, progress: 0, target: 30, current: 0 },
-  { id: 'checkin-100',   name: '百日筑基',  desc: '连续签到 100 天',            icon: '百', unlocked: false, progress: 0, target: 100, current: 0 },
-  { id: 'night-owl',     name: '子夜推演',  desc: '在 23 点后使用工具',         icon: '夜', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'dawn-quest',    name: '寅时问卜',  desc: '在 3-5 点使用工具',          icon: '寅', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'profile-set',   name: '命盘初定',  desc: '设置个人档案',              icon: '盘', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'note-1',        name: '心有所记',  desc: '写下第一篇笔记',            icon: '笔', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'note-10',       name: '十篇成册',  desc: '写满 10 篇笔记',            icon: '册', unlocked: false, progress: 0, target: 10, current: 0 },
-  { id: 'fav-1',         name: '藏之名山',  desc: '收藏第一个结果',            icon: '藏', unlocked: false, progress: 0, target: 1, current: 0 },
-  { id: 'fav-20',        name: '典藏二十',  desc: '收藏 20 个结果',            icon: '典', unlocked: false, progress: 0, target: 20, current: 0 },
-  { id: 'category-all',  name: '六艺皆通',  desc: '6 大分类全部用遍',          icon: '六', unlocked: false, progress: 0, target: 6, current: 0 },
-  { id: 'high-level',    name: '探赜索隐',  desc: '使用全部 8 大高阶命理',      icon: '奥', unlocked: false, progress: 0, target: 8, current: 0 },
-  { id: 'ai-master',     name: 'AI 玄谈',  desc: '与 6 位 AI 师均交流',       icon: '智', unlocked: false, progress: 0, target: 6, current: 0 },
-  { id: 'share-1',       name: '广结善缘',  desc: '生成首张海报',              icon: '缘', unlocked: false, progress: 0, target: 1, current: 0 },
+  {
+    id: 'first-use',
+    name: '初窥玄门',
+    desc: '首次使用任意工具',
+    icon: '☯',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'use-3-tools',
+    name: '触类旁通',
+    desc: '使用 3 个不同工具',
+    icon: '三',
+    unlocked: false,
+    progress: 0,
+    target: 3,
+    current: 0,
+  },
+  {
+    id: 'use-10-tools',
+    name: '玄学十全',
+    desc: '使用 10 个不同工具',
+    icon: '十',
+    unlocked: false,
+    progress: 0,
+    target: 10,
+    current: 0,
+  },
+  {
+    id: 'use-30-tools',
+    name: '玄枢全览',
+    desc: '使用全部 49 工具',
+    icon: '卐',
+    unlocked: false,
+    progress: 0,
+    target: 49,
+    current: 0,
+  },
+  {
+    id: 'checkin-7',
+    name: '七日一复',
+    desc: '连续签到 7 天',
+    icon: '七',
+    unlocked: false,
+    progress: 0,
+    target: 7,
+    current: 0,
+  },
+  {
+    id: 'checkin-30',
+    name: '月圆玄明',
+    desc: '连续签到 30 天',
+    icon: '月',
+    unlocked: false,
+    progress: 0,
+    target: 30,
+    current: 0,
+  },
+  {
+    id: 'checkin-100',
+    name: '百日筑基',
+    desc: '连续签到 100 天',
+    icon: '百',
+    unlocked: false,
+    progress: 0,
+    target: 100,
+    current: 0,
+  },
+  {
+    id: 'night-owl',
+    name: '子夜推演',
+    desc: '在 23 点后使用工具',
+    icon: '夜',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'dawn-quest',
+    name: '寅时问卜',
+    desc: '在 3-5 点使用工具',
+    icon: '寅',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'profile-set',
+    name: '命盘初定',
+    desc: '设置个人档案',
+    icon: '盘',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'note-1',
+    name: '心有所记',
+    desc: '写下第一篇笔记',
+    icon: '笔',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'note-10',
+    name: '十篇成册',
+    desc: '写满 10 篇笔记',
+    icon: '册',
+    unlocked: false,
+    progress: 0,
+    target: 10,
+    current: 0,
+  },
+  {
+    id: 'fav-1',
+    name: '藏之名山',
+    desc: '收藏第一个结果',
+    icon: '藏',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
+  {
+    id: 'fav-20',
+    name: '典藏二十',
+    desc: '收藏 20 个结果',
+    icon: '典',
+    unlocked: false,
+    progress: 0,
+    target: 20,
+    current: 0,
+  },
+  {
+    id: 'category-all',
+    name: '六艺皆通',
+    desc: '6 大分类全部用遍',
+    icon: '六',
+    unlocked: false,
+    progress: 0,
+    target: 6,
+    current: 0,
+  },
+  {
+    id: 'high-level',
+    name: '探赜索隐',
+    desc: '使用全部 8 大高阶命理',
+    icon: '奥',
+    unlocked: false,
+    progress: 0,
+    target: 8,
+    current: 0,
+  },
+  {
+    id: 'ai-master',
+    name: 'AI 玄谈',
+    desc: '与 6 位 AI 师均交流',
+    icon: '智',
+    unlocked: false,
+    progress: 0,
+    target: 6,
+    current: 0,
+  },
+  {
+    id: 'share-1',
+    name: '广结善缘',
+    desc: '生成首张海报',
+    icon: '缘',
+    unlocked: false,
+    progress: 0,
+    target: 1,
+    current: 0,
+  },
 ]
 
 const DEFAULT_STATE: PersistState = {
@@ -203,9 +405,10 @@ function loadState(): PersistState {
       profile: parsed.profile || null,
       favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
       notes: Array.isArray(parsed.notes) ? parsed.notes : [],
-      achievements: Array.isArray(parsed.achievements) && parsed.achievements.length
-        ? parsed.achievements
-        : JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
+      achievements:
+        Array.isArray(parsed.achievements) && parsed.achievements.length
+          ? parsed.achievements
+          : JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
       checkin: parsed.checkin || { lastDate: '', streak: 0, totalDays: 0, points: 0 },
       chatSessions: parsed.chatSessions || {},
       divinationRecords: Array.isArray(parsed.divinationRecords) ? parsed.divinationRecords : [],
@@ -238,20 +441,36 @@ export const useAppStore = defineStore('app', () => {
   const divinatorProfiles = ref<Record<string, DivinatorProfile>>(initial.divinatorProfiles)
   const activeDivinatorKey = ref<string>(initial.activeDivinatorKey)
 
-  watch([history, settings, profile, favorites, notes, achievements, checkin, chatSessions, divinationRecords, divinatorProfiles, activeDivinatorKey],
-    () => saveState({
-      history: history.value,
-      settings: settings.value,
-      profile: profile.value,
-      favorites: favorites.value,
-      notes: notes.value,
-      achievements: achievements.value,
-      checkin: checkin.value,
-      chatSessions: chatSessions.value,
-      divinationRecords: divinationRecords.value,
-      divinatorProfiles: divinatorProfiles.value,
-      activeDivinatorKey: activeDivinatorKey.value,
-    }), { deep: true })
+  watch(
+    [
+      history,
+      settings,
+      profile,
+      favorites,
+      notes,
+      achievements,
+      checkin,
+      chatSessions,
+      divinationRecords,
+      divinatorProfiles,
+      activeDivinatorKey,
+    ],
+    () =>
+      saveState({
+        history: history.value,
+        settings: settings.value,
+        profile: profile.value,
+        favorites: favorites.value,
+        notes: notes.value,
+        achievements: achievements.value,
+        checkin: checkin.value,
+        chatSessions: chatSessions.value,
+        divinationRecords: divinationRecords.value,
+        divinatorProfiles: divinatorProfiles.value,
+        activeDivinatorKey: activeDivinatorKey.value,
+      }),
+    { deep: true },
+  )
 
   // ============ 历史记录 ============
   const MAX_HISTORY = 50
@@ -272,15 +491,17 @@ export const useAppStore = defineStore('app', () => {
     return it
   }
 
-  function clearHistory() { history.value = [] }
+  function clearHistory() {
+    history.value = []
+  }
 
   function removeHistory(id: string) {
-    history.value = history.value.filter(h => h.id !== id)
-    favorites.value = favorites.value.filter(f => f !== id)
+    history.value = history.value.filter((h) => h.id !== id)
+    favorites.value = favorites.value.filter((f) => f !== id)
   }
 
   function historyByTool(tool: ToolKey) {
-    return computed(() => history.value.filter(h => h.tool === tool))
+    return computed(() => history.value.filter((h) => h.tool === tool))
   }
 
   // ============ 个人档案 ============
@@ -309,7 +530,9 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  function clearProfile() { profile.value = null }
+  function clearProfile() {
+    profile.value = null
+  }
 
   // ============ 收藏 ============
   function toggleFavorite(id: string) {
@@ -343,18 +566,18 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function updateNote(id: string, patch: Partial<Note>) {
-    const n = notes.value.find(x => x.id === id)
+    const n = notes.value.find((x) => x.id === id)
     if (n) {
       Object.assign(n, patch, { updateTime: Date.now() })
     }
   }
 
   function removeNote(id: string) {
-    notes.value = notes.value.filter(n => n.id !== id)
+    notes.value = notes.value.filter((n) => n.id !== id)
   }
 
   // ============ AI 六师聊天会话 ============
-  const MAX_CHAT_MESSAGES = 40   // 单 master 最多保留 20 轮（user+master）
+  const MAX_CHAT_MESSAGES = 40 // 单 master 最多保留 20 轮（user+master）
 
   function getChatSession(masterKey: string): ChatSession {
     if (!chatSessions.value[masterKey]) {
@@ -367,7 +590,10 @@ export const useAppStore = defineStore('app', () => {
     return chatSessions.value[masterKey]
   }
 
-  function appendChatMessage(masterKey: string, msg: { role: 'user' | 'master'; text: string; cite?: string }) {
+  function appendChatMessage(
+    masterKey: string,
+    msg: { role: 'user' | 'master'; text: string; cite?: string },
+  ) {
     const session = getChatSession(masterKey)
     session.messages.push({ ...msg, time: Date.now() })
     session.lastActiveTime = Date.now()
@@ -433,7 +659,7 @@ export const useAppStore = defineStore('app', () => {
     delete newProfiles[key]
     divinatorProfiles.value = newProfiles
     // 同时清理其占卜记录
-    divinationRecords.value = divinationRecords.value.filter(r => r.userKey !== key)
+    divinationRecords.value = divinationRecords.value.filter((r) => r.userKey !== key)
     if (activeDivinatorKey.value === key) {
       // 切换到第一个剩余用户，或空
       const first = Object.keys(newProfiles)[0] || ''
@@ -503,14 +729,14 @@ export const useAppStore = defineStore('app', () => {
       return todayStr(d)
     })()
     return divinationRecords.value
-      .filter(r => r.userKey === userKey && r.date >= fromDate)
+      .filter((r) => r.userKey === userKey && r.date >= fromDate)
       .sort((a, b) => b.timestamp - a.timestamp)
   }
 
   /** 删除一条占卜记录（解除冷却） */
   function removeDivinationRecord(id: string) {
-    const rec = divinationRecords.value.find(r => r.id === id)
-    divinationRecords.value = divinationRecords.value.filter(r => r.id !== id)
+    const rec = divinationRecords.value.find((r) => r.id === id)
+    divinationRecords.value = divinationRecords.value.filter((r) => r.id !== id)
     if (rec) {
       const profile = divinatorProfiles.value[rec.userKey]
       if (profile?.toolCooldown?.[rec.tool]) {
@@ -525,19 +751,19 @@ export const useAppStore = defineStore('app', () => {
 
   const totalChatTurns = computed(() => {
     let total = 0
-    Object.values(chatSessions.value).forEach(s => {
-      total += s.messages.filter(m => m.role === 'user').length
+    Object.values(chatSessions.value).forEach((s) => {
+      total += s.messages.filter((m) => m.role === 'user').length
     })
     return total
   })
 
   const chattedMasters = computed(() => {
-    return Object.keys(chatSessions.value).filter(k => chatSessions.value[k].messages.length > 0)
+    return Object.keys(chatSessions.value).filter((k) => chatSessions.value[k].messages.length > 0)
   })
 
   // ============ 成就 ============
   function _ach(id: string) {
-    const a = achievements.value.find(x => x.id === id)
+    const a = achievements.value.find((x) => x.id === id)
     if (a && !a.unlocked) {
       a.unlocked = true
       a.unlockTime = Date.now()
@@ -547,7 +773,7 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function _updateAch(id: string, current: number) {
-    const a = achievements.value.find(x => x.id === id)
+    const a = achievements.value.find((x) => x.id === id)
     if (a && !a.unlocked) {
       a.current = Math.min(current, a.target)
       a.progress = Math.floor((a.current / a.target) * 100)
@@ -559,7 +785,7 @@ export const useAppStore = defineStore('app', () => {
   }
 
   function _checkAchievements(tool: ToolKey) {
-    const used = new Set(history.value.map(h => h.tool))
+    const used = new Set(history.value.map((h) => h.tool))
     used.add(tool)
     _updateAch('first-use', used.size)
     if (used.size >= 3) _ach('use-3-tools')
@@ -567,7 +793,7 @@ export const useAppStore = defineStore('app', () => {
     if (used.size >= 30) _ach('use-30-tools')
     // 分类覆盖
     const cats = new Set<string>()
-    used.forEach(k => {
+    used.forEach((k) => {
       const t = TOOLS.find((x) => x.key === k)
       if (t) cats.add(t.category)
     })
@@ -597,15 +823,33 @@ export const useAppStore = defineStore('app', () => {
   }
 
   // ============ 设置 ============
-  function setFontSize(v: 'sm' | 'md' | 'lg') { settings.value.fontSize = v }
-  function setReducedMotion(v: boolean) { settings.value.reducedMotion = v }
-  function setSoundEnabled(v: boolean) { settings.value.soundEnabled = v }
-  function setHapticsEnabled(v: boolean) { settings.value.hapticsEnabled = v }
-  function setShowGuide(v: boolean) { settings.value.showGuide = v }
-  function setTheme(v: ThemeKey) { settings.value.theme = v }
-  function setFont(v: FontKey) { settings.value.font = v }
-  function setMode(v: ModeKey) { settings.value.mode = v }
-  function setI18n(v: 'zh-CN' | 'zh-TW' | 'en' | 'ja') { settings.value.i18n = v }
+  function setFontSize(v: 'sm' | 'md' | 'lg') {
+    settings.value.fontSize = v
+  }
+  function setReducedMotion(v: boolean) {
+    settings.value.reducedMotion = v
+  }
+  function setSoundEnabled(v: boolean) {
+    settings.value.soundEnabled = v
+  }
+  function setHapticsEnabled(v: boolean) {
+    settings.value.hapticsEnabled = v
+  }
+  function setShowGuide(v: boolean) {
+    settings.value.showGuide = v
+  }
+  function setTheme(v: ThemeKey) {
+    settings.value.theme = v
+  }
+  function setFont(v: FontKey) {
+    settings.value.font = v
+  }
+  function setMode(v: ModeKey) {
+    settings.value.mode = v
+  }
+  function setI18n(v: 'zh-CN' | 'zh-TW' | 'en' | 'ja') {
+    settings.value.i18n = v
+  }
 
   function resetAll() {
     history.value = []
@@ -626,37 +870,79 @@ export const useAppStore = defineStore('app', () => {
   const fontClass = computed(() => 'font-' + settings.value.font)
   const modeClass = computed(() => 'mode-' + settings.value.mode)
   const themeClass = computed(() => 'theme-' + settings.value.theme)
-  const unlockedAchievements = computed(() => achievements.value.filter(a => a.unlocked))
+  const unlockedAchievements = computed(() => achievements.value.filter((a) => a.unlocked))
   const todayCheckedIn = computed(() => checkin.value.lastDate === todayStr())
 
   return {
     // state
-    history, settings, profile, favorites, notes, achievements, checkin, chatSessions,
-    divinationRecords, divinatorProfiles, activeDivinatorKey,
+    history,
+    settings,
+    profile,
+    favorites,
+    notes,
+    achievements,
+    checkin,
+    chatSessions,
+    divinationRecords,
+    divinatorProfiles,
+    activeDivinatorKey,
     // derived
-    fontSizeClass, fontClass, modeClass, themeClass,
-    unlockedAchievements, todayCheckedIn, totalChatTurns, chattedMasters,
-    activeDivinator, allDivinators,
+    fontSizeClass,
+    fontClass,
+    modeClass,
+    themeClass,
+    unlockedAchievements,
+    todayCheckedIn,
+    totalChatTurns,
+    chattedMasters,
+    activeDivinator,
+    allDivinators,
     // history
-    addHistory, clearHistory, removeHistory, historyByTool,
+    addHistory,
+    clearHistory,
+    removeHistory,
+    historyByTool,
     // profile
-    setProfile, clearProfile,
+    setProfile,
+    clearProfile,
     // favorites
-    toggleFavorite, isFavorite,
+    toggleFavorite,
+    isFavorite,
     // notes
-    addNote, updateNote, removeNote,
+    addNote,
+    updateNote,
+    removeNote,
     // chat
-    getChatSession, appendChatMessage, setChatPersona, clearChatSession, clearAllChatSessions,
+    getChatSession,
+    appendChatMessage,
+    setChatPersona,
+    clearChatSession,
+    clearAllChatSessions,
     // divination users & records
-    setActiveDivinator, addDivinator, removeDivinator, updateDivinatorRemark,
-    addDivinationRecord, checkTodayDivination, getRecentRecords, removeDivinationRecord,
+    setActiveDivinator,
+    addDivinator,
+    removeDivinator,
+    updateDivinatorRemark,
+    addDivinationRecord,
+    checkTodayDivination,
+    getRecentRecords,
+    removeDivinationRecord,
     // achievements
-    _ach, _updateAch, _checkAchievements,
+    _ach,
+    _updateAch,
+    _checkAchievements,
     // checkin
     doCheckin,
     // settings
-    setFontSize, setReducedMotion, setSoundEnabled, setHapticsEnabled, setShowGuide,
-    setTheme, setFont, setMode, setI18n,
+    setFontSize,
+    setReducedMotion,
+    setSoundEnabled,
+    setHapticsEnabled,
+    setShowGuide,
+    setTheme,
+    setFont,
+    setMode,
+    setI18n,
     resetAll,
   }
 })

@@ -1,5 +1,8 @@
 <template>
-  <view class="home" :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']">
+  <view
+    class="home"
+    :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
+  >
     <!-- 背景 -->
     <view class="taiji-bg">
       <TaijiBg />
@@ -31,7 +34,12 @@
       <view class="divider-liu">
         <text>· 玄 枢 寄 语 ·</text>
       </view>
-      <text class="intro-text" :class="{ 'verse-flip': verseFlip }" :key="verseIdx" @click="nextVerse">
+      <text
+        :key="verseIdx"
+        class="intro-text"
+        :class="{ 'verse-flip': verseFlip }"
+        @click="nextVerse"
+      >
         「{{ currentVerse.text }}」
       </text>
       <text class="intro-from">— {{ currentVerse.from }}</text>
@@ -49,13 +57,19 @@
           :key="cat.key"
           class="entry-card card-hoverable lift"
           :style="{
-            background: 'linear-gradient(135deg, ' + cat.accent + '25 0%, ' + cat.accent + '08 100%)',
+            background:
+              'linear-gradient(135deg, ' + cat.accent + '25 0%, ' + cat.accent + '08 100%)',
             borderColor: cat.accent + '40',
-            animationDelay: (i * 0.08) + 's',
+            animationDelay: i * 0.08 + 's',
           }"
           @click="goCategory(cat.key)"
         >
-          <view class="entry-glyph" :style="{ color: cat.accent, textShadow: '0 0 16rpx ' + cat.accent }">{{ cat.glyph }}</view>
+          <view
+            class="entry-glyph"
+            :style="{ color: cat.accent, textShadow: '0 0 16rpx ' + cat.accent }"
+          >
+            {{ cat.glyph }}
+          </view>
           <view class="entry-body">
             <text class="entry-name" :style="{ color: cat.accent }">{{ cat.name }}</text>
             <text class="entry-sub">{{ cat.subtitle }}</text>
@@ -94,7 +108,7 @@ const readyCount = READY_COUNT
 const plannedCount = TOTAL_TOOLS - READY_COUNT
 
 function getCount(key: CategoryKey) {
-  return TOOLS.filter(t => t.category === key).length
+  return TOOLS.filter((t) => t.category === key).length
 }
 
 function goCategory(key: CategoryKey) {
@@ -136,19 +150,46 @@ onMounted(() => {
   } catch (e) {}
   // GSAP 入场
   try {
-    gsap.fromTo('.brand-seal', { scale: 0, rotation: -180 }, { scale: 1, rotation: 0, duration: 1.0, ease: 'elastic.out(1, 0.6)' })
-    gsap.fromTo('.brand-title', { y: -20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, delay: 0.3, ease: 'power2.out' })
-    gsap.fromTo('.brand-en', { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, delay: 0.4, ease: 'power2.out' })
-    gsap.fromTo('.brand-sub', { y: -10, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, delay: 0.5, ease: 'power2.out' })
-    gsap.fromTo('.time-block', { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.6, delay: 0.6, ease: 'back.out(1.4)' })
-    gsap.fromTo('.intro', { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, delay: 0.7, ease: 'power2.out' })
-    gsap.fromTo('.entry-card', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, delay: 0.8, ease: 'power2.out' })
+    gsap.fromTo(
+      '.brand-seal',
+      { scale: 0, rotation: -180 },
+      { scale: 1, rotation: 0, duration: 1.0, ease: 'elastic.out(1, 0.6)' },
+    )
+    gsap.fromTo(
+      '.brand-title',
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 0.3, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.brand-en',
+      { y: -10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 0.4, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.brand-sub',
+      { y: -10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 0.5, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.time-block',
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.6, delay: 0.6, ease: 'back.out(1.4)' },
+    )
+    gsap.fromTo(
+      '.intro',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, delay: 0.7, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.entry-card',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, delay: 0.8, ease: 'power2.out' },
+    )
   } catch (e) {}
 })
 </script>
 
 <style scoped>
-
 .home {
   position: relative;
   min-height: 100vh;
@@ -180,7 +221,7 @@ onMounted(() => {
   width: 76rpx;
   height: 76rpx;
   border-radius: 16rpx;
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8B1F1A 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -282,7 +323,8 @@ onMounted(() => {
   width: 100%;
 }
 
-.divider-liu::before, .divider-liu::after {
+.divider-liu::before,
+.divider-liu::after {
   content: '';
   flex: 1;
   height: 1rpx;
@@ -315,9 +357,18 @@ onMounted(() => {
 }
 
 @keyframes verseFlip {
-  0%   { transform: rotateX(0); opacity: 1; }
-  50%  { transform: rotateX(90deg); opacity: 0; }
-  100% { transform: rotateX(0); opacity: 1; }
+  0% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
 }
 
 .intro-from {
