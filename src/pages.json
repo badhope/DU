@@ -419,14 +419,11 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "玄枢 MISTVERSE",
+    "navigationBarTitleText": "MISTVERSE 玄枢",
     "navigationBarBackgroundColor": "#0A0A12",
     "backgroundColor": "#0A0A12"
   },
   "easycom": {
-    "autoscan": true,
-    "custom": {
-      "^mystic-(.*)": "@/components/mystic/mystic-$1.vue"
-    }
+    "autoscan": true
   }
 }

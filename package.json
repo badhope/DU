@@ -2,7 +2,7 @@
   "private": true,
   "name": "mistverse",
   "version": "1.0.0",
-  "description": "玄枢 MISTVERSE · 风水玄学工具集 - 一站式命理/占卜/古物/健康/修心/生活/AI 49 工具",
+  "description": "MISTVERSE (玄枢) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life, and AI assistance.",
   "keywords": [
     "fengshui",
     "mysticism",

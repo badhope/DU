@@ -28,6 +28,12 @@
 - README 目录结构补全（新增 workflows/codeql、tests、config 文件等）
 - `robots.txt` 移除 `Sitemap:` 引用（纯静态 hash SPA 无独立 sitemap）
 - README 移除不存在的 `public/` 目录说明
+- **README 全量重写**：英文主、中文辅；新增 11 节（项目介绍 / 49 工具分类 / 快速开始 / 技术栈 / 项目结构 / 贡献 / 安全 / 部署 / FAQ / 许可 / 中文简介）
+- **贡献 / 社区文件双语化**：`CONTRIBUTING.md` / `CODE_OF_CONDUCT.md` / `.github/SECURITY.md` / `.github/PULL_REQUEST_TEMPLATE.md` / `.github/ISSUE_TEMPLATE/{bug_report,feature_request,config}.yml` 全部英文主、中文辅
+- **仓库自述 / 元数据**：`index.html` title / description / keywords / OG / Twitter / canonical 全部英文主、`<html lang="en">`；`package.json` `description` 改为英文
+- **工具 key 重命名**：`src/config/tools.ts` 中 古易心易 的 `key` 从 `qimen`（与 奇门遁甲 同名易混淆）改为 `guyi`
+- **清理死代码**：`src/pages.json` 删除指向不存在的 `src/components/mystic/` 的 `easycom.custom` 规则；该目录在仓库中不存在，仅在自动扫描外的死规则
+- **删除冗余文件**：根目录 `security_best_practices_report.md`（一次性的内部巡检报告，内容已并入 `SECURITY.md` 与 `CHANGELOG`，无需长期留存）
 
 ## [1.0.1] - 2026-06-08
 

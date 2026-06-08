@@ -64,7 +64,7 @@ export const TOOLS: Tool[] = [
   // ============ 古物 ============
   { key: 'mianxiang',category: 'guwu',   name: '面相分析',  desc: '三停五官 · AI 解读',    glyph: '相', deco: '☰', status: 'ready', path: '/pages/mianxiang/mianxiang', gradient: 'linear-gradient(135deg, #D4AF37 0%, #8B1F1A 100%)', glow: 'radial-gradient(circle, rgba(212,175,55,0.4), transparent)' },
   { key: 'shouxiang',category: 'guwu',   name: '手相分析',  desc: '掌纹丘相 · AI 解码',    glyph: '掌', deco: '☲', status: 'ready', path: '/pages/shouxiang/shouxiang', gradient: 'linear-gradient(135deg, #8B6F47 0%, #5B3A8E 100%)', glow: 'radial-gradient(circle, rgba(139,111,71,0.4), transparent)' },
-  { key: 'qimen',   category: 'guwu',   name: '古易心易',  desc: '古法心易 · 体用之变',   glyph: '易', deco: '☳', status: 'ready', path: '/pages/meihua/meihua', gradient: 'linear-gradient(135deg, #1F4E4A 0%, #5B3A8E 100%)', glow: 'radial-gradient(circle, rgba(31,78,74,0.4), transparent)' },
+  { key: 'guyi',    category: 'guwu',   name: '古易心易',  desc: '古法心易 · 体用之变',   glyph: '易', deco: '☳', status: 'ready', path: '/pages/meihua/meihua', gradient: 'linear-gradient(135deg, #1F4E4A 0%, #5B3A8E 100%)', glow: 'radial-gradient(circle, rgba(31,78,74,0.4), transparent)' },
   { key: 'fenglui', category: 'guwu',   name: '阳宅风水',  desc: '罗盘方位 · 布局之鉴',   glyph: '宅', deco: '☴', status: 'ready', path: '/pages/fenglui/fenglui', gradient: 'linear-gradient(135deg, #5B3A8E 0%, #1F4E4A 100%)', glow: 'radial-gradient(circle, rgba(91,58,142,0.4), transparent)' },
   { key: 'mingji',  category: 'guwu',   name: '命名测字',  desc: '生辰八字 · 姓名之学',   glyph: '名', deco: '☰', status: 'ready', path: '/pages/mingji/mingji', gradient: 'linear-gradient(135deg, #D4AF37 0%, #1B3A5C 100%)', glow: 'radial-gradient(circle, rgba(212,175,55,0.4), transparent)' },
 
