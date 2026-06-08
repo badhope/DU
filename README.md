@@ -53,7 +53,7 @@ push 到 `main` → GitHub Actions 自动 type-check + build + 部署到 GitHub 
 mistverse/
 ├── .github/
 │   ├── workflows/deploy.yml    # type-check + build + GitHub Pages 部署
-│   ├── dependabot.yml          # 依赖自动升级
+│   ├── workflows/ci.yml        # type-check + build（PR 与 main 均触发）
 │   └── CODEOWNERS              # 审查指派
 ├── src/
 │   ├── components/

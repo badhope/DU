@@ -7,6 +7,9 @@
 
 ## [Unreleased]
 
+### Removed
+- Dependabot 自动升级（依赖与 Actions 升级改为手动）
+
 ## [1.0.0] - 2026-06-08
 
 ### Added
@@ -15,7 +18,6 @@
 - 仪式化扫描动画、AI 辅助师 3 阶段动画
 - GitHub Pages 部署（`actions/deploy-pages`）
 - gitleaks 密钥扫描
-- Dependabot 依赖与 Actions 自动升级
 - 开源协作文件：CONTRIBUTING、CODE_OF_CONDUCT、LICENSE（MIT）
 - 分支保护：所有改动必须走 PR
 
