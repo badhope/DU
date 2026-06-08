@@ -157,7 +157,7 @@ function onPickSurname(e: any) {
   form.surname = SURNAME_LIST[e.detail.value]
 }
 function onPick(k: string, e: any) {
-  ;(form as any)[k] = Number(e.detail.value)
+  (form as any)[k] = Number(e.detail.value)
 }
 function onPickGender(e: any) {
   form.gender = e.detail.value === 0 ? '男' : '女'
