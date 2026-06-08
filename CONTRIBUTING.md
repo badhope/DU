@@ -40,4 +40,6 @@
 
 ## 依赖更新
 
-`pnpm` 依赖与 GitHub Actions 由 Dependabot 维护，每周自动开 PR。手动改 `package.json` 时同步更新 `pnpm-lock.yaml`。
+依赖与 GitHub Actions 升级由维护者手动完成。需要升级时开一个 `deps:` 前缀的 PR，并跑通 CI。
+
+修改 `package.json` 时务必同步更新 `pnpm-lock.yaml`（`pnpm install`）。
