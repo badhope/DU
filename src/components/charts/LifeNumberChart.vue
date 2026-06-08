@@ -201,7 +201,7 @@ const r = 165
 
 // 毕达哥拉斯方阵
 const magicSquare = [4, 9, 2, 3, 5, 7, 8, 1, 6]
-const magicColor = (n: number, i: number) => {
+const magicColor = (n: number, _i: number) => {
   const meta = NUMBER_META[n] || NUMBER_META[1]
   return meta.color
 }

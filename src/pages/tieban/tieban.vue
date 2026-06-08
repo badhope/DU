@@ -180,7 +180,7 @@ import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TieBanChart from '@/components/charts/TieBanChart.vue'
 import { useAppStore } from '@/stores'
 import { calcTieban, type TiebanResult } from '@/utils/tieban'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -188,7 +188,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'tieban', toolName: '铁板神数', category: '占卜' })
-const toolKey = 'tieban' as const
+const _toolKey = 'tieban' as const
 const form = ref({ year: 1990, month: 6, day: 15, hour: 12 })
 const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
 const hourRange = Array.from({ length: 24 }, (_, i) => i + ':00')

@@ -99,7 +99,7 @@
 import { ref } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
-import ShouXiangChart from '@/components/charts/ShouXiangChart.vue'
+import _ShouXiangChart from '@/components/charts/ShouXiangChart.vue'
 import { useAppStore } from '@/stores'
 import { calcShouxiang, type ShouxiangResult } from '@/utils/shouxiang'
 

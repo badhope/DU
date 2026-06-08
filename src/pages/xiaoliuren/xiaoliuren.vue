@@ -166,10 +166,10 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
-import LiuRenChart from '@/components/charts/LiuRenChart.vue'
+import _LiuRenChart from '@/components/charts/LiuRenChart.vue'
 import { useAppStore } from '@/stores'
-import { calcXiaoLiuRen, ALL_LIU_SHEN, type LiuShen } from '@/utils/xiaoliuren'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import { calcXiaoLiuRen, ALL_LIU_SHEN, type LiuShen as _LiuShen } from '@/utils/xiaoliuren'
+import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
@@ -177,7 +177,7 @@ import ResultReveal from '@/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'xiaoliuren', toolName: '小六壬', category: '占卜' })
-const toolKey = 'xiaoliuren' as const
+const _toolKey = 'xiaoliuren' as const
 const form = ref({
   month: new Date().getMonth() + 1,
   day: new Date().getDate(),

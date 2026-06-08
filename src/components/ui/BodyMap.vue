@@ -360,7 +360,7 @@ function pointsToPathDLocal(pts: Point[]): string {
 }
 
 // 暴露 pointsToPathD 给模板
-const pointsToPathDRef = pointsToPathDLocal
+const _pointsToPathDRef = pointsToPathDLocal
 
 function onMeridianClick(m: MeridianPath) {
   if (selectedId.value === m.id) {

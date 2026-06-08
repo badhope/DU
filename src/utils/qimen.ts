@@ -55,7 +55,7 @@ const SANYUAN: Record<string, { dun: '阳遁' | '阴遁'; ju: ThreeYuan }> = {
 }
 
 // 节气顺序（按公历月份）
-const JIEQI_ORDER = [
+const _JIEQI_ORDER = [
   '小寒',
   '大寒',
   '立春',
@@ -253,7 +253,7 @@ const GONG_TO_STAR: Record<number, JiuXing> = {
   9: '天英',
 }
 // 九宫 → 八门（地盘八门位）
-const GONG_TO_MEN: Record<number, BaMen | '中'> = {
+const _GONG_TO_MEN: Record<number, BaMen | '中'> = {
   1: '休门',
   2: '死门',
   3: '伤门',
@@ -268,19 +268,19 @@ const GONG_TO_MEN: Record<number, BaMen | '中'> = {
 // ============ 五行关系（用纳音/河图）============
 // 九星/八门 与宫位五行生克定中/吉/凶（吉凶核心）
 
-function isWood(w: string) {
+function _isWood(w: string) {
   return w === '木'
 }
-function isFire(w: string) {
+function _isFire(w: string) {
   return w === '火'
 }
-function isEarth(w: string) {
+function _isEarth(w: string) {
   return w === '土'
 }
-function isMetal(w: string) {
+function _isMetal(w: string) {
   return w === '金'
 }
-function isWater(w: string) {
+function _isWater(w: string) {
   return w === '水'
 }
 
@@ -341,7 +341,7 @@ function getJieqi(year: number, month: number, day: number): string {
   const target = new Date(year, month - 1, day).getTime()
   let bestName = '冬至'
   let bestDiff = Infinity
-  const prevName = '小寒'
+  const _prevName = '小寒'
   for (let i = 0; i < JIEQI_MONTH_DAY.length; i++) {
     const j = JIEQI_MONTH_DAY[i]
     let jYear = year
@@ -411,13 +411,13 @@ function getShenSeq(dun: '阳遁' | '阴遁'): BaShen[] {
   return ['值符', '九天', '九地', '朱雀', '勾陈', '六合', '太阴', '腾蛇']
 }
 
-function getMenSeq(dun: '阳遁' | '阴遁'): BaMen[] {
+function _getMenSeq(dun: '阳遁' | '阴遁'): BaMen[] {
   // 八门顺序：休 生 伤 杜 景 死 惊 开
   if (dun === '阳遁') return ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门']
   return ['休门', '开门', '惊门', '死门', '景门', '杜门', '伤门', '生门']
 }
 
-function getXingSeq(dun: '阳遁' | '阴遁'): JiuXing[] {
+function _getXingSeq(dun: '阳遁' | '阴遁'): JiuXing[] {
   if (dun === '阳遁')
     return ['天蓬', '天芮', '天冲', '天辅', '天禽', '天心', '天柱', '天任', '天英']
   return ['天英', '天任', '天柱', '天心', '天禽', '天辅', '天冲', '天芮', '天蓬']

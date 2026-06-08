@@ -37,8 +37,8 @@ const hostRef = ref<HTMLElement | null>(null)
 let xTo: ((v: number) => void) | null = null
 let yTo: ((v: number) => void) | null = null
 let leaveTween: gsap.core.Tween | null = null
-let lastX = 0
-let lastY = 0
+let _lastX = 0
+let _lastY = 0
 
 function ensureTweens() {
   if (!hostRef.value) return false
@@ -58,8 +58,8 @@ function onTouch(e: any) {
     leaveTween = null
   }
   const t = e.touches[0]
-  lastX = t.clientX
-  lastY = t.clientY
+  _lastX = t.clientX
+  _lastY = t.clientY
   const rect = hostRef.value.getBoundingClientRect()
   const cx = rect.left + rect.width / 2
   const cy = rect.top + rect.height / 2

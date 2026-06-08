@@ -202,7 +202,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { polar, uid, THEME, levelColor as lColor } from '@/utils/chart-utils'
+import { polar, uid, THEME as _THEME, levelColor as lColor } from '@/utils/chart-utils'
 import type { FengluiResult } from '@/utils/fenglui'
 
 const props = defineProps<{ result: FengluiResult }>()

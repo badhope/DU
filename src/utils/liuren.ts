@@ -12,7 +12,7 @@
 
 import { calcBazi } from './bazi'
 import type { Wuxing } from './wuxing'
-import { SHENG, KE } from './wuxing'
+import { SHENG as _SHENG, KE as _KE } from './wuxing'
 
 // ============ 十二天盘神将 ============
 const TWELVE_GENERALS = [
@@ -120,7 +120,7 @@ const YIN_GUIREN: Record<string, DiZhi> = { 乙: '子', 丁: '亥', 己: '申', 
 
 // 求贵神
 function guirenStart(dayGan: string): { yang: DiZhi; yin: DiZhi } {
-  const yy = TIANGAN[dayGan] || 'yang'
+  const _yy = TIANGAN[dayGan] || 'yang'
   return {
     yang: YANG_GUIREN[dayGan] || '丑',
     yin: YIN_GUIREN[dayGan] || '子',
@@ -193,7 +193,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
     const item = tianPan.find((tp) => tp.zhi === z)
     return item ? item.general : '贵人'
   }
-  const diByZhi = (z: DiZhi): General => {
+  const _diByZhi = (z: DiZhi): General => {
     const item = diPan.find((tp) => tp.zhi === z)
     return item ? item.general : '贵人'
   }

@@ -279,7 +279,7 @@ const fuItems = computed(() => {
   if (!result.value) return []
   const lifetime = result.value.lifetime
   const TYPES: FuKey[] = ['shou', 'fu', 'kang', 'de', 'zhong']
-  return TYPES.map((t, idx) => {
+  return TYPES.map((t, _idx) => {
     const sc = result.value!.scores[t]
     return {
       key: t,

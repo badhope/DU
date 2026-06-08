@@ -160,7 +160,7 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
-import LifeNumberChart from '@/components/charts/LifeNumberChart.vue'
+import _LifeNumberChart from '@/components/charts/LifeNumberChart.vue'
 import { useAppStore } from '@/stores'
 import { fullLifeResult, type LifeNumberResult } from '@/utils/life'
 

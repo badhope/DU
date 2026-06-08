@@ -566,14 +566,14 @@ export function calcZiwei(
   month: number,
   day: number,
   hour: number,
-  gender: '男' | '女' = '男',
+  _gender: '男' | '女' = '男',
   longitude: number = 120,
 ): ZiweiResult {
   // 1) 年干（用 bazi 真算法）
   const bz = calcBazi(year, month, day, hour, longitude)
   const yearGan = bz.year.gan
-  const dayGan = bz.day.gan
-  const hourZhi = bz.hour.zhi
+  const _dayGan = bz.day.gan
+  const _hourZhi = bz.hour.zhi
 
   // 2) 命宫 / 身宫
   const mingGongZhi = calcMingGongZhi(month, hour)
@@ -752,7 +752,7 @@ function _judgeMingGe(stars: MainStar[], wuju: Wuju): string {
   return `${grp[main]}（${wuju}）`
 }
 
-function _calcScores(palaces: ZiweiGong[], yearGan: TianGan): ZiweiResult['scores'] {
+function _calcScores(palaces: ZiweiGong[], _yearGan: TianGan): ZiweiResult['scores'] {
   const getStar = (g: GongKey) => palaces.find((p) => p.gongName === g)?.mainStars[0]
   const scoreStar = (s?: MainStar): number => {
     if (!s) return 60
@@ -772,7 +772,7 @@ function _calcScores(palaces: ZiweiGong[], yearGan: TianGan): ZiweiResult['score
   }
 }
 
-function _yearlyHighlight(gan: TianGan, zhi: DiZhi, yearGan: TianGan): string {
+function _yearlyHighlight(gan: TianGan, zhi: DiZhi, _yearGan: TianGan): string {
   const [huaLu] = SIHUA_TABLE[gan]
   return `${gan}${zhi}年 · 流年${huaLu}化禄主事`
 }

@@ -172,7 +172,7 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import LiuNianChart from '@/components/charts/LiuNianChart.vue'
+import _LiuNianChart from '@/components/charts/LiuNianChart.vue'
 import { calcBazi } from '@/utils/bazi'
 import { calcDayun, dayunStrength, liunians } from '@/utils/bazi-deep'
 import { WUXING_META } from '@/utils/wuxing'

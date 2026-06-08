@@ -290,7 +290,7 @@ export function calcMianxiang(
 function _gongDetail(
   name: string,
   level: '大吉' | '吉' | '平' | '凶' | '大凶',
-  idx: number,
+  _idx: number,
 ): string {
   const levelText =
     level === '大吉'

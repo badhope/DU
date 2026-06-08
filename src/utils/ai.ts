@@ -161,7 +161,7 @@ const KUA: Record<string, string> = {
   未济: '未济 · 亨 · 小狐汔济',
 }
 
-const SEX: Record<string, string> = {
+const _SEX: Record<string, string> = {
   甲: '甲木参天 · 大树之木 · 栋梁之才',
   乙: '乙木花草 · 柔韧之木 · 才艺出众',
   丙: '丙火太阳 · 光明磊落 · 照耀万物',
@@ -174,7 +174,7 @@ const SEX: Record<string, string> = {
   癸: '癸水雨露 · 细腻滋润 · 灵性之水',
 }
 
-const ZHI_DESC: Record<string, string> = {
+const _ZHI_DESC: Record<string, string> = {
   子: '子水 · 智慧灵动 · 喜神秘',
   丑: '丑土 · 勤恳踏实 · 重实务',
   寅: '寅木 · 勇猛精进 · 主开创',
@@ -189,7 +189,7 @@ const ZHI_DESC: Record<string, string> = {
   亥: '亥水 · 智慧深沉 · 主哲学',
 }
 
-const WUXING_DESC: Record<string, string> = {
+const _WUXING_DESC: Record<string, string> = {
   金: '金主义 · 主肺 · 应西方 · 秋季',
   木: '木主仁 · 主肝 · 应东方 · 春季',
   水: '水主智 · 主肾 · 应北方 · 冬季',
@@ -458,7 +458,7 @@ export function aiNameReply(ctx: BuildContext): ChatMessage {
   const prefix = isFollowUp
     ? `承 君 前 问 · 续 起 名 如 下\n\n（已与君论 ${ctx._context?.turnCount || 0} 轮 · 主题「${theme}」）\n\n`
     : ''
-  const name = ''
+  const _name = ''
   // 提取姓氏（首字）
   const surname = q.match(/姓([\u4e00-\u9fa5])/)?.[1] || '王'
   const gender = q.match(/男|公子|少侠/)

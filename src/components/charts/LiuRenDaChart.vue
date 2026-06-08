@@ -25,7 +25,7 @@
         <rect width="100%" height="100%" fill="url(#{{ uid('bg') }})" />
 
         <!-- 外环：12 地支 -->
-        <g v-for="(p, i) in positions" :key="'z-' + p.zhi">
+        <g v-for="(p, _i) in positions" :key="'z-' + p.zhi">
           <circle
             :cx="p.zhiPos.x"
             :cy="p.zhiPos.y"
@@ -61,7 +61,7 @@
         </g>
 
         <!-- 内环：天地盘神将 -->
-        <g v-for="(p, i) in positions" :key="'g-' + p.zhi">
+        <g v-for="(p, _i) in positions" :key="'g-' + p.zhi">
           <!-- 天地盘之间连线 -->
           <line
             :x1="p.tianPos.x"

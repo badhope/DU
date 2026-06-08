@@ -65,7 +65,7 @@ const emit = defineEmits<{
   (e: 'ignore'): void
 }>()
 
-const message = computed(() => {
+const _message = computed(() => {
   if (!props.record) return ''
   return `「${props.record.userName}」今日已测 ${props.record.toolName}，结果：${props.record.brief}`
 })

@@ -97,7 +97,7 @@ import TopBar from '@/components/ui/TopBar.vue'
 import {
   CATEGORIES,
   getToolsByCategory,
-  READY_COUNT,
+  READY_COUNT as _READY_COUNT,
   type Tool,
   type CategoryKey,
 } from '@/config/tools'

@@ -132,7 +132,7 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import MeiHuaChart from '@/components/charts/MeiHuaChart.vue'
+import _MeiHuaChart from '@/components/charts/MeiHuaChart.vue'
 import { useAppStore } from '@/stores'
 import { meihuaDivinate, type MeihuaResult } from '@/utils/meihua'
 import { WUXING_META } from '@/utils/wuxing'

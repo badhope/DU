@@ -206,7 +206,7 @@ import { ref, computed, onMounted } from 'vue'
 import { gsap } from 'gsap'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import { GUA_LIST, type Gua, type Trigram } from '@/utils/gua'
+import { GUA_LIST, type Gua as _Gua, type Trigram as _Trigram } from '@/utils/gua'
 import { jiegua as jieguaFn, YONGSHEN_TOPICS, type JieguaResult } from '@/utils/jiegua'
 
 const title = '解卦'
@@ -237,7 +237,7 @@ onMounted(() => {
   const yaoStr = opt.yao || '1,1,1,1,1,1'
   yaoPattern.value = yaoStr.split(',').map((s) => parseInt(s) || 0)
   try {
-    const sys = uni.getSystemInfoSync()
+    const _sys = uni.getSystemInfoSync()
   } catch (e) {}
   // 入场
   setTimeout(() => {
