@@ -1,0 +1,3 @@
+# 把批量格式化/重构的 commit 从 git blame 中忽略
+# 用法：把要忽略的 commit hash 单独占一行写到这里
+# 例：abcdef0123456789...
