@@ -46,9 +46,10 @@ function goSettings() {
 
 onMounted(() => {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const sys: any = uni.getSystemInfoSync()
     statusBarHeight.value = sys.statusBarHeight ?? 0
-  } catch (e) {
+  } catch (_e) {
     statusBarHeight.value = 44
   }
 })

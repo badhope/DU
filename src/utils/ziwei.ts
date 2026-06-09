@@ -628,6 +628,7 @@ export function calcZiwei(
 
   // 7) 四化
   const [huaLu, huaQuan, huaKe, huaJi] = SIHUA_TABLE[yearGan]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const sihuaMap: Record<MainStar, Array<'禄' | '权' | '科' | '忌'>> = {} as any
   sihuaMap[huaLu] = ['禄']
   sihuaMap[huaQuan] = ['权']

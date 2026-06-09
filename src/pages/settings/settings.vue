@@ -233,6 +233,7 @@ const CATEGORY_COLOR: Record<string, string> = {
   生活: '#8B6F47',
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onSwitch(key: 'reducedMotion' | 'soundEnabled' | 'hapticsEnabled' | 'showGuide', e: any) {
   const v = e.detail.value
   if (key === 'reducedMotion') app.setReducedMotion(v)
@@ -251,6 +252,7 @@ function fmtTime(t: number): string {
   return `${d.getMonth() + 1}/${d.getDate()} ${d.getHours()}:${String(d.getMinutes()).padStart(2, '0')}`
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function openItem(h: any) {
   uni.showModal({
     title: h.toolName + ' · 详情',

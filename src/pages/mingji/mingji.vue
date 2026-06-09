@@ -224,7 +224,7 @@ function analyze() {
           { score: result.value.score, level: result.value.level },
         )
       }
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '分析失败', content: '请检查姓名输入', showCancel: false })
     }

@@ -555,6 +555,7 @@ export function minggong(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi
   return {
     gan: '',
     zhi: DIZHI[mingGongIdx] as DiZhi,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any
 }
 
@@ -568,6 +569,7 @@ export function shengong(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi
   return {
     gan: '',
     zhi: DIZHI[shenGongIdx] as DiZhi,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any
 }
 

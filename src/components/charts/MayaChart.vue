@@ -316,6 +316,7 @@ const currentSealPos = computed(() => sealList.value.find((s) => s.name === prop
 
 // 选中
 const selected = ref({ name: props.result.seal, ...MAYA_SEAL_META[props.result.seal] })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const onSeal = (s: any) => {
   selected.value = { name: s.name, ...s }
 }

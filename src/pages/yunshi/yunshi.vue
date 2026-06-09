@@ -147,15 +147,19 @@ const app = useAppStore()
 const SX_LIST = YUNSHI_SX
 const WX_NAME: Record<string, string> = { mu: '木', huo: '火', tu: '土', jin: '金', shui: '水' }
 function lkColor(wx: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const m: any = WUXING_META
   return m[wx]?.color || '#D4AF37'
 }
 const form = reactive({ shengxiao: '龙', year: 1990, month: 6, day: 15, hour: 12 })
 const sxIdx = computed(() => SX_LIST.indexOf(form.shengxiao))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSX(e: any) {
   form.shengxiao = SX_LIST[e.detail.value]
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form as any)[k] = Number(e.detail.value)
 }
 
@@ -194,7 +198,7 @@ async function calculate() {
       },
       brief: `${result.value.shengxiao} · ${result.value.todayGanzhi}日 · ${result.value.level} ${result.value.scores.total}分`,
     })
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '运势推算失败', content: '请检查输入', showCancel: false })
   } finally {
     loading.value = false

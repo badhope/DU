@@ -194,6 +194,7 @@ const curYear = new Date().getFullYear()
 const monthRange = Array.from({ length: 12 }, (_, i) => `${i + 1} 月`)
 const hourRange = Array.from({ length: 24 }, (_, i) => `${i}:00`)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(field: 'year' | 'month' | 'day' | 'hour', e: any) {
   let v = Number(e.detail.value)
   if (field === 'month') v += 1
@@ -203,8 +204,10 @@ function onPick(field: 'year' | 'month' | 'day' | 'hour', e: any) {
 const dayun = computed(() =>
   bazi.value
     ? calcDayun(bazi.value, form.value.gender, form.value.year, form.value.month, form.value.day)
-    : (null as any),
+    : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (null as any),
 )
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const strength = computed(() => (bazi.value ? dayunStrength(bazi.value) : (null as any)))
 const liunian = computed(() =>
   bazi.value && dayun.value ? liunians(bazi.value, dayun.value.qiyunYear, 12) : [],
@@ -229,6 +232,7 @@ const levelNum = computed(() => {
 
 const xiNames = computed(() => {
   if (!strength.value) return ''
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (strength.value as any).xi
     .map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name)
     .join(' ')
@@ -236,6 +240,7 @@ const xiNames = computed(() => {
 
 const jiNames = computed(() => {
   if (!strength.value) return ''
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (strength.value as any).ji
     .map((w: string) => WUXING_META[w as keyof typeof WUXING_META].name)
     .join(' ')
@@ -243,10 +248,12 @@ const jiNames = computed(() => {
 
 const yongName = computed(() => {
   if (!strength.value) return ''
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const y = (strength.value as any).yong
   return WUXING_META[y as keyof typeof WUXING_META]?.name || ''
 })
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function isCurrent(s: any) {
   if (!bazi.value) return false
   const age = curYear - form.value.year
@@ -286,7 +293,7 @@ function calculate() {
         output: { qiyun: dayun.value.qiyunAge, level: strength.value.level },
         brief: `${y}年 · ${form.value.gender} · 起运${dayun.value.qiyunAge}岁 · ${strength.value.level}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '推算失败', content: '请检查输入', showCancel: false })
     } finally {
       loading.value = false

@@ -110,7 +110,9 @@ export interface HistoryItem {
   tool: ToolKey
   toolName: string
   category: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   input: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   output: any
   brief: string
   time: number
@@ -415,7 +417,7 @@ function loadState(): PersistState {
       divinatorProfiles: parsed.divinatorProfiles || {},
       activeDivinatorKey: parsed.activeDivinatorKey || '',
     }
-  } catch (e) {
+  } catch (_e) {
     return JSON.parse(JSON.stringify(DEFAULT_STATE))
   }
 }
@@ -424,7 +426,7 @@ function saveState(s: PersistState) {
   if (typeof window === 'undefined') return
   try {
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(s))
-  } catch (e) {}
+  } catch (_e) {}
 }
 
 export const useAppStore = defineStore('app', () => {

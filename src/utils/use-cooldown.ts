@@ -87,7 +87,7 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
   })
 
   /** 用户列表（来自 store） */
-  const profiles = computed(() => app.divinatorProfiles || [])
+  const profiles = computed(() => app.divinatorProfiles || {})
   const activeUser = computed(() => app.activeDivinator || null)
 
   const guard = (): boolean => {
@@ -160,6 +160,7 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
       try {
         uni.reLaunch({ url: '/pages/index/index' })
       } catch (e) {
+        // eslint-disable-next-line no-console
         if (typeof console !== 'undefined') console.warn('[use-cooldown] reLaunch 失败', e)
       }
     }

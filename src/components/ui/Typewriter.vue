@@ -34,7 +34,9 @@ const props = withDefaults(
 )
 
 const shown = ref('')
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let timer: any = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let cursorTimer: any = null
 const cursorOn = ref(true)
 

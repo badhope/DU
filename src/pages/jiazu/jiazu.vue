@@ -153,12 +153,16 @@ const form = reactive({
   gender: '男' as '男' | '女',
 })
 const surnameIdx = computed(() => SURNAME_LIST.indexOf(form.surname))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSurname(e: any) {
   form.surname = SURNAME_LIST[e.detail.value]
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form as any)[k] = Number(e.detail.value)
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickGender(e: any) {
   form.gender = e.detail.value === 0 ? '男' : '女'
 }
@@ -194,7 +198,7 @@ async function calculate() {
       output: { gen: result.value.currentGen, zibei: result.value.currentZibei },
       brief: `${result.value.surname}氏 第${result.value.currentGen}世 · 字辈「${result.value.currentZibei}」`,
     })
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '排辈失败', content: '请检查输入', showCancel: false })
   } finally {
     loading.value = false

@@ -424,6 +424,7 @@ function calcAdvice(
   return adv
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function calcSummary(gua: Gua, biangua: Biangua, yongshen: Yongshen, fortunes: any): string {
   const f = gua.fortune
   const overall = fortunes.career.text

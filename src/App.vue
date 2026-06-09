@@ -32,7 +32,7 @@ function injectSafeAreaVars() {
       const next = prev ? prev + ';' + style : style
       document.documentElement.setAttribute('data-safe', next)
     }
-  } catch (e) {
+  } catch (_e) {
     // 静默：H5/桌面端无此 API 不影响
   }
 }

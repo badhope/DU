@@ -75,9 +75,11 @@ const emit = defineEmits<{
   (e: 'update:newUserRemark', v: string): void
 }>()
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onNameInput(e: any) {
   emit('update:newUserName', e.detail.value)
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onRemarkInput(e: any) {
   emit('update:newUserRemark', e.detail.value)
 }

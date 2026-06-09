@@ -142,7 +142,7 @@ function analyze() {
           brief: `${result.value.level} · ${result.value.scores.zonghe}分 · ${result.value.dominant}`,
         })
       }
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '分析失败', content: '请检查数字格式', showCancel: false })
     }

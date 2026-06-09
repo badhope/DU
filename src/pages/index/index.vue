@@ -147,7 +147,7 @@ onMounted(() => {
   try {
     const sys = uni.getSystemInfoSync()
     statusBarHeight.value = sys.statusBarHeight ?? 0
-  } catch (e) {}
+  } catch (_e) {}
   // GSAP 入场
   try {
     gsap.fromTo(
@@ -185,7 +185,7 @@ onMounted(() => {
       { y: 30, opacity: 0 },
       { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, delay: 0.8, ease: 'power2.out' },
     )
-  } catch (e) {}
+  } catch (_e) {}
 })
 </script>
 

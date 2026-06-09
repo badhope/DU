@@ -208,7 +208,7 @@ async function draw() {
       output: { num: qian.value.num, level: qian.value.level },
       brief: `第${qian.value.num}签 · ${qian.value.level} · ${qian.value.title}`,
     })
-  } catch (e) {
+  } catch (_e) {
     drawing.value = false
     uni.showModal({ title: '抽签失败', content: '请重新抽签', showCancel: false })
   }

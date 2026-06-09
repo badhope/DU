@@ -217,10 +217,14 @@ if (app.profile) {
   else if (p.gender === 'male') form.value.gender = '男'
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else if (k === 'hour') (form.value as any).hour = Number(v.split(':')[0])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 
@@ -288,6 +292,7 @@ const fuItems = computed(() => {
       level: sc.level,
       points: sc.points,
       color: FU_COLOR[t],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       poly: lifetime.map((l) => `${l.age * W},${scoreY((l as any)[t])}`).join(' '),
     }
   })

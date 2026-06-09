@@ -237,7 +237,7 @@ function diagnose() {
     } else {
       uni.showToast({ title: '未匹配到经络，请换症状', icon: 'none' })
     }
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '诊断失败', content: '请重试', showCancel: false })
   }
 }

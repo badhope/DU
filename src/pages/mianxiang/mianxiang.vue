@@ -113,9 +113,12 @@ import { calcMianxiang, type MianxiangResult } from '@/utils/mianxiang'
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15 })
 const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 const result = ref<MianxiangResult | null>(null)
@@ -129,6 +132,7 @@ function analyze() {
   loading.value = true
   setTimeout(() => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       result.value = calcMianxiang(y, (form.value as any).gender || '')
       loading.value = false
       app.addHistory({
@@ -139,7 +143,7 @@ function analyze() {
         output: { score: result.value.totalScore, level: result.value.level },
         brief: `${result.value.level} · ${result.value.totalScore}分`,
       })
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '分析失败', content: '请检查输入', showCancel: false })
     }

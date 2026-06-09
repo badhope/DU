@@ -153,7 +153,9 @@ const form = ref({ n1: 1, n2: 1, n3: 1 })
 const result = ref<ZhugeQian | null>(null)
 const loading = ref(false)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form.value as any)[k] = Number(e.detail.value)
 }
 

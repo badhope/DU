@@ -170,9 +170,12 @@ const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
 const result = ref<LifeNumberResult | null>(null)
 const loading = ref(false)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 
@@ -206,7 +209,7 @@ function calculate() {
         output: { lifePath: result.value.number.lifePath, name: result.value.primary.name },
         brief: `生命数 ${result.value.number.lifePath} · ${result.value.primary.name}`,
       })
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '推算失败', content: '请检查日期输入', showCancel: false })
     }
@@ -216,10 +219,15 @@ function calculate() {
 const scoreList = computed(() =>
   result.value
     ? [
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { name: '事业', val: (result.value as any).scores?.career ?? 60, color: '#D4AF37' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { name: '财运', val: (result.value as any).scores?.wealth ?? 60, color: '#C8302A' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { name: '婚姻', val: (result.value as any).scores?.relationship ?? 60, color: '#5B3A8E' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { name: '健康', val: (result.value as any).scores?.health ?? 60, color: '#4FAE6F' },
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         { name: '人际', val: (result.value as any).scores?.social ?? 60, color: '#1B3A5C' },
       ]
     : [],

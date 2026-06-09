@@ -106,9 +106,12 @@ import { calcShouxiang, type ShouxiangResult } from '@/utils/shouxiang'
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15 })
 const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 const result = ref<ShouxiangResult | null>(null)
@@ -142,7 +145,7 @@ function analyze() {
         output: { score: result.value.totalScore, best: result.value.bestArea },
         brief: `${result.value.level} · ${result.value.totalScore}分 · 最佳${result.value.bestArea}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '分析失败', content: '请检查日期输入', showCancel: false })
     } finally {
       loading.value = false

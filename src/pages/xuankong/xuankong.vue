@@ -176,7 +176,9 @@ const form = ref({ year: new Date().getFullYear() })
 const result = ref<XuanKongResult | null>(null)
 const loading = ref(false)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form.value as any)[k] = Number(e.detail.value)
 }
 

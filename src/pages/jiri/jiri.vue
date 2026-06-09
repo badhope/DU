@@ -124,7 +124,7 @@ async function calculate() {
       output: { bestCount: result.value.bestDays.length, top1: result.value.bestDays[0]?.day.date },
       brief: `${result.value.event} · 最佳 ${result.value.bestDays[0]?.day.date} (${result.value.bestDays[0]?.score}分)`,
     })
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '择日失败', content: '请重试', showCancel: false })
   } finally {
     loading.value = false

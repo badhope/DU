@@ -323,9 +323,18 @@ export function analyzeMingji(
   if (year && month && day !== undefined && hour !== undefined) {
     const bazi = calcBazi(year, month, day, hour)
     const counts: Record<Wuxing, number> = { mu: 0, huo: 0, tu: 0, jin: 0, shui: 0 }
-    bazi.year && (counts[TIANGAN_WUXING[bazi.year.gan]]++, counts[DIZHI_WUXING[bazi.year.zhi]]++)
-    bazi.month && (counts[TIANGAN_WUXING[bazi.month.gan]]++, counts[DIZHI_WUXING[bazi.month.zhi]]++)
-    bazi.day && (counts[TIANGAN_WUXING[bazi.day.gan]]++, counts[DIZHI_WUXING[bazi.day.zhi]]++)
+    if (bazi.year) {
+      counts[TIANGAN_WUXING[bazi.year.gan]]++
+      counts[DIZHI_WUXING[bazi.year.zhi]]++
+    }
+    if (bazi.month) {
+      counts[TIANGAN_WUXING[bazi.month.gan]]++
+      counts[DIZHI_WUXING[bazi.month.zhi]]++
+    }
+    if (bazi.day) {
+      counts[TIANGAN_WUXING[bazi.day.gan]]++
+      counts[DIZHI_WUXING[bazi.day.zhi]]++
+    }
     // 简化为取最少
     const sorted = (Object.entries(counts) as [Wuxing, number][]).sort((a, b) => a[1] - b[1])
     xiYong = sorted[0]?.[0] || 'mu'
