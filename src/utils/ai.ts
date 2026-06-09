@@ -830,15 +830,6 @@ function fallbackMsg(master: MasterKey): ChatMessage {
   }
 }
 
-const ALL_MASTERS: MasterKey[] = [
-  'ai-gua',
-  'ai-ming',
-  'ai-feng',
-  'ai-name',
-  'ai-jiankang',
-  'ai-xiuxin',
-]
-
 /** 上下文摘要类型（内部用） */
 interface ContextSummary {
   themes: string[]
