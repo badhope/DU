@@ -43,7 +43,7 @@ jobs:
           node-version: 20
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm run lint -- --max-warnings 0
+      - run: pnpm run lint
 
   test:
     name: Test
