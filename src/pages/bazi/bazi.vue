@@ -417,9 +417,9 @@ function calculate() {
               },
             )
           }
-        } catch (e) {}
+        } catch (_e) {}
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({
         title: '排盘失败',
         content: '请检查输入的年月日时是否完整',

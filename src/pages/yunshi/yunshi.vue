@@ -198,7 +198,7 @@ async function calculate() {
       },
       brief: `${result.value.shengxiao} · ${result.value.todayGanzhi}日 · ${result.value.level} ${result.value.scores.total}分`,
     })
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '运势推算失败', content: '请检查输入', showCancel: false })
   } finally {
     loading.value = false

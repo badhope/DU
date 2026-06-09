@@ -454,7 +454,7 @@ function calculate() {
         output: result.value,
         brief: `${form.value.man.name}×${form.value.woman.name} · ${result.value.score.level} · ${result.value.score.total}分`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '合婚失败', content: '请检查生辰是否完整', showCancel: false })
     } finally {
       loading.value = false

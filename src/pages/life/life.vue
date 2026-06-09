@@ -209,7 +209,7 @@ function calculate() {
         output: { lifePath: result.value.number.lifePath, name: result.value.primary.name },
         brief: `生命数 ${result.value.number.lifePath} · ${result.value.primary.name}`,
       })
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '推算失败', content: '请检查日期输入', showCancel: false })
     }

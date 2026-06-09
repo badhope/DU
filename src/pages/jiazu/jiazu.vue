@@ -198,7 +198,7 @@ async function calculate() {
       output: { gen: result.value.currentGen, zibei: result.value.currentZibei },
       brief: `${result.value.surname}氏 第${result.value.currentGen}世 · 字辈「${result.value.currentZibei}」`,
     })
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '排辈失败', content: '请检查输入', showCancel: false })
   } finally {
     loading.value = false

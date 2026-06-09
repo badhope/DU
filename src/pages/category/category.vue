@@ -108,7 +108,7 @@ const statusBarHeight = ref(44)
 try {
   const sys = uni.getSystemInfoSync()
   statusBarHeight.value = sys.statusBarHeight ?? 0
-} catch (e) {}
+} catch (_e) {}
 
 const CATEGORY_DESC: Record<CategoryKey, string> = {
   mingli:

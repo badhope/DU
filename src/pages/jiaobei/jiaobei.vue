@@ -119,7 +119,7 @@ async function cast() {
       output: { final: result.value.final },
       brief: `${result.value.finalResult.meaning} · ${q.slice(0, 12)}`,
     })
-  } catch (e) {
+  } catch (_e) {
     casting.value = false
     uni.showModal({ title: '问筊失败', content: '请重试', showCancel: false })
   }

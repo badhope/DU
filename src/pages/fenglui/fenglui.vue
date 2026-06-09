@@ -173,7 +173,7 @@ function analyze() {
         output: { gua: result.value.lifeMingName, best: result.value.bestDirection },
         brief: `命卦${result.value.lifeMingName} · 生旺${result.value.bestDirection}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '风水分析失败', content: '请检查生年输入', showCancel: false })
     } finally {
       loading.value = false

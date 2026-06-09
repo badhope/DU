@@ -224,7 +224,7 @@ function save() {
   try {
     app.setProfile(p)
     uni.showToast({ title: '档案已保存', icon: 'success' })
-  } catch (e) {
+  } catch (_e) {
     uni.showToast({ title: '保存失败，请重试', icon: 'none' })
   }
 }

@@ -145,7 +145,7 @@ function analyze() {
         output: { score: result.value.totalScore, best: result.value.bestArea },
         brief: `${result.value.level} · ${result.value.totalScore}分 · 最佳${result.value.bestArea}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '分析失败', content: '请检查日期输入', showCancel: false })
     } finally {
       loading.value = false

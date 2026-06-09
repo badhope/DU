@@ -223,7 +223,7 @@ function calculate() {
         { ...form.value },
         { mingGe: r.mingGe, wuju: r.wuju, mingGong: r.mingGong.zhi },
       )
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '紫微排盘失败', content: '请检查生辰', showCancel: false })
     } finally {
       loading.value = false

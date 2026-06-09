@@ -233,7 +233,7 @@ function calculate() {
         { ...form.value },
         { shen: result.value.shen.name, score: result.value.shen.totalScore },
       )
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '起课失败', content: '请检查日期输入', showCancel: false })
     }

@@ -271,7 +271,7 @@ function drawOne() {
         })
       }, 800)
     }
-  } catch (e) {
+  } catch (_e) {
     uni.showModal({ title: '抽牌失败', content: '请重试', showCancel: false })
   }
 }

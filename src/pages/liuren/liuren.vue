@@ -282,7 +282,7 @@ function calculate() {
         { ...form.value },
         { keti: result.value.keti, judge: result.value.judge, sanChuan: result.value.sanChuan },
       )
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '排盘失败', content: '请检查日期输入', showCancel: false })
     }

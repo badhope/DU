@@ -133,7 +133,7 @@ function cast() {
           { yao },
           { id: gua.value.id, name: gua.value.name },
         )
-      } catch (e) {
+      } catch (_e) {
         casting.value = false
         uni.showModal({ title: '起卦失败', content: '请重试', showCancel: false })
       }
@@ -154,7 +154,7 @@ function cast() {
               { y: 30, opacity: 0 },
               { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' },
             )
-        } catch (e) {}
+        } catch (_e) {}
       })
     }
   }

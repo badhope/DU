@@ -185,7 +185,7 @@ async function calculate() {
       output: { hex: result.value.hexName },
       brief: `${result.value.hexName} · ${result.value.interpretation}`,
     })
-  } catch (e) {
+  } catch (_e) {
     loading.value = false
     uni.showModal({ title: '起卦失败', content: '请检查日期', showCancel: false })
   }

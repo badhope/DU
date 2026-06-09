@@ -239,7 +239,7 @@ onMounted(() => {
   yaoPattern.value = yaoStr.split(',').map((s) => parseInt(s) || 0)
   try {
     const _sys = uni.getSystemInfoSync()
-  } catch (e) {}
+  } catch (_e) {}
   // 入场
   setTimeout(() => {
     try {
@@ -248,7 +248,7 @@ onMounted(() => {
         { y: 20, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.6, ease: 'power2.out' },
       )
-    } catch (e) {}
+    } catch (_e) {}
   }, 200)
 })
 
@@ -274,7 +274,7 @@ function doInterpret() {
         { y: 16, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.5, stagger: 0.08, ease: 'power2.out', delay: 0.2 },
       )
-    } catch (e) {}
+    } catch (_e) {}
   }, 100)
 }
 

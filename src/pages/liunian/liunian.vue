@@ -293,7 +293,7 @@ function calculate() {
         output: { qiyun: dayun.value.qiyunAge, level: strength.value.level },
         brief: `${y}年 · ${form.value.gender} · 起运${dayun.value.qiyunAge}岁 · ${strength.value.level}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '推算失败', content: '请检查输入', showCancel: false })
     } finally {
       loading.value = false

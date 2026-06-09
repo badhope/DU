@@ -235,7 +235,7 @@ function calculate() {
         output: { muShu: result.value.muShu, benGua: result.value.benGua.name },
         brief: `母数${result.value.muShu} · ${result.value.benGua.name}`,
       })
-    } catch (e) {
+    } catch (_e) {
       uni.showModal({ title: '推算失败', content: '请检查日期输入', showCancel: false })
     } finally {
       loading.value = false

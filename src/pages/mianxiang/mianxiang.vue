@@ -143,7 +143,7 @@ function analyze() {
         output: { score: result.value.totalScore, level: result.value.level },
         brief: `${result.value.level} · ${result.value.totalScore}分`,
       })
-    } catch (e) {
+    } catch (_e) {
       loading.value = false
       uni.showModal({ title: '分析失败', content: '请检查输入', showCancel: false })
     }
