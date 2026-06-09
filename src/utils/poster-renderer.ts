@@ -110,13 +110,16 @@ export const TEMPLATES: PosterMeta[] = [
  * 兼容 H5 / 微信小程序：使用 2d context
  */
 export function renderPoster(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   canvas: any,
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   config: PosterConfig,
   width = 750,
   height = 1334,
 ): void {
   if (!ctx) {
+    // eslint-disable-next-line no-console
     console.error('[poster] Canvas 2D context not available')
     return
   }
@@ -222,6 +225,7 @@ export function renderPoster(
   drawFooter(ctx, width, height, config.footer, tpl.accent, tpl.text)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawCornerClouds(ctx: any, w: number, h: number, color: string) {
   ctx.strokeStyle = color
   ctx.lineWidth = 2
@@ -237,6 +241,7 @@ function drawCornerClouds(ctx: any, w: number, h: number, color: string) {
   ctx.globalAlpha = 1
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawCloud(ctx: any, cx: number, cy: number, dx: number, dy: number) {
   ctx.beginPath()
   ctx.moveTo(cx, cy)
@@ -247,6 +252,7 @@ function drawCloud(ctx: any, cx: number, cy: number, dx: number, dy: number) {
 }
 
 function drawBadge(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   cx: number,
   cy: number,
@@ -288,6 +294,7 @@ function drawBadge(
   ctx.fillText(text, cx, cy)
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawTaiji(ctx: any, cx: number, cy: number, r: number, accent: string, dark: string) {
   // 中心大太极
   ctx.save()
@@ -333,6 +340,7 @@ function drawTaiji(ctx: any, cx: number, cy: number, r: number, accent: string, 
   ctx.restore()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function drawDivider(ctx: any, cx: number, cy: number, w: number, color: string) {
   ctx.strokeStyle = color
   ctx.lineWidth = 1
@@ -360,6 +368,7 @@ function drawDivider(ctx: any, cx: number, cy: number, w: number, color: string)
 }
 
 function drawFooter(
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   w: number,
   h: number,
@@ -396,6 +405,7 @@ function drawFooter(
  */
 export function buildPosterFromHistory(
   type: 'gua' | 'bazi' | 'tarot' | 'ai' | 'liuyao' | 'custom',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   history?: { input?: any; output?: any; brief?: string } | null,
   profile?: { nickname?: string } | null,
 ): PosterConfig {

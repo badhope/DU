@@ -110,7 +110,9 @@ export interface HistoryItem {
   tool: ToolKey
   toolName: string
   category: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   input: any
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   output: any
   brief: string
   time: number

@@ -147,15 +147,19 @@ const app = useAppStore()
 const SX_LIST = YUNSHI_SX
 const WX_NAME: Record<string, string> = { mu: '木', huo: '火', tu: '土', jin: '金', shui: '水' }
 function lkColor(wx: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const m: any = WUXING_META
   return m[wx]?.color || '#D4AF37'
 }
 const form = reactive({ shengxiao: '龙', year: 1990, month: 6, day: 15, hour: 12 })
 const sxIdx = computed(() => SX_LIST.indexOf(form.shengxiao))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSX(e: any) {
   form.shengxiao = SX_LIST[e.detail.value]
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form as any)[k] = Number(e.detail.value)
 }
 

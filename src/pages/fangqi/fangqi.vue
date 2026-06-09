@@ -172,7 +172,9 @@ const doneMessages = [
   '身心轻安 · 自在归真',
 ]
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let mainTimer: any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let waveTimer: any
 
 function formatTime(sec: number) {

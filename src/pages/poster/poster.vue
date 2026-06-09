@@ -300,6 +300,7 @@ function drawCanvas() {
             useCanvas.value = false
           },
           fail: (err) => {
+            // eslint-disable-next-line no-console
             console.warn('[poster] canvasToTempFilePath fail', err)
           },
         })
@@ -307,11 +308,14 @@ function drawCanvas() {
     }
     // #endif
   } catch (e) {
+    // eslint-disable-next-line no-console
     console.error('[poster] drawCanvas error', e)
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onCanvasError(e: any) {
+  // eslint-disable-next-line no-console
   console.error('[poster] canvas error', e)
 }
 

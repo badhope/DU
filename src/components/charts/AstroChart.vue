@@ -418,6 +418,7 @@ const selectedP = computed(() => {
   if (selectedPIdx.value < 0) return null
   return planetMarkers.value[selectedPIdx.value]
 })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const selectPlanet = (p: any) => {
   const idx = planetMarkers.value.findIndex((x) => x.name === p.name)
   selectedPIdx.value = idx

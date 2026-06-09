@@ -38,11 +38,13 @@ const props = withDefaults(
   },
 )
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const emit = defineEmits<{ (e: 'tap', evt: any): void }>()
 const ripples = ref<Array<{ id: number; x: number; y: number; size: number }>>([])
 let lastTap = 0
 let rippleId = 0
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onTap(e: any) {
   if (props.disabled) return
   const now = Date.now()

@@ -286,6 +286,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
       辛: 'jin',
       壬: 'shui',
       癸: 'shui',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any
     return w[dayGan] as Wuxing
   })()

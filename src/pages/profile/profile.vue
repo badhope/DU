@@ -159,14 +159,19 @@ const genderList = [
   { value: 'other', label: '其他' },
 ]
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else if (k === 'hour') (form.value as any).hour = Number(v.split(':')[0])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 
 function save() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const fv: any = form.value
   // 校验
   if (fv.nickname && fv.nickname.length > 20) {

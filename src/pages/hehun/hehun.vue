@@ -389,6 +389,7 @@ const loading = ref(false)
 const monthRange = Array.from({ length: 12 }, (_, i) => `${i + 1} 月`)
 const hourRange = Array.from({ length: 24 }, (_, i) => `${i}:00`)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(side: 'man' | 'woman', field: 'year' | 'month' | 'day' | 'hour', e: any) {
   let v = Number(e.detail.value)
   if (field === 'month') v += 1

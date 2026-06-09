@@ -232,6 +232,7 @@ const jiegua = ref<JieguaResult | null>(null)
 onMounted(() => {
   const pages = getCurrentPages()
   const cur = pages[pages.length - 1]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const opt = ((cur as any)?.options || {}) as Record<string, string>
   guaId.value = parseInt(opt.id) || 1
   const yaoStr = opt.yao || '1,1,1,1,1,1'
@@ -254,10 +255,12 @@ onMounted(() => {
 const gua = computed(() => GUA_LIST.find((g) => g.id === guaId.value) || GUA_LIST[0])
 
 function setTopic(k: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   topic.value = k as any
 }
 
 function doInterpret() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   jiegua.value = jieguaFn(gua.value, yaoPattern.value, topic.value as any)
   setTimeout(() => {
     try {

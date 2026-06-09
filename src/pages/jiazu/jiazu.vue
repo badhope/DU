@@ -153,12 +153,16 @@ const form = reactive({
   gender: '男' as '男' | '女',
 })
 const surnameIdx = computed(() => SURNAME_LIST.indexOf(form.surname))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSurname(e: any) {
   form.surname = SURNAME_LIST[e.detail.value]
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form as any)[k] = Number(e.detail.value)
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickGender(e: any) {
   form.gender = e.detail.value === 0 ? '男' : '女'
 }

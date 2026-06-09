@@ -195,10 +195,14 @@ const hourRange = Array.from({ length: 24 }, (_, i) => i + ':00')
 const result = ref<TiebanResult | null>(null)
 const loading = ref(false)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
   const v = e.detail.value
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   if (k === 'month') (form.value as any).month = Number(v) + 1
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else if (k === 'hour') (form.value as any).hour = Number(v.split(':')[0])
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   else (form.value as any)[k] = Number(v)
 }
 

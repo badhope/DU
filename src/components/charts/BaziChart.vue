@@ -228,6 +228,7 @@ const pillars = computed(() => [
     naYin: nayin(bazi.value.year.gan, bazi.value.year.zhi).name,
     canggan: DIZHI_CANGGAN[bazi.value.year.zhi].map((g) => ({
       gan: g as TianGan,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       level: '' as any,
     })),
   },
@@ -238,6 +239,7 @@ const pillars = computed(() => [
     naYin: nayin(bazi.value.month.gan, bazi.value.month.zhi).name,
     canggan: DIZHI_CANGGAN[bazi.value.month.zhi].map((g) => ({
       gan: g as TianGan,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       level: '' as any,
     })),
   },
@@ -248,6 +250,7 @@ const pillars = computed(() => [
     naYin: nayin(bazi.value.day.gan, bazi.value.day.zhi).name,
     canggan: DIZHI_CANGGAN[bazi.value.day.zhi].map((g) => ({
       gan: g as TianGan,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       level: '' as any,
     })),
   },
@@ -258,6 +261,7 @@ const pillars = computed(() => [
     naYin: nayin(bazi.value.hour.gan, bazi.value.hour.zhi).name,
     canggan: DIZHI_CANGGAN[bazi.value.hour.zhi].map((g) => ({
       gan: g as TianGan,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       level: '' as any,
     })),
   },

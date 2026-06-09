@@ -124,6 +124,7 @@ const CATEGORY_DESC: Record<CategoryKey, string> = {
 function getCategoryKey(): CategoryKey {
   const pages = getCurrentPages()
   const cur = pages[pages.length - 1]
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const opt = ((cur as any)?.options || {}) as Record<string, string>
   const k = opt.cat as CategoryKey
   return k || 'mingli'

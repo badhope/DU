@@ -81,6 +81,7 @@ const BAGUA = ['☰', '☱', '☲', '☳', '☴', '☵', '☶', '☷']
 const progress = ref(0)
 const stepIdx = ref(0)
 const isShake = ref(false)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let raf: any = null
 let startTime = 0
 

@@ -174,8 +174,11 @@ const doneMessages = [
 ]
 const doneMessage = ref('')
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let mainTimer: any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let breathTimer: any
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let beadTimer: any
 
 function formatTime(sec: number): string {

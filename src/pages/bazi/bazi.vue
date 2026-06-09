@@ -333,6 +333,7 @@ const openedPillar = ref<number | null>(null)
 const monthRange = Array.from({ length: 12 }, (_, i) => `${i + 1} 月`)
 const hourRange = Array.from({ length: 24 }, (_, i) => `${i}:00`)
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(field: 'year' | 'month' | 'day' | 'hour' | 'longitude', e: any) {
   form.value[field] = Number(e.detail.value)
 }
@@ -519,6 +520,7 @@ const taiYuan = computed(() => (bazi.value ? taiyuan(bazi.value) : { gan: '', zh
 const mingGong = computed(() => (bazi.value ? minggong(bazi.value) : { zhi: '' }))
 const shenGong = computed(() => (bazi.value ? shengong(bazi.value) : { zhi: '' }))
 const taiYuanNayin = computed(() =>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   bazi.value ? nayin(taiYuan.value.gan as any, taiYuan.value.zhi as any).name : '',
 )
 

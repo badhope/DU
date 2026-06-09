@@ -144,7 +144,9 @@ import { calcFenglui, BA_ZHAI_GUA, type FengluiResult } from '@/utils/fenglui'
 
 const app = useAppStore()
 const form = ref({ year: 1990, gender: '男' as '男' | '女' })
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ;(form.value as any)[k] = Number(e.detail.value)
 }
 const result = ref<FengluiResult | null>(null)
@@ -178,6 +180,7 @@ function analyze() {
     }
   }, 400)
 }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function positionStyle(i: number): any {
   // 8 个方位按 8 边布局
   const positions = [

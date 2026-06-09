@@ -313,11 +313,13 @@ const lineColor = computed(() => {
 })
 
 const matrixList = computed(() => (selected.value ? relationMatrix(selected.value.key) : []))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const buji = computed(() => (selected.value ? getBuji(selected.value.key) : (null as any)))
 const xgText = computed(() => ({
   strong: selected.value ? xingge(selected.value.key, true) : '',
   weak: selected.value ? xingge(selected.value.key, false) : '',
 }))
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const yangsheng = computed(() => (selected.value ? yangshengFn(selected.value.key) : (null as any)))
 
 function onNodeClick(k: Wuxing) {

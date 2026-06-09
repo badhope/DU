@@ -327,6 +327,7 @@ interface BuildContext {
     birthHour?: number
     gender?: string
     nickname?: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     [key: string]: any
   } | null
   prevMessages?: ChatMessage[]
@@ -812,6 +813,7 @@ export function askMaster(master: MasterKey, ctx: BuildContext): ChatMessage {
         return fallbackMsg(master)
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
     if (typeof console !== 'undefined') console.error('[ai.ts] askMaster 异常', master, e)
     return {
       role: 'master',
