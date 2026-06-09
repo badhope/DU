@@ -124,17 +124,9 @@ export function clamp(n: number, min = 0, max = 100): number {
   return Math.max(min, Math.min(max, n))
 }
 
-/** 软阴影（SVG filter id 唯一） */
+/** SVG 唯一 id */
 let _filterId = 0
-export function newFilterId(): string {
-  return `glow-${++_filterId}`
-}
 export function uid(suffix?: string): string {
   const id = `c${++_filterId}`
   return suffix ? `${id}-${suffix}` : id
-}
-
-/** 三位数取整到 0.5 步长 */
-export function roundHalf(n: number): number {
-  return Math.round(n * 2) / 2
 }

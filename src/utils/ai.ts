@@ -4,7 +4,7 @@ export type MasterKey = 'ai-gua' | 'ai-ming' | 'ai-feng' | 'ai-name' | 'ai-jiank
 
 import { kangxiStrokes } from './kangxi-strokes'
 
-export interface MasterMeta {
+interface MasterMeta {
   key: MasterKey
   name: string // 师名
   glyph: string // 图腾
@@ -339,7 +339,7 @@ function pick<T>(arr: T[]): T {
 }
 
 // AI 解卦师
-export function aiGuaReply(ctx: BuildContext): ChatMessage {
+function aiGuaReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   // 多轮衔接
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
@@ -372,7 +372,7 @@ export function aiGuaReply(ctx: BuildContext): ChatMessage {
 }
 
 // AI 命理师
-export function aiMingReply(ctx: BuildContext): ChatMessage {
+function aiMingReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
@@ -410,7 +410,7 @@ export function aiMingReply(ctx: BuildContext): ChatMessage {
 }
 
 // AI 风水师
-export function aiFengReply(ctx: BuildContext): ChatMessage {
+function aiFengReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
@@ -451,7 +451,7 @@ export function aiFengReply(ctx: BuildContext): ChatMessage {
 }
 
 // AI 起名师
-export function aiNameReply(ctx: BuildContext): ChatMessage {
+function aiNameReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
@@ -671,7 +671,7 @@ function wugeLevel(num: number) {
 }
 
 // AI 健康师
-export function aiJiankangReply(ctx: BuildContext): ChatMessage {
+function aiJiankangReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
@@ -711,7 +711,7 @@ export function aiJiankangReply(ctx: BuildContext): ChatMessage {
 }
 
 // AI 修心师
-export function aiXiuxinReply(ctx: BuildContext): ChatMessage {
+function aiXiuxinReply(ctx: BuildContext): ChatMessage {
   const q = ctx.question
   const isFollowUp = (ctx._context?.turnCount || 0) > 0
   const theme = ctx._context?.themes?.[0] || ''
@@ -830,7 +830,7 @@ function fallbackMsg(master: MasterKey): ChatMessage {
   }
 }
 
-export const ALL_MASTERS: MasterKey[] = [
+const ALL_MASTERS: MasterKey[] = [
   'ai-gua',
   'ai-ming',
   'ai-feng',
@@ -840,7 +840,7 @@ export const ALL_MASTERS: MasterKey[] = [
 ]
 
 /** 上下文摘要类型（内部用） */
-export interface ContextSummary {
+interface ContextSummary {
   themes: string[]
   turnCount: number
   recent: string

@@ -149,19 +149,20 @@
               style="cursor: pointer"
               @click.stop="onAcupointClick(m, p)"
             />
-            <text
-              v-for="(p, i) in m.acupoints"
-              v-if="isSelected(m.id)"
-              :key="`t-${i}`"
-              :x="p.x + 8"
-              :y="p.y - 4"
-              fill="#FFF"
-              font-size="10"
-              font-family="KaiTi, STKaiti, serif"
-              style="user-select: none; pointer-events: none"
-            >
-              {{ p.acupoint }}
-            </text>
+            <template v-if="isSelected(m.id)">
+              <text
+                v-for="(p, i) in m.acupoints"
+                :key="`t-${i}`"
+                :x="p.x + 8"
+                :y="p.y - 4"
+                fill="#FFF"
+                font-size="10"
+                font-family="KaiTi, STKaiti, serif"
+                style="user-select: none; pointer-events: none"
+              >
+                {{ p.acupoint }}
+              </text>
+            </template>
           </g>
         </g>
       </svg>

@@ -712,11 +712,6 @@ export function findTool(key: string): Tool | undefined {
 /**
  * 已实现的工具
  */
-export const READY_TOOLS = TOOLS.filter((t) => t.status === 'ready')
-
-/**
- * 总数
- */
 export const TOTAL_TOOLS = TOOLS.length
-export const READY_COUNT = READY_TOOLS.length
-export const PLANNED_COUNT = TOOLS.length - READY_COUNT
+export const READY_COUNT = TOOLS.filter((t) => t.status === 'ready').length
+export const PLANNED_COUNT = TOTAL_TOOLS - READY_COUNT
