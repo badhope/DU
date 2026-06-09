@@ -7,7 +7,6 @@ authors:
   - family-names: badhope
     given-names: badhope
     alias: badhope
-    orcid: https://orcid.org/0000-0000-0000-0000
 identifiers:
   - type: url
     value: https://github.com/badhope/mistverse
@@ -16,6 +15,15 @@ type: software
 url: https://github.com/badhope/mistverse
 repository-code: https://github.com/badhope/mistverse
 keywords:
-  - open-source, software
+  - typescript
+  - vite
+  - bazi
+  - chinese-culture
+  - divination
+  - fengshui
+  - github-pages
+  - i-ching
+  - mysticism
+  - qimen-dunjia
 abstract: >-
-  MISTVERSE (玄枢) — a client-side, privacy-first Chinese metaphysics toolkit. 49 tools across Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei, Tarot, Feng Shui, wellness, cultivation, and 6 in-browser AI masters. Built with uni-app x + Vue 3 + TypeScript.
+  玄枢 (MISTVERSE) — my browser-only Chinese metaphysics toolkit. Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei, Tarot, feng shui, 49 small tools. Vue 3 + TypeScript, no backend, no account, no tracking.
