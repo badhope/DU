@@ -42,7 +42,7 @@ export interface PosterConfig {
   themeColor?: string
 }
 
-export interface PosterMeta {
+interface PosterMeta {
   key: PosterTemplate
   name: string
   desc: string
