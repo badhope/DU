@@ -1,13 +1,47 @@
 # 玄枢 MISTVERSE
 
-> **MISTVERSE (玄枢) — A client-side Chinese metaphysics toolkit.**
-> 49 tools across **fate, divination, ancient arts, wellness, cultivation, life, and AI assistance** — all running entirely in your browser, no account, no tracking, no server.
+> 我的浏览器端中文玄学工具集。**没有后端、没有账号、没有埋点**,
+> 全部在浏览器里算,数据放在 `localStorage`。49 个小工具,Vue 3 + TypeScript。
 
-[![Live Demo](https://img.shields.io/badge/demo-badhope.github.io-1B3A5C)](https://badhope.github.io/mistverse/)
-[![License: MIT](https://img.shields.io/badge/license-MIT-D4AF37)](LICENSE)
-[![Stack: uni-app x · Vue 3 · TS](https://img.shields.io/badge/stack-uni--app%20x%20%C2%B7%20Vue%203%20%C2%B7%20TS-C8302A)](#tech-stack)
-[![Node 20+](https://img.shields.io/badge/node-%E2%89%A520-4FAE6F)](https://nodejs.org)
-[![pnpm 9+](https://img.shields.io/badge/pnpm-%E2%89%A59-5B3A8E)](https://pnpm.io)
+英文名 MISTVERSE (玄枢, 意为 "mystic pivot")。名字是我朋友起的,
+他起名比我好。
+
+---
+
+## 这是什么,一句话
+
+49 个工具,一打小算法,一个静态站。打开页面,用,关掉页面。
+下次再打开,数据还在 (你机器上),后台不知道你存在过。
+
+包含:八字、奇门遁甲、大小六壬、紫微斗数、铁板神数、诸葛神数、
+玄空飞星、塔罗、易经、二十四节气、风水、面相、冥想计时,
+外加 6 个基于规则推理的"AI 师父"。
+
+不是专业意见,只是好奇心的产物。算出来的结果请别用来下注。
+
+## 这不是什么
+
+- 不是后端。不接 API,不需要 key,不会打点。
+- 不是商业产品。MIT 协议,代码随便用,算错了我也不负责。
+- 不是论文。每个工具后面有一两行注释,说清楚用了什么经典和
+  什么简化;不会比维基百科更严谨。
+
+## 30 秒上手
+
+```bash
+git clone https://github.com/badhope/mistverse.git
+cd mistverse
+pnpm install
+pnpm dev    # http://localhost:5173
+```
+
+生产构建:
+
+```bash
+pnpm build       # 单文件 SPA,丢到任何静态托管
+pnpm test        # 单元测试
+pnpm test:e2e    # Playwright 端到端
+```
 
 ---
 
