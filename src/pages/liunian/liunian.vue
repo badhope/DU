@@ -124,7 +124,7 @@
             :key="i"
             class="dy-item"
             :class="{ current: isCurrent(s) }"
-            :style="{ animationDelay: i * 0.05 + 's' }"
+            :style="{ animationDelay: Number(i) * 0.05 + 's' }"
           >
             <view class="dy-age">
               <text class="dy-start">{{ s.startAge }}</text>

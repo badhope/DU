@@ -1,7 +1,7 @@
 ---
 name: Security report
 about: Report a vulnerability (PRIVATE)
-title: "[security] "
+title: '[security] '
 labels: security
 assignees: badhope
 ---

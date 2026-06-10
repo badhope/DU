@@ -11,12 +11,12 @@ ground rules so your PR can land quickly and cleanly.
 2. **Branch off `main`**: `git switch -c feat/short-description`
 3. **Make focused commits** following
    [Conventional Commits](https://www.conventionalcommits.org/):
-   - `feat: …`        — new feature
-   - `fix: …`         — bug fix
-   - `refactor: …`    — no behaviour change
-   - `docs: …`        — documentation only
+   - `feat: …` — new feature
+   - `fix: …` — bug fix
+   - `refactor: …` — no behaviour change
+   - `docs: …` — documentation only
    - `chore(deps): …` — dependency bumps
-   - `security: …`    — security fix
+   - `security: …` — security fix
 4. **Push your branch**: `git push -u origin feat/short-description`
 5. **Open a Pull Request** against `main`. Fill in the PR template.
 6. **Wait for CI** (gitleaks + CodeQL on every repo that has code).
