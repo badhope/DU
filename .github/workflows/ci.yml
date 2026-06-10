@@ -19,7 +19,7 @@ jobs:
     name: Format check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
@@ -34,7 +34,7 @@ jobs:
     name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
@@ -49,7 +49,7 @@ jobs:
     name: Test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
@@ -64,7 +64,7 @@ jobs:
     name: Dependency audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
@@ -85,7 +85,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [format, lint, test, audit]
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v6.0.3
       - uses: pnpm/action-setup@v6.0.8
         with:
           version: 10
