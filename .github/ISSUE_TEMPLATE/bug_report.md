@@ -1,51 +1,40 @@
 ---
-name: Bug Report · Bug 报告
-about: Report a bug in MISTVERSE · 报告 MISTVERSE 的 Bug
-title: '[Bug] '
+name: Bug report
+about: Something is broken
+title: "[bug] "
 labels: bug
+assignees: badhope
 ---
 
-## Environment · 环境
+## Describe the bug
 
-- Browser / version: · 浏览器 / 版本：
-- OS: · 设备 / 操作系统：
-- URL to reproduce (if any): · 复现 URL（如有）：
+<!-- A clear and concise description of what the bug is. -->
 
----
+## To reproduce
 
-## What happened · 现象
+```bash
+# Minimal reproduction steps
+```
 
-<!-- What actually happened. 实际发生 -->
+## Expected behaviour
 
-## What I expected · 期望
+<!-- What you expected to happen. -->
 
-<!-- What you expected. 期望发生 -->
+## Actual behaviour
 
----
+<!-- What actually happened. Include stack traces, error messages,
+screenshots. -->
 
-## Steps to reproduce · 复现步骤
+## Environment
 
-1.
-2.
-3.
+- OS: <!-- e.g. macOS 14.4 -->
+- Runtime version: <!-- e.g. Node 20.11, Python 3.11 -->
+- Package version: <!-- git rev-parse HEAD, or npm/pip version -->
+- Date observed: <!-- 2026-06-10 -->
 
----
+## Severity
 
-## Severity · 严重程度
-
-- [ ] Blocker — main flow unusable · 主流程不可用
-- [ ] High — major feature broken · 核心功能坏掉
-- [ ] Medium — workaround exists · 有变通办法
-- [ ] Low — cosmetic / minor · 外观 / 小问题
-
----
-
-## Screenshots / logs · 截图 / 日志
-
-<!-- Paste console output or attach a screenshot. 控制台输出或截图。 -->
-
----
-
-## Possible cause · 可能原因 (optional · 可选)
-
-<!-- If you have a hunch about the root cause. 如果你知道大概原因。 -->
+- [ ] Blocker — production is down
+- [ ] High — feature unusable
+- [ ] Medium — workaround exists
+- [ ] Low — cosmetic

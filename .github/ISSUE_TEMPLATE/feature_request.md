@@ -1,50 +1,25 @@
 ---
-name: Feature Request · 功能建议
-about: Propose a new tool, page, or improvement · 提议新工具、新页面或改进
-title: '[Feature] '
+name: Feature request
+about: Suggest an idea
+title: "[feat] "
 labels: enhancement
+assignees: badhope
 ---
 
-## Background · 背景
+## Problem
 
-<!-- Pain point / motivation. 痛点 / 动机 -->
+<!-- What's the underlying problem or gap? -->
 
----
+## Proposed solution
 
-## Proposed solution · 方案
+<!-- Describe the feature you'd like. -->
 
-<!-- What you want built. 你想要的解决方案 -->
+## Alternatives considered
 
----
+<!-- Other ways you thought about solving this. -->
 
-## Alternatives considered · 备选
+## Willingness to contribute
 
-<!-- Other options you weighed. 考虑过的其他方案 -->
-
----
-
-## Priority · 优先级
-
-<!-- High / Medium / Low + reason. 高 / 中 / 低 + 理由 -->
-
----
-
-## Category · 分类
-
-- [ ] Fate (命理)
-- [ ] Divination (占卜)
-- [ ] Ancient Arts (古物)
-- [ ] Wellness (健康)
-- [ ] Cultivation (修心)
-- [ ] Life (生活)
-- [ ] AI Master (AI 师)
-- [ ] Platform / infrastructure · 平台 / 基建
-- [ ] Documentation · 文档
-- [ ] Other · 其他
-
----
-
-## Willing to PR? · 是否愿意提 PR
-
-- [ ] Yes, I'd like to implement this myself · 是的，我想自己实现
-- [ ] No, just suggesting · 不会，仅建议
+- [ ] I would submit a PR for this
+- [ ] I would test a PR for this
+- [ ] I would only discuss / design
