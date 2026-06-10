@@ -1,7 +1,7 @@
 ---
 name: Bug report
 about: Something is broken
-title: "[bug] "
+title: '[bug] '
 labels: bug
 assignees: badhope
 ---
