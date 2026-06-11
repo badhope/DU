@@ -226,8 +226,8 @@ import {
   type AstroResult,
   type AstroPlanet as _AstroPlanet,
   type Zodiac,
-} from '@mingli/logic/astro'
-import { ringSectorPath, polar, uid } from '@guanxiang/logic/chart-utils'
+} from '@modules/mingli/logic/astro'
+import { ringSectorPath, polar, uid } from '@modules/guanxiang/logic/chart-utils'
 
 const props = defineProps<{ result: AstroResult }>()
 

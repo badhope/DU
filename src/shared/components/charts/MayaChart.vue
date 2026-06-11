@@ -217,8 +217,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { MAYA_SEAL_META, type MayaTzolkin, type MayaSeal } from '@zhanbu/logic/maya'
-import { polar, uid } from '@guanxiang/logic/chart-utils'
+import { MAYA_SEAL_META, type MayaTzolkin, type MayaSeal } from '@modules/zhanbu/logic/maya'
+import { polar, uid } from '@modules/guanxiang/logic/chart-utils'
 
 const props = defineProps<{ result: MayaTzolkin }>()
 

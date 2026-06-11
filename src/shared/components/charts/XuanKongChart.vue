@@ -145,8 +145,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { GONG_NAMES_9, GONG_DIR, type GONG_NUM, type XuanKongResult } from '@zhanbu/logic/xuankong'
-import { uid, levelColor } from '@guanxiang/logic/chart-utils'
+import { GONG_NAMES_9, GONG_DIR, type GONG_NUM, type XuanKongResult } from '@modules/zhanbu/logic/xuankong'
+import { uid, levelColor } from '@modules/guanxiang/logic/chart-utils'
 
 const props = defineProps<{ result: XuanKongResult }>()
 

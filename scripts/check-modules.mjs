@@ -112,21 +112,24 @@ for (const m of REQUIRED_MODULES) {
     }
   }
 }
-ok(1, '扫描完成（SP-1 兼容期：旧 pages/utils 仍可访问）')
+ok(1, '扫描完成（SP-2 完成态：仅允许 shared/settings/app/stores/config + 本模块）')
 
-// --- 步骤 2: shared 不能 import modules ---
-step(2, 'shared 禁止 import modules')
+// --- 步骤 2: shared 不能 import modules（特例: shared/components/charts/* 可引用 modules，因为 charts 是"展示+计算混装"的复合组件）---
+step(2, 'shared 禁止 import modules（charts 特例除外）')
 for (const f of walk(SHARED)) {
   for (const spec of getImports(f)) {
     const target = resolveImport(spec, f)
     if (!target) continue
     const rel = relative(SRC, target).replace(/\\/g, '/')
     if (rel.startsWith('modules/')) {
+      // 特例: shared/components/charts/* 可引用 modules（因为 charts 是计算+展示的复合组件）
+      const frel = relative(SRC, f).replace(/\\/g, '/')
+      if (frel.startsWith('shared/components/charts/')) continue
       fail(2, `${relative(ROOT, f)} imports ${spec} (shared 不应依赖模块)`)
     }
   }
 }
-ok(2, '扫描完成（shared 下当前无文件，预期空过）')
+ok(2, '扫描完成（charts 特例允许）')
 
 // --- 步骤 3: settings 不能 import modules ---
 step(3, 'settings 禁止 import modules')

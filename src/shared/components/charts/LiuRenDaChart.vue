@@ -280,8 +280,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { polar, uid, THEME } from '@guanxiang/logic/chart-utils'
-import type { LiurenResult } from '@zhanbu/logic/liuren'
+import { polar, uid, THEME } from '@modules/guanxiang/logic/chart-utils'
+import type { LiurenResult } from '@modules/zhanbu/logic/liuren'
 
 const props = defineProps<{ result: LiurenResult }>()
 

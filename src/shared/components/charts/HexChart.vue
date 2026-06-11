@@ -258,8 +258,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { uid, THEME, levelColor } from '@guanxiang/logic/chart-utils'
-import type { LiuyaoResult } from '@zhanbu/logic/liuyao'
+import { uid, THEME, levelColor } from '@modules/guanxiang/logic/chart-utils'
+import type { LiuyaoResult } from '@modules/zhanbu/logic/liuyao'
 
 const props = defineProps<{ result: LiuyaoResult }>()
 

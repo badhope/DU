@@ -158,7 +158,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { uid } from '@guanxiang/logic/chart-utils'
+import { uid } from '@modules/guanxiang/logic/chart-utils'
 
 interface MxPoint {
   key: string

@@ -225,10 +225,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { BAGUA_LIST, type MeihuaResult } from '@zhanbu/logic/meihua'
+import { BAGUA_LIST, type MeihuaResult } from '@modules/zhanbu/logic/meihua'
 // BAGUA_LIST is used as value in scripts above
-import { polar, uid } from '@guanxiang/logic/chart-utils'
-import type { Wuxing } from '@mingli/logic/wuxing'
+import { polar, uid } from '@modules/guanxiang/logic/chart-utils'
+import type { Wuxing } from '@modules/mingli/logic/wuxing'
 
 const props = defineProps<{ result: MeihuaResult }>()
 
@@ -268,7 +268,7 @@ const baguaSectors = computed(() => {
     const nameP = polar(cx, cy, rOuter + 14, p.deg)
     return {
       ...b,
-      color: WX_COLOR[b.wuxing],
+      color: WX_COLOR[b.wuxing]!,
       lineX1: p1.x,
       lineY1: p1.y,
       lineX2: p2.x,

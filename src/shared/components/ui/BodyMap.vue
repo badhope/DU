@@ -296,8 +296,8 @@ import {
   pointsToPathD,
   type MeridianPath,
   type Point,
-} from '@jiankang/data/meridian-data'
-import { getAcupoint, type Acupoint } from '@jiankang/logic/jingluo'
+} from '@modules/jiankang/data/meridian-data'
+import { getAcupoint, type Acupoint } from '@modules/jiankang/logic/jingluo'
 
 const props = defineProps<{
   initialSide?: 'front' | 'back'

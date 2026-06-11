@@ -8,7 +8,7 @@ import {
   COOLDOWN_TYPE,
   type DivinationRecord,
   type ToolKey,
-} from '@/utils/daily-cooldown'
+} from '@shared/utils/daily-cooldown'
 
 describe('daily-cooldown', () => {
   describe('todayStr', () => {

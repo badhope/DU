@@ -263,8 +263,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import type { QimenResult } from '@zhanbu/logic/qimen'
-import { uid, levelColor } from '@guanxiang/logic/chart-utils'
+import type { QimenResult } from '@modules/zhanbu/logic/qimen'
+import { uid, levelColor } from '@modules/guanxiang/logic/chart-utils'
 
 const props = defineProps<{ result: QimenResult }>()
 

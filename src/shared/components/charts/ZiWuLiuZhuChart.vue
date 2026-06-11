@@ -152,7 +152,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { polar, uid } from '@guanxiang/logic/chart-utils'
+import { polar, uid } from '@modules/guanxiang/logic/chart-utils'
 
 // 12 经络 + 12 时辰
 const SHICHEN_DATA = [

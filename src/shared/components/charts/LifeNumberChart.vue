@@ -189,8 +189,8 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { NUMBER_META, type LifeNumberResult } from '@mingli/logic/life'
-import { polar, uid } from '@guanxiang/logic/chart-utils'
+import { NUMBER_META, type LifeNumberResult } from '@modules/mingli/logic/life'
+import { polar, uid } from '@modules/guanxiang/logic/chart-utils'
 
 const props = defineProps<{ result: LifeNumberResult }>()
 

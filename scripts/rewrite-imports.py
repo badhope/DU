@@ -34,7 +34,12 @@ def rewrite_file(file_path: Path, mapping: dict) -> bool:
     def util_replace(m):
         name = m.group(1)
         if name in util_to_module:
-            return f"@{util_to_module[name]}/{name}"
+            target = util_to_module[name]
+            # shared/utils 直接是 @shared/utils/<name>
+            if target.startswith("shared/"):
+                return f"@{target}/{name}"
+            # 其他 → @modules/<m>/<dir>/<name>
+            return f"@modules/{target}/{name}"
         return m.group(0)
 
     text = util_re.sub(util_replace, text)

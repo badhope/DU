@@ -168,8 +168,8 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { polar, uid, THEME, levelColor } from '@guanxiang/logic/chart-utils'
-import type { TiebanResult } from '@mingli/logic/tieban'
+import { polar, uid, THEME, levelColor } from '@modules/guanxiang/logic/chart-utils'
+import type { TiebanResult } from '@modules/mingli/logic/tieban'
 
 const props = defineProps<{ result: TiebanResult }>()
 

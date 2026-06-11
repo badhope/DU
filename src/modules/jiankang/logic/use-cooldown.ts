@@ -13,7 +13,7 @@
 
 import { ref, computed, type Ref, type ComputedRef } from 'vue'
 import { useAppStore, type DivinationRecord, type ToolKey } from '@/stores'
-import { COOLDOWN_TYPE } from '@/utils/daily-cooldown'
+import { COOLDOWN_TYPE } from '@shared/utils/daily-cooldown'
 
 export interface UseCooldownOptions {
   /** 工具标识 */

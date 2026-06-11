@@ -49,9 +49,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { THEME, levelColor as _lColor } from '@guanxiang/logic/chart-utils'
-import type { JiriResult } from '@mingli/logic/jiri'
-import type { HuangliDay as _HuangliDay } from '@shenghuo/logic/huangli'
+import { THEME, levelColor as _lColor } from '@modules/guanxiang/logic/chart-utils'
+import type { JiriResult } from '@modules/mingli/logic/jiri'
+import type { HuangliDay as _HuangliDay } from '@modules/shenghuo/logic/huangli'
 
 const props = defineProps<{ result: JiriResult }>()
 
