@@ -144,6 +144,7 @@
     />
     <!-- 占卜推演 Loading -->
     <LoadingSeal
+      v-if="loading"
       :visible="loading"
       :title="'玄 机 推 演 中'"
       :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"

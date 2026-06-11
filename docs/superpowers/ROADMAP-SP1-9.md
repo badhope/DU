@@ -117,15 +117,15 @@
 
 ## 当前进度
 
-| 轮次         | 状态                |
-| ------------ | ------------------- |
-| SP-1         | ✅ 完成 (commit 0613f68) |
-| SP-2         | ✅ 完成 (commit 1c62da5) |
-| SP-3         | ✅ 完成 |
-| SP-4         | ✅ 完成 |
-| SP-5         | ✅ 完成 |
-| SP-6 ~ SP-9  | ⏸️ 推迟到 v1.2.0 (启用 noUncheckedIndexedAccess 即爆 494 错,工作量超本轮预算) |
-| SP-10        | 📝 待启动 — 9 bug 修复 |
-| SP-11        | 📝 待启动 — spa-server / dogfood / fix-routes 脚本 |
+| 轮次        | 状态                                                                          |
+| ----------- | ----------------------------------------------------------------------------- |
+| SP-1        | ✅ 完成 (commit 0613f68)                                                      |
+| SP-2        | ✅ 完成 (commit 1c62da5)                                                      |
+| SP-3        | ✅ 完成                                                                       |
+| SP-4        | ✅ 完成                                                                       |
+| SP-5        | ✅ 完成                                                                       |
+| SP-6 ~ SP-9 | ⏸️ 推迟到 v1.2.0 (启用 noUncheckedIndexedAccess 即爆 494 错,工作量超本轮预算) |
+| SP-10       | 📝 待启动 — 9 bug 修复                                                        |
+| SP-11       | 📝 待启动 — spa-server / dogfood / fix-routes 脚本                            |
 
 **v1.1.0 调整说明**：12 strict 选项中 3 个 (`noImplicitThis` / `strictBindCallApply` / `strictPropertyInitialization`) 已被 vue/tsconfig base 隐式启用, 9 个未启用。本次启用 `noUncheckedIndexedAccess` 时立即爆 494 错, 即使 v1.1.0 推送也建议先做 v1.1.x patch 修完 494 错再开 strict。推迟到 v1.2.0。

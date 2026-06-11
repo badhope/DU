@@ -201,22 +201,58 @@ export interface NamingGe {
   desc: string
 }
 
-function computeGe(strokes: number[]): NamingGe {
-  // 单姓/复姓
-  if (strokes.length === 2) {
-    // 复姓
-    return {
-      tianGe: strokes[0] + strokes[1],
-      renGe: strokes[1] + strokes[2],
-      diGe: strokes[2] + (strokes[3] || 1),
-      waiGe: strokes[0] + strokes[1] + strokes[2] + (strokes[3] || 1) - (strokes[1] + strokes[2]),
-      zongGe: strokes[0] + strokes[1] + strokes[2] + (strokes[3] || 1),
-      sanCai: '—',
-      jiXiong: '吉',
-      desc: '复姓之格',
+function computeGe(strokes: number[], isCompound: boolean): NamingGe {
+  if (isCompound) {
+    // 复姓 2 字 + 单名 1 字
+    if (strokes.length === 3) {
+      const [s1, s2, n] = strokes
+      const tianGe = s1 + s2
+      const renGe = s2 + n
+      const diGe = n + 1 // 单名 + 1 (单名吉格)
+      return {
+        tianGe,
+        renGe,
+        diGe,
+        waiGe: tianGe + diGe - renGe,
+        zongGe: tianGe + n,
+        sanCai: '—',
+        jiXiong: jiXiongOf(tianGe + n),
+        desc: '复姓单名之格',
+      }
+    }
+    // 复姓 2 字 + 双名 2 字
+    if (strokes.length === 4) {
+      const [s1, s2, n1, n2] = strokes
+      const tianGe = s1 + s2
+      const renGe = s2 + n1
+      const diGe = n1 + n2
+      return {
+        tianGe,
+        renGe,
+        diGe,
+        waiGe: tianGe + diGe - renGe,
+        zongGe: s1 + s2 + n1 + n2,
+        sanCai: '—',
+        jiXiong: jiXiongOf(s1 + s2 + n1 + n2),
+        desc: '复姓双名之格',
+      }
     }
   }
-  // 单姓 1 字 + 名 1-2 字
+  // 单姓 1 字 + 名 1 字
+  if (strokes.length === 2) {
+    const [s, n] = strokes
+    return {
+      tianGe: s + 1,
+      renGe: s + n,
+      diGe: n + 1,
+      waiGe: s + 1 + n + 1 - (s + n),
+      zongGe: s + n,
+      sanCai: '—',
+      jiXiong: jiXiongOf(s + n),
+      desc: '单字名',
+    }
+  }
+  // 单姓 1 字 + 名 2 字
   if (strokes.length === 3) {
     const [s, n1, n2] = strokes
     const tian = s + 1
@@ -233,20 +269,6 @@ function computeGe(strokes: number[]): NamingGe {
       sanCai: `${wxByNum(ren)} > ${wxByNum(ren + n1)} > ${wxByNum(zong)}`,
       jiXiong: jiXiongOf(zong),
       desc: '三格配合',
-    }
-  }
-  // 单姓 1 字 + 名 1 字
-  if (strokes.length === 2) {
-    const [s, n] = strokes
-    return {
-      tianGe: s + 1,
-      renGe: s + n,
-      diGe: n + 1,
-      waiGe: s + 1 + n + 1 - (s + n),
-      zongGe: s + n,
-      sanCai: '—',
-      jiXiong: jiXiongOf(s + n),
-      desc: '单字名',
     }
   }
   return {
@@ -301,18 +323,31 @@ export function analyzeMingji(
   day?: number,
   hour?: number,
 ): MingjiResult {
-  // 拆分姓 + 名（简单按 1+1 或 1+2）
+  // 拆分姓 + 名
+  // 复姓白名单：常见 30 个
+  const COMPOUND_SURNAMES = new Set<string>([
+    '司马', '欧阳', '上官', '诸葛', '夏侯', '东方', '皇甫', '尉迟', '公孙', '令狐',
+    '宇文', '长孙', '慕容', '司徒', '司空', '独孤', '南宫', '万俟', '闻人', '鲜于',
+    '赫连', '澹台', '宗政', '濮阳', '太史', '申屠', '轩辕', '公羊', '诸暨', '呼延',
+  ])
   let surname = name.charAt(0)
   let given = name.slice(1)
-  if (name.length > 2 && '赵钱孙李周吴郑王'.includes(surname)) {
+  if (name.length >= 4) {
+    const head2 = name.slice(0, 2)
+    if (COMPOUND_SURNAMES.has(head2)) {
+      surname = head2
+      given = name.slice(2)
+    }
+  } else if (name.length > 2 && '赵钱孙李周吴郑王'.includes(surname)) {
     surname = name.slice(0, 1)
     given = name.slice(1)
   }
+  const isCompound = surname.length === 2
 
   const all = name.split('')
   const strokes = all.map(strokeOf)
   const charWx = all.map(wxOf)
-  const wuGe = computeGe(strokes)
+  const wuGe = computeGe(strokes, isCompound)
 
   // 五行平衡
   const balance: Record<Wuxing, number> = { mu: 0, huo: 0, tu: 0, jin: 0, shui: 0 }
