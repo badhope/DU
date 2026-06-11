@@ -131,9 +131,9 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
-import MayaChart from '@/components/charts/MayaChart.vue'
+import MayaChart from '@/modules/mingli/components/charts/MayaChart.vue'
 import { useAppStore } from '@/stores'
-import { calcMaya, MAYA_SEAL_META, type MayaTzolkin } from '@/utils/maya'
+import { calcMaya, MAYA_SEAL_META, type MayaTzolkin } from '@/modules/mingli/logic/maya'
 
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15 })

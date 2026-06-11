@@ -258,8 +258,8 @@ import {
   wuxingRelation,
   RELATION_DESC,
   type Wuxing,
-} from '@/utils/wuxing'
-import { relationMatrix, getBuji, xingge, yangsheng as yangshengFn } from '@/utils/wuxing-deep'
+} from '@/modules/mingli/logic/wuxing'
+import { relationMatrix, getBuji, xingge, yangsheng as yangshengFn } from '@/modules/mingli/logic/wuxing-deep'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()

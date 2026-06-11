@@ -329,15 +329,15 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
-import { hehun, type HehunResult } from '@/utils/hehun'
-import { WUXING_META, WUXING_LIST } from '@/utils/wuxing'
+import { hehun, type HehunResult } from '@/modules/mingli/logic/hehun'
+import { WUXING_META, WUXING_LIST } from '@/modules/mingli/logic/wuxing'
 import {
   TIANGAN_WUXING as _TIANGAN_WUXING,
   DIZHI_WUXING as _DIZHI_WUXING,
   DIZHI_DESC as _DIZHI_DESC,
   HOUR_TO_DIZHI as _HOUR_TO_DIZHI,
-} from '@/utils/bazi'
-import _HeHunChart from '@/components/charts/HeHunChart.vue'
+} from '@/modules/mingli/logic/bazi'
+import _HeHunChart from '@/modules/mingli/components/charts/HeHunChart.vue'
 import { useAppStore } from '@/stores'
 import _UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/shared/components/ui/ToolGuard.vue'

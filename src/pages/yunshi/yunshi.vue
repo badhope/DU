@@ -141,7 +141,7 @@ import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
 import { calcYunshi, YUNSHI_SX, type YunshiResult } from '@/utils/yunshi'
-import { WUXING_META } from '@/utils/wuxing'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
 
 const app = useAppStore()
 const SX_LIST = YUNSHI_SX

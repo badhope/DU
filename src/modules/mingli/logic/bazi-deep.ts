@@ -21,8 +21,8 @@ import {
   type TianGan,
   type DiZhi,
   calcBazi,
-} from './bazi'
-import type { Wuxing } from './wuxing'
+} from '@/modules/mingli/logic/bazi'
+import type { Wuxing } from '@/modules/mingli/logic/wuxing'
 
 // ============ 藏干 ============
 export interface Canggan {
@@ -771,4 +771,4 @@ export function dayunStrength(bazi: ReturnType<typeof calcBazi>): DayunStrength 
 }
 
 // 复用 wuxing 中的生克
-import { SHENG, KE } from './wuxing'
+import { SHENG, KE } from '@/modules/mingli/logic/wuxing'

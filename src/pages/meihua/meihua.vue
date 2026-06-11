@@ -135,7 +135,7 @@ import TopBar from '@/shared/components/ui/TopBar.vue'
 import _MeiHuaChart from '@/components/charts/MeiHuaChart.vue'
 import { useAppStore } from '@/stores'
 import { meihuaDivinate, type MeihuaResult } from '@/utils/meihua'
-import { WUXING_META } from '@/utils/wuxing'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
 
 const app = useAppStore()
 const WX_META = WUXING_META

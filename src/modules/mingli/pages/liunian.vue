@@ -172,10 +172,10 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
-import _LiuNianChart from '@/components/charts/LiuNianChart.vue'
-import { calcBazi } from '@/utils/bazi'
-import { calcDayun, dayunStrength, liunians } from '@/utils/bazi-deep'
-import { WUXING_META } from '@/utils/wuxing'
+import _LiuNianChart from '@/modules/mingli/components/charts/LiuNianChart.vue'
+import { calcBazi } from '@/modules/mingli/logic/bazi'
+import { calcDayun, dayunStrength, liunians } from '@/modules/mingli/logic/bazi-deep'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()

@@ -184,7 +184,7 @@ import {
   calcBazi,
   type TianGan,
   type DiZhi,
-} from '@/utils/bazi'
+} from '@/modules/mingli/logic/bazi'
 import {
   nayin,
   shensha as shenshaFn,
@@ -192,10 +192,10 @@ import {
   calcDayun,
   dayunStrength,
   DIZHI_CANGGAN,
-} from '@/utils/bazi-deep'
-import { WUXING_META, type Wuxing } from '@/utils/wuxing'
+} from '@/modules/mingli/logic/bazi-deep'
+import { WUXING_META, type Wuxing } from '@/modules/mingli/logic/wuxing'
 import { polar, uid } from '@/utils/chart-utils'
-import type { DayunResult } from '@/utils/bazi-deep'
+import type { DayunResult } from '@/modules/mingli/logic/bazi-deep'
 
 const props = defineProps<{
   year: number

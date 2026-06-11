@@ -163,7 +163,7 @@ import {
   GONG_DIR,
   type XuanKongResult,
   type GONG_NUM,
-} from '@/utils/xuankong'
+} from '@/modules/mingli/logic/xuankong'
 import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/shared/composables/use-cooldown'
 import LoadingSeal from '@/shared/components/ui/LoadingSeal.vue'

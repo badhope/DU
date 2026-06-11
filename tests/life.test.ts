@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { calcLifeNumber, fullLifeResult, NUMBER_META } from '@/utils/life'
+import { calcLifeNumber, fullLifeResult, NUMBER_META } from '@/modules/mingli/logic/life'
 
 describe('life (生命灵数)', () => {
   describe('calcLifeNumber', () => {

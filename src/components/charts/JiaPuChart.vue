@@ -159,7 +159,7 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import type { FamilyTree } from '@/utils/jiazu'
-import { WUXING_META, type Wuxing } from '@/utils/wuxing'
+import { WUXING_META, type Wuxing } from '@/modules/mingli/logic/wuxing'
 import { uid } from '@/utils/chart-utils'
 
 const props = defineProps<{ result: FamilyTree }>()

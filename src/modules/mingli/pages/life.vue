@@ -160,9 +160,9 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
-import _LifeNumberChart from '@/components/charts/LifeNumberChart.vue'
+import _LifeNumberChart from '@/modules/mingli/components/charts/LifeNumberChart.vue'
 import { useAppStore } from '@/stores'
-import { fullLifeResult, type LifeNumberResult } from '@/utils/life'
+import { fullLifeResult, type LifeNumberResult } from '@/modules/mingli/logic/life'
 
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15 })

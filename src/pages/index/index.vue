@@ -97,7 +97,7 @@ import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import StarField from '@/shared/components/effects/StarField.vue'
 import _Particles from '@/shared/components/effects/Particles.vue'
 import _RipplePress from '@/shared/components/ui/RipplePress.vue'
-import { calcBazi } from '@/utils/bazi'
+import { calcBazi } from '@/modules/mingli/logic/bazi'
 import { CATEGORIES, TOOLS, READY_COUNT, TOTAL_TOOLS, type CategoryKey } from '@/config/tools'
 import { useAppStore } from '@/stores'
 

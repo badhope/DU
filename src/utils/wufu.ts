@@ -16,10 +16,10 @@ import {
   TIANGAN_YINYANG,
   type TianGan,
   type DiZhi,
-} from './bazi'
-import { calcDayun, dayunStrength, nayin, shishen, liunians } from './bazi-deep'
-import type { Wuxing } from './wuxing'
-import { SHENG, KE } from './wuxing'
+} from '@/modules/mingli/logic/bazi'
+import { calcDayun, dayunStrength, nayin, shishen, liunians } from '@/modules/mingli/logic/bazi-deep'
+import type { Wuxing } from '@/modules/mingli/logic/wuxing'
+import { SHENG, KE } from '@/modules/mingli/logic/wuxing'
 
 // 五福维度
 export type FuKey = 'shou' | 'fu' | 'kang' | 'de' | 'zhong'

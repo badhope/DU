@@ -343,7 +343,7 @@ import {
   type LifeStage,
   type YearFortune,
 } from '@/utils/dayun-life'
-import { WUXING_META } from '@/utils/wuxing'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
 
 const app = useAppStore()
 

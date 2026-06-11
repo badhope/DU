@@ -95,9 +95,9 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { HehunResult } from '@/utils/hehun'
-import { TIANGAN_WUXING, DIZHI_WUXING, type TianGan, type DiZhi } from '@/utils/bazi'
-import { WUXING_META, type Wuxing } from '@/utils/wuxing'
+import type { HehunResult } from '@/modules/mingli/logic/hehun'
+import { TIANGAN_WUXING, DIZHI_WUXING, type TianGan, type DiZhi } from '@/modules/mingli/logic/bazi'
+import { WUXING_META, type Wuxing } from '@/modules/mingli/logic/wuxing'
 import { levelColor } from '@/utils/chart-utils'
 
 const props = defineProps<{ result: HehunResult }>()

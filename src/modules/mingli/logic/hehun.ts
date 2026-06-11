@@ -9,7 +9,7 @@
  *  - 综合评分
  */
 
-import { calcBazi } from './bazi'
+import { calcBazi } from '@/modules/mingli/logic/bazi'
 import {
   TIANGAN as _TIANGAN,
   DIZHI as _DIZHI,
@@ -17,10 +17,10 @@ import {
   DIZHI_WUXING,
   type TianGan,
   type DiZhi,
-} from './bazi'
-import { nayin, calcDayun as _calcDayun, dayunStrength, shishen as _shishen } from './bazi-deep'
-import type { Wuxing } from './wuxing'
-import { SHENG, KE } from './wuxing'
+} from '@/modules/mingli/logic/bazi'
+import { nayin, calcDayun as _calcDayun, dayunStrength, shishen as _shishen } from '@/modules/mingli/logic/bazi-deep'
+import type { Wuxing } from '@/modules/mingli/logic/wuxing'
+import { SHENG, KE } from '@/modules/mingli/logic/wuxing'
 
 // 六合：子丑、寅亥、卯戌、辰酉、巳申、午未
 const LIUHE: Record<DiZhi, DiZhi> = {

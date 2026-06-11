@@ -8,7 +8,7 @@
  *  - 关系矩阵（生我 / 我生 / 克我 / 我克 / 同我）
  */
 
-import type { Wuxing } from './wuxing'
+import type { Wuxing } from '@/modules/mingli/logic/wuxing'
 
 // ============ 十二长生（阳顺阴逆） ============
 export type Changsheng =
@@ -251,7 +251,7 @@ export interface WuxingMatrix {
   tong: Wuxing // 同我
 }
 
-import { SHENG, KE } from './wuxing'
+import { SHENG, KE } from '@/modules/mingli/logic/wuxing'
 
 // 找到"生我"和"克我"
 const REVERSE_SHENG: Record<Wuxing, Wuxing> = {

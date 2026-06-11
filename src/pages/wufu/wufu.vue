@@ -183,7 +183,7 @@ import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
 import { calcWufu, type WufuResult, type FuKey } from '@/utils/wufu'
-import { WUXING_META } from '@/utils/wuxing'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
 
 const app = useAppStore()
 const WX_META = WUXING_META

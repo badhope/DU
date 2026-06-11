@@ -5,6 +5,7 @@
 **Goal:** 把 v1.0.1 扁平结构中的"通用 UI / 装饰 / 样式 / Composable / Helper"抽取到 `src/shared/` 共享层，建立 v1.1.0 模块化的根目录。模块专用组件（charts/ + BodyMap）留到 SP-3~5 模块化时同步处理。
 
 **Architecture:** 创建 4 个 shared/ 子目录：
+
 - `src/shared/components/ui/` — 9 个通用 UI 组件（CooldownDialog/LoadingSeal/MysticScan/ResultReveal/RipplePress/ToolGuard/TopBar/Typewriter/UserSwitcher）
 - `src/shared/components/effects/` — 3 个跨模块装饰（Particles/StarField/TaijiBg）
 - `src/shared/styles/` — 2 个 CSS（animations.css/tokens.css）
@@ -18,6 +19,7 @@
 ### Task 1: 建 shared/ 目录结构 + TDD：写 resolveHostEl 测试
 
 **Files:**
+
 - Create: `src/shared/components/ui/result-reveal-helpers.ts`
 - Test: `tests/components/result-reveal-helpers.test.ts`
 
@@ -91,6 +93,7 @@ pnpm test tests/components/result-reveal-helpers.test.ts
 ### Task 2: 实现 resolveHostEl + 测试通过
 
 **Files:**
+
 - Create: `src/shared/components/ui/result-reveal-helpers.ts`
 
 - [ ] **Step 1: 实现 resolveHostEl**
@@ -152,6 +155,7 @@ git -c user.email="claude@anthropic.com" -c user.name="MISTVERSE Dev" commit -m 
 ### Task 3: 移动 ui/ 9 个组件到 shared/components/ui/
 
 **Files:**
+
 - Move: `src/components/ui/CooldownDialog.vue` → `src/shared/components/ui/CooldownDialog.vue`
 - Move: `src/components/ui/LoadingSeal.vue` → `src/shared/components/ui/LoadingSeal.vue`
 - Move: `src/components/ui/MysticScan.vue` → `src/shared/components/ui/MysticScan.vue`
@@ -211,6 +215,7 @@ pnpm type-check
 ### Task 4: 移动 effects/ 3 个组件到 shared/components/effects/
 
 **Files:**
+
 - Move: `src/components/effects/Particles.vue` → `src/shared/components/effects/Particles.vue`
 - Move: `src/components/effects/StarField.vue` → `src/shared/components/effects/StarField.vue`
 - Move: `src/components/effects/TaijiBg.vue` → `src/shared/components/effects/TaijiBg.vue`
@@ -231,6 +236,7 @@ git status --short 2>&1 | head -15
 ### Task 5: 移动 2 个 CSS 到 shared/styles/
 
 **Files:**
+
 - Move: `src/designs/animations.css` → `src/shared/styles/animations.css`
 - Move: `src/designs/tokens.css` → `src/shared/styles/tokens.css`
 
@@ -259,6 +265,7 @@ grep -rn "@/designs/\|designs/animations\|designs/tokens" \
 ### Task 6: 移动 use-cooldown.ts 到 shared/composables/
 
 **Files:**
+
 - Move: `src/utils/use-cooldown.ts` → `src/shared/composables/use-cooldown.ts`
 
 - [ ] **Step 1: git mv**
@@ -279,6 +286,7 @@ git status --short 2>&1 | head -3
 ### Task 7: 批量改 47 个 import 路径
 
 **Files:**
+
 - Modify: 47 个 .vue 文件（所有 import `@/components/ui/X`、`@/components/effects/X`、`@/designs/X`、`@/utils/use-cooldown` 的文件）
 
 - [ ] **Step 1: 写 Python 脚本批量改 imports**
@@ -315,7 +323,7 @@ print(f"Total: {changed} files")
 PY
 ```
 
-预期：~47 个文件 modified（src/pages/* 中大部分）
+预期：~47 个文件 modified（src/pages/\* 中大部分）
 
 - [ ] **Step 2: type-check 验证**
 

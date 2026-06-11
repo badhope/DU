@@ -286,7 +286,7 @@ import { ref, computed, nextTick } from 'vue'
 import { gsap } from 'gsap'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
-import _BaziChart from '@/components/charts/BaziChart.vue'
+import _BaziChart from '@/modules/mingli/components/charts/BaziChart.vue'
 import {
   calcBazi,
   TIANGAN_WUXING,
@@ -295,8 +295,8 @@ import {
   TIANGAN_DESC,
   DIZHI_DESC as _DIZHI_DESC,
   HOUR_TO_DIZHI,
-} from '@/utils/bazi'
-import { WUXING_META, WUXING_LIST, type Wuxing } from '@/utils/wuxing'
+} from '@/modules/mingli/logic/bazi'
+import { WUXING_META, WUXING_LIST, type Wuxing } from '@/modules/mingli/logic/wuxing'
 import {
   DIZHI_CANGGAN,
   shishen,
@@ -306,7 +306,7 @@ import {
   minggong,
   shengong,
   trueSolarTime,
-} from '@/utils/bazi-deep'
+} from '@/modules/mingli/logic/bazi-deep'
 import { useAppStore } from '@/stores'
 import _UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/shared/components/ui/ToolGuard.vue'

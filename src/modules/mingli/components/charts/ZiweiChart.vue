@@ -241,7 +241,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { STAR_META, type ZiweiResult, type ZiweiGong } from '@/utils/ziwei'
+import { STAR_META, type ZiweiResult, type ZiweiGong } from '@/modules/mingli/logic/ziwei'
 import { uid } from '@/utils/chart-utils'
 
 const props = defineProps<{ result: ZiweiResult }>()

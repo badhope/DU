@@ -179,9 +179,9 @@
 import { ref, computed } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
-import AstroChart from '@/components/charts/AstroChart.vue'
+import AstroChart from '@/modules/mingli/components/charts/AstroChart.vue'
 import { useAppStore } from '@/stores'
-import { calcAstro, ZODIAC_META, type AstroResult } from '@/utils/astro'
+import { calcAstro, ZODIAC_META, type AstroResult } from '@/modules/mingli/logic/astro'
 
 const app = useAppStore()
 const form = ref({ year: 1990, month: 6, day: 15, hour: 12 })

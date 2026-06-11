@@ -3,7 +3,7 @@
  * 简化版八字排盘计算
  */
 
-import type { Wuxing } from './wuxing'
+import type { Wuxing } from '@/modules/mingli/logic/wuxing'
 export type { Wuxing }
 
 // 天干 10

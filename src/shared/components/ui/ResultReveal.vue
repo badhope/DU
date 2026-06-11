@@ -66,8 +66,7 @@ function fromVars(_el: HTMLElement) {
 function play() {
   const host = resolveHostEl(hostRef.value)
   if (!host || typeof gsap === 'undefined') return
-  const items =
-    props.selector === '> *' ? host.children : host.querySelectorAll(props.selector)
+  const items = props.selector === '> *' ? host.children : host.querySelectorAll(props.selector)
   if (items.length === 0) {
     gsap.fromTo(host, fromVars(host), {
       opacity: 1,

@@ -16,7 +16,7 @@
  *    6) 余主星按紫微/天府固定偏移安星
  */
 
-import { TIANGAN, DIZHI, calcBazi, type TianGan, type DiZhi } from './bazi'
+import { TIANGAN, DIZHI, calcBazi, type TianGan, type DiZhi } from '@/modules/mingli/logic/bazi'
 
 // ============ 常量 ============
 export type Wuju = '金四局' | '水二局' | '木三局' | '火六局' | '土五局'

@@ -162,8 +162,8 @@
 import { computed } from 'vue'
 import { polar, uid, THEME, WUXING_COLOR, levelColor as lColor } from '@/utils/chart-utils'
 import type { MingjiResult } from '@/utils/mingji'
-import { WUXING_META } from '@/utils/wuxing'
-import type { Wuxing } from '@/utils/bazi'
+import { WUXING_META } from '@/modules/mingli/logic/wuxing'
+import type { Wuxing } from '@/modules/mingli/logic/bazi'
 
 const props = defineProps<{ result: MingjiResult }>()
 

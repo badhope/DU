@@ -131,7 +131,7 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { WUXING_META, type Wuxing } from '@/utils/wuxing'
+import { WUXING_META, type Wuxing } from '@/modules/mingli/logic/wuxing'
 import { polar, arcPath, uid } from '@/utils/chart-utils'
 
 const gid = (s: string) => uid(s)

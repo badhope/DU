@@ -11,7 +11,7 @@
  *   4. 最后一落点即神将
  */
 
-import { HOUR_TO_DIZHI, type DiZhi } from './bazi'
+import { HOUR_TO_DIZHI, type DiZhi } from '@/modules/mingli/logic/bazi'
 
 export interface LiuShen {
   key: '大安' | '留连' | '速喜' | '赤口' | '小吉' | '空亡'
