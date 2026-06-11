@@ -217,7 +217,7 @@ export default defineConfig({
 })
 ```
 
-### 5.3 `tsconfig.json` —— 5 paths + 3 strict（v1.1.0 全开）
+### 5.3 `tsconfig.json` —— 5 paths + 6 strict（v1.2.0 全开）
 
 > ~~2026-06-10 实际执行注记（已过时）~~：原 spec 计划开 3 strict 选项。开启 `noUncheckedIndexedAccess` 后旧代码爆出 497 个错，本 SP-1 推迟。
 >

@@ -2,7 +2,7 @@
   "private": true,
   "type": "module",
   "name": "mistverse",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "MISTVERSE (玄枢) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life, and AI assistance.",
   "keywords": [
     "fengshui",

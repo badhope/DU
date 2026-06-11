@@ -7,6 +7,26 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.2.0] - 2026-06-11
+
+### Added
+
+- **TypeScript strict v2**: turn on 3 more strict options
+  - `noPropertyAccessFromIndexSignature` (TS4111: dict key access)
+  - `noFallthroughCasesInSwitch` (TS7029: switch fallthrough)
+  - `noImplicitReturns` (TS2366: implicit return)
+- **`docs/superpowers/specs/2026-06-11-sp7-strict-v2.md`**: SP-7 design spec
+- **`docs/superpowers/plans/2026-06-11-sp7-strict-impl.md`**: SP-7 implementation plan
+
+### Changed
+
+- **`tsconfig.json`**: 3 → 6 strict options enabled
+- **`package.json`**: version 1.1.0 → 1.2.0
+- **4 source files**: fix 14 `TS4111` errors (astro.ts 10 + category.vue 1 + interpret.vue 2 + KnowledgeShell.vue 1)
+- **`docs/superpowers/specs/2026-06-10-sp1-skeleton-design.md`**: §5.3 标题更新为 "v1.2.0 全开"
+
+---
+
 ## [1.1.0] - 2026-06-11
 
 ### Added
