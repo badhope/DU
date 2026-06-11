@@ -89,6 +89,7 @@ scripts/check-modules.mjs                    # 步骤 1 移除 "兼容期" 例�
 ## Task 1: 准备脚本（sp2-mappings.json + rewrite-imports.py + move-sp2.mjs）
 
 **Files:**
+
 - Create: `docs/superpowers/sp2-mappings.json`
 - Create: `scripts/rewrite-imports.py`
 - Create: `scripts/move-sp2.mjs`
@@ -107,88 +108,198 @@ mkdir -p docs/superpowers scripts
   "version": "1.0.0",
   "generated": "2026-06-10",
   "designs": [
-    { "from": "src/designs/tokens.css",     "to": "src/shared/styles/tokens.css",     "type": "design" },
-    { "from": "src/designs/animations.css", "to": "src/shared/styles/animations.css", "type": "design" }
+    { "from": "src/designs/tokens.css", "to": "src/shared/styles/tokens.css", "type": "design" },
+    {
+      "from": "src/designs/animations.css",
+      "to": "src/shared/styles/animations.css",
+      "type": "design"
+    }
   ],
   "utils": [
-    { "from": "src/utils/daily-cooldown.ts",  "to": "src/shared/utils/daily-cooldown.ts",  "type": "util" },
-    { "from": "src/utils/poster-renderer.ts", "to": "src/shared/utils/poster-renderer.ts", "type": "util" }
+    {
+      "from": "src/utils/daily-cooldown.ts",
+      "to": "src/shared/utils/daily-cooldown.ts",
+      "type": "util"
+    },
+    {
+      "from": "src/utils/poster-renderer.ts",
+      "to": "src/shared/utils/poster-renderer.ts",
+      "type": "util"
+    }
   ],
   "components": [
-    { "from": "src/components/charts",  "to": "src/shared/components/charts",  "type": "dir" },
+    { "from": "src/components/charts", "to": "src/shared/components/charts", "type": "dir" },
     { "from": "src/components/effects", "to": "src/shared/components/effects", "type": "dir" },
-    { "from": "src/components/ui",      "to": "src/shared/components/ui",      "type": "dir" }
+    { "from": "src/components/ui", "to": "src/shared/components/ui", "type": "dir" }
   ],
   "moduleUtils": {
     "mingli": [
-      "astro", "bazi", "bazi-deep", "hehun", "jiazu", "jiegua", "jiri",
-      "life", "dayun-life", "wuxing", "wuxing-deep", "ziwei", "tieban"
+      "astro",
+      "bazi",
+      "bazi-deep",
+      "hehun",
+      "jiazu",
+      "jiegua",
+      "jiri",
+      "life",
+      "dayun-life",
+      "wuxing",
+      "wuxing-deep",
+      "ziwei",
+      "tieban"
     ],
     "zhanbu": [
-      "gua", "liuren", "liuyao", "maya", "meihua",
-      "qimen", "tarot", "xiaoliuren", "xuankong", "zhuge"
+      "gua",
+      "liuren",
+      "liuyao",
+      "maya",
+      "meihua",
+      "qimen",
+      "tarot",
+      "xiaoliuren",
+      "xuankong",
+      "zhuge"
     ],
     "guanxiang": ["chart-utils", "fenglui", "mianxiang", "shouxiang"],
-    "mingming":  ["jiaobei", "kangxi-strokes", "lingqian", "mingji", "shuzhi"],
-    "jiankang":  ["jingluo", "use-cooldown", "wufu", "zhenci"],
-    "shenghuo":  ["huangli", "jieqi", "yunshi"]
+    "mingming": ["jiaobei", "kangxi-strokes", "lingqian", "mingji", "shuzhi"],
+    "jiankang": ["jingluo", "use-cooldown", "wufu", "zhenci"],
+    "shenghuo": ["huangli", "jieqi", "yunshi"]
   },
   "moduleData": {
     "jiankang": ["meridian-data"]
   },
   "modulePages": {
-    "mingli":   ["wuxing", "bazi", "hehun", "liunian", "dayun", "ziwei", "life", "astro", "jiazu", "jiri", "tieban"],
-    "zhanbu":   ["qimen", "liuren", "gua", "gua/interpret", "tarot", "meihua", "liuyao", "xuankong", "xiaoliuren", "zhuge", "maya"],
+    "mingli": [
+      "wuxing",
+      "bazi",
+      "hehun",
+      "liunian",
+      "dayun",
+      "ziwei",
+      "life",
+      "astro",
+      "jiazu",
+      "jiri",
+      "tieban"
+    ],
+    "zhanbu": [
+      "qimen",
+      "liuren",
+      "gua",
+      "gua/interpret",
+      "tarot",
+      "meihua",
+      "liuyao",
+      "xuankong",
+      "xiaoliuren",
+      "zhuge",
+      "maya"
+    ],
     "guanxiang": ["mianxiang", "shouxiang", "fenglui"],
-    "mingming":  ["jiaobei", "lingqian", "shuzhi", "mingji"],
-    "jiankang":  ["qijing", "ziwu", "wufu", "yangsheng"],
-    "xiuxin":    ["zhan", "fangqi", "shijian"],
-    "shenghuo":  ["huangli", "yunshi"],
-    "personal":  ["index", "category", "profile", "dashboard", "checkin", "poster", "users"]
+    "mingming": ["jiaobei", "lingqian", "shuzhi", "mingji"],
+    "jiankang": ["qijing", "ziwu", "wufu", "yangsheng"],
+    "xiuxin": ["zhan", "fangqi", "shijian"],
+    "shenghuo": ["huangli", "yunshi"],
+    "personal": ["index", "category", "profile", "dashboard", "checkin", "poster", "users"]
   },
   "settingsPages": ["settings"],
   "importRewrite": {
     "@/components/": "@shared/components/",
-    "@/designs/":    "@shared/styles/",
-    "@/utils/daily-cooldown":  "@shared/utils/daily-cooldown",
+    "@/designs/": "@shared/styles/",
+    "@/utils/daily-cooldown": "@shared/utils/daily-cooldown",
     "@/utils/poster-renderer": "@shared/utils/poster-renderer",
     "@/pages/settings/": "@settings/pages/"
   },
   "utilToModule": {
-    "daily-cooldown":  "shared/utils",
+    "daily-cooldown": "shared/utils",
     "poster-renderer": "shared/utils",
-    "astro": "mingli/logic", "bazi": "mingli/logic", "bazi-deep": "mingli/logic",
-    "hehun": "mingli/logic", "jiazu": "mingli/logic", "jiegua": "mingli/logic",
-    "jiri": "mingli/logic", "life": "mingli/logic", "dayun-life": "mingli/logic",
-    "wuxing": "mingli/logic", "wuxing-deep": "mingli/logic", "ziwei": "mingli/logic",
+    "astro": "mingli/logic",
+    "bazi": "mingli/logic",
+    "bazi-deep": "mingli/logic",
+    "hehun": "mingli/logic",
+    "jiazu": "mingli/logic",
+    "jiegua": "mingli/logic",
+    "jiri": "mingli/logic",
+    "life": "mingli/logic",
+    "dayun-life": "mingli/logic",
+    "wuxing": "mingli/logic",
+    "wuxing-deep": "mingli/logic",
+    "ziwei": "mingli/logic",
     "tieban": "mingli/logic",
-    "gua": "zhanbu/logic", "liuren": "zhanbu/logic", "liuyao": "zhanbu/logic",
-    "maya": "zhanbu/logic", "meihua": "zhanbu/logic", "qimen": "zhanbu/logic",
-    "tarot": "zhanbu/logic", "xiaoliuren": "zhanbu/logic", "xuankong": "zhanbu/logic",
+    "gua": "zhanbu/logic",
+    "liuren": "zhanbu/logic",
+    "liuyao": "zhanbu/logic",
+    "maya": "zhanbu/logic",
+    "meihua": "zhanbu/logic",
+    "qimen": "zhanbu/logic",
+    "tarot": "zhanbu/logic",
+    "xiaoliuren": "zhanbu/logic",
+    "xuankong": "zhanbu/logic",
     "zhuge": "zhanbu/logic",
-    "chart-utils": "guanxiang/logic", "fenglui": "guanxiang/logic",
-    "mianxiang": "guanxiang/logic", "shouxiang": "guanxiang/logic",
-    "jiaobei": "mingming/logic", "kangxi-strokes": "mingming/logic",
-    "lingqian": "mingming/logic", "mingji": "mingming/logic", "shuzhi": "mingming/logic",
-    "jingluo": "jiankang/logic", "use-cooldown": "jiankang/logic",
-    "wufu": "jiankang/logic", "zhenci": "jiankang/logic",
+    "chart-utils": "guanxiang/logic",
+    "fenglui": "guanxiang/logic",
+    "mianxiang": "guanxiang/logic",
+    "shouxiang": "guanxiang/logic",
+    "jiaobei": "mingming/logic",
+    "kangxi-strokes": "mingming/logic",
+    "lingqian": "mingming/logic",
+    "mingji": "mingming/logic",
+    "shuzhi": "mingming/logic",
+    "jingluo": "jiankang/logic",
+    "use-cooldown": "jiankang/logic",
+    "wufu": "jiankang/logic",
+    "zhenci": "jiankang/logic",
     "meridian-data": "jiankang/data",
-    "huangli": "shenghuo/logic", "jieqi": "shenghuo/logic", "yunshi": "shenghuo/logic"
+    "huangli": "shenghuo/logic",
+    "jieqi": "shenghuo/logic",
+    "yunshi": "shenghuo/logic"
   },
   "pageToModule": {
-    "wuxing": "mingli", "bazi": "mingli", "hehun": "mingli", "liunian": "mingli",
-    "dayun": "mingli", "ziwei": "mingli", "life": "mingli", "astro": "mingli",
-    "jiazu": "mingli", "jiri": "mingli", "tieban": "mingli",
-    "qimen": "zhanbu", "liuren": "zhanbu", "gua": "zhanbu", "gua/interpret": "zhanbu",
-    "tarot": "zhanbu", "meihua": "zhanbu", "liuyao": "zhanbu", "xuankong": "zhanbu",
-    "xiaoliuren": "zhanbu", "zhuge": "zhanbu", "maya": "zhanbu",
-    "mianxiang": "guanxiang", "shouxiang": "guanxiang", "fenglui": "guanxiang",
-    "jiaobei": "mingming", "lingqian": "mingming", "shuzhi": "mingming", "mingji": "mingming",
-    "qijing": "jiankang", "ziwu": "jiankang", "wufu": "jiankang", "yangsheng": "jiankang",
-    "zhan": "xiuxin", "fangqi": "xiuxin", "shijian": "xiuxin",
-    "huangli": "shenghuo", "yunshi": "shenghuo",
-    "index": "personal", "category": "personal", "profile": "personal",
-    "dashboard": "personal", "checkin": "personal", "poster": "personal", "users": "personal",
+    "wuxing": "mingli",
+    "bazi": "mingli",
+    "hehun": "mingli",
+    "liunian": "mingli",
+    "dayun": "mingli",
+    "ziwei": "mingli",
+    "life": "mingli",
+    "astro": "mingli",
+    "jiazu": "mingli",
+    "jiri": "mingli",
+    "tieban": "mingli",
+    "qimen": "zhanbu",
+    "liuren": "zhanbu",
+    "gua": "zhanbu",
+    "gua/interpret": "zhanbu",
+    "tarot": "zhanbu",
+    "meihua": "zhanbu",
+    "liuyao": "zhanbu",
+    "xuankong": "zhanbu",
+    "xiaoliuren": "zhanbu",
+    "zhuge": "zhanbu",
+    "maya": "zhanbu",
+    "mianxiang": "guanxiang",
+    "shouxiang": "guanxiang",
+    "fenglui": "guanxiang",
+    "jiaobei": "mingming",
+    "lingqian": "mingming",
+    "shuzhi": "mingming",
+    "mingji": "mingming",
+    "qijing": "jiankang",
+    "ziwu": "jiankang",
+    "wufu": "jiankang",
+    "yangsheng": "jiankang",
+    "zhan": "xiuxin",
+    "fangqi": "xiuxin",
+    "shijian": "xiuxin",
+    "huangli": "shenghuo",
+    "yunshi": "shenghuo",
+    "index": "personal",
+    "category": "personal",
+    "profile": "personal",
+    "dashboard": "personal",
+    "checkin": "personal",
+    "poster": "personal",
+    "users": "personal",
     "settings": "settings"
   }
 }
@@ -338,11 +449,9 @@ import { readFileSync, existsSync } from 'node:fs'
 import { execSync } from 'node:child_process'
 
 const ROOT = process.cwd()
-const MAPPING = JSON.parse(
-  readFileSync('docs/superpowers/sp2-mappings.json', 'utf8'),
-)
+const MAPPING = JSON.parse(readFileSync('docs/superpowers/sp2-mappings.json', 'utf8'))
 const DRY = process.argv.includes('--dry-run')
-const PHASE = process.argv.find(a => a.startsWith('--phase='))?.split('=')[1]
+const PHASE = process.argv.find((a) => a.startsWith('--phase='))?.split('=')[1]
 
 function run(cmd) {
   console.log(`  $ ${cmd}`)
@@ -428,7 +537,9 @@ phase('module-utils', () => {
   }
   // 改 import（在 modules/ 内 + 所有引用方）
   if (!DRY) {
-    run(`python3 scripts/rewrite-imports.py src/modules/ src/pages/ src/stores/ src/config/ src/App.vue src/uni.scss`)
+    run(
+      `python3 scripts/rewrite-imports.py src/modules/ src/pages/ src/stores/ src/config/ src/App.vue src/uni.scss`,
+    )
   }
 })
 
@@ -459,7 +570,9 @@ phase('module-pages', () => {
   }
   // 改 import（在 modules/pages 内 + stores）
   if (!DRY) {
-    run(`python3 scripts/rewrite-imports.py src/modules/ src/settings/ src/stores/ src/config/ src/App.vue`)
+    run(
+      `python3 scripts/rewrite-imports.py src/modules/ src/settings/ src/stores/ src/config/ src/App.vue`,
+    )
   }
 })
 
@@ -501,6 +614,7 @@ Part of 玄枢 v1.0.0 redo SP-2"
 ## Task 2: 搬 shared 资产（designs + utils + components）
 
 **Files:**
+
 - Move: `src/designs/*` → `src/shared/styles/*`
 - Move: `src/utils/{daily-cooldown,poster-renderer}.ts` → `src/shared/utils/`
 - Move: `src/components/{charts,effects,ui}/*` → `src/shared/components/{charts,effects,ui}/`
@@ -591,6 +705,7 @@ Part of 玄枢 v1.0.0 redo SP-2"
 ## Task 3: 搬 8 个 module 的 utils
 
 **Files:**
+
 - Move: `src/utils/<40 个 utils>` → `src/modules/<m>/{logic,data}/`
 
 - [ ] **Step 3.1: 跑搬移器（module-utils 阶段）**
@@ -658,6 +773,7 @@ Part of 玄枢 v1.0.0 redo SP-2"
 ## Task 4: 搬 8 个 module + settings 的 pages
 
 **Files:**
+
 - Move: `src/pages/<46 pages>` → `src/modules/<m>/pages/`
 - Move: `src/pages/settings/settings.vue` → `src/settings/pages/settings.vue`
 
@@ -731,6 +847,7 @@ Part of 玄枢 v1.0.0 redo SP-2"
 ## Task 5: 更新 pages.json + check-modules.mjs + 验证
 
 **Files:**
+
 - Modify: `src/pages.json`（46 path 改写）
 - Modify: `scripts/check-modules.mjs`（移除兼容期例外）
 
@@ -891,13 +1008,13 @@ pnpm type-check && pnpm check:modules && pnpm lint && pnpm test && pnpm build:h5
 
 ## 风险与缓解
 
-| 风险 | 缓解 |
-|---|---|
-| python 脚本改 import 出错 | 改完跑 type-check 兜底 + Grep 验证 |
-| pages.json 改 path 漏写 | 脚本基于 mapping 表自动转 + node 验证 |
-| 24 charts 组件改 import 出错 | rewrite-imports.py 一次性 regex 改 + type-check |
-| 脚本覆盖了不该改的文件 | 脚本只处理 git mv 后的新位置 + 严格正则 |
-| check-modules.mjs 移除兼容期后失败 | 步骤 5.4 验证；如失败看哪条 import 违规 |
+| 风险                               | 缓解                                            |
+| ---------------------------------- | ----------------------------------------------- |
+| python 脚本改 import 出错          | 改完跑 type-check 兜底 + Grep 验证              |
+| pages.json 改 path 漏写            | 脚本基于 mapping 表自动转 + node 验证           |
+| 24 charts 组件改 import 出错       | rewrite-imports.py 一次性 regex 改 + type-check |
+| 脚本覆盖了不该改的文件             | 脚本只处理 git mv 后的新位置 + 严格正则         |
+| check-modules.mjs 移除兼容期后失败 | 步骤 5.4 验证；如失败看哪条 import 违规         |
 
 ## 交付物清单
 

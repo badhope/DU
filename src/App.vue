@@ -49,8 +49,8 @@ onHide(() => {
 </script>
 
 <style>
-@import './designs/tokens.css';
-@import './designs/animations.css';
+@import './shared/styles/tokens.css';
+@import './shared/styles/animations.css';
 
 /* ===== 全局 ===== */
 page {

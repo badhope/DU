@@ -21,14 +21,27 @@ const SHARED = join(SRC, 'shared')
 const SETTINGS = join(SRC, 'settings')
 
 const REQUIRED_MODULES = [
-  'mingli', 'zhanbu', 'guanxiang', 'mingming',
-  'jiankang', 'xiuxin', 'shenghuo', 'personal',
+  'mingli',
+  'zhanbu',
+  'guanxiang',
+  'mingming',
+  'jiankang',
+  'xiuxin',
+  'shenghuo',
+  'personal',
 ]
 
 let failed = 0
-function ok(step, msg) { console.log(`  \u2713 [${step}] ${msg}`) }
-function fail(step, msg) { console.error(`  \u2717 [${step}] ${msg}`); failed++ }
-function step(n, name) { console.log(`\n=== Step ${n}: ${name} ===`) }
+function ok(step, msg) {
+  console.log(`  \u2713 [${step}] ${msg}`)
+}
+function fail(step, msg) {
+  console.error(`  \u2717 [${step}] ${msg}`)
+  failed++
+}
+function step(n, name) {
+  console.log(`\n=== Step ${n}: ${name} ===`)
+}
 
 // --- utility ---
 function* walk(dir) {
@@ -39,7 +52,9 @@ function* walk(dir) {
     else if (/\.(ts|vue)$/.test(e)) yield p
   }
 }
-function read(p) { return readFileSync(p, 'utf8') }
+function read(p) {
+  return readFileSync(p, 'utf8')
+}
 
 // import 提取（不解析类型）
 const IMPORT_RE = /(?:^|\n)\s*import\s+(?:.+?\s+from\s+)?['"]([^'"]+)['"]/g
@@ -82,9 +97,14 @@ for (const m of REQUIRED_MODULES) {
       if (!target) continue
       const rel = relative(SRC, target).replace(/\\/g, '/')
       // 允许：shared, settings, app, stores, config, 当前模块自身
-      if (rel.startsWith('shared/') || rel.startsWith('settings/') ||
-          rel.startsWith('app/') || rel.startsWith('stores/') ||
-          rel.startsWith('config/')) continue
+      if (
+        rel.startsWith('shared/') ||
+        rel.startsWith('settings/') ||
+        rel.startsWith('app/') ||
+        rel.startsWith('stores/') ||
+        rel.startsWith('config/')
+      )
+        continue
       if (rel.startsWith(`modules/${m}/`)) continue
       if (rel.startsWith('modules/')) {
         fail(1, `${relative(ROOT, f)} imports 兄弟模块 ${spec} (→ ${rel})`)
@@ -143,10 +163,7 @@ ok(5, '5 alias 在 vite/tsconfig 均存在')
 
 // --- 步骤 6: 3 strict 选项 ---
 step(6, 'tsconfig 开启 3 strict 选项')
-const strictOpts = [
-  'exactOptionalPropertyTypes',
-  'noImplicitOverride',
-]
+const strictOpts = ['exactOptionalPropertyTypes', 'noImplicitOverride']
 for (const o of strictOpts) {
   if (!tsconfigAliasBlock.includes(`"${o}": true`)) {
     fail(6, `tsconfig.json 缺 strict 选项 ${o}`)

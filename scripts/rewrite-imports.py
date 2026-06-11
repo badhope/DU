@@ -94,9 +94,17 @@ def main():
             try:
                 if rewrite_file(f, mapping):
                     changed += 1
-                    print(f"  + {f.relative_to(ROOT)}")
+                    try:
+                        rel = f.resolve().relative_to(ROOT.resolve())
+                    except ValueError:
+                        rel = f
+                    print(f"  + {rel}")
             except Exception as e:
-                print(f"  ! {f.relative_to(ROOT)}: {e}")
+                try:
+                    rel = f.resolve().relative_to(ROOT.resolve())
+                except ValueError:
+                    rel = f
+                print(f"  ! {rel}: {e}")
 
     print(f"\n[{changed}/{total} files changed]")
 

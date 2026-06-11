@@ -65,6 +65,7 @@ package.json                                 # 加 check:modules + check script
 ## Task 1: 移除 AI 残留
 
 **Files:**
+
 - Delete: `src/utils/ai.ts`
 - Delete: `src/pages/ai/` (entire dir)
 - Modify: `src/utils/daily-cooldown.ts:64-69`
@@ -92,7 +93,7 @@ grep -rn "from '@/utils/ai'\|from '@/pages/ai/" src/ 2>&1
 
 若仍出现引用 → 列出文件，保留在后续步骤处理（这些应是 pages/ai/ 自己，但已经删除，所以应为空）。
 
-- [ ] **Step 1.3: 修改 daily-cooldown.ts — 删 6 行 ai-* free**
+- [ ] **Step 1.3: 修改 daily-cooldown.ts — 删 6 行 ai-\* free**
 
 打开 `src/utils/daily-cooldown.ts`，定位 line 64-69：
 
@@ -134,7 +135,7 @@ grep -n "ai-gua\|ai-ming\|ai-feng\|ai-name\|ai-jiankang\|ai-xiuxin" src/utils/da
 定位 line 183：
 
 ```ts
-  chatSessions: Record<string, ChatSession> // AI 六师聊天记录（按 masterKey 分组）
+chatSessions: Record<string, ChatSession> // AI 六师聊天记录（按 masterKey 分组）
 ```
 
 整行删除。
@@ -232,6 +233,7 @@ const chatSessions = ref<Record<string, ChatSession>>(initial.chatSessions)
 - [ ] **Step 1.16: 修改 stores/index.ts — 清理 return 中所有 AI 字段**
 
 定位 line 878-949（return 对象），删除以下键：
+
 - `chatSessions,`（line 887）
 - 整段 `// chat` 注释（line 917） + 5 个 chat 函数（line 918-922）
 - `totalChatTurns,`（line 898）
@@ -246,7 +248,7 @@ grep -n "ChatSession\|chatSessions\|chattedMasters\|totalChatTurns\|ai-master\|M
 # 期望: 空输出
 ```
 
-- [ ] **Step 1.18: 修改 config/tools.ts — 删 6 个 ai-* 工具项**
+- [ ] **Step 1.18: 修改 config/tools.ts — 删 6 个 ai-\* 工具项**
 
 打开 `src/config/tools.ts`，定位 `TOOLS` 数组（搜索 `ai-gua`），删除以下 6 个对象：
 
@@ -286,7 +288,7 @@ grep -n "ai-gua\|ai-ming\|ai-feng\|ai-name\|ai-jiankang\|ai-xiuxin" src/config/t
 # 期望: 空输出
 ```
 
-- [ ] **Step 1.20: 修改 pages.json — 删 6 个 ai-* 路由**
+- [ ] **Step 1.20: 修改 pages.json — 删 6 个 ai-\* 路由**
 
 打开 `src/pages.json`，定位 line 340-386，删除 6 个 `path: "pages/ai/ai-*"` 路由条目（含 style 子对象）。
 
@@ -310,6 +312,7 @@ grep -n "ai-gua\|ai-ming\|ai-feng\|ai-name\|ai-jiankang\|ai-xiuxin\|chattedMaste
 - [ ] **Step 1.23: 修改 poster.vue**
 
 根据上一步的 grep 结果，从 `src/pages/poster/poster.vue` 中删除：
+
 - 任何 `import { ... } from '@/utils/ai'`（应在文件顶部）
 - 任何 `chattedMasters` / `totalChatTurns` 计算属性
 - 任何引用 `ai-gua` / `ai-ming` / `ai-feng` / `ai-name` / `ai-jiankang` / `ai-xiuxin` 的代码
@@ -381,6 +384,7 @@ EOF
 ## Task 2: 新目录骨架 + Alias + Strict
 
 **Files:**
+
 - Create: `src/app/README.md`
 - Create: `src/shared/README.md`
 - Create: `src/modules/README.md`
@@ -651,6 +655,7 @@ EOF
 ## Task 2.5: 清零 Strict 错误
 
 **Files:**
+
 - Modify: any `.ts`/`.vue` files flagged by `pnpm type-check` (typically 50-80 files)
 
 **Strategy:** 单文件单 commit，不批量 sed，不允许 `@ts-ignore`。
@@ -704,9 +709,13 @@ const first = arr[0] ?? defaultValue
 
 ```ts
 // 改前
-function f(opts: { a?: string }) { return opts.a }
+function f(opts: { a?: string }) {
+  return opts.a
+}
 // 改后
-function f(opts: { a?: string }) { return opts.a ?? '' }
+function f(opts: { a?: string }) {
+  return opts.a ?? ''
+}
 ```
 
 **类型 C: 缺 override**
@@ -714,11 +723,15 @@ function f(opts: { a?: string }) { return opts.a ?? '' }
 ```ts
 // 改前
 class B extends A {
-  method() { return 1 }
+  method() {
+    return 1
+  }
 }
 // 改后
 class B extends A {
-  override method() { return 1 }
+  override method() {
+    return 1
+  }
 }
 ```
 
@@ -726,7 +739,7 @@ class B extends A {
 
 ```ts
 // 改前
-arr.map(x => x.foo)
+arr.map((x) => x.foo)
 // 改后
 arr.map((x: SomeType) => x.foo)
 ```
@@ -806,12 +819,12 @@ SP-1 不动 `src/components/` `src/pages/` `src/utils/` `src/config/` 现有文�
 
 ## 风险与缓解
 
-| 风险 | 缓解 |
-|---|---|
-| strict 错误数远超预期（>100） | 一次只改一文件，commit-by-commit；每个 commit 后跑 type-check |
-| v2 数据迁移丢失用户 chatSessions | v2 key 保留不动，仅剥离字段并写 v3；不删除 v2 原始数据 |
-| 8 个空 module 让人困惑 | README + index.ts 注释说明 stub 状态；SP-2 起填实质 |
-| 新 alias 与旧 `@/` 冲突 | 保留 `@/` 兼容；新写代码用 5 个新 alias |
+| 风险                             | 缓解                                                          |
+| -------------------------------- | ------------------------------------------------------------- |
+| strict 错误数远超预期（>100）    | 一次只改一文件，commit-by-commit；每个 commit 后跑 type-check |
+| v2 数据迁移丢失用户 chatSessions | v2 key 保留不动，仅剥离字段并写 v3；不删除 v2 原始数据        |
+| 8 个空 module 让人困惑           | README + index.ts 注释说明 stub 状态；SP-2 起填实质           |
+| 新 alias 与旧 `@/` 冲突          | 保留 `@/` 兼容；新写代码用 5 个新 alias                       |
 
 ## 交付物清单
 

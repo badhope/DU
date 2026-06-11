@@ -7,6 +7,7 @@
 ## 1. 背景
 
 SP-1 完成后，仓库 `src/` 仍为旧结构（pre-v1.0.0）：
+
 - `src/components/{charts,effects,ui}/` — 37 个 Vue 组件
 - `src/designs/{tokens,animations}.css` — 2 个 CSS
 - `src/utils/` — 42 个 TS utils
@@ -52,27 +53,27 @@ SP-2 目标：把上述资产搬到 v1.0.0 新结构（`src/shared/` + `src/modu
 
 ### 4.1 shared 资产
 
-| 旧路径                                  | 新路径                                              | 文件数 |
-| --------------------------------------- | --------------------------------------------------- | ------ |
-| `src/designs/tokens.css`                | `src/shared/styles/tokens.css`                      | 1      |
-| `src/designs/animations.css`            | `src/shared/styles/animations.css`                  | 1      |
-| `src/utils/daily-cooldown.ts`           | `src/shared/utils/daily-cooldown.ts`                | 1      |
-| `src/utils/poster-renderer.ts`          | `src/shared/utils/poster-renderer.ts`               | 1      |
-| `src/components/charts/*`                | `src/shared/components/charts/*`                    | 24     |
-| `src/components/effects/*`              | `src/shared/components/effects/*`                   | 3      |
-| `src/components/ui/*`                   | `src/shared/components/ui/*`                        | 10     |
+| 旧路径                         | 新路径                                | 文件数 |
+| ------------------------------ | ------------------------------------- | ------ |
+| `src/designs/tokens.css`       | `src/shared/styles/tokens.css`        | 1      |
+| `src/designs/animations.css`   | `src/shared/styles/animations.css`    | 1      |
+| `src/utils/daily-cooldown.ts`  | `src/shared/utils/daily-cooldown.ts`  | 1      |
+| `src/utils/poster-renderer.ts` | `src/shared/utils/poster-renderer.ts` | 1      |
+| `src/components/charts/*`      | `src/shared/components/charts/*`      | 24     |
+| `src/components/effects/*`     | `src/shared/components/effects/*`     | 3      |
+| `src/components/ui/*`          | `src/shared/components/ui/*`          | 10     |
 
 ### 4.2 utils 按模块归属（40 个）
 
-| module    | utils                                                                                          | 数量 |
-| --------- | ---------------------------------------------------------------------------------------------- | ---- |
-| mingli    | bazi, bazi-deep, hehun, jiazu, jiegua, jiri, life, dayun-life, wuxing, wuxing-deep, ziwei, astro, tieban | 13   |
-| zhanbu    | gua, liuren, liuyao, maya, meihua, qimen, tarot, xiaoliuren, xuankong, zhuge                   | 10   |
-| guanxiang | chart-utils, fenglui, mianxiang, shouxiang                                                     | 4    |
-| mingming  | jiaobei, kangxi-strokes, lingqian, mingji, shuzhi                                              | 5    |
-| jiankang  | jingluo, meridian-data, use-cooldown, wufu, zhenci                                             | 5    |
-| shenghuo  | huangli, jieqi, yunshi                                                                          | 3    |
-| **合计**  |                                                                                                | **40** |
+| module    | utils                                                                                                    | 数量   |
+| --------- | -------------------------------------------------------------------------------------------------------- | ------ |
+| mingli    | bazi, bazi-deep, hehun, jiazu, jiegua, jiri, life, dayun-life, wuxing, wuxing-deep, ziwei, astro, tieban | 13     |
+| zhanbu    | gua, liuren, liuyao, maya, meihua, qimen, tarot, xiaoliuren, xuankong, zhuge                             | 10     |
+| guanxiang | chart-utils, fenglui, mianxiang, shouxiang                                                               | 4      |
+| mingming  | jiaobei, kangxi-strokes, lingqian, mingji, shuzhi                                                        | 5      |
+| jiankang  | jingluo, meridian-data, use-cooldown, wufu, zhenci                                                       | 5      |
+| shenghuo  | huangli, jieqi, yunshi                                                                                   | 3      |
+| **合计**  |                                                                                                          | **40** |
 
 `meridian-data.ts` 体积较大且纯数据 → 放 `src/modules/jiankang/data/meridian-data.ts`（特殊处理）。
 其他 39 个 utils 放 `src/modules/<m>/logic/<filename>.ts`。
@@ -80,18 +81,18 @@ SP-2 目标：把上述资产搬到 v1.0.0 新结构（`src/shared/` + `src/modu
 
 ### 4.3 pages 按模块归属（46 个）
 
-| module    | pages                                                                                                                | 数量 |
-| --------- | -------------------------------------------------------------------------------------------------------------------- | ---- |
-| mingli    | wuxing, bazi, hehun, liunian, dayun, ziwei, life, astro, jiazu, jiri, tieban                                          | 11   |
-| zhanbu    | qimen, liuren, gua, gua/interpret, tarot, meihua, liuyao, xuankong, xiaoliuren, zhuge, maya                          | 11   |
-| guanxiang | mianxiang, shouxiang, fenglui                                                                                        | 3    |
-| mingming  | jiaobei, lingqian, shuzhi, mingji                                                                                    | 4    |
-| jiankang  | qijing, ziwu, wufu, yangsheng                                                                                        | 4    |
-| xiuxin    | zhan, fangqi, shijian                                                                                                | 3    |
-| shenghuo  | huangli, yunshi                                                                                                      | 2    |
-| personal  | index, category, profile, dashboard, checkin, poster, users                                                          | 7    |
-| settings  | settings                                                                                                             | 1    |
-| **合计**  |                                                                                                                      | **46** |
+| module    | pages                                                                                       | 数量   |
+| --------- | ------------------------------------------------------------------------------------------- | ------ |
+| mingli    | wuxing, bazi, hehun, liunian, dayun, ziwei, life, astro, jiazu, jiri, tieban                | 11     |
+| zhanbu    | qimen, liuren, gua, gua/interpret, tarot, meihua, liuyao, xuankong, xiaoliuren, zhuge, maya | 11     |
+| guanxiang | mianxiang, shouxiang, fenglui                                                               | 3      |
+| mingming  | jiaobei, lingqian, shuzhi, mingji                                                           | 4      |
+| jiankang  | qijing, ziwu, wufu, yangsheng                                                               | 4      |
+| xiuxin    | zhan, fangqi, shijian                                                                       | 3      |
+| shenghuo  | huangli, yunshi                                                                             | 2      |
+| personal  | index, category, profile, dashboard, checkin, poster, users                                 | 7      |
+| settings  | settings                                                                                    | 1      |
+| **合计**  |                                                                                             | **46** |
 
 ### 4.4 pages.json 路径转换
 
@@ -211,14 +212,14 @@ pnpm build:h5        # 成功
 
 ## 8. 风险与缓解
 
-| 风险                                       | 缓解                                                                                          |
-| ------------------------------------------ | --------------------------------------------------------------------------------------------- |
-| 42 utils × 46 pages 搬移后 import 错误     | 写 python 脚本批量改（不手工 Edit） + Grep 验证 + type-check 兜底                              |
-| 路径写错导致运行时找不到组件                | 改完每步跑 `pnpm type-check` + `pnpm build:h5` 验证                                           |
-| 脚本覆盖了不需要改的文件                   | 脚本只处理 `git mv` 后的新位置文件 + 严格正则匹配 import                                       |
-| 7 个 charts/24 文件搬移耗时                | 一个 git mv 一次性 + 一次性 regex rewrite                                                     |
-| SP-1 spec/plan 与 SP-2 spec 冲突           | SP-2 spec 是 SP-1 spec 的扩展（继承 + 细化），不冲突                                          |
-| pages.json 改错导致页面找不到              | 写脚本基于 `sp2-mappings.json` 自动转换 + 跑 dev server 抽样访问验证                          |
+| 风险                                   | 缓解                                                                 |
+| -------------------------------------- | -------------------------------------------------------------------- |
+| 42 utils × 46 pages 搬移后 import 错误 | 写 python 脚本批量改（不手工 Edit） + Grep 验证 + type-check 兜底    |
+| 路径写错导致运行时找不到组件           | 改完每步跑 `pnpm type-check` + `pnpm build:h5` 验证                  |
+| 脚本覆盖了不需要改的文件               | 脚本只处理 `git mv` 后的新位置文件 + 严格正则匹配 import             |
+| 7 个 charts/24 文件搬移耗时            | 一个 git mv 一次性 + 一次性 regex rewrite                            |
+| SP-1 spec/plan 与 SP-2 spec 冲突       | SP-2 spec 是 SP-1 spec 的扩展（继承 + 细化），不冲突                 |
+| pages.json 改错导致页面找不到          | 写脚本基于 `sp2-mappings.json` 自动转换 + 跑 dev server 抽样访问验证 |
 
 ## 9. 交付物
 
