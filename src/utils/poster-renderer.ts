@@ -478,19 +478,6 @@ export function buildPosterFromHistory(
         ],
         badge: 'LIUYAO · 玄枢易盘',
       }
-    case 'ai':
-      return {
-        ...base,
-        glyph: '智',
-        title: 'AI 玄谈',
-        subtitle: '六师共议',
-        content: [
-          inp.master ? `问于 ${inp.master}` : '问卦',
-          out.reply?.slice(0, 12) || '万事皆有其时',
-          '玄枢六师 · 智慧相授',
-        ],
-        badge: 'AI · 六师问答',
-      }
     default:
       return base
   }

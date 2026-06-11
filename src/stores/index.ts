@@ -74,13 +74,6 @@ export type ToolKey =
   | 'life'
   | 'astro'
   | 'maya'
-  // AI 助手
-  | 'ai-gua'
-  | 'ai-ming'
-  | 'ai-feng'
-  | 'ai-name'
-  | 'ai-jiankang'
-  | 'ai-xiuxin'
   // 个人中心
   | 'profile'
   | 'dashboard'
@@ -142,19 +135,6 @@ export interface Achievement {
   current: number
 }
 
-/** AI 六师聊天会话 */
-export interface ChatSession {
-  masterKey: string // 'ai-gua' | 'ai-ming' | ...
-  messages: Array<{
-    role: 'user' | 'master'
-    text: string
-    time: number
-    cite?: string
-  }>
-  persona?: string // 用户设置的 persona（可选）
-  lastActiveTime: number
-}
-
 export interface CheckinInfo {
   lastDate: string // YYYY-MM-DD
   streak: number
@@ -180,13 +160,13 @@ interface PersistState {
   notes: Note[]
   achievements: Achievement[]
   checkin: CheckinInfo
-  chatSessions: Record<string, ChatSession> // AI 六师聊天记录（按 masterKey 分组）
   divinationRecords: DivinationRecord[] // 全部占卜记录（用于一日同人同工具检查）
   divinatorProfiles: Record<string, DivinatorProfile> // 用户档案
   activeDivinatorKey: string // 当前激活用户 key
 }
 
-const STORAGE_KEY = 'mistverse-state-v2'
+const STORAGE_KEY = 'mistverse-state-v3'
+const LEGACY_KEY = 'mistverse-state-v2'
 
 const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   {
@@ -350,16 +330,6 @@ const DEFAULT_ACHIEVEMENTS: Achievement[] = [
     current: 0,
   },
   {
-    id: 'ai-master',
-    name: 'AI 玄谈',
-    desc: '与 6 位 AI 师均交流',
-    icon: '智',
-    unlocked: false,
-    progress: 0,
-    target: 6,
-    current: 0,
-  },
-  {
     id: 'share-1',
     name: '广结善缘',
     desc: '生成首张海报',
@@ -389,7 +359,6 @@ const DEFAULT_STATE: PersistState = {
   notes: [],
   achievements: DEFAULT_ACHIEVEMENTS,
   checkin: { lastDate: '', streak: 0, totalDays: 0, points: 0 },
-  chatSessions: {},
   divinationRecords: [],
   divinatorProfiles: {},
   activeDivinatorKey: '',
@@ -397,28 +366,44 @@ const DEFAULT_STATE: PersistState = {
 
 function loadState(): PersistState {
   if (typeof window === 'undefined') return JSON.parse(JSON.stringify(DEFAULT_STATE))
+  // 1) 优先 v3
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY)
-    if (!raw) return JSON.parse(JSON.stringify(DEFAULT_STATE))
-    const parsed = JSON.parse(raw) as Partial<PersistState>
-    return {
-      history: Array.isArray(parsed.history) ? parsed.history : [],
-      settings: { ...DEFAULT_STATE.settings, ...(parsed.settings || {}) },
-      profile: parsed.profile || null,
-      favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
-      notes: Array.isArray(parsed.notes) ? parsed.notes : [],
-      achievements:
-        Array.isArray(parsed.achievements) && parsed.achievements.length
-          ? parsed.achievements
-          : JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
-      checkin: parsed.checkin || { lastDate: '', streak: 0, totalDays: 0, points: 0 },
-      chatSessions: parsed.chatSessions || {},
-      divinationRecords: Array.isArray(parsed.divinationRecords) ? parsed.divinationRecords : [],
-      divinatorProfiles: parsed.divinatorProfiles || {},
-      activeDivinatorKey: parsed.activeDivinatorKey || '',
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<PersistState>
+      return normalize(parsed)
     }
-  } catch (_e) {
-    return JSON.parse(JSON.stringify(DEFAULT_STATE))
+  } catch (_e) {}
+  // 2) 回退 v2 → 剥离 chatSessions 字段后写 v3，v2 保留不动
+  try {
+    const raw = window.localStorage.getItem(LEGACY_KEY)
+    if (raw) {
+      const parsed = JSON.parse(raw) as Partial<PersistState>
+      const stripped = { ...parsed } as Partial<PersistState> & { chatSessions?: unknown }
+      delete stripped.chatSessions
+      const next = normalize(stripped)
+      saveState(next)
+      return next
+    }
+  } catch (_e) {}
+  return JSON.parse(JSON.stringify(DEFAULT_STATE))
+}
+
+function normalize(parsed: Partial<PersistState>): PersistState {
+  return {
+    history: Array.isArray(parsed.history) ? parsed.history : [],
+    settings: { ...DEFAULT_STATE.settings, ...(parsed.settings || {}) },
+    profile: parsed.profile || null,
+    favorites: Array.isArray(parsed.favorites) ? parsed.favorites : [],
+    notes: Array.isArray(parsed.notes) ? parsed.notes : [],
+    achievements:
+      Array.isArray(parsed.achievements) && parsed.achievements.length
+        ? parsed.achievements
+        : JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
+    checkin: parsed.checkin || { lastDate: '', streak: 0, totalDays: 0, points: 0 },
+    divinationRecords: Array.isArray(parsed.divinationRecords) ? parsed.divinationRecords : [],
+    divinatorProfiles: parsed.divinatorProfiles || {},
+    activeDivinatorKey: parsed.activeDivinatorKey || '',
   }
 }
 
@@ -438,7 +423,6 @@ export const useAppStore = defineStore('app', () => {
   const notes = ref<Note[]>(initial.notes)
   const achievements = ref<Achievement[]>(initial.achievements)
   const checkin = ref<CheckinInfo>(initial.checkin)
-  const chatSessions = ref<Record<string, ChatSession>>(initial.chatSessions)
   const divinationRecords = ref<DivinationRecord[]>(initial.divinationRecords)
   const divinatorProfiles = ref<Record<string, DivinatorProfile>>(initial.divinatorProfiles)
   const activeDivinatorKey = ref<string>(initial.activeDivinatorKey)
@@ -452,7 +436,6 @@ export const useAppStore = defineStore('app', () => {
       notes,
       achievements,
       checkin,
-      chatSessions,
       divinationRecords,
       divinatorProfiles,
       activeDivinatorKey,
@@ -466,7 +449,6 @@ export const useAppStore = defineStore('app', () => {
         notes: notes.value,
         achievements: achievements.value,
         checkin: checkin.value,
-        chatSessions: chatSessions.value,
         divinationRecords: divinationRecords.value,
         divinatorProfiles: divinatorProfiles.value,
         activeDivinatorKey: activeDivinatorKey.value,
@@ -576,49 +558,6 @@ export const useAppStore = defineStore('app', () => {
 
   function removeNote(id: string) {
     notes.value = notes.value.filter((n) => n.id !== id)
-  }
-
-  // ============ AI 六师聊天会话 ============
-  const MAX_CHAT_MESSAGES = 40 // 单 master 最多保留 20 轮（user+master）
-
-  function getChatSession(masterKey: string): ChatSession {
-    if (!chatSessions.value[masterKey]) {
-      chatSessions.value[masterKey] = {
-        masterKey,
-        messages: [],
-        lastActiveTime: Date.now(),
-      }
-    }
-    return chatSessions.value[masterKey]
-  }
-
-  function appendChatMessage(
-    masterKey: string,
-    msg: { role: 'user' | 'master'; text: string; cite?: string },
-  ) {
-    const session = getChatSession(masterKey)
-    session.messages.push({ ...msg, time: Date.now() })
-    session.lastActiveTime = Date.now()
-    // 限制最大消息数（FIFO 截断）
-    if (session.messages.length > MAX_CHAT_MESSAGES) {
-      session.messages.splice(0, session.messages.length - MAX_CHAT_MESSAGES)
-    }
-  }
-
-  function setChatPersona(masterKey: string, persona: string) {
-    const session = getChatSession(masterKey)
-    session.persona = persona
-  }
-
-  function clearChatSession(masterKey: string) {
-    if (chatSessions.value[masterKey]) {
-      chatSessions.value[masterKey].messages = []
-      chatSessions.value[masterKey].lastActiveTime = Date.now()
-    }
-  }
-
-  function clearAllChatSessions() {
-    chatSessions.value = {}
   }
 
   // ============ 占卜用户与记录 ============
@@ -751,18 +690,6 @@ export const useAppStore = defineStore('app', () => {
     }
   }
 
-  const totalChatTurns = computed(() => {
-    let total = 0
-    Object.values(chatSessions.value).forEach((s) => {
-      total += s.messages.filter((m) => m.role === 'user').length
-    })
-    return total
-  })
-
-  const chattedMasters = computed(() => {
-    return Object.keys(chatSessions.value).filter((k) => chatSessions.value[k].messages.length > 0)
-  })
-
   // ============ 成就 ============
   function _ach(id: string) {
     const a = achievements.value.find((x) => x.id === id)
@@ -861,7 +788,6 @@ export const useAppStore = defineStore('app', () => {
     notes.value = []
     achievements.value = JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS))
     checkin.value = { lastDate: '', streak: 0, totalDays: 0, points: 0 }
-    chatSessions.value = {}
     divinationRecords.value = []
     divinatorProfiles.value = {}
     activeDivinatorKey.value = ''
@@ -884,7 +810,6 @@ export const useAppStore = defineStore('app', () => {
     notes,
     achievements,
     checkin,
-    chatSessions,
     divinationRecords,
     divinatorProfiles,
     activeDivinatorKey,
@@ -895,8 +820,6 @@ export const useAppStore = defineStore('app', () => {
     themeClass,
     unlockedAchievements,
     todayCheckedIn,
-    totalChatTurns,
-    chattedMasters,
     activeDivinator,
     allDivinators,
     // history
@@ -914,12 +837,6 @@ export const useAppStore = defineStore('app', () => {
     addNote,
     updateNote,
     removeNote,
-    // chat
-    getChatSession,
-    appendChatMessage,
-    setChatPersona,
-    clearChatSession,
-    clearAllChatSessions,
     // divination users & records
     setActiveDivinator,
     addDivinator,

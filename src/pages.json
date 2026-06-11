@@ -337,54 +337,6 @@
       }
     },
     {
-      "path": "pages/ai/ai-gua",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 解卦师"
-      }
-    },
-    {
-      "path": "pages/ai/ai-ming",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 命理师"
-      }
-    },
-    {
-      "path": "pages/ai/ai-feng",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 风水师"
-      }
-    },
-    {
-      "path": "pages/ai/ai-name",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 起名师"
-      }
-    },
-    {
-      "path": "pages/ai/ai-jiankang",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 健康师"
-      }
-    },
-    {
-      "path": "pages/ai/ai-xiuxin",
-      "style": {
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 修心师"
-      }
-    },
-    {
       "path": "pages/profile/profile",
       "style": {
         "navigationStyle": "custom",
