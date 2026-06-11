@@ -1,5 +1,8 @@
 /**
- * 观形 模块入口（SP-1 stub）
+ * 观形 模块入口
+ *
+ * SP-2 已搬移: 4 logic (chart-utils, fenglui, mianxiang, shouxiang),
+ * 3 pages (mianxiang, shouxiang, fenglui).
  *
  * TODO(SP-3): KnowledgeShell 化（双 tab + 3 SVG + 36 知识条目 + 26 illustrations）
  */
