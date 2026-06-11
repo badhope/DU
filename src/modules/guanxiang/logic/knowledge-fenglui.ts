@@ -7,7 +7,8 @@ export interface FengshuiKnowledge {
   name: string
   direction: '东' | '南' | '西' | '北' | '东南' | '西南' | '东北' | '西北'
   jiXiong: '大吉' | '吉' | '平' | '凶' | '大凶'
-  illustId: string
+  /** 对应 illustration-specs.ts 的 id；不填则不显示配图 */
+  illustId?: string
 }
 
 export const FENGLUI_KNOWLEDGE: FengshuiKnowledge[] = [
