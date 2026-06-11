@@ -5,6 +5,7 @@
 **Goal:** 把 v1.0.1 扁平结构中 tools.ts category='mingli' 的真命理子集（9 个工具，**严格排除**混入 mingli 类的占卜工具 liuren/xiaoliuren/zhuge/tieban/qimen 和个人中心工具 profile/dashboard/users）迁移到 `src/modules/mingli/`。这建立 v1.1.0 模块化迁移的第一个 module 样板。
 
 **Architecture:**
+
 - `src/modules/mingli/pages/` — 9 个 .vue
 - `src/modules/mingli/logic/` — 11 个 .ts（bazi/hehun/liunian 共用 wuxing/bazi）
 - `src/modules/mingli/components/charts/` — 7 个 .vue
@@ -18,6 +19,7 @@
 ### Task 1: 建 `src/modules/mingli/` 目录结构
 
 **Files:**
+
 - Create: `src/modules/mingli/pages/`
 - Create: `src/modules/mingli/logic/`
 - Create: `src/modules/mingli/components/charts/`
@@ -37,6 +39,7 @@ mkdir -p src/modules/mingli/pages \
 ### Task 2: git mv 9 个 page 到 mingli
 
 **Files:**
+
 - Move: `src/pages/{wuxing,bazi,hehun,liunian,ziwei,xuankong,life,astro,maya}/{name}.vue` → `src/modules/mingli/pages/{name}.vue`
 
 - [ ] **Step 1: 9 个 git mv**
@@ -66,6 +69,7 @@ ls src/pages/ 2>&1 | head -10
 ### Task 3: git mv 11 个 logic 到 mingli
 
 **Files:**
+
 - Move: `src/utils/{wuxing,wuxing-deep,bazi,bazi-deep,hehun,liunian,ziwei,xuankong,life,astro,maya}.ts` → `src/modules/mingli/logic/{name}.ts`
 
 - [ ] **Step 1: 11 个 git mv**
@@ -90,6 +94,7 @@ git status --short 2>&1 | grep "\.ts" | head -15
 ### Task 4: git mv 7 个 chart 到 mingli
 
 **Files:**
+
 - Move: `src/components/charts/{BaziChart,HeHunChart,LiuNianChart,ZiweiChart,LifeNumberChart,AstroChart,MayaChart}.vue` → `src/modules/mingli/components/charts/{Name}.vue`
 
 - [ ] **Step 1: 7 个 git mv**
@@ -108,6 +113,7 @@ git status --short 2>&1 | grep "Chart.vue" | head -10
 ### Task 5: 改 pages.json 9 处路径
 
 **Files:**
+
 - Modify: `src/pages.json` 9 处
 
 - [ ] **Step 1: 改 9 处路径**
@@ -145,6 +151,7 @@ PY
 ### Task 6: 批量改 imports（pages/logic/charts + cross-module 引用）
 
 **Files:**
+
 - Modify: 所有 import `@/utils/{wuxing,wuxing-deep,bazi,bazi-deep,hehun,liunian,ziwei,xuankong,life,astro,maya}` 的 .vue/.ts
 - Modify: 所有 import `@/components/charts/{BaziChart,HeHunChart,LiuNianChart,ZiweiChart,LifeNumberChart,AstroChart,MayaChart}` 的 .vue
 

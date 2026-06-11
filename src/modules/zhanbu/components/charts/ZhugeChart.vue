@@ -136,7 +136,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { polar, uid, THEME, levelColor } from '@/utils/chart-utils'
-import type { ZhugeQian } from '@/utils/zhuge'
+import type { ZhugeQian } from '@/modules/zhanbu/logic/zhuge'
 
 const props = defineProps<{ qian: ZhugeQian }>()
 

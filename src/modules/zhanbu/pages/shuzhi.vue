@@ -87,7 +87,7 @@ import { ref, computed } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
-import { analyzeShuzhi, type ShuzhiAnalysis } from '@/utils/shuzhi'
+import { analyzeShuzhi, type ShuzhiAnalysis } from '@/modules/zhanbu/logic/shuzhi'
 import { WUXING_META, type Wuxing } from '@/modules/mingli/logic/wuxing'
 
 const app = useAppStore()

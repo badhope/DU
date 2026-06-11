@@ -13,7 +13,7 @@
  *  - 变卦：动爻阴变阳 / 阳变阴
  */
 
-import { GUA_LIST, TRIGRAMS, type Gua, type Trigram } from './gua'
+import { GUA_LIST, TRIGRAMS, type Gua, type Trigram } from '@/modules/zhanbu/logic/gua'
 
 /** 六亲 */
 export type Liuqin = '父母' | '兄弟' | '子孙' | '妻财' | '官鬼'

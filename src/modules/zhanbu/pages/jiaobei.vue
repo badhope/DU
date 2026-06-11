@@ -82,7 +82,7 @@ import { ref } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
-import { castJiao, type JiaoResult as _JiaoResult } from '@/utils/jiaobei'
+import { castJiao, type JiaoResult as _JiaoResult } from '@/modules/zhanbu/logic/jiaobei'
 
 const app = useAppStore()
 

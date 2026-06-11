@@ -169,7 +169,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { polar, uid, THEME, levelColor } from '@/utils/chart-utils'
-import type { TiebanResult } from '@/utils/tieban'
+import type { TiebanResult } from '@/modules/zhanbu/logic/tieban'
 
 const props = defineProps<{ result: TiebanResult }>()
 

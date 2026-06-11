@@ -204,10 +204,10 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
-import LiuRenDaChart from '@/components/charts/LiuRenDaChart.vue'
+import LiuRenDaChart from '@/modules/zhanbu/components/charts/LiuRenDaChart.vue'
 import UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
-import { calcLiuren, type LiurenResult } from '@/utils/liuren'
+import { calcLiuren, type LiurenResult } from '@/modules/zhanbu/logic/liuren'
 import { useAppStore } from '@/stores'
 import { useCooldown } from '@/shared/composables/use-cooldown'
 

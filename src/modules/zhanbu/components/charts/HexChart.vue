@@ -259,7 +259,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { uid, THEME, levelColor } from '@/utils/chart-utils'
-import type { LiuyaoResult } from '@/utils/liuyao'
+import type { LiuyaoResult } from '@/modules/zhanbu/logic/liuyao'
 
 const props = defineProps<{ result: LiuyaoResult }>()
 

@@ -145,7 +145,12 @@
 
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { GONG_NAMES_9, GONG_DIR, type GONG_NUM, type XuanKongResult } from '@/modules/mingli/logic/xuankong'
+import {
+  GONG_NAMES_9,
+  GONG_DIR,
+  type GONG_NUM,
+  type XuanKongResult,
+} from '@/modules/mingli/logic/xuankong'
 import { uid, levelColor } from '@/utils/chart-utils'
 
 const props = defineProps<{ result: XuanKongResult }>()

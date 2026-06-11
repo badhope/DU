@@ -225,7 +225,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { BAGUA_LIST, type MeihuaResult } from '@/utils/meihua'
+import { BAGUA_LIST, type MeihuaResult } from '@/modules/zhanbu/logic/meihua'
 // BAGUA_LIST is used as value in scripts above
 import { polar, uid } from '@/utils/chart-utils'
 import type { Wuxing } from '@/modules/mingli/logic/wuxing'

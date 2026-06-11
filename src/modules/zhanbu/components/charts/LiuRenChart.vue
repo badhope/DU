@@ -163,7 +163,7 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { ALL_LIU_SHEN, type LiuShen } from '@/utils/xiaoliuren'
+import { ALL_LIU_SHEN, type LiuShen } from '@/modules/zhanbu/logic/xiaoliuren'
 import { polar, uid } from '@/utils/chart-utils'
 
 interface Result {

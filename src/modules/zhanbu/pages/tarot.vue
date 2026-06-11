@@ -143,7 +143,7 @@
 import { ref, computed } from 'vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
-import { drawCards, type TarotCard } from '@/utils/tarot'
+import { drawCards, type TarotCard } from '@/modules/zhanbu/logic/tarot'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()

@@ -8,7 +8,11 @@
  *  - 90 年 SVG 曲线数据
  */
 
-import { calcBazi, TIANGAN_WUXING, DIZHI_WUXING as _DIZHI_WUXING } from '@/modules/mingli/logic/bazi'
+import {
+  calcBazi,
+  TIANGAN_WUXING,
+  DIZHI_WUXING as _DIZHI_WUXING,
+} from '@/modules/mingli/logic/bazi'
 import { calcDayun, liunians } from '@/modules/mingli/logic/bazi-deep'
 import type { Wuxing } from '@/modules/mingli/logic/wuxing'
 import { SHENG, KE } from '@/modules/mingli/logic/wuxing'

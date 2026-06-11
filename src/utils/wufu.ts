@@ -17,7 +17,13 @@ import {
   type TianGan,
   type DiZhi,
 } from '@/modules/mingli/logic/bazi'
-import { calcDayun, dayunStrength, nayin, shishen, liunians } from '@/modules/mingli/logic/bazi-deep'
+import {
+  calcDayun,
+  dayunStrength,
+  nayin,
+  shishen,
+  liunians,
+} from '@/modules/mingli/logic/bazi-deep'
 import type { Wuxing } from '@/modules/mingli/logic/wuxing'
 import { SHENG, KE } from '@/modules/mingli/logic/wuxing'
 

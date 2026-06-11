@@ -351,9 +351,9 @@ import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import CooldownDialog from '@/shared/components/ui/CooldownDialog.vue'
 import UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
-import HexChart from '@/components/charts/HexChart.vue'
+import HexChart from '@/modules/zhanbu/components/charts/HexChart.vue'
 import { useAppStore, type DivinationRecord } from '@/stores'
-import { liuyaoDivinate, TOPICS, type Topic, type LiuyaoResult } from '@/utils/liuyao'
+import { liuyaoDivinate, TOPICS, type Topic, type LiuyaoResult } from '@/modules/zhanbu/logic/liuyao'
 
 const app = useAppStore()
 const topic = ref<Topic>('通用')

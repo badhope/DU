@@ -125,7 +125,7 @@ import { ref, computed } from 'vue'
 import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
-import { drawQian, QIAN_DB, type Qian, type QianLevel } from '@/utils/lingqian'
+import { drawQian, QIAN_DB, type Qian, type QianLevel } from '@/modules/zhanbu/logic/lingqian'
 
 const app = useAppStore()
 
