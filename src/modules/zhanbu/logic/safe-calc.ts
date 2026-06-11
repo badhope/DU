@@ -9,9 +9,20 @@ import { liuyaoDivinate, type LiuyaoResult, type Topic } from './liuyao'
 import { type Result, ok, err } from '@shared/utils/result'
 
 const VALID_TOPICS: Topic[] = [
-  '事业', '求财', '姻缘', '官运', '学业',
-  '健康', '家宅', '出行', '谋望', '求子',
-  '失物', '诉讼', '求官', '通用',
+  '事业',
+  '求财',
+  '姻缘',
+  '官运',
+  '学业',
+  '健康',
+  '家宅',
+  '出行',
+  '谋望',
+  '求子',
+  '失物',
+  '诉讼',
+  '求官',
+  '通用',
 ]
 
 export function safeLiuyaoDivinate(

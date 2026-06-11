@@ -16,7 +16,10 @@ export function safeCalcMianxiang(
   if (!Number.isFinite(year) || year < 1900 || year > 2100) {
     return err(`年份超出范围（1900-2100），当前: ${year}`)
   }
-  if (currentAge !== undefined && (!Number.isFinite(currentAge) || currentAge < 0 || currentAge > 150)) {
+  if (
+    currentAge !== undefined &&
+    (!Number.isFinite(currentAge) || currentAge < 0 || currentAge > 150)
+  ) {
     return err(`年龄无效（0-150），当前: ${currentAge}`)
   }
   try {

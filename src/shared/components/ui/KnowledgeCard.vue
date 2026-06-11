@@ -12,7 +12,15 @@ const open = ref(false)
 </script>
 
 <template>
-  <view class="k-card" :class="{ open }" role="button" :aria-expanded="open" tabindex="0" @click="open = !open" @keydown.enter="open = !open">
+  <view
+    class="k-card"
+    :class="{ open }"
+    role="button"
+    :aria-expanded="open"
+    tabindex="0"
+    @click="open = !open"
+    @keydown.enter="open = !open"
+  >
     <view class="k-head">
       <view v-if="illustId" class="k-illust">
         <image

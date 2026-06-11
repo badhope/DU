@@ -34,8 +34,10 @@ export function safeAnalyzeMingji(
     return err(`时辰无效（0-23），当前: ${hour}`)
   }
   // 如果提供了生辰，必须四项齐全
-  const hasPartial = year !== undefined || month !== undefined || day !== undefined || hour !== undefined
-  const hasAll = year !== undefined && month !== undefined && day !== undefined && hour !== undefined
+  const hasPartial =
+    year !== undefined || month !== undefined || day !== undefined || hour !== undefined
+  const hasAll =
+    year !== undefined && month !== undefined && day !== undefined && hour !== undefined
   if (hasPartial && !hasAll) {
     return err('生辰信息不完整，需同时提供年/月/日/时')
   }

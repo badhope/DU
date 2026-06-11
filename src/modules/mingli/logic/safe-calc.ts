@@ -38,7 +38,10 @@ export function safeCalcBazi(
   if (!Number.isFinite(hour) || hour < 0 || hour > 23) {
     return err(`时辰无效（0-23），当前: ${hour}`)
   }
-  if (longitude !== undefined && (!Number.isFinite(longitude) || longitude < -180 || longitude > 180)) {
+  if (
+    longitude !== undefined &&
+    (!Number.isFinite(longitude) || longitude < -180 || longitude > 180)
+  ) {
     return err(`经度无效（-180~180），当前: ${longitude}`)
   }
   try {

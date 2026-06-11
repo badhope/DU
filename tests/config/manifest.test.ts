@@ -16,13 +16,25 @@ import { MODULE_MANIFEST as personal } from '@/modules/personal'
 import type { ModuleManifest } from '@/config/module-manifest'
 
 const ALL_MANIFESTS: ModuleManifest[] = [
-  mingli, zhanbu, guanxiang, mingming,
-  jiankang, xiuxin, shenghuo, personal,
+  mingli,
+  zhanbu,
+  guanxiang,
+  mingming,
+  jiankang,
+  xiuxin,
+  shenghuo,
+  personal,
 ]
 
 const REQUIRED_KEYS = [
-  'mingli', 'zhanbu', 'guanxiang', 'mingming',
-  'jiankang', 'xiuxin', 'shenghuo', 'personal',
+  'mingli',
+  'zhanbu',
+  'guanxiang',
+  'mingming',
+  'jiankang',
+  'xiuxin',
+  'shenghuo',
+  'personal',
 ]
 
 describe('Module Manifest', () => {

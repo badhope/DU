@@ -24,7 +24,15 @@ function retry() {
   <view v-if="hasError" class="error-boundary" role="alert" aria-live="assertive">
     <text class="error-title">此区域加载异常</text>
     <text class="error-msg">{{ errorMessage }}</text>
-    <view class="btn-liu" role="button" tabindex="0" aria-label="重试" @click="retry" @keydown.enter="retry">重 试</view>
+    <view
+      class="btn-liu"
+      role="button"
+      tabindex="0"
+      aria-label="重试"
+      @click="retry"
+      @keydown.enter="retry"
+      >重 试</view
+    >
   </view>
   <slot v-else />
 </template>

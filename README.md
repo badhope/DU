@@ -215,18 +215,18 @@ Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baid
 
 ## 4. Tech stack
 
-| Layer      | Choice                                                        | Why                                                               |
-| ---------- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Framework  | **uni-app x** (v3)                                            | One codebase, web + mini-programs (WeChat, Alipay, Harmony, etc.) |
-| UI         | **Vue 3** + Composition API + `<script setup>`                | First-class TS, tree-shakeable                                    |
-| Types      | **TypeScript strict**                                         | Catch mistakes at compile time                                    |
-| Build      | **Vite 5**                                                    | Fast HMR, ESM-native                                              |
-| State      | **Pinia 3** + `localStorage` (keys: `mistverse-app-v1` + `mistverse-settings-v1`) | Tiny, type-safe, persists locally |
-| Animations | **GSAP 3** + **OGL**                                          | Timeline control + WebGL particle/star effects                    |
-| Tests      | **Vitest 2** + `@vue/test-utils` + `happy-dom`                | Same Vite pipeline, fast                                          |
-| Hooks      | **Lefthook** + **commitlint**                                 | Pre-commit Prettier + ESLint, commit-msg lint                     |
-| CI         | **GitHub Actions** (format, lint, test, audit, build, deploy) | Branch protection + signed deploy                                 |
-| Deploy     | **GitHub Pages** via `actions/deploy-pages@v4`                | HTTPS, free, no custom domain needed                              |
+| Layer      | Choice                                                                            | Why                                                               |
+| ---------- | --------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| Framework  | **uni-app x** (v3)                                                                | One codebase, web + mini-programs (WeChat, Alipay, Harmony, etc.) |
+| UI         | **Vue 3** + Composition API + `<script setup>`                                    | First-class TS, tree-shakeable                                    |
+| Types      | **TypeScript strict**                                                             | Catch mistakes at compile time                                    |
+| Build      | **Vite 5**                                                                        | Fast HMR, ESM-native                                              |
+| State      | **Pinia 3** + `localStorage` (keys: `mistverse-app-v1` + `mistverse-settings-v1`) | Tiny, type-safe, persists locally                                 |
+| Animations | **GSAP 3** + **OGL**                                                              | Timeline control + WebGL particle/star effects                    |
+| Tests      | **Vitest 2** + `@vue/test-utils` + `happy-dom`                                    | Same Vite pipeline, fast                                          |
+| Hooks      | **Lefthook** + **commitlint**                                                     | Pre-commit Prettier + ESLint, commit-msg lint                     |
+| CI         | **GitHub Actions** (format, lint, test, audit, build, deploy)                     | Branch protection + signed deploy                                 |
+| Deploy     | **GitHub Pages** via `actions/deploy-pages@v4`                                    | HTTPS, free, no custom domain needed                              |
 
 ---
 
