@@ -381,13 +381,13 @@ function nayinToWuju(gan: TianGan, zhi: DiZhi): Wuju {
   // 计算 60 甲子序号
   let idx = -1
   for (let i = 0; i < 60; i++) {
-    if (JIAZI[i].gan === gan && JIAZI[i].zhi === zhi) {
+    if (JIAZI[i]?.gan === gan && JIAZI[i]?.zhi === zhi) {
       idx = i
       break
     }
   }
   if (idx < 0) return '水二局'
-  return WUXING_JU_MAP[NAYIN_NAYIN[idx]]
+  return WUXING_JU_MAP[NAYIN_NAYIN[idx]!]
 }
 
 const JIAZI: Array<{ gan: TianGan; zhi: DiZhi }> = []
@@ -397,7 +397,7 @@ for (let i = 0; i < 60; i++) {
 
 function jiaziIndex(gan: TianGan, zhi: DiZhi): number {
   for (let i = 0; i < 60; i++) {
-    if (JIAZI[i].gan === gan && JIAZI[i].zhi === zhi) return i
+    if (JIAZI[i]?.gan === gan && JIAZI[i]?.zhi === zhi) return i
   }
   return 0
 }
@@ -599,7 +599,7 @@ export function calcZiwei(
     starPositions[idx].push(star)
   })
   starPositions[tianfu.pos] = starPositions[tianfu.pos]
-    ? [...starPositions[tianfu.pos], '天府']
+    ? [...starPositions[tianfu.pos]!, '天府']
     : ['天府']
   TIANFU_STAR_OFFSETS.forEach(({ star, offset }) => {
     // 天府 + offset（按逆数索引减）
@@ -617,7 +617,7 @@ export function calcZiwei(
 
   const addStar = (idx: number, star: MainStar) => {
     if (!starPositions[idx]) starPositions[idx] = []
-    if (!starPositions[idx].includes(star)) starPositions[idx].push(star)
+    if (!starPositions[idx]?.includes(star)) starPositions[idx]?.push(star)
   }
   addStar(wenChangPos, '文昌')
   addStar(wenQuPos, '文曲')
@@ -682,7 +682,7 @@ export function calcZiwei(
 
   return {
     mingGong: palaces[0]!,
-    shenGong: palaces[(shenGongIdx - mingGongIdx + 12) % 12],
+    shenGong: palaces[(shenGongIdx - mingGongIdx + 12) % 12]!,
     palaces,
     wuju,
     yearGan,
@@ -695,7 +695,7 @@ export function calcZiwei(
     ziweiAt: {
       zhi: DIZHI[ziweiPos] as DiZhi,
       zhiIndex: ziweiPos,
-      palace: palaces[(ziweiPos - mingGongIdx + 12) % 12].gongName,
+      palace: palaces[(ziweiPos - mingGongIdx + 12) % 12]!.gongName,
     },
     tianfuAt: {
       zhi: DIZHI[tianfu.pos] as DiZhi,

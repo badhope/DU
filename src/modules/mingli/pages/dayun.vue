@@ -454,7 +454,7 @@ function select(y: YearFortune) {
 
 const decades = computed(() => {
   if (!result.value) return []
-  const last = result.value.years[result.value.years.length - 1].age!
+  const last = result.value.years[result.value.years.length - 1]!.age!
   const arr: number[] = []
   for (let d = 0; d <= last; d += 10) arr.push(d)
   return arr

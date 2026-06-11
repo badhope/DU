@@ -288,8 +288,8 @@ const COORDS: Array<{ x: number; y: number }> = [
 
 function getNodeStyle(i: number) {
   return {
-    left: COORDS[i].x + '%',
-    top: COORDS[i].y + '%',
+    left: COORDS[i]?.x + '%',
+    top: COORDS[i]?.y + '%',
   }
 }
 

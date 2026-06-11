@@ -155,7 +155,7 @@ const form = reactive({
 const surnameIdx = computed(() => SURNAME_LIST.indexOf(form.surname))
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSurname(e: any) {
-  form.surname = SURNAME_LIST[e.detail.value]
+  form.surname = SURNAME_LIST[e.detail.value]!
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {

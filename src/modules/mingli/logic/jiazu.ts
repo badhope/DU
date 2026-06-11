@@ -72,11 +72,12 @@ function buildPoemGen(poem: string, startGen: number, year: number): Generation[
   const avgYearsPerGen = 25
   for (let i = 0; i < chars.length; i++) {
     const g = startGen + i
-    const startY = i === 0 ? 1900 : gens[gens.length - 1].endYear + 1
+    const lastGen = gens[gens.length - 1]
+    const startY = i === 0 ? 1900 : lastGen!.endYear + 1
     const endY = startY + avgYearsPerGen - 1
     gens.push({
       gen: g,
-      zibei: chars[i],
+      zibei: chars[i]!,
       startYear: startY,
       endYear: endY,
       range: `${g}-${g} 世`,
@@ -118,7 +119,7 @@ export function buildFamilyTree(
     gender,
     name: `${surname}${currentZibei}${n}`,
     meaning: meanings[n] || '德行兼备',
-    wuXing: wxPool[Math.abs(n.charCodeAt(0) + year) % 5],
+    wuXing: wxPool[Math.abs(n.charCodeAt(0) + year) % 5]!,
   }))
 
   return {

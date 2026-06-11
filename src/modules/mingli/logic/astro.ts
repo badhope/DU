@@ -262,8 +262,8 @@ const SUN_DATE: Array<[number, number, Zodiac]> = [
  */
 export function sunSign(month: number, day: number): Zodiac {
   for (let i = 0; i < SUN_DATE.length; i++) {
-    const [m, d, z] = SUN_DATE[i]
-    const [_nm, _nd] = SUN_DATE[(i + 1) % SUN_DATE.length]
+    const [m, d, z] = SUN_DATE[i]!
+    const [_nm, _nd] = SUN_DATE[(i + 1) % SUN_DATE.length]!
     if (m === month && day >= d) return z
     // 处理跨年（摩羯 12.22 - 1.19）
     if (i === 9 && month === 12 && day >= 22) return '摩羯'
@@ -304,7 +304,7 @@ export function risingSign(birthHour: number): Zodiac {
     '水瓶',
     '双鱼',
   ]
-  return order[idx]
+  return order[idx]!
 }
 
 /**
@@ -330,7 +330,7 @@ export function moonSign(year: number, month: number, day: number): Zodiac {
     '水瓶',
     '双鱼',
   ]
-  return order[idx % 12]
+  return order[idx % 12]!
 }
 
 /**
@@ -360,7 +360,7 @@ export function planetSign(
     '双鱼',
   ]
   const idx = order.indexOf(sun)
-  return order[(idx + offset + 12) % 12]
+  return order[(idx + offset + 12) % 12]!
 }
 
 /**
@@ -444,48 +444,49 @@ export function calcAstro(year: number, month: number, day: number, hour: number
   const rising = risingSign(hour)
 
   const planets: AstroPlanet[] = [
-    { name: '太阳', sign: sun, retrograde: false, meaning: PLANET_MEANING.sun },
-    { name: '月亮', sign: moon, retrograde: false, meaning: PLANET_MEANING.moon },
+    { name: '太阳', sign: sun, retrograde: false, meaning: PLANET_MEANING.sun! },
+    { name: '月亮', sign: moon, retrograde: false, meaning: PLANET_MEANING.moon! },
     {
       name: '水星',
       sign: planetSign('mercury', month, day),
       retrograde: isRetrograde('mercury', year, month, day),
-      meaning: PLANET_MEANING.mercury,
+      meaning: PLANET_MEANING.mercury!,
     },
     {
       name: '金星',
       sign: planetSign('venus', month, day),
       retrograde: isRetrograde('venus', year, month, day),
-      meaning: PLANET_MEANING.venus,
+      meaning: PLANET_MEANING.venus!,
     },
     {
       name: '火星',
       sign: planetSign('mars', month, day),
       retrograde: isRetrograde('mars', year, month, day),
-      meaning: PLANET_MEANING.mars,
+      meaning: PLANET_MEANING.mars!,
     },
     {
       name: '木星',
       sign: planetSign('jupiter', month, day),
       retrograde: isRetrograde('jupiter', year, month, day),
-      meaning: PLANET_MEANING.jupiter,
+      meaning: PLANET_MEANING.jupiter!,
     },
     {
       name: '土星',
       sign: planetSign('saturn', month, day),
       retrograde: isRetrograde('saturn', year, month, day),
-      meaning: PLANET_MEANING.saturn,
+      meaning: PLANET_MEANING.saturn!,
     },
-    { name: '天王', sign: sun, retrograde: false, meaning: PLANET_MEANING.uranus },
-    { name: '海王', sign: moon, retrograde: false, meaning: PLANET_MEANING.neptune },
-    { name: '冥王', sign: rising, retrograde: false, meaning: PLANET_MEANING.pluto },
+    { name: '天王', sign: sun, retrograde: false, meaning: PLANET_MEANING.uranus! },
+    { name: '海王', sign: moon, retrograde: false, meaning: PLANET_MEANING.neptune! },
+    { name: '冥王', sign: rising, retrograde: false, meaning: PLANET_MEANING.pluto! },
   ]
 
   // 元素统计
   const elementCounts: Record<'火' | '土' | '风' | '水', number> = { 火: 0, 土: 0, 风: 0, 水: 0 }
-  planets.forEach((p) => elementCounts[ZODIAC_META[p.sign].element]++)
-  elementCounts[ZODIAC_META[rising].element]++
-  const dominantElement = Object.entries(elementCounts).sort((a, b) => b[1]! - a[1]!)[0][0] as
+  planets.forEach((p) => elementCounts[ZODIAC_META[p.sign]!.element]++)
+  elementCounts[ZODIAC_META[rising]!.element]++
+  const dominantElement = Object.entries(elementCounts)
+    .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as
     | '火'
     | '土'
     | '风'
@@ -493,9 +494,10 @@ export function calcAstro(year: number, month: number, day: number, hour: number
 
   // 性质统计
   const q: Record<'本位' | '固定' | '变动', number> = { 本位: 0, 固定: 0, 变动: 0 }
-  planets.forEach((p) => q[ZODIAC_META[p.sign].quality]++)
-  q[ZODIAC_META[rising].quality]++
-  const dominantQuality = Object.entries(q).sort((a, b) => b[1]! - a[1]!)[0][0] as
+  planets.forEach((p) => q[ZODIAC_META[p.sign]!.quality]++)
+  q[ZODIAC_META[rising]!.quality]++
+  const dominantQuality = Object.entries(q)
+    .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as
     | '本位'
     | '固定'
     | '变动'
@@ -511,9 +513,9 @@ export function calcAstro(year: number, month: number, day: number, hour: number
 
   // Big Three
   const bigThree: AstroResult['bigThree'] = [
-    { label: '太阳', sign: sun, meta: ZODIAC_META[sun], desc: ZODIAC_META[sun].desc },
-    { label: '月亮', sign: moon, meta: ZODIAC_META[moon], desc: ZODIAC_META[moon].desc },
-    { label: '上升', sign: rising, meta: ZODIAC_META[rising], desc: ZODIAC_META[rising].desc },
+    { label: '太阳', sign: sun, meta: ZODIAC_META[sun]!, desc: ZODIAC_META[sun]!.desc },
+    { label: '月亮', sign: moon, meta: ZODIAC_META[moon]!, desc: ZODIAC_META[moon]!.desc },
+    { label: '上升', sign: rising, meta: ZODIAC_META[rising]!, desc: ZODIAC_META[rising]!.desc },
   ]
 
   // 流年
@@ -529,7 +531,7 @@ export function calcAstro(year: number, month: number, day: number, hour: number
         ['大吉', '吉', '平', '凶', '大凶'][idx] === '大吉'
           ? '土星归位 · 大展宏图'
           : '平运 · 守正待时',
-      level: levels[idx],
+      level: levels[idx]!,
     }
   })
 

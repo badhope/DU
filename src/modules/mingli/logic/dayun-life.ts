@@ -265,9 +265,9 @@ function generateYearText(
   const adv = ADVICE_MAP[stage]!
   const ev = EVENT_TEMPLATES[wuxing]!
   return {
-    highlight: hs[age % hs.length],
-    advice: adv[age % adv.length],
-    event: `${dayunName} · ${ev[age % ev.length]}`,
+    highlight: hs[age % hs.length]!,
+    advice: adv[age % adv.length]!,
+    event: `${dayunName} · ${ev[age % ev.length]!}`,
   }
 }
 
@@ -293,7 +293,7 @@ function luckyOf(age: number, yearWx: Wuxing): YearFortune['lucky'] {
     wuxing: SHENG[yearWx],
     color: COLORS[SHENG[yearWx]],
     direction: DIRECTIONS[yearWx],
-    number: [1, 6, 8, 9][age % 4],
+    number: [1, 6, 8, 9][age % 4]!,
   }
 }
 
@@ -423,7 +423,7 @@ export function calcLifeFortune(
         ? { age: sorted[0]!.age, score: sorted[0]!.scores.total }
         : { age: 0, score: 0 },
       worstYear: sorted[sorted.length - 1]
-        ? { age: sorted[sorted.length - 1].age, score: sorted[sorted.length - 1].scores.total }
+        ? { age: sorted[sorted.length - 1]!.age, score: sorted[sorted.length - 1]!.scores.total }
         : { age: 0, score: 0 },
       color: s.color,
       desc: s.desc,
@@ -444,9 +444,9 @@ export function calcLifeFortune(
   const candidates: Array<{ y: YearFortune; type: LifeTurningPoint['type']; delta: number }> = []
   for (let i = 1; i < years.length; i++) {
     for (const tp of TP_TYPES) {
-      const delta = tp.calc(years[i]) - tp.calc(years[i - 1])
+      const delta = tp.calc(years[i]!) - tp.calc(years[i - 1]!)
       if (Math.abs(delta) >= 12) {
-        candidates.push({ y: years[i], type: tp.type, delta })
+        candidates.push({ y: years[i]!, type: tp.type, delta })
       }
     }
   }

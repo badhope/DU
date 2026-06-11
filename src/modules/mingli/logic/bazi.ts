@@ -165,17 +165,18 @@ function jieqiDay(year: number, mzhi: DiZhi): number {
     .map(Number)
     .sort((a, b) => a - b)
   let prev = years[0]!,
-    next = years[years.length - 1]
+    next: number = years[years.length - 1]!
   for (let i = 0; i < years.length; i++) {
-    if (years[i] <= year) prev = years[i]
-    if (years[i] >= year) {
-      next = years[i]
+    const yr = years[i]!
+    if (yr <= year) prev = yr
+    if (yr >= year) {
+      next = yr
       break
     }
   }
-  if (prev === next) return JIEQI_TABLE[prev][getMidx(mzhi)]
-  const prevVal = JIEQI_TABLE[prev][getMidx(mzhi)]!
-  const nextVal = JIEQI_TABLE[next][getMidx(mzhi)]!
+  if (prev === next) return JIEQI_TABLE[prev]![getMidx(mzhi)]!
+  const prevVal = JIEQI_TABLE[prev]![getMidx(mzhi)]!
+  const nextVal = JIEQI_TABLE[next]![getMidx(mzhi)]!
   const ratio = (year - prev) / (next - prev)
   return prevVal + (nextVal - prevVal) * ratio
 }
@@ -208,7 +209,7 @@ function getMonthZhi(year: number, month: number, day: number): DiZhi {
   if (day < jieqi) {
     // 还在上个月
     const prevIdx = (getMidx(currentZhi) - 1 + 12) % 12
-    return order[prevIdx]
+    return order[prevIdx]!
   }
   return currentZhi
 }

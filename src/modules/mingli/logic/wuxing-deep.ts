@@ -77,7 +77,7 @@ export function changsheng(gan: string, zhi: DiZhi): Changsheng {
   } else {
     step = (((startIdx - targetIdx) % 12) + 12) % 12
   }
-  return CHANGSHENG_NAMES[step]
+  return CHANGSHENG_NAMES[step]!
 }
 
 const CS_DESC: Record<Changsheng, string> = {
@@ -193,7 +193,7 @@ const XINGGE: Record<Wuxing, { strong: string; weak: string }> = {
 }
 
 export function xingge(wx: Wuxing, isStrong: boolean): string {
-  return isStrong ? XINGGE[wx].strong : XINGGE[wx].weak
+  return isStrong ? XINGGE[wx]?.strong : XINGGE[wx]?.weak
 }
 
 // ============ 养生要诀 ============
