@@ -97,7 +97,7 @@
       }
     },
     {
-      "path": "pages/qijing/qijing",
+      "path": "modules/jian/pages/qijing",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -105,7 +105,7 @@
       }
     },
     {
-      "path": "pages/ziwu/ziwu",
+      "path": "modules/jian/pages/ziwu",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -113,7 +113,7 @@
       }
     },
     {
-      "path": "pages/wufu/wufu",
+      "path": "modules/jian/pages/wufu",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -121,7 +121,7 @@
       }
     },
     {
-      "path": "pages/yangsheng/yangsheng",
+      "path": "modules/jian/pages/yangsheng",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -129,7 +129,7 @@
       }
     },
     {
-      "path": "pages/zhan/zhan",
+      "path": "modules/xiuxin/pages/zhan",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -137,7 +137,7 @@
       }
     },
     {
-      "path": "pages/fangqi/fangqi",
+      "path": "modules/xiuxin/pages/fangqi",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -145,7 +145,7 @@
       }
     },
     {
-      "path": "pages/shijian/shijian",
+      "path": "modules/xiuxin/pages/shijian",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -153,7 +153,7 @@
       }
     },
     {
-      "path": "pages/dayun/dayun",
+      "path": "modules/xiuxin/pages/dayun",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -185,7 +185,7 @@
       }
     },
     {
-      "path": "pages/users/users",
+      "path": "modules/personal/pages/users",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -209,7 +209,7 @@
       }
     },
     {
-      "path": "pages/mianxiang/mianxiang",
+      "path": "modules/guwu/pages/mianxiang",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -217,7 +217,7 @@
       }
     },
     {
-      "path": "pages/shouxiang/shouxiang",
+      "path": "modules/guwu/pages/shouxiang",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -225,7 +225,7 @@
       }
     },
     {
-      "path": "pages/fenglui/fenglui",
+      "path": "modules/guwu/pages/fenglui",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -233,7 +233,7 @@
       }
     },
     {
-      "path": "pages/mingji/mingji",
+      "path": "modules/guwu/pages/mingji",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -241,7 +241,7 @@
       }
     },
     {
-      "path": "pages/huangli/huangli",
+      "path": "modules/shenghuo/pages/huangli",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -249,7 +249,7 @@
       }
     },
     {
-      "path": "pages/jiri/jiri",
+      "path": "modules/shenghuo/pages/jiri",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -257,7 +257,7 @@
       }
     },
     {
-      "path": "pages/yunshi/yunshi",
+      "path": "modules/shenghuo/pages/yunshi",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -265,7 +265,7 @@
       }
     },
     {
-      "path": "pages/jiazu/jiazu",
+      "path": "modules/shenghuo/pages/jiazu",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -337,7 +337,7 @@
       }
     },
     {
-      "path": "pages/profile/profile",
+      "path": "modules/personal/pages/profile",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -345,7 +345,7 @@
       }
     },
     {
-      "path": "pages/dashboard/dashboard",
+      "path": "modules/personal/pages/dashboard",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -353,7 +353,7 @@
       }
     },
     {
-      "path": "pages/checkin/checkin",
+      "path": "modules/xiuxin/pages/checkin",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
@@ -361,7 +361,7 @@
       }
     },
     {
-      "path": "pages/poster/poster",
+      "path": "modules/shenghuo/pages/poster",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",

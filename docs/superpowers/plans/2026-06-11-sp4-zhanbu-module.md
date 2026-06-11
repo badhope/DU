@@ -5,6 +5,7 @@
 **Goal:** 把 v1.0.1 扁平结构中所有占卜类工具（zhongshu 分类 7 个 + mingli 分类混入的占卜 5 个 = **12 个工具**）迁移到 `src/modules/zhanbu/`，包括它们的 page、logic、chart。
 
 **Architecture:**
+
 - `src/modules/zhanbu/pages/` — 12 个 .vue（gua 有 2 个：gua.vue + interpret.vue；其他 11 个各 1 个）
 - `src/modules/zhanbu/logic/` — 13 个 .ts（含 jiegua.ts，gua/interpret.vue 用）
 - `src/modules/zhanbu/components/charts/` — 8 个 .vue
@@ -30,6 +31,7 @@ mkdir -p src/modules/zhanbu/pages \
 ### Task 2: git mv 12 page
 
 **Files:**
+
 - Move: `src/pages/{gua/interpret.vue,gua/gua.vue,liuyao/liuyao.vue,tarot/tarot.vue,meihua/meihua.vue,lingqian/lingqian.vue,shuzhi/shuzhi.vue,jiaobei/jiaobei.vue,liuren/liuren.vue,xiaoliuren/xiaoliuren.vue,zhuge/zhuge.vue,tieban/tieban.vue,qimen/qimen.vue}` → `src/modules/zhanbu/pages/{name}.vue`
 
 - [ ] **Step 1: 13 个 git mv（gua 2 个 + 其他 11 个）**
@@ -61,6 +63,7 @@ ls src/pages/ | wc -l
 ### Task 3: git mv 13 logic
 
 **Files:**
+
 - Move: `src/utils/{gua,jiegua,liuyao,tarot,meihua,lingqian,shuzhi,jiaobei,liuren,xiaoliuren,zhuge,tieban,qimen}.ts` → `src/modules/zhanbu/logic/{name}.ts`
 
 - [ ] **Step 1: 13 个 git mv**
@@ -79,6 +82,7 @@ git status --short 2>&1 | grep "zhanbu/logic" | head -15
 ### Task 4: git mv 8 chart
 
 **Files:**
+
 - Move: `src/components/charts/{HexChart,TarotDeck,MeiHuaChart,LiuRenDaChart,LiuRenChart,ZhugeChart,TieBanChart,QiMenChart}.vue` → `src/modules/zhanbu/components/charts/{Name}.vue`
 
 - [ ] **Step 1: 8 个 git mv**

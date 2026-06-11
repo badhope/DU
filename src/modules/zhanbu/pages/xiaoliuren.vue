@@ -168,7 +168,11 @@ import TopBar from '@/shared/components/ui/TopBar.vue'
 import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import _LiuRenChart from '@/modules/zhanbu/components/charts/LiuRenChart.vue'
 import { useAppStore } from '@/stores'
-import { calcXiaoLiuRen, ALL_LIU_SHEN, type LiuShen as _LiuShen } from '@/modules/zhanbu/logic/xiaoliuren'
+import {
+  calcXiaoLiuRen,
+  ALL_LIU_SHEN,
+  type LiuShen as _LiuShen,
+} from '@/modules/zhanbu/logic/xiaoliuren'
 import _UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/shared/composables/use-cooldown'
