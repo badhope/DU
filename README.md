@@ -49,7 +49,7 @@ pnpm test:e2e    # Playwright 端到端
 
 MISTVERSE (玄枢, "mystic pivot") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app.
 
-It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under the key `mistverse-state-v2`.
+It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under keys `mistverse-app-v1` and `mistverse-settings-v1`.
 
 - **For cultural exploration.** All outputs are heuristic and educational; they are not professional advice.
 - **For developers.** The repository is a clean uni-app x + Vue 3 + Vite starter with strict TypeScript, ESLint, Prettier, Vitest, Lefthook, and a fully wired CI/CD pipeline (format → lint → test → audit → build → deploy).
@@ -221,7 +221,7 @@ Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baid
 | UI         | **Vue 3** + Composition API + `<script setup>`                | First-class TS, tree-shakeable                                    |
 | Types      | **TypeScript strict**                                         | Catch mistakes at compile time                                    |
 | Build      | **Vite 5**                                                    | Fast HMR, ESM-native                                              |
-| State      | **Pinia 3** + `localStorage` (key: `mistverse-state-v2`)      | Tiny, type-safe, persists locally                                 |
+| State      | **Pinia 3** + `localStorage` (keys: `mistverse-app-v1` + `mistverse-settings-v1`) | Tiny, type-safe, persists locally |
 | Animations | **GSAP 3** + **OGL**                                          | Timeline control + WebGL particle/star effects                    |
 | Tests      | **Vitest 2** + `@vue/test-utils` + `happy-dom`                | Same Vite pipeline, fast                                          |
 | Hooks      | **Lefthook** + **commitlint**                                 | Pre-commit Prettier + ESLint, commit-msg lint                     |
@@ -244,18 +244,40 @@ mistverse/
 │   ├── CODEOWNERS
 │   ├── PULL_REQUEST_TEMPLATE.md
 │   └── SECURITY.md
+├── docs/
+│   └── superpowers/      # SP-1~5 specs + impl plans
+├── scripts/
+│   ├── check-modules.mjs # cross-module import discipline (6 steps)
+│   ├── check-bundle.mjs  # post-build size threshold check
+│   ├── gen-illustrations.mjs  # SVG illustration generator
+│   └── gen-route-types.mjs    # RoutePath type generator from pages.json
 ├── src/
-│   ├── components/
-│   │   ├── charts/       # 24 visualization components (BaziChart, ZiweiChart, …)
-│   │   ├── effects/      # StarField, Particles, TaijiBg
-│   │   └── ui/           # Reusable UI: ToolGuard, MysticScan, MagneticButton, …
+│   ├── app/              # cross-module assembly (router, manifest)
+│   ├── shared/
+│   │   ├── components/
+│   │   │   ├── charts/   # 24 visualization components (BaziChart, ZiweiChart, …)
+│   │   │   └── ui/       # TabBar, KnowledgeCard, KnowledgeShell, ErrorBoundary
+│   │   ├── composables/  # 6 motion composables (page-fade, card-entrance, …)
+│   │   ├── styles/       # tokens.css + animations.css (CSS Layers)
+│   │   └── utils/        # Result<T,E> type
+│   ├── modules/
+│   │   ├── mingli/       # 命理 (11 pages, 13 logic files)
+│   │   ├── zhanbu/       # 占卜 (10 pages, 11 logic files)
+│   │   ├── guanxiang/    # 观形 (3 pages, 4 logic files)
+│   │   ├── mingming/     # 命名 (4 pages, 5 logic files)
+│   │   ├── jiankang/     # 健康 (4 pages, 3 logic files)
+│   │   ├── xiuxin/       # 修心 (3 pages)
+│   │   ├── shenghuo/     # 生活 (2 pages, 3 logic files)
+│   │   └── personal/     # 个人中心 (7 pages)
+│   ├── settings/         # settings module
 │   ├── config/
-│   │   └── tools.ts      # ⚙ single source of truth for all 49 tools
-│   ├── designs/          # tokens.css (color, spacing) + animations.css
-│   ├── pages/            # 49 tool pages (incl. ai/ subfolder)
-│   ├── static/           # logo.png, robots.txt
-│   ├── stores/           # Pinia store
-│   ├── utils/            # 44 algorithm modules (Bazi, Liu Yao, Tarot, …)
+│   │   ├── tools.ts      # single source of truth for all tools
+│   │   ├── module-manifest.ts  # ModuleManifest interface
+│   │   └── route-types.ts     # auto-generated RoutePath union type
+│   ├── stores/
+│   │   ├── app.ts        # useAppStore (history, achievements)
+│   │   └── settings.ts   # useSettingsStore (theme, reducedMotion)
+│   ├── static/           # logo.png, robots.txt, illustrations/
 │   ├── App.vue
 │   ├── env.d.ts
 │   ├── main.ts
@@ -263,7 +285,12 @@ mistverse/
 │   ├── pages.json        # uni-app x routes
 │   ├── shims-uni.d.ts
 │   └── uni.scss          # global SCSS variables
-├── tests/                # vitest unit tests
+├── tests/
+│   ├── config/           # manifest tests
+│   ├── integration/      # cross-module flow tests
+│   ├── stores/           # store persistence tests
+│   ├── life.test.ts
+│   └── daily-cooldown.test.ts
 ├── CHANGELOG.md
 ├── CODE_OF_CONDUCT.md
 ├── CONTRIBUTING.md
@@ -312,7 +339,7 @@ See [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) for t
 - **No `v-html` / `innerHTML` / `eval` / `new Function`** — uni-app x renders text safely.
 - **No third-party SDKs** — no Google Analytics, no Sentry, no Umeng, no Baidu Tongji, no AdSense.
 - **No `.env` / API keys** — `.gitignore` blocks `.env*`, `test-*.cjs`, and screenshots.
-- **localStorage** holds your profile + divination history under `mistverse-state-v2`. Clear it any time from `Settings → Privacy`.
+- **localStorage** holds your profile + divination history under `mistverse-app-v1` / `mistverse-settings-v1`. Clear it any time from `Settings → Privacy`.
 - **CI** runs `gitleaks` (push, PR, daily) + CodeQL (`javascript-typescript`) + `pnpm audit --prod --audit-level=high`.
 - **Dependency overrides** force `jpeg-js@^0.4.4` and `@intlify/{core-base,message-resolver}@^9.1.11` to neutralize transitive CVEs from uni-app's bundle.
 
@@ -368,7 +395,7 @@ Cultural reference data is drawn from public-domain traditional sources. No prop
 
 - **零后端**：所有计算在浏览器内完成，无任何 `fetch` / `uni.request` 外发。
 - **零追踪**：不集成任何第三方分析 SDK，不上传任何数据。
-- **零账户**：开箱即用，所有数据存于 `localStorage`（key: `mistverse-state-v2`）。
+- **零账户**：开箱即用，所有数据存于 `localStorage`（keys: `mistverse-app-v1` + `mistverse-settings-v1`）。
 - **多端**：一份代码同时输出 H5（GitHub Pages）、微信小程序、支付宝小程序、抖音小程序、鸿蒙、百度智能小程序等。
 - **CI 全绿**：`format` → `lint` → `test` → `audit` → `type-check` → `build` → `deploy`，全部接入分支保护。
 
