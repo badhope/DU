@@ -278,8 +278,7 @@ function stop() {
   clearInterval(beadTimer)
   running.value = false
   finished.value = true
-  doneMessage.value =
-    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
+  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'zhan',
     toolName: '坐禅计时',
@@ -296,8 +295,7 @@ function finish() {
   clearInterval(beadTimer)
   running.value = false
   finished.value = true
-  doneMessage.value =
-    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
+  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'zhan',
     toolName: '坐禅计时',

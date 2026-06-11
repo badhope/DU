@@ -485,19 +485,15 @@ export function calcAstro(year: number, month: number, day: number, hour: number
   const elementCounts: Record<'火' | '土' | '风' | '水', number> = { 火: 0, 土: 0, 风: 0, 水: 0 }
   planets.forEach((p) => elementCounts[ZODIAC_META[p.sign]!.element]++)
   elementCounts[ZODIAC_META[rising]!.element]++
-  const dominantElement = Object.entries(elementCounts)
-    .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as
-    | '火'
-    | '土'
-    | '风'
-    | '水'
+  const dominantElement = Object.entries(elementCounts).sort(
+    (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
+  )[0]?.[0] as '火' | '土' | '风' | '水'
 
   // 性质统计
   const q: Record<'本位' | '固定' | '变动', number> = { 本位: 0, 固定: 0, 变动: 0 }
   planets.forEach((p) => q[ZODIAC_META[p.sign]!.quality]++)
   q[ZODIAC_META[rising]!.quality]++
-  const dominantQuality = Object.entries(q)
-    .sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as
+  const dominantQuality = Object.entries(q).sort((a, b) => (b[1] ?? 0) - (a[1] ?? 0))[0]?.[0] as
     | '本位'
     | '固定'
     | '变动'

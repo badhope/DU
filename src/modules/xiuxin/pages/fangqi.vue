@@ -231,8 +231,7 @@ function stop() {
   clearInterval(waveTimer)
   running.value = false
   finished.value = true
-  doneMessage.value =
-    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
+  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   const elapsed =
     totalSec.value -
     (steps.slice(currentStepIdx.value).reduce((s, x) => s + x.duration, 0) - stepRemaining.value)
@@ -250,8 +249,7 @@ function finish() {
   clearInterval(waveTimer)
   running.value = false
   finished.value = true
-  doneMessage.value =
-    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
+  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'fangqi',
     toolName: '放松冥想',

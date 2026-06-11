@@ -229,7 +229,11 @@ function positionStyle(i: number): any {
     { top: '50%', left: '0%' }, // 西
     { top: '15%', left: '15%' }, // 西北
   ]
-  return { top: positions[i]?.top ?? '50%', left: positions[i]?.left ?? '50%', transform: 'translate(-50%, -50%)' }
+  return {
+    top: positions[i]?.top ?? '50%',
+    left: positions[i]?.left ?? '50%',
+    transform: 'translate(-50%, -50%)',
+  }
 }
 </script>
 

@@ -208,10 +208,7 @@ function pickYiJi(zhi: string, seed: number): { yi: string[]; ji: string[] } {
     YI_POOL[(idx1 + 7) % YI_POOL.length] ?? '',
   ]
   const idx2 = (zhi.charCodeAt(0) + seed + 5) % JI_POOL.length
-  const ji: string[] = [
-    JI_POOL[idx2] ?? '',
-    JI_POOL[(idx2 + 2) % JI_POOL.length] ?? '',
-  ]
+  const ji: string[] = [JI_POOL[idx2] ?? '', JI_POOL[(idx2 + 2) % JI_POOL.length] ?? '']
   return { yi, ji }
 }
 

@@ -15,8 +15,7 @@ describe('fixPatterns', () => {
   })
 
   it('模式 B: const x: T = arr[i] 加 as T', () => {
-    expect(fixPatterns('const x: number = arr[0]'))
-      .toBe('const x: number = arr[0] as number')
+    expect(fixPatterns('const x: number = arr[0]')).toBe('const x: number = arr[0] as number')
   })
 
   it('不动: 已经有 ! 的', () => {
