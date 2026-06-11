@@ -2,9 +2,7 @@
   "url": "http://localhost:5173/mistverse/",
   "timestamp": "2026-06-11 09:08:54",
   "findings": [],
-  "console_messages": [
-    "[pageerror] Object"
-  ],
+  "console_messages": ["[pageerror] Object"],
   "screenshots": [
     "03-category.png",
     "02-bazi.png",

@@ -161,7 +161,8 @@ function cast() {
 
 function goInterpret() {
   if (!gua.value) return
-  const url = '/modules/zhanbu/pages/gua/interpret?id=' + gua.value.id + '&yao=' + yaoPattern.value.join(',')
+  const url =
+    '/modules/zhanbu/pages/gua/interpret?id=' + gua.value.id + '&yao=' + yaoPattern.value.join(',')
   uni.navigateTo({ url })
 }
 </script>

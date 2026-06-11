@@ -132,19 +132,18 @@
           <view class="poster-css-divider" :style="posterDividerStyle"></view>
           <text
             v-for="(line, i) in form.content"
-            :key="'c'+i"
+            :key="'c' + i"
             class="poster-css-content"
-            :style="{ ...posterContentStyle, top: (68 + i * 5.5) + '%' }"
-          >{{ line }}</text>
-          <text
-            v-if="form.signature"
-            class="poster-css-sig"
-            :style="posterSigStyle"
-          >{{ form.signature }}</text>
+            :style="{ ...posterContentStyle, top: 68 + i * 5.5 + '%' }"
+            >{{ line }}</text
+          >
+          <text v-if="form.signature" class="poster-css-sig" :style="posterSigStyle">{{
+            form.signature
+          }}</text>
           <text class="poster-css-date" :style="posterDateStyle">{{ form.dateStr }}</text>
           <view class="poster-css-footer" :style="posterFooterStyle">
             <text class="poster-css-footer-text">{{ form.footer }}</text>
-            <text class="poster-css-footer-dots">·  ·  ·</text>
+            <text class="poster-css-footer-dots">· · ·</text>
           </view>
         </view>
         <!-- #endif -->
@@ -235,7 +234,9 @@ const availableHistories = computed(() => {
 const canvasStyle = computed(() => ({ w: '500rpx', h: '889rpx' }))
 
 // ============ CSS 渲染 (H5 端) ============
-const tplMeta = computed(() => TEMPLATES.find((t) => t.key === form.value.template) || TEMPLATES[0]!)
+const tplMeta = computed(
+  () => TEMPLATES.find((t) => t.key === form.value.template) || TEMPLATES[0]!,
+)
 
 function withAlpha(rgba: string, alpha: number): string {
   // 简单替换 / 追加 alpha（针对 rgba / hex 两种格式）

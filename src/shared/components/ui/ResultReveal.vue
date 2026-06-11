@@ -70,8 +70,7 @@ function play() {
   if (!el || typeof gsap === 'undefined') return
   // 默认 selector '> *' 是相对选择器，标准 querySelectorAll 不接受开头的 '>'
   // 改用 el.children（HTMLCollection，等价于 :scope > *）
-  const items =
-    props.selector === '> *' ? el.children : el.querySelectorAll(props.selector)
+  const items = props.selector === '> *' ? el.children : el.querySelectorAll(props.selector)
   if (items.length === 0) {
     gsap.fromTo(el, fromVars(el), {
       opacity: 1,

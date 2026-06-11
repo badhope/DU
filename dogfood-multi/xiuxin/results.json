@@ -6,11 +6,7 @@
       "features": {
         "duration_buttons": 7,
         "mode_buttons": 3,
-        "modes": [
-          "调息",
-          "念珠",
-          "念诵"
-        ],
+        "modes": ["调息", "念珠", "念诵"],
         "start_button": "入 坐"
       },
       "animations": {

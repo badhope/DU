@@ -146,9 +146,7 @@ const recommend = computed(() => (chosen.value ? recommendByXinjing(chosen.value
 const catList = computed(() => byCategory(cat.value).slice(0, 12))
 
 // 收藏：根据文本+出处生成稳定 ID
-const favId = computed(
-  () => `zhenju:${currentZhenju.value.text}::${currentZhenju.value.source}`,
-)
+const favId = computed(() => `zhenju:${currentZhenju.value.text}::${currentZhenju.value.source}`)
 const favorited = computed(() => app.favorites.includes(favId.value))
 
 function toggleFav() {
@@ -352,7 +350,11 @@ function dailyPick() {
   color: var(--color-bai-3);
   border-radius: 50%;
   border: 1rpx solid rgba(212, 175, 55, 0.25);
-  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
 }
 .zj-fav:active {
   transform: scale(0.88);
@@ -364,9 +366,15 @@ function dailyPick() {
   animation: zjFavPop 0.45s ease;
 }
 @keyframes zjFavPop {
-  0% { transform: scale(0.6); }
-  55% { transform: scale(1.25); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(0.6);
+  }
+  55% {
+    transform: scale(1.25);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .recommend,

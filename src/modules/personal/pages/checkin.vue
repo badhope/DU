@@ -203,9 +203,20 @@ const rewards = [
   animation: ciSealIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 @keyframes ciSealIn {
-  0% { transform: scale(0.85); opacity: 0.6; box-shadow: 0 0 0 rgba(79, 174, 111, 0); }
-  60% { transform: scale(1.08); opacity: 1; box-shadow: 0 0 32rpx rgba(79, 174, 111, 0.7); }
-  100% { transform: scale(1); box-shadow: 0 0 20rpx rgba(79, 174, 111, 0.4); }
+  0% {
+    transform: scale(0.85);
+    opacity: 0.6;
+    box-shadow: 0 0 0 rgba(79, 174, 111, 0);
+  }
+  60% {
+    transform: scale(1.08);
+    opacity: 1;
+    box-shadow: 0 0 32rpx rgba(79, 174, 111, 0.7);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 20rpx rgba(79, 174, 111, 0.4);
+  }
 }
 .cal {
   display: grid;
@@ -220,7 +231,9 @@ const rewards = [
   background: rgba(10, 10, 18, 0.3);
   border: 1rpx solid rgba(212, 175, 55, 0.1);
   border-radius: var(--r-sm);
-  transition: background 0.3s ease, border-color 0.3s ease;
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease;
 }
 .cal-day.checked {
   background: var(--color-zhu);
@@ -228,9 +241,18 @@ const rewards = [
   animation: ciDayPop 0.45s ease;
 }
 @keyframes ciDayPop {
-  0% { transform: scale(0.6); box-shadow: 0 0 0 rgba(200, 48, 42, 0); }
-  60% { transform: scale(1.2); box-shadow: 0 0 18rpx rgba(200, 48, 42, 0.6); }
-  100% { transform: scale(1); box-shadow: 0 0 0 rgba(200, 48, 42, 0); }
+  0% {
+    transform: scale(0.6);
+    box-shadow: 0 0 0 rgba(200, 48, 42, 0);
+  }
+  60% {
+    transform: scale(1.2);
+    box-shadow: 0 0 18rpx rgba(200, 48, 42, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 rgba(200, 48, 42, 0);
+  }
 }
 .cal-day.today {
   border-color: var(--color-liu);
