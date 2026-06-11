@@ -82,6 +82,12 @@ page {
     -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', '思源黑体', sans-serif;
   font-size: var(--fs-base);
   line-height: 1.6;
+
+  /* KnowledgeShell 组件 token（SP-3 新增） */
+  --color-tab-active: rgba(212, 175, 55, 0.15);
+  --color-tab-inactive: transparent;
+  --color-knowledge-card-bg: rgba(20, 20, 28, 0.6);
+  --color-divider: rgba(212, 175, 55, 0.2);
 }
 
 /* ============================================================

@@ -120,22 +120,24 @@ for (const m of REQUIRED_MODULES) {
 }
 ok(1, '扫描完成（SP-2 完成态：shared/settings/app/stores/config + 本模块 + mingli/shenghuo 基础层）')
 
-// --- 步骤 2: shared 不能 import modules（特例: shared/components/charts/* 可引用 modules，因为 charts 是"展示+计算混装"的复合组件）---
-step(2, 'shared 禁止 import modules（charts 特例除外）')
+// --- 步骤 2: shared 不能 import modules（特例: shared/components/charts/* + shared/components/ui/* 可引用 modules）---
+// charts 特例: 计算+展示混装的复合组件
+// ui 特例 (SP-3): KnowledgeShell 容器组件需要渲染具体模块的知识条目
+step(2, 'shared 禁止 import modules（charts + ui 容器特例除外）')
 for (const f of walk(SHARED)) {
   for (const spec of getImports(f)) {
     const target = resolveImport(spec, f)
     if (!target) continue
     const rel = relative(SRC, target).replace(/\\/g, '/')
     if (rel.startsWith('modules/')) {
-      // 特例: shared/components/charts/* 可引用 modules（因为 charts 是计算+展示的复合组件）
       const frel = relative(SRC, f).replace(/\\/g, '/')
       if (frel.startsWith('shared/components/charts/')) continue
+      if (frel.startsWith('shared/components/ui/')) continue
       fail(2, `${relative(ROOT, f)} imports ${spec} (shared 不应依赖模块)`)
     }
   }
 }
-ok(2, '扫描完成（charts 特例允许）')
+ok(2, '扫描完成（charts + ui 容器特例允许）')
 
 // --- 步骤 3: settings 不能 import modules ---
 step(3, 'settings 禁止 import modules')
