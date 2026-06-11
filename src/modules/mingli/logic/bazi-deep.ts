@@ -541,7 +541,6 @@ export function taiyuan(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi:
 export function minggong(bazi: ReturnType<typeof calcBazi>): { gan: TianGan; zhi: DiZhi } {
   // 命宫 = 寅起正月，顺数至生月；再从卯起子时，顺数至生时
   const month = bazi.month.zhi
-  const _monthStart = DIZHI.indexOf(month) // 寅=2, 卯=3 ...
   // 实际：从寅开始，正月在寅
   // 简化：以月支序号起
   const monthZhiIdx = DIZHI.indexOf(month)

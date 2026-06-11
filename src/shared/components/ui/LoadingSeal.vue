@@ -25,7 +25,7 @@
 
       <!-- 8 卦粒子 -->
       <view class="lm-orbit">
-        <view v-for="(g, i) in 8" :key="'o-' + i" class="orbit-item" :class="`orbit-${i}`">
+        <view v-for="(_, i) in 8" :key="'o-' + i" class="orbit-item" :class="`orbit-${i}`">
           <text class="orbit-glyph">{{ BAGUA[i] }}</text>
         </view>
       </view>

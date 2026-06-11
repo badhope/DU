@@ -347,7 +347,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'hehun', toolName: '八字合婚', category: '合婚' })
-const _toolKey = 'hehun' as const
 
 const REL_GLYPH: Record<string, string> = {
   天干合: '合',

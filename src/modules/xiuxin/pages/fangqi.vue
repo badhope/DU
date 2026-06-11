@@ -50,7 +50,7 @@
       <view class="wave-area">
         <!-- 声波 -->
         <view class="wave-bars">
-          <view v-for="(b, i) in 16" :key="i" class="wave-bar" :style="barStyle(i)"></view>
+          <view v-for="(_, i) in 16" :key="i" class="wave-bar" :style="barStyle(i)"></view>
         </view>
         <text class="bg-glyph-big">{{ currentBg?.glyph }}</text>
         <text class="bg-label">{{ currentBg?.name }} · {{ currentBg?.desc }}</text>

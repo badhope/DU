@@ -98,10 +98,8 @@ import TopBar from '@shared/components/ui/TopBar.vue'
 import UserSwitcher from '@shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@shared/components/ui/ToolGuard.vue'
 import { yaoToGua, castYaoSticks, type Gua } from '@modules/zhanbu/logic/gua'
-import { useAppStore } from '@/stores'
 import { useCooldown } from '@shared/composables/use-cooldown'
 
-const _app = useAppStore()
 const cd = useCooldown({ tool: 'gua', toolName: '今日一卦', category: '占卜' })
 const { showCooldown, cooldownRecord, showAddUser, newUserName, newUserRemark } = cd
 

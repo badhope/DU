@@ -326,8 +326,6 @@ const planetMarkers = computed(() => {
     const offset = ((i % 4) - 1.5) * 6 // 错开避免重叠
     const deg = baseDeg + offset
     const pos = polar(cx, cy, rPlanet, deg)
-    const _isBigThree =
-      ['太阳', '月亮', '上升'].includes(p.name) || (p.name === props.result.sun && false)
     const GLYPH: Record<string, string> = {
       太阳: '☉',
       月亮: '☽',

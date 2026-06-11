@@ -100,7 +100,7 @@
         <view class="pan-tbl">
           <view class="pan-row pan-head">
             <text class="pan-th">地支</text>
-            <text v-for="(t, i) in 12" :key="'h' + i" class="pan-th">{{ tianZhi[i] }}</text>
+            <text v-for="(_, i) in 12" :key="'h' + i" class="pan-th">{{ tianZhi[i] }}</text>
           </view>
           <view class="pan-row">
             <text class="pan-td-label">天盘</text>

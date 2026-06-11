@@ -111,7 +111,7 @@ export const TEMPLATES: PosterMeta[] = [
  */
 export function renderPoster(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  canvas: any,
+  _canvas: any,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   ctx: any,
   config: PosterConfig,
@@ -428,7 +428,6 @@ export function buildPosterFromHistory(
     return base
   }
   const out = history.output || {}
-  const _inp = history.input || {}
   switch (type) {
     case 'gua':
       return {

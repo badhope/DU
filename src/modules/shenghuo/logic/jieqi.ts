@@ -479,7 +479,6 @@ export function wuyun(year: number): WuyunLiuqi {
 
   // 主运：固定从木开始
   const dayunStart = 'mu'
-  const _dayunList: Wuxing[] = [dayunStart, 'huo', 'tu', 'jin', 'shui']
 
   // 客气六气（简化）
   const jianqi: string[] = [

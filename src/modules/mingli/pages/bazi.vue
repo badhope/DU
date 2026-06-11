@@ -316,7 +316,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'bazi', toolName: '八字排盘', category: '命理' })
-const _toolKey = 'bazi' as const
 
 const form = ref({
   year: new Date().getFullYear(),
@@ -409,7 +408,7 @@ function calculate() {
               fills,
               { width: '0%' },
               {
-                width: (i, el) => el.style.width,
+                width: (_i, el) => el.style.width,
                 duration: 0.9,
                 stagger: 0.1,
                 ease: 'power2.out',

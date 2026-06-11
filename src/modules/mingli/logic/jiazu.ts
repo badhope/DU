@@ -90,9 +90,9 @@ function buildPoemGen(poem: string, startGen: number, year: number): Generation[
 export function buildFamilyTree(
   surname: string,
   year: number,
-  month: number,
-  day: number,
-  hour: number,
+  _month: number,
+  _day: number,
+  _hour: number,
   gender: '男' | '女',
   poem?: string,
 ): FamilyTree {

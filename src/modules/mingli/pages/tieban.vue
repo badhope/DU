@@ -188,7 +188,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'tieban', toolName: '铁板神数', category: '占卜' })
-const _toolKey = 'tieban' as const
 const form = ref({ year: 1990, month: 6, day: 15, hour: 12 })
 const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
 const hourRange = Array.from({ length: 24 }, (_, i) => i + ':00')

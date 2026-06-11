@@ -356,13 +356,6 @@ function isSelected(id: string) {
   return selectedId.value === id
 }
 
-function pointsToPathDLocal(pts: Point[]): string {
-  return pointsToPathD(pts)
-}
-
-// 暴露 pointsToPathD 给模板
-const _pointsToPathDRef = pointsToPathDLocal
-
 function onMeridianClick(m: MeridianPath) {
   if (selectedId.value === m.id) {
     selectedId.value = null

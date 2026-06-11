@@ -181,7 +181,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'xiaoliuren', toolName: '小六壬', category: '占卜' })
-const _toolKey = 'xiaoliuren' as const
 const form = ref({
   month: new Date().getMonth() + 1,
   day: new Date().getDate(),

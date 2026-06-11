@@ -54,33 +54,6 @@ const SANYUAN: Record<string, { dun: '阳遁' | '阴遁'; ju: ThreeYuan }> = {
   大雪: { dun: '阴遁', ju: [4, 7, 1] },
 }
 
-// 节气顺序（按公历月份）
-const _JIEQI_ORDER = [
-  '小寒',
-  '大寒',
-  '立春',
-  '雨水',
-  '惊蛰',
-  '春分',
-  '清明',
-  '谷雨',
-  '立夏',
-  '小满',
-  '芒种',
-  '夏至',
-  '小暑',
-  '大暑',
-  '立秋',
-  '处暑',
-  '白露',
-  '秋分',
-  '寒露',
-  '霜降',
-  '立冬',
-  '小雪',
-  '大雪',
-  '冬至',
-]
 // 每个节气对应大致的月份分界日（公历）
 const JIEQI_MONTH_DAY: Array<{ name: string; m: number; d: number }> = [
   { name: '小寒', m: 1, d: 5 },
@@ -252,37 +225,10 @@ const GONG_TO_STAR: Record<number, JiuXing> = {
   8: '天任',
   9: '天英',
 }
-// 九宫 → 八门（地盘八门位）
-const _GONG_TO_MEN: Record<number, BaMen | '中'> = {
-  1: '休门',
-  2: '死门',
-  3: '伤门',
-  4: '杜门',
-  5: '中',
-  6: '开门',
-  7: '惊门',
-  8: '生门',
-  9: '景门',
-}
+// 九宫 → 八门（地盘八门位）已被合并到 GONG_TO_STAR/GONG_TO_MEN 计算中
 
 // ============ 五行关系（用纳音/河图）============
 // 九星/八门 与宫位五行生克定中/吉/凶（吉凶核心）
-
-function _isWood(w: string) {
-  return w === '木'
-}
-function _isFire(w: string) {
-  return w === '火'
-}
-function _isEarth(w: string) {
-  return w === '土'
-}
-function _isMetal(w: string) {
-  return w === '金'
-}
-function _isWater(w: string) {
-  return w === '水'
-}
 
 /** 击刑：九星落入与地盘同位的对冲宫（落宫克所到宫为击刑/入墓） */
 function hasPunish(star: JiuXing, gongIdx: number): boolean {
@@ -326,7 +272,7 @@ const KONG_WANG: Record<string, string[]> = {
   甲辰: ['寅', '卯'],
   甲寅: ['子', '丑'],
 }
-function getKongWang(dayGan: TianGan, dayZhi: DiZhi): string[] {
+function getKongWang(_dayGan: TianGan, dayZhi: DiZhi): string[] {
   const startZhi = dayZhi
   for (const [k, v] of Object.entries(KONG_WANG)) {
     if (k.endsWith(startZhi)) return v
@@ -341,7 +287,6 @@ function getJieqi(year: number, month: number, day: number): string {
   const target = new Date(year, month - 1, day).getTime()
   let bestName = '冬至'
   let bestDiff = Infinity
-  const _prevName = '小寒'
   for (let i = 0; i < JIEQI_MONTH_DAY.length; i++) {
     const j = JIEQI_MONTH_DAY[i]!
     let jYear = year
@@ -409,18 +354,6 @@ function getShenSeq(dun: '阳遁' | '阴遁'): BaShen[] {
   // 阴遁从值符起逆行：值符 九天 九地 朱雀 勾陈 六合 太阴 腾蛇
   if (dun === '阳遁') return ['值符', '腾蛇', '太阴', '六合', '勾陈', '朱雀', '九地', '九天']
   return ['值符', '九天', '九地', '朱雀', '勾陈', '六合', '太阴', '腾蛇']
-}
-
-function _getMenSeq(dun: '阳遁' | '阴遁'): BaMen[] {
-  // 八门顺序：休 生 伤 杜 景 死 惊 开
-  if (dun === '阳遁') return ['休门', '生门', '伤门', '杜门', '景门', '死门', '惊门', '开门']
-  return ['休门', '开门', '惊门', '死门', '景门', '杜门', '伤门', '生门']
-}
-
-function _getXingSeq(dun: '阳遁' | '阴遁'): JiuXing[] {
-  if (dun === '阳遁')
-    return ['天蓬', '天芮', '天冲', '天辅', '天禽', '天心', '天柱', '天任', '天英']
-  return ['天英', '天任', '天柱', '天心', '天禽', '天辅', '天冲', '天芮', '天蓬']
 }
 
 // ============ 真奇门排盘 ============

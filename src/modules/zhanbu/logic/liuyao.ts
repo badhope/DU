@@ -465,11 +465,6 @@ function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
   return { ...meta, symbol, yaoBin }
 }
 
-/** 通过卦名查卦 */
-function _findGuaByName(name: string): GuaFull | undefined {
-  return GUA_PALACE.find((g) => g.name === name) as GuaFull | undefined
-}
-
 // ============ 蓍草起卦（大衍之数 50 → 49 → 三营成易）============
 //
 // 传统算法：

@@ -99,20 +99,6 @@ export interface LiurenResult {
   lucky: { color: string; direction: string; number: number }
 }
 
-const TIANGAN: Record<string, 'yang' | 'yin'> = {
-  甲: 'yang',
-  乙: 'yin',
-  丙: 'yang',
-  丁: 'yin',
-  戊: 'yang',
-  己: 'yin',
-  庚: 'yang',
-  辛: 'yin',
-  壬: 'yang',
-  癸: 'yin',
-}
-
-// 贵神起例：阳贵（甲丙戊庚壬）：从日支起贵神
 // 阳贵起例：甲日 - 丑 / 丙 - 亥 / 戊 - 丑 / 庚 - 丑 / 壬 - 巳
 // 阴贵起例：乙日 - 子 / 丁 - 亥 / 己 - 子 / 辛 - 午 / 癸 - 巳
 const YANG_GUIREN: Record<string, DiZhi> = { 甲: '丑', 丙: '亥', 戊: '丑', 庚: '未', 壬: '巳' }
@@ -120,7 +106,6 @@ const YIN_GUIREN: Record<string, DiZhi> = { 乙: '子', 丁: '亥', 己: '申', 
 
 // 求贵神
 function guirenStart(dayGan: string): { yang: DiZhi; yin: DiZhi } {
-  const _yy = TIANGAN[dayGan] || 'yang'
   return {
     yang: YANG_GUIREN[dayGan] || '丑',
     yin: YIN_GUIREN[dayGan] || '子',
@@ -191,10 +176,6 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   // 查天盘
   const tianByZhi = (z: DiZhi): General => {
     const item = tianPan.find((tp) => tp.zhi === z)
-    return item ? item.general : '贵人'
-  }
-  const _diByZhi = (z: DiZhi): General => {
-    const item = diPan.find((tp) => tp.zhi === z)
     return item ? item.general : '贵人'
   }
 

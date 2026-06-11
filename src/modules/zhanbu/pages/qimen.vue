@@ -206,7 +206,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'mingmen', toolName: '奇门遁甲', category: '占卜' })
-const _toolKey = 'mingmen' as const
 
 const form = ref({
   year: new Date().getFullYear(),

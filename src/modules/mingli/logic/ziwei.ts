@@ -572,8 +572,6 @@ export function calcZiwei(
   // 1) 年干（用 bazi 真算法）
   const bz = calcBazi(year, month, day, hour, longitude)
   const yearGan = bz.year.gan
-  const _dayGan = bz.day.gan
-  const _hourZhi = bz.hour.zhi
 
   // 2) 命宫 / 身宫
   const mingGongZhi = calcMingGongZhi(month, hour)

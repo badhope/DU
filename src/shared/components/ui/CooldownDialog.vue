@@ -47,11 +47,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
 import { friendlyDate } from '@shared/utils/daily-cooldown'
 import type { DivinationRecord } from '@/stores'
 
-const props = defineProps<{
+defineProps<{
   visible: boolean
   record?: DivinationRecord | null
   unlockDate?: string
@@ -64,11 +63,6 @@ const emit = defineEmits<{
   (e: 'switchTool'): void
   (e: 'ignore'): void
 }>()
-
-const _message = computed(() => {
-  if (!props.record) return ''
-  return `「${props.record.userName}」今日已测 ${props.record.toolName}，结果：${props.record.brief}`
-})
 
 function onCloseMask() {
   emit('close')

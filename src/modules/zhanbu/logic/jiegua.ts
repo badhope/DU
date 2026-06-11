@@ -207,10 +207,6 @@ function calcShiying(gua: Gua): Shiying {
   // 世爻 / 应爻 的六亲：基于卦宫
   const liuqinList: Liuqin[] = ['父母', '兄弟', '子孙', '妻财', '官鬼']
   // 简化：按上卦属宫从 liuqinList 顺推
-  const palace = upper
-  const _baseIdx = (
-    { qian: 0, dui: 0, li: 2, zhen: 3, xun: 3, kan: 1, gen: 1, kun: 4 } as Record<string, number>
-  )[palace]
   // 这里采用"八卦属宫"定六亲位（简化）：本宫第 1 爻起
   // 为演示效果，按爻位简单映射
   const shiLiuqin = liuqinList[(shiPos - 1) % 5]!
@@ -338,7 +334,7 @@ function calcYongshen(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP)
   }
 }
 
-function calcFushen(gua: Gua, yongshen: Yongshen): Fushen | undefined {
+function calcFushen(_gua: Gua, yongshen: Yongshen): Fushen | undefined {
   // 简化：50% 概率有伏神
   if (Math.random() > 0.5) return undefined
   return {
@@ -360,7 +356,7 @@ function calcWuxingFlow(gua: Gua, biangua: Biangua): string[] {
   ]
 }
 
-function calcFortunes(gua: Gua, biangua: Biangua, yongshen: Yongshen) {
+function calcFortunes(gua: Gua, _biangua: Biangua, yongshen: Yongshen) {
   const base = gua.fortune === '吉' ? 75 : gua.fortune === '平' ? 60 : 40
   const bonus =
     yongshen.status === '旺'

@@ -242,7 +242,7 @@ onMounted(() => {
   const yaoStr = opt['yao'] || '1,1,1,1,1,1'
   yaoPattern.value = yaoStr.split(',').map((s) => parseInt(s) || 0)
   try {
-    const _sys = uni.getSystemInfoSync()
+    uni.getSystemInfoSync()
   } catch (_e) {}
   // 入场
   setTimeout(() => {

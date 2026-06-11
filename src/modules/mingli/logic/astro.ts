@@ -368,7 +368,7 @@ export function planetSign(
  */
 export function isRetrograde(
   planet: 'mercury' | 'venus' | 'mars' | 'jupiter' | 'saturn',
-  year: number,
+  _year: number,
   month: number,
   day: number,
 ): boolean {

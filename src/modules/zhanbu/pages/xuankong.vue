@@ -171,7 +171,6 @@ import ResultReveal from '@shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'xuankong', toolName: '玄空飞星', category: '风水' })
-const _toolKey = 'xuankong' as const
 const form = ref({ year: new Date().getFullYear() })
 const result = ref<XuanKongResult | null>(null)
 const loading = ref(false)

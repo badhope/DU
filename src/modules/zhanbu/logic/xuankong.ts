@@ -168,7 +168,6 @@ export function calcXuanKong(
   ]
   const directions = dirKeys.map(({ pos, dir }) => {
     const star = liuNianPan[pos]!
-    const _meta = GONG_DIR[star]!
     const level = _starLevel(star)
     return {
       dir,
