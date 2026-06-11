@@ -7,6 +7,33 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.1.0] - 2026-06-11
+
+### Added
+
+- **TypeScript strict**: turn on 3rd strict option `noUncheckedIndexedAccess` (closed SP-1 §5.3 deferral)
+- **`scripts/fix-strict.mjs`**: AST-free pattern-matching auto-fix tool for common `noUncheckedIndexedAccess` errors (4 pattern types: chain access / typed record / destructured default / typed assignment)
+- **`tests/scripts/fix-strict.test.ts`**: 6 tests covering all 4 fix patterns + 2 no-op cases
+- **`docs/superpowers/specs/2026-06-11-sp6-strict-rewrite.md`**: SP-6 design spec
+- **`docs/superpowers/plans/2026-06-11-sp6-strict-impl.md`**: SP-6 implementation plan
+
+### Changed
+
+- **`tsconfig.json`**: add `"noUncheckedIndexedAccess": true` (3 strict options now enabled)
+- **`package.json`**: version 1.0.0 → 1.1.0
+- **51 source files**: fix 193 `noUncheckedIndexedAccess` errors via 4 parallel subagents + `fix-strict.mjs` auto-fix
+  - `src/modules/mingli/` (50 errors → 0)
+  - `src/modules/zhanbu/` (45 errors → 0)
+  - `src/modules/mingming/` + 5 small modules (78 errors → 0)
+  - `src/shared/components/charts/` + `effects/` (20 errors → 0)
+- **`docs/superpowers/specs/2026-06-10-sp1-skeleton-design.md`**: §5.3 / §6 注记更新 (v1.1.0 完成)
+
+### Fixed
+
+- **`scripts/fix-strict.mjs`**: remove unused `ROOT` constant (lint warning)
+
+---
+
 ## [Unreleased]
 
 ### Security

@@ -217,9 +217,11 @@ export default defineConfig({
 })
 ```
 
-### 5.3 `tsconfig.json` —— 5 paths + 2 strict（妥协）
+### 5.3 `tsconfig.json` —— 5 paths + 3 strict（v1.1.0 全开）
 
-> **2026-06-10 实际执行注记**：原 spec 计划开 3 strict 选项（`noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `noImplicitOverride`）。开启 `noUncheckedIndexedAccess` 后旧代码爆出 **497 个 TS 编译错误**（远超预估 50-80），覆盖 30+ 文件。本 SP-1 务实妥协：**保留 `exactOptionalPropertyTypes` + `noImplicitOverride`**（共修复 4 个 exactOptionalPropertyTypes 错），**关闭 `noUncheckedIndexedAccess`**。推迟到 SP-2 后续逐文件重构时再分阶段重开。
+> ~~2026-06-10 实际执行注记（已过时）~~：原 spec 计划开 3 strict 选项。开启 `noUncheckedIndexedAccess` 后旧代码爆出 497 个错，本 SP-1 推迟。
+>
+> **2026-06-11 SP-6 完成**：通过 `scripts/fix-strict.mjs` 自动化辅助 + 4 个 subagent 并行修复，新架构下错数 193（远少于 497），全部清零。第 3 个 strict 选项 `noUncheckedIndexedAccess` 已开启并稳定。详见 [sp6-strict-rewrite.md](2026-06-11-sp6-strict-rewrite.md)。
 
 ```json
 {
@@ -422,9 +424,9 @@ process.exit(failed === 0 ? 0 : 1)
 
 ## 6. Task 2.5：清零 Strict 错误
 
-开启 2 strict 后（`noUncheckedIndexedAccess` 推迟）实际只有 4 个 exactOptionalPropertyTypes 错，1 个 type union 不兼容错，全部在 1 个 commit 内手工修复完毕。
+3 strict 选项全开（`exactOptionalPropertyTypes` + `noImplicitOverride` + `noUncheckedIndexedAccess`），实际只有 4 个 exactOptionalPropertyTypes 错 + 193 个 noUncheckedIndexedAccess 错（后者在 SP-6 全部清零）。
 
-> 详见上文 §5.3 注记。`noUncheckedIndexedAccess` 开启后会触发 497 错，本 SP-1 不修，留待 SP-2 后续。
+> ~~详见上文 §5.3 注记。`noUncheckedIndexedAccess` 开启后会触发 497 错，本 SP-1 不修，留待 SP-2 后续。~~ **2026-06-11 SP-6 完成**：193 错全清零。
 
 ## 7. 验收
 
