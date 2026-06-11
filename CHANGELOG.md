@@ -7,6 +7,25 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.3.0] - 2026-06-11
+
+### Added
+
+- **TypeScript strict v3**: turn on 4 more strict options
+  - `useUnknownInCatchVariables` (TS18046: catch error type)
+  - `noImplicitThis` (TS2683: implicit this)
+  - `strictBindCallApply` (TS2345: bind/call/apply type)
+  - `strictPropertyInitialization` (TS2722: class property init)
+- **`docs/superpowers/specs/2026-06-11-sp8-strict-v3.md`**: SP-8 design spec
+- **`docs/superpowers/plans/2026-06-11-sp8-strict-impl.md`**: SP-8 implementation plan
+
+### Changed
+
+- **`tsconfig.json`**: 6 → 10 strict options enabled (zero errors, project uses composition API + arrow functions + _e catch)
+- **`package.json`**: version 1.2.0 → 1.3.0
+
+---
+
 ## [1.2.0] - 2026-06-11
 
 ### Added
