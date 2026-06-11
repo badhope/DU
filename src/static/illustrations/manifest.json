@@ -1,0 +1,174 @@
+{
+  "generated": "2026-06-11T03:22:49.665Z",
+  "count": 28,
+  "specs": [
+    {
+      "id": "st-shang",
+      "name": "上停",
+      "file": "st-shang.svg",
+      "category": "face"
+    },
+    {
+      "id": "st-zhong",
+      "name": "中停",
+      "file": "st-zhong.svg",
+      "category": "face"
+    },
+    {
+      "id": "st-xia",
+      "name": "下停",
+      "file": "st-xia.svg",
+      "category": "face"
+    },
+    {
+      "id": "wg-mei",
+      "name": "眉",
+      "file": "wg-mei.svg",
+      "category": "face"
+    },
+    {
+      "id": "wg-yan",
+      "name": "眼",
+      "file": "wg-yan.svg",
+      "category": "face"
+    },
+    {
+      "id": "wg-bi",
+      "name": "鼻",
+      "file": "wg-bi.svg",
+      "category": "face"
+    },
+    {
+      "id": "wg-kou",
+      "name": "口",
+      "file": "wg-kou.svg",
+      "category": "face"
+    },
+    {
+      "id": "wg-er",
+      "name": "耳",
+      "file": "wg-er.svg",
+      "category": "face"
+    },
+    {
+      "id": "bg-qian",
+      "name": "乾宫",
+      "file": "bg-qian.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-dui",
+      "name": "兑宫",
+      "file": "bg-dui.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-li",
+      "name": "离宫",
+      "file": "bg-li.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-zhen",
+      "name": "震宫",
+      "file": "bg-zhen.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-xun",
+      "name": "巽宫",
+      "file": "bg-xun.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-kan",
+      "name": "坎宫",
+      "file": "bg-kan.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-gen",
+      "name": "艮宫",
+      "file": "bg-gen.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bg-kun",
+      "name": "坤宫",
+      "file": "bg-kun.svg",
+      "category": "palm"
+    },
+    {
+      "id": "bf-dongnan",
+      "name": "东南",
+      "file": "bf-dongnan.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-nan",
+      "name": "南方",
+      "file": "bf-nan.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-xinan",
+      "name": "西南",
+      "file": "bf-xinan.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-dong",
+      "name": "东方",
+      "file": "bf-dong.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-xi",
+      "name": "西方",
+      "file": "bf-xi.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-xibei",
+      "name": "西北",
+      "file": "bf-xibei.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-bei",
+      "name": "北方",
+      "file": "bf-bei.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "bf-dongbei",
+      "name": "东北",
+      "file": "bf-dongbei.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "mg-kan",
+      "name": "坎命",
+      "file": "mg-kan.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "mg-li",
+      "name": "离命",
+      "file": "mg-li.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "mg-zhen",
+      "name": "震命",
+      "file": "mg-zhen.svg",
+      "category": "fengshui"
+    },
+    {
+      "id": "mg-xun",
+      "name": "巽命",
+      "file": "mg-xun.svg",
+      "category": "fengshui"
+    }
+  ]
+}

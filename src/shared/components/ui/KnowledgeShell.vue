@@ -1,4 +1,4 @@
-<script setup lang="ts" generic="T extends { key: string; name: string; illustId: string }">
+<script setup lang="ts" generic="T extends { key: string; name: string }">
 import KnowledgeCard from './KnowledgeCard.vue'
 
 defineProps<{
@@ -6,6 +6,10 @@ defineProps<{
   summaries: Record<string, string>
   details: Record<string, string>
 }>()
+
+function getIllustId(it: T): string | undefined {
+  return 'illustId' in it ? (it as T & { illustId?: string }).illustId : undefined
+}
 </script>
 
 <template>
@@ -20,7 +24,7 @@ defineProps<{
         :title="it.name"
         :summary="summaries[it.key] || ''"
         :detail="details[it.key]"
-        :illust-id="it.illustId"
+        :illust-id="getIllustId(it)"
       />
     </view>
   </view>

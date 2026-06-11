@@ -4,8 +4,8 @@ import { ref } from 'vue'
 defineProps<{
   title: string
   summary: string
-  detail?: string
-  illustId?: string
+  detail?: string | undefined
+  illustId?: string | undefined
 }>()
 
 const open = ref(false)

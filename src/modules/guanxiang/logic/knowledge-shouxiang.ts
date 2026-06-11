@@ -7,7 +7,8 @@ export interface PalmKnowledge {
   name: string
   pos: string
   element?: '金' | '木' | '水' | '火' | '土'
-  illustId: string
+  /** 对应 illustration-specs.ts 的 id；不填则不显示配图 */
+  illustId?: string
 }
 
 export const SHOUXIANG_KNOWLEDGE: PalmKnowledge[] = [
@@ -19,10 +20,10 @@ export const SHOUXIANG_KNOWLEDGE: PalmKnowledge[] = [
   { key: 'ba-gong-6', name: '坎宫', pos: '拇指球（金星丘）', element: '水', illustId: 'bg-kan' },
   { key: 'ba-gong-7', name: '艮宫', pos: '拇指根（艮宫丘）', element: '土', illustId: 'bg-gen' },
   { key: 'ba-gong-8', name: '坤宫', pos: '小指根（坤宫丘）', element: '土', illustId: 'bg-kun' },
-  { key: 'zhou-1', name: '木星丘', pos: '食指根', element: '木', illustId: 'zhou-mu' },
-  { key: 'zhou-2', name: '太阳丘', pos: '中指根', element: '火', illustId: 'zhou-taiyang' },
-  { key: 'zhou-3', name: '金星丘', pos: '拇指球', element: '金', illustId: 'zhou-jin' },
-  { key: 'zhou-4', name: '水星丘', pos: '小指根', element: '水', illustId: 'zhou-shui' },
+  { key: 'zhou-1', name: '木星丘', pos: '食指根', element: '木' },
+  { key: 'zhou-2', name: '太阳丘', pos: '中指根', element: '火' },
+  { key: 'zhou-3', name: '金星丘', pos: '拇指球', element: '金' },
+  { key: 'zhou-4', name: '水星丘', pos: '小指根', element: '水' },
 ]
 
 export const SHOUXIANG_SUMMARIES: Record<string, string> = {

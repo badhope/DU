@@ -10,7 +10,8 @@ export interface FaceKnowledge {
   name: string
   pos: string
   element?: '金' | '木' | '水' | '火' | '土'
-  illustId: string
+  /** 对应 illustration-specs.ts 的 id；不填则不显示配图 */
+  illustId?: string
 }
 
 export const MIANXIANG_KNOWLEDGE: FaceKnowledge[] = [
@@ -22,10 +23,10 @@ export const MIANXIANG_KNOWLEDGE: FaceKnowledge[] = [
   { key: 'wu-guan-3', name: '鼻', pos: '鼻准', element: '土', illustId: 'wg-bi' },
   { key: 'wu-guan-4', name: '口', pos: '嘴', element: '金', illustId: 'wg-kou' },
   { key: 'wu-guan-5', name: '耳', pos: '双耳', element: '水', illustId: 'wg-er' },
-  { key: 'shi-er-1', name: '命宫', pos: '两眉之间', illustId: 'g12-ming' },
-  { key: 'shi-er-2', name: '财帛宫', pos: '鼻准', illustId: 'g12-cai' },
-  { key: 'shi-er-3', name: '夫妻宫', pos: '鱼尾', illustId: 'g12-fu' },
-  { key: 'shi-er-4', name: '疾厄宫', pos: '山根', illustId: 'g12-ji' },
+  { key: 'shi-er-1', name: '命宫', pos: '两眉之间' },
+  { key: 'shi-er-2', name: '财帛宫', pos: '鼻准' },
+  { key: 'shi-er-3', name: '夫妻宫', pos: '鱼尾' },
+  { key: 'shi-er-4', name: '疾厄宫', pos: '山根' },
 ]
 
 export const MIANXIANG_SUMMARIES: Record<string, string> = {
