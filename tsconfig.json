@@ -18,6 +18,10 @@
     "noPropertyAccessFromIndexSignature": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
+    "useUnknownInCatchVariables": true,
+    "noImplicitThis": true,
+    "strictBindCallApply": true,
+    "strictPropertyInitialization": true,
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types"]
   },
