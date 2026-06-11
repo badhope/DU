@@ -8,8 +8,8 @@
  *  - 64 卦：体用关系、五行生克
  */
 
-import type { Wuxing } from './bazi'
-import { SHENG, KE } from './wuxing'
+import type { Wuxing } from '@modules/mingli/logic/bazi'
+import { SHENG, KE } from '@modules/mingli/logic/wuxing'
 
 export const BAGUA_LIST = [
   { num: 1, name: '乾', symbol: '☰', nature: '天', wuxing: 'jin' as Wuxing, color: '#D4AF37' },

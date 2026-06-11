@@ -268,7 +268,7 @@ const baguaSectors = computed(() => {
     const nameP = polar(cx, cy, rOuter + 14, p.deg)
     return {
       ...b,
-      color: WX_COLOR[b.wuxing]!,
+      color: WX_COLOR[b.wuxing as keyof typeof WX_COLOR]!,
       lineX1: p1.x,
       lineY1: p1.y,
       lineX2: p2.x,

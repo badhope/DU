@@ -11,7 +11,7 @@
  *   4. 最后一落点即神将
  */
 
-import { HOUR_TO_DIZHI, type DiZhi } from './bazi'
+import { HOUR_TO_DIZHI, type DiZhi } from '@modules/mingli/logic/bazi'
 
 export interface LiuShen {
   key: '大安' | '留连' | '速喜' | '赤口' | '小吉' | '空亡'
@@ -147,7 +147,7 @@ export function calcXiaoLiuRen(
   advice: string
 } {
   // 时辰 → 地支序号（子=0, 丑=1, ... 亥=11）
-  const hourZhi = HOUR_TO_DIZHI.find((z) => {
+  const hourZhi = HOUR_TO_DIZHI.find((z: { start: number; end: number }) => {
     if (z.start > z.end) return hour >= z.start || hour < z.end
     return hour >= z.start && hour < z.end
   })

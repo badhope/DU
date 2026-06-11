@@ -7,8 +7,8 @@
  *  - 喜用神（基于生辰八字五行）
  */
 
-import { calcBazi, TIANGAN_WUXING, DIZHI_WUXING, type Wuxing } from './bazi'
-import { WUXING_META } from './wuxing'
+import { calcBazi, TIANGAN_WUXING, DIZHI_WUXING, type Wuxing } from '@modules/mingli/logic/bazi'
+import { WUXING_META } from '@modules/mingli/logic/wuxing'
 import { kangxiStrokes, nameStrokes as _nameStrokes } from './kangxi-strokes'
 
 // 简化的汉字五行表（部首→五行）— 去重后用程序化合并

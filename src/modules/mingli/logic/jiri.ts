@@ -6,7 +6,7 @@
  *  - 评分：黄道日 + 宜事匹配 + 无冲煞
  */
 
-import { getHuangliDay, type HuangliDay } from './huangli'
+import { getHuangliDay, type HuangliDay } from '@modules/shenghuo/logic/huangli'
 
 const YI_TO_HLANG: Record<string, string[]> = {
   jiaqin: ['嫁娶', '订婚', '纳采', '问名'], // 嫁娶
@@ -63,14 +63,14 @@ export function findJiri(event: string, days: number = 30, baseDate?: Date): Jir
     }
 
     // 宜事匹配
-    const matchCount = hl.yi.filter((y) => yi.includes(y)).length
+    const matchCount = hl.yi.filter((y: string) => yi.includes(y)).length
     if (matchCount > 0) {
       score += matchCount * 6
       reason.push(`宜事匹配 ${matchCount} 项`)
     }
 
     // 凶日忌事惩罚
-    if (hl.ji.some((j) => yi.includes(j))) {
+    if (hl.ji.some((j: string) => yi.includes(j))) {
       score -= 8
     }
 

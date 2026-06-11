@@ -16,10 +16,10 @@ import {
   TIANGAN_YINYANG,
   type TianGan,
   type DiZhi,
-} from './bazi'
-import { calcDayun, dayunStrength, nayin, shishen, liunians } from './bazi-deep'
-import type { Wuxing } from './wuxing'
-import { SHENG, KE } from './wuxing'
+} from '@modules/mingli/logic/bazi'
+import { calcDayun, dayunStrength, nayin, shishen, liunians } from '@modules/mingli/logic/bazi-deep'
+import type { Wuxing } from '@modules/mingli/logic/wuxing'
+import { SHENG, KE } from '@modules/mingli/logic/wuxing'
 
 // 五福维度
 export type FuKey = 'shou' | 'fu' | 'kang' | 'de' | 'zhong'
@@ -175,7 +175,7 @@ export function calcWufu(
     fuPoints.push('食伤生财 · 技艺致富')
   }
   // 大运走财
-  const daiCai = dayun.steps.filter((s) => {
+  const daiCai = dayun.steps.filter((s: { gan: string; zhi: string }) => {
     const w = TIANGAN_WUXING[s.gan as TianGan]!
     return w === 'jin' || w === 'mu' // 财为日主所克
   }).length

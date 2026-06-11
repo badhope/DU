@@ -160,7 +160,13 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-import { polar, uid, THEME, WUXING_COLOR, levelColor as lColor } from '@modules/guanxiang/logic/chart-utils'
+import {
+  polar,
+  uid,
+  THEME,
+  WUXING_COLOR,
+  levelColor as lColor,
+} from '@modules/guanxiang/logic/chart-utils'
 import type { MingjiResult } from '@modules/mingming/logic/mingji'
 import { WUXING_META } from '@modules/mingli/logic/wuxing'
 import type { Wuxing } from '@modules/mingli/logic/bazi'
@@ -214,7 +220,8 @@ const gridPolys = computed(() => {
 const strokes = computed(() => props.result.name.split('').map((c) => (c.charCodeAt(0) % 30) + 4))
 
 function charColor(i: number): string {
-  return WUXING_COLOR[props.result.charWx[i]!] || WUXING_COLOR.mu
+  const k = props.result.charWx[i] as keyof typeof WUXING_COLOR | undefined
+  return (k && WUXING_COLOR[k]) || WUXING_COLOR.mu
 }
 function wxName(w: Wuxing): string {
   return WUXING_META[w].name

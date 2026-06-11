@@ -25,8 +25,8 @@ import {
   DIZHI_WUXING,
   type DiZhi,
   type TianGan,
-} from './bazi'
-import { SHENG, KE } from './wuxing'
+} from '@modules/mingli/logic/bazi'
+import { SHENG, KE } from '@modules/mingli/logic/wuxing'
 
 // ============ 类型定义 ============
 

@@ -17,7 +17,7 @@
  *  - 击刑/入墓/空亡
  */
 
-import { calcBazi, TIANGAN, DIZHI, type TianGan, type DiZhi } from './bazi'
+import { calcBazi, TIANGAN, DIZHI, type TianGan, type DiZhi } from '@modules/mingli/logic/bazi'
 
 // ============ 节气三元表 ============
 // 24 节气中每一节的上元/中元/下元局数（用 1-9 表示）

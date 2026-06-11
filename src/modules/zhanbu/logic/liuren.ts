@@ -10,9 +10,9 @@
  * 注：完整大六壬需"天地盘加时支"等复杂演算，本工具为入门讲解版
  */
 
-import { calcBazi } from './bazi'
-import type { Wuxing } from './wuxing'
-import { SHENG as _SHENG, KE as _KE } from './wuxing'
+import { calcBazi } from '@modules/mingli/logic/bazi'
+import type { Wuxing } from '@modules/mingli/logic/wuxing'
+import { SHENG as _SHENG, KE as _KE } from '@modules/mingli/logic/wuxing'
 
 // ============ 十二天盘神将 ============
 const TWELVE_GENERALS = [

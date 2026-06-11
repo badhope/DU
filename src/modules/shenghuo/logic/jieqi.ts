@@ -7,8 +7,8 @@
  *  - 饮食起居
  */
 
-import type { Wuxing } from './wuxing'
-import { SHENG, KE } from './wuxing'
+import type { Wuxing } from '@modules/mingli/logic/wuxing'
+import { SHENG, KE } from '@modules/mingli/logic/wuxing'
 
 // ============ 24 节气 ============
 export interface Jieqi {
