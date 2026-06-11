@@ -69,6 +69,8 @@
     "build:quickapp-webview-huawei": "uni build -p quickapp-webview-huawei",
     "build:quickapp-webview-union": "uni build -p quickapp-webview-union",
     "type-check": "vue-tsc --noEmit",
+    "check:modules": "node scripts/check-modules.mjs",
+    "check": "pnpm type-check && pnpm check:modules && pnpm lint && pnpm test",
     "lint": "eslint . --ext .js,.ts,.vue,.cjs --max-warnings 0",
     "lint:fix": "eslint . --ext .js,.ts,.vue,.cjs --fix",
     "format": "prettier --write .",

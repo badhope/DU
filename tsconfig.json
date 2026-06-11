@@ -5,8 +5,16 @@
     "ignoreDeprecations": "6.0",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@app/*": ["./src/app/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@stores/*": ["./src/stores/*"],
+      "@config/*": ["./src/config/*"]
     },
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "noImplicitOverride": true,
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types"]
   },
