@@ -73,7 +73,7 @@ export function meihuaDivinate(
   // 时辰 → 数
   const hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'][
     Math.floor((hour + 1) / 2) % 12
-  ]
+  ]!
   const hourNum = HOUR_TO_NUM[hourZhi]!
 
   // 上卦 = (年+月+日) % 8 = 0 → 坤
@@ -93,7 +93,7 @@ export function meihuaDivinate(
   // 体用关系：上卦=体 / 下卦=用
   const ti = upper
   const yong = lower
-  const bian = dongYao <= 3 ? bianLower : bianUpper
+  const bian = (dongYao <= 3 ? bianLower : bianUpper)!
 
   // 五行关系
   const tiWx = ti.wuxing
@@ -203,6 +203,6 @@ export function meihuaDivinate(
     interpretation,
     scores: { shiye, caiyun, ganqing, jiankang, jingshen },
     summary,
-    advice: adviceMap[interpretation.split(' · ')[0]] || '慎行',
+    advice: adviceMap[interpretation.split(' · ')[0]!] || '慎行',
   }
 }

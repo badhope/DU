@@ -757,7 +757,7 @@ export function drawZhuge(num1?: number, num2?: number, num3?: number): ZhugeQia
   const b = num2 ?? Math.floor(Math.random() * 9) + 1
   const c = num3 ?? Math.floor(Math.random() * 9) + 1
   const num = ((a * 100 + b * 10 + c) % 384) + 1
-  return ALL_QIAN[num - 1]
+  return ALL_QIAN[num - 1]!
 }
 
 export { ALL_QIAN }

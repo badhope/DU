@@ -908,7 +908,7 @@ export const GUA_LIST: Gua[] = [
 /** 随机起卦（按日期种子 + 随机） */
 export function randomGua(): Gua {
   const idx = Math.floor(Math.random() * GUA_LIST.length)
-  return GUA_LIST[idx]
+  return GUA_LIST[idx]!
 }
 
 /** 蓍草起卦：模拟三次变爻，生成 6 个爻（0=阴, 1=阳） */

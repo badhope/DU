@@ -238,7 +238,7 @@ onMounted(() => {
   const cur = pages[pages.length - 1]!
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const opt = ((cur as any)?.options || {}) as Record<string, string>
-  guaId.value = parseInt(opt.id) || 1
+  guaId.value = parseInt(opt.id!) || 1
   const yaoStr = opt.yao || '1,1,1,1,1,1'
   yaoPattern.value = yaoStr.split(',').map((s) => parseInt(s) || 0)
   try {

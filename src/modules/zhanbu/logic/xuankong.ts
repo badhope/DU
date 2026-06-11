@@ -71,7 +71,7 @@ export function getYun(year: number): { yuan: '上' | '中' | '下'; num: GONG_N
   return {
     yuan,
     num,
-    desc: `${GONG_NAMES_9[num - 1]}当运（${GONG_DIR[num].meaning}）`,
+    desc: `${GONG_NAMES_9[num - 1]}当运（${GONG_DIR[num]?.meaning}）`,
   }
 }
 
@@ -94,7 +94,7 @@ export function getYunPan(yunNum: GONG_NUM): Record<number, GONG_NUM> {
     // i=5 → 坤(2)  i=6 → 震(3)  i=7 → 巽(4)  i=8 → 离(9)
     // 用后天文王八卦顺序
     const palaceMap: GONG_NUM[] = [5, 6, 7, 8, 1, 2, 3, 4, 9]
-    pan[palaceMap[i]] = star
+    pan[palaceMap[i]!] = star
   }
   return pan
 }
@@ -115,7 +115,7 @@ export function getLiuNianPan(year: number): Record<number, GONG_NUM> {
     const luoshuIdx = (startIdx + i) % 9
     const star = LUOSHU_PATH[luoshuIdx]!
     const palaceMap: GONG_NUM[] = [5, 6, 7, 8, 1, 2, 3, 4, 9]
-    pan[palaceMap[i]] = star
+    pan[palaceMap[i]!] = star
   }
   return pan
 }
@@ -173,7 +173,7 @@ export function calcXuanKong(
     return {
       dir,
       star,
-      starName: GONG_NAMES_9[star - 1],
+      starName: GONG_NAMES_9[star - 1]!,
       level,
       advice: _advice(star, level, dir),
     }

@@ -277,8 +277,10 @@ function drawOne() {
 }
 
 function flipCard(i: number) {
-  cards.value[i].flipped = !cards.value[i].flipped
-  if (cards.value[i].flipped) {
+  if (cards.value[i]) {
+    cards.value[i]!.flipped = !cards.value[i]!.flipped
+  }
+  if (cards.value[i]?.flipped) {
     selectedCardIdx.value = i
   }
 }

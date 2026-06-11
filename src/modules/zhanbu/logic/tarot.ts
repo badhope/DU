@@ -391,7 +391,7 @@ export function drawCards(n: number): TarotCard[] {
   const drawn: TarotCard[] = []
   for (let i = 0; i < n; i++) {
     const idx = Math.floor(Math.random() * copy.length)
-    drawn.push(copy.splice(idx, 1)[0])
+    drawn.push(copy.splice(idx, 1)[0]!)
   }
   return drawn
 }

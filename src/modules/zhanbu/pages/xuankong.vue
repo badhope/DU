@@ -201,10 +201,10 @@ function calculate() {
 // 九宫格顺序：巽 离 坤 / 震 中 兑 / 艮 坎 乾
 const gridOrder = [4, 9, 2, 3, 5, 7, 8, 1, 6]
 const yunGridList = computed(() =>
-  result.value ? gridOrder.map((pos) => result.value!.yunPan[pos]) : [],
+  result.value ? gridOrder.map((pos) => result.value!.yunPan[pos]!) : [],
 )
 const liuGridList = computed(() =>
-  result.value ? gridOrder.map((pos) => result.value!.liuNianPan[pos]) : [],
+  result.value ? gridOrder.map((pos) => result.value!.liuNianPan[pos]!) : [],
 )
 
 function posName(i: number) {
@@ -213,13 +213,13 @@ function posName(i: number) {
 }
 
 function starColor(s: GONG_NUM) {
-  return GONG_DIR[s].wx === '水'
+  return GONG_DIR[s]?.wx === '水'
     ? '#1B3A5C'
-    : GONG_DIR[s].wx === '火'
+    : GONG_DIR[s]?.wx === '火'
       ? '#C8302A'
-      : GONG_DIR[s].wx === '木'
+      : GONG_DIR[s]?.wx === '木'
         ? '#2F7D4F'
-        : GONG_DIR[s].wx === '金'
+        : GONG_DIR[s]?.wx === '金'
           ? '#E8E4D8'
           : '#A87C4F'
 }

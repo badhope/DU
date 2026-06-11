@@ -461,7 +461,7 @@ function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
     upperYao[1]!,
     upperYao[2]!,
   ]
-  const symbol = BAGUA[upper].symbol + BAGUA[lower].symbol
+  const symbol = BAGUA[upper]?.symbol + BAGUA[lower]?.symbol
   return { ...meta, symbol, yaoBin }
 }
 
@@ -487,7 +487,7 @@ function castYaoStick(): { value: number; yang: YaoType; isOld: boolean; desc: s
   // 7 = 少阳（不变）
   // 8 = 少阴（不变）
   // 9 = 老阳（动变阴）
-  const v = [6, 7, 7, 8, 8, 8, 9, 9, 9, 9][Math.floor(Math.random() * 10)]
+  const v = [6, 7, 7, 8, 8, 8, 9, 9, 9, 9][Math.floor(Math.random() * 10)]!
   const yang = v === 7 || v === 9 ? 1 : 0
   const isOld = v === 6 || v === 9
   const desc =
@@ -514,8 +514,8 @@ function buildYaoList(
   const palaceWx = PALACE_WUXING[palace]!
   const yaoList: YaoInfo[] = []
   // 爻地支：内卦 3 爻 + 外卦 3 爻
-  const dizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
-  const tiangans = NAJIA_TIANGAN[lower].concat(NAJIA_TIANGAN[upper])
+  const dizhis = NAJIA_DIZHI[lower]?.concat(NAJIA_DIZHI[upper])
+  const tiangans = NAJIA_TIANGAN[lower]?.concat(NAJIA_TIANGAN[upper])
   // 爻地支纳甲口诀：内卦前 3 爻 = 下卦纳甲，外卦后 3 爻 = 上卦纳甲
   // 实际传统：乾内甲外壬 → 内卦3爻都纳甲子寅辰，外卦3爻都纳壬午申戌
   for (let i = 0; i < 6; i++) {
@@ -528,7 +528,7 @@ function buildYaoList(
       pos,
       type,
       isYang: type === 1,
-      isMoving: isMoving[i],
+      isMoving: isMoving[i]!,
       dizhi: dz,
       tiangan: tg,
       liuqin: lq,
@@ -579,8 +579,8 @@ function buildBianGua(
 
   // 推算变卦 6 爻
   const newPalaceWx = PALACE_WUXING[target.palace]!
-  const newDizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
-  const newTiangans = NAJIA_TIANGAN[lower].concat(NAJIA_TIANGAN[upper])
+  const newDizhis = NAJIA_DIZHI[lower]?.concat(NAJIA_DIZHI[upper])
+  const newTiangans = NAJIA_TIANGAN[lower]?.concat(NAJIA_TIANGAN[upper])
   const newYaoList: YaoInfo[] = []
   for (let i = 0; i < 6; i++) {
     const pos = (i + 1) as YaoPos
@@ -610,7 +610,7 @@ function buildBianGua(
   const movingPosList = isMoving.map((m, i) => (m ? i + 1 : 0)).filter((x) => x > 0)
   const reason =
     movingYaoCount === 1
-      ? `第 ${movingPosList[0]!} 爻发动 · 由${yaoList[movingPosList[0]! - 1].isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0]! - 1] === 1 ? '阳' : '阴'}`
+      ? `第 ${movingPosList[0]!} 爻发动 · 由${yaoList[movingPosList[0]! - 1]!.isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0]! - 1] === 1 ? '阳' : '阴'}`
       : `${movingYaoCount} 爻齐动：${movingPosList.join('、')} · 动而化之`
 
   return { name: target.name, upper, lower, symbol: target.symbol, yaoList: newYaoList, reason }
@@ -654,8 +654,8 @@ function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoTyp
   }
   // 推算互卦 6 爻（仍用 yaoBin 中 2-3-4-5，但都标非动爻）
   const yaoList: YaoInfo[] = []
-  const dizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
-  const tiangans = NAJIA_TIANGAN[lower].concat(NAJIA_TIANGAN[upper])
+  const dizhis = NAJIA_DIZHI[lower]?.concat(NAJIA_DIZHI[upper])
+  const tiangans = NAJIA_TIANGAN[lower]?.concat(NAJIA_TIANGAN[upper])
   const palaceWx = PALACE_WUXING[meta.palace]!
   for (let i = 0; i < 6; i++) {
     const pos = (i + 1) as YaoPos
@@ -667,9 +667,9 @@ function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoTyp
       type,
       isYang: type === 1,
       isMoving: false,
-      dizhi: dizhis[i],
-      tiangan: tiangans[i],
-      liuqin: getLiuqin(palaceWx, dizhis[i]),
+      dizhi: dizhis[i]!,
+      tiangan: tiangans[i]!,
+      liuqin: getLiuqin(palaceWx, dizhis[i]!),
       shen: [],
       isShi: false,
       isYing: false,
@@ -710,7 +710,7 @@ function buildFushen(
     const dizhis = NAJIA_DIZHI[benGong.lower].concat(NAJIA_DIZHI[benGong.upper])
     // 找本宫卦中 need 对应地支的爻
     for (let i = 0; i < 6; i++) {
-      const lq = getLiuqin(palaceWx, dizhis[i])
+      const lq = getLiuqin(palaceWx, dizhis[i]!)
       if (lq === need) {
         // 伏于此爻位之下
         const yaoPos = (i + 1) as YaoPos
@@ -1129,7 +1129,7 @@ export function liuyaoDivinate(
       // 用 seed 哈希稳定生成
       let h = seed
       for (let k = 0; k < i + 1; k++) h = (h * 31 + k * 17) | 0
-      v = [6, 7, 7, 8, 8, 8, 9, 9, 9, 9][Math.abs(h) % 10]
+      v = [6, 7, 7, 8, 8, 8, 9, 9, 9, 9][Math.abs(h) % 10]!
     } else {
       v = castYaoStick().value
     }

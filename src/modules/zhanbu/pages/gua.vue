@@ -118,7 +118,7 @@ function cast() {
   let i = 0
   const tick = () => {
     if (i < steps.length * 2) {
-      castingStep.value = steps[i % steps.length]
+      castingStep.value = steps[i % steps.length]!
       i++
       setTimeout(tick, 120)
     } else {

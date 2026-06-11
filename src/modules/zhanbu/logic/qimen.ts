@@ -398,7 +398,7 @@ for (let i = 0; i < 60; i++) {
 function jiaziIndex(gan: TianGan, zhi: DiZhi): number {
   // 60 甲子序数
   for (let i = 0; i < 60; i++) {
-    if (JIAZI_60[i].gan === gan && JIAZI_60[i].zhi === zhi) return i
+    if (JIAZI_60[i]?.gan === gan && JIAZI_60[i]?.zhi === zhi) return i
   }
   return 0
 }
@@ -602,7 +602,7 @@ export function calcQimen(
     const tianPanGan = (() => {
       // 原本该宫地盘干在 (gongNum - offset) 宫，飞到 gongNum
       const fromGong = ((gongNum - offset - 1 + 9) % 9) + 1
-      return gongDiPan[fromGong]
+      return gongDiPan[fromGong]!
     })()
 
     // 天盘九星：根据值符落宫 + 9 星的顺序
@@ -640,20 +640,20 @@ export function calcQimen(
     }
     const menOffset = zhiShiGong - 1 // 1 休 飞 到 zhiShiGong
     const menOriginalGong = ((gongNum - menOffset - 1 + 9) % 9) + 1
-    const men: BaMen | '中' = originalMenPos[menOriginalGong]
+    const men: BaMen | '中' = originalMenPos[menOriginalGong]!
 
     // 八神：从值符宫起 按阳遁顺 / 阴遁逆 排 8 神
     const shenSeq = getShenSeq(dun)
     const shenIdx = (((gongNum - zhiFuGong + (dun === '阳遁' ? 0 : 0)) % 8) + 8) % 8
-    const shen = dun === '阳遁' ? shenSeq[shenIdx] : shenSeq[shenIdx] // 数组本身已按阴遁排好
+    const shen = (dun === '阳遁' ? shenSeq[shenIdx] : shenSeq[shenIdx])! // 数组本身已按阴遁排好
 
     const starNature = XING_NATURE[star]!
-    const menNature: '吉' | '中' | '凶' = men === '中' ? '中' : MEN_NATURE[men as BaMen]
+    const menNature: '吉' | '中' | '凶' = men === '中' ? '中' : MEN_NATURE[men as BaMen]!
     const shenNature = SHEN_NATURE[shen]!
 
     // 空亡
     const kong = getKongWang(dayGan, dayZhi)
-    const isKong = kong.includes(tianPanGan) || kong.includes(diPan)
+    const isKong = kong.includes(tianPanGan as string) || kong.includes(diPan)
 
     // 击刑 / 入墓
     const punish = hasPunish(star, gongNum)
@@ -671,7 +671,7 @@ export function calcQimen(
     if (punish) score -= 2
     if (tomb) score -= 1
     // 三奇加成
-    if (SAN_QI.has(tianPanGan)) score += 1
+    if (SAN_QI.has(tianPanGan as string)) score += 1
 
     let judge: '大吉' | '吉' | '中' | '凶' | '大凶' = '中'
     if (score >= 4) judge = '大吉'
@@ -697,7 +697,7 @@ export function calcQimen(
       shenNature,
       starDesc: XING_DESC[star],
       menDesc: men === '中' ? '中宫' : MEN_DESC[men as BaMen],
-      shenDesc: SHEN_DESC[shen],
+      shenDesc: SHEN_DESC[shen as BaShen],
       judge,
       brief,
       isKong,

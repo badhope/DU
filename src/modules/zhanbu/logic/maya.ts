@@ -342,7 +342,7 @@ export function calcMaya(year: number, month: number, day: number): MayaTzolkin 
   for (let i = 0; i < 13; i++) {
     const k = wavespellStart + i
     const idx = (k - 1) % 20
-    wavespell.push(SEALS[(idx + 20) % 20])
+    wavespell.push(SEALS[(idx + 20) % 20]!)
   }
 
   // 5 维评分（基于 Kin 数字 + Seal 元素）

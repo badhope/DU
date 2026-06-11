@@ -155,7 +155,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   const grIdx = ZHI.indexOf(guirenStartZhi)
   const tianPan = TWELVE_GENERALS.map((g, i) => {
     const zhi = ZHI[(grIdx + i) % 12]! as DiZhi
-    return { zhi, general: g, generalDesc: GENERAL_DESC[g].desc }
+    return { zhi, general: g, generalDesc: GENERAL_DESC[g]?.desc }
   })
 
   // 地盘 = 天盘 + 占时支
@@ -166,7 +166,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   const offset = (hourZhiIdx - mjIdx + 12) % 12
   const diPan = TWELVE_GENERALS.map((g, i) => {
     const zhi = ZHI[(i + offset) % 12]! as DiZhi
-    return { zhi, general: g, generalDesc: GENERAL_DESC[g].desc }
+    return { zhi, general: g, generalDesc: GENERAL_DESC[g]?.desc }
   })
 
   // 四课：以日干支为基准

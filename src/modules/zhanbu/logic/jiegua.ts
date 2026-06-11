@@ -232,8 +232,8 @@ function calcHugua(yao: number[]): Hugua {
   const upperBin = [yao[2]!, yao[3]!, yao[4]!]
   const upper = binToTrigram(upperBin)
   const lower = binToTrigram(lowerBin)
-  const name = TRIGRAMS[upper].name + TRIGRAMS[lower].name
-  const symbol = TRIGRAMS[upper].symbol + TRIGRAMS[lower].symbol
+  const name = TRIGRAMS[upper]?.name + TRIGRAMS[lower]?.name
+  const symbol = TRIGRAMS[upper]?.symbol + TRIGRAMS[lower]?.symbol
   const desc = `互卦 ${name} 揭示事物内在脉络，常显隐情与中段走向。`
   return { upper, lower, name, symbol, desc }
 }
@@ -278,7 +278,7 @@ function calcBiangua(gua: Gua, yao: number[]): Biangua {
  * 用神（基于所占之事）
  */
 function calcYongshen(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP): Yongshen {
-  const wushenName = YONGSHEN_MAP[topic] || YONGSHEN_MAP['通用']
+  const wushenName = (YONGSHEN_MAP[topic] || YONGSHEN_MAP['通用'])!
   // 简化：随机选一个含该六亲爻的爻位
   // 找第一个爻对应的六亲
   const liuqinList: Liuqin[] = ['父母', '兄弟', '子孙', '妻财', '官鬼']
@@ -439,11 +439,11 @@ function calcSummary(gua: Gua, biangua: Biangua, yongshen: Yongshen, fortunes: a
 function calcLucky(gua: Gua) {
   const colors = ['赤色', '金色', '青色', '黑色', '黄色', '白色', '紫色']
   const directions = ['东', '南', '西', '北', '东南', '西南', '东北', '西北']
-  const upperIdx = { qian: 0, dui: 0, li: 1, zhen: 2, xun: 2, kan: 3, gen: 4, kun: 4 }[gua.upper]
+  const upperIdx = { qian: 0, dui: 0, li: 1, zhen: 2, xun: 2, kan: 3, gen: 4, kun: 4 }[gua.upper]!
   return {
-    color: colors[upperIdx],
+    color: colors[upperIdx]!,
     number: String(gua.id % 9 || 9),
-    direction: directions[upperIdx],
+    direction: directions[upperIdx]!,
   }
 }
 
