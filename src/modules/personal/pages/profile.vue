@@ -231,9 +231,8 @@ function save() {
 
 function goTo(key: string) {
   const map: Record<string, string> = {
-    users: '/pages/users/users',
-    history: '/pages/history/history',
-    dashboard: '/pages/dashboard/dashboard',
+    users: '/modules/personal/pages/users',
+    dashboard: '/modules/personal/pages/dashboard',
   }
   if (map[key]) uni.navigateTo({ url: map[key] })
 }

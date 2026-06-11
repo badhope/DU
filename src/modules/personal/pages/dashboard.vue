@@ -155,31 +155,31 @@ const quickTools = [
   {
     name: '八字',
     glyph: '四',
-    path: '/pages/bazi/bazi',
+    path: '/modules/mingli/pages/bazi',
     bg: 'linear-gradient(135deg, #5B3A8E 0%, #D4AF37 100%)',
   },
   {
     name: '紫微',
     glyph: '紫',
-    path: '/pages/ziwei/ziwei',
+    path: '/modules/mingli/pages/ziwei',
     bg: 'linear-gradient(135deg, #2A0A4A 0%, #D4AF37 100%)',
   },
   {
     name: '占卜',
     glyph: '卦',
-    path: '/pages/gua/gua',
+    path: '/modules/zhanbu/pages/gua',
     bg: 'linear-gradient(135deg, #C8302A 0%, #1B3A5C 100%)',
   },
   {
     name: '健康',
     glyph: '健',
-    path: '/pages/qijing/qijing',
+    path: '/modules/jian/pages/qijing',
     bg: 'linear-gradient(135deg, #4FAE6F 0%, #1B3A5C 100%)',
   },
   {
     name: '海报',
     glyph: '报',
-    path: '/pages/poster/poster',
+    path: '/modules/shenghuo/pages/poster',
     bg: 'linear-gradient(135deg, #8B1F1A 0%, #D4AF37 100%)',
   },
 ]
@@ -203,7 +203,7 @@ function formatTime(t: number) {
 }
 
 function goCheckin() {
-  uni.navigateTo({ url: '/pages/checkin/checkin' })
+  uni.navigateTo({ url: '/modules/xiuxin/pages/checkin' })
 }
 function goTool(tool: string) {
   const path = toolPath(tool)
@@ -214,12 +214,12 @@ function goToolPath(path: string) {
 }
 function toolPath(tool: string): string {
   const map: Record<string, string> = {
-    bazi: '/pages/bazi/bazi',
-    wuxing: '/pages/wuxing/wuxing',
-    gua: '/pages/gua/gua',
-    ziwei: '/pages/ziwei/ziwei',
-    tarot: '/pages/tarot/tarot',
-    meihua: '/pages/meihua/meihua',
+    bazi: '/modules/mingli/pages/bazi',
+    wuxing: '/modules/mingli/pages/wuxing',
+    gua: '/modules/zhanbu/pages/gua',
+    ziwei: '/modules/mingli/pages/ziwei',
+    tarot: '/modules/zhanbu/pages/tarot',
+    meihua: '/modules/zhanbu/pages/meihua',
   }
   return map[tool] || '/pages/index/index'
 }

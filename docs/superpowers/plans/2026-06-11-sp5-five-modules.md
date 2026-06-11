@@ -5,6 +5,7 @@
 **Goal:** 把 v1.0.1 剩余的工具类（guwu 4 + jian 4 + xiuxin 5 + shenghuo 5 + personal 3 = **21 个 page + 14 个 logic + 7 个 chart + 1 个 BodyMap**）一次性迁移到 `src/modules/{guwu,jian,xiuxin,shenghuo,personal}/`，完成 v1.1.0 模块化架构。
 
 **Architecture:** 5 个 module，每个：
+
 - `src/modules/{name}/pages/` — .vue
 - `src/modules/{name}/logic/` — .ts
 - `src/modules/{name}/components/` — chart 子目录（jian 包含 BodyMap.vue）
@@ -78,6 +79,7 @@ ls src/pages/ | wc -l
 ### Task 3: git mv 14 个 logic
 
 **Files:**
+
 - guwu (4): mianxiang.ts/shouxiang.ts/fenglui.ts/mingji.ts
 - jian (3): jingluo.ts (qijing+ziwu 共用) / wufu.ts / jieqi.ts (yangsheng 用)
 - xiuxin (2): zhenci.ts (shijian) / dayun-life.ts (dayun)
@@ -119,6 +121,7 @@ git status --short 2>&1 | grep -E "modules/(guwu|jian|xiuxin|shenghuo)/logic" | 
 ### Task 4: git mv 7 个 chart
 
 **Files:**
+
 - guwu (4): MianXiangChart/ShouXiangChart/FengLuiChart/MingJiChart
 - jian (1): ZiWuLiuZhuChart (qijing+ziwu 共用)
 - shenghuo (2): JiRiChart/JiaPuChart
@@ -147,6 +150,7 @@ git status --short 2>&1 | grep -E "components/charts" | head -10
 ### Task 5: BodyMap 移到 jian
 
 **Files:**
+
 - Move: `src/components/ui/BodyMap.vue` → `src/modules/jian/components/BodyMap.vue`
 
 - [ ] **Step 1: git mv BodyMap**
