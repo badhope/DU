@@ -7,6 +7,35 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ---
 
+## [1.4.0] - 2026-06-11
+
+### Added
+
+- **TypeScript strict v4**: turn on 2 final strict options
+  - `noUnusedLocals` (TS6133: unused local declarations)
+  - `noUnusedParameters` (TS6133: unused function parameters)
+
+### Changed
+
+- **`tsconfig.json`**: 10 → 12 strict options enabled (all TypeScript strict flags except `allowUnusedLabels`/`allowUnreachableCode`)
+- **`package.json`**: version 1.3.0 → 1.4.0
+- **30 source files**: fix 49 `TS6133` errors via subagent
+  - 14 TypeScript logic files: removed unused imports + prefix unused params with `_`
+  - 14 Vue files: prefix unused v-for items + remove orphaned vars
+  - 2 shared chart components: rename + remove orphans
+  - Cascading orphans handled: removing one unused var revealed another
+
+### Removed (orphaned code)
+
+- `_JIEQI_ORDER`, `_GONG_TO_MEN` (zhanbu/jiegua.ts + liuren.ts)
+- 5 `_isWood/_isFire/_isEarth/_isMetal/_isWater` helpers (mingli)
+- `_RAW_STROKE` data + `_STROKE_MAP` (mingming/mingji.ts)
+- `_findGuaByName` (zhanbu)
+- `useAppStore` import (zhanbu/gua.vue) + `computed` import (CooldownDialog.vue)
+- `_baseIdx`, `_yy` (cascading orphans)
+
+---
+
 ## [1.3.0] - 2026-06-11
 
 ### Added
@@ -21,7 +50,7 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ### Changed
 
-- **`tsconfig.json`**: 6 → 10 strict options enabled (zero errors, project uses composition API + arrow functions + _e catch)
+- **`tsconfig.json`**: 6 → 10 strict options enabled (zero errors, project uses composition API + arrow functions + \_e catch)
 - **`package.json`**: version 1.2.0 → 1.3.0
 
 ---
