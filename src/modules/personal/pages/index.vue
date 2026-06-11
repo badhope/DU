@@ -40,9 +40,9 @@
         :class="{ 'verse-flip': verseFlip }"
         @click="nextVerse"
       >
-        「{{ currentVerse.text }}」
+        「{{ currentVerse?.text ?? '' }}」
       </text>
-      <text class="intro-from">— {{ currentVerse.from }}</text>
+      <text class="intro-from">— {{ currentVerse?.from ?? '' }}</text>
     </view>
 
     <!-- L1 分类大路口：6 个入口卡片 -->

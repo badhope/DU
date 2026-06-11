@@ -195,7 +195,7 @@ export function calcMianxiang(
   }
   const yearSeed = (year + 5) % 9
   const shiErGongDetail: ShiErGongItem[] = SHI_ER_GONG.map((g, i) => {
-    let score = categoryBase[i] + ((yearSeed * 7 + i * 11) % 19) - 9
+    let score = (categoryBase[i] ?? 0) + ((yearSeed * 7 + i * 11) % 19) - 9
     // focus area 加权
     if (focusArea && g.name.includes(focusArea)) score += 8
     score = Math.max(40, Math.min(98, score))

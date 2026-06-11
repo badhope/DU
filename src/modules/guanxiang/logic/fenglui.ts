@@ -307,7 +307,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
   })
 
   const bestDirection =
-    adjustedBaGua.sort((a, b) => b.fortune - a.fortune)[0].name +
+    adjustedBaGua.sort((a, b) => b.fortune - a.fortune)[0]!.name +
     '（' +
     adjustedBaGua[0]!.position +
     '）'
@@ -362,7 +362,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
     bestDirection,
     totalScore: avgScore,
     level,
-    summary: `命卦${life.guaName}（${BA_ZHAI_GUA[zhaiGua].name}） · ${yun}运 · 生旺方位：${bestDirection} · 宅运总评 ${level}`,
+    summary: `命卦${life.guaName}（${BA_ZHAI_GUA[zhaiGua]?.name ?? ''}） · ${yun}运 · 生旺方位：${bestDirection} · 宅运总评 ${level}`,
     advice: [
       `大门宜开在生旺方位：${bestDirection.split('（')[0]}`,
       `主卧宜在生气/延年位`,

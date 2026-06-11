@@ -18,8 +18,8 @@ function todayGanzhi(): { gan: string; zhi: string } {
   const tiangan = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
   const dizhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
   return {
-    gan: tiangan[((days % 10) + 10) % 10],
-    zhi: dizhi[((days % 12) + 12) % 12],
+    gan: tiangan[((days % 10) + 10) % 10] ?? '甲',
+    zhi: dizhi[((days % 12) + 12) % 12] ?? '子',
   }
 }
 
@@ -217,12 +217,15 @@ export function calcYunshi(
 
   // 宜忌
   const seed = (shengxiao.charCodeAt(0) + gan.charCodeAt(0) + zhi.charCodeAt(0)) % YI_POOL.length
-  const yi = [
-    YI_POOL[seed],
-    YI_POOL[(seed + 4) % YI_POOL.length],
-    YI_POOL[(seed + 8) % YI_POOL.length],
+  const yi: string[] = [
+    YI_POOL[seed] ?? '',
+    YI_POOL[(seed + 4) % YI_POOL.length] ?? '',
+    YI_POOL[(seed + 8) % YI_POOL.length] ?? '',
   ]
-  const ji = [JI_POOL[(seed + 3) % JI_POOL.length], JI_POOL[(seed + 7) % JI_POOL.length]]
+  const ji: string[] = [
+    JI_POOL[(seed + 3) % JI_POOL.length] ?? '',
+    JI_POOL[(seed + 7) % JI_POOL.length] ?? '',
+  ]
 
   // 幸运
   const luckyWx = SHENG[personalWx] // 生我的为喜
@@ -238,8 +241,8 @@ export function calcYunshi(
     yi,
     ji,
     lucky: {
-      color: colors[seed % colors.length],
-      number: [1, 6, 8, 9, 5][seed % 5],
+      color: colors[seed % colors.length] ?? '',
+      number: [1, 6, 8, 9, 5][seed % 5] ?? 1,
       wuxing: luckyWx,
       direction: DIRECTION[luckyWx],
     },

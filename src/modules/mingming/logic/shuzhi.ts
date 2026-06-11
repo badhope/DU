@@ -95,7 +95,7 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
     }
   }
 
-  const wuXingSeq = digits.map((d) => WUXING_MAP[d])
+  const wuXingSeq = digits.map((d) => WUXING_MAP[d]!)
   // 主导五行
   const counts: Record<string, number> = {}
   wuXingSeq.forEach((w) => {
@@ -113,7 +113,7 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
   for (let i = 0; i < digits.length; i += 4) {
     const seg = digits.slice(i, i + 4)
     const segStr = seg.join('')
-    const segArr = seg.map((d) => WUXING_MAP[d])
+    const segArr = seg.map((d) => WUXING_MAP[d]!)
     const sorted = segArr.sort((a, b) => (counts[b] || 0) - (counts[a] || 0))
     const segWx: '木' | '火' | '土' | '金' | '水' =
       (counts[sorted[0]!] || 0) > 2
@@ -139,7 +139,7 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
     const idx = Math.abs(h) % COMBO_DB.length
     if (seenComboIdx.has(idx)) continue
     seenComboIdx.add(idx)
-    pairs.push({ combo: COMBO_DB[idx], count })
+    pairs.push({ combo: COMBO_DB[idx]!, count })
   }
 
   // 评分
@@ -184,8 +184,8 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
     pairs,
     scores: { caiyun, renyuan, jiankang, zonghe },
     level,
-    summary: summaryMap[level],
-    advice: adviceMap[level],
+    summary: summaryMap[level] ?? '',
+    advice: adviceMap[level] ?? '',
     segments,
   }
 }

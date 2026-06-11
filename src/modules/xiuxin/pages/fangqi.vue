@@ -52,14 +52,14 @@
         <view class="wave-bars">
           <view v-for="(b, i) in 16" :key="i" class="wave-bar" :style="barStyle(i)"></view>
         </view>
-        <text class="bg-glyph-big">{{ currentBg.glyph }}</text>
-        <text class="bg-label">{{ currentBg.name }} · {{ currentBg.desc }}</text>
+        <text class="bg-glyph-big">{{ currentBg?.glyph }}</text>
+        <text class="bg-label">{{ currentBg?.name }} · {{ currentBg?.desc }}</text>
       </view>
 
       <view class="step-card card-mystic">
         <text class="step-num-big">{{ currentStepIdx + 1 }} / {{ steps.length }}</text>
-        <text class="step-name-big">{{ currentStep.name }}</text>
-        <text class="step-desc-big">{{ currentStep.guide }}</text>
+        <text class="step-name-big">{{ currentStep?.name }}</text>
+        <text class="step-desc-big">{{ currentStep?.guide }}</text>
         <text class="step-timer">{{ stepRemaining }} 秒</text>
       </view>
 
@@ -159,8 +159,9 @@ const currentStep = computed(() => steps[currentStepIdx.value])
 const progress = computed(() => {
   const total = steps.reduce((s, x) => s + x.duration, 0)
   let elapsed = 0
-  for (let i = 0; i < currentStepIdx.value; i++) elapsed += steps[i].duration
-  elapsed += currentStep.value.duration - stepRemaining.value
+  for (let i = 0; i < currentStepIdx.value; i++) elapsed += steps[i]!.duration
+  const cs = currentStep.value
+  elapsed += (cs?.duration ?? 0) - stepRemaining.value
   return Math.min(1, elapsed / total)
 })
 
@@ -203,7 +204,7 @@ function startMain() {
       if (currentStepIdx.value >= steps.length) {
         finish()
       } else {
-        stepRemaining.value = steps[currentStepIdx.value].duration
+        stepRemaining.value = steps[currentStepIdx.value]!.duration
       }
     }
   }, 1000)
@@ -230,7 +231,8 @@ function stop() {
   clearInterval(waveTimer)
   running.value = false
   finished.value = true
-  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
+  doneMessage.value =
+    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   const elapsed =
     totalSec.value -
     (steps.slice(currentStepIdx.value).reduce((s, x) => s + x.duration, 0) - stepRemaining.value)
@@ -240,7 +242,7 @@ function stop() {
     category: '修心',
     input: { bg: bg.value },
     output: { elapsed },
-    brief: `${currentBg.value.name} ${formatTime(elapsed)}`,
+    brief: `${currentBg.value?.name ?? ''} ${formatTime(elapsed)}`,
   })
 }
 function finish() {
@@ -248,14 +250,15 @@ function finish() {
   clearInterval(waveTimer)
   running.value = false
   finished.value = true
-  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
+  doneMessage.value =
+    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'fangqi',
     toolName: '放松冥想',
     category: '修心',
     input: { bg: bg.value },
     output: { total: totalSec.value },
-    brief: `${currentBg.value.name} 圆满 ${formatTime(totalSec.value)}`,
+    brief: `${currentBg.value?.name ?? ''} 圆满 ${formatTime(totalSec.value)}`,
   })
 }
 function reset() {

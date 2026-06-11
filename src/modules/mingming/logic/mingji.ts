@@ -184,7 +184,7 @@ function strokeOf(c: string): number {
 function wxOf(c: string): Wuxing {
   // 优先用部首表（部首 → 五行 是姓名学正统方法）
   for (const r of Object.keys(RADICAL_WUXING)) {
-    if (c.includes(r)) return RADICAL_WUXING[r]
+    if (c.includes(r)) return RADICAL_WUXING[r] ?? 'tu'
   }
   // 未匹配部首：返回中性"土"（不编造）
   return 'tu'
@@ -219,7 +219,9 @@ function computeGe(strokes: number[]): NamingGe {
   }
   // 单姓 1 字 + 名 1-2 字
   if (strokes.length === 3) {
-    const [s, n1, n2] = strokes
+    const s = strokes[0]!
+    const n1 = strokes[1]!
+    const n2 = strokes[2]!
     const tian = s + 1
     const ren = s + n1
     const di = n1 + n2
@@ -238,7 +240,8 @@ function computeGe(strokes: number[]): NamingGe {
   }
   // 单姓 1 字 + 名 1 字
   if (strokes.length === 2) {
-    const [s, n] = strokes
+    const s = strokes[0]!
+    const n = strokes[1]!
     return {
       tianGe: s + 1,
       renGe: s + n,
@@ -263,7 +266,9 @@ function computeGe(strokes: number[]): NamingGe {
 }
 
 function wxByNum(n: number): string {
-  return WUXING_META[(['mu', 'huo', 'tu', 'jin', 'shui'] as Wuxing[])[(n - 1) % 5]].name
+  const wuxingArr: Wuxing[] = ['mu', 'huo', 'tu', 'jin', 'shui']
+  const wx = wuxingArr[(n - 1) % 5] as Wuxing
+  return WUXING_META[wx]!.name
 }
 
 function jiXiongOf(ge: number): '吉' | '半吉' | '凶' {
@@ -363,6 +368,6 @@ export function analyzeMingji(
     level,
     summary: `${name} · ${level} · 总格 ${wuGe.zongGe} · 三才 ${wuGe.sanCai}`,
     fiveElBalance: balance,
-    advice: `姓名喜用神为 ${WUXING_META[xiYong].name} · 当前姓名含 ${WUXING_META[xiYong].name} ${balance[xiYong]} 个 · ${balance[xiYong] >= 1 ? '已含喜用神之字' : '可考虑补足'}`,
+    advice: `姓名喜用神为 ${WUXING_META[xiYong]?.name ?? '土'} · 当前姓名含 ${WUXING_META[xiYong]?.name ?? '土'} ${balance[xiYong]} 个 · ${balance[xiYong] >= 1 ? '已含喜用神之字' : '可考虑补足'}`,
   }
 }

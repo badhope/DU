@@ -278,14 +278,15 @@ function stop() {
   clearInterval(beadTimer)
   running.value = false
   finished.value = true
-  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
+  doneMessage.value =
+    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'zhan',
     toolName: '坐禅计时',
     category: '修心',
     input: { duration: duration.value, mode: mode.value },
     output: { breath: breathCount.value, beads: beadCount.value },
-    brief: `${currentMode.value.name} ${duration.value}分 · 呼吸${breathCount.value}轮`,
+    brief: `${currentMode.value?.name ?? ''} ${duration.value}分 · 呼吸${breathCount.value}轮`,
   })
 }
 
@@ -295,14 +296,15 @@ function finish() {
   clearInterval(beadTimer)
   running.value = false
   finished.value = true
-  doneMessage.value = doneMessages[Math.floor(Math.random() * doneMessages.length)]
+  doneMessage.value =
+    doneMessages[Math.floor(Math.random() * doneMessages.length)] ?? '心如止水'
   app.addHistory({
     tool: 'zhan',
     toolName: '坐禅计时',
     category: '修心',
     input: { duration: duration.value, mode: mode.value },
     output: { breath: breathCount.value, beads: beadCount.value },
-    brief: `${currentMode.value.name} ${duration.value}分圆满 · 呼吸${breathCount.value}轮`,
+    brief: `${currentMode.value?.name ?? ''} ${duration.value}分圆满 · 呼吸${breathCount.value}轮`,
   })
 }
 

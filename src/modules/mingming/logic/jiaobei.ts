@@ -55,11 +55,13 @@ export function castJiao(
     let h = 0
     for (let j = 0; j < seed.length; j++) h = (h * 31 + seed.charCodeAt(j)) | 0
     const types: JiaoType[] = ['sheng', 'sheng', 'sheng', 'xiao', 'xiao', 'yin']
-    results.push(JIAO_MAP[types[Math.abs(h) % types.length]])
+    const pickIdx = Math.abs(h) % types.length
+    results.push(JIAO_MAP[types[pickIdx]!])
   }
   const counts: Record<JiaoType, number> = { sheng: 0, xiao: 0, yin: 0 }
   results.forEach((r) => counts[r.type]++)
-  const final = Object.entries(counts).sort((a, b) => b[1]! - a[1]!)[0][0] as JiaoType
+  const sortedEntries = Object.entries(counts).sort((a, b) => b[1]! - a[1]!)
+  const final = sortedEntries[0]![0] as JiaoType
 
   const summaryMap: Record<string, string> = {
     sheng: '三次连掷 · 圣筊为主 · 神明显允 · 放心去做',
@@ -67,5 +69,5 @@ export function castJiao(
     yin: '三次连掷 · 阴筊为主 · 神明示意不可 · 应当止步',
   }
 
-  return { results, final, finalResult: JIAO_MAP[final], summary: summaryMap[final] }
+  return { results, final, finalResult: JIAO_MAP[final], summary: summaryMap[final] ?? '' }
 }

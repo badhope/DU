@@ -327,7 +327,7 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
     level,
     summary: `掌相总评 ${level} · 八宫${totalScore >= 70 ? '饱满' : '待养'} · 三线${avgSz > 75 ? '明朗' : '尚可'} · 12 丘${bestQ.level}`,
     bestArea: sorted[0]!.name,
-    worstArea: sorted[sorted.length - 1].name,
+    worstArea: sorted[sorted.length - 1]!.name,
     advice,
   }
 }

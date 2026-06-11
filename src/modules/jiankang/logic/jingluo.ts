@@ -1029,7 +1029,7 @@ export function lingguiOpen(hour: number): {
 export function currentHourlyJing(hour?: number): HourlyJing {
   const h = hour ?? new Date().getHours()
   const idx = h === 23 || h === 0 ? 0 : Math.floor((h + 1) / 2)
-  return HOURLY_JING[idx % 12]
+  return HOURLY_JING[idx % 12]!
 }
 
 // ============ 病症 → 推荐经脉 ============

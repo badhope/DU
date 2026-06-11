@@ -46,7 +46,7 @@
 
     <view v-else class="result">
       <view v-if="casting" class="casting card-mystic anim-fade-up">
-        <text class="cast-jiao">{{ result.results[currentCast].icon }}</text>
+        <text class="cast-jiao">{{ result.results[currentCast]?.icon }}</text>
         <text class="cast-text">掷 筊 中 …</text>
       </view>
 

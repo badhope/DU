@@ -155,7 +155,7 @@ const form = reactive({ shengxiao: '龙', year: 1990, month: 6, day: 15, hour: 1
 const sxIdx = computed(() => SX_LIST.indexOf(form.shengxiao))
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPickSX(e: any) {
-  form.shengxiao = SX_LIST[e.detail.value]
+  form.shengxiao = SX_LIST[e.detail.value] ?? '鼠'
 }
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {

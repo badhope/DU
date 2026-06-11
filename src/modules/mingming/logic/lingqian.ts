@@ -366,7 +366,7 @@ export function drawQian(seed?: number | string): Qian {
     h = s
   }
   const idx = Math.abs(h) % QIAN_DB.length
-  return QIAN_DB[idx]
+  return QIAN_DB[idx]!
 }
 
 /**

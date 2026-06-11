@@ -161,9 +161,9 @@ function getGanzhiDay(date: Date): { gan: string; zhi: string } {
 function getLunar(date: Date): { month: string; day: string; shengxiao: string } {
   const month = date.getMonth() + 1
   const day = date.getDate()
-  const shengxiao = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪'][
-    ((((date.getFullYear() - 1900) * 12 + month) % 12) + 12) % 12
-  ]
+  const shengxiaoList = ['鼠', '牛', '虎', '兔', '龙', '蛇', '马', '羊', '猴', '鸡', '狗', '猪']
+  const shengxiao =
+    shengxiaoList[((((date.getFullYear() - 1900) * 12 + month) % 12) + 12) % 12] ?? '鼠'
   return { month: '农历 ' + month + '月', day: day + '日', shengxiao }
 }
 
@@ -202,13 +202,16 @@ function pengZu(gan: string, zhi: string): { tian: string; di: string } {
 
 function pickYiJi(zhi: string, seed: number): { yi: string[]; ji: string[] } {
   const idx1 = (zhi.charCodeAt(0) + seed) % YI_POOL.length
-  const yi = [
-    YI_POOL[idx1],
-    YI_POOL[(idx1 + 3) % YI_POOL.length],
-    YI_POOL[(idx1 + 7) % YI_POOL.length],
+  const yi: string[] = [
+    YI_POOL[idx1] ?? '',
+    YI_POOL[(idx1 + 3) % YI_POOL.length] ?? '',
+    YI_POOL[(idx1 + 7) % YI_POOL.length] ?? '',
   ]
   const idx2 = (zhi.charCodeAt(0) + seed + 5) % JI_POOL.length
-  const ji = [JI_POOL[idx2], JI_POOL[(idx2 + 2) % JI_POOL.length]]
+  const ji: string[] = [
+    JI_POOL[idx2] ?? '',
+    JI_POOL[(idx2 + 2) % JI_POOL.length] ?? '',
+  ]
   return { yi, ji }
 }
 

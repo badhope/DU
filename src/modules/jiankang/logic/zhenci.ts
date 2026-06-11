@@ -1348,14 +1348,14 @@ export function recommendByXinjing(xj: Xinjing, limit = 5): Zhenju[] {
 export function dailyZhenju(date?: Date): Zhenju {
   const d = date || new Date()
   const day = d.getDate() + d.getMonth() * 31
-  return ALL_ZHENJU[day % ALL_ZHENJU.length]
+  return ALL_ZHENJU[day % ALL_ZHENJU.length]!
 }
 
 /**
  * 随机一句
  */
 export function randomZhenju(): Zhenju {
-  return ALL_ZHENJU[Math.floor(Math.random() * ALL_ZHENJU.length)]
+  return ALL_ZHENJU[Math.floor(Math.random() * ALL_ZHENJU.length)]!
 }
 
 /**

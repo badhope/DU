@@ -67,7 +67,7 @@
             <text class="ov-line">
               <text class="ov-l">命 卦</text>
               <text class="ov-v">
-                {{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua].name }}）
+                {{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua]?.name ?? '' }}）
               </text>
             </text>
             <text class="ov-line">
@@ -99,7 +99,7 @@
             </view>
             <view class="rg-center">
               <text class="rg-center-name">{{ result.lifeMingName }}</text>
-              <text class="rg-center-sub">{{ BA_ZHAI_GUA[result.zhaiGua].name }}</text>
+              <text class="rg-center-sub">{{ BA_ZHAI_GUA[result.zhaiGua]?.name ?? '' }}</text>
             </view>
           </view>
           <view class="legend">
@@ -229,7 +229,7 @@ function positionStyle(i: number): any {
     { top: '50%', left: '0%' }, // 西
     { top: '15%', left: '15%' }, // 西北
   ]
-  return { top: positions[i].top, left: positions[i].left, transform: 'translate(-50%, -50%)' }
+  return { top: positions[i]?.top ?? '50%', left: positions[i]?.left ?? '50%', transform: 'translate(-50%, -50%)' }
 }
 </script>
 

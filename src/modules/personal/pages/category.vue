@@ -83,8 +83,8 @@
     <view class="footer">
       <text class="footer-stat">已上线 {{ readyCount }} / 规划 {{ plannedCount }} 项</text>
       <view class="verse-box" @click="nextVerse">
-        <text class="verse">{{ currentVerse.text }}</text>
-        <text class="footer-sub">{{ currentVerse.from }}</text>
+        <text class="verse">{{ currentVerse?.text ?? '' }}</text>
+        <text class="footer-sub">{{ currentVerse?.from ?? '' }}</text>
       </view>
     </view>
   </view>

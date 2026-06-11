@@ -52,10 +52,10 @@
             v-for="(d, i) in displayDigits"
             :key="i"
             class="d-cell"
-            :style="{ color: WX_META[d.wx].color }"
+            :style="{ color: WX_META[d.wx]?.color ?? '#D4AF37' }"
           >
             <text class="d-num">{{ d.d }}</text>
-            <text class="d-wx">{{ WX_META[d.wx].name }}</text>
+            <text class="d-wx">{{ WX_META[d.wx]?.name ?? '' }}</text>
           </text>
         </view>
       </view>
@@ -109,9 +109,10 @@ const scoreList = computed(() => {
 const displayDigits = computed(() => {
   if (!result.value) return []
   const WX_MAP: Record<string, Wuxing> = { 木: 'mu', 火: 'huo', 土: 'tu', 金: 'jin', 水: 'shui' }
+  const r = result.value
   return input.value
     .split('')
-    .map((d, i) => ({ d, wx: WX_MAP[result.value!.wuXingSeq[i]] || 'mu' }))
+    .map((d, i) => ({ d, wx: WX_MAP[r.wuXingSeq[i] ?? '木'] ?? 'mu' }))
     .filter((x) => !isNaN(Number(x.d)))
 })
 
