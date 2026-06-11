@@ -195,23 +195,27 @@ async function draw() {
     uni.showToast({ title: '所求文字不超过 30 字', icon: 'none' })
     return
   }
-  drawing.value = true
-  await new Promise((r) => setTimeout(r, 2000))
+  // 先切换到结果视图并显示摇签动画，再异步算签
+  // 这样用户才能看到 2s 的摇签动画
+  let drawn: Qian | null = null
   try {
-    qian.value = drawQian(w + Date.now())
-    drawing.value = false
-    app.addHistory({
-      tool: 'lingqian',
-      toolName: '灵签抽签',
-      category: '占卜',
-      input: { wish: w, mode: mode.value },
-      output: { num: qian.value.num, level: qian.value.level },
-      brief: `第${qian.value.num}签 · ${qian.value.level} · ${qian.value.title}`,
-    })
+    drawn = drawQian(w + Date.now())
   } catch (_e) {
-    drawing.value = false
     uni.showModal({ title: '抽签失败', content: '请重新抽签', showCancel: false })
+    return
   }
+  qian.value = drawn
+  drawing.value = true
+  await new Promise((r) => setTimeout(r, 1800))
+  drawing.value = false
+  app.addHistory({
+    tool: 'lingqian',
+    toolName: '灵签抽签',
+    category: '占卜',
+    input: { wish: w, mode: mode.value },
+    output: { num: drawn.num, level: drawn.level },
+    brief: `第${drawn.num}签 · ${drawn.level} · ${drawn.title}`,
+  })
 }
 </script>
 

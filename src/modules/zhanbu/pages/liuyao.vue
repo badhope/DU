@@ -501,7 +501,7 @@ function onCooldownSwitchUser() {
 function onCooldownSwitchTool() {
   showCooldown.value = false
   // 跳到首页或工具列表
-  uni.reLaunch({ url: '/pages/index/index' })
+  uni.reLaunch({ url: '/modules/personal/pages/index' })
 }
 function onCooldownIgnore() {
   showCooldown.value = false

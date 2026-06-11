@@ -440,7 +440,7 @@ function togglePillar(i: number) {
 }
 
 function goDayun() {
-  uni.navigateTo({ url: '/pages/liunian/liunian' })
+  uni.navigateTo({ url: '/modules/mingli/pages/liunian' })
 }
 
 const wuxingList = WUXING_LIST.map((k) => WUXING_META[k])

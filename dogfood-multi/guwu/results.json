@@ -1,0 +1,39 @@
+{
+  "results": {
+    "mianxiang": {
+      "text_len": 654,
+      "has_title": true,
+      "has_score": true,
+      "has_three_ting": true,
+      "has_wu_guan": true,
+      "has_shi_er": true
+    },
+    "shouxiang": {
+      "text_len": 358,
+      "has_title": true,
+      "has_score": true,
+      "has_ba_gong": true,
+      "has_san_zhu": true
+    },
+    "fenglui": {
+      "text_len": 773,
+      "has_title": true,
+      "has_ba_zhai": false,
+      "has_luo_pan": false,
+      "has_ming_gua": true,
+      "has_ba_fang": false,
+      "has_rosette": true,
+      "has_compass_cells": 8
+    },
+    "mingji": {
+      "text_len": 486,
+      "has_name": true,
+      "has_score": true,
+      "has_wu_ge": true,
+      "has_san_cai": true,
+      "has_5_cells": 5
+    }
+  },
+  "console_errors": [],
+  "page_errors": []
+}

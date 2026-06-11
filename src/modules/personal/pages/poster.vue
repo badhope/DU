@@ -106,9 +106,52 @@
 
       <!-- Canvas 画布（H5 用）/ 静态图（其他端） -->
       <view class="canvas-wrap">
+        <!-- H5: CSS 渲染的预览层 (绕过 uni-app canvas id 被剥离的 bug) -->
+        <!-- #ifdef H5 -->
+        <view class="poster-css" :style="posterCssStyle">
+          <view class="poster-css-glow1" :style="posterGlow1Style"></view>
+          <view class="poster-css-glow2" :style="posterGlow2Style"></view>
+          <view class="poster-css-clouds">
+            <view class="poster-css-cloud tl"></view>
+            <view class="poster-css-cloud tr"></view>
+            <view class="poster-css-cloud bl"></view>
+            <view class="poster-css-cloud br"></view>
+          </view>
+          <view v-if="form.badge" class="poster-css-badge" :style="posterBadgeStyle">
+            <text class="poster-css-badge-text">{{ form.badge }}</text>
+          </view>
+          <view class="poster-css-taiji" :style="posterTaijiStyle">
+            <view class="taiji-yang"></view>
+            <view class="taiji-yin"></view>
+            <view class="taiji-yang-dot"></view>
+            <view class="taiji-yin-dot"></view>
+          </view>
+          <text class="poster-css-glyph" :style="posterGlyphStyle">{{ form.glyph }}</text>
+          <text class="poster-css-title" :style="posterTitleStyle">{{ form.title }}</text>
+          <text class="poster-css-subtitle" :style="posterSubtitleStyle">{{ form.subtitle }}</text>
+          <view class="poster-css-divider" :style="posterDividerStyle"></view>
+          <text
+            v-for="(line, i) in form.content"
+            :key="'c'+i"
+            class="poster-css-content"
+            :style="{ ...posterContentStyle, top: (68 + i * 5.5) + '%' }"
+          >{{ line }}</text>
+          <text
+            v-if="form.signature"
+            class="poster-css-sig"
+            :style="posterSigStyle"
+          >{{ form.signature }}</text>
+          <text class="poster-css-date" :style="posterDateStyle">{{ form.dateStr }}</text>
+          <view class="poster-css-footer" :style="posterFooterStyle">
+            <text class="poster-css-footer-text">{{ form.footer }}</text>
+            <text class="poster-css-footer-dots">·  ·  ·</text>
+          </view>
+        </view>
+        <!-- #endif -->
+        <!-- #ifndef H5 -->
         <canvas
           v-if="useCanvas"
-          id="posterCanvas"
+          ref="canvasEl"
           canvas-id="posterCanvas"
           class="poster-canvas"
           :style="{ width: canvasStyle.w, height: canvasStyle.h }"
@@ -121,6 +164,7 @@
           :style="{ width: canvasStyle.w, height: canvasStyle.h }"
           mode="aspectFill"
         />
+        <!-- #endif -->
       </view>
 
       <view class="form-actions">
@@ -189,6 +233,82 @@ const availableHistories = computed(() => {
 })
 
 const canvasStyle = computed(() => ({ w: '500rpx', h: '889rpx' }))
+
+// ============ CSS 渲染 (H5 端) ============
+const tplMeta = computed(() => TEMPLATES.find((t) => t.key === form.value.template) || TEMPLATES[0]!)
+
+function withAlpha(rgba: string, alpha: number): string {
+  // 简单替换 / 追加 alpha（针对 rgba / hex 两种格式）
+  if (rgba.startsWith('rgba')) return rgba.replace(/[\d.]+\)$/g, `${alpha})`)
+  if (rgba.startsWith('#') && rgba.length === 7) {
+    const r = parseInt(rgba.slice(1, 3), 16)
+    const g = parseInt(rgba.slice(3, 5), 16)
+    const b = parseInt(rgba.slice(5, 7), 16)
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`
+  }
+  return rgba
+}
+
+const posterCssStyle = computed(() => ({
+  background: `linear-gradient(180deg, ${tplMeta.value.gradient[0]} 0%, ${tplMeta.value.gradient[1]} 50%, ${tplMeta.value.gradient[2]} 100%)`,
+  color: tplMeta.value.text,
+}))
+
+const posterGlow1Style = computed(() => ({
+  background: `radial-gradient(circle at 50% 85%, ${tplMeta.value.glow} 0%, rgba(0,0,0,0) 70%)`,
+}))
+
+const posterGlow2Style = computed(() => ({
+  background: `radial-gradient(circle at 30% 15%, ${tplMeta.value.glow} 0%, rgba(0,0,0,0) 60%)`,
+}))
+
+const posterBadgeStyle = computed(() => ({
+  borderColor: tplMeta.value.accent,
+  color: tplMeta.value.text,
+}))
+
+const posterTaijiStyle = computed(() => ({
+  borderColor: withAlpha(tplMeta.value.accent, 0.5),
+}))
+
+const posterGlyphStyle = computed(() => ({
+  color: tplMeta.value.text,
+  textShadow: `0 0 4rpx ${tplMeta.value.glow}`,
+}))
+
+const posterTitleStyle = computed(() => ({
+  color: tplMeta.value.accent,
+  textShadow: `0 0 2rpx ${tplMeta.value.glow}`,
+}))
+
+const posterSubtitleStyle = computed(() => ({
+  color: tplMeta.value.text,
+}))
+
+const posterDividerStyle = computed(() => ({
+  background: tplMeta.value.accent,
+}))
+
+const posterContentStyle = computed(() => ({
+  color: tplMeta.value.text,
+}))
+
+const posterSigStyle = computed(() => ({
+  color: tplMeta.value.accent,
+}))
+
+const posterDateStyle = computed(() => ({
+  color: tplMeta.value.text,
+}))
+
+const posterFooterStyle = computed(() => ({
+  borderColor: tplMeta.value.accent,
+  color: tplMeta.value.text,
+}))
+
+function renderPosterCSS() {
+  // H5 上: CSS 模板已通过响应式自动渲染，无需手动操作
+}
 
 function gradientCss(g: [string, string, string]): string {
   return `linear-gradient(180deg, ${g[0]!} 0%, ${g[1]!} 50%, ${g[2]!} 100%)`
@@ -263,22 +383,20 @@ async function generate() {
     brief: `${form.value.type} · ${form.value.glyph} · ${form.value.title}`,
   })
   await nextTick()
+  // H5 端：uni-app 编译后会延迟渲染 canvas，再等一帧确保 DOM 就位
+  // #ifdef H5
+  setTimeout(() => drawCanvas(), 50)
+  // #endif
+  // #ifndef H5
   drawCanvas()
+  // #endif
 }
 
 function drawCanvas() {
   try {
-    // H5 端：直接拿 canvas DOM
+    // H5 端：uni-app H5 编译后会丢 id + 时常重置 canvas，改用 CSS 渲染
     // #ifdef H5
-    const canvasEl = document.getElementById('posterCanvas') as HTMLCanvasElement
-    if (canvasEl) {
-      canvasEl.width = 750
-      canvasEl.height = 1334
-      const ctx2d = canvasEl.getContext('2d')
-      if (ctx2d) {
-        renderPoster(canvasEl, ctx2d, form.value, 750, 1334)
-      }
-    }
+    renderPosterCSS()
     // #endif
     // #ifndef H5
     const ctx = uni.createCanvasContext('posterCanvas')
@@ -345,14 +463,16 @@ function copyText() {
 
 function saveImage() {
   // #ifdef H5
-  const canvasEl = document.getElementById('posterCanvas') as HTMLCanvasElement
-  if (canvasEl) {
-    const url = canvasEl.toDataURL('image/png')
+  const cv = document.querySelector('canvas.uni-canvas-canvas') as HTMLCanvasElement | null
+  if (cv && typeof cv.toDataURL === 'function') {
+    const url = cv.toDataURL('image/png')
     const a = document.createElement('a')
     a.href = url
     a.download = `mistverse-poster-${form.value.template}-${Date.now()}.png`
     a.click()
     uni.showToast({ title: '已触发下载', icon: 'success' })
+  } else {
+    uni.showToast({ title: '请先生成海报', icon: 'none' })
   }
   // #endif
   // #ifndef H5
@@ -648,5 +768,213 @@ function regenerate() {
 .poster-canvas {
   border-radius: var(--r-md);
   box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+}
+
+/* ============ CSS 海报 (H5 端) ============ */
+.poster-css {
+  position: relative;
+  width: 500rpx;
+  height: 889rpx;
+  border-radius: var(--r-md);
+  box-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  font-family: 'KaiTi', 'STKaiti', 'PingFang SC', 'Microsoft YaHei', serif;
+  display: block;
+}
+.poster-css-glow1,
+.poster-css-glow2 {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.poster-css-clouds {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.poster-css-cloud {
+  position: absolute;
+  width: 80rpx;
+  height: 80rpx;
+  border: 2rpx solid currentColor;
+  border-right: none;
+  border-bottom: none;
+  border-top: none;
+  border-left: none;
+  opacity: 0.4;
+}
+.poster-css-cloud.tl {
+  top: 30rpx;
+  left: 30rpx;
+  border-top: 2rpx solid currentColor;
+  border-left: 2rpx solid currentColor;
+  border-radius: 0 0 0 60rpx;
+}
+.poster-css-cloud.tr {
+  top: 30rpx;
+  right: 30rpx;
+  border-top: 2rpx solid currentColor;
+  border-right: 2rpx solid currentColor;
+  border-radius: 0 0 60rpx 0;
+}
+.poster-css-cloud.bl {
+  bottom: 30rpx;
+  left: 30rpx;
+  border-bottom: 2rpx solid currentColor;
+  border-left: 2rpx solid currentColor;
+  border-radius: 0 60rpx 0 0;
+}
+.poster-css-cloud.br {
+  bottom: 30rpx;
+  right: 30rpx;
+  border-bottom: 2rpx solid currentColor;
+  border-right: 2rpx solid currentColor;
+  border-radius: 60rpx 0 0 0;
+}
+.poster-css-badge {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 6rpx 24rpx;
+  border: 1rpx solid;
+  border-radius: 16rpx;
+  background: rgba(0, 0, 0, 0.3);
+  font-size: 20rpx;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.poster-css-taiji {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 2rpx solid;
+  overflow: hidden;
+  background: #fff;
+}
+.poster-css-taiji .taiji-yang,
+.poster-css-taiji .taiji-yin {
+  position: absolute;
+  width: 50%;
+  height: 100%;
+  top: 0;
+}
+.poster-css-taiji .taiji-yang {
+  left: 0;
+  background: #fff;
+}
+.poster-css-taiji .taiji-yin {
+  right: 0;
+  background: #000;
+}
+.poster-css-taiji .taiji-yang-dot,
+.poster-css-taiji .taiji-yin-dot {
+  position: absolute;
+  width: 25%;
+  height: 25%;
+  border-radius: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.poster-css-taiji .taiji-yang-dot {
+  top: 12.5%;
+  background: #000;
+}
+.poster-css-taiji .taiji-yin-dot {
+  bottom: 12.5%;
+  background: #fff;
+}
+.poster-css-glyph {
+  position: absolute;
+  top: 26%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 110rpx;
+  font-weight: 700;
+  z-index: 2;
+}
+.poster-css-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 56rpx;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+.poster-css-subtitle {
+  position: absolute;
+  top: 58%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28rpx;
+  letter-spacing: 0.2em;
+  white-space: nowrap;
+}
+.poster-css-divider {
+  position: absolute;
+  top: 63%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180rpx;
+  height: 1rpx;
+  opacity: 0.6;
+}
+.poster-css-content {
+  position: absolute;
+  top: 68%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24rpx;
+  white-space: nowrap;
+  letter-spacing: 0.1em;
+}
+.poster-css-sig {
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 24rpx;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.poster-css-date {
+  position: absolute;
+  top: 84%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 20rpx;
+  opacity: 0.7;
+  font-family: monospace;
+}
+.poster-css-footer {
+  position: absolute;
+  bottom: 3%;
+  left: 8%;
+  right: 8%;
+  text-align: center;
+  border-top: 1rpx solid;
+  border-color: inherit;
+  padding-top: 10rpx;
+  opacity: 0.7;
+}
+.poster-css-footer-text {
+  display: block;
+  font-size: 16rpx;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.poster-css-footer-dots {
+  display: block;
+  font-size: 16rpx;
+  opacity: 0.6;
+  margin-top: 2rpx;
 }
 </style>

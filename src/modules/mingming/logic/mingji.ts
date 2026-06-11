@@ -117,9 +117,8 @@ export interface NamingGe {
 }
 
 function computeGe(strokes: number[]): NamingGe {
-  // 单姓/复姓
-  if (strokes.length === 2) {
-    // 复姓
+  // 复姓（4 字：复姓 2 + 名 2）
+  if (strokes.length === 4) {
     return {
       tianGe: strokes[0]! + strokes[1]!,
       renGe: strokes[1]! + strokes[2]!,

@@ -1,0 +1,15 @@
+{
+  "url": "http://localhost:5173/mistverse/",
+  "timestamp": "2026-06-11 09:08:54",
+  "findings": [],
+  "console_messages": [
+    "[pageerror] Object"
+  ],
+  "screenshots": [
+    "03-category.png",
+    "02-bazi.png",
+    "03-liuyao.png",
+    "04-xuankong.png",
+    "01-home.png"
+  ]
+}

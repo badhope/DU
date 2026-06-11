@@ -170,7 +170,11 @@
               :cy="scoreY(curveValueAt(tp.age, 'total'))"
               r="4"
               :fill="tp.level === '大吉' || tp.level === '吉' ? '#4FAE6F' : '#C8302A'"
-            />
+              style="cursor: pointer"
+              @click="selectByAge(tp.age)"
+            >
+              <title>{{ tp.age }} 岁 · {{ tp.level }}</title>
+            </circle>
 
             <!-- 选中点 -->
             <circle
@@ -328,6 +332,13 @@
         </view>
       </view>
     </view>
+    <!-- 占卜推演 Loading -->
+    <LoadingSeal
+      :visible="loading"
+      :title="'大 运 流 转 推 演 中'"
+      :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"
+      :duration="1200"
+    />
   </view>
 </template>
 
@@ -335,6 +346,7 @@
 import { ref, computed } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
+import LoadingSeal from '@shared/components/ui/LoadingSeal.vue'
 import { useAppStore } from '@/stores'
 import {
   calcLifeFortune,

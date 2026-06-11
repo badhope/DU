@@ -1,0 +1,54 @@
+{
+  "qijing": {
+    "name": "奇经八脉",
+    "url": "http://localhost:5173/mistverse/#/modules/jiankang/pages/qijing",
+    "body_excerpt": "‹\n奇经八脉\nEIGHT EXTRA MERIDIANS\n⚙\n八脉\nEXTRA\n十二正经\n12 MERID.\n人体\nBODY MAP\n病症\nDIAG.\n阴\n任脉\n前正中线 · 起胞宫 · 经咽喉 · 至承浆\n阳\n督脉\n后正中线 · 起胞中 · 入脊柱 · 经风府 · 至龈交\n阴\n冲脉\n起胞中 · 三源 · 一源气街 · 一源肾下 · 一源胃经\n阴\n带脉\n起季胁 · 环腰腹一周 · 如束带\n阴\n阴维",
+    "screenshots": [
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-01-initial.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-02-interact.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-03-result.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-04-jingluo.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-05-jingluo-open.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-06-bodymap.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-07-bodymap-back.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-08-diag-initial.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/1-qijing-09-diag-result.png"
+    ]
+  },
+  "ziwu": {
+    "name": "子午流注",
+    "url": "http://localhost:5173/mistverse/#/modules/jiankang/pages/ziwu",
+    "body_excerpt": "‹\n子午流注\nMIDNIGHT-NOON EBB\n⚙\n当前\nNOW\n时辰\n12 HOURS\n灵龟\nLING GUI\n10:55\n· 巳时（蛇时）·\n脾经（脾）\n旺：脾主运化 · 巳时气血充盛\n· 宜\n工作学习黄金期\n健脾食物\n适度运动\n· 忌\n生冷油腻\n思虑过度\n久坐\n· 灵龟八法开穴\n照海（咽喉小腹疾）\n咽干\n小便频\n妇科",
+    "screenshots": [
+      "/workspace/dogfood-multi/jiankang/screenshots/2-ziwu-01-initial.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/2-ziwu-02-table.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/2-ziwu-03-shichen-clicked.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/2-ziwu-04-linggui.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/2-ziwu-05-linggui-open.png"
+    ]
+  },
+  "wufu": {
+    "name": "五福测算",
+    "url": "http://localhost:5173/mistverse/#/modules/jiankang/pages/wufu",
+    "body_excerpt": "‹\n五福测算\nFIVE FORTUNES\n⚙\n寿 富 康 德 考 终\n五 福 临 门 · 百 年 之 修\n性 别\n男\n女\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 综合八字 · 5 维评分 · 90 年曲线 · 最佳/最弱年龄\n开 始 测 算",
+    "screenshots": [
+      "/workspace/dogfood-multi/jiankang/screenshots/3-wufu-01-initial.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/3-wufu-02-gender.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/3-wufu-03-result.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/3-wufu-04-curve.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/3-wufu-05-peaks.png"
+    ]
+  },
+  "yangsheng": {
+    "name": "节气养生",
+    "url": "http://localhost:5173/mistverse/#/modules/jiankang/pages/yangsheng",
+    "body_excerpt": "‹\n节气养生\n24 SOLAR TERMS\n⚙\n当前\nNOW\n24 节气\n24 TERMS\n五运六气\n5-6 QI\n· 夏 · 当令 ·\n芒种\nMangzhong · mángzhòng\n生肖 · 狗\n麦类成熟 · 忙种之极\n· 养生重点：\n祛湿防暑\n· 五行：\n火\n· 宜食\n红豆\n薏米\n冬瓜\n· 忌食\n冷饮\n湿滞",
+    "screenshots": [
+      "/workspace/dogfood-multi/jiankang/screenshots/4-yangsheng-01-initial.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/4-yangsheng-02-jq-list.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/4-yangsheng-03-jq-open.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/4-yangsheng-04-jq-switched.png",
+      "/workspace/dogfood-multi/jiankang/screenshots/4-yangsheng-05-wuyun.png"
+    ]
+  }
+}

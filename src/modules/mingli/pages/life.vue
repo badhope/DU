@@ -153,6 +153,13 @@
         <view class="btn-liu" @click="result = null">重 新 推 算</view>
       </view>
     </view>
+    <!-- 占卜推演 Loading -->
+    <LoadingSeal
+      :visible="loading"
+      :title="'玄 机 推 演 中'"
+      :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"
+      :duration="800"
+    />
   </view>
 </template>
 
@@ -161,6 +168,7 @@ import { ref, computed } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import _LifeNumberChart from '@shared/components/charts/LifeNumberChart.vue'
+import LoadingSeal from '@shared/components/ui/LoadingSeal.vue'
 import { useAppStore } from '@/stores'
 import { fullLifeResult, type LifeNumberResult } from '@modules/mingli/logic/life'
 

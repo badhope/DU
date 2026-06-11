@@ -1,0 +1,84 @@
+{
+  "findings": [
+    {
+      "step": 1,
+      "name": "Home loaded",
+      "url": "http://localhost:5173/mistverse/#/",
+      "ok": true
+    },
+    {
+      "step": 2,
+      "name": "命理 category",
+      "url": "http://localhost:5173/mistverse/#/modules/personal/pages/category?cat=mingli",
+      "ok": true
+    },
+    {
+      "step": 3,
+      "name": "八字排盘 form",
+      "url": "http://localhost:5173/mistverse/#/modules/mingli/pages/bazi",
+      "ok": true
+    },
+    {
+      "step": 4,
+      "name": "Add user dialog",
+      "ok": true
+    },
+    {
+      "step": 5,
+      "name": "Add user (after type)",
+      "dialog_still_open": false
+    },
+    {
+      "step": 7,
+      "name": "Result rendered",
+      "ok": true
+    },
+    {
+      "step": 8,
+      "name": "六爻 page",
+      "url": "http://localhost:5173/mistverse/#/modules/zhanbu/pages/liuyao",
+      "ok": true
+    },
+    {
+      "step": 9,
+      "name": "面相 page",
+      "url": "http://localhost:5173/mistverse/#/modules/guanxiang/pages/mianxiang",
+      "ok": true
+    },
+    {
+      "step": 10,
+      "name": "子午流注 page",
+      "url": "http://localhost:5173/mistverse/#/modules/jiankang/pages/ziwu",
+      "ok": true
+    },
+    {
+      "step": 11,
+      "name": "站桩 page",
+      "url": "http://localhost:5173/mistverse/#/modules/xiuxin/pages/zhan",
+      "ok": true
+    },
+    {
+      "step": 12,
+      "name": "黄历 page",
+      "url": "http://localhost:5173/mistverse/#/modules/shenghuo/pages/huangli",
+      "ok": true
+    },
+    {
+      "step": 13,
+      "name": "六爻起卦",
+      "ok": true
+    },
+    {
+      "step": 14,
+      "name": "Settings",
+      "ok": true
+    },
+    {
+      "step": 15,
+      "name": "Dashboard",
+      "ok": true
+    }
+  ],
+  "console": [],
+  "errors": []
+}

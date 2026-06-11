@@ -1,0 +1,82 @@
+[
+  {
+    "label": "gua",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n每日一卦\nDAILY HEXAGRAM\n⚙\n· 今 日 为 谁 问 ·\n👤\n点 此 添 加 占 卜 人\n\"易有太极，是生两仪。\"\n\"两仪生四象，四象生八卦。\"\n— 易 · 系辞 —\n默念心中所惑 · 凝神静气\n起 卦",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": true
+  },
+  {
+    "label": "liuyao",
+    "issues": [],
+    "bodyHeight": 1041,
+    "viewportHeight": 896,
+    "bodyText": "‹\n玄枢易盘\nLIU YAO\n⚙\n玄 枢 易 盘\n六 爻 纳 甲 · 蓍 草 起 卦\n· 今 日 为 谁 问 ·\n👤\n点 此 添 加 占 卜 人\n· 所 占 之 事\n☯\n综合\n官\n事业\n财\n求财\n合\n姻缘\n学\n学业\n养\n健康\n宅\n家宅\n行\n出行\n子\n求子\n讼\n诉讼\n· 默念所问之事 · 凝神静气 · 待时机成熟再点击起卦\n蓍草起卦：6 爻每爻 6/7/8/9 之一 · 6 与 9 为动爻\n起 卦",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "users",
+    "issues": [],
+    "bodyHeight": 896,
+    "viewportHeight": 896,
+    "bodyText": "‹\n占卜人管理\nDIVINATOR PROFILES\n⚙\n· 为 何 需 要 多 用 户\n· 一日同人同工具不宜二占，恐心念不诚，反失灵验\n· 多用户管理：家父 / 母亲 / 自己 / 孩子 各自独立\n· 可查看每个人最近 7 天占卜记录\n· 当 前 激 活\n未 激 活 · 请 添 加 占 卜 人\n· 添 加 占 卜 人\n姓 名\n如：张三 / 家父\n备 注\n如：自己 / 父亲 / 母亲\n添 加\n·",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "tarot",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n塔罗占卜\nTAROT · 78 CARDS\n⚙\n选 择 牌 阵\nDifferent spreads · Different fates\n一张牌\n直指当下心境\n三张牌\n过去 · 现在 · 未来\n凯尔特十字\n深度解读，五张牌阵",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "meihua",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n梅花易数\nPLUM BLOSSOM\n⚙\n时 间 起 卦\n年 月 日 时 · 天 机 自 现\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 心中默念所问之事 · 时间起卦 · 体用关系 · 五维评分\n开 始 起 卦",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "lingqian",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n灵签抽签\nDIVINE LOT\n⚙\n神 前 求 签\n心 诚 则 灵 · 求 签 之 道\n· 默念所求\n如：求事业 / 求姻缘 / 求健康\n· 摇签方式\n摇\n手摇\n动\n摇动\n签\n求签\n· 30 签典 · 上上/上/中上/中/中下/下/下下 · 摇签动画\n求 签\n· 签级分布\n上上 5\n上 8\n中上 6\n中 7\n中下 2\n下 2\n下下 0",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "shuzhi",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n数字能量\nNUMBER ENERGY\n⚙\n数 字 磁 场\n手 机 · 车 牌 · 任 意 数 字\n· 输入数字串\n· 8 大磁场：天医/延年/生气/伏位/绝命/五鬼/六煞/祸害\n分 析",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  },
+  {
+    "label": "jiaobei",
+    "issues": [],
+    "bodyHeight": 931,
+    "viewportHeight": 896,
+    "bodyText": "‹\n杯筊问事\nDIVINE BLOCK\n⚙\n圣 杯 问 事\n心 诚 则 灵 · 三 次 连 掷\n· 默念所问之事\n如：问今年是否适合换工作...\n· 掷筊次数\n1 次\n3 次\n5 次\n7 次\n· 圣筊(一阴一阳)：神明允诺 · 笑筊(两阳)：笑而不答 · 阴筊(两阴)：神明不允\n掷 筊",
+    "hasAnimFade": false,
+    "hasAnimFadeUp": true,
+    "hasAnimPulse": false
+  }
+]

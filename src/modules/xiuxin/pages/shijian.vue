@@ -57,7 +57,17 @@
               ·{{ currentZhenju.author }}
             </text>
           </text>
-          <text class="zj-cat">{{ currentZhenju.category }}</text>
+          <view class="zj-right">
+            <text class="zj-cat">{{ currentZhenju.category }}</text>
+            <view
+              class="zj-fav"
+              :class="{ on: favorited }"
+              :title="favorited ? '已收藏' : '收藏'"
+              @click="toggleFav"
+            >
+              {{ favorited ? '★' : '☆' }}
+            </view>
+          </view>
         </view>
       </view>
 
@@ -134,6 +144,21 @@ const cat = ref<Zhenju['category']>('诗')
 const chosenMeta = computed(() => (chosen.value ? XINJING_META[chosen.value] : XINJING_META.kunkun))
 const recommend = computed(() => (chosen.value ? recommendByXinjing(chosen.value, 6) : []))
 const catList = computed(() => byCategory(cat.value).slice(0, 12))
+
+// 收藏：根据文本+出处生成稳定 ID
+const favId = computed(
+  () => `zhenju:${currentZhenju.value.text}::${currentZhenju.value.source}`,
+)
+const favorited = computed(() => app.favorites.includes(favId.value))
+
+function toggleFav() {
+  app.toggleFavorite(favId.value)
+  uni.showToast({
+    title: favorited.value ? '已收入典藏' : '已取消收藏',
+    icon: 'none',
+    duration: 1200,
+  })
+}
 
 function choose(x: Xinjing) {
   chosen.value = x
@@ -310,6 +335,38 @@ function dailyPick() {
   background: rgba(212, 175, 55, 0.2);
   color: var(--color-liu);
   border-radius: var(--r-sm);
+}
+.zj-right {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+.zj-fav {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48rpx;
+  height: 48rpx;
+  font-size: 36rpx;
+  line-height: 1;
+  color: var(--color-bai-3);
+  border-radius: 50%;
+  border: 1rpx solid rgba(212, 175, 55, 0.25);
+  transition: transform 0.2s ease, color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
+}
+.zj-fav:active {
+  transform: scale(0.88);
+}
+.zj-fav.on {
+  color: var(--color-liu);
+  background: rgba(212, 175, 55, 0.18);
+  box-shadow: 0 0 16rpx rgba(212, 175, 55, 0.45);
+  animation: zjFavPop 0.45s ease;
+}
+@keyframes zjFavPop {
+  0% { transform: scale(0.6); }
+  55% { transform: scale(1.25); }
+  100% { transform: scale(1); }
 }
 
 .recommend,

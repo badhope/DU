@@ -112,7 +112,7 @@ function getCount(key: CategoryKey) {
 }
 
 function goCategory(key: CategoryKey) {
-  uni.navigateTo({ url: '/pages/category/category?cat=' + key })
+  uni.navigateTo({ url: '/modules/personal/pages/category?cat=' + key })
 }
 
 const now = ref(new Date())

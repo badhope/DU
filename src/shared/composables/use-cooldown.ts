@@ -154,11 +154,11 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
       try {
         uni.navigateBack({ delta: 1 })
       } catch {
-        uni.reLaunch({ url: '/pages/index/index' })
+        uni.reLaunch({ url: '/modules/personal/pages/index' })
       }
     } else {
       try {
-        uni.reLaunch({ url: '/pages/index/index' })
+        uni.reLaunch({ url: '/modules/personal/pages/index' })
       } catch (e) {
         // eslint-disable-next-line no-console
         if (typeof console !== 'undefined') console.warn('[use-cooldown] reLaunch 失败', e)

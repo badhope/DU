@@ -371,7 +371,20 @@ function onMeridianClick(m: MeridianPath) {
 function onAcupointClick(m: MeridianPath, p: Point) {
   selectedId.value = m.id
   selectedAcupoint.value = p
-  acupointDetail.value = getAcupoint(p.acupoint || '')
+  // 优先从 ACUPOINT_DB 查询详细资料；DB 未覆盖时显示基础信息（穴位名 + 所属经脉）
+  const detail = getAcupoint(p.acupoint || '')
+  if (detail) {
+    acupointDetail.value = detail
+  } else {
+    acupointDetail.value = {
+      name: p.acupoint || '未知穴位',
+      jingluo: m.name,
+      location: '（详细定位请参考经络循行）',
+      function: '· 详 细 功 效 收 录 中 ·',
+      indication: ['参见所属经络主治病症'],
+      method: '请咨询专业中医师',
+    }
+  }
 }
 
 function onSvgClick() {

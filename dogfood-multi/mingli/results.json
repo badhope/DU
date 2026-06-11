@@ -1,0 +1,159 @@
+{
+  "results": [
+    {
+      "id": 1,
+      "name": "五行罗盘",
+      "ok": true,
+      "has_rel": true,
+      "rel_text": "相生 · 滋养",
+      "node_count": 5
+    },
+    {
+      "id": 2,
+      "name": "八字排盘",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": true,
+      "keyword": false,
+      "body_len": 324
+    },
+    {
+      "id": 3,
+      "name": "八字合婚",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true
+    },
+    {
+      "id": 4,
+      "name": "流年大运",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 520
+    },
+    {
+      "id": 5,
+      "name": "紫微斗数",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 635
+    },
+    {
+      "id": 6,
+      "name": "玄空飞星",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 809
+    },
+    {
+      "id": 7,
+      "name": "铁板神数",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 881
+    },
+    {
+      "id": 8,
+      "name": "小六壬",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": false,
+      "body_len": 200
+    },
+    {
+      "id": 9,
+      "name": "诸葛神数",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 284
+    },
+    {
+      "id": 10,
+      "name": "生命灵数",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 344
+    },
+    {
+      "id": 11,
+      "name": "西洋占星",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 708
+    },
+    {
+      "id": 12,
+      "name": "玛雅历",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 584
+    },
+    {
+      "id": 13,
+      "name": "大运流转",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 1352
+    },
+    {
+      "id": 14,
+      "name": "吉日择时",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true
+    },
+    {
+      "id": 15,
+      "name": "家谱排辈",
+      "ok": true,
+      "has_loading": true,
+      "result_visible": true,
+      "had_dialog": false,
+      "keyword": true,
+      "body_len": 1344
+    },
+    {
+      "id": 16,
+      "name": "个人档案",
+      "ok": true,
+      "has_profile": false,
+      "has_setup_form": true
+    }
+  ],
+  "console_errors": [],
+  "page_errors": []
+}

@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
+import { resolveHostEl } from './result-reveal-helpers'
 
 const props = withDefaults(
   defineProps<{
@@ -63,10 +64,16 @@ function fromVars(_el: HTMLElement) {
 }
 
 function play() {
-  if (!hostRef.value || typeof gsap === 'undefined') return
-  const items = hostRef.value.querySelectorAll(props.selector)
+  // uni-app H5 编译后 <view> 变 <uni-view> 自定义元素，ref 拿到的是组件实例
+  // resolveHostEl 处理 HTMLElement / 组件实例 两种情况
+  const el = resolveHostEl(hostRef.value)
+  if (!el || typeof gsap === 'undefined') return
+  // 默认 selector '> *' 是相对选择器，标准 querySelectorAll 不接受开头的 '>'
+  // 改用 el.children（HTMLCollection，等价于 :scope > *）
+  const items =
+    props.selector === '> *' ? el.children : el.querySelectorAll(props.selector)
   if (items.length === 0) {
-    gsap.fromTo(hostRef.value, fromVars(hostRef.value), {
+    gsap.fromTo(el, fromVars(el), {
       opacity: 1,
       x: 0,
       y: 0,
@@ -77,7 +84,7 @@ function play() {
     })
     return
   }
-  gsap.fromTo(items, fromVars(hostRef.value), {
+  gsap.fromTo(items, fromVars(el), {
     opacity: 1,
     x: 0,
     y: 0,

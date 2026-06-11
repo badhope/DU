@@ -36,12 +36,12 @@ function goBack() {
   if (pages.length > 1) {
     uni.navigateBack({ delta: 1 })
   } else {
-    uni.reLaunch({ url: '/pages/index/index' })
+    uni.reLaunch({ url: '/modules/personal/pages/index' })
   }
 }
 
 function goSettings() {
-  uni.navigateTo({ url: '/pages/settings/settings' })
+  uni.navigateTo({ url: '/settings/pages/settings' })
 }
 
 onMounted(() => {

@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/mistverse/assets/:path*", "destination": "/mistverse/assets/:path*" },
+    { "source": "/mistverse/static/:path*", "destination": "/mistverse/static/:path*" },
+    { "source": "/mistverse/:path*", "destination": "/mistverse/index.html" }
+  ]
+}

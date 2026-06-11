@@ -1,0 +1,78 @@
+{
+  "results": {
+    "1_zhan": {
+      "name": "坐禅计时",
+      "url": "http://localhost:5173/mistverse/#/modules/xiuxin/pages/zhan",
+      "features": {
+        "duration_buttons": 7,
+        "mode_buttons": 3,
+        "modes": [
+          "调息",
+          "念珠",
+          "念诵"
+        ],
+        "start_button": "入 坐"
+      },
+      "animations": {
+        "breath_ring_scale": true,
+        "bead_progression": true,
+        "countdown_timer": true
+      },
+      "console_ok": true
+    },
+    "2_fangqi": {
+      "name": "放松冥想",
+      "url": "http://localhost:5173/mistverse/#/modules/xiuxin/pages/fangqi",
+      "features": {
+        "bg_count": 5,
+        "step_count": 7,
+        "start_button": "开 始 冥 想"
+      },
+      "animations": {
+        "wave_oscillating": true,
+        "step_progression": true,
+        "progress_bar": true
+      }
+    },
+    "3_shijian": {
+      "name": "拾句",
+      "url": "http://localhost:5173/mistverse/#/modules/xiuxin/pages/shijian",
+      "features": {
+        "xinjing_count": 9,
+        "cat_count": 7,
+        "rec_count": 6
+      },
+      "animations": {
+        "fade_in": true,
+        "category_switch": true
+      }
+    },
+    "4_checkin": {
+      "name": "每日签到",
+      "url": "http://localhost:5173/mistverse/#/modules/personal/pages/checkin",
+      "features": {
+        "calendar_days": 30,
+        "checked_count": 0,
+        "rewards_count": 6
+      },
+      "animations": {
+        "btn_press": true,
+        "calendar_highlight": true
+      }
+    },
+    "5_dayun": {
+      "name": "大运流转",
+      "url": "http://localhost:5173/mistverse/#/modules/mingli/pages/dayun",
+      "features": {
+        "turning_points": 10,
+        "decade_tabs": 10,
+        "stages": 4
+      },
+      "animations": {
+        "curve_render": true,
+        "svg_fade_in": true
+      }
+    }
+  },
+  "console_errors": []
+}

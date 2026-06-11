@@ -131,6 +131,13 @@
         <view class="btn-liu" @click="result = null">重 新 排 辈</view>
       </view>
     </view>
+    <!-- 占卜推演 Loading -->
+    <LoadingSeal
+      :visible="loading"
+      :title="'排 辈 推 演 中'"
+      :steps="['清 心 · 凝 神', '观 象 · 感 应', '起 卦 · 演 数', '排 盘 · 归 藏', '解 卦 · 断 事']"
+      :duration="800"
+    />
   </view>
 </template>
 
@@ -139,6 +146,7 @@ import { ref, reactive, computed } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import JiaPuChart from '@shared/components/charts/JiaPuChart.vue'
+import LoadingSeal from '@shared/components/ui/LoadingSeal.vue'
 import { useAppStore } from '@/stores'
 import { buildFamilyTree, ZIBEI_EXAMPLES, type FamilyTree } from '@modules/mingli/logic/jiazu'
 
