@@ -15,6 +15,9 @@
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "noUncheckedIndexedAccess": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types"]
   },
