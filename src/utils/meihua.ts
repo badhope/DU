@@ -74,7 +74,7 @@ export function meihuaDivinate(
   const hourZhi = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'][
     Math.floor((hour + 1) / 2) % 12
   ]
-  const hourNum = HOUR_TO_NUM[hourZhi]
+  const hourNum = HOUR_TO_NUM[hourZhi]!
 
   // 上卦 = (年+月+日) % 8 = 0 → 坤
   const upperNum = (year + month + day) % 8 || 8
@@ -82,8 +82,8 @@ export function meihuaDivinate(
   const dongGua = (year + month + day + hourNum) % 6
   const dongYao = dongGua === 0 ? 6 : dongGua
 
-  const upper = BAGUA_LIST[upperNum - 1]
-  const lower = BAGUA_LIST[lowerNum - 1]
+  const upper = BAGUA_LIST[upperNum - 1]!
+  const lower = BAGUA_LIST[lowerNum - 1]!
   const bianUpper = dongYao <= 3 ? upper : BAGUA_LIST[(upperNum === 1 ? 8 : upperNum - 1) - 1] // 简单变
   const bianLower = dongYao > 3 ? lower : BAGUA_LIST[(lowerNum === 1 ? 8 : lowerNum - 1) - 1]
 

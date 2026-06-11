@@ -328,7 +328,7 @@ export function wangshuai(
   desc: string
   advice: string[]
 } {
-  const count = counts[self]
+  const count = counts[self]!
   const level = wangshuaiOf(count)
   // 折算 strength 评分：极旺 85 / 偏旺 65 / 中和 50 / 偏弱 35 / 极弱 15
   const scoreMap: Record<WangShuaiLevel, number> = {
@@ -338,7 +338,7 @@ export function wangshuai(
     偏弱: 35,
     极弱: 15,
   }
-  const score = scoreMap[level]
+  const score = scoreMap[level]!
   const shengWo = REVERSE_SHENG[self] // 谁生我
   const keWo = REVERSE_KE[self] // 谁克我
   const woSheng = SHENG[self] // 我生
@@ -378,14 +378,14 @@ export function wangshuai(
   }
 
   // 实用建议
-  const bj = BUJI[yong]
+  const bj = BUJI[yong]!
   const advice: string[] = []
   // 居所颜色
   advice.push(`用神为${wxName(yong)}，日常穿着/居所可多用${bj.color.join('、')}系`)
   // 方位
   advice.push(`居住/办公朝${bj.direction}为佳`)
   // 食物
-  advice.push(`饮食多${bj.food[0]}${bj.food[1] ? '、' + bj.food[1] : ''}`)
+  advice.push(`饮食多${bj.food[0]!}${bj.food[1]! ? '、' + bj.food[1]! : ''}`)
   // 职业
   advice.push(`适合职业方向：${bj.career.slice(0, 3).join('、')}`)
   // 数字

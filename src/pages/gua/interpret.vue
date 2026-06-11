@@ -231,7 +231,7 @@ const jiegua = ref<JieguaResult | null>(null)
 
 onMounted(() => {
   const pages = getCurrentPages()
-  const cur = pages[pages.length - 1]
+  const cur = pages[pages.length - 1]!
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const opt = ((cur as any)?.options || {}) as Record<string, string>
   guaId.value = parseInt(opt.id) || 1
@@ -252,7 +252,7 @@ onMounted(() => {
   }, 200)
 })
 
-const gua = computed(() => GUA_LIST.find((g) => g.id === guaId.value) || GUA_LIST[0])
+const gua = computed(() => GUA_LIST.find((g) => g.id === guaId.value) || GUA_LIST[0]!)
 
 function setTopic(k: string) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

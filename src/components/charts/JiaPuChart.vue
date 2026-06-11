@@ -210,8 +210,8 @@ const nodes = computed(() => {
 const connectLines = computed(() => {
   const lines: Array<{ x1: number; y1: number; x2: number; y2: number }> = []
   for (let i = 0; i < generations.value.length - 1; i++) {
-    const a = nodes.value[i]
-    const b = nodes.value[i + 1]
+    const a = nodes.value[i]!
+    const b = nodes.value[i + 1]!
     lines.push({
       x1: a.x + nodeW / 2,
       y1: a.y + nodeH,
@@ -228,7 +228,7 @@ const wuColor = (wx: string) => {
 }
 
 const selectGen = (idx: number) => {
-  if (idx === 0) focusGen.value = props.result.generations[0].gen
+  if (idx === 0) focusGen.value = props.result.generations[0]!.gen
   else focusGen.value = props.result.generations[generations.value.length - 1].gen
 }
 </script>

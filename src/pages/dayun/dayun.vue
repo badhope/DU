@@ -213,7 +213,7 @@
           <view class="stage-line" :style="{ background: s.color }" />
           <view class="stage-info">
             <text class="stage-name">{{ s.name }}</text>
-            <text class="stage-range">{{ s.range[0] }}-{{ s.range[1] }} 岁</text>
+            <text class="stage-range">{{ s.range[0]! }}-{{ s.range[1]! }} 岁</text>
           </view>
           <view class="stage-score">
             <text class="stage-num">{{ s.avgScore }}</text>
@@ -405,7 +405,7 @@ const calculate = async () => {
     result.value = calcLifeFortune(y, m, d, form.value.hour, form.value.gender)
     // 默认选中今年
     const cur = new Date().getFullYear()
-    const nearest = result.value.years.find((y) => y.year === cur) || result.value.years[0]
+    const nearest = result.value.years.find((y) => y.year === cur) || result.value.years[0]!
     selected.value = nearest
     decade.value = Math.floor(nearest.age / 10) * 10
     app.addHistory({
@@ -454,7 +454,7 @@ function select(y: YearFortune) {
 
 const decades = computed(() => {
   if (!result.value) return []
-  const last = result.value.years[result.value.years.length - 1].age
+  const last = result.value.years[result.value.years.length - 1].age!
   const arr: number[] = []
   for (let d = 0; d <= last; d += 10) arr.push(d)
   return arr

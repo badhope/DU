@@ -257,7 +257,7 @@ const showSiHua = ref(true)
 const showLiuNian = ref(false)
 const selectedGong = ref<number | null>(null)
 
-const mingGong = computed(() => props.result.palaces[0])
+const mingGong = computed(() => props.result.palaces[0]!)
 const wuju = computed(() => props.result.wuju)
 const yearGan = computed(() => props.result.yearGan)
 const mingGe = computed(() => props.result.mingGe)
@@ -304,7 +304,7 @@ const gridCells = computed(() => {
     [3, 3, 6], // 下排
   ]
   posMap.forEach(([col, row, gongIdx]) => {
-    const p = props.result.palaces[gongIdx]
+    const p = props.result.palaces[gongIdx]!
     cells.push({
       x: col * cellSize,
       y: row * cellSize,

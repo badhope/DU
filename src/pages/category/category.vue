@@ -123,7 +123,7 @@ const CATEGORY_DESC: Record<CategoryKey, string> = {
 
 function getCategoryKey(): CategoryKey {
   const pages = getCurrentPages()
-  const cur = pages[pages.length - 1]
+  const cur = pages[pages.length - 1]!
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const opt = ((cur as any)?.options || {}) as Record<string, string>
   const k = opt.cat as CategoryKey
@@ -131,7 +131,7 @@ function getCategoryKey(): CategoryKey {
 }
 
 const cat = ref<CategoryKey>(getCategoryKey())
-const category = computed(() => CATEGORIES.find((c) => c.key === cat.value) || CATEGORIES[0])
+const category = computed(() => CATEGORIES.find((c) => c.key === cat.value) || CATEGORIES[0]!)
 const tools = computed(
   () => getToolsByCategory().find((g) => g.category.key === cat.value)?.tools || [],
 )

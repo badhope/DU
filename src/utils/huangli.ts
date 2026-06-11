@@ -150,8 +150,8 @@ const JI_POOL = [
 function getGanzhiDay(date: Date): { gan: string; zhi: string } {
   const ref = new Date(1900, 0, 31)
   const days = Math.floor((date.getTime() - ref.getTime()) / 86400000)
-  const gan = TIANGAN[((days % 10) + 10) % 10]
-  const zhi = DIZHI[((days % 12) + 12) % 12]
+  const gan = TIANGAN[((days % 10) + 10) % 10]!
+  const zhi = DIZHI[((days % 12) + 12) % 12]!
   return { gan, zhi }
 }
 
@@ -218,9 +218,9 @@ export function getHuangliDay(date: Date): HuangliDay {
   const day = date.getDate()
   const { gan, zhi } = getGanzhiDay(date)
   const { month: lunarMonth, day: lunarDay, shengxiao } = getLunar(date)
-  const jianchu = JIANCHU_12[(((zhi.charCodeAt(0) + day) % 12) + 12) % 12]
-  const xiu = XIU_28[(day + month) % 7]
-  const zhiShen = ZHI_SHEN[zhi.charCodeAt(0) % 12]
+  const jianchu = JIANCHU_12[(((zhi.charCodeAt(0) + day) % 12) + 12) % 12]!
+  const xiu = XIU_28[(day + month) % 7]!
+  const zhiShen = ZHI_SHEN[zhi.charCodeAt(0) % 12]!
   const chong = CHONG_MAP[zhi] || ''
   const seed = (year * 1000 + month * 100 + day) % 100
   const { yi, ji } = pickYiJi(zhi, seed)

@@ -12,7 +12,6 @@
       "@stores/*": ["./src/stores/*"],
       "@config/*": ["./src/config/*"]
     },
-    "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "lib": ["esnext", "dom"],

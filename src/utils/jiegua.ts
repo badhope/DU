@@ -83,7 +83,7 @@ export interface JieguaResult {
   hugua: Hugua
   biangua: Biangua
   yongshen: Yongshen
-  fushen?: Fushen // 缺位时才有
+  fushen?: Fushen | undefined // 缺位时才有
   wuxingFlow: string[] // 五行生克流
   fortunes: {
     // 分类运势
@@ -211,8 +211,8 @@ function calcShiying(gua: Gua): Shiying {
   const _baseIdx = { qian: 0, dui: 0, li: 2, zhen: 3, xun: 3, kan: 1, gen: 1, kun: 4 }[palace]
   // 这里采用"八卦属宫"定六亲位（简化）：本宫第 1 爻起
   // 为演示效果，按爻位简单映射
-  const shiLiuqin = liuqinList[(shiPos - 1) % 5]
-  const yingLiuqin = liuqinList[(yingPos - 1) % 5]
+  const shiLiuqin = liuqinList[(shiPos - 1) % 5]!
+  const yingLiuqin = liuqinList[(yingPos - 1) % 5]!
 
   return { shi: shiPos, ying: yingPos, shiLiuqin, yingLiuqin }
 }
@@ -223,11 +223,11 @@ function calcShiying(gua: Gua): Shiying {
  *  爻序：1=下卦下爻，2=下卦中爻，3=下卦上爻，4=上卦下爻，5=上卦中爻，6=上卦上爻
  */
 function calcHugua(yao: number[]): Hugua {
-  // yao[0] = 第 1 爻 (阳=1, 阴=0)
+  // yao[0]! = 第 1 爻 (阳=1, 阴=0)
   // 互卦下卦 = 爻 2,3,4
   // 互卦上卦 = 爻 3,4,5
-  const lowerBin = [yao[1], yao[2], yao[3]]
-  const upperBin = [yao[2], yao[3], yao[4]]
+  const lowerBin = [yao[1]!, yao[2]!, yao[3]!]
+  const upperBin = [yao[2]!, yao[3]!, yao[4]!]
   const upper = binToTrigram(upperBin)
   const lower = binToTrigram(lowerBin)
   const name = TRIGRAMS[upper].name + TRIGRAMS[lower].name
@@ -263,7 +263,7 @@ function calcBiangua(gua: Gua, yao: number[]): Biangua {
 
   const reason =
     changes.length === 1
-      ? `第 ${changes[0] + 1} 爻发动，由${yao[changes[0]] === 1 ? '阳' : '阴'}变${newYao[changes[0]] === 1 ? '阳' : '阴'}`
+      ? `第 ${changes[0]! + 1} 爻发动，由${yao[changes[0]!] === 1 ? '阳' : '阴'}变${newYao[changes[0]!] === 1 ? '阳' : '阴'}`
       : `${changes.length} 爻齐动，动而化之`
 
   return { upper, lower, name: targetGua.name, symbol: targetGua.symbol, reason }
@@ -282,7 +282,7 @@ function calcYongshen(gua: Gua, yao: number[], topic: keyof typeof YONGSHEN_MAP)
   })
   const yaoPos = pos >= 0 ? pos + 1 : Math.ceil(Math.random() * 6)
 
-  const upperWx = TRIGRAMS[gua.upper].wuxing
+  const upperWx = TRIGRAMS[gua.upper].wuxing!
   // 五行旺衰（简化）：根据月令
   const month = new Date().getMonth() + 1
   const seasonal: Record<number, string> = {
@@ -344,10 +344,10 @@ function calcFushen(gua: Gua, yongshen: Yongshen): Fushen | undefined {
 }
 
 function calcWuxingFlow(gua: Gua, biangua: Biangua): string[] {
-  const upper = TRIGRAMS[gua.upper].wuxing
-  const lower = TRIGRAMS[gua.lower].wuxing
-  const bUpper = TRIGRAMS[biangua.upper].wuxing
-  const bLower = TRIGRAMS[biangua.lower].wuxing
+  const upper = TRIGRAMS[gua.upper].wuxing!
+  const lower = TRIGRAMS[gua.lower].wuxing!
+  const bUpper = TRIGRAMS[biangua.upper].wuxing!
+  const bLower = TRIGRAMS[biangua.lower].wuxing!
   return [
     `本卦下卦 ${lower} → 上卦 ${upper}`,
     `变卦下卦 ${bLower} → 上卦 ${bUpper}`,

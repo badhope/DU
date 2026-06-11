@@ -122,7 +122,7 @@ export function calcYunshi(
   const { gan, zhi } = todayGanzhi()
   const todayGan = gan
   const todayZhi = zhi
-  const todayWx = TIANGAN_WUXING[todayGan as keyof typeof TIANGAN_WUXING]
+  const todayWx = TIANGAN_WUXING[todayGan as keyof typeof TIANGAN_WUXING]!
   const sxDz = SX_DZ[shengxiao] || '子'
 
   let shiye = 60,
@@ -226,7 +226,7 @@ export function calcYunshi(
 
   // 幸运
   const luckyWx = SHENG[personalWx] // 生我的为喜
-  const colors = COLOR_POOL[luckyWx]
+  const colors = COLOR_POOL[luckyWx]!
 
   return {
     shengxiao,

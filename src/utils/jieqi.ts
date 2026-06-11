@@ -396,7 +396,7 @@ export function currentJieqi(date?: Date): Jieqi {
   const m = d.getMonth() + 1
   const day = d.getDate()
   // 找最近的节气
-  let best: Jieqi = JIEQI_24[0]
+  let best: Jieqi = JIEQI_24[0]!
   let bestDist = Infinity
   for (const j of JIEQI_24) {
     const dist = Math.abs((m - j.month) * 30 + (day - j.day))
@@ -464,18 +464,18 @@ const SITIAN_MAP: Record<string, Wuxing> = {
 export function wuyun(year: number): WuyunLiuqi {
   const tgIdx = (((year - 4) % 10) + 10) % 10
   const TIANGAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸']
-  const tianGan = TIANGAN[tgIdx]
-  const zhongYun = ZHONGYUN_MAP[tianGan]
+  const tianGan = TIANGAN[tgIdx]!
+  const zhongYun = ZHONGYUN_MAP[tianGan]!
   const zhiIdx = (((year - 4) % 12) + 12) % 12
   const DIZHI = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥']
-  const zhi = DIZHI[zhiIdx]
-  const sitian = SITIAN_MAP[zhi]
+  const zhi = DIZHI[zhiIdx]!
+  const sitian = SITIAN_MAP[zhi]!
   // 在泉 = 司天相对
   const WX: Wuxing[] = ['mu', 'huo', 'tu', 'jin', 'shui']
   const sitianIdx = WX.indexOf(sitian)
-  const zaiquan = WX[(sitianIdx + 3) % 5]
+  const zaiquan = WX[(sitianIdx + 3) % 5]!
   // 客运（按年干推）
-  const keYun = SHENG[zhongYun]
+  const keYun = SHENG[zhongYun]!
 
   // 主运：固定从木开始
   const dayunStart = 'mu'

@@ -66,7 +66,7 @@ interface Star {
 const stars = ref<Star[]>([])
 
 function genStars() {
-  const c = COLORS[props.colors]
+  const c = COLORS[props.colors]!
   const out: Star[] = []
   for (let i = 0; i < actualCount.value; i++) {
     out.push({

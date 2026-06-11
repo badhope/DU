@@ -261,7 +261,7 @@ const BAGUA_POS = [
 
 const baguaSectors = computed(() => {
   return BAGUA_LIST.map((b, i) => {
-    const p = BAGUA_POS[i]
+    const p = BAGUA_POS[i]!
     const p1 = polar(cx, cy, rOuter, p.deg - 22.5)
     const p2 = polar(cx, cy, rOuter, p.deg + 22.5)
     const textP = polar(cx, cy, (rOuter + rInner) / 2 + 20, p.deg)
@@ -285,7 +285,7 @@ const baguaSectors = computed(() => {
 const findGuaPos = (guaName: string) => {
   const idx = BAGUA_LIST.findIndex((b) => b.name === guaName)
   if (idx < 0) return null
-  const pos = BAGUA_POS[idx]
+  const pos = BAGUA_POS[idx]!
   return polar(cx, cy, rInner, pos.deg)
 }
 

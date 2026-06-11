@@ -189,7 +189,7 @@ function start() {
   finished.value = false
   totalSec.value = steps.reduce((s, x) => s + x.duration, 0)
   currentStepIdx.value = 0
-  stepRemaining.value = steps[0].duration
+  stepRemaining.value = steps[0]!.duration
   startMain()
   startWave()
 }

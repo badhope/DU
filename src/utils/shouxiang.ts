@@ -303,7 +303,7 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
   const advice: string[] = []
   const bestQ = shiErQiu.reduce((a, b) => (a.score > b.score ? a : b))
   const worstQ = shiErQiu.reduce((a, b) => (a.score < b.score ? a : b))
-  advice.push(`主运宫位：${sorted[0].name}（${sorted[0].desc}）`)
+  advice.push(`主运宫位：${sorted[0]!.name}（${sorted[0]!.desc}）`)
   advice.push(`最强丘：${bestQ.name} · ${bestQ.detail}`)
   if (worstQ.level === '凶') advice.push(`慎防：${worstQ.name} · ${worstQ.detail}`)
   advice.push(
@@ -326,7 +326,7 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
     totalScore,
     level,
     summary: `掌相总评 ${level} · 八宫${totalScore >= 70 ? '饱满' : '待养'} · 三线${avgSz > 75 ? '明朗' : '尚可'} · 12 丘${bestQ.level}`,
-    bestArea: sorted[0].name,
+    bestArea: sorted[0]!.name,
     worstArea: sorted[sorted.length - 1].name,
     advice,
   }

@@ -113,10 +113,10 @@
           <text class="card-title title-mystic">命 宫 详 批</text>
           <text class="interp-text">{{ result.mingGong.interpretation }}</text>
           <view v-if="result.mingGong.mainStars.length" class="star-info">
-            <text class="si-title">{{ result.mingGong.mainStars[0] }} · 详细</text>
-            <text class="si-line">{{ STAR_META[result.mingGong.mainStars[0]].desc }}</text>
-            <text class="si-line">德性：{{ STAR_META[result.mingGong.mainStars[0]].virtue }}</text>
-            <text class="si-line">缺陷：{{ STAR_META[result.mingGong.mainStars[0]].flaw }}</text>
+            <text class="si-title">{{ result.mingGong.mainStars[0]! }} · 详细</text>
+            <text class="si-line">{{ STAR_META[result.mingGong.mainStars[0]!].desc }}</text>
+            <text class="si-line">德性：{{ STAR_META[result.mingGong.mainStars[0]!].virtue }}</text>
+            <text class="si-line">缺陷：{{ STAR_META[result.mingGong.mainStars[0]!].flaw }}</text>
           </view>
         </view>
 

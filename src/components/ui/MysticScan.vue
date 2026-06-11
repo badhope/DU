@@ -92,21 +92,21 @@ function playPhases() {
   progress.value = 0
   // 阶段 1: 2.4s "请保持脸在屏幕前"
   hintText.value = '请保持脸在屏幕前'
-  hintSub.value = props.hintSubs[0]
+  hintSub.value = props.hintSubs[0]!
   const t1a = setTimeout(() => {
     progress.value = 33
   }, 50)
   const t1b = setTimeout(() => {
     phase.value = 1
     hintText.value = '请保持手在屏幕前'
-    hintSub.value = props.hintSubs[1]
+    hintSub.value = props.hintSubs[1]!
     progress.value = 66
   }, 2400)
   // 阶段 2: 1.8s "感应气场"
   const t2a = setTimeout(() => {
     phase.value = 2
     hintText.value = '正在解析命盘'
-    hintSub.value = props.hintSubs[2]
+    hintSub.value = props.hintSubs[2]!
     progress.value = 100
   }, 4200)
   // 完成

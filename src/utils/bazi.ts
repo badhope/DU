@@ -164,7 +164,7 @@ function jieqiDay(year: number, mzhi: DiZhi): number {
   const years = Object.keys(JIEQI_TABLE)
     .map(Number)
     .sort((a, b) => a - b)
-  let prev = years[0],
+  let prev = years[0]!,
     next = years[years.length - 1]
   for (let i = 0; i < years.length; i++) {
     if (years[i] <= year) prev = years[i]
@@ -174,8 +174,8 @@ function jieqiDay(year: number, mzhi: DiZhi): number {
     }
   }
   if (prev === next) return JIEQI_TABLE[prev][getMidx(mzhi)]
-  const prevVal = JIEQI_TABLE[prev][getMidx(mzhi)]
-  const nextVal = JIEQI_TABLE[next][getMidx(mzhi)]
+  const prevVal = JIEQI_TABLE[prev][getMidx(mzhi)]!
+  const nextVal = JIEQI_TABLE[next][getMidx(mzhi)]!
   const ratio = (year - prev) / (next - prev)
   return prevVal + (nextVal - prevVal) * ratio
 }
@@ -202,7 +202,7 @@ function getMonthZhi(year: number, month: number, day: number): DiZhi {
   // 1. 先试当前月支
   // 2. 试下个月支
   const checkMonth = month
-  const currentZhi = order[(checkMonth - 2 + 12) % 12]
+  const currentZhi = order[(checkMonth - 2 + 12) % 12]!
   const jieqi = jieqiDay(year, currentZhi)
   // 真实分界：当前月的节如果还未到，则还在上一个月
   if (day < jieqi) {
@@ -247,8 +247,8 @@ export function calcBazi(
   const y = isAfterLichun ? year : year - 1
   const yearGanIdx = (((y - 4) % 10) + 10) % 10
   const yearZhiIdx = (((y - 4) % 12) + 12) % 12
-  const yearGan = TIANGAN[yearGanIdx] as TianGan
-  const yearZhi = DIZHI[yearZhiIdx] as DiZhi
+  const yearGan = TIANGAN[yearGanIdx]! as TianGan
+  const yearZhi = DIZHI[yearZhiIdx]! as DiZhi
 
   // 2) 月柱：真节气定月支 + 五虎遁起月干
   const monthZhi = getMonthZhi(year, month, day)
@@ -267,7 +267,7 @@ export function calcBazi(
   const order: DiZhi[] = ['寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑']
   const monthZhiIdx = order.indexOf(monthZhi)
   const monthGanIdx = (monthZhiBase[yearGan] + monthZhiIdx) % 10
-  const monthGan = TIANGAN[monthGanIdx] as TianGan
+  const monthGan = TIANGAN[monthGanIdx]! as TianGan
 
   // 3) 日柱：以 1900-01-01 (甲戌日) 为基准（真太阳时校正后日柱可能跨日）
   // 用 0 时区相对值近似
@@ -277,8 +277,8 @@ export function calcBazi(
   const targetDate = new Date(year, month - 1, day)
   const diffDays = Math.floor((targetDate.getTime() - baseDate.getTime()) / 86400000)
   const dayIdxIn60 = (10 + (diffDays % 60) + 60) % 60
-  const dayGan = TIANGAN[dayIdxIn60 % 10] as TianGan
-  const dayZhi = DIZHI[dayIdxIn60 % 12] as DiZhi
+  const dayGan = TIANGAN[dayIdxIn60 % 10]! as TianGan
+  const dayZhi = DIZHI[dayIdxIn60 % 12]! as DiZhi
 
   // 4) 时柱：五鼠遁起时干
   const hourGanBase: Record<TianGan, number> = {
@@ -296,9 +296,9 @@ export function calcBazi(
   let hourZhiIdx = 0
   if (calcHour >= 23 || calcHour < 1) hourZhiIdx = 0
   else hourZhiIdx = Math.floor((calcHour + 1) / 2)
-  const hourZhi = DIZHI[hourZhiIdx] as DiZhi
+  const hourZhi = DIZHI[hourZhiIdx]! as DiZhi
   const hourGanIdx = (hourGanBase[dayGan] + hourZhiIdx) % 10
-  const hourGan = TIANGAN[hourGanIdx] as TianGan
+  const hourGan = TIANGAN[hourGanIdx]! as TianGan
 
   return {
     year: { gan: yearGan, zhi: yearZhi },

@@ -168,10 +168,10 @@ const cells = computed(() => {
     { pos: 2, col: 2, row: 2, dir: '西南' },
   ]
   return posMap.map((c) => {
-    const yunNum = props.result.yunPan[c.pos] as GONG_NUM
-    const liuNum = props.result.liuNianPan[c.pos] as GONG_NUM
-    const dir = GONG_DIR[yunNum]
-    const meta = GONG_NAMES_9[yunNum - 1]
+    const yunNum = props.result.yunPan[c.pos]! as GONG_NUM
+    const liuNum = props.result.liuNianPan[c.pos]! as GONG_NUM
+    const dir = GONG_DIR[yunNum]!
+    const meta = GONG_NAMES_9[yunNum - 1]!
     const level = getLevel(yunNum)
     const liuLevel = getLevel(liuNum)
     const isCenter = c.pos === 5
@@ -220,8 +220,8 @@ const getLevel = (n: GONG_NUM): '大吉' | '吉' | '平' | '凶' | '大凶' => {
 const score = (lvl: string) => (lvl === '大吉' ? 2 : lvl === '吉' ? 1 : lvl === '平' ? 0 : -1)
 
 const getAdvice = (pos: number, num: GONG_NUM, level: string): string => {
-  const dirName = GONG_DIR[num].dir
-  const starName = GONG_NAMES_9[num - 1]
+  const dirName = GONG_DIR[num].dir!
+  const starName = GONG_NAMES_9[num - 1]!
   if (level === '大吉') return `${dirName}方见${starName}大吉 · 可动土开门 · 宜求财谋职`
   if (level === '吉') return `${dirName}方见${starName}为吉 · 可布置 · 宜静守`
   if (level === '平') return `${dirName}方见${starName}平和 · 不宜大动`

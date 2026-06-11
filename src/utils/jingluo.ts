@@ -1021,7 +1021,7 @@ export function lingguiOpen(hour: number): {
   indications: string[]
 } {
   const idx = Math.floor((hour + 1) / 2) % 8
-  const point = LINGGUI_POINTS.find((p) => p.acupoint === BAFA_ORDER[idx]) || LINGGUI_POINTS[0]
+  const point = LINGGUI_POINTS.find((p) => p.acupoint === BAFA_ORDER[idx]) || LINGGUI_POINTS[0]!
   return { acupoint: point.acupoint, function: point.function, indications: point.indications }
 }
 

@@ -343,7 +343,7 @@ export function planetSign(
 ): Zodiac {
   // 简化：各行星有不同偏移
   const offsetMap = { mercury: 0, venus: 0, mars: -1, jupiter: 1, saturn: 2 }
-  const offset = offsetMap[planet]
+  const offset = offsetMap[planet]!
   const sun = sunSign(month, day)
   const order: Zodiac[] = [
     '白羊',
@@ -485,7 +485,7 @@ export function calcAstro(year: number, month: number, day: number, hour: number
   const elementCounts: Record<'火' | '土' | '风' | '水', number> = { 火: 0, 土: 0, 风: 0, 水: 0 }
   planets.forEach((p) => elementCounts[ZODIAC_META[p.sign].element]++)
   elementCounts[ZODIAC_META[rising].element]++
-  const dominantElement = Object.entries(elementCounts).sort((a, b) => b[1] - a[1])[0][0] as
+  const dominantElement = Object.entries(elementCounts).sort((a, b) => b[1]! - a[1]!)[0][0] as
     | '火'
     | '土'
     | '风'
@@ -495,7 +495,7 @@ export function calcAstro(year: number, month: number, day: number, hour: number
   const q: Record<'本位' | '固定' | '变动', number> = { 本位: 0, 固定: 0, 变动: 0 }
   planets.forEach((p) => q[ZODIAC_META[p.sign].quality]++)
   q[ZODIAC_META[rising].quality]++
-  const dominantQuality = Object.entries(q).sort((a, b) => b[1] - a[1])[0][0] as
+  const dominantQuality = Object.entries(q).sort((a, b) => b[1]! - a[1]!)[0][0] as
     | '本位'
     | '固定'
     | '变动'

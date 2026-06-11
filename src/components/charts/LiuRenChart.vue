@@ -197,7 +197,7 @@ const sixShen = computed(() =>
     // 大安起于 12 点位置，顺时针
     const angle = -90 + i * 60
     const p = polar(cx, cy, r, angle)
-    const c = COLOR_MAP[s.key]
+    const c = COLOR_MAP[s.key]!
     return {
       ...s,
       x: p.x,

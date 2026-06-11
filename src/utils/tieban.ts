@@ -690,7 +690,7 @@ export function calcTieban(year: number, month: number, day: number, hour: numbe
 
   const benGua = _gua(muShu)
   const liuQin = LIUQIN_LABELS.map(([key, label]) => {
-    const num = liuQinNums[key]
+    const num = liuQinNums[key]!
     return { label, num, gua: _gua(num) }
   })
 
@@ -731,7 +731,7 @@ export function calcTieban(year: number, month: number, day: number, hour: numbe
 }
 
 function _gua(num: number): TiebanShenGong {
-  const g = GUA_64[num % 64]
+  const g = GUA_64[num % 64]!
   return {
     key: g.name,
     name: g.name,

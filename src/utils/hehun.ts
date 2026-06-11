@@ -204,8 +204,8 @@ export function hehun(
   // 日干
   const mDg = manBazi.day.gan
   const wDg = womanBazi.day.gan
-  const mWx = TIANGAN_WUXING[mDg]
-  const wWx = TIANGAN_WUXING[wDg]
+  const mWx = TIANGAN_WUXING[mDg]!
+  const wWx = TIANGAN_WUXING[wDg]!
   let dayGanRel: HehunResult['dayGan']['relation'] = '比和'
   let dayGanDesc = '日干比和，性情相合'
   if (TIANGAN_HE[mDg] === wDg) {

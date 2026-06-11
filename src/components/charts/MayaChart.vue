@@ -256,7 +256,7 @@ const sealList = computed(() =>
   SEAL_LIST.map((name, i) => {
     const angle = (360 / 20) * i - 90
     const p = polar(cx, cy, rSeal, angle)
-    const meta = MAYA_SEAL_META[name]
+    const meta = MAYA_SEAL_META[name]!
     return {
       name,
       x: p.x,

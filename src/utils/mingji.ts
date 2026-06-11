@@ -206,11 +206,12 @@ function computeGe(strokes: number[]): NamingGe {
   if (strokes.length === 2) {
     // 复姓
     return {
-      tianGe: strokes[0] + strokes[1],
-      renGe: strokes[1] + strokes[2],
-      diGe: strokes[2] + (strokes[3] || 1),
-      waiGe: strokes[0] + strokes[1] + strokes[2] + (strokes[3] || 1) - (strokes[1] + strokes[2]),
-      zongGe: strokes[0] + strokes[1] + strokes[2] + (strokes[3] || 1),
+      tianGe: strokes[0]! + strokes[1]!,
+      renGe: strokes[1]! + strokes[2]!,
+      diGe: strokes[2]! + (strokes[3]! || 1),
+      waiGe:
+        strokes[0]! + strokes[1]! + strokes[2]! + (strokes[3]! || 1) - (strokes[1]! + strokes[2]!),
+      zongGe: strokes[0]! + strokes[1]! + strokes[2]! + (strokes[3]! || 1),
       sanCai: '—',
       jiXiong: '吉',
       desc: '复姓之格',
@@ -336,7 +337,7 @@ export function analyzeMingji(
       counts[DIZHI_WUXING[bazi.day.zhi]]++
     }
     // 简化为取最少
-    const sorted = (Object.entries(counts) as [Wuxing, number][]).sort((a, b) => a[1] - b[1])
+    const sorted = (Object.entries(counts) as [Wuxing, number][]).sort((a, b) => a[1]! - b[1]!)
     xiYong = sorted[0]?.[0] || 'mu'
   }
 

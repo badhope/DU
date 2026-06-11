@@ -261,9 +261,9 @@ function generateYearText(
     jin: ['决断果敢', '变革创新', '权威树立', '技术精进'],
     shui: ['智慧深邃', '学习精进', '谋略深远', '内观自省'],
   }
-  const hs = HIGHLIGHT_MAP[level]
-  const adv = ADVICE_MAP[stage]
-  const ev = EVENT_TEMPLATES[wuxing]
+  const hs = HIGHLIGHT_MAP[level]!
+  const adv = ADVICE_MAP[stage]!
+  const ev = EVENT_TEMPLATES[wuxing]!
   return {
     highlight: hs[age % hs.length],
     advice: adv[age % adv.length],
@@ -319,15 +319,15 @@ export function calcLifeFortune(
 ): LifeResult {
   const bazi = calcBazi(year, month, day, hour)
   const dayGan = bazi.day.gan
-  const dayWx = TIANGAN_WUXING[dayGan]
+  const dayWx = TIANGAN_WUXING[dayGan]!
   const dayun = calcDayun(bazi, gender, year, month, day)
   const liunian = liunians(bazi, dayun.qiyunYear, 90)
 
   // ========== 逐年运势 ==========
   const years: YearFortune[] = []
   for (let i = 0; i < liunian.length; i++) {
-    const y = liunian[i]
-    const yearWx = TIANGAN_WUXING[y.gan as keyof typeof TIANGAN_WUXING]
+    const y = liunian[i]!
+    const yearWx = TIANGAN_WUXING[y.gan as keyof typeof TIANGAN_WUXING]!
     const step = dayun.steps.find((s) => y.age >= s.startAge && y.age <= s.endAge)
     const dayunWx = step ? TIANGAN_WUXING[step.gan as keyof typeof TIANGAN_WUXING] : dayWx
     const stage = stageOf(y.age)
@@ -409,7 +409,7 @@ export function calcLifeFortune(
 
   // ========== 4 期评分 ==========
   const stages: LifeResult['stages'] = LIFE_STAGES.map((s) => {
-    const yrs = years.filter((y) => y.age >= s.range[0] && y.age < s.range[1])
+    const yrs = years.filter((y) => y.age >= s.range[0]! && y.age < s.range[1]!)
     const avg = yrs.length
       ? Math.round(yrs.reduce((sum, y) => sum + y.scores.total, 0) / yrs.length)
       : 50
@@ -419,8 +419,8 @@ export function calcLifeFortune(
       name: s.name,
       range: s.range,
       avgScore: avg,
-      bestYear: sorted[0]
-        ? { age: sorted[0].age, score: sorted[0].scores.total }
+      bestYear: sorted[0]!
+        ? { age: sorted[0]!.age, score: sorted[0]!.scores.total }
         : { age: 0, score: 0 },
       worstYear: sorted[sorted.length - 1]
         ? { age: sorted[sorted.length - 1].age, score: sorted[sorted.length - 1].scores.total }

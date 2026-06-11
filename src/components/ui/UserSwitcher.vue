@@ -46,7 +46,7 @@ const activeKey = computed(() => app.activeDivinatorKey)
 /** 当前工具的冷却状态：true=有锁（不可重测） */
 function isLocked(key: string): boolean {
   if (!props.tool) return false
-  const t = COOLDOWN_TYPE[props.tool]
+  const t = COOLDOWN_TYPE[props.tool]!
   if (t === 'free' || t === undefined) return false
   return !!app.checkTodayDivination(key, props.tool)
 }

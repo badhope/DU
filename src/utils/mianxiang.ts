@@ -229,7 +229,7 @@ export function calcMianxiang(
   })
 
   // 五形人
-  const xingJu = WU_XING_REN[(yearSeed + (year % 5)) % 5]
+  const xingJu = WU_XING_REN[(yearSeed + (year % 5)) % 5]!
   const xingJuName = xingJu.name
 
   const avgSanTing = sanTing.reduce((s, x) => s + x.score, 0) / sanTing.length

@@ -196,7 +196,7 @@ const keLines = computed(() => {
 
 const items = computed(() =>
   WX_ORDER.map((k) => {
-    const m = WUXING_META[k]
+    const m = WUXING_META[k]!
     const score = props.scores?.[k] ?? 50
     return { key: k, name: m.name, color: m.color, score }
   }),

@@ -101,7 +101,7 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
   wuXingSeq.forEach((w) => {
     counts[w] = (counts[w] || 0) + 1
   })
-  const dominant = (Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0] || '木') as
+  const dominant = (Object.entries(counts).sort((a, b) => b[1]! - a[1]!)[0]?.[0] || '木') as
     | '木'
     | '火'
     | '土'
@@ -116,8 +116,8 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
     const segArr = seg.map((d) => WUXING_MAP[d])
     const sorted = segArr.sort((a, b) => (counts[b] || 0) - (counts[a] || 0))
     const segWx: '木' | '火' | '土' | '金' | '水' =
-      (counts[sorted[0]] || 0) > 2
-        ? (sorted[0] as '木' | '火' | '土' | '金' | '水')
+      (counts[sorted[0]!] || 0) > 2
+        ? (sorted[0]! as '木' | '火' | '土' | '金' | '水')
         : (segArr[Math.floor(segArr.length / 2)] as '木' | '火' | '土' | '金' | '水')
     segments.push({ start: i, end: i + seg.length - 1, num: segStr, wuXing: segWx })
   }
@@ -133,7 +133,7 @@ export function analyzeShuzhi(input: string): ShuzhiAnalysis {
   // 简单哈希分布
   const seenComboIdx = new Set<number>()
   for (const [key, count] of Object.entries(pairCount)
-    .sort((a, b) => b[1] - a[1])
+    .sort((a, b) => b[1]! - a[1]!)
     .slice(0, 5)) {
     const h = key.charCodeAt(0) * 13 + key.charCodeAt(1) * 17
     const idx = Math.abs(h) % COMBO_DB.length

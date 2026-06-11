@@ -232,7 +232,7 @@ function diagnose() {
         category: '健康',
         input: { symptom: s },
         output: { jingluo: diagResult.value.jingluoList.map((j) => j.name) },
-        brief: `${s} · ${diagResult.value.jingluoList[0].name} 等`,
+        brief: `${s} · ${diagResult.value.jingluoList[0]!.name} 等`,
       })
     } else {
       uni.showToast({ title: '未匹配到经络，请换症状', icon: 'none' })
@@ -263,14 +263,14 @@ function goToBodyMap() {
   for (const j of diagResult.value.jingluoList) {
     for (const k of Object.keys(NAME_TO_MERIDIAN_ID)) {
       if (j.name.includes(k)) {
-        const id = NAME_TO_MERIDIAN_ID[k]
+        const id = NAME_TO_MERIDIAN_ID[k]!
         if (id && !ids.includes(id)) ids.push(id)
       }
     }
   }
   highlightedMeridians.value = ids
   // 根据首个经络的 side 决定初始视图
-  const first = diagResult.value.jingluoList[0]
+  const first = diagResult.value.jingluoList[0]!
   if (first) {
     const backList = ['膀胱', '肾', '胆', '三焦']
     bodyMapSide.value = backList.some((b) => first.name.includes(b)) ? 'back' : 'front'

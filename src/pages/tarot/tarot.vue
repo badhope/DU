@@ -175,7 +175,7 @@ const SPREADS: Spread[] = [
 ]
 
 const stage = ref<'select-spread' | 'draw' | 'read'>('select-spread')
-const currentSpread = ref<Spread>(SPREADS[0])
+const currentSpread = ref<Spread>(SPREADS[0]!)
 
 const spreads = SPREADS
 
@@ -191,7 +191,7 @@ const selectedCard = computed(() => {
 })
 
 function onSelectSpread(id: string) {
-  const s = SPREADS.find((x) => x.id === id) || SPREADS[0]
+  const s = SPREADS.find((x) => x.id === id) || SPREADS[0]!
   currentSpread.value = s
   stage.value = 'draw'
   drawnCount.value = 0
@@ -253,7 +253,7 @@ function drawOne() {
       uni.showToast({ title: '卡池已空', icon: 'none' })
       return
     }
-    const c = pool[0]
+    const c = pool[0]!
     cards.value.push({ card: c, flipped: false, reversed: Math.random() > 0.5, drawAnim: true })
     drawnCount.value++
 

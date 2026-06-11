@@ -31,9 +31,9 @@ export interface PosterConfig {
   /** 内容（多行，自动换行） */
   content: string[]
   /** 角标（如 "DAILY · 今日一卦"） */
-  badge?: string
+  badge?: string | undefined
   /** 落款（昵称 / 日主） */
-  signature?: string
+  signature?: string | undefined
   /** 日期字符串（YYYY.MM.DD） */
   dateStr: string
   /** 底部署名 */
@@ -123,13 +123,13 @@ export function renderPoster(
     console.error('[poster] Canvas 2D context not available')
     return
   }
-  const tpl = TEMPLATES.find((t) => t.key === config.template) || TEMPLATES[0]
+  const tpl = TEMPLATES.find((t) => t.key === config.template) || TEMPLATES[0]!
 
   // 1. 背景渐变
   const bg = ctx.createLinearGradient(0, 0, 0, height)
-  bg.addColorStop(0, tpl.gradient[0])
-  bg.addColorStop(0.5, tpl.gradient[1])
-  bg.addColorStop(1, tpl.gradient[2])
+  bg.addColorStop(0, tpl.gradient[0]!)
+  bg.addColorStop(0.5, tpl.gradient[1]!)
+  bg.addColorStop(1, tpl.gradient[2]!)
   ctx.fillStyle = bg
   ctx.fillRect(0, 0, width, height)
 
@@ -170,7 +170,7 @@ export function renderPoster(
   }
 
   // 6. 中心太极
-  drawTaiji(ctx, width / 2, height * 0.36, 110, tpl.accent, tpl.gradient[0])
+  drawTaiji(ctx, width / 2, height * 0.36, 110, tpl.accent, tpl.gradient[0]!)
 
   // 7. 中心大字
   ctx.fillStyle = tpl.text
@@ -428,7 +428,7 @@ export function buildPosterFromHistory(
     return base
   }
   const out = history.output || {}
-  const inp = history.input || {}
+  const _inp = history.input || {}
   switch (type) {
     case 'gua':
       return {

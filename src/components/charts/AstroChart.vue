@@ -273,8 +273,8 @@ const zodiacSectors = computed(() => {
   const sectorSize = 360 / 12
   for (let i = 0; i < 12; i++) {
     const signIdx = (ascIndex.value + i) % 12
-    const sign = ZODIAC_LIST[signIdx]
-    const meta = ZODIAC_META[sign]
+    const sign = ZODIAC_LIST[signIdx]!
+    const meta = ZODIAC_META[sign]!
     const startDeg = -90 + i * sectorSize + 2
     const endDeg = -90 + (i + 1) * sectorSize - 2
     const d = ringSectorPath(cx, cy, rOuter, rMid, startDeg, endDeg)
@@ -368,7 +368,7 @@ const aspectLines = computed(() => {
   const markers = planetMarkers.value
   for (let i = 0; i < markers.length; i++) {
     for (let j = i + 1; j < markers.length; j++) {
-      const a = markers[i],
+      const a = markers[i]!,
         b = markers[j]
       const ea = a.signMeta.element
       const eb = b.signMeta.element

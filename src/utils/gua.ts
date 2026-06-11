@@ -930,16 +930,16 @@ export function yaoToGua(yao: number[]): Gua {
   const upper =
     trigrams.find(
       ([, t]) =>
-        t.binary[0] === upperBits[0] &&
-        t.binary[1] === upperBits[1] &&
-        t.binary[2] === upperBits[2],
+        t.binary[0]! === upperBits[0]! &&
+        t.binary[1]! === upperBits[1]! &&
+        t.binary[2]! === upperBits[2]!,
     )?.[0] || 'qian'
   const lower =
     trigrams.find(
       ([, t]) =>
-        t.binary[0] === lowerBits[0] &&
-        t.binary[1] === lowerBits[1] &&
-        t.binary[2] === lowerBits[2],
+        t.binary[0]! === lowerBits[0]! &&
+        t.binary[1]! === lowerBits[1]! &&
+        t.binary[2]! === lowerBits[2]!,
     )?.[0] || 'kun'
-  return GUA_LIST.find((g) => g.upper === upper && g.lower === lower) || GUA_LIST[0]
+  return GUA_LIST.find((g) => g.upper === upper && g.lower === lower) || GUA_LIST[0]!
 }

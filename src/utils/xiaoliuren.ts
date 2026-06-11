@@ -179,7 +179,7 @@ export function calcXiaoLiuRen(
   const dayStep = (((day - 1) % 6) + 6) % 6 // 初一=0
   const hourStep = ((hourIdx % 6) + 6) % 6 // 子时=0
   const shenIndex = (monthStep + dayStep + hourStep) % 6
-  const shen = LIU_SHEN[shenIndex]
+  const shen = LIU_SHEN[shenIndex]!
   const threeRemainder = (month + day + hourIdx) % 3
 
   const questionMap = {

@@ -71,8 +71,8 @@ export function calcWufu(
 ): WufuResult {
   const bazi = calcBazi(year, month, day, hour)
   const dayGan = bazi.day.gan
-  const dayWx = TIANGAN_WUXING[dayGan]
-  const dayYinYang = TIANGAN_YINYANG[dayGan]
+  const dayWx = TIANGAN_WUXING[dayGan]!
+  const dayYinYang = TIANGAN_YINYANG[dayGan]!
   const strength = dayunStrength(bazi)
   const dayun = calcDayun(bazi, gender, year, month, day)
   const liunian = liunians(bazi, dayun.qiyunYear, 90)
@@ -105,7 +105,7 @@ export function calcWufu(
     shouPoints.push(`日干${dayGan} · ${dayYinYang}气充沛`)
   }
   // 大运顺/逆 + 时令
-  const monthWx = DIZHI_WUXING[bazi.month.zhi]
+  const monthWx = DIZHI_WUXING[bazi.month.zhi]!
   if (SHENG[monthWx] === dayWx || monthWx === dayWx) {
     shouScore += 8
     shouPoints.push(`月令生扶 · 得天时之利`)
@@ -157,7 +157,7 @@ export function calcWufu(
   }
   // 财库
   const CAIKU_MAP: Record<Wuxing, DiZhi> = { mu: '未', huo: '戌', tu: '戌', jin: '丑', shui: '辰' }
-  const caiku = CAIKU_MAP[dayWx]
+  const caiku = CAIKU_MAP[dayWx]!
   if (bazi.year.zhi === caiku || bazi.day.zhi === caiku) {
     fuScore += 8
     fuPoints.push('财库得位 · 聚财之兆')
@@ -176,7 +176,7 @@ export function calcWufu(
   }
   // 大运走财
   const daiCai = dayun.steps.filter((s) => {
-    const w = TIANGAN_WUXING[s.gan as TianGan]
+    const w = TIANGAN_WUXING[s.gan as TianGan]!
     return w === 'jin' || w === 'mu' // 财为日主所克
   }).length
   if (daiCai >= 2) {
@@ -264,9 +264,9 @@ export function calcWufu(
   let zhongScore = 60
   const zhongPoints: string[] = []
   // 末运（80-90 岁大运）
-  const lastDayun = dayun.steps[dayun.steps.length - 1]
+  const lastDayun = dayun.steps[dayun.steps.length - 1]!
   if (lastDayun) {
-    const lastWx = TIANGAN_WUXING[lastDayun.gan as TianGan]
+    const lastWx = TIANGAN_WUXING[lastDayun.gan as TianGan]!
     if (lastWx === dayWx) {
       zhongScore += 10
       zhongPoints.push('末运比和 · 善终')
@@ -333,12 +333,12 @@ export function calcWufu(
   const total = Math.round((shouScore + fuScore + kangScore + deScore + zhongScore) / 5)
   const flevel: WufuResult['level'] =
     total >= 85 ? '上上福' : total >= 72 ? '上等福' : total >= 60 ? '中等福' : '下等福'
-  const summary = `五福合 ${total} 分 · ${flevel} · ${shouPoints[0] || ''} · ${fuPoints[0] || ''} · ${kangPoints[0] || ''} · ${dePoints[0] || ''} · ${zhongPoints[0] || ''}`
+  const summary = `五福合 ${total} 分 · ${flevel} · ${shouPoints[0]! || ''} · ${fuPoints[0]! || ''} · ${kangPoints[0]! || ''} · ${dePoints[0]! || ''} · ${zhongPoints[0]! || ''}`
 
   // ========== 终身曲线（90 年） ==========
   const lifetime: WufuResult['lifetime'] = []
   for (let i = 0; i < liunian.length; i++) {
-    const y = liunian[i]
+    const y = liunian[i]!
     const step = dayun.steps.find((s) => y.age >= s.startAge && y.age <= s.endAge)
     const _stepIdx = step ? dayun.steps.indexOf(step) : 0
     const sShou = Math.max(
@@ -403,8 +403,8 @@ export function calcWufu(
     arr.sort((a, b) => b.v - a.v)
     return {
       age: s.age,
-      type: arr[0].k,
-      desc: `${s.age}岁 · ${FU_LABEL[arr[0].k]}最盛 · 总分${s.total}`,
+      type: arr[0]!.k,
+      desc: `${s.age}岁 · ${FU_LABEL[arr[0]!.k]}最盛 · 总分${s.total}`,
     }
   })
   const worstAges: WufuResult['worstAges'] = sorted
@@ -421,8 +421,8 @@ export function calcWufu(
       arr.sort((a, b) => a.v - b.v)
       return {
         age: s.age,
-        type: arr[0].k,
-        desc: `${s.age}岁 · ${FU_LABEL[arr[0].k]}最弱 · 总分${s.total}`,
+        type: arr[0]!.k,
+        desc: `${s.age}岁 · ${FU_LABEL[arr[0]!.k]}最弱 · 总分${s.total}`,
       }
     })
 

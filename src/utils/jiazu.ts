@@ -96,15 +96,15 @@ export function buildFamilyTree(
   poem?: string,
 ): FamilyTree {
   // 找到姓氏对应的字辈诗
-  const ex = ZIBEI_EXAMPLES.find((e) => e.family.startsWith(surname)) || ZIBEI_EXAMPLES[0]
+  const ex = ZIBEI_EXAMPLES.find((e) => e.family.startsWith(surname)) || ZIBEI_EXAMPLES[0]!
   const usedPoem = poem || ex.poem
   const startGen = ex.startGen
 
   const generations = buildPoemGen(usedPoem, startGen, year)
   // 计算当前代（基于出生年份）
-  const yearSpan = year - generations[0].startYear
+  const yearSpan = year - generations[0]!.startYear
   const currentGenIdx = Math.max(0, Math.min(generations.length - 1, Math.floor(yearSpan / 25)))
-  const currentGen = generations[currentGenIdx]
+  const currentGen = generations[currentGenIdx]!
   // 如果超过 25 年一个辈分 +5 代
   const calcGen =
     generations.find((g, _i) => year >= g.startYear && year <= g.endYear) || currentGen

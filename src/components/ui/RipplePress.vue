@@ -58,11 +58,11 @@ function onTap(e: any) {
   if (target && target.getBoundingClientRect) {
     const rect = target.getBoundingClientRect()
     if (e.touches && e.touches.length) {
-      x = e.touches[0].clientX - rect.left
-      y = e.touches[0].clientY - rect.top
+      x = e.touches[0]!.clientX - rect.left
+      y = e.touches[0]!.clientY - rect.top
     } else if (e.changedTouches && e.changedTouches.length) {
-      x = e.changedTouches[0].clientX - rect.left
-      y = e.changedTouches[0].clientY - rect.top
+      x = e.changedTouches[0]!.clientX - rect.left
+      y = e.changedTouches[0]!.clientY - rect.top
     } else if (e.detail && typeof e.detail.x === 'number') {
       x = e.detail.x - rect.left
       y = e.detail.y - rect.top

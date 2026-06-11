@@ -346,10 +346,10 @@ const ADVICE: Record<number, LifeNumberResult['advice']> = {
 
 export function fullLifeResult(year: number, month: number, day: number): LifeNumberResult {
   const num = calcLifeNumber(year, month, day)
-  const primary = NUMBER_META[num.lifePath] || NUMBER_META[num.lifePath - 9] || NUMBER_META[1]
-  const expressionMeta = NUMBER_META[num.expression] || NUMBER_META[1]
-  const soulMeta = NUMBER_META[num.soulUrge] || NUMBER_META[1]
-  const destinyMeta = NUMBER_META[num.destiny] || NUMBER_META[1]
+  const primary = NUMBER_META[num.lifePath] || NUMBER_META[num.lifePath - 9] || NUMBER_META[1]!
+  const expressionMeta = NUMBER_META[num.expression] || NUMBER_META[1]!
+  const soulMeta = NUMBER_META[num.soulUrge] || NUMBER_META[1]!
+  const destinyMeta = NUMBER_META[num.destiny] || NUMBER_META[1]!
 
   // 9 年周期
   const currentYear = new Date().getFullYear()
@@ -372,7 +372,7 @@ export function fullLifeResult(year: number, month: number, day: number): LifeNu
     destinyMeta,
     score: 30 + ((num.lifePath * 11) % 71),
     summary: `生命数 ${num.lifePath}（${primary.name}）· 表现数 ${num.expression}（${expressionMeta.name}）· 灵魂数 ${num.soulUrge} · 命运数 ${num.destiny}`,
-    advice: ADVICE[num.lifePath] || ADVICE[1],
+    advice: ADVICE[num.lifePath] || ADVICE[1]!,
     cycle,
   }
 }

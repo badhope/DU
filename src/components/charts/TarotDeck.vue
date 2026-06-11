@@ -259,7 +259,7 @@ const flipCard = (i: number) => {
 }
 
 const reverseAll = () => {
-  reversed.value = reversed.value.map(() => !reversed.value[0])
+  reversed.value = reversed.value.map(() => !reversed.value[0]!)
 }
 
 const getCard = (i: number) => cards.value[i] || null
@@ -286,8 +286,8 @@ const interpretation = computed(() => {
         : '小阿卡那主导 · 日常能量主导 · 行动与感受'
   return (
     `本牌阵抽得：${flipCards.join(' · ')}。${majorNote}。` +
-    `针对所问之事，关键牌为「${cards.value[0].name}」，${cards.value[0].desc}。` +
-    `综合启示：${cards.value[0].upKeywords[0]}与${cards.value[0].upKeywords[1]}。`
+    `针对所问之事，关键牌为「${cards.value[0]!.name}」，${cards.value[0]!.desc}。` +
+    `综合启示：${cards.value[0]!.upKeywords[0]!}与${cards.value[0]!.upKeywords[1]!}。`
   )
 })
 </script>

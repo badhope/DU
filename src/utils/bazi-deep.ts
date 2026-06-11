@@ -50,7 +50,7 @@ export const DIZHI_CANGGAN: Record<DiZhi, TianGan[]> = {
 }
 
 export function getCanggan(zhi: DiZhi): Canggan[] {
-  const gans = DIZHI_CANGGAN[zhi]
+  const gans = DIZHI_CANGGAN[zhi]!
   return gans.map((g, i) => ({
     gan: g,
     wuxing: TIANGAN_WUXING[g],
@@ -353,7 +353,7 @@ export function nayin(gan: TianGan, zhi: DiZhi): NayinInfo {
       break
     }
   }
-  const name = NAYIN_60[n60]
+  const name = NAYIN_60[n60]!
   return {
     name,
     wuxing: NAYIN_WUXING[name] || 'tu',
@@ -489,37 +489,37 @@ export function shensha(bazi: ReturnType<typeof calcBazi>): Shensha[] {
   }
 
   // 驿马
-  const yima = YIMA[dayZhi]
+  const yima = YIMA[dayZhi]!
   if (yima && zhis.includes(yima)) {
     result.push({ name: '驿马', type: '中', desc: '奔波走动，远行迁移' })
   }
 
   // 桃花
-  const taohua = TAOHUA[dayZhi]
+  const taohua = TAOHUA[dayZhi]!
   if (taohua && zhis.includes(taohua)) {
     result.push({ name: '桃花', type: '中', desc: '聪慧秀丽，情感丰富' })
   }
 
   // 华盖
-  const huagai = HUAGAI[dayZhi]
+  const huagai = HUAGAI[dayZhi]!
   if (huagai && zhis.includes(huagai)) {
     result.push({ name: '华盖', type: '中', desc: '聪明孤高，艺术宗教之质' })
   }
 
   // 文昌
-  const wenchang = WENCHANG[dayGan]
+  const wenchang = WENCHANG[dayGan]!
   if (wenchang && zhis.includes(wenchang)) {
     result.push({ name: '文昌', type: '吉', desc: '主文运学业，才思敏捷' })
   }
 
   // 羊刃
-  const yangren = YANGREN[dayGan]
+  const yangren = YANGREN[dayGan]!
   if (yangren && zhis.includes(yangren)) {
     result.push({ name: '羊刃', type: '凶', desc: '刚强果决，亦主血光' })
   }
 
   // 将星
-  const jiangxing = JIANGXING[dayZhi]
+  const jiangxing = JIANGXING[dayZhi]!
   if (jiangxing && zhis.includes(jiangxing)) {
     result.push({ name: '将星', type: '吉', desc: '领导之才，执掌权柄' })
   }
@@ -609,7 +609,7 @@ export interface DayunResult {
   qiyunYear: number // 起运公历年
   direction: '顺' | '逆' // 阳男阴女顺排 / 阴男阳女逆排
   steps: DayunStep[] // 10 步大运（每步 10 年）
-  currentStep?: DayunStep // 当前大运
+  currentStep?: DayunStep | undefined // 当前大运
 }
 
 /**
@@ -660,8 +660,8 @@ export function calcDayun(
     const offset = direction === '顺' ? i + 1 : -(i + 1)
     const ggi = (((mgi + offset) % 10) + 10) % 10
     const zzi = (((mzi + offset) % 12) + 12) % 12
-    const gan = TIANGAN[ggi] as TianGan
-    const zhi = DIZHI[zzi] as DiZhi
+    const gan = TIANGAN[ggi]! as TianGan
+    const zhi = DIZHI[zzi]! as DiZhi
     const n = nayin(gan, zhi)
     steps.push({
       startAge: qiyunAge + i * 10,
@@ -697,8 +697,8 @@ export function liunians(
     const y = fromYear + i
     const gi = (((y - 4) % 10) + 10) % 10
     const zi = (((y - 4) % 12) + 12) % 12
-    const gan = TIANGAN[gi] as TianGan
-    const zhi = DIZHI[zi] as DiZhi
+    const gan = TIANGAN[gi]! as TianGan
+    const zhi = DIZHI[zi]! as DiZhi
     arr.push({
       year: y,
       age: y - (fromYear - 1),
@@ -727,8 +727,8 @@ export interface DayunStrength {
  *  - 反向 -10 / -20
  */
 export function dayunStrength(bazi: ReturnType<typeof calcBazi>): DayunStrength {
-  const dayWx = TIANGAN_WUXING[bazi.day.gan]
-  const monthZhiWx = DIZHI_WUXING[bazi.month.zhi]
+  const dayWx = TIANGAN_WUXING[bazi.day.gan]!
+  const monthZhiWx = DIZHI_WUXING[bazi.month.zhi]!
   let score = 50
   // 月令权重最大
   if (monthZhiWx === dayWx) score += 30
@@ -737,14 +737,14 @@ export function dayunStrength(bazi: ReturnType<typeof calcBazi>): DayunStrength 
   else if (KE[dayWx] === monthZhiWx) score += 10
 
   // 日支
-  const dayZhiWx = DIZHI_WUXING[bazi.day.zhi]
+  const dayZhiWx = DIZHI_WUXING[bazi.day.zhi]!
   if (dayZhiWx === dayWx) score += 10
   else if (SHENG[dayZhiWx] === dayWx) score += 8
   else if (KE[dayZhiWx] === dayWx) score -= 8
 
   // 年/时天干
   for (const g of [bazi.year.gan, bazi.hour.gan]) {
-    const wx = TIANGAN_WUXING[g]
+    const wx = TIANGAN_WUXING[g]!
     if (wx === dayWx) score += 6
     else if (SHENG[wx] === dayWx) score += 5
     else if (KE[wx] === dayWx) score -= 6
@@ -761,8 +761,8 @@ export function dayunStrength(bazi: ReturnType<typeof calcBazi>): DayunStrength 
   //       日主偏弱 → 生扶
   const WX_LIST: Wuxing[] = ['mu', 'huo', 'tu', 'jin', 'shui']
   const idx = WX_LIST.indexOf(dayWx)
-  const keToDay = WX_LIST[(idx + 4) % 5]
-  const shengToDay = WX_LIST[(idx + 3) % 5]
+  const keToDay = WX_LIST[(idx + 4) % 5]!
+  const shengToDay = WX_LIST[(idx + 3) % 5]!
   const yong: Wuxing = score > 55 ? keToDay : shengToDay
   const xi: Wuxing[] = score > 55 ? [keToDay] : [shengToDay]
   const ji: Wuxing[] = score > 55 ? [dayWx, SHENG[dayWx]] : [keToDay]

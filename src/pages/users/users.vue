@@ -150,7 +150,7 @@ function onSwitch(key: string) {
 }
 
 function onEditRemark(key: string) {
-  const p = app.divinatorProfiles[key]
+  const p = app.divinatorProfiles[key]!
   if (!p) return
   uni.showModal({
     title: '修改备注',
@@ -167,7 +167,7 @@ function onEditRemark(key: string) {
 }
 
 function onDelete(key: string) {
-  const p = app.divinatorProfiles[key]
+  const p = app.divinatorProfiles[key]!
   if (!p) return
   uni.showModal({
     title: '确认删除',

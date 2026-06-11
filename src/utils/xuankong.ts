@@ -88,7 +88,7 @@ export function getYunPan(yunNum: GONG_NUM): Record<number, GONG_NUM> {
   const pan: Record<number, GONG_NUM> = {}
   for (let i = 0; i < 9; i++) {
     const luoshuIdx = (startIdx + i) % 9
-    const star = LUOSHU_PATH[luoshuIdx]
+    const star = LUOSHU_PATH[luoshuIdx]!
     // i=0 → 中宫(5)
     // i=1 → 乾(6)  i=2 → 兑(7)  i=3 → 艮(8)  i=4 → 坎(1)
     // i=5 → 坤(2)  i=6 → 震(3)  i=7 → 巽(4)  i=8 → 离(9)
@@ -113,7 +113,7 @@ export function getLiuNianPan(year: number): Record<number, GONG_NUM> {
   const pan: Record<number, GONG_NUM> = {}
   for (let i = 0; i < 9; i++) {
     const luoshuIdx = (startIdx + i) % 9
-    const star = LUOSHU_PATH[luoshuIdx]
+    const star = LUOSHU_PATH[luoshuIdx]!
     const palaceMap: GONG_NUM[] = [5, 6, 7, 8, 1, 2, 3, 4, 9]
     pan[palaceMap[i]] = star
   }
@@ -167,8 +167,8 @@ export function calcXuanKong(
     { pos: 9, dir: '正南' },
   ]
   const directions = dirKeys.map(({ pos, dir }) => {
-    const star = liuNianPan[pos]
-    const _meta = GONG_DIR[star]
+    const star = liuNianPan[pos]!
+    const _meta = GONG_DIR[star]!
     const level = _starLevel(star)
     return {
       dir,
@@ -183,7 +183,7 @@ export function calcXuanKong(
   const monthly = Array.from({ length: 12 }, (_, i) => {
     const m = i + 1
     // 简化：月紫白 = (年紫白 + 月序) mod 9
-    const star = ((liuNianPan[5] + m - 1) % 9 || 9) as GONG_NUM
+    const star = ((liuNianPan[5]! + m - 1) % 9 || 9) as GONG_NUM
     const level = _starLevel(star)
     return {
       month: m,
@@ -202,7 +202,7 @@ export function calcXuanKong(
     yunPan,
     liuNianPan,
     directions,
-    summary: `${year}年${yun.yuan}元${yun.num}运 · ${yun.desc}。流年入中${liuNianPan[5]}（${GONG_NAMES_9[liuNianPan[5] - 1]}），以${_starLevel(liuNianPan[5])}为主调。`,
+    summary: `${year}年${yun.yuan}元${yun.num}运 · ${yun.desc}。流年入中${liuNianPan[5]!}（${GONG_NAMES_9[liuNianPan[5]! - 1]}），以${_starLevel(liuNianPan[5]!)}为主调。`,
     fiveTips,
     monthly,
   }

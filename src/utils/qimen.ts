@@ -343,7 +343,7 @@ function getJieqi(year: number, month: number, day: number): string {
   let bestDiff = Infinity
   const _prevName = '小寒'
   for (let i = 0; i < JIEQI_MONTH_DAY.length; i++) {
-    const j = JIEQI_MONTH_DAY[i]
+    const j = JIEQI_MONTH_DAY[i]!
     let jYear = year
     if (j.name === '小寒' || j.name === '大寒') jYear = year // 当年 1 月
     const jDate = new Date(jYear, j.m - 1, j.d)
@@ -361,7 +361,7 @@ function dayInJieqi(year: number, month: number, day: number): number {
   // 返回当月在当节第几天（1-15）
   const name = getJieqi(year, month, day)
   const idx = JIEQI_MONTH_DAY.findIndex((j) => j.name === name)
-  const j = JIEQI_MONTH_DAY[idx]
+  const j = JIEQI_MONTH_DAY[idx]!
   const jDate = new Date(year, j.m - 1, j.d)
   const target = new Date(year, month - 1, day)
   return Math.floor((target.getTime() - jDate.getTime()) / 86400000) + 1
@@ -381,7 +381,7 @@ function getJu(
 ): { dun: '阳遁' | '阴遁'; ju: number; yuan: '上元' | '中元' | '下元'; jieqi: string } {
   const jieqi = getJieqi(year, month, day)
   const yuan = getYuan(year, month, day)
-  const config = SANYUAN[jieqi]
+  const config = SANYUAN[jieqi]!
   const yuanIdx = yuan === '上元' ? 0 : yuan === '中元' ? 1 : 2
   return { dun: config.dun, ju: config.ju[yuanIdx], yuan, jieqi }
 }
@@ -530,7 +530,7 @@ export function calcQimen(
   for (let g = 1; g <= 9; g++) {
     // 求 (g - n) mod 9 找索引
     const idx = (((g - ju) % 9) + 9) % 9
-    const gan = SAN_QI_LIU_YI[idx]
+    const gan = SAN_QI_LIU_YI[idx]!
     gongDiPan[g] = gan
   }
 
@@ -543,7 +543,7 @@ export function calcQimen(
   // 戊→1 己→2 庚→3 辛→4 壬→5 癸→6 丁→7 丙→8 乙→9
   const shiGong = (shiGanIdx + 1) % 9 || 9
   // 值符星 = 时辰落宫的地盘星
-  const zhiFuStar = GONG_TO_STAR[shiGong]
+  const zhiFuStar = GONG_TO_STAR[shiGong]!
   // 值符落宫 = 时辰地盘干所在宫
   // 即"地盘上 shiGan 干所在宫"
   // 时干 = 戊→1宫 己→2宫 庚→3宫 辛→4宫 壬→5宫 癸→6宫 丁→7宫 丙→8宫 乙→9宫
@@ -597,7 +597,7 @@ export function calcQimen(
     const row = gInfo.row
     const col = gInfo.col
     // 地盘干
-    const diPan = gongDiPan[gongNum]
+    const diPan = gongDiPan[gongNum]!
     // 天盘干：飞布
     const tianPanGan = (() => {
       // 原本该宫地盘干在 (gongNum - offset) 宫，飞到 gongNum
@@ -624,7 +624,7 @@ export function calcQimen(
     // 1 蓬位 飞 到 zhiFuGong；2 芮位 飞 到 zhiFuGong+1 ...
     // 反推：现在 gongNum 宫的天盘星 = 原本在 (gongNum - xingOffset) 宫的星
     const starOriginalGong = ((gongNum - xingOffset - 1 + 9) % 9) + 1
-    const star = originalStarPos[starOriginalGong]
+    const star = originalStarPos[starOriginalGong]!
 
     // 天盘八门
     const originalMenPos: Record<number, BaMen | '中'> = {
@@ -647,9 +647,9 @@ export function calcQimen(
     const shenIdx = (((gongNum - zhiFuGong + (dun === '阳遁' ? 0 : 0)) % 8) + 8) % 8
     const shen = dun === '阳遁' ? shenSeq[shenIdx] : shenSeq[shenIdx] // 数组本身已按阴遁排好
 
-    const starNature = XING_NATURE[star]
+    const starNature = XING_NATURE[star]!
     const menNature: '吉' | '中' | '凶' = men === '中' ? '中' : MEN_NATURE[men as BaMen]
-    const shenNature = SHEN_NATURE[shen]
+    const shenNature = SHEN_NATURE[shen]!
 
     // 空亡
     const kong = getKongWang(dayGan, dayZhi)

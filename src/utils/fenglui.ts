@@ -292,7 +292,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
     9: { gua: 'dong', guaName: '离' },
   }
 
-  const life = map[num]
+  const life = map[num]!
   const zhaiGua = life.gua
 
   // 调整 8 宫吉凶（同属则吉，异属则凶）
@@ -309,7 +309,7 @@ export function calcFenglui(year: number, gender: '男' | '女'): FengluiResult 
   const bestDirection =
     adjustedBaGua.sort((a, b) => b.fortune - a.fortune)[0].name +
     '（' +
-    adjustedBaGua[0].position +
+    adjustedBaGua[0]!.position +
     '）'
   const avgScore = Math.round(adjustedBaGua.reduce((s, b) => s + b.fortune, 0) / 8)
   let level: '大吉' | '吉' | '平' | '凶' = '平'

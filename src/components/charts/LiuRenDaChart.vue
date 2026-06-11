@@ -339,7 +339,7 @@ function natureColor(n: '吉' | '凶' | '中', alpha: number): string {
   return `rgba(232,228,216,${alpha})`
 }
 function zhiFill(z: string): string {
-  const wx = WUXING_MAP[z]
+  const wx = WUXING_MAP[z]!
   if (wx === '金') return 'rgba(232,228,216,0.7)'
   if (wx === '木') return 'rgba(47,125,79,0.55)'
   if (wx === '水') return 'rgba(27,58,92,0.65)'

@@ -138,7 +138,7 @@ const catList = computed(() => byCategory(cat.value).slice(0, 12))
 function choose(x: Xinjing) {
   chosen.value = x
   const recs = recommendByXinjing(x, 1)
-  if (recs.length) currentZhenju.value = recs[0]
+  if (recs.length) currentZhenju.value = recs[0]!
   app.addHistory({
     tool: 'shijian',
     toolName: '拾句',

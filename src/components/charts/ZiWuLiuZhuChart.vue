@@ -195,7 +195,7 @@ const currentTime = computed(() => {
 
 const currentShiChen = computed(() => {
   const idx = currentShiChenIdx.value
-  const s = SHICHEN_DATA[idx]
+  const s = SHICHEN_DATA[idx]!
   const p = polar(cx, cy, rInner, (360 / 12) * idx - 90)
   return { ...s, x: p.x, y: p.y, fill: 'rgba(212,175,55,0.18)' }
 })
@@ -242,7 +242,7 @@ const all24 = computed(() => {
     isCurrent: boolean
   }> = []
   for (let i = 0; i < 12; i++) {
-    const s = SHICHEN_DATA[i]
+    const s = SHICHEN_DATA[i]!
     const h1 = (i * 2 + 23) % 24
     const h2 = (h1 + 1) % 24
     arr.push({

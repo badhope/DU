@@ -736,7 +736,7 @@ const QIAN_POOL: Array<Omit<ZhugeQian, 'num' | 'score' | 'scores'>> = [
 // 扩到 384（每条循环 ~7 次）
 const ALL_QIAN: ZhugeQian[] = []
 for (let i = 0; i < 384; i++) {
-  const base = QIAN_POOL[i % QIAN_POOL.length]
+  const base = QIAN_POOL[i % QIAN_POOL.length]!
   const score = 30 + ((i * 13) % 71)
   const scores = {
     career: 30 + ((i * 11) % 71),

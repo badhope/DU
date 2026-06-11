@@ -53,7 +53,7 @@ const particles = ref<
   }>
 >(
   Array.from({ length: props.count }, (_, i) => {
-    const colors = COLORS[props.colors]
+    const colors = COLORS[props.colors]!
     const sizeRand = Math.random()
     return {
       id: i,

@@ -33,7 +33,7 @@ export interface DivinationRecord {
 export interface DivinatorProfile {
   key: string // 唯一键（默认 = name）
   name: string
-  remark?: string // 备注（家父/母亲/自己/孩子等）
+  remark?: string | undefined // 备注（家父/母亲/自己/孩子等）
   createdAt: number
   totalCount: number
   lastDate?: string // 最后占卜日
@@ -100,7 +100,7 @@ export function getUnlockDateForTool(
   tool: ToolKey,
   fromDate: string = todayStr(),
 ): string | undefined {
-  const t = COOLDOWN_TYPE[tool]
+  const t = COOLDOWN_TYPE[tool]!
   if (t === 'once-per-day') return nextDayStr(fromDate)
   return undefined
 }

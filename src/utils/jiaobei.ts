@@ -59,7 +59,7 @@ export function castJiao(
   }
   const counts: Record<JiaoType, number> = { sheng: 0, xiao: 0, yin: 0 }
   results.forEach((r) => counts[r.type]++)
-  const final = Object.entries(counts).sort((a, b) => b[1] - a[1])[0][0] as JiaoType
+  const final = Object.entries(counts).sort((a, b) => b[1]! - a[1]!)[0][0] as JiaoType
 
   const summaryMap: Record<string, string> = {
     sheng: '三次连掷 · 圣筊为主 · 神明显允 · 放心去做',

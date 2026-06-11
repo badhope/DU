@@ -135,7 +135,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   const dayGan = bazi.day.gan
   const dayZhi = bazi.day.zhi as DiZhi
   const hourZhi = bazi.hour.zhi as DiZhi
-  const monthJiangZhi = MONTH_GENERAL[month - 1] as DiZhi
+  const monthJiangZhi = MONTH_GENERAL[month - 1]! as DiZhi
 
   // 求贵神起
   const gr = guirenStart(dayGan)
@@ -154,7 +154,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   // 天盘神将顺布（以贵神所乘地支为起点，顺行 12）
   const grIdx = ZHI.indexOf(guirenStartZhi)
   const tianPan = TWELVE_GENERALS.map((g, i) => {
-    const zhi = ZHI[(grIdx + i) % 12] as DiZhi
+    const zhi = ZHI[(grIdx + i) % 12]! as DiZhi
     return { zhi, general: g, generalDesc: GENERAL_DESC[g].desc }
   })
 
@@ -165,7 +165,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   // 旋转 = (hourZhiIdx - mjIdx + 12) % 12
   const offset = (hourZhiIdx - mjIdx + 12) % 12
   const diPan = TWELVE_GENERALS.map((g, i) => {
-    const zhi = ZHI[(i + offset) % 12] as DiZhi
+    const zhi = ZHI[(i + offset) % 12]! as DiZhi
     return { zhi, general: g, generalDesc: GENERAL_DESC[g].desc }
   })
 
@@ -186,7 +186,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
     壬: '亥',
     癸: '丑',
   }
-  const dayGanZhi = GAN_GONG[dayGan] as DiZhi
+  const dayGanZhi = GAN_GONG[dayGan]! as DiZhi
 
   // 查天盘
   const tianByZhi = (z: DiZhi): General => {
@@ -224,7 +224,7 @@ export function calcLiuren(year: number, month: number, day: number, hour: numbe
   // 找有克 → 第一贼
   const KILL_LIST: General[] = ['白虎', '玄武', '勾陈', '朱雀', '螣蛇', '天空']
   const keList = KILL_LIST.filter((k) => gSet.has(k))
-  const chu: General = keList[0] || ke3Yang
+  const chu: General = keList[0]! || ke3Yang
   const zhong: General = generals[(generals.indexOf(chu) + 1) % 4] || ke2Yang
   const mo: General = generals[(generals.indexOf(chu) + 2) % 4] || ke1Yang
 

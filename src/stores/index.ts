@@ -5,6 +5,7 @@ import { ref, computed, watch } from 'vue'
 import { TOOLS } from '@/config/tools'
 import { newDivinator, getUnlockDateForTool, hasTodayRecord } from '@/utils/daily-cooldown'
 import { todayStr as _todayStr } from '@/utils/daily-cooldown'
+import type { DivinatorProfile } from '@/utils/daily-cooldown'
 
 /** 本地日 YYYY-MM-DD（与 daily-cooldown.todayStr 同步） */
 function todayStr(d: Date = new Date()): string {
@@ -21,16 +22,6 @@ export interface DivinationRecord {
   toolName: string
   brief: string
   timestamp: number
-}
-
-export interface DivinatorProfile {
-  key: string
-  name: string
-  remark?: string
-  createdAt: number
-  totalCount: number
-  lastDate?: string
-  toolCooldown: Partial<Record<ToolKey, string>> // toolKey -> 'YYYY-MM-DD' 可以再次占卜
 }
 
 // ============ 工具 key 集合（与 config/tools.ts 保持一致） ============
@@ -588,7 +579,10 @@ export const useAppStore = defineStore('app', () => {
       return divinatorProfiles.value[k]
     }
     const p = newDivinator(k, remark)
-    divinatorProfiles.value = { ...divinatorProfiles.value, [k]: p }
+    divinatorProfiles.value = { ...divinatorProfiles.value, [k]: p } as Record<
+      string,
+      DivinatorProfile
+    >
     if (!activeDivinatorKey.value) activeDivinatorKey.value = k
     return p
   }
@@ -643,7 +637,7 @@ export const useAppStore = defineStore('app', () => {
     }
     divinationRecords.value = [rec, ...divinationRecords.value].slice(0, 1000)
     // 更新用户档案
-    const profile = divinatorProfiles.value[input.userKey]
+    const profile = divinatorProfiles.value[input.userKey]!
     if (profile) {
       const next = { ...profile }
       next.totalCount = (next.totalCount || 0) + 1
@@ -679,7 +673,7 @@ export const useAppStore = defineStore('app', () => {
     const rec = divinationRecords.value.find((r) => r.id === id)
     divinationRecords.value = divinationRecords.value.filter((r) => r.id !== id)
     if (rec) {
-      const profile = divinatorProfiles.value[rec.userKey]
+      const profile = divinatorProfiles.value[rec.userKey]!
       if (profile?.toolCooldown?.[rec.tool]) {
         const next = { ...profile }
         const tc = { ...(next.toolCooldown || {}) }

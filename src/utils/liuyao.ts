@@ -430,7 +430,7 @@ const PALACE_NAME: Record<Palace, string> = {
  *       克我者 = 官鬼
  */
 function getLiuqin(palaceWuxing: 'jin' | 'mu' | 'shui' | 'huo' | 'tu', yaoDizhi: DiZhi): Liuqin {
-  const yaoWx = DIZHI_WUXING[yaoDizhi]
+  const yaoWx = DIZHI_WUXING[yaoDizhi]!
   if (yaoWx === palaceWuxing) return '兄弟'
   if (SHENG[palaceWuxing] === yaoWx) return '子孙'
   if (SHENG[yaoWx] === palaceWuxing) return '父母'
@@ -450,16 +450,16 @@ interface GuaFull extends GuaPalaceMeta {
 function findGua(upper: Bagua, lower: Bagua): GuaFull | undefined {
   const meta = GUA_PALACE.find((g) => g.upper === upper && g.lower === lower)
   if (!meta) return undefined
-  const upperYao = BAGUA_YAO[meta.upper]
-  const lowerYao = BAGUA_YAO[meta.lower]
+  const upperYao = BAGUA_YAO[meta.upper]!
+  const lowerYao = BAGUA_YAO[meta.lower]!
   // yaoBin: 自下而上 [爻1, 爻2, 爻3, 爻4, 爻5, 爻6] = [下卦爻1, 2, 3, 上卦爻1, 2, 3]
   const yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoType] = [
-    lowerYao[0],
-    lowerYao[1],
-    lowerYao[2],
-    upperYao[0],
-    upperYao[1],
-    upperYao[2],
+    lowerYao[0]!,
+    lowerYao[1]!,
+    lowerYao[2]!,
+    upperYao[0]!,
+    upperYao[1]!,
+    upperYao[2]!,
   ]
   const symbol = BAGUA[upper].symbol + BAGUA[lower].symbol
   return { ...meta, symbol, yaoBin }
@@ -511,7 +511,7 @@ function buildYaoList(
   shi: YaoPos,
   isMoving: boolean[],
 ): YaoInfo[] {
-  const palaceWx = PALACE_WUXING[palace]
+  const palaceWx = PALACE_WUXING[palace]!
   const yaoList: YaoInfo[] = []
   // 爻地支：内卦 3 爻 + 外卦 3 爻
   const dizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
@@ -520,9 +520,9 @@ function buildYaoList(
   // 实际传统：乾内甲外壬 → 内卦3爻都纳甲子寅辰，外卦3爻都纳壬午申戌
   for (let i = 0; i < 6; i++) {
     const pos = (i + 1) as YaoPos
-    const type = yaoBin[i]
-    const dz = dizhis[i]
-    const tg = tiangans[i]
+    const type = yaoBin[i]!
+    const dz = dizhis[i]!
+    const tg = tiangans[i]!
     const lq = getLiuqin(palaceWx, dz)
     yaoList.push({
       pos,
@@ -571,25 +571,25 @@ function buildBianGua(
     isMoving[i] ? ((y === 1 ? 0 : 1) as YaoType) : y,
   )
   // 由 newYaoBin 重组卦象：上卦 = 爻 4-6，下卦 = 爻 1-3
-  const lowerBin = [newYaoBin[0], newYaoBin[1], newYaoBin[2]]
-  const upperBin = [newYaoBin[3], newYaoBin[4], newYaoBin[5]]
+  const lowerBin = [newYaoBin[0]!, newYaoBin[1]!, newYaoBin[2]!]
+  const upperBin = [newYaoBin[3]!, newYaoBin[4]!, newYaoBin[5]!]
   const lower = binToBagua(lowerBin)
   const upper = binToBagua(upperBin)
   const target = findGua(upper, lower) || mainGua
 
   // 推算变卦 6 爻
-  const newPalaceWx = PALACE_WUXING[target.palace]
+  const newPalaceWx = PALACE_WUXING[target.palace]!
   const newDizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
   const newTiangans = NAJIA_TIANGAN[lower].concat(NAJIA_TIANGAN[upper])
   const newYaoList: YaoInfo[] = []
   for (let i = 0; i < 6; i++) {
     const pos = (i + 1) as YaoPos
-    const newType = newYaoBin[i] as YaoType
-    const dz = newDizhis[i]
-    const tg = newTiangans[i]
+    const newType = newYaoBin[i]! as YaoType
+    const dz = newDizhis[i]!
+    const tg = newTiangans[i]!
     const lq = getLiuqin(newPalaceWx, dz)
     // 同时填充本卦对应爻的 bian 字段
-    const origYao = yaoList[i]
+    const origYao = yaoList[i]!
     origYao.bian = { type: newType, dizhi: dz, tiangan: tg, liuqin: lq }
     newYaoList.push({
       pos,
@@ -610,7 +610,7 @@ function buildBianGua(
   const movingPosList = isMoving.map((m, i) => (m ? i + 1 : 0)).filter((x) => x > 0)
   const reason =
     movingYaoCount === 1
-      ? `第 ${movingPosList[0]} 爻发动 · 由${yaoList[movingPosList[0] - 1].isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0] - 1] === 1 ? '阳' : '阴'}`
+      ? `第 ${movingPosList[0]!} 爻发动 · 由${yaoList[movingPosList[0]! - 1].isYang ? '阳' : '阴'}变${newYaoBin[movingPosList[0]! - 1] === 1 ? '阳' : '阴'}`
       : `${movingYaoCount} 爻齐动：${movingPosList.join('、')} · 动而化之`
 
   return { name: target.name, upper, lower, symbol: target.symbol, yaoList: newYaoList, reason }
@@ -644,8 +644,8 @@ function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoTyp
   // 互卦：2-3-4 爻 = 下互，3-4-5 爻 = 上互
   // 实际：下互 = 爻 2、3、4；上互 = 爻 3、4、5
   // 把它们当作 3 爻单卦
-  const lowerBin = [yaoBin[1], yaoBin[2], yaoBin[3]]
-  const upperBin = [yaoBin[2], yaoBin[3], yaoBin[4]]
+  const lowerBin = [yaoBin[1]!, yaoBin[2]!, yaoBin[3]!]
+  const upperBin = [yaoBin[2]!, yaoBin[3]!, yaoBin[4]!]
   const lower = binToBagua(lowerBin)
   const upper = binToBagua(upperBin)
   const meta = findGua(upper, lower)
@@ -656,10 +656,12 @@ function buildHuGua(yaoBin: [YaoType, YaoType, YaoType, YaoType, YaoType, YaoTyp
   const yaoList: YaoInfo[] = []
   const dizhis = NAJIA_DIZHI[lower].concat(NAJIA_DIZHI[upper])
   const tiangans = NAJIA_TIANGAN[lower].concat(NAJIA_TIANGAN[upper])
-  const palaceWx = PALACE_WUXING[meta.palace]
+  const palaceWx = PALACE_WUXING[meta.palace]!
   for (let i = 0; i < 6; i++) {
     const pos = (i + 1) as YaoPos
-    const type = [yaoBin[1], yaoBin[2], yaoBin[3], yaoBin[2], yaoBin[3], yaoBin[4]][i] as YaoType
+    const type = [yaoBin[1]!, yaoBin[2]!, yaoBin[3]!, yaoBin[2]!, yaoBin[3]!, yaoBin[4]!][
+      i
+    ] as YaoType
     yaoList.push({
       pos,
       type,
@@ -704,7 +706,7 @@ function buildFushen(
     const palaceGuas = GUA_PALACE.filter((g) => g.palace === mainGua.palace)
     const benGong = palaceGuas.find((g) => g.step === 1)
     if (!benGong) continue
-    const palaceWx = PALACE_WUXING[benGong.palace]
+    const palaceWx = PALACE_WUXING[benGong.palace]!
     const dizhis = NAJIA_DIZHI[benGong.lower].concat(NAJIA_DIZHI[benGong.upper])
     // 找本宫卦中 need 对应地支的爻
     for (let i = 0; i < 6; i++) {
@@ -748,21 +750,21 @@ const YONGSHEN_MAP: Record<Topic, Liuqin> = {
 function getCurrentDizhis(date: Date): { year: DiZhi; month: DiZhi; day: DiZhi; hour: DiZhi } {
   // 年支：(year - 4) % 12
   const yearIdx = (((date.getFullYear() - 4) % 12) + 12) % 12
-  const yearZhi = DIZHI[yearIdx]
+  const yearZhi = DIZHI[yearIdx]!
   // 月支：以节气简化（公历 2 月 = 寅月）
   const monthIdx = (date.getMonth() - 2 + 12 + 2) % 12 // 1月=丑=1, 2月=寅=2 ...
   // 实际上：公历 1 月 ≈ 丑，2 月 ≈ 寅，3 月 ≈ 卯 ... 即 monthZhiIdx = (month + 1) % 12
-  const monthZhi = DIZHI[(date.getMonth() + 1) % 12]
+  const monthZhi = DIZHI[(date.getMonth() + 1) % 12]!
   // 日支：1900-01-01 是甲戌日（戌=10）
   const baseDate = new Date(1900, 0, 1)
   const diffDays = Math.floor((date.getTime() - baseDate.getTime()) / 86400000)
-  const dayZhi = DIZHI[(((10 + diffDays) % 12) + 12) % 12]
+  const dayZhi = DIZHI[(((10 + diffDays) % 12) + 12) % 12]!
   // 时支：hour 转 (0-23) → (子=23-1, 丑=1-3, ...)
   let hourZhiIdx = 0
   const h = date.getHours()
   if (h >= 23 || h < 1) hourZhiIdx = 0
   else hourZhiIdx = Math.floor((h + 1) / 2)
-  const hourZhi = DIZHI[hourZhiIdx]
+  const hourZhi = DIZHI[hourZhiIdx]!
   void yearIdx
   void monthIdx
   return { year: yearZhi, month: monthZhi, day: dayZhi, hour: hourZhi }
@@ -840,7 +842,7 @@ const HUAGAI: Record<DiZhi, DiZhi> = {
 function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): ShenshaDesc[] {
   const result: ShenshaDesc[] = []
   // 天乙贵人
-  const guiren = TIANGUI[dayGan]
+  const guiren = TIANGUI[dayGan]!
   for (const gz of guiren) {
     const yao = yaoList.find((y) => y.dizhi === gz)
     if (yao) {
@@ -855,7 +857,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
     }
   }
   // 驿马
-  const yima = YIMA[dayZhi][0]
+  const yima = YIMA[dayZhi][0]!
   const yimaYao = yaoList.find((y) => y.dizhi === yima)
   if (yimaYao) {
     result.push({
@@ -868,7 +870,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
     yimaYao.shen.push('驿马')
   }
   // 桃花
-  const taohua = TAOHUA[dayZhi]
+  const taohua = TAOHUA[dayZhi]!
   const thYao = yaoList.find((y) => y.dizhi === taohua)
   if (thYao) {
     result.push({
@@ -881,7 +883,7 @@ function calcShensha(yaoList: YaoInfo[], dayGan: TianGan, dayZhi: DiZhi): Shensh
     thYao.shen.push('桃花')
   }
   // 华盖
-  const huagai = HUAGAI[dayZhi]
+  const huagai = HUAGAI[dayZhi]!
   const hgYao = yaoList.find((y) => y.dizhi === huagai)
   if (hgYao) {
     result.push({
@@ -991,8 +993,8 @@ function calcFortunes(
   const bianLiuqin = bianGua.yaoList.find((y) => y.isYang)
   let bianBonus = 0
   if (bianLiuqin) {
-    const yaoWx = DIZHI_WUXING[bianLiuqin.dizhi]
-    const palaceWx = PALACE_WUXING[mainGua.palace]
+    const yaoWx = DIZHI_WUXING[bianLiuqin.dizhi]!
+    const palaceWx = PALACE_WUXING[mainGua.palace]!
     if (yaoWx === palaceWx) bianBonus = 5
     else if (SHENG[yaoWx] === palaceWx) bianBonus = 3
     else if (KE[yaoWx] === palaceWx) bianBonus = -5
@@ -1085,7 +1087,7 @@ function buildSummary(
 // ============ 幸运元素 ============
 
 function buildLucky(mainGua: GuaFull) {
-  const upperWx = PALACE_WUXING[mainGua.palace]
+  const upperWx = PALACE_WUXING[mainGua.palace]!
   const colorMap: Record<string, string> = {
     jin: '金色/白色',
     mu: '青色/绿色',
@@ -1147,11 +1149,11 @@ export function liuyaoDivinate(
   }
 
   // 2. 重组卦象
-  const lowerBin = [yaoBin[0], yaoBin[1], yaoBin[2]]
-  const upperBin = [yaoBin[3], yaoBin[4], yaoBin[5]]
+  const lowerBin = [yaoBin[0]!, yaoBin[1]!, yaoBin[2]!]
+  const upperBin = [yaoBin[3]!, yaoBin[4]!, yaoBin[5]!]
   const lower = binToBagua(lowerBin)
   const upper = binToBagua(upperBin)
-  const mainGua = findGua(upper, lower) || (GUA_PALACE[0] as unknown as GuaFull)
+  const mainGua = findGua(upper, lower) || (GUA_PALACE[0]! as unknown as GuaFull)
 
   // 3. 推算 6 爻详细信息
   const yaoList = buildYaoList(
@@ -1171,7 +1173,7 @@ export function liuyaoDivinate(
 
   // 6. 伏卦 = 本宫卦
   const palaceGuas = GUA_PALACE.filter((g) => g.palace === mainGua.palace)
-  const benGong = palaceGuas.find((g) => g.step === 1) || palaceGuas[0]
+  const benGong = palaceGuas.find((g) => g.step === 1) || palaceGuas[0]!
   const fuGuaYaoBin = [
     BAGUA_YAO[benGong.lower][0],
     BAGUA_YAO[benGong.lower][1],

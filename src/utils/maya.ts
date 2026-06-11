@@ -332,9 +332,9 @@ export function calcMaya(year: number, month: number, day: number): MayaTzolkin 
 
   const tone = ((kin - 1) % 13) + 1
   const sealIdx = (kin - 1) % 20
-  const seal = SEALS[sealIdx]
-  const sealMeta = MAYA_SEAL_META[seal]
-  const toneMeta = TONE_META[tone - 1]
+  const seal = SEALS[sealIdx]!
+  const sealMeta = MAYA_SEAL_META[seal]!
+  const toneMeta = TONE_META[tone - 1]!
 
   // 13 天波符
   const wavespellStart = kin - (tone - 1)

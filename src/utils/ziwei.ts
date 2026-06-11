@@ -499,7 +499,7 @@ function calcGuiRenPos(yearGan: TianGan): { kui: number; yue: number } {
     壬: { kui: '卯', yue: '巳', dir: 1 },
     癸: { kui: '卯', yue: '巳', dir: -1 },
   }
-  const g = guiRen[yearGan]
+  const g = guiRen[yearGan]!
   return {
     kui: DIZHI.indexOf(g.kui as DiZhi),
     yue: DIZHI.indexOf(g.yue as DiZhi),
@@ -583,7 +583,7 @@ export function calcZiwei(
 
   // 3) 五行局 = 命宫纳音
   const wuju = nayinToWuju(yearGan, mingGongZhi)
-  const mingNayin = NAYIN_NAYIN[jiaziIndex(yearGan, mingGongZhi)]
+  const mingNayin = NAYIN_NAYIN[jiaziIndex(yearGan, mingGongZhi)]!
 
   // 4) 紫微 / 天府
   const ziweiPos = calcZiweiPos(day, wuju)
@@ -639,13 +639,13 @@ export function calcZiwei(
   const palaces: ZiweiGong[] = []
   for (let i = 0; i < 12; i++) {
     const zhiIdx = (mingGongIdx + i) % 12
-    const zhi = DIZHI[zhiIdx] as DiZhi
+    const zhi = DIZHI[zhiIdx]! as DiZhi
     const mainStars = (starPositions[zhiIdx] || []).slice()
     const sihua: Array<'禄' | '权' | '科' | '忌'> = []
     mainStars.forEach((s) => {
       if (sihuaMap[s]) sihua.push(...sihuaMap[s])
     })
-    const gongName = GONG_NAMES[i]
+    const gongName = GONG_NAMES[i]!
     palaces.push({
       zhi,
       zhiIndex: zhiIdx,
@@ -659,7 +659,7 @@ export function calcZiwei(
   }
 
   // 9) 命格
-  const mingStars = palaces[0].mainStars
+  const mingStars = palaces[0]!.mainStars!
   const mingGe = _judgeMingGe(mingStars, wuju)
 
   // 10) 评分
@@ -670,8 +670,8 @@ export function calcZiwei(
   const yearly: ZiweiResult['yearly'] = []
   for (let y = 0; y < 5; y++) {
     const yr = currentYear + y
-    const gan = TIANGAN[(((yr - 4) % 10) + 10) % 10] as TianGan
-    const zhi = DIZHI[(((yr - 4) % 12) + 12) % 12] as DiZhi
+    const gan = TIANGAN[(((yr - 4) % 10) + 10) % 10]! as TianGan
+    const zhi = DIZHI[(((yr - 4) % 12) + 12) % 12]! as DiZhi
     yearly.push({
       year: yr,
       gan,
@@ -681,7 +681,7 @@ export function calcZiwei(
   }
 
   return {
-    mingGong: palaces[0],
+    mingGong: palaces[0]!,
     shenGong: palaces[(shenGongIdx - mingGongIdx + 12) % 12],
     palaces,
     wuju,
@@ -719,15 +719,15 @@ function _interpretGong(
   sihua: Array<'禄' | '权' | '科' | '忌'>,
 ): string {
   if (stars.length === 0) return `${gong}宫空无主星，需借对宫同论。`
-  const main = stars[0]
-  const meta = STAR_META[main]
+  const main = stars[0]!
+  const meta = STAR_META[main]!
   const sihuaText = sihua.length > 0 ? `带${sihua.join('·')}` : '无四化'
   return `${gong}宫坐${main}（${meta.virtue}），${sihuaText}。${meta.desc}`
 }
 
 function _judgeMingGe(stars: MainStar[], wuju: Wuju): string {
   if (stars.length === 0) return '无主星命格'
-  const main = stars[0]
+  const main = stars[0]!
   const grp: Record<MainStar, string> = {
     紫微: '紫微同格 · 帝星入命',
     天府: '天府同格 · 贤相之格',

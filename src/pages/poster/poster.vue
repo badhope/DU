@@ -191,7 +191,7 @@ const availableHistories = computed(() => {
 const canvasStyle = computed(() => ({ w: '500rpx', h: '889rpx' }))
 
 function gradientCss(g: [string, string, string]): string {
-  return `linear-gradient(180deg, ${g[0]} 0%, ${g[1]} 50%, ${g[2]} 100%)`
+  return `linear-gradient(180deg, ${g[0]!} 0%, ${g[1]!} 50%, ${g[2]!} 100%)`
 }
 
 function formatTime(t: number): string {
@@ -390,7 +390,7 @@ function share() {
 function regenerate() {
   // 重新选择模板 + 重新渲染
   const idx = TEMPLATES.findIndex((t) => t.key === form.value.template)
-  const next = TEMPLATES[(idx + 1) % TEMPLATES.length]
+  const next = TEMPLATES[(idx + 1) % TEMPLATES.length]!
   form.value.template = next.key
   drawCanvas()
   uni.showToast({ title: `已切换 ${next.name}`, icon: 'none' })

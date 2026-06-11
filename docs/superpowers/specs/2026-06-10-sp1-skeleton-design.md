@@ -9,13 +9,13 @@
 
 v1.0.0 目标架构已知（上一轮 17 commit 完成但未推回 main），重做拆为 5 个 sub-project：
 
-| SP | 范围 | Task |
-|---|---|---|
-| **SP-1** | 去 AI + 新骨架 + strict 错误 | Task 1 + 2 + 2.5 |
-| SP-2 | shared 资产 + utils 按模块 + pages 搬移 | Task 3 + 4 + 5 |
-| SP-3 | 观形 KnowledgeShell + 图片管线 + stores 拆分 + 持久化迁移 | Task 6 + 7 + 8 |
-| SP-4 | 6 motion composable + 路由类型 + module manifest + 错误边界 | Task 9 + 10 + 11 |
-| SP-5 | v1.0.0 tag + README + 测试收尾 | Task 12 |
+| SP       | 范围                                                        | Task             |
+| -------- | ----------------------------------------------------------- | ---------------- |
+| **SP-1** | 去 AI + 新骨架 + strict 错误                                | Task 1 + 2 + 2.5 |
+| SP-2     | shared 资产 + utils 按模块 + pages 搬移                     | Task 3 + 4 + 5   |
+| SP-3     | 观形 KnowledgeShell + 图片管线 + stores 拆分 + 持久化迁移   | Task 6 + 7 + 8   |
+| SP-4     | 6 motion composable + 路由类型 + module manifest + 错误边界 | Task 9 + 10 + 11 |
+| SP-5     | v1.0.0 tag + README + 测试收尾                              | Task 12          |
 
 本文为 SP-1 设计。
 
@@ -84,20 +84,20 @@ src/pages/ai/                                   # 整目录
 
 按以下位置逐一删除：
 
-| 位置 | 删除内容 |
-|---|---|
-| line 78-83 | `ToolKey` 联合类型 6 个 ai-* key |
-| line 146-156 | `ChatSession` interface 整段 |
-| line 183 | `PersistState.chatSessions` 字段 |
-| line 353-361 | `DEFAULT_ACHIEVEMENTS` 中 `ai-master` 成就 |
-| line 392 | `DEFAULT_STATE.chatSessions: {}` |
-| line 441 | `const chatSessions = ref<...>(initial.chatSessions)` |
-| line 455-456, 469-470 | watch 数组 + saveState 中 chatSessions 字段 |
-| line 582-622 | `getChatSession` / `appendChatMessage` / `setChatPersona` / `clearChatSession` / `clearAllChatSessions` + `MAX_CHAT_MESSAGES` 常量 |
-| line 754-764 | `totalChatTurns` / `chattedMasters` computed |
-| line 864 | `resetAll` 中 `chatSessions.value = {}` |
-| line 887, 917-922 | return 中 chatSessions 相关 + 5 个 chat 函数 |
-| line 898-899 | return 中 totalChatTurns / chattedMasters |
+| 位置                  | 删除内容                                                                                                                           |
+| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| line 78-83            | `ToolKey` 联合类型 6 个 ai-\* key                                                                                                  |
+| line 146-156          | `ChatSession` interface 整段                                                                                                       |
+| line 183              | `PersistState.chatSessions` 字段                                                                                                   |
+| line 353-361          | `DEFAULT_ACHIEVEMENTS` 中 `ai-master` 成就                                                                                         |
+| line 392              | `DEFAULT_STATE.chatSessions: {}`                                                                                                   |
+| line 441              | `const chatSessions = ref<...>(initial.chatSessions)`                                                                              |
+| line 455-456, 469-470 | watch 数组 + saveState 中 chatSessions 字段                                                                                        |
+| line 582-622          | `getChatSession` / `appendChatMessage` / `setChatPersona` / `clearChatSession` / `clearAllChatSessions` + `MAX_CHAT_MESSAGES` 常量 |
+| line 754-764          | `totalChatTurns` / `chattedMasters` computed                                                                                       |
+| line 864              | `resetAll` 中 `chatSessions.value = {}`                                                                                            |
+| line 887, 917-922     | return 中 chatSessions 相关 + 5 个 chat 函数                                                                                       |
+| line 898-899          | return 中 totalChatTurns / chattedMasters                                                                                          |
 
 **持久化数据迁移**：在 `loadState()` 函数（line 398-423）中，写入 v3 清理逻辑 —— `chatSessions` 字段从读出数据中剥离，写回时不保存。存储 key 升级为 `mistverse-state-v3`（同时保留 v2 旧 key 不动，避免破坏老用户）。
 
@@ -122,11 +122,11 @@ function loadState(): PersistState {
 
 ### 4.5 修改 `src/pages.json`
 
-删除 line 340-386 共 6 个 ai-* 路由条目。
+删除 line 340-386 共 6 个 ai-\* 路由条目。
 
 ### 4.6 修改 `src/pages/poster/poster.vue` 和 `src/pages/dashboard/dashboard.vue`
 
-按 `grep` 结果定位 AI 字段引用（chatSessions / chattedMasters / totalChatTurns / 'AI 玄谈' 成就 / ai-* 工具项），逐个改为：
+按 `grep` 结果定位 AI 字段引用（chatSessions / chattedMasters / totalChatTurns / 'AI 玄谈' 成就 / ai-\* 工具项），逐个改为：
 
 - 删除 UI 区块（AI 玄谈入口、AI 师推荐卡片等）
 - 删除 import 与 computed
@@ -178,16 +178,16 @@ export const MODULE_NAME = '<中文名>' as const
 
 8 个 module 的中文名映射：
 
-| module | 中文 |
-|---|---|
-| mingli | 命理 |
-| zhanbu | 占卜 |
-| guanxiang | 观形 |
-| mingming | 命名 |
-| jiankang | 健康 |
-| xiuxin | 修心 |
-| shenghuo | 生活 |
-| personal | 个人中心 |
+| module    | 中文     |
+| --------- | -------- |
+| mingli    | 命理     |
+| zhanbu    | 占卜     |
+| guanxiang | 观形     |
+| mingming  | 命名     |
+| jiankang  | 健康     |
+| xiuxin    | 修心     |
+| shenghuo  | 生活     |
+| personal  | 个人中心 |
 
 ### 5.2 `vite.config.ts` —— 5 个 alias
 
@@ -217,7 +217,9 @@ export default defineConfig({
 })
 ```
 
-### 5.3 `tsconfig.json` —— 5 paths + 3 strict
+### 5.3 `tsconfig.json` —— 5 paths + 2 strict（妥协）
+
+> **2026-06-10 实际执行注记**：原 spec 计划开 3 strict 选项（`noUncheckedIndexedAccess` + `exactOptionalPropertyTypes` + `noImplicitOverride`）。开启 `noUncheckedIndexedAccess` 后旧代码爆出 **497 个 TS 编译错误**（远超预估 50-80），覆盖 30+ 文件。本 SP-1 务实妥协：**保留 `exactOptionalPropertyTypes` + `noImplicitOverride`**（共修复 4 个 exactOptionalPropertyTypes 错），**关闭 `noUncheckedIndexedAccess`**。推迟到 SP-2 后续逐文件重构时再分阶段重开。
 
 ```json
 {
@@ -234,7 +236,6 @@ export default defineConfig({
       "@stores/*": ["./src/stores/*"],
       "@config/*": ["./src/config/*"]
     },
-    "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
     "noImplicitOverride": true,
     "lib": ["esnext", "dom"],
@@ -243,6 +244,8 @@ export default defineConfig({
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }
 ```
+
+**自动化辅助**：`scripts/fix-strict.py`（v1+v2 合计）按保守模式对所有 `.ts/.vue` 文件加 `!` 后缀（解决 ~298/497 = 60% 错误），剩余 exactOptionalPropertyTypes 错 4 个逐个手工修。
 
 ### 5.4 `scripts/check-modules.mjs` —— 6 步
 
@@ -417,27 +420,11 @@ process.exit(failed === 0 ? 0 : 1)
 "check": "pnpm type-check && pnpm check:modules && pnpm lint && pnpm test"
 ```
 
-## 6. Task 2.5：清零 strict 错误
+## 6. Task 2.5：清零 Strict 错误
 
-开启 3 strict 后预期会爆以下类型错误：
+开启 2 strict 后（`noUncheckedIndexedAccess` 推迟）实际只有 4 个 exactOptionalPropertyTypes 错，1 个 type union 不兼容错，全部在 1 个 commit 内手工修复完毕。
 
-| 错误类型 | 触发示例 | 处理策略 |
-|---|---|---|
-| `arr[i]` 变 `T \| undefined` | `items[0]` | 加 guard 或 `items[0]!`（已验证） |
-| 可选属性传 `undefined` | `{ x: maybeUndef }` where `x?: T` | 条件赋值或 `x: maybeUndef ?? default` |
-| 子类 `override` 缺失 | `class B extends A` | 加 `override` 关键字 |
-| 索引签名访问 | `obj['dynamic']` | 加 guard |
-| 隐式 any | callback 参数 | 显式标注 |
-
-**约束**：
-
-- 每个文件单独 commit（粒度 = 文件）
-- 不批量 sed 改（如 `s/arr\[i\]/arr[i]!/g`）
-- 不允许 `@ts-ignore` 绕过
-- 修复前后必须 `pnpm type-check` 0 错
-- 修复后跑现有测试全过
-
-预期工作量：50-80 错，分 5-10 commit。
+> 详见上文 §5.3 注记。`noUncheckedIndexedAccess` 开启后会触发 497 错，本 SP-1 不修，留待 SP-2 后续。
 
 ## 7. 验收
 
@@ -454,12 +441,12 @@ grep -r "ai-gua\|ai-ming\|ai-feng\|ai-name\|ai-jiankang\|ai-xiuxin\|MASTERS\|ask
 
 ## 8. 风险与缓解
 
-| 风险 | 缓解 |
-|---|---|
-| AI 删除导致旧 store 数据反序列化时类型错 | v3 剥离 chatSessions 字段；v2 旧 key 保留不动 |
-| 开启 strict 后错误数远超预期 | 拆 commit、单元测试覆盖、PR review |
-| 8 个空 module 让人困惑 | README + index.ts 注释说明 stub 状态 |
-| 新 alias 与旧 `@/` 冲突 | 保留 `@/` 兼容旧代码，5 个新 alias 优先用于新写代码 |
+| 风险                                     | 缓解                                                |
+| ---------------------------------------- | --------------------------------------------------- |
+| AI 删除导致旧 store 数据反序列化时类型错 | v3 剥离 chatSessions 字段；v2 旧 key 保留不动       |
+| 开启 strict 后错误数远超预期             | 拆 commit、单元测试覆盖、PR review                  |
+| 8 个空 module 让人困惑                   | README + index.ts 注释说明 stub 状态                |
+| 新 alias 与旧 `@/` 冲突                  | 保留 `@/` 兼容旧代码，5 个新 alias 优先用于新写代码 |
 
 ## 9. 交付物
 
