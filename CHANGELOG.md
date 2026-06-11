@@ -9,6 +9,10 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Removed
+
+- **AI 智能助手 6 个工具下线**: 玄枢是纯本地工具，AI 六师（解卦/命理/风水/起名/健康/修心）依赖 LLM，本地无可用实现，UI 一直是空壳。从 v1.1.0 起删除：6 个页面 (`pages/ai/ai-*.vue`) / 6 个 ToolKey (`ai-gua|ai-ming|ai-feng|ai-name|ai-jiankang|ai-xiuxin`) / `ChatSession` interface / 6 个 chat store 方法 (`getChatSession/appendChatMessage/setChatPersona/clearChatSession/clearAllChatSessions`) / `totalChatTurns/chattedMasters` 衍生 / `ai-master` 成就 / `src/utils/ai.ts`（840 行 mock LLM）/ `src/utils/daily-cooldown.ts` 中 6 行 AI 注册。工具总数：49 → 43
+
 ### Security
 
 - Fix `localStorage` key docs (`v1` → `v2`) to match `src/stores/index.ts`

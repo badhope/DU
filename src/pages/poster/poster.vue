@@ -183,7 +183,6 @@ const availableHistories = computed(() => {
     bazi: 'bazi',
     tarot: 'tarot',
     liuyao: 'liuyao',
-    ai: 'ai-gua',
   }
   const key = map[form.value.type] || ''
   return app.history.filter((h) => h.tool === key).slice(0, 20)
