@@ -444,41 +444,41 @@ export function calcAstro(year: number, month: number, day: number, hour: number
   const rising = risingSign(hour)
 
   const planets: AstroPlanet[] = [
-    { name: '太阳', sign: sun, retrograde: false, meaning: PLANET_MEANING.sun! },
-    { name: '月亮', sign: moon, retrograde: false, meaning: PLANET_MEANING.moon! },
+    { name: '太阳', sign: sun, retrograde: false, meaning: PLANET_MEANING['sun']! },
+    { name: '月亮', sign: moon, retrograde: false, meaning: PLANET_MEANING['moon']! },
     {
       name: '水星',
       sign: planetSign('mercury', month, day),
       retrograde: isRetrograde('mercury', year, month, day),
-      meaning: PLANET_MEANING.mercury!,
+      meaning: PLANET_MEANING['mercury']!,
     },
     {
       name: '金星',
       sign: planetSign('venus', month, day),
       retrograde: isRetrograde('venus', year, month, day),
-      meaning: PLANET_MEANING.venus!,
+      meaning: PLANET_MEANING['venus']!,
     },
     {
       name: '火星',
       sign: planetSign('mars', month, day),
       retrograde: isRetrograde('mars', year, month, day),
-      meaning: PLANET_MEANING.mars!,
+      meaning: PLANET_MEANING['mars']!,
     },
     {
       name: '木星',
       sign: planetSign('jupiter', month, day),
       retrograde: isRetrograde('jupiter', year, month, day),
-      meaning: PLANET_MEANING.jupiter!,
+      meaning: PLANET_MEANING['jupiter']!,
     },
     {
       name: '土星',
       sign: planetSign('saturn', month, day),
       retrograde: isRetrograde('saturn', year, month, day),
-      meaning: PLANET_MEANING.saturn!,
+      meaning: PLANET_MEANING['saturn']!,
     },
-    { name: '天王', sign: sun, retrograde: false, meaning: PLANET_MEANING.uranus! },
-    { name: '海王', sign: moon, retrograde: false, meaning: PLANET_MEANING.neptune! },
-    { name: '冥王', sign: rising, retrograde: false, meaning: PLANET_MEANING.pluto! },
+    { name: '天王', sign: sun, retrograde: false, meaning: PLANET_MEANING['uranus']! },
+    { name: '海王', sign: moon, retrograde: false, meaning: PLANET_MEANING['neptune']! },
+    { name: '冥王', sign: rising, retrograde: false, meaning: PLANET_MEANING['pluto']! },
   ]
 
   // 元素统计

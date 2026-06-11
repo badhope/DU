@@ -14,7 +14,7 @@ function getIllustId(it: T): string | undefined {
 
 <template>
   <view class="k-shell">
-    <view v-if="$slots.overview" class="k-overview">
+    <view v-if="$slots['overview']" class="k-overview">
       <slot name="overview" />
     </view>
     <view class="k-grid">
