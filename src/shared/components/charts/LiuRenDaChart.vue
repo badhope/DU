@@ -138,8 +138,8 @@
 
         <g v-for="(k, i) in fourKePositions" :key="'ke-' + i">
           <rect
-            :x="k.x - kw / 2"
-            :y="k.y - kh / 2"
+            :x="(k as { x: number }).x - kw / 2"
+            :y="(k as { y: number }).y - kh / 2"
             :width="kw"
             :height="kh"
             rx="4"
@@ -148,8 +148,8 @@
             stroke-width="1"
           />
           <text
-            :x="k.x"
-            :y="k.y - 6"
+            :x="(k as { x: number }).x"
+            :y="(k as { y: number }).y - 6"
             text-anchor="middle"
             font-size="9"
             fill="#6B6655"
@@ -158,8 +158,8 @@
             {{ k.label }}
           </text>
           <text
-            :x="k.x"
-            :y="k.y + 6"
+            :x="(k as { x: number }).x"
+            :y="(k as { y: number }).y + 6"
             text-anchor="middle"
             font-size="12"
             font-weight="bold"
@@ -169,8 +169,8 @@
             {{ k.general }}
           </text>
           <text
-            :x="k.x"
-            :y="k.y + 17"
+            :x="(k as { x: number }).x"
+            :y="(k as { y: number }).y + 17"
             text-anchor="middle"
             font-size="8"
             fill="#B8B2A0"

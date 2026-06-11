@@ -104,7 +104,7 @@ const props = defineProps<{ result: HehunResult }>()
 
 const ganWx = (g: TianGan) => TIANGAN_WUXING[g]
 const zhiWx = (z: DiZhi) => DIZHI_WUXING[z]
-const wuColor = (wx: Wuxing) => WUXING_META[wx].color
+const wuColor = (wx: Wuxing) => WUXING_META[wx]?.color
 
 const scoreColor = computed(() => levelColor(props.result.score.level))
 
@@ -160,7 +160,7 @@ const wxList = computed(() => {
   const wMax = Math.max(...Object.values(w), 1)
   return WX_KEYS.map((k) => ({
     name: WX_NAMES[k],
-    color: WUXING_META[k].color,
+    color: WUXING_META[k]?.color,
     man: m[k] || 0,
     woman: w[k] || 0,
     manPct: ((m[k] || 0) / mMax) * 100,

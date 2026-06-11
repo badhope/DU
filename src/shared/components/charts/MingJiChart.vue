@@ -89,7 +89,7 @@
           :cx="pt.x"
           :cy="pt.y"
           r="5"
-          :fill="axes[i].color"
+          :fill="i < axes.length ? axes[i]!.color : ''"
         />
         <text
           v-for="(pt, i) in dataPts"
@@ -100,7 +100,7 @@
           :fill="THEME.fg"
           font-family="serif"
         >
-          {{ result.fiveElBalance[axes[i].key] }}
+          {{ result.fiveElBalance[axes[i]!.key] }}
         </text>
       </svg>
     </view>
@@ -143,7 +143,7 @@
           <text class="rc-char" :style="{ color: charColor(i) }">{{ c }}</text>
           <text class="rc-st">笔画 {{ strokes[i] }}</text>
           <text class="rc-wx" :style="{ color: charColor(i) }">
-            {{ wxName(result.charWx[i]) }}行
+            {{ wxName(result.charWx[i]!) }}行
           </text>
         </view>
       </view>
@@ -186,7 +186,7 @@ const axes = computed(() =>
     const lp = polar(cx, cy, r + 22, angle)
     return {
       key,
-      label: WUXING_META[key].name,
+      label: WUXING_META[key]?.name,
       color: WUXING_COLOR[key],
       x: end.x,
       y: end.y,
@@ -224,7 +224,7 @@ function charColor(i: number): string {
   return (k && WUXING_COLOR[k]) || WUXING_COLOR.mu
 }
 function wxName(w: Wuxing): string {
-  return WUXING_META[w].name
+  return WUXING_META[w]?.name
 }
 function jiColor(j: '吉' | '半吉' | '凶'): string {
   if (j === '吉') return '#2F7D4F'
@@ -249,8 +249,8 @@ const polyLen = computed(() => {
   for (let i = 0; i < N; i++) {
     const a1 = (i / N) * Math.PI * 2 - Math.PI / 2
     const a2 = ((i + 1) / N) * Math.PI * 2 - Math.PI / 2
-    const v1 = Math.min(1, (pts[wxKeys[i]] || 0) / 100)
-    const v2 = Math.min(1, (pts[wxKeys[(i + 1) % N]] || 0) / 100)
+    const v1 = Math.min(1, (pts[wxKeys[i]!] || 0) / 100)
+    const v2 = Math.min(1, (pts[wxKeys[(i + 1) % N]!] || 0) / 100)
     const x1 = cx2 + Math.cos(a1) * r2 * v1,
       y1 = cy2 + Math.sin(a1) * r2 * v1
     const x2 = cx2 + Math.cos(a2) * r2 * v2,

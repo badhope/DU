@@ -69,7 +69,7 @@ onMounted(() => {
       size: 4 + Math.random() * 6,
       dur: 10 + Math.random() * 8,
       delay: Math.random() * 4,
-      color: COLORS[i % COLORS.length],
+      color: COLORS[i % COLORS.length]!,
     })
   }
 })

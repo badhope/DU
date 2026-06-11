@@ -225,7 +225,7 @@ const getLevel = (n: GONG_NUM): '大吉' | '吉' | '平' | '凶' | '大凶' => {
 const score = (lvl: string) => (lvl === '大吉' ? 2 : lvl === '吉' ? 1 : lvl === '平' ? 0 : -1)
 
 const getAdvice = (pos: number, num: GONG_NUM, level: string): string => {
-  const dirName = GONG_DIR[num].dir!
+  const dirName = GONG_DIR[num]?.dir ?? ''
   const starName = GONG_NAMES_9[num - 1]!
   if (level === '大吉') return `${dirName}方见${starName}大吉 · 可动土开门 · 宜求财谋职`
   if (level === '吉') return `${dirName}方见${starName}为吉 · 可布置 · 宜静守`

@@ -209,7 +209,7 @@ const wxOrder: Wuxing[] = ['mu', 'huo', 'tu', 'jin', 'shui']
 const wxNames = ['木', '火', '土', '金', '水']
 const wxColors = ['#2F7D4F', '#C8302A', '#A87C4F', '#E8E4D8', '#1B3A5C']
 
-const wuxingColor = (wx: Wuxing) => WUXING_META[wx].color
+const wuxingColor = (wx: Wuxing) => WUXING_META[wx]?.color
 const ganWx = (g: string) => TIANGAN_WUXING[g as TianGan]
 const zhiWx = (z: string) => DIZHI_WUXING[z as DiZhi]
 

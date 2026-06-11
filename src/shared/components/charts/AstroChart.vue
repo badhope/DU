@@ -369,7 +369,7 @@ const aspectLines = computed(() => {
   for (let i = 0; i < markers.length; i++) {
     for (let j = i + 1; j < markers.length; j++) {
       const a = markers[i]!,
-        b = markers[j]
+        b = markers[j]!
       const ea = a.signMeta.element
       const eb = b.signMeta.element
       if (ea === eb) {

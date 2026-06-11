@@ -198,7 +198,7 @@ const selectIdx = (i: number) => {
 const selected = computed(() => props.years[activeIdx.value])
 const currentScore = computed(() => (selected.value ? inferScore(selected.value) : 0))
 
-const scoreOf = (i: number) => inferScore(props.years[i])
+const scoreOf = (i: number) => inferScore(props.years[i]!)
 
 const xAt = (i: number) =>
   padX + barW / 2 + (i * (size - padX * 2)) / Math.max(1, props.years.length - 1)

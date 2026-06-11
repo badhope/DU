@@ -59,7 +59,7 @@ const particles = ref<
       id: i,
       left: Math.random() * 100,
       size: sizeRand < 0.6 ? 'sm' : sizeRand < 0.9 ? 'md' : 'lg',
-      color: colors[Math.floor(Math.random() * colors.length)],
+      color: colors[Math.floor(Math.random() * colors.length)]!,
       delay: Math.random() * 6,
       dur: 3 + Math.random() * 4,
     }

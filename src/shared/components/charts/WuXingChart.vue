@@ -162,7 +162,7 @@ const positions = computed(() =>
   NAMES.map((n, i) => {
     const angle = (360 / 5) * i - 90
     const p = polar(cx, cy, rText, angle)
-    const m = WUXING_META[WX_ORDER[i]]
+    const m = WUXING_META[WX_ORDER[i]!]
     return { name: n, x: p.x, y: p.y, color: m.color, textColor: m.textColor }
   }),
 )
@@ -175,7 +175,7 @@ const arcs = computed(() => {
     const a2 = (360 / 5) * (i + 1) - 90 - 18
     arr.push({
       d: arcPath(cx, cy, rOuter, a1, a2),
-      color: WUXING_META[WX_ORDER[i]].color,
+      color: WUXING_META[WX_ORDER[i]!]!.color,
       opacity: 0.85,
     })
   }

@@ -229,7 +229,7 @@ const wuColor = (wx: string) => {
 
 const selectGen = (idx: number) => {
   if (idx === 0) focusGen.value = props.result.generations[0]!.gen
-  else focusGen.value = props.result.generations[generations.value.length - 1].gen
+  else focusGen.value = props.result.generations[generations.value.length - 1]!.gen
 }
 </script>
 

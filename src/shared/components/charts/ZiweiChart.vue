@@ -315,7 +315,7 @@ const gridCells = computed(() => {
       zhi: p.zhi,
       zhiIndex: p.zhiIndex,
       stars: p.mainStars,
-      starColor: p.mainStars.map((s) => STAR_META[s].color),
+      starColor: p.mainStars.map((s) => STAR_META[s]?.color),
       sihua: p.sihua,
     })
   })
@@ -327,7 +327,7 @@ const onCellClick = (cell: (typeof gridCells.value)[number]) => {
 }
 const selectedGongData = computed<ZiweiGong | null>(() => {
   if (selectedGong.value === null) return null
-  return props.result.palaces[selectedGong.value]
+  return props.result.palaces[selectedGong.value]!
 })
 
 const siHuaColor = (s: string) => {

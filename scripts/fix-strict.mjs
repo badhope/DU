@@ -20,8 +20,6 @@
 import { readFileSync, writeFileSync, statSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
-const ROOT = process.cwd()
-
 /**
  * 模式 A: arr[i].x → arr[i]?.x （链式访问加可选链）
  *   - 跳过: 已在 ?. 链中
