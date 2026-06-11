@@ -22,6 +22,8 @@
     "noImplicitThis": true,
     "strictBindCallApply": true,
     "strictPropertyInitialization": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "lib": ["esnext", "dom"],
     "types": ["@dcloudio/types"]
   },
