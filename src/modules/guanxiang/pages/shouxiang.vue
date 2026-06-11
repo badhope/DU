@@ -5,92 +5,119 @@
   >
     <view class="taiji-bg"><TaijiBg /></view>
     <TopBar title="手相分析" subtitle="PALM READING" />
+    <TabBar
+      v-model="activeTab"
+      :tabs="[
+        { key: 'analyze', label: '分 析' },
+        { key: 'knowledge', label: '知 识 库' },
+      ]"
+    />
 
-    <view v-if="!result" class="setup card-mystic anim-fade-up">
-      <text class="form-title title-mystic">掌 纹 八 宫</text>
-      <text class="form-sub">生 辰 输 入 · 推 算 掌 相</text>
+    <view v-if="activeTab === 'analyze'">
+      <view v-if="!result" class="setup card-mystic anim-fade-up">
+        <text class="form-title title-mystic">掌 纹 八 宫</text>
+        <text class="form-sub">生 辰 输 入 · 推 算 掌 相</text>
 
-      <view class="form-row">
-        <text class="form-label">年</text>
-        <picker
-          mode="number"
-          :value="form.year"
-          :min="1900"
-          :max="2010"
-          @change="onPick('year', $event)"
-        >
-          <view class="form-picker">{{ form.year }} 年</view>
-        </picker>
-      </view>
-      <view class="form-row">
-        <text class="form-label">月</text>
-        <picker
-          mode="selector"
-          :value="form.month - 1"
-          :range="monthRange"
-          @change="onPick('month', $event)"
-        >
-          <view class="form-picker">{{ form.month }} 月</view>
-        </picker>
-      </view>
-      <view class="form-row">
-        <text class="form-label">日</text>
-        <picker mode="number" :value="form.day" :min="1" :max="31" @change="onPick('day', $event)">
-          <view class="form-picker">{{ form.day }} 日</view>
-        </picker>
+        <view class="form-row">
+          <text class="form-label">年</text>
+          <picker
+            mode="number"
+            :value="form.year"
+            :min="1900"
+            :max="2010"
+            @change="onPick('year', $event)"
+          >
+            <view class="form-picker">{{ form.year }} 年</view>
+          </picker>
+        </view>
+        <view class="form-row">
+          <text class="form-label">月</text>
+          <picker
+            mode="selector"
+            :value="form.month - 1"
+            :range="monthRange"
+            @change="onPick('month', $event)"
+          >
+            <view class="form-picker">{{ form.month }} 月</view>
+          </picker>
+        </view>
+        <view class="form-row">
+          <text class="form-label">日</text>
+          <picker
+            mode="number"
+            :value="form.day"
+            :min="1"
+            :max="31"
+            @change="onPick('day', $event)"
+          >
+            <view class="form-picker">{{ form.day }} 日</view>
+          </picker>
+        </view>
+
+        <view class="form-tip">
+          <text>· 八宫丘相 · 三线主纹 · 性格事业</text>
+        </view>
+
+        <view class="form-actions">
+          <view class="btn-zhu" @click="analyze">开 始 分 析</view>
+        </view>
       </view>
 
-      <view class="form-tip">
-        <text>· 八宫丘相 · 三线主纹 · 性格事业</text>
-      </view>
+      <view v-else class="result">
+        <view class="overall card-mystic anim-fade-up">
+          <text class="card-title title-mystic">掌 相 总 评</text>
+          <view class="ov-row">
+            <view class="ov-num">
+              <text class="ov-val">{{ result.totalScore }}</text
+              ><text class="ov-unit">/ 100</text>
+            </view>
+            <text class="ov-level" :class="'lv-' + result.level">{{ result.level }}</text>
+          </view>
+          <text class="ov-sum">{{ result.summary }}</text>
+        </view>
 
-      <view class="form-actions">
-        <view class="btn-zhu" @click="analyze">开 始 分 析</view>
+        <view class="bagong card-mystic anim-fade-up" style="animation-delay: 0.1s">
+          <text class="card-title title-mystic">八 宫 丘 相</text>
+          <view
+            v-for="(g, i) in result.baGong"
+            :key="i"
+            class="bg-row"
+            :class="{ best: g.name === result.bestArea, worst: g.name === result.worstArea }"
+          >
+            <text class="bg-name">{{ g.name }}</text>
+            <text class="bg-pos">{{ g.pos }}</text>
+            <text class="bg-el">（{{ g.element }}）</text>
+            <view class="bg-bar"><view class="bg-fill" :style="{ width: g.score + '%' }" /></view>
+            <text class="bg-score">{{ g.score }}</text>
+          </view>
+        </view>
+
+        <view class="sanzhu card-mystic anim-fade-up" style="animation-delay: 0.15s">
+          <text class="card-title title-mystic">三 大 主 纹</text>
+          <view v-for="(s, i) in result.sanZhu" :key="i" class="sz-card">
+            <text class="sz-name">{{ s.name }}</text>
+            <text class="sz-q">· {{ s.quality }}</text>
+            <text class="sz-desc">{{ s.desc }}</text>
+            <view class="sz-bar"><view class="sz-fill" :style="{ width: s.score + '%' }" /></view>
+          </view>
+        </view>
+
+        <view class="form-actions">
+          <view class="btn-liu" @click="result = null">重 新 测 算</view>
+        </view>
       </view>
     </view>
 
-    <view v-else class="result">
-      <view class="overall card-mystic anim-fade-up">
-        <text class="card-title title-mystic">掌 相 总 评</text>
-        <view class="ov-row">
-          <view class="ov-num">
-            <text class="ov-val">{{ result.totalScore }}</text
-            ><text class="ov-unit">/ 100</text>
-          </view>
-          <text class="ov-level" :class="'lv-' + result.level">{{ result.level }}</text>
-        </view>
-        <text class="ov-sum">{{ result.summary }}</text>
+    <view v-else class="knowledge">
+      <view class="ov-card card-mystic anim-fade-up">
+        <text class="card-title title-mystic">掌 相 总 览</text>
+        <ShouXiangChart />
       </view>
-
-      <view class="bagong card-mystic anim-fade-up" style="animation-delay: 0.1s">
-        <text class="card-title title-mystic">八 宫 丘 相</text>
-        <view
-          v-for="(g, i) in result.baGong"
-          :key="i"
-          class="bg-row"
-          :class="{ best: g.name === result.bestArea, worst: g.name === result.worstArea }"
-        >
-          <text class="bg-name">{{ g.name }}</text>
-          <text class="bg-pos">{{ g.pos }}</text>
-          <text class="bg-el">（{{ g.element }}）</text>
-          <view class="bg-bar"><view class="bg-fill" :style="{ width: g.score + '%' }" /></view>
-          <text class="bg-score">{{ g.score }}</text>
-        </view>
-      </view>
-
-      <view class="sanzhu card-mystic anim-fade-up" style="animation-delay: 0.15s">
-        <text class="card-title title-mystic">三 大 主 纹</text>
-        <view v-for="(s, i) in result.sanZhu" :key="i" class="sz-card">
-          <text class="sz-name">{{ s.name }}</text>
-          <text class="sz-q">· {{ s.quality }}</text>
-          <text class="sz-desc">{{ s.desc }}</text>
-          <view class="sz-bar"><view class="sz-fill" :style="{ width: s.score + '%' }" /></view>
-        </view>
-      </view>
-
-      <view class="form-actions">
-        <view class="btn-liu" @click="result = null">重 新 测 算</view>
-      </view>
+      <KnowledgeShell
+        :items="SHOUXIANG_KNOWLEDGE"
+        :summaries="SHOUXIANG_SUMMARIES"
+        :details="SHOUXIANG_DETAILS"
+      />
     </view>
   </view>
 </template>
@@ -99,11 +126,19 @@
 import { ref } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
-import _ShouXiangChart from '@shared/components/charts/ShouXiangChart.vue'
+import TabBar from '@shared/components/ui/TabBar.vue'
+import KnowledgeShell from '@shared/components/ui/KnowledgeShell.vue'
+import ShouXiangChart from '@shared/components/charts/ShouXiangChart.vue'
 import { useAppStore } from '@/stores'
 import { calcShouxiang, type ShouxiangResult } from '@modules/guanxiang/logic/shouxiang'
+import {
+  SHOUXIANG_KNOWLEDGE,
+  SHOUXIANG_SUMMARIES,
+  SHOUXIANG_DETAILS,
+} from '@modules/guanxiang/logic/knowledge-shouxiang'
 
 const app = useAppStore()
+const activeTab = ref<'analyze' | 'knowledge'>('analyze')
 const form = ref({ year: 1990, month: 6, day: 15 })
 const monthRange = Array.from({ length: 12 }, (_, i) => i + 1 + '月')
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

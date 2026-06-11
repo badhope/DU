@@ -5,131 +5,158 @@
   >
     <view class="taiji-bg"><TaijiBg /></view>
     <TopBar title="阳宅风水" subtitle="HOME FENG SHUI" />
+    <TabBar
+      v-model="activeTab"
+      :tabs="[
+        { key: 'analyze', label: '分 析' },
+        { key: 'knowledge', label: '知 识 库' },
+      ]"
+    />
 
-    <view v-if="!result" class="setup card-mystic anim-fade-up">
-      <text class="form-title title-mystic">八 宅 派 风 水</text>
-      <text class="form-sub">生 辰 · 性 别 · 推 算 命 卦</text>
+    <view v-if="activeTab === 'analyze'">
+      <view v-if="!result" class="setup card-mystic anim-fade-up">
+        <text class="form-title title-mystic">八 宅 派 风 水</text>
+        <text class="form-sub">生 辰 · 性 别 · 推 算 命 卦</text>
 
-      <view class="form-row">
-        <text class="form-label">性别</text>
-        <view class="gender">
-          <view
-            v-for="g in ['男', '女']"
-            :key="g"
-            class="g-btn"
-            :class="{ active: form.gender === g }"
-            @click="form.gender = g as any"
-          >
-            {{ g }}
+        <view class="form-row">
+          <text class="form-label">性别</text>
+          <view class="gender">
+            <view
+              v-for="g in ['男', '女']"
+              :key="g"
+              class="g-btn"
+              :class="{ active: form.gender === g }"
+              @click="form.gender = g as any"
+            >
+              {{ g }}
+            </view>
           </view>
+        </view>
+
+        <view class="form-row">
+          <text class="form-label">年</text>
+          <picker
+            mode="number"
+            :value="form.year"
+            :min="1900"
+            :max="2010"
+            @change="onPick('year', $event)"
+          >
+            <view class="form-picker">{{ form.year }} 年</view>
+          </picker>
+        </view>
+
+        <view class="form-tip">
+          <text>· 八宅命卦 · 八方吉凶 · 门位/卧房/厨灶</text>
+        </view>
+
+        <view class="form-actions">
+          <view class="btn-zhu" @click="analyze">开 始 推 算</view>
         </view>
       </view>
 
-      <view class="form-row">
-        <text class="form-label">年</text>
-        <picker
-          mode="number"
-          :value="form.year"
-          :min="1900"
-          :max="2010"
-          @change="onPick('year', $event)"
-        >
-          <view class="form-picker">{{ form.year }} 年</view>
-        </picker>
-      </view>
+      <view v-else class="result">
+        <!-- 阳宅风水可视化 -->
+        <view class="card card-mystic anim-fade-up" style="animation-delay: 0.04s">
+          <FengLuiChart :result="result" />
+        </view>
 
-      <view class="form-tip">
-        <text>· 八宅命卦 · 八方吉凶 · 门位/卧房/厨灶</text>
-      </view>
+        <view class="overall card-mystic anim-fade-up">
+          <text class="card-title title-mystic">八 宅 总 评</text>
+          <view class="ov-info">
+            <text class="ov-line">
+              <text class="ov-l">命 卦</text>
+              <text class="ov-v">
+                {{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua].name }}）
+              </text>
+            </text>
+            <text class="ov-line">
+              <text class="ov-l">生旺方</text>
+              <text class="ov-v">{{ result.bestDirection }}</text>
+            </text>
+            <text class="ov-line">
+              <text class="ov-l">总 评</text>
+              <text class="ov-v" :class="'lv-' + result.level">{{ result.level }}</text>
+            </text>
+          </view>
+          <text class="ov-sum">{{ result.summary }}</text>
+        </view>
 
-      <view class="form-actions">
-        <view class="btn-zhu" @click="analyze">开 始 推 算</view>
+        <view class="compass card-mystic anim-fade-up" style="animation-delay: 0.1s">
+          <text class="card-title title-mystic">八 方 罗 盘</text>
+          <view class="rosette">
+            <view
+              v-for="(b, i) in result.baGua"
+              :key="i"
+              class="rg-cell"
+              :class="'rg-' + b.level"
+              :style="positionStyle(i)"
+            >
+              <text class="rg-sym">{{ b.symbol }}</text>
+              <text class="rg-name">{{ b.name }}</text>
+              <text class="rg-pos">{{ b.position }}</text>
+              <text class="rg-fortune">{{ b.fortune }}</text>
+            </view>
+            <view class="rg-center">
+              <text class="rg-center-name">{{ result.lifeMingName }}</text>
+              <text class="rg-center-sub">{{ BA_ZHAI_GUA[result.zhaiGua].name }}</text>
+            </view>
+          </view>
+          <view class="legend">
+            <text class="leg-item"
+              ><text class="leg-dot" style="background: #4fae6f"></text>吉</text
+            >
+            <text class="leg-item"
+              ><text class="leg-dot" style="background: #1b3a5c"></text>中</text
+            >
+            <text class="leg-item"
+              ><text class="leg-dot" style="background: #c8302a"></text>凶</text
+            >
+          </view>
+        </view>
+
+        <view class="menwei card-mystic anim-fade-up" style="animation-delay: 0.15s">
+          <text class="card-title title-mystic">门 位 建 议</text>
+          <view v-for="(m, i) in result.menWei" :key="i" class="mw-row">
+            <text class="mw-name">· {{ m.name }}</text>
+            <view class="mw-tags">
+              <text
+                v-for="(r, k) in m.recommended"
+                :key="k"
+                class="mw-tag"
+                :class="{
+                  good: result.baGua.find((x) => x.name === r)
+                    ? result.baGua.find((x) => x.name === r)!.level === '吉'
+                    : false,
+                }"
+              >
+                {{ r }}
+              </text>
+            </view>
+          </view>
+        </view>
+
+        <view class="advice card-mystic anim-fade-up" style="animation-delay: 0.2s">
+          <text class="card-title title-mystic">建 议</text>
+          <text v-for="(a, i) in result.advice" :key="i" class="adv-line">· {{ a }}</text>
+        </view>
+
+        <view class="form-actions">
+          <view class="btn-liu" @click="result = null">重 新 推 算</view>
+        </view>
       </view>
     </view>
 
-    <view v-else class="result">
-      <!-- 阳宅风水可视化 -->
-      <view class="card card-mystic anim-fade-up" style="animation-delay: 0.04s">
-        <FengLuiChart :result="result" />
+    <view v-else class="knowledge">
+      <view class="ov-card card-mystic anim-fade-up">
+        <text class="card-title title-mystic">八 宅 总 览</text>
+        <FengLuiChart :result="demoResult" />
       </view>
-
-      <view class="overall card-mystic anim-fade-up">
-        <text class="card-title title-mystic">八 宅 总 评</text>
-        <view class="ov-info">
-          <text class="ov-line">
-            <text class="ov-l">命 卦</text>
-            <text class="ov-v">
-              {{ result.lifeMingName }}（{{ BA_ZHAI_GUA[result.zhaiGua].name }}）
-            </text>
-          </text>
-          <text class="ov-line">
-            <text class="ov-l">生旺方</text>
-            <text class="ov-v">{{ result.bestDirection }}</text>
-          </text>
-          <text class="ov-line">
-            <text class="ov-l">总 评</text>
-            <text class="ov-v" :class="'lv-' + result.level">{{ result.level }}</text>
-          </text>
-        </view>
-        <text class="ov-sum">{{ result.summary }}</text>
-      </view>
-
-      <view class="compass card-mystic anim-fade-up" style="animation-delay: 0.1s">
-        <text class="card-title title-mystic">八 方 罗 盘</text>
-        <view class="rosette">
-          <view
-            v-for="(b, i) in result.baGua"
-            :key="i"
-            class="rg-cell"
-            :class="'rg-' + b.level"
-            :style="positionStyle(i)"
-          >
-            <text class="rg-sym">{{ b.symbol }}</text>
-            <text class="rg-name">{{ b.name }}</text>
-            <text class="rg-pos">{{ b.position }}</text>
-            <text class="rg-fortune">{{ b.fortune }}</text>
-          </view>
-          <view class="rg-center">
-            <text class="rg-center-name">{{ result.lifeMingName }}</text>
-            <text class="rg-center-sub">{{ BA_ZHAI_GUA[result.zhaiGua].name }}</text>
-          </view>
-        </view>
-        <view class="legend">
-          <text class="leg-item"><text class="leg-dot" style="background: #4fae6f"></text>吉</text>
-          <text class="leg-item"><text class="leg-dot" style="background: #1b3a5c"></text>中</text>
-          <text class="leg-item"><text class="leg-dot" style="background: #c8302a"></text>凶</text>
-        </view>
-      </view>
-
-      <view class="menwei card-mystic anim-fade-up" style="animation-delay: 0.15s">
-        <text class="card-title title-mystic">门 位 建 议</text>
-        <view v-for="(m, i) in result.menWei" :key="i" class="mw-row">
-          <text class="mw-name">· {{ m.name }}</text>
-          <view class="mw-tags">
-            <text
-              v-for="(r, k) in m.recommended"
-              :key="k"
-              class="mw-tag"
-              :class="{
-                good: result.baGua.find((x) => x.name === r)
-                  ? result.baGua.find((x) => x.name === r)!.level === '吉'
-                  : false,
-              }"
-            >
-              {{ r }}
-            </text>
-          </view>
-        </view>
-      </view>
-
-      <view class="advice card-mystic anim-fade-up" style="animation-delay: 0.2s">
-        <text class="card-title title-mystic">建 议</text>
-        <text v-for="(a, i) in result.advice" :key="i" class="adv-line">· {{ a }}</text>
-      </view>
-
-      <view class="form-actions">
-        <view class="btn-liu" @click="result = null">重 新 推 算</view>
-      </view>
+      <KnowledgeShell
+        :items="FENGLUI_KNOWLEDGE"
+        :summaries="FENGLUI_SUMMARIES"
+        :details="FENGLUI_DETAILS"
+      />
     </view>
   </view>
 </template>
@@ -138,11 +165,20 @@
 import { ref } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
+import TabBar from '@shared/components/ui/TabBar.vue'
+import KnowledgeShell from '@shared/components/ui/KnowledgeShell.vue'
 import FengLuiChart from '@shared/components/charts/FengLuiChart.vue'
 import { useAppStore } from '@/stores'
 import { calcFenglui, BA_ZHAI_GUA, type FengluiResult } from '@modules/guanxiang/logic/fenglui'
+import {
+  FENGLUI_KNOWLEDGE,
+  FENGLUI_SUMMARIES,
+  FENGLUI_DETAILS,
+} from '@modules/guanxiang/logic/knowledge-fenglui'
 
 const app = useAppStore()
+const activeTab = ref<'analyze' | 'knowledge'>('analyze')
+const demoResult = calcFenglui(1990, '男') as FengluiResult
 const form = ref({ year: 1990, gender: '男' as '男' | '女' })
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function onPick(k: string, e: any) {
