@@ -136,15 +136,15 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import ZhugeChart from '@/components/charts/ZhugeChart.vue'
 import { useAppStore } from '@/stores'
 import { drawZhuge, type ZhugeQian } from '@/utils/zhuge'
-import ToolGuard from '@/components/ui/ToolGuard.vue'
-import { useCooldown } from '@/utils/use-cooldown'
-import LoadingSeal from '@/components/ui/LoadingSeal.vue'
-import ResultReveal from '@/components/ui/ResultReveal.vue'
+import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
+import { useCooldown } from '@/shared/composables/use-cooldown'
+import LoadingSeal from '@/shared/components/ui/LoadingSeal.vue'
+import ResultReveal from '@/shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'zhuge', toolName: '诸葛神数', category: '占卜' })

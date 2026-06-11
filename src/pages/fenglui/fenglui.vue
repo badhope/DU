@@ -136,8 +136,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import FengLuiChart from '@/components/charts/FengLuiChart.vue'
 import { useAppStore } from '@/stores'
 import { calcFenglui, BA_ZHAI_GUA, type FengluiResult } from '@/utils/fenglui'

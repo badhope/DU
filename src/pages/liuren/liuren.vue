@@ -194,22 +194,22 @@
       @ignore="cd.onCooldownIgnore"
       @cancel-add-user="showAddUser = false"
       @confirm-add-user="cd.confirmAddUser"
-      @update:new-user-name="(v) => (newUserName = v)"
-      @update:new-user-remark="(v) => (newUserRemark = v)"
+      @update:new-user-name="(v: string) => (newUserName = v)"
+      @update:new-user-remark="(v: string) => (newUserRemark = v)"
     />
   </view>
 </template>
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import TopBar from '@/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
 import LiuRenDaChart from '@/components/charts/LiuRenDaChart.vue'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
-import ToolGuard from '@/components/ui/ToolGuard.vue'
+import UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
+import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
 import { calcLiuren, type LiurenResult } from '@/utils/liuren'
 import { useAppStore } from '@/stores'
-import { useCooldown } from '@/utils/use-cooldown'
+import { useCooldown } from '@/shared/composables/use-cooldown'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'liuren', toolName: '大六壬', category: '命理' })

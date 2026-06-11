@@ -96,8 +96,8 @@
 
 <script setup lang="ts">
 import { ref, reactive } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import JiRiChart from '@/components/charts/JiRiChart.vue'
 import { useAppStore } from '@/stores'
 import { findJiri, JIRI_EVENTS, type JiriResult } from '@/utils/jiri'

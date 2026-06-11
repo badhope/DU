@@ -84,8 +84,8 @@
       @ignore="cd.onCooldownIgnore"
       @cancel-add-user="showAddUser = false"
       @confirm-add-user="cd.confirmAddUser"
-      @update:new-user-name="(v) => (newUserName = v)"
-      @update:new-user-remark="(v) => (newUserRemark = v)"
+      @update:new-user-name="(v: string) => (newUserName = v)"
+      @update:new-user-remark="(v: string) => (newUserRemark = v)"
     />
   </view>
 </template>
@@ -93,13 +93,13 @@
 <script setup lang="ts">
 import { ref, onMounted as _onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
-import ToolGuard from '@/components/ui/ToolGuard.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
+import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
 import { yaoToGua, castYaoSticks, type Gua } from '@/utils/gua'
 import { useAppStore } from '@/stores'
-import { useCooldown } from '@/utils/use-cooldown'
+import { useCooldown } from '@/shared/composables/use-cooldown'
 
 const _app = useAppStore()
 const cd = useCooldown({ tool: 'gua', toolName: '今日一卦', category: '占卜' })

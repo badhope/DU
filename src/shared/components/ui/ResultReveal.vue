@@ -12,6 +12,7 @@
 <script setup lang="ts">
 import { ref, watch, onMounted, nextTick } from 'vue'
 import { gsap } from 'gsap'
+import { resolveHostEl } from './result-reveal-helpers'
 
 const props = withDefaults(
   defineProps<{
@@ -63,10 +64,12 @@ function fromVars(_el: HTMLElement) {
 }
 
 function play() {
-  if (!hostRef.value || typeof gsap === 'undefined') return
-  const items = hostRef.value.querySelectorAll(props.selector)
+  const host = resolveHostEl(hostRef.value)
+  if (!host || typeof gsap === 'undefined') return
+  const items =
+    props.selector === '> *' ? host.children : host.querySelectorAll(props.selector)
   if (items.length === 0) {
-    gsap.fromTo(hostRef.value, fromVars(hostRef.value), {
+    gsap.fromTo(host, fromVars(host), {
       opacity: 1,
       x: 0,
       y: 0,
@@ -77,7 +80,7 @@ function play() {
     })
     return
   }
-  gsap.fromTo(items, fromVars(hostRef.value), {
+  gsap.fromTo(items, fromVars(host), {
     opacity: 1,
     x: 0,
     y: 0,

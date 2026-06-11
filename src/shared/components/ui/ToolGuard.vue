@@ -53,7 +53,7 @@
 </template>
 
 <script setup lang="ts">
-import CooldownDialog from '@/components/ui/CooldownDialog.vue'
+import CooldownDialog from '@/shared/components/ui/CooldownDialog.vue'
 import type { DivinationRecord } from '@/stores'
 
 defineProps<{

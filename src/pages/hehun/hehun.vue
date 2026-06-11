@@ -327,8 +327,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import TopBar from '@/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
 import { hehun, type HehunResult } from '@/utils/hehun'
 import { WUXING_META, WUXING_LIST } from '@/utils/wuxing'
 import {
@@ -339,11 +339,11 @@ import {
 } from '@/utils/bazi'
 import _HeHunChart from '@/components/charts/HeHunChart.vue'
 import { useAppStore } from '@/stores'
-import _UserSwitcher from '@/components/ui/UserSwitcher.vue'
-import ToolGuard from '@/components/ui/ToolGuard.vue'
-import { useCooldown } from '@/utils/use-cooldown'
-import LoadingSeal from '@/components/ui/LoadingSeal.vue'
-import ResultReveal from '@/components/ui/ResultReveal.vue'
+import _UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
+import ToolGuard from '@/shared/components/ui/ToolGuard.vue'
+import { useCooldown } from '@/shared/composables/use-cooldown'
+import LoadingSeal from '@/shared/components/ui/LoadingSeal.vue'
+import ResultReveal from '@/shared/components/ui/ResultReveal.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'hehun', toolName: '八字合婚', category: '合婚' })

@@ -130,8 +130,8 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import TopBar from '@/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
 import _MeiHuaChart from '@/components/charts/MeiHuaChart.vue'
 import { useAppStore } from '@/stores'
 import { meihuaDivinate, type MeihuaResult } from '@/utils/meihua'

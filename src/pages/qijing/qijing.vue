@@ -169,9 +169,9 @@
 
 <script setup lang="ts">
 import { ref, computed as _computed } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import BodyMap from '@/components/ui/BodyMap.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import BodyMap from '@/components/ui/BodyMap.vue' // jiankang 模块专用,留原位,SP-5 移 modules/jiankang/components/
 import ZiWuLiuZhuChart from '@/components/charts/ZiWuLiuZhuChart.vue'
 import { useAppStore } from '@/stores'
 import { QIJING_LIST, JINGLUO_LIST, jingluoBySymptom, type Jingluo } from '@/utils/jingluo'

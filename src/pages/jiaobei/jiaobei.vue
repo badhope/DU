@@ -79,8 +79,8 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
 import { castJiao, type JiaoResult as _JiaoResult } from '@/utils/jiaobei'
 

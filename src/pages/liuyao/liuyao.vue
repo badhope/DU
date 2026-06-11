@@ -347,10 +347,10 @@
 
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import TopBar from '@/components/ui/TopBar.vue'
-import TaijiBg from '@/components/effects/TaijiBg.vue'
-import CooldownDialog from '@/components/ui/CooldownDialog.vue'
-import UserSwitcher from '@/components/ui/UserSwitcher.vue'
+import TopBar from '@/shared/components/ui/TopBar.vue'
+import TaijiBg from '@/shared/components/effects/TaijiBg.vue'
+import CooldownDialog from '@/shared/components/ui/CooldownDialog.vue'
+import UserSwitcher from '@/shared/components/ui/UserSwitcher.vue'
 import HexChart from '@/components/charts/HexChart.vue'
 import { useAppStore, type DivinationRecord } from '@/stores'
 import { liuyaoDivinate, TOPICS, type Topic, type LiuyaoResult } from '@/utils/liuyao'
