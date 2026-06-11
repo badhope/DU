@@ -86,8 +86,11 @@ function resolveImport(spec, fromFile) {
   return null
 }
 
-// --- 步骤 1: modules 跨模块隔离（仅允许 @shared 等顶层） ---
-step(1, 'modules 跨模块隔离（仅允许 @shared/@stores/@config/@app）')
+// --- 步骤 1: modules 跨模块隔离（仅允许 @shared 等顶层 + @modules/mingli/shenghuo 作为基础数据层） ---
+// mingli/shenghuo 是"基础数据/计算"层（bazi/wuxing/jiegua/jiri/huangli/jieqi 等），
+// 被其他 modules 依赖是合理业务（占卜/健康等都依赖八字/五行/黄历/节气）。
+// 其他 modules 仍严格隔离。
+step(1, 'modules 跨模块隔离（允许 @modules/mingli/shenghuo 作为基础数据层 + shared/settings/app/stores/config）')
 for (const m of REQUIRED_MODULES) {
   const mdir = join(MODULES, m)
   if (!existsSync(mdir)) continue
@@ -106,13 +109,16 @@ for (const m of REQUIRED_MODULES) {
       )
         continue
       if (rel.startsWith(`modules/${m}/`)) continue
+      // mingli + shenghuo 作为基础数据层，允许其他 modules 引用
+      if (rel.startsWith('modules/mingli/')) continue
+      if (rel.startsWith('modules/shenghuo/')) continue
       if (rel.startsWith('modules/')) {
         fail(1, `${relative(ROOT, f)} imports 兄弟模块 ${spec} (→ ${rel})`)
       }
     }
   }
 }
-ok(1, '扫描完成（SP-2 完成态：仅允许 shared/settings/app/stores/config + 本模块）')
+ok(1, '扫描完成（SP-2 完成态：shared/settings/app/stores/config + 本模块 + mingli/shenghuo 基础层）')
 
 // --- 步骤 2: shared 不能 import modules（特例: shared/components/charts/* 可引用 modules，因为 charts 是"展示+计算混装"的复合组件）---
 step(2, 'shared 禁止 import modules（charts 特例除外）')

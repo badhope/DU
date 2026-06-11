@@ -131,13 +131,22 @@ phase('module-pages', () => {
   for (const [mod, pages] of Object.entries(MAPPING.modulePages)) {
     ensureDir(`src/modules/${mod}/pages`)
     for (const page of pages) {
-      const from = `src/pages/${page}.vue`
+      // page 可能是 "gua/interpret"（子目录） 或 "wuxing"（单段）
+      // 旧路径: src/pages/<dir>/<file>.vue （如 src/pages/zhan/zhan.vue 或 src/pages/gua/interpret.vue）
+      // 新路径: src/modules/<m>/pages/<page>.vue （保持原始 page 字符串作为相对路径）
+      const parts = page.split('/')
+      const dir = parts[0]
+      const file = parts[parts.length - 1] + '.vue'
+      const from = `src/pages/${dir}/${file}`
       const to = `src/modules/${mod}/pages/${page}.vue`
       if (!existsSync(from)) {
         console.log(`  skip ${from} (not exist)`)
         continue
       }
-      // 子目录情况（如 gua/interpret.vue）
+      if (existsSync(to)) {
+        console.log(`  skip ${from} -> ${to} (dest already exists)`)
+        continue
+      }
       ensureDir(dirname(to))
       run(`git mv ${from} ${to}`)
     }
@@ -147,14 +156,16 @@ phase('module-pages', () => {
     const from = `src/pages/${page}/${page}.vue`
     const to = `src/settings/pages/${page}.vue`
     if (existsSync(from)) {
-      run(`git mv ${from} ${to}`)
+      if (existsSync(to)) {
+        console.log(`  skip ${from} (dest already exists)`)
+      } else {
+        run(`git mv ${from} ${to}`)
+      }
     }
   }
   runQuiet(`git rm -r src/pages`)
   if (!DRY) {
-    run(
-      `python3 scripts/rewrite-imports.py src/modules/ src/settings/ src/stores/ src/config/ src/App.vue`,
-    )
+    run(`python3 scripts/rewrite-imports.py src/modules/ src/settings/ src/stores/ src/config/ src/App.vue`)
   }
 })
 

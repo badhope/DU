@@ -142,7 +142,12 @@ import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import ZiWuLiuZhuChart from '@shared/components/charts/ZiWuLiuZhuChart.vue'
 import { useAppStore } from '@/stores'
-import { HOURLY_JING, LINGGUI_POINTS, currentHourlyJing, lingguiOpen } from '@modules/jiankang/logic/jingluo'
+import {
+  HOURLY_JING,
+  LINGGUI_POINTS,
+  currentHourlyJing,
+  lingguiOpen,
+} from '@modules/jiankang/logic/jingluo'
 
 const app = useAppStore()
 

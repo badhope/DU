@@ -207,7 +207,11 @@ import { gsap } from 'gsap'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import { GUA_LIST, type Gua as _Gua, type Trigram as _Trigram } from '@modules/zhanbu/logic/gua'
-import { jiegua as jieguaFn, YONGSHEN_TOPICS, type JieguaResult } from '@modules/zhanbu/logic/jiegua'
+import {
+  jiegua as jieguaFn,
+  YONGSHEN_TOPICS,
+  type JieguaResult,
+} from '@modules/zhanbu/logic/jiegua'
 
 const title = '解卦'
 const subtitle = 'INTERPRETATION'

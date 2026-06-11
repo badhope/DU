@@ -171,7 +171,12 @@ import UserSwitcher from '@shared/components/ui/UserSwitcher.vue'
 import ToolGuard from '@shared/components/ui/ToolGuard.vue'
 import ZiweiChart from '@shared/components/charts/ZiweiChart.vue'
 import { useAppStore } from '@/stores'
-import { calcZiwei, STAR_META, GONG_NAMES as _GONG_NAMES, type ZiweiResult } from '@modules/mingli/logic/ziwei'
+import {
+  calcZiwei,
+  STAR_META,
+  GONG_NAMES as _GONG_NAMES,
+  type ZiweiResult,
+} from '@modules/mingli/logic/ziwei'
 import { useCooldown } from '@shared/composables/use-cooldown'
 import LoadingSeal from '@shared/components/ui/LoadingSeal.vue'
 import ResultReveal from '@shared/components/ui/ResultReveal.vue'

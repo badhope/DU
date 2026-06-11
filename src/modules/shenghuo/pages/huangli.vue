@@ -83,7 +83,12 @@ import { ref, onMounted } from 'vue'
 import TopBar from '@shared/components/ui/TopBar.vue'
 import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
-import { getHuangliDay, getHuangli5Days, ZHI_SHEN_EXPORT, type HuangliDay } from '@modules/shenghuo/logic/huangli'
+import {
+  getHuangliDay,
+  getHuangli5Days,
+  ZHI_SHEN_EXPORT,
+  type HuangliDay,
+} from '@modules/shenghuo/logic/huangli'
 
 const app = useAppStore()
 const today = ref<HuangliDay>(getHuangliDay(new Date()))

@@ -77,31 +77,62 @@
       <view class="tiyong card-mystic anim-fade-up" style="animation-delay: 0.1s">
         <text class="card-title title-mystic">体 用 之 辨</text>
         <view class="ty-grid">
-          <view class="ty-cell" :style="{ borderColor: WX_META[result.ti.wuxing as keyof typeof WX_META].color }">
+          <view
+            class="ty-cell"
+            :style="{ borderColor: WX_META[result.ti.wuxing as keyof typeof WX_META].color }"
+          >
             <text class="ty-name">体 卦</text>
-            <text class="ty-sym" :style="{ color: WX_META[result.ti.wuxing as keyof typeof WX_META].color }">
+            <text
+              class="ty-sym"
+              :style="{ color: WX_META[result.ti.wuxing as keyof typeof WX_META].color }"
+            >
               {{ result.ti.symbol }}
             </text>
-            <text class="ty-wx" :style="{ color: WX_META[result.ti.wuxing as keyof typeof WX_META].color }">
+            <text
+              class="ty-wx"
+              :style="{ color: WX_META[result.ti.wuxing as keyof typeof WX_META].color }"
+            >
               {{ result.ti.name }} ({{ WX_META[result.ti.wuxing as keyof typeof WX_META].name }})
             </text>
           </view>
-          <view class="ty-cell" :style="{ borderColor: WX_META[result.yong.wuxing as keyof typeof WX_META].color }">
+          <view
+            class="ty-cell"
+            :style="{ borderColor: WX_META[result.yong.wuxing as keyof typeof WX_META].color }"
+          >
             <text class="ty-name">用 卦</text>
-            <text class="ty-sym" :style="{ color: WX_META[result.yong.wuxing as keyof typeof WX_META].color }">
+            <text
+              class="ty-sym"
+              :style="{ color: WX_META[result.yong.wuxing as keyof typeof WX_META].color }"
+            >
               {{ result.yong.symbol }}
             </text>
-            <text class="ty-wx" :style="{ color: WX_META[result.yong.wuxing as keyof typeof WX_META].color }">
-              {{ result.yong.name }} ({{ WX_META[result.yong.wuxing as keyof typeof WX_META].name }})
+            <text
+              class="ty-wx"
+              :style="{ color: WX_META[result.yong.wuxing as keyof typeof WX_META].color }"
+            >
+              {{ result.yong.name }} ({{
+                WX_META[result.yong.wuxing as keyof typeof WX_META].name
+              }})
             </text>
           </view>
-          <view class="ty-cell" :style="{ borderColor: WX_META[result.bian.wuxing as keyof typeof WX_META].color }">
+          <view
+            class="ty-cell"
+            :style="{ borderColor: WX_META[result.bian.wuxing as keyof typeof WX_META].color }"
+          >
             <text class="ty-name">变 卦</text>
-            <text class="ty-sym" :style="{ color: WX_META[result.bian.wuxing as keyof typeof WX_META].color }">
+            <text
+              class="ty-sym"
+              :style="{ color: WX_META[result.bian.wuxing as keyof typeof WX_META].color }"
+            >
               {{ result.bian.symbol }}
             </text>
-            <text class="ty-wx" :style="{ color: WX_META[result.bian.wuxing as keyof typeof WX_META].color }">
-              {{ result.bian.name }} ({{ WX_META[result.bian.wuxing as keyof typeof WX_META].name }})
+            <text
+              class="ty-wx"
+              :style="{ color: WX_META[result.bian.wuxing as keyof typeof WX_META].color }"
+            >
+              {{ result.bian.name }} ({{
+                WX_META[result.bian.wuxing as keyof typeof WX_META].name
+              }})
             </text>
           </view>
         </view>

@@ -174,7 +174,12 @@ import TaijiBg from '@shared/components/effects/TaijiBg.vue'
 import BodyMap from '@modules/jiankang/components/BodyMap.vue'
 import ZiWuLiuZhuChart from '@shared/components/charts/ZiWuLiuZhuChart.vue'
 import { useAppStore } from '@/stores'
-import { QIJING_LIST, JINGLUO_LIST, jingluoBySymptom, type Jingluo } from '@modules/jiankang/logic/jingluo'
+import {
+  QIJING_LIST,
+  JINGLUO_LIST,
+  jingluoBySymptom,
+  type Jingluo,
+} from '@modules/jiankang/logic/jingluo'
 
 const app = useAppStore()
 
