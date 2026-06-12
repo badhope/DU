@@ -171,12 +171,6 @@ const quickTools = [
     bg: 'linear-gradient(135deg, #C8302A 0%, #1B3A5C 100%)',
   },
   {
-    name: 'AI',
-    glyph: '智',
-    path: '/pages/ai/ai-gua',
-    bg: 'linear-gradient(135deg, #5B3A8E 0%, #C8302A 100%)',
-  },
-  {
     name: '健康',
     glyph: '健',
     path: '/pages/qijing/qijing',
@@ -226,8 +220,6 @@ function toolPath(tool: string): string {
     ziwei: '/pages/ziwei/ziwei',
     tarot: '/pages/tarot/tarot',
     meihua: '/pages/meihua/meihua',
-    'ai-gua': '/pages/ai/ai-gua',
-    'ai-ming': '/pages/ai/ai-ming',
   }
   return map[tool] || '/pages/index/index'
 }

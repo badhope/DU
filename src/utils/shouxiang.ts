@@ -240,16 +240,12 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
     ...g,
     score: Math.max(50, Math.min(95, base + i + (year % 5) - 2)),
   }))
-  const sanZhu = SAN_ZHU.map((s, i) => ({
-    ...s,
-    score: Math.max(55, Math.min(95, base + i * 2 + (month % 3) - 1)),
-    quality:
-      base + i * 2 + (month % 3) - 1 > 80
-        ? ('佳' as const)
-        : base + i * 2 + (month % 3) - 1 > 65
-          ? ('佳' as const)
-          : ('中' as const),
-  }))
+  const sanZhu = SAN_ZHU.map((s, i) => {
+    const score = Math.max(55, Math.min(95, base + i * 2 + (month % 3) - 1))
+    const quality: '佳' | '中' | '弱' =
+      score > 80 ? '佳' : score > 65 ? '中' : '弱'
+    return { ...s, score, quality }
+  })
 
   // 12 丘
   const shiErQiu: ShiErQiuItem[] = SHI_ER_QIU.map((q, i) => {

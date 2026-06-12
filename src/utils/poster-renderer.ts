@@ -21,7 +21,7 @@ export type PosterTemplate = 'xuanhei' | 'zhuhong' | 'liujin' | 'xuanzi' | 'xuan
 
 export interface PosterConfig {
   template: PosterTemplate
-  type: 'gua' | 'bazi' | 'tarot' | 'ai' | 'liuyao' | 'custom'
+  type: 'gua' | 'bazi' | 'tarot' | 'liuyao' | 'custom'
   /** 大字符 / 图腾 */
   glyph: string
   /** 主标题 */
@@ -404,7 +404,7 @@ function drawFooter(
  * 准备海报内容（基于用户历史/档案自动填充）
  */
 export function buildPosterFromHistory(
-  type: 'gua' | 'bazi' | 'tarot' | 'ai' | 'liuyao' | 'custom',
+  type: 'gua' | 'bazi' | 'tarot' | 'liuyao' | 'custom',
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   history?: { input?: any; output?: any; brief?: string } | null,
   profile?: { nickname?: string } | null,
@@ -477,19 +477,6 @@ export function buildPosterFromHistory(
           `用神 ${out.yongshen || '—'} · ${out.status || '—'}`,
         ],
         badge: 'LIUYAO · 玄枢易盘',
-      }
-    case 'ai':
-      return {
-        ...base,
-        glyph: '智',
-        title: 'AI 玄谈',
-        subtitle: '六师共议',
-        content: [
-          inp.master ? `问于 ${inp.master}` : '问卦',
-          out.reply?.slice(0, 12) || '万事皆有其时',
-          '玄枢六师 · 智慧相授',
-        ],
-        badge: 'AI · 六师问答',
       }
     default:
       return base

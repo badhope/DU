@@ -173,7 +173,6 @@ const typeOptions = [
   { key: 'bazi' as const, label: '八字', glyph: '命' },
   { key: 'tarot' as const, label: '塔罗', glyph: '✦' },
   { key: 'liuyao' as const, label: '六爻', glyph: '爻' },
-  { key: 'ai' as const, label: 'AI', glyph: '智' },
   { key: 'custom' as const, label: '自定义', glyph: '自' },
 ]
 
@@ -183,7 +182,6 @@ const availableHistories = computed(() => {
     bazi: 'bazi',
     tarot: 'tarot',
     liuyao: 'liuyao',
-    ai: 'ai-gua',
   }
   const key = map[form.value.type] || ''
   return app.history.filter((h) => h.tool === key).slice(0, 20)
@@ -223,11 +221,6 @@ function setType(k: typeof form.value.type) {
     form.value.glyph = '爻'
     form.value.title = '玄枢易盘'
     form.value.subtitle = '六爻纳甲'
-  }
-  if (k === 'ai') {
-    form.value.glyph = '智'
-    form.value.title = 'AI 玄谈'
-    form.value.subtitle = '六师共议'
   }
   if (k === 'custom') {
     form.value.glyph = '自'
