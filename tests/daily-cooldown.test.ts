@@ -44,7 +44,13 @@ describe('daily-cooldown', () => {
 
     it('covers all once-per-day tools', () => {
       const oncePerDay = Object.entries(COOLDOWN_TYPE).filter(([, v]) => v === 'once-per-day')
-      expect(oncePerDay.length).toBe(10)
+      // Once-per-day set: 10 original heavy tools + 3 new high-end classics
+      // (周易本义 / 子平真诠 / 地理五诀).
+      expect(oncePerDay.length).toBe(13)
+      // Sanity: the three new high-end classics must be present
+      expect(COOLDOWN_TYPE['zhouyi']).toBe('once-per-day')
+      expect(COOLDOWN_TYPE['ziping']).toBe('once-per-day')
+      expect(COOLDOWN_TYPE['dili']).toBe('once-per-day')
     })
   })
 

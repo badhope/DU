@@ -6,7 +6,7 @@
   - 8 卦粒子绕轨运行
 -->
 <template>
-  <view class="loading-mask anim-fade">
+  <view v-if="visible" class="loading-mask anim-fade">
     <view class="lm-card card-mystic anim-scale-in">
       <!-- 外层光芒 -->
       <view class="lm-rays">

@@ -1,0 +1,15 @@
+{
+  "console": [
+    {
+      "type": "debug",
+      "text": "[vite] connecting...",
+      "location": "{'url': 'http://localhost:5173/mistverse/@vite/client', 'line': 850, 'column': 8, 'lineNumber': 850, 'columnNumber': 8}"
+    },
+    {
+      "type": "debug",
+      "text": "[vite] connected.",
+      "location": "{'url': 'http://localhost:5173/mistverse/@vite/client', 'line': 954, 'column': 11, 'lineNumber': 954, 'columnNumber': 11}"
+    }
+  ],
+  "errors": []
+}

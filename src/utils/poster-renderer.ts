@@ -481,15 +481,15 @@ export function buildPosterFromHistory(
     case 'ai':
       return {
         ...base,
-        glyph: '智',
-        title: 'AI 玄谈',
-        subtitle: '六师共议',
+        glyph: '典',
+        title: '高阶典籍',
+        subtitle: '六经一贯',
         content: [
-          inp.master ? `问于 ${inp.master}` : '问卦',
-          out.reply?.slice(0, 12) || '万事皆有其时',
-          '玄枢六师 · 智慧相授',
+          inp.master ? `通 ${inp.master}` : '通读',
+          out.reply?.slice(0, 12) || '诸法精微',
+          '玄枢六典 · 薪火相承',
         ],
-        badge: 'AI · 六师问答',
+        badge: 'CLASSIC · 高阶典籍',
       }
     default:
       return base

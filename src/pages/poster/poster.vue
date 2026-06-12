@@ -173,7 +173,7 @@ const typeOptions = [
   { key: 'bazi' as const, label: '八字', glyph: '命' },
   { key: 'tarot' as const, label: '塔罗', glyph: '✦' },
   { key: 'liuyao' as const, label: '六爻', glyph: '爻' },
-  { key: 'ai' as const, label: 'AI', glyph: '智' },
+  { key: 'ai' as const, label: '典籍', glyph: '典' },
   { key: 'custom' as const, label: '自定义', glyph: '自' },
 ]
 
@@ -183,7 +183,7 @@ const availableHistories = computed(() => {
     bazi: 'bazi',
     tarot: 'tarot',
     liuyao: 'liuyao',
-    ai: 'ai-gua',
+    ai: 'zhouyi',
   }
   const key = map[form.value.type] || ''
   return app.history.filter((h) => h.tool === key).slice(0, 20)

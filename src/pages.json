@@ -337,51 +337,51 @@
       }
     },
     {
-      "path": "pages/ai/ai-gua",
+      "path": "pages/zhouyi/zhouyi",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 解卦师"
+        "navigationBarTitleText": "周易本义"
       }
     },
     {
-      "path": "pages/ai/ai-ming",
+      "path": "pages/ziping/ziping",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 命理师"
+        "navigationBarTitleText": "子平真诠"
       }
     },
     {
-      "path": "pages/ai/ai-feng",
+      "path": "pages/dili/dili",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 风水师"
+        "navigationBarTitleText": "地理五诀"
       }
     },
     {
-      "path": "pages/ai/ai-name",
+      "path": "pages/yuxia/yuxia",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 起名师"
+        "navigationBarTitleText": "玉匣记"
       }
     },
     {
-      "path": "pages/ai/ai-jiankang",
+      "path": "pages/yunqi/yunqi",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 健康师"
+        "navigationBarTitleText": "运气七篇"
       }
     },
     {
-      "path": "pages/ai/ai-xiuxin",
+      "path": "pages/cantong/cantong",
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "AI 修心师"
+        "navigationBarTitleText": "参同契"
       }
     },
     {

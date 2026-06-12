@@ -1,0 +1,229 @@
+{
+  "console_errors": [
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+    },
+    {
+      "type": "error",
+      "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+      "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+    },
+    {
+      "type": "error",
+      "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+      "location": "{'url': 'http://localhost:5173/mistverse/src/utils/dili.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+    },
+    {
+      "type": "error",
+      "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/dili/dili.vue",
+      "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+    }
+  ],
+  "console_log_count": 8,
+  "pages": [
+    {
+      "name": "cat-FATE",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=FATE",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "cat-DIVINATION",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=DIVINATION",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "cat-ARTS",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=ARTS",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "cat-WELLNESS",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=WELLNESS",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "cat-CULTIVATION",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=CULTIVATION",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "cat-LIFE",
+      "url": "http://localhost:5173/mistverse/#/pages/category/category?cat=LIFE",
+      "title": "分类",
+      "body": "‹\n命理\n天生之格\n⚙\n☯\n命理\nFATE\n天生之格 · 0 项\n入 口\n已上线 0 / 规划 0 项\n道生一，一生二，二生三，三生万物。\n· 道德经 ·",
+      "has_uni_page": true,
+      "errors_so_far": []
+    },
+    {
+      "name": "tool-zhouyi",
+      "url": "http://localhost:5173/mistverse/#/pages/zhouyi/zhouyi",
+      "title": "周易本义",
+      "body": "The connection timed out, click the screen to try again.",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    },
+    {
+      "name": "tool-ziping",
+      "url": "http://localhost:5173/mistverse/#/pages/ziping/ziping",
+      "title": "子平真诠",
+      "body": "‹\n子平真诠\nZIPING · ZHENQUAN · 沈孝瞻\n⚙\n沈 孝 瞻 · 子 平 真 诠\n用 神 精 断 · 格 局 高 判 · 神 煞 详 注\n生 辰\n1990-01-01\n12:00\n性 别\n男\n女\n· 月令以节气为准 · 暂用公历近似\n· 真诠用神四法：扶抑、调候、通关、病药\n排 盘 · 详 批",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    },
+    {
+      "name": "tool-dili",
+      "url": "http://localhost:5173/mistverse/#/pages/dili/dili",
+      "title": "地理五诀",
+      "body": "The connection timed out, click the screen to try again.",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/dili.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/dili/dili.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    },
+    {
+      "name": "tool-yuxia",
+      "url": "http://localhost:5173/mistverse/#/pages/yuxia/yuxia",
+      "title": "玉匣记",
+      "body": "‹\n玉匣记\nYUXIA · 高阶命名 · 81 数详批\n⚙\n玉 匣 记 · 八 十 一 数\n三 才 五 格 · 八 一 数 详 批 · 音 形 义 合\n姓\n单字姓 · 如 王\n名\n1-2 字名 · 如 浩然\n· 默认使用《康熙字典》笔画 · 81 数详批依熊崎氏源流\n· 三才 = 天格、人格、地格 · 五行配置论吉凶\n· 总格主导一生 · 人格主导 30-50 岁 · 地格主导 30 岁前\n八 一 数 · 详 批",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/dili.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/dili/dili.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    },
+    {
+      "name": "tool-yunqi",
+      "url": "http://localhost:5173/mistverse/#/pages/yunqi/yunqi",
+      "title": "运气七篇",
+      "body": "‹\n运气七篇\nYUNQI · 黄帝内经 · 素问七篇\n⚙\n黄 帝 内 经 · 素 问\n天 元 纪 · 五 运 六 气 · 客 主 加 临\n公 历 年 份\n-\n2026\n+\n2026\n2025\n2024\n· 五运六气 · 出自《素问》\"天元纪\"等七篇\n· 五运：甲己土、乙庚金、丙辛水、丁壬木、戊癸火\n· 六气：风木、君火、湿土、相火、燥金、寒水\n五 运 · 六 气 · 详 断",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/dili.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/dili/dili.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    },
+    {
+      "name": "tool-cantong",
+      "url": "http://localhost:5173/mistverse/#/pages/cantong/cantong",
+      "title": "参同契",
+      "body": "‹\n参同契\nCANTONG · 调身调息调心 · 禅修心法\n⚙\n参 同 契 · 魏 伯 阳\n调 身 · 调 息 · 调 心 · 三 阶 详 修\n修 法\n数息\n默数出入息\n参话\n提起话头\n观心\n观照本心\n随息\n心随息转\n持咒\n净念相继\n内观\n观身不净\n时 长\n10 分\n25 分\n45 分\n60 分\n90 分\n· 静室端坐 · 七支坐法 · 调身调息调心\n· 数息摄心 · 参话起疑 · 观心识性\n· 行住坐卧皆可参 · 不离本心\n入 座 · 开 始",
+      "has_uni_page": true,
+      "errors_so_far": [
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/zhouyi.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/zhouyi/zhouyi.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        },
+        {
+          "type": "error",
+          "text": "Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+          "location": "{'url': 'http://localhost:5173/mistverse/src/utils/dili.ts', 'line': 0, 'column': 0, 'lineNumber': 0, 'columnNumber': 0}"
+        },
+        {
+          "type": "error",
+          "text": "TypeError: Failed to fetch dynamically imported module: http://localhost:5173/mistverse/src/pages/dili/dili.vue",
+          "location": "{'url': 'http://localhost:5173/mistverse/node_modules/.pnpm/@dcloudio+uni-h5-vue@3.0.0-4080420251103001_vue@3.5.35_typescript@6.0.3_/node_modules/@dcloudio/uni-h5-vue/dist/vue.runtime.esm.js', 'line': 1363, 'column': 11, 'lineNumber': 1363, 'columnNumber': 11}"
+        }
+      ]
+    }
+  ]
+}

@@ -65,7 +65,7 @@ export type ToolKey =
   | 'jiri'
   | 'yunshi'
   | 'jiazu'
-  // 高阶命理
+  // 高阶典籍
   | 'ziwei'
   | 'xuankong'
   | 'tieban'
@@ -74,13 +74,13 @@ export type ToolKey =
   | 'life'
   | 'astro'
   | 'maya'
-  // AI 助手
-  | 'ai-gua'
-  | 'ai-ming'
-  | 'ai-feng'
-  | 'ai-name'
-  | 'ai-jiankang'
-  | 'ai-xiuxin'
+  // 高阶典籍 6
+  | 'zhouyi'
+  | 'ziping'
+  | 'dili'
+  | 'yuxia'
+  | 'yunqi'
+  | 'cantong'
   // 个人中心
   | 'profile'
   | 'dashboard'
@@ -142,16 +142,16 @@ export interface Achievement {
   current: number
 }
 
-/** AI 六师聊天会话 */
+/** 高阶典籍聊天会话占位（已迁移至各工具独立 history） */
 export interface ChatSession {
-  masterKey: string // 'ai-gua' | 'ai-ming' | ...
+  masterKey: string // 保留为兼容历史存档
   messages: Array<{
     role: 'user' | 'master'
     text: string
     time: number
     cite?: string
   }>
-  persona?: string // 用户设置的 persona（可选）
+  persona?: string
   lastActiveTime: number
 }
 
@@ -180,7 +180,7 @@ interface PersistState {
   notes: Note[]
   achievements: Achievement[]
   checkin: CheckinInfo
-  chatSessions: Record<string, ChatSession> // AI 六师聊天记录（按 masterKey 分组）
+  chatSessions: Record<string, ChatSession> // 历史会话（已迁移至独立工具 history，保留字段以兼容旧存档）
   divinationRecords: DivinationRecord[] // 全部占卜记录（用于一日同人同工具检查）
   divinatorProfiles: Record<string, DivinatorProfile> // 用户档案
   activeDivinatorKey: string // 当前激活用户 key
@@ -342,18 +342,18 @@ const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   {
     id: 'high-level',
     name: '探赜索隐',
-    desc: '使用全部 8 大高阶命理',
+    desc: '使用全部 14 部高阶典籍',
     icon: '奥',
     unlocked: false,
     progress: 0,
-    target: 8,
+    target: 14,
     current: 0,
   },
   {
-    id: 'ai-master',
-    name: 'AI 玄谈',
-    desc: '与 6 位 AI 师均交流',
-    icon: '智',
+    id: 'use-all-classic',
+    name: '典籍贯通',
+    desc: '通读 6 部新增高阶典籍',
+    icon: '典',
     unlocked: false,
     progress: 0,
     target: 6,
@@ -578,8 +578,8 @@ export const useAppStore = defineStore('app', () => {
     notes.value = notes.value.filter((n) => n.id !== id)
   }
 
-  // ============ AI 六师聊天会话 ============
-  const MAX_CHAT_MESSAGES = 40 // 单 master 最多保留 20 轮（user+master）
+  // ============ 高阶典籍会话（兼容旧存档，已不写入新数据） ============
+  const MAX_CHAT_MESSAGES = 40
 
   function getChatSession(masterKey: string): ChatSession {
     if (!chatSessions.value[masterKey]) {
@@ -599,7 +599,6 @@ export const useAppStore = defineStore('app', () => {
     const session = getChatSession(masterKey)
     session.messages.push({ ...msg, time: Date.now() })
     session.lastActiveTime = Date.now()
-    // 限制最大消息数（FIFO 截断）
     if (session.messages.length > MAX_CHAT_MESSAGES) {
       session.messages.splice(0, session.messages.length - MAX_CHAT_MESSAGES)
     }
@@ -800,6 +799,17 @@ export const useAppStore = defineStore('app', () => {
       if (t) cats.add(t.category)
     })
     _updateAch('category-all', cats.size)
+    // 14 部高阶典籍：8 旧 + 6 新
+    const highLevel = [
+      'ziwei', 'xuankong', 'tieban', 'xiaoliuren', 'zhuge', 'life', 'astro', 'maya',
+      'zhouyi', 'ziping', 'dili', 'yuxia', 'yunqi', 'cantong',
+    ]
+    const usedHigh = highLevel.filter((k) => used.has(k as ToolKey)).length
+    _updateAch('high-level', usedHigh)
+    // 6 部新增典籍
+    const newClassic = ['zhouyi', 'ziping', 'dili', 'yuxia', 'yunqi', 'cantong']
+    const usedNew = newClassic.filter((k) => used.has(k as ToolKey)).length
+    _updateAch('use-all-classic', usedNew)
   }
 
   // ============ 签到 ============
