@@ -51,7 +51,7 @@
         <text class="entries-title-text">入 口</text>
         <text class="entries-title-line" />
       </view>
-      <view class="entries-grid">
+      <view class="entries-grid" role="navigation" aria-label="功能分类导航">
         <view
           v-for="(cat, i) in categories"
           :key="cat.key"
@@ -63,6 +63,11 @@
             animationDelay: i * 0.08 + 's',
           }"
           @click="goCategory(cat.key)"
+          @keydown.enter="goCategory(cat.key)"
+          @keydown.space="goCategory(cat.key)"
+          role="button"
+          :aria-label="`${cat.name} - ${cat.subtitle}，共 ${getCount(cat.key)} 项功能`"
+          tabindex="0"
         >
           <view
             class="entry-glyph"

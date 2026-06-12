@@ -1,0 +1,488 @@
+{
+  "console_errors": [],
+  "page_errors": [],
+  "network_errors": [],
+  "issues": [],
+  "observations": [
+    {
+      "tool": "wuxing",
+      "label": "五行罗盘",
+      "cat": "mingli",
+      "path": "wuxing/wuxing",
+      "url": "http://localhost:5173/mistverse/#/pages/wuxing/wuxing",
+      "issues": [],
+      "body_len": 203,
+      "body_head": "‹\n五行罗盘\nWUXING COMPASS\n⚙\n五行者，天地之化机，万物之父母。\n木 · 火 · 土 · 金 · 水 — 相生相克，循环不息\n☰\n☱\n☲\n☳\n☴\n木\nmù\n东 · 春\n火\nhuǒ\n南 · 夏\n土\ntǔ\n中央 · 长夏\n金\njīn\n西 · 秋\n水\nshuǐ\n北 · 冬\n点击节点 · 探索生克\n相生：木 → 火 → 土 → 金 → 水 → 木\n相克：木 → 土 → 水 → 火 → 金 → 木"
+    },
+    {
+      "tool": "bazi",
+      "label": "八字排盘",
+      "cat": "mingli",
+      "path": "bazi/bazi",
+      "url": "http://localhost:5173/mistverse/#/pages/bazi/bazi",
+      "issues": [],
+      "body_len": 154,
+      "body_head": "‹\n八字排盘\nFOUR PILLARS OF DESTINY\n⚙\n请输入生辰\n年月日时 · 天地人神四柱\n年\n2026 年\n月\n6 月\n日\n12 日\n时\n10:00 (巳时)\n经度\n120°E · 真太阳时 10:00 · 差 0 分\n性 别\n男\n女\n· 输入经度可自动修正真太阳时 · 命理深度算法\n排 盘"
+    },
+    {
+      "tool": "hehun",
+      "label": "八字合婚",
+      "cat": "mingli",
+      "path": "hehun/hehun",
+      "url": "http://localhost:5173/mistverse/#/pages/hehun/hehun",
+      "issues": [],
+      "body_len": 130,
+      "body_head": "‹\n八字合婚\nBAZI MARRIAGE\n⚙\n双 方 生 辰\n男 阳 女 阴 · 日柱为合婚之本\n男 方\n姓名\n年\n1990 年\n月\n5 月\n日\n15 日\n时\n10:00\n女 方\n姓名\n年\n1992 年\n月\n8 月\n日\n20 日\n时\n14:00\n开 始 合 婚"
+    },
+    {
+      "tool": "liunian",
+      "label": "流年大运",
+      "cat": "mingli",
+      "path": "liunian/liunian",
+      "url": "http://localhost:5173/mistverse/#/pages/liunian/liunian",
+      "issues": [],
+      "body_len": 106,
+      "body_head": "‹\n流年大运\nLIFE CYCLES\n⚙\n请 输 入 生 辰\n性 别 · 起 运 · 十 步 大 运 · 流 年 应 期\n性 别\n男\n女\n年\n1990 年\n月\n5 月\n日\n15 日\n时\n10:00\n推 算 大 运"
+    },
+    {
+      "tool": "qimen",
+      "label": "奇门遁甲",
+      "cat": "mingli",
+      "path": "qimen/qimen",
+      "url": "http://localhost:5173/mistverse/#/pages/qimen/qimen",
+      "issues": [],
+      "body_len": 123,
+      "body_head": "‹\n奇门遁甲\nMYSTERIOUS GATE\n⚙\n请 选 时 问 局\n时 家 奇 门 · 趋 吉 避 凶\n年\n2026 年\n月\n6 月\n日\n12 日\n时\n10:00\n· 阳遁：冬至 → 夏至（顺行）· 阴遁：夏至 → 冬至（逆行）\n起 奇 门 局"
+    },
+    {
+      "tool": "liuren",
+      "label": "大六壬",
+      "cat": "mingli",
+      "path": "liuren/liuren",
+      "url": "http://localhost:5173/mistverse/#/pages/liuren/liuren",
+      "issues": [],
+      "body_len": 144,
+      "body_head": "‹\n大六壬\nGREAT LIUREN\n⚙\n天 盘 地 盘\n月 将 加 时 · 四 课 三 传\n· 今 日 为 谁 问 ·\n👤\n点 此 添 加 占 卜 人\n年\n2026 年\n月\n6 月\n日\n12 日\n时\n10:00\n· 简化大六壬：月将 + 占时 → 天盘地盘 → 四课三传\n起 六 壬 课"
+    },
+    {
+      "tool": "ziwei",
+      "label": "紫微斗数",
+      "cat": "mingli",
+      "path": "ziwei/ziwei",
+      "url": "http://localhost:5173/mistverse/#/pages/ziwei/ziwei",
+      "issues": [],
+      "body_len": 149,
+      "body_head": "‹\n紫微斗数\nPURPLE STAR ASTROLOGY\n⚙\n请 输 入 生 辰\n十 四 主 星 · 十 二 宫 位 · 四 化 飞 星\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n性 别\n男\n女\n· 14 主星 × 12 宫 × 四化飞星 · 流年大运 5 年推演\n开 始 排 盘"
+    },
+    {
+      "tool": "xuankong",
+      "label": "玄空飞星",
+      "cat": "mingli",
+      "path": "xuankong/xuankong",
+      "url": "http://localhost:5173/mistverse/#/pages/xuankong/xuankong",
+      "issues": [],
+      "body_len": 114,
+      "body_head": "‹\n玄空飞星\nXUAN KONG FLYING STARS\n⚙\n排 盘 入 门\n三 元 九 运 · 流 年 紫 白 · 八 方 飞 星\n年\n2026 年\n· 2024 后入下元 9 运 · 喜事主导 · 桃花科甲\n开 始 排 盘"
+    },
+    {
+      "tool": "tieban",
+      "label": "铁板神数",
+      "cat": "mingli",
+      "path": "tieban/tieban",
+      "url": "http://localhost:5173/mistverse/#/pages/tieban/tieban",
+      "issues": [],
+      "body_len": 150,
+      "body_head": "‹\n铁板神数\nIRON PLATE DIVINATION\n⚙\n生 辰 报 数\n六 十 四 卦 · 母 数 推 演 · 六 亲 神 断\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 母数 = 年×12 + 月×8 + 日×6 + 时×4 · 六亲卦 × 流年 10 年\n开 始 推 算"
+    },
+    {
+      "tool": "xiaoliuren",
+      "label": "小六壬",
+      "cat": "mingli",
+      "path": "xiaoliuren/xiaoliuren",
+      "url": "http://localhost:5173/mistverse/#/pages/xiaoliuren/xiaoliuren",
+      "issues": [],
+      "body_len": 150,
+      "body_head": "‹\n小六壬\nMINOR LIU REN\n⚙\n心 中 默 念\n月 将 加 时 · 大 安 留 连 · 速 喜 赤 口 · 小 吉 空 亡\n月\n6 月\n日\n12 日\n时\n10:00\n所 问\n谋望\n求财\n疾病\n出行\n诉讼\n婚姻\n失物\n· 心中默念所问之事 · 月 + 日 + 时 起六壬神将\n开 始 起 课"
+    },
+    {
+      "tool": "zhuge",
+      "label": "诸葛神数",
+      "cat": "mingli",
+      "path": "zhuge/zhuge",
+      "url": "http://localhost:5173/mistverse/#/pages/zhuge/zhuge",
+      "issues": [],
+      "body_len": 130,
+      "body_head": "‹\n诸葛神数\nZHUGE 384 SIGNS\n⚙\n默 念 · 报 数\n三 数 报 签 · 384 签 · 吉 凶 立 断\n首 数\n1\n次 数\n1\n末 数\n1\n· 默念所问 · 报 3 个 1-9 的数字 · 随即生成签号 · 不报则系统自动生成\n开 始 抽 签"
+    },
+    {
+      "tool": "life",
+      "label": "生命灵数",
+      "cat": "mingli",
+      "path": "life/life",
+      "url": "http://localhost:5173/mistverse/#/pages/life/life",
+      "issues": [],
+      "body_len": 150,
+      "body_head": "‹\n生命灵数\nLIFE PATH NUMBER\n⚙\n生 日 输 入\n1-9 主 命 · 11/22/33 大 师 数 · 五 维 评 分\n年\n1990 年\n月\n6 月\n日\n15 日\n· 生命数 = 年 + 月 + 日（保留 11/22/33 大师数）· 表现数 · 灵魂数 · 命运数\n开 始 推 算"
+    },
+    {
+      "tool": "astro",
+      "label": "西洋占星",
+      "cat": "mingli",
+      "path": "astro/astro",
+      "url": "http://localhost:5173/mistverse/#/pages/astro/astro",
+      "issues": [],
+      "body_len": 137,
+      "body_head": "‹\n西洋占星\nWESTERN ASTROLOGY\n⚙\n星 盘 推 算\n十 二 宫 · 十 大 行 星 · 主 导 元 素\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 太阳星座 / 月亮星座 / 上升星座 · 10 大行星位置 · 五维评分\n开 始 推 算"
+    },
+    {
+      "tool": "maya",
+      "label": "玛雅历",
+      "cat": "mingli",
+      "path": "maya/maya",
+      "url": "http://localhost:5173/mistverse/#/pages/maya/maya",
+      "issues": [],
+      "body_len": 144,
+      "body_head": "‹\n玛雅历\nMAYA TZOLKIN\n⚙\n玛 雅 卓 尔 金 历\n260 天 · 20 图 腾 · 13 调 性 · 13 天 波 符\n年\n1990 年\n月\n6 月\n日\n15 日\n· Kin 1-260 · 13 调性 × 20 太阳图腾 · 5 维评分 · 13 天波符\n开 始 推 算"
+    },
+    {
+      "tool": "ai-ming",
+      "label": "AI 命理师",
+      "cat": "mingli",
+      "path": "ai/ai-ming",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-ming",
+      "issues": [],
+      "body_len": 191,
+      "body_head": "‹\n命理师\nAI MASTER · AI-MING\n⚙\n命\n命理师\n严谨 · 细腻 · 长于分析\n通晓八字紫微星盘三大体系 · 擅看命理结构。\n八字\n紫微\n星盘\n流年\n大运\n命\n一命二运三风水\n\n通晓八字紫微星盘三大体系 · 擅看命理结构。\n10:03\n请输入 · 如：八字 / 流年 / 婚姻…\n问\n快 速 问 命\n我的八字缺什么？\n流年运势如何？\n大运何时转好？\n何时适合结婚？"
+    },
+    {
+      "tool": "profile",
+      "label": "个人档案",
+      "cat": "mingli",
+      "path": "profile/profile",
+      "url": "http://localhost:5173/mistverse/#/pages/profile/profile",
+      "issues": [],
+      "body_len": 154,
+      "body_head": "‹\n个人档案\nUSER PROFILE\n⚙\n建 立 命 盘\n一 次 输 入 · 全 工 具 复 用\n昵 称\n如：玄一\n性 别\n男\n女\n其他\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n出生地\n如：北京\n经 度\n120°E\n· 填写后将自动用于八字/紫微/星盘/AI 等所有工具\n保 存 档 案"
+    },
+    {
+      "tool": "dashboard",
+      "label": "玄枢台",
+      "cat": "mingli",
+      "path": "dashboard/dashboard",
+      "url": "http://localhost:5173/mistverse/#/pages/dashboard/dashboard",
+      "issues": [],
+      "body_len": 316,
+      "body_head": "‹\n玄枢台\nMYSTVERSE DASHBOARD\n⚙\n上午 · 玄友\n0\n总记录\n0\n收藏\n0\n笔记\n0\n成就\n每 日 签 到\n连续 0 天 · 累计 0 天 · 0 积分\n签到\n最 近 记 录\n尚无记录 · 开启首次占卜\n笔 记 · 0 篇\n+ 新建\n尚未记录 · 点击 + 创建第一篇\n成 就 墙\n☯\n初窥玄门\n三\n触类旁通\n十\n玄学十全\n卐\n玄枢全览\n七\n七日一复\n月\n月圆玄明\n百\n百日筑基\n夜\n子夜推演\n寅\n寅时问卜\n盘\n命盘初定\n笔\n心有所记\n册\n十篇成册\n藏\n藏之名山\n典\n典藏二十\n六\n六艺皆通\n奥\n探赜索隐\n智\nAI 玄谈\n缘\n广结善缘\n快 速 入 口\n四\n八字\n紫\n紫微\n卦\n占"
+    },
+    {
+      "tool": "gua",
+      "label": "每日一卦",
+      "cat": "zhongshu",
+      "path": "gua/gua",
+      "url": "http://localhost:5173/mistverse/#/pages/gua/gua",
+      "issues": [],
+      "body_len": 110,
+      "body_head": "‹\n每日一卦\nDAILY HEXAGRAM\n⚙\n· 今 日 为 谁 问 ·\n👤\n点 此 添 加 占 卜 人\n\"易有太极，是生两仪。\"\n\"两仪生四象，四象生八卦。\"\n— 易 · 系辞 —\n默念心中所惑 · 凝神静气\n起 卦"
+    },
+    {
+      "tool": "liuyao",
+      "label": "玄枢易盘",
+      "cat": "zhongshu",
+      "path": "liuyao/liuyao",
+      "url": "http://localhost:5173/mistverse/#/pages/liuyao/liuyao",
+      "issues": [],
+      "body_len": 289,
+      "body_head": "‹\n玄枢易盘\nLIU YAO\n⚙\n玄 枢 易 盘\n六 爻 纳 甲 · 蓍 草 起 卦\n· 今 日 为 谁 问 ·\n👤\n点 此 添 加 占 卜 人\n· 所 占 之 事\n☯\n综合\n官\n事业\n财\n求财\n合\n姻缘\n学\n学业\n养\n健康\n宅\n家宅\n行\n出行\n子\n求子\n讼\n诉讼\n· 默念所问之事 · 凝神静气 · 待时机成熟再点击起卦\n蓍草起卦：6 爻每爻 6/7/8/9 之一 · 6 与 9 为动爻\n起 卦\n· 八 卦 简 介\n☰\n乾 · 天\n金\n☱\n兑 · 泽\n金\n☲\n离 · 火\n火\n☳\n震 · 雷\n木\n☴\n巽 · 风\n木\n☵\n坎 · 水\n水\n☶\n艮 · 山\n土\n☷\n坤 · 地\n土"
+    },
+    {
+      "tool": "tarot",
+      "label": "塔罗占卜",
+      "cat": "zhongshu",
+      "path": "tarot/tarot",
+      "url": "http://localhost:5173/mistverse/#/pages/tarot/tarot",
+      "issues": [],
+      "body_len": 113,
+      "body_head": "‹\n塔罗占卜\nTAROT · 78 CARDS\n⚙\n选 择 牌 阵\nDifferent spreads · Different fates\n一张牌\n直指当下心境\n三张牌\n过去 · 现在 · 未来\n凯尔特十字\n深度解读，五张牌阵"
+    },
+    {
+      "tool": "meihua",
+      "label": "梅花易数",
+      "cat": "zhongshu",
+      "path": "meihua/meihua",
+      "url": "http://localhost:5173/mistverse/#/pages/meihua/meihua",
+      "issues": [],
+      "body_len": 117,
+      "body_head": "‹\n梅花易数\nPLUM BLOSSOM\n⚙\n时 间 起 卦\n年 月 日 时 · 天 机 自 现\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 心中默念所问之事 · 时间起卦 · 体用关系 · 五维评分\n开 始 起 卦"
+    },
+    {
+      "tool": "lingqian",
+      "label": "灵签抽签",
+      "cat": "zhongshu",
+      "path": "lingqian/lingqian",
+      "url": "http://localhost:5173/mistverse/#/pages/lingqian/lingqian",
+      "issues": [],
+      "body_len": 170,
+      "body_head": "‹\n灵签抽签\nDIVINE LOT\n⚙\n神 前 求 签\n心 诚 则 灵 · 求 签 之 道\n· 默念所求\n如：求事业 / 求姻缘 / 求健康\n· 摇签方式\n摇\n手摇\n动\n摇动\n签\n求签\n· 30 签典 · 上上/上/中上/中/中下/下/下下 · 摇签动画\n求 签\n· 签级分布\n上上 5\n上 8\n中上 6\n中 7\n中下 2\n下 2\n下下 0"
+    },
+    {
+      "tool": "shuzhi",
+      "label": "数字能量",
+      "cat": "zhongshu",
+      "path": "shuzhi/shuzhi",
+      "url": "http://localhost:5173/mistverse/#/pages/shuzhi/shuzhi",
+      "issues": [],
+      "body_len": 94,
+      "body_head": "‹\n数字能量\nNUMBER ENERGY\n⚙\n数 字 磁 场\n手 机 · 车 牌 · 任 意 数 字\n· 输入数字串\n· 8 大磁场：天医/延年/生气/伏位/绝命/五鬼/六煞/祸害\n分 析"
+    },
+    {
+      "tool": "jiaobei",
+      "label": "杯筊问事",
+      "cat": "zhongshu",
+      "path": "jiaobei/jiaobei",
+      "url": "http://localhost:5173/mistverse/#/pages/jiaobei/jiaobei",
+      "issues": [],
+      "body_len": 143,
+      "body_head": "‹\n杯筊问事\nDIVINE BLOCK\n⚙\n圣 杯 问 事\n心 诚 则 灵 · 三 次 连 掷\n· 默念所问之事\n如：问今年是否适合换工作...\n· 掷筊次数\n1 次\n3 次\n5 次\n7 次\n· 圣筊(一阴一阳)：神明允诺 · 笑筊(两阳)：笑而不答 · 阴筊(两阴)：神明不允\n掷 筊"
+    },
+    {
+      "tool": "ai-gua",
+      "label": "AI 解卦师",
+      "cat": "zhongshu",
+      "path": "ai/ai-gua",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-gua",
+      "issues": [],
+      "body_len": 152,
+      "body_head": "‹\n解卦师\nAI MASTER · AI-GUA\n⚙\n卦\n解卦师\n深沉 · 玄远 · 善引经据典\n专研周易五十之卦 · 善用易理解读人事 · 凡问必答。\n周易\n六爻\n梅花易数\n签诗\n占卜\n卦\n卦象无形 · 大道有名\n\n专研周易五十之卦 · 善用易理解读人事 · 凡问必答。\n10:03\n问\n快 速 问 卦"
+    },
+    {
+      "tool": "mianxiang",
+      "label": "面相分析",
+      "cat": "guwu",
+      "path": "mianxiang/mianxiang",
+      "url": "http://localhost:5173/mistverse/#/pages/mianxiang/mianxiang",
+      "issues": [],
+      "body_len": 105,
+      "body_head": "‹\n面相分析\nFACE READING\n⚙\n三 停 五 官\n生 辰 输 入 · 推 算 面 相 之 运\n年\n1990 年\n月\n6 月\n日\n15 日\n· 三停分格 · 五官相辅 · 12 宫位详批\n开 始 分 析"
+    },
+    {
+      "tool": "shouxiang",
+      "label": "手相分析",
+      "cat": "guwu",
+      "path": "shouxiang/shouxiang",
+      "url": "http://localhost:5173/mistverse/#/pages/shouxiang/shouxiang",
+      "issues": [],
+      "body_len": 98,
+      "body_head": "‹\n手相分析\nPALM READING\n⚙\n掌 纹 八 宫\n生 辰 输 入 · 推 算 掌 相\n年\n1990 年\n月\n6 月\n日\n15 日\n· 八宫丘相 · 三线主纹 · 性格事业\n开 始 分 析"
+    },
+    {
+      "tool": "fenglui",
+      "label": "阳宅风水",
+      "cat": "guwu",
+      "path": "fenglui/fenglui",
+      "url": "http://localhost:5173/mistverse/#/pages/fenglui/fenglui",
+      "issues": [],
+      "body_len": 102,
+      "body_head": "‹\n阳宅风水\nHOME FENG SHUI\n⚙\n八 宅 派 风 水\n生 辰 · 性 别 · 推 算 命 卦\n性别\n男\n女\n年\n1990 年\n· 八宅命卦 · 八方吉凶 · 门位/卧房/厨灶\n开 始 推 算"
+    },
+    {
+      "tool": "mingji",
+      "label": "命名测字",
+      "cat": "guwu",
+      "path": "mingji/mingji",
+      "url": "http://localhost:5173/mistverse/#/pages/mingji/mingji",
+      "issues": [],
+      "body_len": 93,
+      "body_head": "‹\n命名测字\nNAME ANALYSIS\n⚙\n三 才 五 格\n姓 名 之 学 · 五 行 配 合\n姓名\n性别\n男\n女\n· 拆字五行 · 三才五格 · 喜用神 · 命理综合\n开 始 测 字"
+    },
+    {
+      "tool": "ai-feng",
+      "label": "AI 风水师",
+      "cat": "guwu",
+      "path": "ai/ai-feng",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-feng",
+      "issues": [],
+      "body_len": 204,
+      "body_head": "‹\n风水师\nAI MASTER · AI-FENG\n⚙\n风\n风水师\n务实 · 直白 · 善布局\n精研阳宅八宅玄空三大派 · 注重实际布局调整。\n阳宅\n玄空飞星\n八宅\n罗盘\n风\n藏风聚气 · 山水有情\n\n精研阳宅八宅玄空三大派 · 注重实际布局调整。\n10:03\n请输入 · 如：大门方位 / 客厅布局 / 玄空飞星…\n问\n快 速 问 宅\n我家大门该朝哪？\n主卧摆什么方位？\n今年家里要避什么？\n如何调整客厅？"
+    },
+    {
+      "tool": "ai-name",
+      "label": "AI 起名师",
+      "cat": "guwu",
+      "path": "ai/ai-name",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-name",
+      "issues": [],
+      "body_len": 192,
+      "body_head": "‹\n起名师\nAI MASTER · AI-NAME\n⚙\n名\n起名师\n文雅 · 严谨 · 重音律\n深谙姓名学三才五格 · 注重字音字形字义。\n生辰八字\n三才五格\n汉字音形义\n名\n名以载道 · 字以传神\n\n深谙姓名学三才五格 · 注重字音字形字义。\n10:04\n请输入 · 如：姓李 男 / 姓王 女 / 公司名…\n问\n快 速 起 名\n姓李 男宝宝\n姓王 女宝宝\n公司起名\n网名 / 笔名"
+    },
+    {
+      "tool": "qijing",
+      "label": "奇经八脉",
+      "cat": "jian",
+      "path": "qijing/qijing",
+      "url": "http://localhost:5173/mistverse/#/pages/qijing/qijing",
+      "issues": [],
+      "body_len": 299,
+      "body_head": "‹\n奇经八脉\nEIGHT EXTRA MERIDIANS\n⚙\n八脉\nEXTRA\n十二正经\n12 MERID.\n人体\nBODY MAP\n病症\nDIAG.\n阴\n任脉\n前正中线 · 起胞宫 · 经咽喉 · 至承浆\n阳\n督脉\n后正中线 · 起胞中 · 入脊柱 · 经风府 · 至龈交\n阴\n冲脉\n起胞中 · 三源 · 一源气街 · 一源肾下 · 一源胃经\n阴\n带脉\n起季胁 · 环腰腹一周 · 如束带\n阴\n阴维脉\n起小腿内侧 · 上行 · 入腹 · 至咽喉\n阳\n阳维脉\n起足外踝 · 上行 · 经头 · 至风府哑门\n阴\n阴跷脉\n起足跟内侧 · 上行 · 至目内眦\n阳\n阳跷脉\n起足外踝 · 上行 · 至目内眦"
+    },
+    {
+      "tool": "ziwu",
+      "label": "子午流注",
+      "cat": "jian",
+      "path": "ziwu/ziwu",
+      "url": "http://localhost:5173/mistverse/#/pages/ziwu/ziwu",
+      "issues": [],
+      "body_len": 163,
+      "body_head": "‹\n子午流注\nMIDNIGHT-NOON EBB\n⚙\n当前\nNOW\n时辰\n12 HOURS\n灵龟\nLING GUI\n10:04\n· 巳时（蛇时）·\n脾经（脾）\n旺：脾主运化 · 巳时气血充盛\n· 宜\n工作学习黄金期\n健脾食物\n适度运动\n· 忌\n生冷油腻\n思虑过度\n久坐\n· 灵龟八法开穴\n照海（咽喉小腹疾）\n咽干\n小便频\n妇科"
+    },
+    {
+      "tool": "wufu",
+      "label": "五福测算",
+      "cat": "jian",
+      "path": "wufu/wufu",
+      "url": "http://localhost:5173/mistverse/#/pages/wufu/wufu",
+      "issues": [],
+      "body_len": 132,
+      "body_head": "‹\n五福测算\nFIVE FORTUNES\n⚙\n寿 富 康 德 考 终\n五 福 临 门 · 百 年 之 修\n性 别\n男\n女\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 综合八字 · 5 维评分 · 90 年曲线 · 最佳/最弱年龄\n开 始 测 算"
+    },
+    {
+      "tool": "yangsheng",
+      "label": "节气养生",
+      "cat": "jian",
+      "path": "yangsheng/yangsheng",
+      "url": "http://localhost:5173/mistverse/#/pages/yangsheng/yangsheng",
+      "issues": [],
+      "body_len": 158,
+      "body_head": "‹\n节气养生\n24 SOLAR TERMS\n⚙\n当前\nNOW\n24 节气\n24 TERMS\n五运六气\n5-6 QI\n· 夏 · 当令 ·\n芒种\nMangzhong · mángzhòng\n生肖 · 狗\n麦类成熟 · 忙种之极\n· 养生重点：\n祛湿防暑\n· 五行：\n火\n· 宜食\n红豆\n薏米\n冬瓜\n· 忌食\n冷饮\n湿滞"
+    },
+    {
+      "tool": "ai-jiankang",
+      "label": "AI 健康师",
+      "cat": "jian",
+      "path": "ai/ai-jiankang",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-jiankang",
+      "issues": [],
+      "body_len": 170,
+      "body_head": "‹\n健康师\nAI MASTER · AI-JIANKANG\n⚙\n健\n健康师\n温和 · 实用 · 重养护\n通晓中医节气体质 · 提倡未病先防。\n节气养生\n体质\n经络\n食疗\n健\n上工治未病\n\n通晓中医节气体质 · 提倡未病先防。\n10:04\n请输入 · 如：失眠 / 脾胃 / 节气…\n问\n快 速 问 养\n最近总失眠\n脾胃不好\n换季咳嗽\n湿气重"
+    },
+    {
+      "tool": "zhan",
+      "label": "坐禅计时",
+      "cat": "xiuxin",
+      "path": "zhan/zhan",
+      "url": "http://localhost:5173/mistverse/#/pages/zhan/zhan",
+      "issues": [],
+      "body_len": 187,
+      "body_head": "‹\n坐禅计时\nZEN SITTING TIMER\n⚙\n调 身 调 息\n选 择 时 长 · 选 择 方 式\n· 时 长\n5 分\n10 分\n15 分\n20 分\n30 分\n45 分\n60 分\n自定义：\n· 方 式\n息\n调息\n4-7-8 呼吸法\n珠\n念珠\n108 念珠\n佛\n念诵\n六字大明咒\n· 念珠：每 10 息转一珠 · 呼吸圆：4-7-8 节律 · 念诵：6 字大明咒\n入 坐"
+    },
+    {
+      "tool": "fangqi",
+      "label": "放松冥想",
+      "cat": "xiuxin",
+      "path": "fangqi/fangqi",
+      "url": "http://localhost:5173/mistverse/#/pages/fangqi/fangqi",
+      "issues": [],
+      "body_len": 251,
+      "body_head": "‹\n放松冥想\nRELAX & MEDITATE\n⚙\n放 松 · 归 真\n七 节 引 导 · 五 种 声 境\n· 步 骤\n1\n闭目\n轻轻合上双眼\n30 秒\n2\n调息\n4-7-8 呼吸法\n60 秒\n3\n放松\n从头到脚\n60 秒\n4\n内观\n观察呼吸\n90 秒\n5\n慈悲\n送一份祝福\n45 秒\n6\n感恩\n感谢此刻\n45 秒\n7\n回归\n慢慢回来\n30 秒\n· 声 境\n钟\n禅院钟声\n432Hz\n雨\n林间雨声\n528Hz\n潮\n海边潮音\n396Hz\n风\n山间风声\n480Hz\n虫\n静夜虫鸣\n285Hz\n开 始 冥 想"
+    },
+    {
+      "tool": "shijian",
+      "label": "拾句",
+      "cat": "xiuxin",
+      "path": "shijian/shijian",
+      "url": "http://localhost:5173/mistverse/#/pages/shijian/shijian",
+      "issues": [],
+      "body_len": 239,
+      "body_head": "‹\n拾句\nWORDS FOR THE HEART\n⚙\n今 日 心 境\n九 种 心 境 · 各 有 一 句 禅\n惑\n困惑\n前路未明 · 心有所惑\n怒\n愤怒\n气冲牛斗 · 怒火中烧\n焦\n焦虑\n心绪不宁 · 寝食难安\n静\n平静\n心如止水 · 万物可观\n悦\n喜悦\n心花怒放 · 喜上眉梢\n悲\n悲伤\n哀哀父母 · 忧从中来\n茫\n迷茫\n雾失楼台 · 月迷津渡\n定\n坚定\n心有所向 · 虽远必达\n恩\n感恩\n饮水思源 · 受恩当报\n· 或点击\"…\"按钮·随机一句\n随 机 一 句\n今 日 一 句"
+    },
+    {
+      "tool": "dayun",
+      "label": "大运流转",
+      "cat": "xiuxin",
+      "path": "dayun/dayun",
+      "url": "http://localhost:5173/mistverse/#/pages/dayun/dayun",
+      "issues": [],
+      "body_len": 148,
+      "body_head": "‹\n大运流转\nLIFE FORTUNE FLOW\n⚙\n九 十 年 流 转\n生 辰 输 入 · 推 演 一 生 轨 迹\n性 别\n男\n女\n年\n1990 年\n月\n6 月\n日\n15 日\n时\n12:00\n· 90 年逐年推演 · 4 期人生划分 · 10 大转折 · 高低曲线 · 最佳建议\n开 始 流 转"
+    },
+    {
+      "tool": "ai-xiuxin",
+      "label": "AI 修心师",
+      "cat": "xiuxin",
+      "path": "ai/ai-xiuxin",
+      "url": "http://localhost:5173/mistverse/#/pages/ai/ai-xiuxin",
+      "issues": [],
+      "body_len": 176,
+      "body_head": "‹\n修心师\nAI MASTER · AI-XIUXIN\n⚙\n心\n修心师\n慈柔 · 智慧 · 善引导\n专研禅修与内观 · 善以话术引人入静。\n禅修\n坐禅\n冥想\n内观\n调息\n心\n心安即是归处\n\n专研禅修与内观 · 善以话术引人入静。\n10:04\n请输入 · 如：心烦 / 入静 / 焦虑…\n问\n快 速 问 心\n心里很烦躁\n如何入静？\n工作压力大\n晚上睡不着"
+    },
+    {
+      "tool": "checkin",
+      "label": "每日签到",
+      "cat": "xiuxin",
+      "path": "checkin/checkin",
+      "url": "http://localhost:5173/mistverse/#/pages/checkin/checkin",
+      "issues": [],
+      "body_len": 338,
+      "body_head": "‹\n每日签到\nDAILY CHECK-IN\n⚙\n签\n今日签到\n连续 0 天 · 累计 0 天\n0 积分\n点 击 签 到\n本 月 签 到\n1\n2\n3\n4\n5\n6\n7\n8\n9\n10\n11\n12\n13\n14\n15\n16\n17\n18\n19\n20\n21\n22\n23\n24\n25\n26\n27\n28\n29\n30\n连 签 奖 励\n7天\n七\n七日一复 · 入门\n14天\n卄\n半月持恒 · 进阶\n30天\n月\n月圆玄明 · 圆满\n60天\n双\n双月通玄 · 通慧\n100天\n百\n百日筑基 · 大成\n365天\n年\n周天运转 · 至高\n签 到 规 则\n· 每日 0 点刷新，连续签到积分递增\n· 连续 7 天 解锁「七日一复」\n"
+    },
+    {
+      "tool": "huangli",
+      "label": "老黄历",
+      "cat": "shenghuo",
+      "path": "huangli/huangli",
+      "url": "http://localhost:5173/mistverse/#/pages/huangli/huangli",
+      "issues": [],
+      "body_len": 432,
+      "body_head": "‹\n老黄历\nALMANAC\n⚙\n今 日 · 2026-06-12\n丁丑 日 · 天德（黄道日）\n农历 6月12日 · 马年\n平\n建除 · 执\n宿 · 心（凶）\n冲羊 · 煞东\n· 宜\n畋猎\n祭祀\n塑绘\n· 忌\n移柩\n祈福\n· 彭 祖 百 忌\n丁不剃头\n丑不冠带\n· 12 值 神\n青龙\n黄道\n宜：求财 · 婚嫁 · 开市\n明堂\n黄道\n宜：祭祀 · 修造\n天刑\n黑道\n宜：诉讼 · 忌：嫁娶\n朱雀\n黑道\n宜：文书 · 忌：动土\n金匮\n黄道\n宜：求财 · 开市\n天德\n黄道\n宜：百事皆宜\n白虎\n黑道\n宜：狩猎 · 忌：嫁娶\n玉堂\n黄道\n宜：修造 · 嫁娶\n天牢\n黑道\n宜：诉讼 · 忌：远行\n玄武\n黑道\n"
+    },
+    {
+      "tool": "jiri",
+      "label": "吉日择时",
+      "cat": "shenghuo",
+      "path": "jiri/jiri",
+      "url": "http://localhost:5173/mistverse/#/pages/jiri/jiri",
+      "issues": [],
+      "body_len": 171,
+      "body_head": "‹\n吉日择时\nAUSPICIOUS DAY\n⚙\n择 事 求 吉\n事 选 · 良 辰 自 现\n娶\n嫁娶\n订婚、结婚、纳采\n市\n开市\n开业、签约、交易\n土\n动土\n建筑、装修、上梁\n行\n出行\n远行、移居、探亲\n福\n祈福\n祭祀、祈愿、许愿\n财\n求财\n投资、理财、置产\n· 选定事件，未来 30 日内最佳良辰 · 黄道优先 · 宜事匹配\n开 始 择 日"
+    },
+    {
+      "tool": "yunshi",
+      "label": "今日运势",
+      "cat": "shenghuo",
+      "path": "yunshi/yunshi",
+      "url": "http://localhost:5173/mistverse/#/pages/yunshi/yunshi",
+      "issues": [],
+      "body_len": 119,
+      "body_head": "‹\n今日运势\nDAILY HOROSCOPE\n⚙\n今 日 问 运\n生 肖 · 五 维 · 宜 忌\n生 肖\n龙\n生 年\n1990 年\n生 月\n6 月\n生 日\n15 日\n生 时\n12 时\n· 出生信息越详尽 · 五维评分越精准\n开 始 推 算"
+    },
+    {
+      "tool": "jiazu",
+      "label": "家谱排辈",
+      "cat": "shenghuo",
+      "path": "jiazu/jiazu",
+      "url": "http://localhost:5173/mistverse/#/pages/jiazu/jiazu",
+      "issues": [],
+      "body_len": 137,
+      "body_head": "‹\n家谱排辈\nFAMILY LINE\n⚙\n寻 根 问 祖\n姓 氏 · 字 辈 · 传 承\n姓 氏\n李 氏\n生 年\n1990 年\n生 月\n6 月\n生 日\n15 日\n生 时\n12 时\n性 别\n男\n· 内置 5 大家族字辈诗 · 5 世/10 世传承 · 取名建议\n开 始 排 辈"
+    },
+    {
+      "tool": "poster",
+      "label": "海报分享",
+      "cat": "shenghuo",
+      "path": "poster/poster",
+      "url": "http://localhost:5173/mistverse/#/pages/poster/poster",
+      "issues": [],
+      "body_len": 275,
+      "body_head": "‹\n海报分享\nPOSTER GENERATOR\n⚙\n海 报 工 坊\n5 套 玄 学 模 板 · Canvas 真 实 渲 染\n· 模 板 选 择\n☯\n玄黑\n暗夜玄黑 · 金边\n☯\n朱红\n喜庆朱砂 · 流金\n☯\n流金\n鎏金岁月 · 古卷\n☯\n玄紫\n紫气东来 · 星辰\n☯\n玄青\n山河入梦 · 苍翠\n· 内 容 来 源\n卦\n卦象\n命\n八字\n✦\n塔罗\n爻\n六爻\n智\nAI\n自\n自定义\n· 自 定 义\n主 标 题\n副 标 题\n中 心 字\n· 海报以 750×1334 (3:4) PNG 真实渲染\n· 可保存到相册 / 复制文字 / 重新生成\n生 成 海 报"
+    },
+    {
+      "tool": "users",
+      "label": "占卜人",
+      "cat": "life",
+      "path": "users/users",
+      "url": "http://localhost:5173/mistverse/#/pages/users/users",
+      "issues": [],
+      "body_len": 218,
+      "body_head": "‹\n占卜人管理\nDIVINATOR PROFILES\n⚙\n· 为 何 需 要 多 用 户\n· 一日同人同工具不宜二占，恐心念不诚，反失灵验\n· 多用户管理：家父 / 母亲 / 自己 / 孩子 各自独立\n· 可查看每个人最近 7 天占卜记录\n· 当 前 激 活\n未 激 活 · 请 添 加 占 卜 人\n· 添 加 占 卜 人\n姓 名\n如：张三 / 家父\n备 注\n如：自己 / 父亲 / 母亲\n添 加\n· 所 有 占 卜 人（0）\n暂无用户"
+    }
+  ]
+}

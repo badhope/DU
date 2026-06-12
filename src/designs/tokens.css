@@ -59,6 +59,42 @@ page {
   /* 缓动 */
   --ease-mystic: cubic-bezier(0.65, 0, 0.35, 1);
   --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-soft: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --ease-power: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-elastic: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+  --ease-glide: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* 字体 */
+  --font-mystic: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', '思源黑体', sans-serif;
+
+  /* 过渡 */
+  --transition-fast: 0.2s var(--ease-mystic);
+  --transition-normal: 0.4s var(--ease-mystic);
+  --transition-slow: 0.6s var(--ease-mystic);
+
+  /* 分层阴影 */
+  --shadow-sm: 0 2rpx 8rpx rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4rpx 16rpx rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 8rpx 32rpx rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0 16rpx 48rpx rgba(0, 0, 0, 0.6);
+
+  /* 玻璃态 */
+  --glass-blur: 16rpx;
+  --glass-bg: rgba(20, 20, 28, 0.6);
+  --glass-border: rgba(212, 175, 55, 0.15);
+  --glass-shadow: 0 8rpx 32rpx rgba(0, 0, 0, 0.3);
+
+  /* 渐变 */
+  --gradient-xuan: linear-gradient(180deg, var(--color-xuan-2) 0%, var(--color-xuan) 100%);
+  --gradient-zhu: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
+  --gradient-liu: linear-gradient(135deg, var(--color-liu) 0%, #b8941f 100%);
+  --gradient-mystic: linear-gradient(135deg, var(--color-liu), var(--color-zhu), var(--color-zi), var(--color-liu));
+
+  /* 模糊 */
+  --blur-sm: 4rpx;
+  --blur-md: 8rpx;
+  --blur-lg: 16rpx;
+  --blur-xl: 32rpx;
 
   /* z-index */
   --z-bg: 0;

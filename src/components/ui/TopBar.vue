@@ -1,11 +1,32 @@
 <template>
-  <view class="topbar" :style="topbarStyle">
-    <view class="back-btn" @click="goBack">‹</view>
+  <view class="topbar" :style="topbarStyle" role="banner">
+    <view
+      class="back-btn"
+      @click="goBack"
+      @keydown.enter="goBack"
+      @keydown.space="goBack"
+      role="button"
+      aria-label="返回上一页"
+      tabindex="0"
+    >
+      ‹
+    </view>
     <view class="topbar-title">
       <text class="title-mystic title-md">{{ title }}</text>
       <text class="topbar-sub">{{ subtitle }}</text>
     </view>
-    <view v-if="showSettings" class="setting-btn" @click="goSettings">⚙</view>
+    <view
+      v-if="showSettings"
+      class="setting-btn"
+      @click="goSettings"
+      @keydown.enter="goSettings"
+      @keydown.space="goSettings"
+      role="button"
+      aria-label="打开设置"
+      tabindex="0"
+    >
+      ⚙
+    </view>
     <view v-else class="topbar-spacer" />
   </view>
 </template>

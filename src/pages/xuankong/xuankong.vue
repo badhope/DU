@@ -168,6 +168,7 @@ import ToolGuard from '@/components/ui/ToolGuard.vue'
 import { useCooldown } from '@/utils/use-cooldown'
 import LoadingSeal from '@/components/ui/LoadingSeal.vue'
 import ResultReveal from '@/components/ui/ResultReveal.vue'
+import XuanKongChart from '@/components/charts/XuanKongChart.vue'
 
 const app = useAppStore()
 const cd = useCooldown({ tool: 'xuankong', toolName: '玄空飞星', category: '风水' })

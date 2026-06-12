@@ -1417,7 +1417,651 @@
 }
 
 /* ============================================================
-   XX. 触摸设备优化
+   XXI. 玻璃态效果
+   ============================================================ */
+.glass-effect {
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur));
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  border: 1rpx solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+
+@keyframes glassShimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.glass-shimmer {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(212, 175, 55, 0.08) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  animation: glassShimmer 3s linear infinite;
+}
+
+/* ============================================================
+   XXII. 数字翻转动画
+   ============================================================ */
+@keyframes flipDown {
+  0% {
+    transform: perspective(400rpx) rotateX(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: perspective(400rpx) rotateX(-90deg);
+    opacity: 0;
+  }
+}
+
+@keyframes flipUp {
+  0% {
+    transform: perspective(400rpx) rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: perspective(400rpx) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
+.flip-down {
+  animation: flipDown 0.6s var(--ease-mystic) forwards;
+  transform-origin: center bottom;
+}
+
+.flip-up {
+  animation: flipUp 0.6s var(--ease-mystic) forwards;
+  transform-origin: center top;
+}
+
+/* ============================================================
+   XXIII. 渐变流动动画
+   ============================================================ */
+@keyframes gradientFlow {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.gradient-flow {
+  background: var(--gradient-mystic);
+  background-size: 300% 300%;
+  animation: gradientFlow 6s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 0%;
+  }
+  100% {
+    background-position: 100% 100%;
+  }
+}
+
+.gradient-shift {
+  background-size: 200% 200%;
+  animation: gradientShift 4s ease infinite alternate;
+}
+
+/* ============================================================
+   XXIV. 粒子飘散动画
+   ============================================================ */
+@keyframes particleFloat {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.8;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--particle-x, 20rpx), var(--particle-y, -40rpx)) scale(0.3);
+    opacity: 0;
+  }
+}
+
+.particle-float {
+  animation: particleFloat 2s var(--ease-power) forwards;
+}
+
+@keyframes particleBurst {
+  0% {
+    transform: scale(0) translate(0, 0);
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) translate(var(--burst-x, 30rpx), var(--burst-y, -30rpx));
+    opacity: 0;
+  }
+}
+
+.particle-burst {
+  animation: particleBurst 1.2s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXV. 波纹扩散动画
+   ============================================================ */
+@keyframes rippleWave {
+  0% {
+    transform: scale(0);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+.ripple-wave {
+  animation: rippleWave 1.2s var(--ease-power) forwards;
+}
+
+@keyframes rippleConcentric {
+  0% {
+    transform: scale(0.5);
+    opacity: 1;
+    border-width: 4rpx;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+    border-width: 1rpx;
+  }
+}
+
+.ripple-concentric {
+  border: 4rpx solid var(--color-liu);
+  border-radius: 50%;
+  animation: rippleConcentric 1.5s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXVI. 卡片悬停增强
+   ============================================================ */
+@keyframes cardHover {
+  0% {
+    transform: translateY(0);
+    box-shadow: var(--shadow-md);
+  }
+  100% {
+    transform: translateY(-6rpx);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.card-hover {
+  animation: cardHover 0.4s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXVII. 数字滚动动画
+   ============================================================ */
+@keyframes countUp {
+  from {
+    opacity: 0;
+    transform: translateY(10rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.count-animation {
+  animation: countUp 0.5s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   XXVIII. 光晕脉冲
+   ============================================================ */
+@keyframes glowPulse {
+  0%, 100% {
+    box-shadow: 0 0 20rpx rgba(212, 175, 55, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40rpx rgba(212, 175, 55, 0.6);
+  }
+}
+
+.glow-pulse {
+  animation: glowPulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   XXIX. 文字打字机效果
+   ============================================================ */
+@keyframes typewriter {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typewriter 2s steps(20, end) forwards;
+}
+
+@keyframes blinkCaret {
+  0%, 100% {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--color-liu);
+  }
+}
+
+.blink-caret {
+  border-right: 2rpx solid var(--color-liu);
+  animation: blinkCaret 1s step-end infinite;
+}
+
+/* ============================================================
+   XXX. 弹性缩放
+   ============================================================ */
+@keyframes elasticScale {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.15);
+  }
+  70% {
+    transform: scale(0.95);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.elastic-scale {
+  animation: elasticScale 0.8s var(--ease-elastic) forwards;
+}
+
+/* ============================================================
+   XXXI. 滑动淡入
+   ============================================================ */
+@keyframes slideFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-20rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-fade-in {
+  animation: slideFadeIn 0.5s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXXII. 旋转淡入
+   ============================================================ */
+@keyframes rotateFadeIn {
+  from {
+    opacity: 0;
+    transform: rotate(-180deg) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+.rotate-fade-in {
+  animation: rotateFadeIn 0.8s var(--ease-bounce) forwards;
+}
+
+/* ============================================================
+   XXXIII. 波浪动画
+   ============================================================ */
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-5rpx) rotate(2deg);
+  }
+  75% {
+    transform: translateY(5rpx) rotate(-2deg);
+  }
+}
+
+.wave {
+  animation: wave 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   XXXIV. 闪烁强调
+   ============================================================ */
+@keyframes flashEmphasis {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0.5;
+  }
+}
+
+.flash-emphasis {
+  animation: flashEmphasis 1.5s ease-in-out;
+}
+
+/* ============================================================
+   XXXV. 缩放脉冲
+   ============================================================ */
+@keyframes scalePulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+.scale-pulse {
+  animation: scalePulse 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   XXXVI. 滑动进入（从右侧）
+   ============================================================ */
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-right {
+  animation: slideInRight 0.6s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXXVII. 滑动进入（从左侧）
+   ============================================================ */
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-in-left {
+  animation: slideInLeft 0.6s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXXVIII. 模糊淡入
+   ============================================================ */
+@keyframes blurFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(10rpx);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+.blur-fade-in {
+  animation: blurFadeIn 0.8s var(--ease-power) forwards;
+}
+
+/* ============================================================
+   XXXIX. 旋转进入（顺时针）
+   ============================================================ */
+@keyframes rotateInCW {
+  from {
+    opacity: 0;
+    transform: rotate(360deg) scale(0.3);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+.rotate-in-cw {
+  animation: rotateInCW 0.8s var(--ease-bounce) forwards;
+}
+
+/* ============================================================
+   XL. 弹跳进入
+   ============================================================ */
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bounce-in {
+  animation: bounceIn 0.8s var(--ease-bounce) forwards;
+}
+
+/* ============================================================
+   XLI. 渐变边框动画
+   ============================================================ */
+@keyframes borderGradient {
+  0% {
+    border-image-source: linear-gradient(0deg, var(--color-liu), var(--color-zhu));
+  }
+  50% {
+    border-image-source: linear-gradient(180deg, var(--color-liu), var(--color-zhu));
+  }
+  100% {
+    border-image-source: linear-gradient(360deg, var(--color-liu), var(--color-zhu));
+  }
+}
+
+.border-gradient-anim {
+  border: 2rpx solid;
+  animation: borderGradient 3s linear infinite;
+}
+
+/* ============================================================
+   XLII. 光晕扩散
+   ============================================================ */
+@keyframes glowSpread {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 30rpx rgba(212, 175, 55, 0);
+  }
+}
+
+.glow-spread {
+  animation: glowSpread 1.5s ease-out forwards;
+}
+
+/* ============================================================
+   XLIII. 旋转缩放脉冲
+   ============================================================ */
+@keyframes rotateScalePulse {
+  0%, 100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+  }
+}
+
+.rotate-scale-pulse {
+  animation: rotateScalePulse 3s ease-in-out infinite;
+}
+
+/* ============================================================
+   XLIV. 淡入淡出循环
+   ============================================================ */
+@keyframes fadeInOut {
+  0%, 100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.fade-in-out {
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+/* ============================================================
+   XLV. 滑动退出（向右）
+   ============================================================ */
+@keyframes slideOutRight {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(60rpx);
+  }
+}
+
+.slide-out-right {
+  animation: slideOutRight 0.4s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   XLVI. 滑动退出（向左）
+   ============================================================ */
+@keyframes slideOutLeft {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-60rpx);
+  }
+}
+
+.slide-out-left {
+  animation: slideOutLeft 0.4s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   XLVII. 旋转退出
+   ============================================================ */
+@keyframes rotateOut {
+  from {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: rotate(180deg) scale(0.3);
+  }
+}
+
+.rotate-out {
+  animation: rotateOut 0.6s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   XLVIII. 缩放淡出
+   ============================================================ */
+@keyframes scaleFadeOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+}
+
+.scale-fade-out {
+  animation: scaleFadeOut 0.5s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   XLIX. 模糊淡出
+   ============================================================ */
+@keyframes blurFadeOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+  }
+  to {
+    opacity: 0;
+    filter: blur(10rpx);
+  }
+}
+
+.blur-fade-out {
+  animation: blurFadeOut 0.6s var(--ease-mystic) forwards;
+}
+
+/* ============================================================
+   L. 弹性退出
+   ============================================================ */
+@keyframes elasticOut {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.elastic-out {
+  animation: elasticOut 0.6s var(--ease-elastic) forwards;
+}
+
+/* ============================================================
+   LI. 触摸设备优化
    ============================================================ */
 @media (hover: none) and (pointer: coarse) {
   .lift:hover {

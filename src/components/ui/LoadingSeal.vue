@@ -6,11 +6,11 @@
   - 8 卦粒子绕轨运行
 -->
 <template>
-  <view class="loading-mask anim-fade">
+  <view v-if="visible" class="loading-mask anim-fade">
     <view class="lm-card card-mystic anim-scale-in">
       <!-- 外层光芒 -->
       <view class="lm-rays">
-        <view v-for="i in 12" :key="'r-' + i" class="ray" :class="`ray-${i}`" />
+        <view v-for="i in 12" :key="'r-' + i" class="ray" :style="rayStyle(i)" />
       </view>
 
       <!-- 中心卦印 -->
@@ -25,7 +25,7 @@
 
       <!-- 8 卦粒子 -->
       <view class="lm-orbit">
-        <view v-for="(g, i) in 8" :key="'o-' + i" class="orbit-item" :class="`orbit-${i}`">
+        <view v-for="(g, i) in 8" :key="'o-' + i" class="orbit-item" :style="orbitStyle(i)">
           <text class="orbit-glyph">{{ BAGUA[i] }}</text>
         </view>
       </view>
@@ -86,6 +86,17 @@ let raf: any = null
 let startTime = 0
 
 const stepText = computed(() => props.steps[stepIdx.value] || '')
+
+// 动态生成光芒样式（消除 12 个重复 CSS 类）
+const rayStyle = (i: number) => ({
+  transform: `translate(-50%, -100%) rotate(${(i - 1) * 30}deg)`,
+  animationDelay: `${(i - 1) * 0.1}s`,
+})
+
+// 动态生成八卦轨道样式（消除 8 个重复 CSS 类）
+const orbitStyle = (i: number) => ({
+  animationDelay: `${i * 0.6}s`,
+})
 
 function tick() {
   const elapsed = Date.now() - startTime
@@ -185,54 +196,7 @@ onBeforeUnmount(stop)
   pointer-events: none;
   animation: rayBreathe 2.4s ease-in-out infinite;
 }
-.ray-0 {
-  transform: translate(-50%, -100%) rotate(0deg);
-  animation-delay: 0s;
-}
-.ray-1 {
-  transform: translate(-50%, -100%) rotate(30deg);
-  animation-delay: 0.1s;
-}
-.ray-2 {
-  transform: translate(-50%, -100%) rotate(60deg);
-  animation-delay: 0.2s;
-}
-.ray-3 {
-  transform: translate(-50%, -100%) rotate(90deg);
-  animation-delay: 0.3s;
-}
-.ray-4 {
-  transform: translate(-50%, -100%) rotate(120deg);
-  animation-delay: 0.4s;
-}
-.ray-5 {
-  transform: translate(-50%, -100%) rotate(150deg);
-  animation-delay: 0.5s;
-}
-.ray-6 {
-  transform: translate(-50%, -100%) rotate(180deg);
-  animation-delay: 0.6s;
-}
-.ray-7 {
-  transform: translate(-50%, -100%) rotate(210deg);
-  animation-delay: 0.7s;
-}
-.ray-8 {
-  transform: translate(-50%, -100%) rotate(240deg);
-  animation-delay: 0.8s;
-}
-.ray-9 {
-  transform: translate(-50%, -100%) rotate(270deg);
-  animation-delay: 0.9s;
-}
-.ray-10 {
-  transform: translate(-50%, -100%) rotate(300deg);
-  animation-delay: 1s;
-}
-.ray-11 {
-  transform: translate(-50%, -100%) rotate(330deg);
-  animation-delay: 1.1s;
-}
+
 @keyframes rayBreathe {
   0%,
   100% {
@@ -343,30 +307,7 @@ onBeforeUnmount(stop)
   animation: orbitItem 4.8s linear infinite;
   opacity: 0.7;
 }
-.orbit-0 {
-  animation-delay: 0s;
-}
-.orbit-1 {
-  animation-delay: 0.6s;
-}
-.orbit-2 {
-  animation-delay: 1.2s;
-}
-.orbit-3 {
-  animation-delay: 1.8s;
-}
-.orbit-4 {
-  animation-delay: 2.4s;
-}
-.orbit-5 {
-  animation-delay: 3s;
-}
-.orbit-6 {
-  animation-delay: 3.6s;
-}
-.orbit-7 {
-  animation-delay: 4.2s;
-}
+
 @keyframes orbitItem {
   0% {
     transform: rotate(0deg) translateX(180rpx) rotate(0deg) scale(0.8);

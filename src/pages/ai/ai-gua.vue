@@ -5,7 +5,7 @@
   >
     <view class="taiji-bg"><TaijiBg /></view>
     <StarField :count="30" :density="'low'" :colors="'mixed'" :shooting="false" />
-    <TopBar :title="master.name" :subtitle="`AI MASTER · ${props.masterKey.toUpperCase()}`" />
+    <TopBar :title="master.name" :subtitle="`AI MASTER · ${(props.masterKey || 'ai-gua').toUpperCase()}`" />
 
     <view class="header card-mystic anim-fade-up">
       <view
@@ -123,8 +123,8 @@ import MysticScan from '@/components/ui/MysticScan.vue'
 import { useAppStore } from '@/stores'
 import { MASTERS, askMaster, type MasterKey, type ChatMessage } from '@/utils/ai'
 
-const props = defineProps<{ masterKey: MasterKey }>()
-const master = MASTERS[props.masterKey]
+const props = defineProps<{ masterKey?: MasterKey }>()
+const master = MASTERS[props.masterKey || 'ai-gua']
 const app = useAppStore()
 const input = ref('')
 const thinking = ref(false)
