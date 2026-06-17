@@ -10,7 +10,7 @@
     <view v-if="!result" class="setup card-mystic anim-fade-up">
       <!-- 装饰光效 -->
       <view class="form-glow" />
-      
+
       <!-- 标题区 -->
       <view class="form-header">
         <view class="form-seal">
@@ -70,7 +70,13 @@
             <text class="form-label-icon">日</text>
             <text class="form-label">日期</text>
           </view>
-          <picker mode="number" :value="form.day" :min="1" :max="31" @change="onPick('day', $event)">
+          <picker
+            mode="number"
+            :value="form.day"
+            :min="1"
+            :max="31"
+            @change="onPick('day', $event)"
+          >
             <view class="form-picker">
               <text class="form-picker-value">{{ form.day }}</text>
               <text class="form-picker-unit">日</text>
@@ -153,7 +159,9 @@
             </view>
             <text class="wg-desc">{{ g.desc }}</text>
             <view class="wg-bar-wrap">
-              <view class="wg-bar"><view class="wg-fill" :style="{ width: g.fortune + '%' }" /></view>
+              <view class="wg-bar"
+                ><view class="wg-fill" :style="{ width: g.fortune + '%' }"
+              /></view>
               <text class="wg-score">{{ g.fortune }}</text>
             </view>
           </view>
@@ -680,8 +688,12 @@ function analyze() {
 }
 
 @keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .st-fill {
