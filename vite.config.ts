@@ -6,7 +6,7 @@ const require = createRequire(import.meta.url)
 const uni = require('@dcloudio/vite-plugin-uni')
 
 export default defineConfig({
-  base: '/mistverse/',
+  base: '/DU/',
   plugins: [uni.default()],
   resolve: {
     alias: {

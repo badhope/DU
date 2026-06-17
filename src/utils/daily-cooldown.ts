@@ -1,5 +1,5 @@
 /**
- * 玄枢 MISTVERSE · 一日同人同工具不重测 核心逻辑
+ * 渡 DU · 一日同人同工具不重测 核心逻辑
  *
  * 业务规则：
  *  - 重事类工具（liuyao/gua/ziwei/bazi/hehun/xuankong/tieban/mingji/mingmen/xiaoliuren）
@@ -109,7 +109,7 @@ export function getUnlockDateForTool(
 
 /** 生成 userKey（默认用 name，但需去重/转码） */
 function makeUserKey(name: string): string {
-  return name.trim() || '玄友'
+  return name.trim() || '渡友'
 }
 
 /** 创建新用户 */

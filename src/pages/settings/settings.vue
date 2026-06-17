@@ -7,8 +7,8 @@
     <!-- 顶栏概览 -->
     <view class="hero card-mystic anim-fade-up">
       <view class="hero-icon">⚙</view>
-      <text class="hero-title title-mystic">玄 枢</text>
-      <text class="hero-sub">MISTVERSE · {{ ver }}</text>
+      <text class="hero-title title-mystic">渡</text>
+      <text class="hero-sub">DU · {{ ver }}</text>
     </view>
 
     <!-- 字号 -->
@@ -166,7 +166,7 @@
       <text class="card-title">关 于</text>
       <view class="about-row">
         <text class="about-key">名 称</text>
-        <text class="about-val">玄枢 MISTVERSE</text>
+        <text class="about-val">渡 DU · 渡己渡人</text>
       </view>
       <view class="about-row">
         <text class="about-key">版 本</text>

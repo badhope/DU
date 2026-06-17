@@ -4,10 +4,10 @@
     :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
   >
     <view class="taiji-bg"><TaijiBg /></view>
-    <TopBar title="玄枢易盘" subtitle="LIU YAO" />
+    <TopBar title="渡易盘" subtitle="LIU YAO" />
 
     <view v-if="!result" class="setup card-mystic anim-fade-up">
-      <text class="form-title title-mystic">玄 枢 易 盘</text>
+      <text class="form-title title-mystic">渡 易 盘</text>
       <text class="form-sub">六 爻 纳 甲 · 蓍 草 起 卦</text>
 
       <!-- 今日为谁问 -->
@@ -468,14 +468,14 @@ async function cast() {
   app.addDivinationRecord({
     id: `liuyao-${Date.now()}`,
     userKey: app.activeDivinatorKey,
-    userName: app.activeDivinator?.name || '玄友',
+    userName: app.activeDivinator?.name || '渡友',
     tool: 'liuyao',
-    toolName: '玄枢易盘',
+    toolName: '渡易盘',
     brief: `${r.benGua.name}·变${r.bianGua.name}·${r.yongshen.name}${r.yongshen.status}`,
   })
   app.addHistory({
     tool: 'liuyao',
-    toolName: '玄枢易盘',
+    toolName: '渡易盘',
     category: '占卜',
     input: { topic: topic.value, time: r.divinationTimeStr },
     output: {

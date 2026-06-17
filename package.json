@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
-  "name": "mistverse",
+  "name": "du",
   "version": "1.0.1",
-  "description": "MISTVERSE (玄枢) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life, and AI assistance.",
+  "description": "DU (渡) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life. 渡己渡人。",
   "keywords": [
     "fengshui",
     "mysticism",
@@ -26,13 +26,13 @@
     "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
   },
-  "homepage": "https://badhope.github.io/mistverse/",
+  "homepage": "https://badhope.github.io/DU/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/badhope/mistverse.git"
+    "url": "https://github.com/badhope/DU.git"
   },
   "bugs": {
-    "url": "https://github.com/badhope/mistverse/issues"
+    "url": "https://github.com/badhope/DU/issues"
   },
   "scripts": {
     "dev:custom": "uni -p",

@@ -175,7 +175,7 @@ export const TOOLS: Tool[] = [
   {
     key: 'liuyao',
     category: 'zhongshu',
-    name: '玄枢易盘',
+    name: '渡易盘',
     desc: '六爻纳甲 · 蓍草起卦',
     glyph: '爻',
     deco: '☰',
@@ -583,7 +583,7 @@ export const TOOLS: Tool[] = [
   {
     key: 'dashboard',
     category: 'mingli',
-    name: '玄枢台',
+    name: '渡台',
     desc: '命盘仪表盘 · 一目了然',
     glyph: '台',
     deco: '☰',

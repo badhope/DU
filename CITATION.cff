@@ -2,18 +2,18 @@ cff-version: 1.2.0
 message: >-
   If you use this software in academic work, please cite it using the
   metadata below.
-title: mistverse
+title: DU
 authors:
   - family-names: badhope
     given-names: badhope
     alias: badhope
 identifiers:
   - type: url
-    value: https://github.com/badhope/mistverse
+    value: https://github.com/badhope/DU
 license: MIT
 type: software
-url: https://github.com/badhope/mistverse
-repository-code: https://github.com/badhope/mistverse
+url: https://github.com/badhope/DU
+repository-code: https://github.com/badhope/DU
 keywords:
   - typescript
   - vite
@@ -26,4 +26,4 @@ keywords:
   - mysticism
   - qimen-dunjia
 abstract: >-
-  玄枢 (MISTVERSE) — my browser-only Chinese metaphysics toolkit. Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei, Tarot, feng shui, 49 small tools. Vue 3 + TypeScript, no backend, no account, no tracking.
+  渡 (DU) — my browser-only Chinese metaphysics toolkit. Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei, Tarot, feng shui, 49 small tools. 渡己渡人。Vue 3 + TypeScript, no backend, no account, no tracking.

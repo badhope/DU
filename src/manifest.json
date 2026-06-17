@@ -1,7 +1,7 @@
 {
-  "name": "玄枢",
+  "name": "渡",
   "appid": "",
-  "description": "玄枢 MISTVERSE · 风水玄学工具集",
+  "description": "渡 DU · 风水玄学工具集 · 渡己渡人",
   "versionName": "1.0.1",
   "versionCode": "2",
   "transformPx": false,
@@ -46,12 +46,12 @@
   },
   "vueVersion": "3",
   "h5": {
-    "title": "MISTVERSE · Chinese Metaphysics",
+    "title": "DU · Chinese Metaphysics",
     "router": {
       "mode": "hash",
-      "base": "/mistverse/"
+      "base": "/DU/"
     },
-    "publicPath": "/mistverse/",
+    "publicPath": "/DU/",
     "devServer": {
       "port": 5173,
       "disableHostCheck": true

@@ -165,7 +165,7 @@ interface PersistState {
   activeDivinatorKey: string // 当前激活用户 key
 }
 
-const STORAGE_KEY = 'mistverse-state-v2'
+const STORAGE_KEY = 'du-state-v1'
 
 const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   {
@@ -200,7 +200,7 @@ const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   },
   {
     id: 'use-30-tools',
-    name: '玄枢全览',
+    name: '渡己全览',
     desc: '使用全部 49 工具',
     icon: '卐',
     unlocked: false,
@@ -476,7 +476,7 @@ export const useAppStore = defineStore('app', () => {
     const year = new Date().getFullYear()
     return {
       ...p,
-      nickname: (p.nickname || '').trim() || '玄友',
+      nickname: (p.nickname || '').trim() || '渡友',
       gender: (['male', 'female', 'other'] as const).includes(p.gender) ? p.gender : 'other',
       birthYear: Math.max(1900, Math.min(year, Number(p.birthYear) || year)),
       birthMonth: Math.max(1, Math.min(12, Number(p.birthMonth) || 1)),
@@ -564,7 +564,7 @@ export const useAppStore = defineStore('app', () => {
 
   /** 添加新用户 */
   function addDivinator(name: string, remark?: string): DivinatorProfile {
-    const k = (name || '玄友').trim()
+    const k = (name || '渡友').trim()
     if (divinatorProfiles.value[k]) {
       // 已存在则返回
       return divinatorProfiles.value[k]

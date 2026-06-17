@@ -1,11 +1,11 @@
 /**
- * 玄枢 MISTVERSE · 冷却/用户切换 Composable
+ * 渡 DU · 冷却/用户切换 Composable
  *
  * 统一封装"一日同人同工具不重测"业务逻辑，
  * 让 9 个重事类工具页面共享同一套代码。
  *
  * 使用：
- *   const cd = useCooldown({ tool: 'liuyao', toolName: '玄枢易盘' })
+ *   const cd = useCooldown({ tool: 'liuyao', toolName: '渡易盘' })
  *   if (!cd.guard()) return        // 守门，未通过则弹窗
  *   // ... 业务逻辑 ...
  *   cd.commit(`${gua.name}·变${bian.name}`, input, output)
@@ -123,7 +123,7 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     app.addDivinationRecord({
       id: `${tool}-${Date.now()}-${rand}`,
       userKey: app.activeDivinatorKey,
-      userName: app.activeDivinator?.name || '玄友',
+      userName: app.activeDivinator?.name || '渡友',
       tool,
       toolName: opts.toolName || tool,
       brief,
