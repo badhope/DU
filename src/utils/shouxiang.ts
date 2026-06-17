@@ -242,8 +242,7 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
   }))
   const sanZhu = SAN_ZHU.map((s, i) => {
     const score = Math.max(55, Math.min(95, base + i * 2 + (month % 3) - 1))
-    const quality: '佳' | '中' | '弱' =
-      score > 80 ? '佳' : score > 65 ? '中' : '弱'
+    const quality: '佳' | '中' | '弱' = score > 80 ? '佳' : score > 65 ? '中' : '弱'
     return { ...s, score, quality }
   })
 
