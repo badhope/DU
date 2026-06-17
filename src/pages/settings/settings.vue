@@ -119,7 +119,9 @@
         <text class="card-title">测 试 记 录</text>
         <text v-if="app.history.length" class="card-action" @click="confirmClear">清 空</text>
       </view>
-      <text class="card-tip">最近 {{ app.history.length }} / 10 条 · 各工具独立存储</text>
+      <text class="card-tip"
+        >最近 {{ app.history.length }} / {{ maxHistory }} 条 · 各工具独立存储</text
+      >
 
       <view v-if="!app.history.length" class="empty">
         <text class="empty-glyph">空</text>
@@ -152,8 +154,16 @@
     <view class="card card-mystic anim-fade-up" style="animation-delay: 0.2s">
       <text class="card-title">数 据 管 理</text>
       <view class="action-row">
-        <view class="action-btn" @click="onClearCache">
-          <text>清 除 缓 存</text>
+        <view class="action-btn" @click="onExport">
+          <text>导 出 数 据</text>
+        </view>
+        <view class="action-btn" @click="onImport">
+          <text>导 入 数 据</text>
+        </view>
+      </view>
+      <view class="action-row" style="margin-top: 12rpx">
+        <view class="action-btn warn" @click="onClearHistory">
+          <text>清 除 历 史</text>
         </view>
         <view class="action-btn danger" @click="onResetAll">
           <text>重 置 全 部</text>
@@ -195,10 +205,11 @@
 import { ref as _ref } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import { useAppStore } from '@/stores'
+import { useAppStore, MAX_HISTORY } from '@/stores'
 
 const app = useAppStore()
-const ver = '0.2.0'
+const ver = __APP_VERSION__
+const maxHistory = MAX_HISTORY
 
 const FONT_OPTS = [
   { key: 'sm' as const, label: '小' },
@@ -275,15 +286,72 @@ function confirmClear() {
   })
 }
 
-function onClearCache() {
+function onClearHistory() {
   uni.showModal({
-    title: '清除缓存',
-    content: '将清空测试记录与设置，是否继续？',
+    title: '清除历史',
+    content: '将清空全部测试记录（不影响档案/笔记/签到），是否继续？',
     success: (res) => {
       if (res.confirm) {
         app.clearHistory()
         uni.showToast({ title: '已清除', icon: 'success' })
       }
+    },
+  })
+}
+
+function onExport() {
+  try {
+    const data = app.exportData()
+    const json = JSON.stringify(data, null, 2)
+    const stamp = new Date().toISOString().slice(0, 10)
+    // H5 环境下载文件；其他环境复制到剪贴板
+    // #ifdef H5
+    try {
+      const blob = new Blob([json], { type: 'application/json' })
+      const url = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = url
+      a.download = `du-backup-${stamp}.json`
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      URL.revokeObjectURL(url)
+      uni.showToast({ title: '已导出', icon: 'success' })
+      return
+    } catch (_e) {}
+    // #endif
+    uni.setClipboardData({
+      data: json,
+      success: () =>
+        uni.showModal({
+          title: '已复制到剪贴板',
+          content: '数据已复制，请粘贴到文本文件保存。',
+          showCancel: false,
+        }),
+    })
+  } catch (_e) {
+    uni.showToast({ title: '导出失败', icon: 'none' })
+  }
+}
+
+function onImport() {
+  uni.showModal({
+    title: '导入数据',
+    content: '将从剪贴板读取备份数据并覆盖现有数据，是否继续？',
+    success: (res) => {
+      if (!res.confirm) return
+      uni.getClipboardData({
+        success: (c) => {
+          try {
+            const data = JSON.parse(c.data)
+            const r = app.importData(data)
+            uni.showToast({ title: r.message, icon: r.ok ? 'success' : 'none' })
+          } catch (_e) {
+            uni.showToast({ title: '剪贴板内容非有效 JSON', icon: 'none' })
+          }
+        },
+        fail: () => uni.showToast({ title: '读取剪贴板失败', icon: 'none' }),
+      })
     },
   })
 }
@@ -575,6 +643,16 @@ function onResetAll() {
 
 .action-btn.danger:active {
   background: rgba(200, 48, 42, 0.2);
+}
+
+.action-btn.warn {
+  border-color: #d4af37;
+  color: #d4af37;
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.action-btn.warn:active {
+  background: rgba(212, 175, 55, 0.18);
 }
 
 /* ===== 关于 ===== */

@@ -121,8 +121,15 @@
     <!-- 底部 -->
     <view class="footer">
       <view class="footer-line" />
-      <text class="footer-stat">已上线 {{ readyCount }} · 规划中 {{ plannedCount }}</text>
+      <text class="footer-stat">已上线 {{ readyCount }} 项 · 渡己渡人</text>
       <view class="footer-line" />
+    </view>
+
+    <view class="share-row">
+      <view class="share-btn" @click="onShare">
+        <text class="share-icon">⤴</text>
+        <text class="share-text">分享渡</text>
+      </view>
     </view>
   </view>
 </template>
@@ -133,14 +140,13 @@ import { gsap } from 'gsap'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import StarField from '@/components/effects/StarField.vue'
 import { calcBazi } from '@/utils/bazi'
-import { CATEGORIES, TOOLS, READY_COUNT, TOTAL_TOOLS, type CategoryKey } from '@/config/tools'
+import { CATEGORIES, TOOLS, READY_COUNT, type CategoryKey } from '@/config/tools'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()
 const statusBarHeight = ref(44)
 const categories = CATEGORIES
 const readyCount = READY_COUNT
-const plannedCount = TOTAL_TOOLS - READY_COUNT
 
 function getCount(key: CategoryKey) {
   return TOOLS.filter((t) => t.category === key).length
@@ -148,6 +154,27 @@ function getCount(key: CategoryKey) {
 
 function goCategory(key: CategoryKey) {
   uni.navigateTo({ url: '/pages/category/category?cat=' + key })
+}
+
+function onShare() {
+  const title = '渡 DU · 渡己渡人'
+  const text = '万象皆数 · 一念即卦 — 49 式玄学工具集'
+  // 优先使用 Web Share API（H5/移动端）
+  // #ifdef H5
+  if (typeof window !== 'undefined' && typeof navigator !== 'undefined' && navigator.share) {
+    navigator.share({ title, text, url: window.location.href }).catch(() => {})
+    return
+  }
+  if (typeof window !== 'undefined') {
+    uni.setClipboardData({
+      data: window.location.href,
+      success: () => uni.showToast({ title: '链接已复制', icon: 'success' }),
+    })
+    return
+  }
+  // #endif
+  // 非H5：使用 uni-app 原生分享（如小程序）
+  uni.showToast({ title: '请使用海报分享', icon: 'none' })
 }
 
 const now = ref(new Date())
@@ -663,6 +690,44 @@ onMounted(() => {
   color: var(--color-bai-3);
   letter-spacing: 0.2em;
   white-space: nowrap;
+}
+
+/* 分享按钮 */
+.share-row {
+  position: relative;
+  z-index: var(--z-content);
+  display: flex;
+  justify-content: center;
+  margin-top: 24rpx;
+  padding-bottom: 16rpx;
+}
+
+.share-btn {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 12rpx 36rpx;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1rpx solid rgba(212, 175, 55, 0.3);
+  border-radius: 9999rpx;
+  transition: all 0.3s var(--ease-mystic);
+}
+
+.share-btn:active {
+  background: rgba(212, 175, 55, 0.2);
+  transform: scale(0.96);
+}
+
+.share-icon {
+  font-size: 28rpx;
+  color: var(--color-liu);
+}
+
+.share-text {
+  font-size: var(--fs-xs);
+  color: var(--color-liu);
+  letter-spacing: 0.2em;
+  font-family: 'KaiTi', serif;
 }
 
 /* 入场动画 */

@@ -44,6 +44,8 @@ export default [
         UniServiceJSBridge: 'readonly',
         __uniConfig: 'readonly',
         __GLOBAL__: 'readonly',
+        // Vite define 注入的编译期常量
+        __APP_VERSION__: 'readonly',
       },
     },
   },
