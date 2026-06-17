@@ -211,7 +211,7 @@ function save() {
   }
 
   const p: UserProfile = {
-    nickname: (fv.nickname || '玄友').trim() || '玄友',
+    nickname: (fv.nickname || '渡友').trim() || '渡友',
     gender: fv.gender || 'other',
     birthYear: year,
     birthMonth: month,

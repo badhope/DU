@@ -1,5 +1,5 @@
 <!--
-  玄枢 MISTVERSE · 通用重事类工具守卫组件
+  渡 DU · 通用重事类工具守卫组件
   - 包内：CooldownDialog + AddUser 对话框
   - UserSwitcher 是页面自己渲染的（与各页面布局融合）
 -->

@@ -163,9 +163,9 @@ const form = ref<PosterConfig>({
   subtitle: '天机指引',
   content: ['乾为天 · 元亨利贞', '天行健 · 君子自强'],
   badge: 'DAILY · 今日一卦',
-  signature: app.profile?.nickname || '玄友',
+  signature: app.profile?.nickname || '渡友',
   dateStr: '',
-  footer: '玄枢 MISTVERSE · 你的玄学工具集',
+  footer: '渡 DU · 你的玄学工具集 · 渡己渡人',
 })
 
 const typeOptions = [
@@ -219,7 +219,7 @@ function setType(k: typeof form.value.type) {
   }
   if (k === 'liuyao') {
     form.value.glyph = '爻'
-    form.value.title = '玄枢易盘'
+    form.value.title = '渡易盘'
     form.value.subtitle = '六爻纳甲'
   }
   if (k === 'custom') {
@@ -250,7 +250,7 @@ function selectHistory(h: (typeof app.history)[number]) {
 async function generate() {
   const now = new Date()
   form.value.dateStr = `${now.getFullYear()}.${String(now.getMonth() + 1).padStart(2, '0')}.${String(now.getDate()).padStart(2, '0')}`
-  if (!form.value.signature) form.value.signature = app.profile?.nickname || '玄友'
+  if (!form.value.signature) form.value.signature = app.profile?.nickname || '渡友'
   result.value = true
   app._ach('share-1')
   app.addHistory({
@@ -349,7 +349,7 @@ function saveImage() {
     const url = canvasEl.toDataURL('image/png')
     const a = document.createElement('a')
     a.href = url
-    a.download = `mistverse-poster-${form.value.template}-${Date.now()}.png`
+    a.download = `du-poster-${form.value.template}-${Date.now()}.png`
     a.click()
     uni.showToast({ title: '已触发下载', icon: 'success' })
   }

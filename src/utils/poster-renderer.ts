@@ -1,5 +1,5 @@
 /**
- * 玄枢 MISTVERSE · 海报 Canvas 2D 真实渲染引擎
+ * 渡 DU · 海报 Canvas 2D 真实渲染引擎
  *
  * 多模板真实绘制 + 长图导出（H5 / 小程序 / App）
  * 设计：5 套高质感玄学主题模板
@@ -420,15 +420,14 @@ export function buildPosterFromHistory(
     subtitle: '天机指引',
     content: ['乾为天 · 元亨利贞', '天行健 · 君子自强'],
     badge: 'DAILY · 今日一卦',
-    signature: profile?.nickname || '玄友',
+    signature: profile?.nickname || '渡友',
     dateStr: today,
-    footer: '玄枢 MISTVERSE · 你的玄学工具集',
+    footer: '渡 DU · 你的玄学工具集 · 渡己渡人',
   }
   if (!history) {
     return base
   }
   const out = history.output || {}
-  const inp = history.input || {}
   switch (type) {
     case 'gua':
       return {
@@ -476,7 +475,7 @@ export function buildPosterFromHistory(
           `变卦 ${out.bianGua || '—'}`,
           `用神 ${out.yongshen || '—'} · ${out.status || '—'}`,
         ],
-        badge: 'LIUYAO · 玄枢易盘',
+        badge: 'LIUYAO · 渡易盘',
       }
     default:
       return base

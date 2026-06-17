@@ -21,19 +21,19 @@
       <view class="brand-seal anim-float">
         <view class="seal-ring" />
         <view class="seal-inner">
-          <text class="seal-char">玄</text>
+          <text class="seal-char">渡</text>
         </view>
       </view>
 
       <!-- 品牌标题 -->
       <view class="brand-group">
-        <text class="brand-title title-mystic">玄枢</text>
+        <text class="brand-title title-mystic">渡</text>
         <view class="brand-divider">
           <view class="brand-divider-line" />
           <text class="brand-divider-dot">·</text>
           <view class="brand-divider-line" />
         </view>
-        <text class="brand-en">M I S T V E R S E</text>
+        <text class="brand-en">D U · 渡 己 渡 人</text>
       </view>
 
       <!-- 副标题 -->
@@ -52,7 +52,7 @@
     <view class="verse-section">
       <view class="verse-deco">
         <view class="verse-deco-line" />
-        <text class="verse-deco-text">玄枢寄语</text>
+        <text class="verse-deco-text">渡己寄语</text>
         <view class="verse-deco-line" />
       </view>
       <view class="verse-card" @click="nextVerse">

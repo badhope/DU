@@ -1,4 +1,4 @@
-# 玄枢 MISTVERSE · robots.txt
+# 渡 DU · robots.txt
 # 站内全量可索引；纯静态 SPA（hash 路由）无独立 sitemap，搜索引擎应能完整抓取。
 # 不屏蔽任何页面 ── 项目是纯静态客户端，搜索引擎应能完整抓取。
 
