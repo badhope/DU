@@ -83,7 +83,7 @@
         <text class="row-label">减 少 动 效</text>
         <switch
           :checked="app.settings.reducedMotion"
-          color="#D4AF37"
+          :color="LIU_COLOR"
           @change="onSwitch('reducedMotion', $event)"
         />
       </view>
@@ -91,7 +91,7 @@
         <text class="row-label">声 音 反 馈</text>
         <switch
           :checked="app.settings.soundEnabled"
-          color="#D4AF37"
+          :color="LIU_COLOR"
           @change="onSwitch('soundEnabled', $event)"
         />
       </view>
@@ -99,7 +99,7 @@
         <text class="row-label">触 觉 震 动</text>
         <switch
           :checked="app.settings.hapticsEnabled"
-          color="#D4AF37"
+          :color="LIU_COLOR"
           @change="onSwitch('hapticsEnabled', $event)"
         />
       </view>
@@ -107,7 +107,7 @@
         <text class="row-label">首 启 提 示</text>
         <switch
           :checked="app.settings.showGuide"
-          color="#D4AF37"
+          :color="LIU_COLOR"
           @change="onSwitch('showGuide', $event)"
         />
       </view>
@@ -210,6 +210,7 @@ import { useAppStore, MAX_HISTORY } from '@/stores'
 const app = useAppStore()
 const ver = __APP_VERSION__
 const maxHistory = MAX_HISTORY
+const LIU_COLOR = '#D4AF37'
 
 const FONT_OPTS = [
   { key: 'sm' as const, label: '小' },
@@ -646,8 +647,8 @@ function onResetAll() {
 }
 
 .action-btn.warn {
-  border-color: #d4af37;
-  color: #d4af37;
+  border-color: var(--color-liu);
+  color: var(--color-liu);
   background: rgba(212, 175, 55, 0.08);
 }
 

@@ -347,7 +347,7 @@ onMounted(() => {
   letter-spacing: 0.5em;
   color: var(--color-bai);
   text-shadow: 0 0 32rpx rgba(212, 175, 55, 0.6);
-  padding-right: -0.5em;
+  margin-right: -0.5em;
 }
 
 .brand-divider {

@@ -332,7 +332,7 @@ onMounted(() => {
   font-weight: 700;
   font-family: 'KaiTi', serif;
   letter-spacing: 0.4em;
-  padding-right: -0.4em;
+  margin-right: -0.4em;
 }
 
 .cat-hero-en {

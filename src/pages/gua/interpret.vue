@@ -308,7 +308,10 @@ function restart() {
   topic.value = '通用'
 }
 function goBack() {
-  uni.navigateBack({ delta: 1 })
+  uni.navigateBack({
+    delta: 1,
+    fail: () => uni.reLaunch({ url: '/pages/index/index' }),
+  })
 }
 </script>
 

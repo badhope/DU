@@ -34,7 +34,10 @@ function goBack() {
   // 优先使用页面栈返回；栈底则跳首页
   const pages = getCurrentPages()
   if (pages.length > 1) {
-    uni.navigateBack({ delta: 1 })
+    uni.navigateBack({
+      delta: 1,
+      fail: () => uni.reLaunch({ url: '/pages/index/index' }),
+    })
   } else {
     uni.reLaunch({ url: '/pages/index/index' })
   }
