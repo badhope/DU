@@ -3,8 +3,12 @@
 import { defineStore } from 'pinia'
 import { ref, computed, watch } from 'vue'
 import { TOOLS } from '@/config/tools'
-import { newDivinator, getUnlockDateForTool, hasTodayRecord } from '@/utils/daily-cooldown'
-import { todayStr as _todayStr } from '@/utils/daily-cooldown'
+import {
+  newDivinator,
+  getUnlockDateForTool,
+  hasTodayRecord,
+  todayStr as _todayStr,
+} from '@/utils/daily-cooldown'
 
 /** 本地日 YYYY-MM-DD（与 daily-cooldown.todayStr 同步） */
 function todayStr(d: Date = new Date()): string {

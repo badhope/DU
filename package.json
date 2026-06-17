@@ -135,8 +135,18 @@
       "jpeg-js": "^0.4.4",
       "@intlify/core-base": "^9.1.11",
       "@intlify/message-resolver": "^9.1.11",
+      "ws": "^8.21.0",
       "esbuild": "^0.28.1",
-      "ws": "^8.21.0"
+      "phin": "^3.7.1",
+      "postcss": "^8.5.10",
+      "@babel/core": "^7.29.6",
+      "qs": "^6.15.2",
+      "form-data": "^4.0.6",
+      "cookie": "^0.7.0",
+      "path-to-regexp": "^0.1.13",
+      "send": "^0.19.0",
+      "@tootallnate/once": "^2.0.1",
+      "js-yaml": "^4.2.0"
     }
   }
 }

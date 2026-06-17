@@ -151,18 +151,18 @@ export function useCooldown(opts: UseCooldownOptions): CooldownController {
     // 改为返回上一页（如占卜类页面间切换），不强制重启销毁栈
     const pages = getCurrentPages() || []
     if (pages.length > 1) {
-      try {
-        uni.navigateBack({ delta: 1 })
-      } catch {
-        uni.reLaunch({ url: '/pages/index/index' })
-      }
+      uni.navigateBack({
+        delta: 1,
+        fail: () => uni.reLaunch({ url: '/pages/index/index' }),
+      })
     } else {
-      try {
-        uni.reLaunch({ url: '/pages/index/index' })
-      } catch (e) {
-        // eslint-disable-next-line no-console
-        if (typeof console !== 'undefined') console.warn('[use-cooldown] reLaunch 失败', e)
-      }
+      uni.reLaunch({
+        url: '/pages/index/index',
+        fail: (e) => {
+          // eslint-disable-next-line no-console
+          if (typeof console !== 'undefined') console.warn('[use-cooldown] reLaunch 失败', e)
+        },
+      })
     }
   }
   const onCooldownIgnore = () => {
