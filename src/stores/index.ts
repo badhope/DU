@@ -140,6 +140,7 @@ export interface CheckinInfo {
   streak: number
   totalDays: number
   points: number
+  checkinDates: string[] // 真实签到日期列表 YYYY-MM-DD
 }
 
 interface PersistState {
@@ -166,6 +167,9 @@ interface PersistState {
 }
 
 const STORAGE_KEY = 'du-state-v1'
+
+/** 历史记录最大保存条数 */
+export const MAX_HISTORY = 50
 
 const DEFAULT_ACHIEVEMENTS: Achievement[] = [
   {
@@ -357,7 +361,7 @@ const DEFAULT_STATE: PersistState = {
   favorites: [],
   notes: [],
   achievements: DEFAULT_ACHIEVEMENTS,
-  checkin: { lastDate: '', streak: 0, totalDays: 0, points: 0 },
+  checkin: { lastDate: '', streak: 0, totalDays: 0, points: 0, checkinDates: [] },
   divinationRecords: [],
   divinatorProfiles: {},
   activeDivinatorKey: '',
@@ -379,7 +383,15 @@ function loadState(): PersistState {
         Array.isArray(parsed.achievements) && parsed.achievements.length
           ? parsed.achievements
           : JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS)),
-      checkin: parsed.checkin || { lastDate: '', streak: 0, totalDays: 0, points: 0 },
+      checkin: {
+        lastDate: parsed.checkin?.lastDate || '',
+        streak: parsed.checkin?.streak || 0,
+        totalDays: parsed.checkin?.totalDays || 0,
+        points: parsed.checkin?.points || 0,
+        checkinDates: Array.isArray(parsed.checkin?.checkinDates)
+          ? parsed.checkin!.checkinDates
+          : [],
+      },
       divinationRecords: Array.isArray(parsed.divinationRecords) ? parsed.divinationRecords : [],
       divinatorProfiles: parsed.divinatorProfiles || {},
       activeDivinatorKey: parsed.activeDivinatorKey || '',
@@ -439,7 +451,6 @@ export const useAppStore = defineStore('app', () => {
   )
 
   // ============ 历史记录 ============
-  const MAX_HISTORY = 50
   function addHistory(item: Omit<HistoryItem, 'id' | 'time'>) {
     const it: HistoryItem = {
       ...item,
@@ -493,6 +504,22 @@ export const useAppStore = defineStore('app', () => {
     // 自动建立占卜用户档案
     if (profile.value.nickname) {
       addDivinator(profile.value.nickname, '自己')
+    }
+  }
+
+  /** 非破坏性更新档案：保留 createdAt，合并字段 */
+  function updateProfile(patch: Partial<UserProfile>) {
+    if (!profile.value) {
+      // 尚无档案时等价于新建
+      setProfile({
+        ..._sanitizeProfile(patch as UserProfile),
+        createdAt: Date.now(),
+      } as UserProfile)
+      return
+    }
+    profile.value = {
+      ..._sanitizeProfile({ ...profile.value, ...patch }),
+      createdAt: profile.value.createdAt,
     }
   }
 
@@ -721,11 +748,14 @@ export const useAppStore = defineStore('app', () => {
     const yStr = `${yesterday.getFullYear()}-${String(yesterday.getMonth() + 1).padStart(2, '0')}-${String(yesterday.getDate()).padStart(2, '0')}`
     const newStreak = checkin.value.lastDate === yStr ? checkin.value.streak + 1 : 1
     const pointsGained = 10 + Math.min(newStreak, 30) // 连续签到额外奖励
+    const dates = Array.isArray(checkin.value.checkinDates) ? [...checkin.value.checkinDates] : []
+    if (!dates.includes(today)) dates.push(today)
     checkin.value = {
       lastDate: today,
       streak: newStreak,
       totalDays: checkin.value.totalDays + 1,
       points: checkin.value.points + pointsGained,
+      checkinDates: dates,
     }
     if (newStreak >= 7) _ach('checkin-7')
     if (newStreak >= 30) _ach('checkin-30')
@@ -769,10 +799,58 @@ export const useAppStore = defineStore('app', () => {
     favorites.value = []
     notes.value = []
     achievements.value = JSON.parse(JSON.stringify(DEFAULT_ACHIEVEMENTS))
-    checkin.value = { lastDate: '', streak: 0, totalDays: 0, points: 0 }
+    checkin.value = { lastDate: '', streak: 0, totalDays: 0, points: 0, checkinDates: [] }
     divinationRecords.value = []
     divinatorProfiles.value = {}
     activeDivinatorKey.value = ''
+  }
+
+  // ============ 数据导出/导入 ============
+  /** 导出全部状态为可序列化对象 */
+  function exportData(): PersistState {
+    return {
+      history: history.value,
+      settings: settings.value,
+      profile: profile.value,
+      favorites: favorites.value,
+      notes: notes.value,
+      achievements: achievements.value,
+      checkin: checkin.value,
+      divinationRecords: divinationRecords.value,
+      divinatorProfiles: divinatorProfiles.value,
+      activeDivinatorKey: activeDivinatorKey.value,
+    }
+  }
+
+  /** 导入状态（覆盖现有数据），返回是否成功 */
+  function importData(data: unknown): { ok: boolean; message: string } {
+    if (!data || typeof data !== 'object') {
+      return { ok: false, message: '数据格式无效' }
+    }
+    try {
+      const d = data as Partial<PersistState>
+      if (Array.isArray(d.history)) history.value = d.history
+      if (d.settings) settings.value = { ...DEFAULT_STATE.settings, ...d.settings }
+      if (d.profile === null || d.profile) profile.value = d.profile
+      if (Array.isArray(d.favorites)) favorites.value = d.favorites
+      if (Array.isArray(d.notes)) notes.value = d.notes
+      if (Array.isArray(d.achievements) && d.achievements.length)
+        achievements.value = d.achievements
+      if (d.checkin)
+        checkin.value = {
+          lastDate: d.checkin.lastDate || '',
+          streak: d.checkin.streak || 0,
+          totalDays: d.checkin.totalDays || 0,
+          points: d.checkin.points || 0,
+          checkinDates: Array.isArray(d.checkin.checkinDates) ? d.checkin.checkinDates : [],
+        }
+      if (Array.isArray(d.divinationRecords)) divinationRecords.value = d.divinationRecords
+      if (d.divinatorProfiles) divinatorProfiles.value = d.divinatorProfiles
+      if (typeof d.activeDivinatorKey === 'string') activeDivinatorKey.value = d.activeDivinatorKey
+      return { ok: true, message: '导入成功' }
+    } catch (_e) {
+      return { ok: false, message: '导入失败：数据解析错误' }
+    }
   }
 
   // ============ 衍生 ============
@@ -811,6 +889,7 @@ export const useAppStore = defineStore('app', () => {
     historyByTool,
     // profile
     setProfile,
+    updateProfile,
     clearProfile,
     // favorites
     toggleFavorite,
@@ -845,5 +924,8 @@ export const useAppStore = defineStore('app', () => {
     setMode,
     setI18n,
     resetAll,
+    // data
+    exportData,
+    importData,
   }
 })

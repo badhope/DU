@@ -6,7 +6,7 @@
     <view class="taiji-bg"><TaijiBg /></view>
     <TopBar title="个人档案" subtitle="USER PROFILE" />
 
-    <view v-if="profile" class="form card-mystic anim-fade-up">
+    <view v-if="profile && !isEditing" class="form card-mystic anim-fade-up">
       <view class="form-avatar">
         <text class="ava-glyph">
           {{ profile.gender === 'female' ? '♀' : profile.gender === 'male' ? '♂' : '☉' }}
@@ -20,7 +20,7 @@
           {{ profile.birthHour }}:00
         </text>
         <text class="fi-row">
-          📍 {{ profile.birthplace || '未填' }} · 经度 {{ profile.longitude }}°E
+          📍 {{ profile.birthplace || '未填' }} · 经度 {{ profile.longitude }}°
         </text>
         <text class="fi-row">
           👤
@@ -43,7 +43,7 @@
     </view>
 
     <view v-else class="form card-mystic anim-fade-up">
-      <text class="form-title title-mystic">建 立 命 盘</text>
+      <text class="form-title title-mystic">{{ isEditing ? '修 改 命 盘' : '建 立 命 盘' }}</text>
       <text class="form-sub">一 次 输 入 · 全 工 具 复 用</text>
 
       <view class="form-row">
@@ -113,20 +113,23 @@
         <picker
           mode="number"
           :value="form.longitude"
-          :min="73"
-          :max="135"
+          :min="-180"
+          :max="180"
           @change="onPick('longitude', $event)"
         >
-          <view class="form-picker">{{ form.longitude }}°E</view>
+          <view class="form-picker">{{ form.longitude }}°</view>
         </picker>
       </view>
 
       <view class="form-tip">
-        <text>· 填写后将自动用于八字/紫微/星盘/AI 等所有工具</text>
+        <text>· 填写后将自动用于八字/紫微/星盘等所有工具</text>
       </view>
 
       <view class="form-actions">
-        <view class="btn-zhu" @click="save"><text>保 存 档 案</text></view>
+        <view v-if="isEditing" class="btn-liu" @click="cancelEdit"><text>取 消</text></view>
+        <view class="btn-zhu" @click="save">
+          <text>{{ isEditing ? '保 存 修 改' : '保 存 档 案' }}</text>
+        </view>
       </view>
     </view>
   </view>
@@ -141,6 +144,7 @@ import type { UserProfile } from '@/stores'
 
 const app = useAppStore()
 const profile = computed(() => app.profile)
+const isEditing = ref(false)
 const form = ref({
   nickname: '',
   gender: 'male' as 'male' | 'female' | 'other',
@@ -205,8 +209,8 @@ function save() {
     return
   }
   const lon = Number(fv.longitude) || 120
-  if (lon < 73 || lon > 135) {
-    uni.showToast({ title: '经度需 73-135°E', icon: 'none' })
+  if (lon < -180 || lon > 180) {
+    uni.showToast({ title: '经度需 -180~180°', icon: 'none' })
     return
   }
 
@@ -222,8 +226,15 @@ function save() {
     createdAt: Date.now(),
   }
   try {
-    app.setProfile(p)
-    uni.showToast({ title: '档案已保存', icon: 'success' })
+    if (isEditing.value && profile.value) {
+      // 修改模式：保留 createdAt
+      app.updateProfile({ ...p, createdAt: profile.value.createdAt })
+      isEditing.value = false
+      uni.showToast({ title: '档案已更新', icon: 'success' })
+    } else {
+      app.setProfile(p)
+      uni.showToast({ title: '档案已保存', icon: 'success' })
+    }
   } catch (_e) {
     uni.showToast({ title: '保存失败，请重试', icon: 'none' })
   }
@@ -232,7 +243,6 @@ function save() {
 function goTo(key: string) {
   const map: Record<string, string> = {
     users: '/pages/users/users',
-    history: '/pages/history/history',
     dashboard: '/pages/dashboard/dashboard',
   }
   if (map[key]) uni.navigateTo({ url: map[key] })
@@ -250,8 +260,12 @@ function edit() {
       birthplace: profile.value.birthplace,
       longitude: profile.value.longitude,
     }
-    app.clearProfile()
+    isEditing.value = true
   }
+}
+
+function cancelEdit() {
+  isEditing.value = false
 }
 
 function clear() {

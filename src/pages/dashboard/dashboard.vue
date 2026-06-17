@@ -119,6 +119,13 @@
         >
           <text class="ach-glyph">{{ a.icon }}</text>
           <text class="ach-name">{{ a.name }}</text>
+          <view v-if="!a.unlocked && a.target > 1" class="ach-prog">
+            <view class="ach-prog-bar">
+              <view class="ach-prog-fill" :style="{ width: a.progress + '%' }" />
+            </view>
+            <text class="ach-prog-text">{{ a.current }}/{{ a.target }}</text>
+          </view>
+          <text v-else-if="a.unlocked" class="ach-done">✓</text>
         </view>
       </view>
     </view>
@@ -147,6 +154,7 @@ import { ref as _ref, computed } from 'vue'
 import TopBar from '@/components/ui/TopBar.vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import { useAppStore } from '@/stores'
+import { findTool } from '@/config/tools'
 
 const app = useAppStore()
 const profile = computed(() => app.profile)
@@ -206,22 +214,11 @@ function goCheckin() {
   uni.navigateTo({ url: '/pages/checkin/checkin' })
 }
 function goTool(tool: string) {
-  const path = toolPath(tool)
-  if (path) uni.navigateTo({ url: path })
+  const t = findTool(tool)
+  if (t?.path) uni.navigateTo({ url: t.path })
 }
 function goToolPath(path: string) {
   uni.navigateTo({ url: path })
-}
-function toolPath(tool: string): string {
-  const map: Record<string, string> = {
-    bazi: '/pages/bazi/bazi',
-    wuxing: '/pages/wuxing/wuxing',
-    gua: '/pages/gua/gua',
-    ziwei: '/pages/ziwei/ziwei',
-    tarot: '/pages/tarot/tarot',
-    meihua: '/pages/meihua/meihua',
-  }
-  return map[tool] || '/pages/index/index'
 }
 function openFav(id: string) {
   const h = app.history.find((x) => x.id === id)
@@ -238,16 +235,71 @@ function addNote() {
     placeholderText: '请输入标题',
     success: (res) => {
       if (res.confirm && res.content) {
-        app.addNote({ title: res.content, content: '', tags: [] })
+        const title = res.content.trim()
+        // 继续收集正文
+        uni.showModal({
+          title: '笔记正文',
+          editable: true,
+          placeholderText: '请输入正文（可留空）',
+          success: (r2) => {
+            const content = r2.confirm ? (r2.content || '').trim() : ''
+            app.addNote({ title, content, tags: [] })
+            uni.showToast({ title: '已保存', icon: 'success' })
+          },
+        })
       }
     },
   })
 }
 function openNote(id: string) {
+  const note = app.notes.find((n) => n.id === id)
+  if (!note) return
   uni.showActionSheet({
-    itemList: ['查看', '删除'],
+    itemList: ['查看', '编辑', '删除'],
     success: (res) => {
-      if (res.tapIndex === 1) app.removeNote(id)
+      if (res.tapIndex === 0) {
+        // 查看
+        uni.showModal({
+          title: note.title || '无题',
+          content: note.content || '（无正文）',
+          showCancel: false,
+          confirmText: '关闭',
+        })
+      } else if (res.tapIndex === 1) {
+        // 编辑：先改标题
+        uni.showModal({
+          title: '修改标题',
+          editable: true,
+          content: note.title,
+          success: (r1) => {
+            if (!r1.confirm) return
+            const newTitle = (r1.content || '').trim() || note.title
+            uni.showModal({
+              title: '修改正文',
+              editable: true,
+              content: note.content,
+              success: (r2) => {
+                if (!r2.confirm) return
+                const newContent = (r2.content || '').trim()
+                app.updateNote(id, { title: newTitle, content: newContent })
+                uni.showToast({ title: '已更新', icon: 'success' })
+              },
+            })
+          },
+        })
+      } else if (res.tapIndex === 2) {
+        // 删除
+        uni.showModal({
+          title: '删除笔记',
+          content: '确定删除该笔记？此操作不可恢复。',
+          success: (r) => {
+            if (r.confirm) {
+              app.removeNote(id)
+              uni.showToast({ title: '已删除', icon: 'success' })
+            }
+          },
+        })
+      }
     },
   })
 }
@@ -451,6 +503,37 @@ function openNote(id: string) {
   font-size: 16rpx;
   color: var(--color-bai-2);
   font-family: 'KaiTi', serif;
+  margin-top: 2rpx;
+}
+.ach-prog {
+  width: 100%;
+  margin-top: 4rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rpx;
+}
+.ach-prog-bar {
+  width: 100%;
+  height: 4rpx;
+  background: rgba(212, 175, 55, 0.15);
+  border-radius: 2rpx;
+  overflow: hidden;
+}
+.ach-prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #d4af37, #c8302a);
+  border-radius: 2rpx;
+  transition: width 0.6s var(--ease-power);
+}
+.ach-prog-text {
+  font-size: 14rpx;
+  color: var(--color-bai-3);
+  line-height: 1;
+}
+.ach-done {
+  font-size: 18rpx;
+  color: #4fae6f;
   margin-top: 2rpx;
 }
 .quick-grid {

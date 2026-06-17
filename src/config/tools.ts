@@ -1,7 +1,7 @@
 /** 工具中枢配置：单一数据源，新增/删除工具只改这里 */
 
 export type ToolStatus = 'ready' | 'planned' | 'wip'
-export type CategoryKey = 'mingli' | 'zhongshu' | 'guwu' | 'jian' | 'xiuxin' | 'shenghuo' | 'life'
+export type CategoryKey = 'mingli' | 'zhongshu' | 'guwu' | 'jian' | 'xiuxin' | 'shenghuo'
 
 export interface Tool {
   key: string // 路由键，唯一
@@ -186,7 +186,7 @@ export const TOOLS: Tool[] = [
   },
   {
     key: 'users',
-    category: 'life',
+    category: 'shenghuo',
     name: '占卜人',
     desc: '多用户管理 · 一日同人',
     glyph: '👥',
@@ -262,7 +262,7 @@ export const TOOLS: Tool[] = [
     key: 'mianxiang',
     category: 'guwu',
     name: '面相分析',
-    desc: '三停五官 · AI 解读',
+    desc: '三停五官 · 命理推演',
     glyph: '相',
     deco: '☰',
     status: 'ready',
@@ -274,7 +274,7 @@ export const TOOLS: Tool[] = [
     key: 'shouxiang',
     category: 'guwu',
     name: '手相分析',
-    desc: '掌纹丘相 · AI 解码',
+    desc: '掌纹丘相 · 命理推演',
     glyph: '掌',
     deco: '☲',
     status: 'ready',

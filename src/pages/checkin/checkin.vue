@@ -86,18 +86,15 @@ const calendar = computed(() => {
   const year = now.getFullYear()
   const month = now.getMonth()
   const today = now.getDate()
-  const lastDate = app.checkin.lastDate
   const days = new Date(year, month + 1, 0).getDate()
+  // 使用真实签到日期列表
   const checkedSet = new Set<string>()
-  // 模拟过去 30 天的签到（按 streak 推算）
-  if (app.checkin.streak > 0 && lastDate) {
-    const last = new Date(lastDate)
-    for (let i = 0; i < Math.min(app.checkin.streak, days); i++) {
-      const d = new Date(last)
-      d.setDate(d.getDate() - i)
-      if (d.getMonth() === month) checkedSet.add(String(d.getDate()))
-    }
-  }
+  const dates = Array.isArray(app.checkin.checkinDates) ? app.checkin.checkinDates : []
+  dates.forEach((d) => {
+    // d 格式 YYYY-MM-DD
+    const [y, m, day] = d.split('-').map(Number)
+    if (y === year && m - 1 === month) checkedSet.add(String(day))
+  })
   return Array.from({ length: days }, (_, i) => {
     const day = i + 1
     return {
