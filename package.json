@@ -134,7 +134,9 @@
     "overrides": {
       "jpeg-js": "^0.4.4",
       "@intlify/core-base": "^9.1.11",
-      "@intlify/message-resolver": "^9.1.11"
+      "@intlify/message-resolver": "^9.1.11",
+      "esbuild": "^0.28.1",
+      "ws": "^8.21.0"
     }
   }
 }

@@ -45,7 +45,7 @@ pnpm test:e2e    # Playwright 端到端
 
 ## 1. What is DU?
 
-DU (渡, "to ferry across") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app. The name carries the wish **渡己渡人** — *ferry yourself, then ferry others*.
+DU (渡, "to ferry across") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app. The name carries the wish **渡己渡人** — _ferry yourself, then ferry others_.
 
 It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under the key `du-state-v1`.
 
@@ -61,16 +61,16 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 ### 2.1 Categories
 
-| #   | Category   | 分类   | Subtitle                            |  Tools |
-| --- | ---------- | ------ | ----------------------------------- | -----: |
-| 1   | **Fate**   | 命理   | Patterns of destiny                 |     17 |
-| 2   | **Divination** | 占卜 | Questions to heaven               |      8 |
-| 3   | **Ancient Arts** | 古物 | Tools of omen                   |      7 |
-| 4   | **Wellness** | 健康 | Balance of body & mind            |      5 |
-| 5   | **Cultivation** | 修心 | The path inward                  |      6 |
-| 6   | **Life**   | 生活   | Everyday mirrors                    |      5 |
-| 7   | **Users**  | 占卜人 | Multi-profile mgmt                  |      1 |
-|     | **Total**  |        |                                     | **49** |
+| #   | Category         | 分类   | Subtitle               |  Tools |
+| --- | ---------------- | ------ | ---------------------- | -----: |
+| 1   | **Fate**         | 命理   | Patterns of destiny    |     17 |
+| 2   | **Divination**   | 占卜   | Questions to heaven    |      8 |
+| 3   | **Ancient Arts** | 古物   | Tools of omen          |      7 |
+| 4   | **Wellness**     | 健康   | Balance of body & mind |      5 |
+| 5   | **Cultivation**  | 修心   | The path inward        |      6 |
+| 6   | **Life**         | 生活   | Everyday mirrors       |      5 |
+| 7   | **Users**        | 占卜人 | Multi-profile mgmt     |      1 |
+|     | **Total**        |        |                        | **49** |
 
 ### 2.2 Full tool list
 
@@ -97,16 +97,16 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 #### Divination (占卜) — 8
 
-| Key        | Name            | Name (中) | What it does                  |
-| ---------- | --------------- | --------- | ----------------------------- |
-| `gua`      | Daily Hexagram  | 每日一卦  | Yarrow-stalk I-Ching reading  |
-| `liuyao`   | DU Yi Pan       | 渡易盘    | Six-line hexagram with Na Jia |
-| `tarot`    | Tarot Reading   | 塔罗占卜  | 78-card Western tarot         |
-| `meihua`   | Plum Blossom    | 梅花易数  | Time-based Mei Hua Yi Shu     |
-| `guyi`     | Gu Yi Heart Yi  | 古易心易  | Ancient heart-yi variant      |
-| `lingqian` | Spirit Lots     | 灵签抽签  | Temple-style lot drawing      |
-| `shuzhi`   | Number Energy   | 数字能量  | Phone-number magnetic field   |
-| `jiaobei`  | Moon Blocks     | 杯筊问事  | Two-block yes/no oracle       |
+| Key        | Name           | Name (中) | What it does                  |
+| ---------- | -------------- | --------- | ----------------------------- |
+| `gua`      | Daily Hexagram | 每日一卦  | Yarrow-stalk I-Ching reading  |
+| `liuyao`   | DU Yi Pan      | 渡易盘    | Six-line hexagram with Na Jia |
+| `tarot`    | Tarot Reading  | 塔罗占卜  | 78-card Western tarot         |
+| `meihua`   | Plum Blossom   | 梅花易数  | Time-based Mei Hua Yi Shu     |
+| `guyi`     | Gu Yi Heart Yi | 古易心易  | Ancient heart-yi variant      |
+| `lingqian` | Spirit Lots    | 灵签抽签  | Temple-style lot drawing      |
+| `shuzhi`   | Number Energy  | 数字能量  | Phone-number magnetic field   |
+| `jiaobei`  | Moon Blocks    | 杯筊问事  | Two-block yes/no oracle       |
 
 #### Ancient Arts (古物) — 7
 
@@ -119,22 +119,22 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 #### Wellness (健康) — 5
 
-| Key           | Name                  | Name (中) | What it does                         |
-| ------------- | --------------------- | --------- | ------------------------------------ |
-| `qijing`      | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
-| `ziwu`        | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
-| `wufu`        | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
-| `yangsheng`   | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
+| Key         | Name                  | Name (中) | What it does                         |
+| ----------- | --------------------- | --------- | ------------------------------------ |
+| `qijing`    | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
+| `ziwu`      | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
+| `wufu`      | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
+| `yangsheng` | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
 
 #### Cultivation (修心) — 6
 
-| Key         | Name                  | Name (中) | What it does                 |
-| ----------- | --------------------- | --------- | ---------------------------- |
-| `zhan`      | Seated Meditation     | 坐禅计时  | Timer with breathing guide   |
-| `fangqi`    | Relaxation            | 放松冥想  | Guided breathing & body scan |
-| `shijian`   | Quote of the Moment   | 拾句      | Daily Zen snippet            |
-| `dayun`     | Great Cycle Review    | 大运流转  | 90-year life review          |
-| `checkin`   | Daily Check-in        | 每日签到  | Streak & achievements        |
+| Key       | Name                | Name (中) | What it does                 |
+| --------- | ------------------- | --------- | ---------------------------- |
+| `zhan`    | Seated Meditation   | 坐禅计时  | Timer with breathing guide   |
+| `fangqi`  | Relaxation          | 放松冥想  | Guided breathing & body scan |
+| `shijian` | Quote of the Moment | 拾句      | Daily Zen snippet            |
+| `dayun`   | Great Cycle Review  | 大运流转  | 90-year life review          |
+| `checkin` | Daily Check-in      | 每日签到  | Streak & achievements        |
 
 #### Life (生活) — 5
 
@@ -148,12 +148,12 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 #### Personal Center + Users — 4
 
-| Key         | Name              | Name (中) | What it does               |
-| ----------- | ----------------- | --------- | -------------------------- |
-| `users`     | Diviners          | 占卜人    | Multi-user profile manager |
-| `profile`   | Personal Profile  | 个人档案  | (see Fate)                 |
-| `dashboard` | DU Console        | 渡台      | (see Fate)                 |
-| `checkin`   | Daily Check-in    | 每日签到  | (see Cultivation)          |
+| Key         | Name             | Name (中) | What it does               |
+| ----------- | ---------------- | --------- | -------------------------- |
+| `users`     | Diviners         | 占卜人    | Multi-user profile manager |
+| `profile`   | Personal Profile | 个人档案  | (see Fate)                 |
+| `dashboard` | DU Console       | 渡台      | (see Fate)                 |
+| `checkin`   | Daily Check-in   | 每日签到  | (see Cultivation)          |
 
 ---
 
