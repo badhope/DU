@@ -21,4 +21,8 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  build: {
+    // esbuild >=0.28 不再向下转译解构到 es2020，提升到 es2021 以兼容 uni-app 生成的代码
+    target: 'es2021',
+  },
 })
