@@ -57,11 +57,7 @@
       </view>
       <view class="verse-card" @click="nextVerse">
         <text class="verse-mark-left">「</text>
-        <text
-          :key="verseIdx"
-          class="verse-text"
-          :class="{ 'verse-flip': verseFlip }"
-        >
+        <text :key="verseIdx" class="verse-text" :class="{ 'verse-flip': verseFlip }">
           {{ currentVerse.text }}
         </text>
         <text class="verse-mark-right">」</text>
@@ -108,7 +104,10 @@
 
           <!-- 底部统计 -->
           <view class="entry-footer">
-            <view class="entry-count-badge" :style="{ background: cat.accent + '20', color: cat.accent }">
+            <view
+              class="entry-count-badge"
+              :style="{ background: cat.accent + '20', color: cat.accent }"
+            >
               <text>{{ getCount(cat.key) }} 项</text>
             </view>
             <view class="entry-arrow" :style="{ color: cat.accent }">
@@ -187,18 +186,36 @@ onMounted(() => {
 
   // GSAP 入场动画
   try {
-    gsap.fromTo('.brand-seal', { scale: 0, rotation: -180, opacity: 0 },
-      { scale: 1, rotation: 0, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.5)' })
-    gsap.fromTo('.brand-group', { y: -30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power3.out' })
-    gsap.fromTo('.brand-sub', { y: -10, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, delay: 0.6, ease: 'power2.out' })
-    gsap.fromTo('.time-block', { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.7, delay: 0.7, ease: 'back.out(1.7)' })
-    gsap.fromTo('.verse-section', { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, delay: 0.9, ease: 'power2.out' })
-    gsap.fromTo('.entry-card', { y: 40, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, delay: 1.1, ease: 'power3.out' })
+    gsap.fromTo(
+      '.brand-seal',
+      { scale: 0, rotation: -180, opacity: 0 },
+      { scale: 1, rotation: 0, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.5)' },
+    )
+    gsap.fromTo(
+      '.brand-group',
+      { y: -30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power3.out' },
+    )
+    gsap.fromTo(
+      '.brand-sub',
+      { y: -10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, delay: 0.6, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.time-block',
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.7, delay: 0.7, ease: 'back.out(1.7)' },
+    )
+    gsap.fromTo(
+      '.verse-section',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 0.9, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.entry-card',
+      { y: 40, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, delay: 1.1, ease: 'power3.out' },
+    )
   } catch (_e) {}
 })
 </script>
@@ -451,9 +468,18 @@ onMounted(() => {
 }
 
 @keyframes verseFlip {
-  0% { transform: rotateX(0); opacity: 1; }
-  50% { transform: rotateX(90deg); opacity: 0; }
-  100% { transform: rotateX(0); opacity: 1; }
+  0% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
 }
 
 .verse-from {
