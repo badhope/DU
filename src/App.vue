@@ -189,7 +189,7 @@ page {
   align-items: center;
   justify-content: center;
   padding: var(--sp-3) var(--sp-5);
-  background: linear-gradient(135deg, var(--color-zhu) 0%, #8b1f1a 100%);
+  background: linear-gradient(135deg, var(--color-zhu) 0%, var(--color-zhu-dark) 100%);
   color: var(--color-bai);
   border-radius: var(--r-full);
   font-size: var(--fs-md);

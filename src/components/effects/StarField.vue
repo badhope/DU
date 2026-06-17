@@ -197,7 +197,7 @@ onBeforeUnmount(() => {
     opacity: 1;
   }
   100% {
-    transform: translate(40vw, 60vh) rotate(35deg);
+    transform: translate(var(--sx, 40vw), var(--sy, 60vh)) rotate(35deg);
     opacity: 0;
   }
 }
