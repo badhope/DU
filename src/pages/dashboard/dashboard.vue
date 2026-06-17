@@ -4,11 +4,11 @@
     :class="[app.fontSizeClass, app.themeClass, app.fontClass, app.modeClass, 'container']"
   >
     <view class="taiji-bg"><TaijiBg /></view>
-    <TopBar title="玄枢台" subtitle="MYSTVERSE DASHBOARD" />
+    <TopBar title="渡台" subtitle="DU DASHBOARD" />
 
     <!-- 概览 -->
     <view class="overview card-mystic anim-fade-up">
-      <text class="ov-greet">{{ greet }} · {{ profile?.nickname || '玄友' }}</text>
+      <text class="ov-greet">{{ greet }} · {{ profile?.nickname || '渡友' }}</text>
       <view class="ov-grid">
         <view class="ov-stat">
           <text class="st-num">{{ app.history.length }}</text>

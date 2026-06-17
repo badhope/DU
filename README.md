@@ -1,10 +1,9 @@
-# 玄枢 MISTVERSE
+# 渡 DU
 
 > 我的浏览器端中文玄学工具集。**没有后端、没有账号、没有埋点**,
 > 全部在浏览器里算,数据放在 `localStorage`。49 个小工具,Vue 3 + TypeScript。
 
-英文名 MISTVERSE (玄枢, 意为 "mystic pivot")。名字是我朋友起的,
-他起名比我好。
+取名 **DU · 渡**,寓意"**渡己渡人**"——以术数为舟,先渡己,再渡人。
 
 ---
 
@@ -14,8 +13,7 @@
 下次再打开,数据还在 (你机器上),后台不知道你存在过。
 
 包含:八字、奇门遁甲、大小六壬、紫微斗数、铁板神数、诸葛神数、
-玄空飞星、塔罗、易经、二十四节气、风水、面相、冥想计时,
-外加 6 个基于规则推理的"AI 师父"。
+玄空飞星、塔罗、易经、二十四节气、风水、面相、冥想计时。
 
 不是专业意见,只是好奇心的产物。算出来的结果请别用来下注。
 
@@ -29,8 +27,8 @@
 ## 30 秒上手
 
 ```bash
-git clone https://github.com/badhope/mistverse.git
-cd mistverse
+git clone https://github.com/badhope/DU.git
+cd DU
 pnpm install
 pnpm dev    # http://localhost:5173
 ```
@@ -45,11 +43,11 @@ pnpm test:e2e    # Playwright 端到端
 
 ---
 
-## 1. What is MISTVERSE?
+## 1. What is DU?
 
-MISTVERSE (玄枢, "mystic pivot") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app.
+DU (渡, "to ferry across") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app. The name carries the wish **渡己渡人** — _ferry yourself, then ferry others_.
 
-It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under the key `mistverse-state-v2`.
+It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under the key `du-state-v1`.
 
 - **For cultural exploration.** All outputs are heuristic and educational; they are not professional advice.
 - **For developers.** The repository is a clean uni-app x + Vue 3 + Vite starter with strict TypeScript, ESLint, Prettier, Vitest, Lefthook, and a fully wired CI/CD pipeline (format → lint → test → audit → build → deploy).
@@ -63,17 +61,16 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 ### 2.1 Categories
 
-| #   | Category                                 | 分类   | Subtitle                            |  Tools |
-| --- | ---------------------------------------- | ------ | ----------------------------------- | -----: |
-| 1   | **Fate**                                 | 命理   | Patterns of destiny                 |     17 |
-| 2   | **Divination**                           | 占卜   | Questions to heaven                 |      8 |
-| 3   | **Ancient Arts**                         | 古物   | Tools of omen                       |      7 |
-| 4   | **Wellness**                             | 健康   | Balance of body & mind              |      5 |
-| 5   | **Cultivation**                          | 修心   | The path inward                     |      6 |
-| 6   | **Life**                                 | 生活   | Everyday mirrors                    |      5 |
-| 7   | **Users**                                | 占卜人 | Multi-profile mgmt                  |      1 |
-| -   | **AI Masters** (rolled into the 7 above) | AI 师  | In-browser rule-based chat advisors |      6 |
-|     | **Total**                                |        |                                     | **49** |
+| #   | Category         | 分类   | Subtitle               |  Tools |
+| --- | ---------------- | ------ | ---------------------- | -----: |
+| 1   | **Fate**         | 命理   | Patterns of destiny    |     17 |
+| 2   | **Divination**   | 占卜   | Questions to heaven    |      8 |
+| 3   | **Ancient Arts** | 古物   | Tools of omen          |      7 |
+| 4   | **Wellness**     | 健康   | Balance of body & mind |      5 |
+| 5   | **Cultivation**  | 修心   | The path inward        |      6 |
+| 6   | **Life**         | 生活   | Everyday mirrors       |      5 |
+| 7   | **Users**        | 占卜人 | Multi-profile mgmt     |      1 |
+|     | **Total**        |        |                        | **49** |
 
 ### 2.2 Full tool list
 
@@ -95,55 +92,49 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 | `life`       | Life Path Number       | 生命灵数  | 1-9 main, 33 sub-life numbers           |
 | `astro`      | Western Astrology      | 西洋占星  | Tropical zodiac, 10 planetary aspects   |
 | `maya`       | Maya Calendar          | 玛雅历    | Tzolkin 13-moon, 20-day cycle           |
-| `ai-ming`    | AI Fate Master         | AI 命理师 | AI Bazi dialogue                        |
 | `profile`    | Personal Profile       | 个人档案  | One-time input, reused everywhere       |
-| `dashboard`  | MISTVERSE Console      | 玄枢台    | All-chart dashboard                     |
+| `dashboard`  | DU Console             | 渡台      | All-chart dashboard                     |
 
 #### Divination (占卜) — 8
 
-| Key        | Name            | Name (中) | What it does                  |
-| ---------- | --------------- | --------- | ----------------------------- |
-| `gua`      | Daily Hexagram  | 每日一卦  | Yarrow-stalk I-Ching reading  |
-| `liuyao`   | Xuan Shu Yi Pan | 玄枢易盘  | Six-line hexagram with Na Jia |
-| `tarot`    | Tarot Reading   | 塔罗占卜  | 78-card Western tarot         |
-| `meihua`   | Plum Blossom    | 梅花易数  | Time-based Mei Hua Yi Shu     |
-| `guyi`     | Gu Yi Heart Yi  | 古易心易  | Ancient heart-yi variant      |
-| `lingqian` | Spirit Lots     | 灵签抽签  | Temple-style lot drawing      |
-| `shuzhi`   | Number Energy   | 数字能量  | Phone-number magnetic field   |
-| `jiaobei`  | Moon Blocks     | 杯筊问事  | Two-block yes/no oracle       |
+| Key        | Name           | Name (中) | What it does                  |
+| ---------- | -------------- | --------- | ----------------------------- |
+| `gua`      | Daily Hexagram | 每日一卦  | Yarrow-stalk I-Ching reading  |
+| `liuyao`   | DU Yi Pan      | 渡易盘    | Six-line hexagram with Na Jia |
+| `tarot`    | Tarot Reading  | 塔罗占卜  | 78-card Western tarot         |
+| `meihua`   | Plum Blossom   | 梅花易数  | Time-based Mei Hua Yi Shu     |
+| `guyi`     | Gu Yi Heart Yi | 古易心易  | Ancient heart-yi variant      |
+| `lingqian` | Spirit Lots    | 灵签抽签  | Temple-style lot drawing      |
+| `shuzhi`   | Number Energy  | 数字能量  | Phone-number magnetic field   |
+| `jiaobei`  | Moon Blocks    | 杯筊问事  | Two-block yes/no oracle       |
 
 #### Ancient Arts (古物) — 7
 
-| Key                 | Name                | Name (中) | What it does                 |
-| ------------------- | ------------------- | --------- | ---------------------------- |
-| `mianxiang`         | Face Reading        | 面相分析  | Three courts & five features |
-| `shouxiang`         | Palm Reading        | 手相分析  | Mounts & lines               |
-| `fenglui`           | Yang Zhai Feng Shui | 阳宅风水  | Compass + 8-mansion layout   |
-| `mingji`            | Name Numerology     | 命名测字  | Kangxi-stroke based scoring  |
-| `ai-feng`           | AI Feng Shui Master | AI 风水师 | AI-driven layout suggestions |
-| `ai-name`           | AI Name Master      | AI 起名师 | AI baby name generator       |
-| _+ 1 in AI section_ |                     |           |                              |
+| Key         | Name                | Name (中) | What it does                 |
+| ----------- | ------------------- | --------- | ---------------------------- |
+| `mianxiang` | Face Reading        | 面相分析  | Three courts & five features |
+| `shouxiang` | Palm Reading        | 手相分析  | Mounts & lines               |
+| `fenglui`   | Yang Zhai Feng Shui | 阳宅风水  | Compass + 8-mansion layout   |
+| `mingji`    | Name Numerology     | 命名测字  | Kangxi-stroke based scoring  |
 
 #### Wellness (健康) — 5
 
-| Key           | Name                  | Name (中) | What it does                         |
-| ------------- | --------------------- | --------- | ------------------------------------ |
-| `qijing`      | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
-| `ziwu`        | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
-| `wufu`        | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
-| `yangsheng`   | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
-| `ai-jiankang` | AI Health Master      | AI 健康师 | AI wellness advisor                  |
+| Key         | Name                  | Name (中) | What it does                         |
+| ----------- | --------------------- | --------- | ------------------------------------ |
+| `qijing`    | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
+| `ziwu`      | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
+| `wufu`      | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
+| `yangsheng` | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
 
 #### Cultivation (修心) — 6
 
-| Key         | Name                  | Name (中) | What it does                 |
-| ----------- | --------------------- | --------- | ---------------------------- |
-| `zhan`      | Seated Meditation     | 坐禅计时  | Timer with breathing guide   |
-| `fangqi`    | Relaxation            | 放松冥想  | Guided breathing & body scan |
-| `shijian`   | Quote of the Moment   | 拾句      | Daily Zen snippet            |
-| `dayun`     | Great Cycle Review    | 大运流转  | 90-year life review          |
-| `checkin`   | Daily Check-in        | 每日签到  | Streak & achievements        |
-| `ai-xiuxin` | AI Cultivation Master | AI 修心师 | AI inner-cultivation guide   |
+| Key       | Name                | Name (中) | What it does                 |
+| --------- | ------------------- | --------- | ---------------------------- |
+| `zhan`    | Seated Meditation   | 坐禅计时  | Timer with breathing guide   |
+| `fangqi`  | Relaxation          | 放松冥想  | Guided breathing & body scan |
+| `shijian` | Quote of the Moment | 拾句      | Daily Zen snippet            |
+| `dayun`   | Great Cycle Review  | 大运流转  | 90-year life review          |
+| `checkin` | Daily Check-in      | 每日签到  | Streak & achievements        |
 
 #### Life (生活) — 5
 
@@ -157,14 +148,12 @@ It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a sing
 
 #### Personal Center + Users — 4
 
-| Key         | Name              | Name (中) | What it does               |
-| ----------- | ----------------- | --------- | -------------------------- |
-| `users`     | Diviners          | 占卜人    | Multi-user profile manager |
-| `profile`   | Personal Profile  | 个人档案  | (see Fate)                 |
-| `dashboard` | MISTVERSE Console | 玄枢台    | (see Fate)                 |
-| `checkin`   | Daily Check-in    | 每日签到  | (see Cultivation)          |
-
-> **AI Masters** are in-browser rule-based chat advisors (no LLM, no network). They use the local data you entered plus the tool's output as context.
+| Key         | Name             | Name (中) | What it does               |
+| ----------- | ---------------- | --------- | -------------------------- |
+| `users`     | Diviners         | 占卜人    | Multi-user profile manager |
+| `profile`   | Personal Profile | 个人档案  | (see Fate)                 |
+| `dashboard` | DU Console       | 渡台      | (see Fate)                 |
+| `checkin`   | Daily Check-in   | 每日签到  | (see Cultivation)          |
 
 ---
 
@@ -221,7 +210,7 @@ Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baid
 | UI         | **Vue 3** + Composition API + `<script setup>`                | First-class TS, tree-shakeable                                    |
 | Types      | **TypeScript strict**                                         | Catch mistakes at compile time                                    |
 | Build      | **Vite 5**                                                    | Fast HMR, ESM-native                                              |
-| State      | **Pinia 3** + `localStorage` (key: `mistverse-state-v2`)      | Tiny, type-safe, persists locally                                 |
+| State      | **Pinia 3** + `localStorage` (key: `du-state-v1`)             | Tiny, type-safe, persists locally                                 |
 | Animations | **GSAP 3** + **OGL**                                          | Timeline control + WebGL particle/star effects                    |
 | Tests      | **Vitest 2** + `@vue/test-utils` + `happy-dom`                | Same Vite pipeline, fast                                          |
 | Hooks      | **Lefthook** + **commitlint**                                 | Pre-commit Prettier + ESLint, commit-msg lint                     |
@@ -233,7 +222,7 @@ Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baid
 ## 5. Project structure
 
 ```
-mistverse/
+DU/
 ├── .github/
 │   ├── workflows/
 │   │   ├── ci.yml        # format / lint / test / audit / type-check / build
@@ -252,7 +241,7 @@ mistverse/
 │   ├── config/
 │   │   └── tools.ts      # ⚙ single source of truth for all 49 tools
 │   ├── designs/          # tokens.css (color, spacing) + animations.css
-│   ├── pages/            # 49 tool pages (incl. ai/ subfolder)
+│   ├── pages/            # 49 tool pages
 │   ├── static/           # logo.png, robots.txt
 │   ├── stores/           # Pinia store
 │   ├── utils/            # 44 algorithm modules (Bazi, Liu Yao, Tarot, …)
@@ -306,17 +295,17 @@ See [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) for t
 
 ## 7. Security & privacy
 
-> **TL;DR:** There is no server. There is no analytics. There is no LLM. Your data never leaves the browser.
+> **TL;DR:** There is no server. There is no analytics. Your data never leaves the browser.
 
 - **No `fetch` / `XMLHttpRequest` / `uni.request` calls** — verified via `grep`. Every computation is local.
 - **No `v-html` / `innerHTML` / `eval` / `new Function`** — uni-app x renders text safely.
 - **No third-party SDKs** — no Google Analytics, no Sentry, no Umeng, no Baidu Tongji, no AdSense.
 - **No `.env` / API keys** — `.gitignore` blocks `.env*`, `test-*.cjs`, and screenshots.
-- **localStorage** holds your profile + divination history under `mistverse-state-v2`. Clear it any time from `Settings → Privacy`.
+- **localStorage** holds your profile + divination history under `du-state-v1`. Clear it any time from `Settings → Privacy`.
 - **CI** runs `gitleaks` (push, PR, daily) + CodeQL (`javascript-typescript`) + `pnpm audit --prod --audit-level=high`.
 - **Dependency overrides** force `jpeg-js@^0.4.4` and `@intlify/{core-base,message-resolver}@^9.1.11` to neutralize transitive CVEs from uni-app's bundle.
 
-Report vulnerabilities privately via [GitHub Security Advisories](https://github.com/badhope/mistverse/security/advisories/new) — see [SECURITY.md](SECURITY.md).
+Report vulnerabilities privately via [GitHub Security Advisories](https://github.com/badhope/DU/security/advisories/new) — see [SECURITY.md](SECURITY.md).
 
 ---
 
@@ -327,7 +316,7 @@ Report vulnerabilities privately via [GitHub Security Advisories](https://github
 1. `CI` — `format:check` → `lint` → `test` → `audit` → `type-check` → `build:h5`
 2. `Deploy` — `type-check` → `build:h5` → `actions/deploy-pages@v4` → GitHub Pages
 
-Live at **https://badhope.github.io/mistverse/**
+Live at **https://badhope.github.io/DU/**
 
 To deploy your own fork: enable GitHub Pages in repo settings (Source: GitHub Actions), then push to `main`.
 
@@ -344,18 +333,18 @@ A: The tradition is Chinese. All UI labels are bilingual, the code is in English
 **Q: Can I run this offline?**
 A: After the first load the bundle is fully offline-capable (no network calls). Add the site as a PWA and it will work as a standalone app.
 
-**Q: Can I integrate my own LLM?**
-A: The 6 "AI Masters" are deterministic rule-based advisors. To swap in a real LLM, replace the implementation in `src/utils/ai.ts` — the chat UI in `src/pages/ai/*.vue` and the store in `src/stores/index.ts` already accept any async function.
-
 **Q: Why uni-app x instead of Nuxt / Next / SvelteKit?**
 A: The original goal was to ship to WeChat Mini Program as well as the web. uni-app x is the only framework that compiles Vue 3 to both with a single codebase.
+
+**Q: Why the name DU / 渡?**
+A: 渡 means "to ferry across." The wish is 渡己渡人 — first ferry yourself to understanding, then help ferry others. The tools are the boat.
 
 ---
 
 ## 10. License & credits
 
-- **Code:** [MIT](LICENSE) — Copyright © 2026 MISTVERSE contributors
-- **Brand & copy:** 玄枢 / MISTVERSE
+- **Code:** [MIT](LICENSE) — Copyright © 2026 DU contributors
+- **Brand & copy:** 渡 / DU
 - **Maintainer:** [@badhope](https://github.com/badhope)
 
 Cultural reference data is drawn from public-domain traditional sources. No proprietary oracle data is bundled.
@@ -364,11 +353,13 @@ Cultural reference data is drawn from public-domain traditional sources. No prop
 
 ## 11. 中文简介
 
-**玄枢 MISTVERSE** 是一款**纯客户端**的中国传统文化工具集，基于 **uni-app x + Vue 3 + TypeScript** 构建，共 **49 个工具**，覆盖 **命理、占卜、古物、健康、修心、生活** 六大类，内置 **6 位 AI 师**。
+**渡 DU** 是一款**纯客户端**的中国传统文化工具集，基于 **uni-app x + Vue 3 + TypeScript** 构建，共 **49 个工具**，覆盖 **命理、占卜、古物、健康、修心、生活** 六大类。
+
+取名"渡"，寓意**渡己渡人**——以术数为舟，先渡己，再渡人。
 
 - **零后端**：所有计算在浏览器内完成，无任何 `fetch` / `uni.request` 外发。
 - **零追踪**：不集成任何第三方分析 SDK，不上传任何数据。
-- **零账户**：开箱即用，所有数据存于 `localStorage`（key: `mistverse-state-v2`）。
+- **零账户**：开箱即用，所有数据存于 `localStorage`（key: `du-state-v1`）。
 - **多端**：一份代码同时输出 H5（GitHub Pages）、微信小程序、支付宝小程序、抖音小程序、鸿蒙、百度智能小程序等。
 - **CI 全绿**：`format` → `lint` → `test` → `audit` → `type-check` → `build` → `deploy`，全部接入分支保护。
 

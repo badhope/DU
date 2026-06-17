@@ -35,7 +35,13 @@
 
       <!-- 分隔线 -->
       <view class="cat-hero-divider">
-        <view class="cat-hero-divider-line" :style="{ background: 'linear-gradient(90deg, transparent, ' + category.accent + '60, transparent)' }" />
+        <view
+          class="cat-hero-divider-line"
+          :style="{
+            background:
+              'linear-gradient(90deg, transparent, ' + category.accent + '60, transparent)',
+          }"
+        />
       </view>
 
       <!-- 描述 -->
@@ -46,9 +52,21 @@
     <!-- 工具列表 -->
     <view class="tools-section">
       <view class="section-header">
-        <view class="section-header-line" :style="{ background: 'linear-gradient(90deg, transparent, ' + category.accent + '40, transparent)' }" />
+        <view
+          class="section-header-line"
+          :style="{
+            background:
+              'linear-gradient(90deg, transparent, ' + category.accent + '40, transparent)',
+          }"
+        />
         <text class="section-header-text" :style="{ color: category.accent }">工 具 入 口</text>
-        <view class="section-header-line" :style="{ background: 'linear-gradient(90deg, transparent, ' + category.accent + '40, transparent)' }" />
+        <view
+          class="section-header-line"
+          :style="{
+            background:
+              'linear-gradient(90deg, transparent, ' + category.accent + '40, transparent)',
+          }"
+        />
       </view>
 
       <view class="tool-list">
@@ -69,7 +87,9 @@
             <text class="tool-icon-glyph">{{ tool.glyph }}</text>
             <!-- 状态遮罩 -->
             <view v-if="tool.status !== 'ready'" class="tool-icon-mask">
-              <text class="tool-icon-mask-text">{{ tool.status === 'wip' ? '开发中' : '规划中' }}</text>
+              <text class="tool-icon-mask-text">{{
+                tool.status === 'wip' ? '开发中' : '规划中'
+              }}</text>
             </view>
           </view>
 
@@ -77,7 +97,10 @@
           <view class="tool-info">
             <view class="tool-name-row">
               <text class="tool-name">{{ tool.name }}</text>
-              <view class="tool-status-badge" :style="{ background: statusBgColor(tool.status), color: statusColor(tool.status) }">
+              <view
+                class="tool-status-badge"
+                :style="{ background: statusBgColor(tool.status), color: statusColor(tool.status) }"
+              >
                 <view class="tool-status-dot" :style="{ background: statusColor(tool.status) }" />
                 <text class="tool-status-text">{{ statusText(tool.status) }}</text>
               </view>
@@ -116,12 +139,7 @@ import { onMounted } from 'vue'
 import TaijiBg from '@/components/effects/TaijiBg.vue'
 import StarField from '@/components/effects/StarField.vue'
 import TopBar from '@/components/ui/TopBar.vue'
-import {
-  CATEGORIES,
-  getToolsByCategory,
-  type Tool,
-  type CategoryKey,
-} from '@/config/tools'
+import { CATEGORIES, getToolsByCategory, type Tool, type CategoryKey } from '@/config/tools'
 import { useAppStore } from '@/stores'
 
 const app = useAppStore()
@@ -202,14 +220,26 @@ function nextVerse() {
 
 onMounted(() => {
   try {
-    gsap.fromTo('.cat-hero-seal', { scale: 0, rotation: -180, opacity: 0 },
-      { scale: 1, rotation: 0, opacity: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' })
-    gsap.fromTo('.cat-hero-title-group', { y: -20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' })
-    gsap.fromTo('.cat-hero-desc', { y: 20, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.5, delay: 0.5, ease: 'power2.out' })
-    gsap.fromTo('.tool-card', { x: -30, opacity: 0 },
-      { x: 0, opacity: 1, duration: 0.5, stagger: 0.08, delay: 0.6, ease: 'power2.out' })
+    gsap.fromTo(
+      '.cat-hero-seal',
+      { scale: 0, rotation: -180, opacity: 0 },
+      { scale: 1, rotation: 0, opacity: 1, duration: 0.8, ease: 'elastic.out(1, 0.5)' },
+    )
+    gsap.fromTo(
+      '.cat-hero-title-group',
+      { y: -20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, delay: 0.3, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.cat-hero-desc',
+      { y: 20, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.5, delay: 0.5, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.tool-card',
+      { x: -30, opacity: 0 },
+      { x: 0, opacity: 1, duration: 0.5, stagger: 0.08, delay: 0.6, ease: 'power2.out' },
+    )
   } catch (_e) {}
 })
 </script>

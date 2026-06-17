@@ -1,9 +1,9 @@
 {
   "private": true,
   "type": "module",
-  "name": "mistverse",
+  "name": "du",
   "version": "1.0.1",
-  "description": "MISTVERSE (玄枢) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life, and AI assistance.",
+  "description": "DU (渡) — A client-side Chinese metaphysics toolkit: 49 tools across fate, divination, ancient arts, wellness, cultivation, life. 渡己渡人。",
   "keywords": [
     "fengshui",
     "mysticism",
@@ -26,13 +26,13 @@
     "node": ">=20.0.0",
     "pnpm": ">=10.0.0"
   },
-  "homepage": "https://badhope.github.io/mistverse/",
+  "homepage": "https://badhope.github.io/DU/",
   "repository": {
     "type": "git",
-    "url": "https://github.com/badhope/mistverse.git"
+    "url": "https://github.com/badhope/DU.git"
   },
   "bugs": {
-    "url": "https://github.com/badhope/mistverse/issues"
+    "url": "https://github.com/badhope/DU/issues"
   },
   "scripts": {
     "dev:custom": "uni -p",
@@ -79,26 +79,26 @@
     "prepare": "lefthook install || true"
   },
   "dependencies": {
-    "@dcloudio/uni-app": "3.0.0-4080420251103001",
-    "@dcloudio/uni-app-harmony": "3.0.0-4080420251103001",
-    "@dcloudio/uni-app-plus": "3.0.0-4080420251103001",
-    "@dcloudio/uni-components": "3.0.0-4080420251103001",
-    "@dcloudio/uni-h5": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-alipay": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-baidu": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-harmony": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-jd": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-kuaishou": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-lark": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-qq": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-toutiao": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-weixin": "3.0.0-4080420251103001",
-    "@dcloudio/uni-mp-xhs": "3.0.0-4080420251103001",
-    "@dcloudio/uni-quickapp-webview": "3.0.0-4080420251103001",
+    "@dcloudio/uni-app": "3.0.0-5000720260410001",
+    "@dcloudio/uni-app-harmony": "3.0.0-5000720260410001",
+    "@dcloudio/uni-app-plus": "3.0.0-5000720260410001",
+    "@dcloudio/uni-components": "3.0.0-5000720260410001",
+    "@dcloudio/uni-h5": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-alipay": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-baidu": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-harmony": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-jd": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-kuaishou": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-lark": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-qq": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-toutiao": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-weixin": "3.0.0-5000720260410001",
+    "@dcloudio/uni-mp-xhs": "3.0.0-5000720260410001",
+    "@dcloudio/uni-quickapp-webview": "3.0.0-5000720260410001",
     "@vueuse/core": "^14.3.0",
     "gsap": "^3.15.0",
     "pinia": "^3.0.4",
-    "vue": "^3.4.21"
+    "vue": "^3.5.38"
   },
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
@@ -109,32 +109,34 @@
     "@dcloudio/uni-stacktracey": "3.0.0-5000720260410001",
     "@dcloudio/vite-plugin-uni": "3.0.0-5000720260410001",
     "@eslint/js": "^10.0.1",
-    "@types/node": "^25.9.2",
-    "@typescript-eslint/eslint-plugin": "^8.61.0",
-    "@typescript-eslint/parser": "^8.61.0",
+    "@types/node": "^25.9.3",
+    "@typescript-eslint/eslint-plugin": "^8.61.1",
+    "@typescript-eslint/parser": "^8.61.1",
     "@vitejs/plugin-vue": "^6.0.7",
     "@vue/test-utils": "^2.4.11",
     "@vue/tsconfig": "^0.9.1",
-    "eslint": "^10.4.1",
+    "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-vue": "^10.9.2",
     "globals": "^17.6.0",
-    "happy-dom": "^20.10.2",
+    "happy-dom": "^20.10.5",
     "lefthook": "^2.1.9",
     "prettier": "^3.8.4",
-    "sass": "^1.100.0",
+    "sass": "^1.101.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.61.0",
+    "typescript-eslint": "^8.61.1",
     "vite": "8.0.16",
-    "vitest": "^4.1.8",
+    "vitest": "^4.1.9",
     "vue-eslint-parser": "^10.4.1",
-    "vue-tsc": "^3.3.4"
+    "vue-tsc": "^3.3.5"
   },
   "pnpm": {
     "overrides": {
       "jpeg-js": "^0.4.4",
       "@intlify/core-base": "^9.1.11",
-      "@intlify/message-resolver": "^9.1.11"
+      "@intlify/message-resolver": "^9.1.11",
+      "esbuild": "^0.28.1",
+      "ws": "^8.21.0"
     }
   }
 }

@@ -1,11 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Discussions · 讨论与想法
-    url: https://github.com/badhope/mistverse/discussions
+    url: https://github.com/badhope/DU/discussions
     about: Casual questions, ideas, and chatter go to Discussions (English / 中文 都欢迎).
       临时问题、想法、闲聊请去 Discussions。
   - name: Security Advisories · 安全漏洞
-    url: https://github.com/badhope/mistverse/security/advisories/new
+    url: https://github.com/badhope/DU/security/advisories/new
     about: Private vulnerability reports go through Security Advisories.
       Do NOT open a public Issue for security issues.
       私有漏洞报告请走 Security Advisories（不要在 Issue 公开）。

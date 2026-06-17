@@ -5,7 +5,7 @@
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "玄枢"
+        "navigationBarTitleText": "渡"
       }
     },
     {
@@ -181,7 +181,7 @@
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "玄枢易盘"
+        "navigationBarTitleText": "渡易盘"
       }
     },
     {
@@ -349,7 +349,7 @@
       "style": {
         "navigationStyle": "custom",
         "navigationBarTextStyle": "white",
-        "navigationBarTitleText": "玄枢台"
+        "navigationBarTitleText": "渡台"
       }
     },
     {
@@ -371,7 +371,7 @@
   ],
   "globalStyle": {
     "navigationBarTextStyle": "white",
-    "navigationBarTitleText": "MISTVERSE 玄枢",
+    "navigationBarTitleText": "DU 渡",
     "navigationBarBackgroundColor": "#0A0A12",
     "backgroundColor": "#0A0A12"
   },

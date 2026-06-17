@@ -1,5 +1,5 @@
 /**
- * 玄枢 MISTVERSE · 手相分析（完整版）
+ * 渡 DU · 手相分析（完整版）
  *
  *  - 八宫（坎/艮/震/巽/离/坤/兑/乾）
  *  - 十二丘（金/木/水/太阳/月/海/火/天狼/小腹/尾闾/少府/中府）
@@ -242,8 +242,7 @@ export function calcShouxiang(year: number, month: number, day: number): Shouxia
   }))
   const sanZhu = SAN_ZHU.map((s, i) => {
     const score = Math.max(55, Math.min(95, base + i * 2 + (month % 3) - 1))
-    const quality: '佳' | '中' | '弱' =
-      score > 80 ? '佳' : score > 65 ? '中' : '弱'
+    const quality: '佳' | '中' | '弱' = score > 80 ? '佳' : score > 65 ? '中' : '弱'
     return { ...s, score, quality }
   })
 

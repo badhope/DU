@@ -21,19 +21,19 @@
       <view class="brand-seal anim-float">
         <view class="seal-ring" />
         <view class="seal-inner">
-          <text class="seal-char">玄</text>
+          <text class="seal-char">渡</text>
         </view>
       </view>
 
       <!-- 品牌标题 -->
       <view class="brand-group">
-        <text class="brand-title title-mystic">玄枢</text>
+        <text class="brand-title title-mystic">渡</text>
         <view class="brand-divider">
           <view class="brand-divider-line" />
           <text class="brand-divider-dot">·</text>
           <view class="brand-divider-line" />
         </view>
-        <text class="brand-en">M I S T V E R S E</text>
+        <text class="brand-en">D U · 渡 己 渡 人</text>
       </view>
 
       <!-- 副标题 -->
@@ -52,16 +52,12 @@
     <view class="verse-section">
       <view class="verse-deco">
         <view class="verse-deco-line" />
-        <text class="verse-deco-text">玄枢寄语</text>
+        <text class="verse-deco-text">渡己寄语</text>
         <view class="verse-deco-line" />
       </view>
       <view class="verse-card" @click="nextVerse">
         <text class="verse-mark-left">「</text>
-        <text
-          :key="verseIdx"
-          class="verse-text"
-          :class="{ 'verse-flip': verseFlip }"
-        >
+        <text :key="verseIdx" class="verse-text" :class="{ 'verse-flip': verseFlip }">
           {{ currentVerse.text }}
         </text>
         <text class="verse-mark-right">」</text>
@@ -108,7 +104,10 @@
 
           <!-- 底部统计 -->
           <view class="entry-footer">
-            <view class="entry-count-badge" :style="{ background: cat.accent + '20', color: cat.accent }">
+            <view
+              class="entry-count-badge"
+              :style="{ background: cat.accent + '20', color: cat.accent }"
+            >
               <text>{{ getCount(cat.key) }} 项</text>
             </view>
             <view class="entry-arrow" :style="{ color: cat.accent }">
@@ -187,18 +186,36 @@ onMounted(() => {
 
   // GSAP 入场动画
   try {
-    gsap.fromTo('.brand-seal', { scale: 0, rotation: -180, opacity: 0 },
-      { scale: 1, rotation: 0, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.5)' })
-    gsap.fromTo('.brand-group', { y: -30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power3.out' })
-    gsap.fromTo('.brand-sub', { y: -10, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.6, delay: 0.6, ease: 'power2.out' })
-    gsap.fromTo('.time-block', { scale: 0.8, opacity: 0 },
-      { scale: 1, opacity: 1, duration: 0.7, delay: 0.7, ease: 'back.out(1.7)' })
-    gsap.fromTo('.verse-section', { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, duration: 0.7, delay: 0.9, ease: 'power2.out' })
-    gsap.fromTo('.entry-card', { y: 40, opacity: 0, scale: 0.95 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, delay: 1.1, ease: 'power3.out' })
+    gsap.fromTo(
+      '.brand-seal',
+      { scale: 0, rotation: -180, opacity: 0 },
+      { scale: 1, rotation: 0, opacity: 1, duration: 1.2, ease: 'elastic.out(1, 0.5)' },
+    )
+    gsap.fromTo(
+      '.brand-group',
+      { y: -30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.8, delay: 0.4, ease: 'power3.out' },
+    )
+    gsap.fromTo(
+      '.brand-sub',
+      { y: -10, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.6, delay: 0.6, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.time-block',
+      { scale: 0.8, opacity: 0 },
+      { scale: 1, opacity: 1, duration: 0.7, delay: 0.7, ease: 'back.out(1.7)' },
+    )
+    gsap.fromTo(
+      '.verse-section',
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, duration: 0.7, delay: 0.9, ease: 'power2.out' },
+    )
+    gsap.fromTo(
+      '.entry-card',
+      { y: 40, opacity: 0, scale: 0.95 },
+      { y: 0, opacity: 1, scale: 1, duration: 0.6, stagger: 0.1, delay: 1.1, ease: 'power3.out' },
+    )
   } catch (_e) {}
 })
 </script>
@@ -451,9 +468,18 @@ onMounted(() => {
 }
 
 @keyframes verseFlip {
-  0% { transform: rotateX(0); opacity: 1; }
-  50% { transform: rotateX(90deg); opacity: 0; }
-  100% { transform: rotateX(0); opacity: 1; }
+  0% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
+  50% {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
 }
 
 .verse-from {

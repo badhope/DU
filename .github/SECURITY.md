@@ -1,6 +1,6 @@
 # Security Policy · 安全政策
 
-> MISTVERSE is a **client-side only** application: there is no backend, no API, no third-party analytics, and no LLM. All computation happens in your browser. This document is bilingual: **English first**, then 中文.
+> DU (渡) is a **client-side only** application: there is no backend, no API, no third-party analytics, and no LLM. All computation happens in your browser. This document is bilingual: **English first**, then 中文.
 
 ---
 
@@ -18,7 +18,7 @@
 
 **Please do not** open a public GitHub Issue for security problems. Use one of these private channels:
 
-- **GitHub Security Advisories** (preferred): <https://github.com/badhope/mistverse/security/advisories/new>
+- **GitHub Security Advisories** (preferred): <https://github.com/badhope/DU/security/advisories/new>
 - **Email the maintainer:** see the contact on the [README.md](../../README.md) profile section
 
 You should receive an acknowledgement within **72 hours**. We will coordinate a fix, a CVE if applicable, and a public advisory after the patch is released.
@@ -27,7 +27,7 @@ You should receive an acknowledgement within **72 hours**. We will coordinate a 
 
 如发现安全问题，请**不要**通过公开 Issue 报告。私有渠道：
 
-- **GitHub Security Advisories**（推荐）：<https://github.com/badhope/mistverse/security/advisories/new>
+- **GitHub Security Advisories**（推荐）：<https://github.com/badhope/DU/security/advisories/new>
 - **邮件联系维护者**：见 [README.md](../../README.md) 末尾
 
 我们会在 **72 小时内**响应，并与您协调修复、申请 CVE（如适用），修复发布后发布公开公告。
@@ -49,14 +49,14 @@ You should receive an acknowledgement within **72 hours**. We will coordinate a 
 
 ### English
 
-- All divination data, profiles, achievements, and chat history are stored in your browser's `localStorage` under the key **`mistverse-state-v2`**.
+- All divination data, profiles, achievements, and chat history are stored in your browser's `localStorage` under the key **`du-state-v1`**.
 - **Nothing is uploaded** to any server. The app makes no `fetch`, `XMLHttpRequest`, or `uni.request` calls. This is verified by `grep` in CI.
 - No third-party SDKs are bundled — no Google Analytics, no Sentry, no Umeng, no Baidu Tongji, no AdSense.
 - You can wipe your data at any time from **Settings → Privacy → Clear all data**.
 
 ### 中文
 
-- 所有占卜数据、个人档案、成就、聊天记录都存于浏览器 `localStorage`（key: **`mistverse-state-v2`**）。
+- 所有占卜数据、个人档案、成就、聊天记录都存于浏览器 `localStorage`（key: **`du-state-v1`**）。
 - **不向任何服务器上传**。本应用无 `fetch` / `XMLHttpRequest` / `uni.request` 调用，CI 中用 `grep` 校验。
 - 不集成任何第三方 SDK — 无 Google Analytics、无 Sentry、无 Umeng、无百度统计、无 AdSense。
 - 可随时在 **设置 → 隐私 → 清除全部数据** 中清空。
