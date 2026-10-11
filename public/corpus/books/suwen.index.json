@@ -1,0 +1,16 @@
+{
+  "id": "suwen",
+  "title": "素问",
+  "parts": [
+    {
+      "part": 1,
+      "file": "suwen.part1.json",
+      "chapters": 27
+    },
+    {
+      "part": 2,
+      "file": "suwen.part2.json",
+      "chapters": 1
+    }
+  ]
+}

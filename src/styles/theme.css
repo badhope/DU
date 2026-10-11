@@ -1,0 +1,199 @@
+/*
+ * DU v2 · 设计 token
+ *
+ * v1 的病灶之一：主题色以十六进制散落在代码里 237 处。
+ * v2 规定：颜色只允许出现在本文件的 token 定义里，组件一律引用 var(--*)。
+ */
+
+:root {
+  /* 墨与纸 */
+  --ink-1: #f2ece0;
+  --ink-2: #c8bfae;
+  --ink-3: #8f8677;
+  --bg-0: #0d1117;
+  --bg-1: #131922;
+  --surface-1: #18202b;
+  --surface-2: #1e2733;
+  --line: #2c3745;
+
+  /* 主强调 */
+  --accent: #c0504a; /* 朱砂 */
+  --accent-2: #d4af37; /* 鎏金 */
+
+  /* 五行色（界面唯一来源） */
+  --wx-mu: #4c9a6a;
+  --wx-huo: #d2553f;
+  --wx-tu: #c8a24a;
+  --wx-jin: #d9d4c8;
+  --wx-shui: #4a7fb5;
+
+  /* 五大类强调色：命 / 卜 / 象 / 时 / 养 */
+  --cat-mingli: var(--wx-huo);
+  --cat-buzhan: var(--accent);
+  --cat-xiangshu: var(--wx-shui);
+  --cat-shijian: var(--wx-tu);
+  --cat-yangsheng: var(--wx-mu);
+
+  /* 吉凶语气 */
+  --tone-good: #5aa06f;
+  --tone-warn: #c9a227;
+  --tone-bad: #b5493f;
+  --tone-info: #5b8ec4;
+
+  --radius: 8px;
+  --maxw: 720px;
+  color-scheme: dark;
+}
+
+/* 明亮基调：宣纸 */
+[data-skin='paper'] {
+  --ink-1: #2a2620;
+  --ink-2: #5a5245;
+  --ink-3: #8a8072;
+  --bg-0: #f5f0e6;
+  --bg-1: #efe8db;
+  --surface-1: #fbf7ef;
+  --surface-2: #f1eadc;
+  --line: #ddd2bf;
+  --accent: #b03a32;
+  --accent-2: #a8842a;
+  --wx-jin: #8c8577;
+  color-scheme: light;
+}
+
+/* 节气换肤：由 core/jieqi 决定，这里只定义挂点 */
+[data-season='spring'] {
+  --accent: #4c9a6a;
+}
+[data-season='summer'] {
+  --accent: #d2553f;
+}
+[data-season='autumn'] {
+  --accent: #c8a24a;
+}
+[data-season='winter'] {
+  --accent: #4a7fb5;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--bg-0);
+  color: var(--ink-1);
+  font-family: 'Noto Serif SC', 'Songti SC', 'Source Han Serif SC', serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+/* 语气类：由 ResultView 按 tone 附加 */
+.tone-good {
+  color: var(--tone-good);
+}
+.tone-bad {
+  color: var(--tone-bad);
+}
+.tone-warn {
+  color: var(--tone-warn);
+}
+.tone-info {
+  color: var(--tone-info);
+}
+.tone-mu {
+  color: var(--wx-mu);
+}
+.tone-huo {
+  color: var(--wx-huo);
+}
+.tone-tu {
+  color: var(--wx-tu);
+}
+.tone-jin {
+  color: var(--wx-jin);
+}
+.tone-shui {
+  color: var(--wx-shui);
+}
+
+.du-shell {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 16px 64px;
+}
+
+.du-top {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 16px;
+  background: color-mix(in srgb, var(--bg-0) 88%, transparent);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.du-brand {
+  font-size: 18px;
+  letter-spacing: 0.28em;
+  text-decoration: none;
+}
+
+.du-btn {
+  font: inherit;
+  padding: 9px 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-1);
+  color: var(--ink-1);
+  cursor: pointer;
+}
+.du-btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+  font-weight: 600;
+}
+.du-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.du-field {
+  display: grid;
+  gap: 6px;
+}
+.du-label {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  color: var(--ink-3);
+}
+.du-input {
+  font: inherit;
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--surface-1);
+  color: var(--ink-1);
+}
+.du-input:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
