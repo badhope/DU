@@ -23,6 +23,7 @@ const NODE_KINDS = [
   'matrix',
   'gua',
   'text',
+  'quote',
   'note',
 ] as const
 const TONES: Tone[] = [
@@ -150,11 +151,28 @@ describe('工具输出结构', () => {
     const out = await cases[0]!.tool.compute(cases[0]!.input)
     if (!('body' in out)) throw new Error('no body')
     const texts = collectNodes(out.body)
-      .filter((n) => n.kind === 'note' || n.kind === 'text')
-      .map((n) => (n.kind === 'note' ? n.text : n.lines.join('')))
+      .filter((n) => n.kind === 'note' || n.kind === 'text' || n.kind === 'quote')
+      .map((n) =>
+        n.kind === 'note' ? n.text : n.kind === 'text' ? n.lines.join('') : `《${n.book}》${n.text}`,
+      )
       .join('\n')
     expect(texts).toContain('梅花易数')
     expect(texts).toMatch(/不作医疗|不作为医疗/)
+  })
+
+  it('canon 出必须是 quote 节点（可点开核对），不许退化成排好版的纯文本', async () => {
+    const out = await cases[0]!.tool.compute(cases[0]!.input)
+    if (!('body' in out)) throw new Error('no body')
+    const quotes = collectNodes(out.body).filter((n) => n.kind === 'quote')
+    // 至少要有 canon 出现，否则这条断言是空过的
+    expect(quotes.length, '结果里一条 canon 出处都没有').toBeGreaterThan(0)
+    for (const q of quotes) {
+      if (q.kind !== 'quote') continue
+      expect(q.book.length, '出处没书名').toBeGreaterThan(0)
+      expect(q.text.length, '出处没引文').toBeGreaterThan(3)
+      // 引文不该被截断成省略号尾巴——截断就是凭印象引书的痕迹
+      expect(q.text).not.toMatch(/…$/)
+    }
   })
 
   it('非法输入返回 error 而不是抛异常或空结果', async () => {

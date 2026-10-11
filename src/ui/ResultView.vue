@@ -10,6 +10,21 @@ import type { MatrixCell, ResultNode } from '@/contract/result'
 
 const props = defineProps<{ node: ResultNode }>()
 
+/**
+ * 出处跳转：带引用书名 + 首段引文进阅览室，由阅览室做书名别名解析与检索。
+ *
+ * 这里不猜站内书目 id（那要 fetch manifest，渲染器不该有 IO），也不装 RouterLink
+ * （ResultView 是递归组件，被单测和首页独立挂载时没有 router 实例）：
+ * hash 路由下 `#/reading?...` 就是一个合法的相对链接，两个平台同一份产物。
+ */
+const quoteHref = computed(() => {
+  if (props.node.kind !== 'quote') return null
+  const seg = props.node.text.split(/…+/)[0]!.trim()
+  const q = new URLSearchParams({ bk: props.node.book, q: seg })
+  if (props.node.loc) q.set('loc', props.node.loc)
+  return `#/reading?${q.toString()}`
+})
+
 /** 卦画：上爻显示在最上 */
 const guaRows = computed(() =>
   props.node.kind === 'gua' ? [...props.node.lines].reverse() : [],
@@ -141,6 +156,15 @@ function widthOf(value: number, max?: number): string {
 
   <div v-else-if="node.kind === 'text'" class="tx" :class="{ lead: node.lead }">
     <p v-for="(l, i) in node.lines" :key="i">{{ l }}</p>
+  </div>
+
+  <div v-else-if="node.kind === 'quote'" class="qt">
+    <p class="qt-x">「{{ node.text }}」</p>
+    <p class="qt-s">
+      <span class="qt-b">《{{ node.book }}》{{ node.loc ?? '' }}</span>
+      <span v-if="node.gloss" class="qt-g">{{ node.gloss }}</span>
+      <a v-if="quoteHref" class="qt-a" :href="quoteHref">查原文</a>
+    </p>
   </div>
 
   <p v-else-if="node.kind === 'note'" class="nt" :class="toneClass(node.tone)">{{ node.text }}</p>
@@ -451,5 +475,36 @@ function widthOf(value: number, max?: number): string {
   background: var(--surface-2);
   border: 1px dashed var(--line);
   color: var(--ink-3);
+}
+.qt {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border-left: 2px solid var(--accent-2);
+  background: var(--surface-2);
+  border-radius: 0 6px 6px 0;
+}
+.qt-x {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--ink-1);
+}
+.qt-s {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.qt-a {
+  margin-left: auto;
+  padding: 2px 9px;
+  border: 1px solid var(--accent-2);
+  border-radius: 999px;
+  color: var(--accent-2);
+  text-decoration: none;
 }
 </style>

@@ -105,11 +105,20 @@ function statementNode(m: Matched, index: number): ResultNode {
     }
 
   const s = st.source
-  const lines =
-    s.kind === 'canon'
-      ? [`《${s.book ?? '佚'}》${s.loc ?? ''}`, `「${s.quote ?? ''}」`, s.gloss ?? '']
-      : [s.kind === 'psych' ? '现代心理观察' : '经验观察', s.gloss ?? '']
-  children.push({ kind: 'text', lines: lines.filter(Boolean) })
+  if (s.kind === 'canon' && s.quote) {
+    // 出处必须是可点开的引文节点，不是排好版的字：读者点进去要真能搜到
+    children.push({
+      kind: 'quote',
+      book: s.book ?? '佚',
+      text: s.quote,
+      ...(s.loc ? { loc: s.loc } : {}),
+      ...(s.gloss ? { gloss: s.gloss } : {}),
+    })
+  } else {
+    const lines =
+      s.kind === 'psych' ? ['现代心理观察', s.gloss ?? ''] : ['经验观察', s.gloss ?? '']
+    children.push({ kind: 'text', lines: lines.filter(Boolean) })
+  }
 
   if (st.action) children.push({ kind: 'note', text: '可以做的：' + st.action, tone: 'good' })
 
