@@ -1,0 +1,952 @@
+{
+ "generatedFrom": "维基文库（zh.wikisource.org）原文，繁简转换在浏览器端按需完成",
+ "books": [
+  {
+   "id": "suwen",
+   "title": "素问",
+   "author": "佚名",
+   "dynasty": "先秦",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "suwen.part1.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "素問第一卷",
+       "chars": 4236
+      },
+      {
+       "id": "ch2",
+       "title": "素問第七卷",
+       "chars": 3145
+      },
+      {
+       "id": "ch3",
+       "title": "素問第三卷",
+       "chars": 3427
+      },
+      {
+       "id": "ch4",
+       "title": "素問第九卷",
+       "chars": 3422
+      },
+      {
+       "id": "ch5",
+       "title": "素問第二十一卷",
+       "chars": 20313
+      },
+      {
+       "id": "ch6",
+       "title": "素問第二十三卷",
+       "chars": 2823
+      },
+      {
+       "id": "ch7",
+       "title": "素問第二十二卷",
+       "chars": 9141
+      },
+      {
+       "id": "ch8",
+       "title": "素問第二十卷",
+       "chars": 8742
+      },
+      {
+       "id": "ch9",
+       "title": "素問第二十四卷",
+       "chars": 2594
+      },
+      {
+       "id": "ch10",
+       "title": "素問第二卷",
+       "chars": 3930
+      },
+      {
+       "id": "ch11",
+       "title": "素問第五卷",
+       "chars": 3637
+      },
+      {
+       "id": "ch12",
+       "title": "素問第八卷",
+       "chars": 5473
+      },
+      {
+       "id": "ch13",
+       "title": "素問第六卷",
+       "chars": 4194
+      },
+      {
+       "id": "ch14",
+       "title": "素問第十一卷",
+       "chars": 3140
+      },
+      {
+       "id": "ch15",
+       "title": "素問第十七卷",
+       "chars": 2581
+      },
+      {
+       "id": "ch16",
+       "title": "素問第十三卷",
+       "chars": 3829
+      },
+      {
+       "id": "ch17",
+       "title": "素問第十九卷",
+       "chars": 6301
+      },
+      {
+       "id": "ch18",
+       "title": "素問第十二卷",
+       "chars": 3818
+      },
+      {
+       "id": "ch19",
+       "title": "素問第十五卷",
+       "chars": 2681
+      },
+      {
+       "id": "ch20",
+       "title": "素問第十八卷",
+       "chars": 3559
+      },
+      {
+       "id": "ch21",
+       "title": "素問第十六卷",
+       "chars": 2174
+      },
+      {
+       "id": "ch22",
+       "title": "素問第十卷",
+       "chars": 3932
+      },
+      {
+       "id": "ch23",
+       "title": "素問第十四卷",
+       "chars": 2860
+      },
+      {
+       "id": "ch24",
+       "title": "素問第四卷",
+       "chars": 3032
+      },
+      {
+       "id": "ch25",
+       "title": "黃帝內經素問序",
+       "chars": 973
+      },
+      {
+       "id": "ch26",
+       "title": "黃帝內經素問校義",
+       "chars": 11197
+      },
+      {
+       "id": "ch27",
+       "title": "黃帝內經素問校義/序",
+       "chars": 1108
+      }
+     ]
+    },
+    {
+     "file": "suwen.part2.json",
+     "chapters": [
+      {
+       "id": "ch28",
+       "title": "黃帝內經素問集注",
+       "chars": 466586
+      }
+     ]
+    }
+   ],
+   "chapters": 28,
+   "chars": 592848
+  },
+  {
+   "id": "sanming-tonghui",
+   "title": "三命通会",
+   "author": "万民英",
+   "dynasty": "明",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "sanming-tonghui.part1.json",
+     "chapters": [
+      {
+       "id": "ch2",
+       "title": "欽定四庫全書　　　　　子部七",
+       "chars": 428
+      },
+      {
+       "id": "ch3",
+       "title": "欽定四庫全書",
+       "chars": 35183
+      },
+      {
+       "id": "ch4",
+       "title": "欽定四庫全書",
+       "chars": 36723
+      },
+      {
+       "id": "ch5",
+       "title": "欽定四庫全書",
+       "chars": 30811
+      },
+      {
+       "id": "ch6",
+       "title": "欽定四庫全書",
+       "chars": 19023
+      },
+      {
+       "id": "ch7",
+       "title": "欽定四庫全書",
+       "chars": 35471
+      },
+      {
+       "id": "ch8",
+       "title": "欽定四庫全書",
+       "chars": 35995
+      },
+      {
+       "id": "ch9",
+       "title": "欽定四庫全書",
+       "chars": 29392
+      },
+      {
+       "id": "ch10",
+       "title": "欽定四庫全書",
+       "chars": 26524
+      },
+      {
+       "id": "ch11",
+       "title": "欽定四庫全書",
+       "chars": 26152
+      },
+      {
+       "id": "ch12",
+       "title": "欽定四庫全書",
+       "chars": 17327
+      },
+      {
+       "id": "ch13",
+       "title": "欽定四庫全書",
+       "chars": 9130
+      },
+      {
+       "id": "ch14",
+       "title": "欽定四庫全書",
+       "chars": 19081
+      },
+      {
+       "id": "ch15",
+       "title": "/卷一",
+       "chars": 26875
+      },
+      {
+       "id": "ch16",
+       "title": "/卷七",
+       "chars": 14110
+      },
+      {
+       "id": "ch17",
+       "title": "/卷三",
+       "chars": 22407
+      }
+     ]
+    },
+    {
+     "file": "sanming-tonghui.part2.json",
+     "chapters": [
+      {
+       "id": "ch18",
+       "title": "/卷九",
+       "chars": 29355
+      },
+      {
+       "id": "ch19",
+       "title": "/卷二",
+       "chars": 22847
+      },
+      {
+       "id": "ch20",
+       "title": "/卷五",
+       "chars": 10401
+      },
+      {
+       "id": "ch21",
+       "title": "/卷八",
+       "chars": 29126
+      },
+      {
+       "id": "ch22",
+       "title": "/卷六",
+       "chars": 35678
+      },
+      {
+       "id": "ch23",
+       "title": "/卷四",
+       "chars": 14555
+      }
+     ]
+    }
+   ],
+   "chapters": 22,
+   "chars": 526594
+  },
+  {
+   "id": "lingshu",
+   "title": "灵枢",
+   "author": "佚名",
+   "dynasty": "先秦",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "lingshu.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "靈樞第一卷",
+       "chars": 8574
+      },
+      {
+       "id": "ch2",
+       "title": "靈樞第七卷",
+       "chars": 6277
+      },
+      {
+       "id": "ch3",
+       "title": "靈樞第三卷",
+       "chars": 7228
+      },
+      {
+       "id": "ch4",
+       "title": "靈樞第九卷",
+       "chars": 6824
+      },
+      {
+       "id": "ch5",
+       "title": "靈樞第二卷",
+       "chars": 7436
+      },
+      {
+       "id": "ch6",
+       "title": "靈樞第五卷",
+       "chars": 7197
+      },
+      {
+       "id": "ch7",
+       "title": "靈樞第八卷",
+       "chars": 6115
+      },
+      {
+       "id": "ch8",
+       "title": "靈樞第六卷",
+       "chars": 7016
+      },
+      {
+       "id": "ch9",
+       "title": "靈樞第十一卷",
+       "chars": 7056
+      },
+      {
+       "id": "ch10",
+       "title": "靈樞第十二卷",
+       "chars": 5938
+      },
+      {
+       "id": "ch11",
+       "title": "靈樞第十卷",
+       "chars": 6526
+      },
+      {
+       "id": "ch12",
+       "title": "靈樞第四卷",
+       "chars": 6166
+      },
+      {
+       "id": "ch13",
+       "title": "黃帝內經靈樞略",
+       "chars": 3260
+      },
+      {
+       "id": "ch14",
+       "title": "黃帝內經靈樞集注",
+       "chars": 303136
+      }
+     ]
+    }
+   ],
+   "chapters": 14,
+   "chars": 388749
+  },
+  {
+   "id": "ditiansui",
+   "title": "滴天髓",
+   "author": "京图（传）",
+   "dynasty": "宋",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "ditiansui.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 183
+      },
+      {
+       "id": "ch2",
+       "title": "/01",
+       "chars": 465
+      },
+      {
+       "id": "ch3",
+       "title": "/02",
+       "chars": 1375
+      },
+      {
+       "id": "ch4",
+       "title": "/03",
+       "chars": 918
+      },
+      {
+       "id": "ch5",
+       "title": "/04",
+       "chars": 218
+      },
+      {
+       "id": "ch6",
+       "title": "/05",
+       "chars": 194
+      },
+      {
+       "id": "ch7",
+       "title": "/06",
+       "chars": 762
+      },
+      {
+       "id": "ch8",
+       "title": "/07",
+       "chars": 297
+      },
+      {
+       "id": "ch9",
+       "title": "/08",
+       "chars": 153
+      },
+      {
+       "id": "ch10",
+       "title": "/09",
+       "chars": 704
+      },
+      {
+       "id": "ch11",
+       "title": "/10",
+       "chars": 602
+      },
+      {
+       "id": "ch12",
+       "title": "/11",
+       "chars": 175
+      },
+      {
+       "id": "ch13",
+       "title": "/12",
+       "chars": 118
+      },
+      {
+       "id": "ch14",
+       "title": "/13",
+       "chars": 137
+      },
+      {
+       "id": "ch15",
+       "title": "/14",
+       "chars": 248
+      },
+      {
+       "id": "ch16",
+       "title": "/15",
+       "chars": 68
+      },
+      {
+       "id": "ch17",
+       "title": "/16",
+       "chars": 233
+      },
+      {
+       "id": "ch18",
+       "title": "/17",
+       "chars": 134
+      },
+      {
+       "id": "ch19",
+       "title": "/18",
+       "chars": 257
+      },
+      {
+       "id": "ch20",
+       "title": "/19",
+       "chars": 292
+      },
+      {
+       "id": "ch21",
+       "title": "/20",
+       "chars": 124
+      },
+      {
+       "id": "ch22",
+       "title": "/21",
+       "chars": 277
+      },
+      {
+       "id": "ch23",
+       "title": "/22",
+       "chars": 260
+      },
+      {
+       "id": "ch24",
+       "title": "/23",
+       "chars": 64
+      },
+      {
+       "id": "ch25",
+       "title": "/24",
+       "chars": 60
+      },
+      {
+       "id": "ch26",
+       "title": "/25",
+       "chars": 83
+      },
+      {
+       "id": "ch27",
+       "title": "/26",
+       "chars": 123
+      },
+      {
+       "id": "ch28",
+       "title": "/27",
+       "chars": 438
+      },
+      {
+       "id": "ch29",
+       "title": "/28",
+       "chars": 404
+      },
+      {
+       "id": "ch30",
+       "title": "/29",
+       "chars": 291
+      },
+      {
+       "id": "ch31",
+       "title": "/30",
+       "chars": 429
+      },
+      {
+       "id": "ch32",
+       "title": "/31",
+       "chars": 187
+      },
+      {
+       "id": "ch33",
+       "title": "/32",
+       "chars": 145
+      },
+      {
+       "id": "ch34",
+       "title": "/33",
+       "chars": 204
+      },
+      {
+       "id": "ch35",
+       "title": "/34",
+       "chars": 601
+      },
+      {
+       "id": "ch36",
+       "title": "/35",
+       "chars": 512
+      },
+      {
+       "id": "ch37",
+       "title": "/36",
+       "chars": 213
+      },
+      {
+       "id": "ch38",
+       "title": "/37",
+       "chars": 134
+      },
+      {
+       "id": "ch39",
+       "title": "/38",
+       "chars": 927
+      },
+      {
+       "id": "ch40",
+       "title": "/39",
+       "chars": 231
+      },
+      {
+       "id": "ch41",
+       "title": "/40",
+       "chars": 237
+      },
+      {
+       "id": "ch42",
+       "title": "/41",
+       "chars": 844
+      },
+      {
+       "id": "ch43",
+       "title": "/42",
+       "chars": 168
+      },
+      {
+       "id": "ch44",
+       "title": "闡微",
+       "chars": 88038
+      }
+     ]
+    }
+   ],
+   "chapters": 44,
+   "chars": 102527
+  },
+  {
+   "id": "ziwei-doushu",
+   "title": "紫微斗数全书",
+   "author": "陈抟（传）",
+   "dynasty": "宋",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "ziwei-doushu.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 1321
+      },
+      {
+       "id": "ch2",
+       "title": "羅序",
+       "chars": 22807
+      },
+      {
+       "id": "ch3",
+       "title": "/卷三",
+       "chars": 12508
+      },
+      {
+       "id": "ch4",
+       "title": "/卷二",
+       "chars": 34687
+      }
+     ]
+    }
+   ],
+   "chapters": 4,
+   "chars": 71323
+  },
+  {
+   "id": "meihua-yishu",
+   "title": "梅花易数",
+   "author": "邵雍",
+   "dynasty": "宋",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "meihua-yishu.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 3696
+      },
+      {
+       "id": "ch2",
+       "title": "/卷一",
+       "chars": 11446
+      },
+      {
+       "id": "ch3",
+       "title": "觀梅數訣序",
+       "chars": 11405
+      },
+      {
+       "id": "ch4",
+       "title": "/卷二",
+       "chars": 16076
+      }
+     ]
+    }
+   ],
+   "chapters": 4,
+   "chars": 42623
+  },
+  {
+   "id": "jingshi-yizhuan",
+   "title": "京氏易传",
+   "author": "京房",
+   "dynasty": "汉",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "jingshi-yizhuan.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 23970
+      },
+      {
+       "id": "ch2",
+       "title": "欽定四庫全書　　　　　子部七",
+       "chars": 642
+      },
+      {
+       "id": "ch3",
+       "title": "欽定四庫全書",
+       "chars": 5924
+      },
+      {
+       "id": "ch4",
+       "title": "欽定四庫全書",
+       "chars": 2569
+      },
+      {
+       "id": "ch5",
+       "title": "欽定四庫全書",
+       "chars": 6164
+      }
+     ]
+    }
+   ],
+   "chapters": 5,
+   "chars": 39269
+  },
+  {
+   "id": "qimen-yuanling",
+   "title": "奇门遁甲元灵经",
+   "author": "许松如",
+   "dynasty": "清",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "qimen-yuanling.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 37901
+      }
+     ]
+    }
+   ],
+   "chapters": 1,
+   "chars": 37901
+  },
+  {
+   "id": "shenxiang-tieguandao",
+   "title": "神相铁关刀",
+   "author": "希夷（传）",
+   "dynasty": "宋",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "shenxiang-tieguandao.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "铁关刀原序",
+       "chars": 33701
+      }
+     ]
+    }
+   ],
+   "chapters": 1,
+   "chars": 33701
+  },
+  {
+   "id": "liuren-zhinan",
+   "title": "六壬指南",
+   "author": "陈公献",
+   "dynasty": "明",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "liuren-zhinan.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 943
+      },
+      {
+       "id": "ch2",
+       "title": "/1",
+       "chars": 8230
+      },
+      {
+       "id": "ch3",
+       "title": "/2",
+       "chars": 15903
+      }
+     ]
+    }
+   ],
+   "chapters": 3,
+   "chars": 25076
+  },
+  {
+   "id": "jiaoshi-yilin",
+   "title": "焦氏易林",
+   "author": "焦延寿",
+   "dynasty": "汉",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "jiaoshi-yilin.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "第1部分",
+       "chars": 278
+      },
+      {
+       "id": "ch2",
+       "title": "/乾之",
+       "chars": 1700
+      },
+      {
+       "id": "ch3",
+       "title": "/坤之",
+       "chars": 1579
+      },
+      {
+       "id": "ch4",
+       "title": "/屯之",
+       "chars": 1638
+      },
+      {
+       "id": "ch5",
+       "title": "/艮之",
+       "chars": 1541
+      }
+     ]
+    }
+   ],
+   "chapters": 5,
+   "chars": 6736
+  },
+  {
+   "id": "xufu-xiangfa",
+   "title": "许负相法",
+   "author": "许负（传）",
+   "dynasty": "汉",
+   "license": "公版原文（维基文库内容按其条款）",
+   "files": [
+    {
+     "file": "xufu-xiangfa.json",
+     "chapters": [
+      {
+       "id": "ch1",
+       "title": "*序",
+       "chars": 119
+      },
+      {
+       "id": "ch2",
+       "title": "/序",
+       "chars": 284
+      },
+      {
+       "id": "ch3",
+       "title": "/相人中篇第三",
+       "chars": 108
+      },
+      {
+       "id": "ch4",
+       "title": "/相口篇第六",
+       "chars": 263
+      },
+      {
+       "id": "ch5",
+       "title": "/相唇篇第五",
+       "chars": 142
+      },
+      {
+       "id": "ch6",
+       "title": "/相尿屎篇第十四",
+       "chars": 74
+      },
+      {
+       "id": "ch7",
+       "title": "/相手篇第十一",
+       "chars": 295
+      },
+      {
+       "id": "ch8",
+       "title": "/相目篇第一",
+       "chars": 256
+      },
+      {
+       "id": "ch9",
+       "title": "/相耳篇第四",
+       "chars": 153
+      },
+      {
+       "id": "ch10",
+       "title": "/相胸篇第九",
+       "chars": 157
+      },
+      {
+       "id": "ch11",
+       "title": "/相腳篇第十二",
+       "chars": 164
+      },
+      {
+       "id": "ch12",
+       "title": "/相腹篇第十",
+       "chars": 80
+      },
+      {
+       "id": "ch13",
+       "title": "/相舌篇第八",
+       "chars": 166
+      },
+      {
+       "id": "ch14",
+       "title": "/相行篇第十五",
+       "chars": 87
+      },
+      {
+       "id": "ch16",
+       "title": "/相鼻篇第二",
+       "chars": 236
+      },
+      {
+       "id": "ch17",
+       "title": "/相齒篇第七",
+       "chars": 151
+      },
+      {
+       "id": "ch18",
+       "title": "/聽聲篇第十六",
+       "chars": 384
+      }
+     ]
+    }
+   ],
+   "chapters": 17,
+   "chars": 3119
+  }
+ ],
+ "totalChars": 1870466,
+ "derived": [
+  "zhouyi.json",
+  "jiri-activities.json"
+ ]
+}

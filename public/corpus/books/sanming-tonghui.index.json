@@ -1,0 +1,16 @@
+{
+  "id": "sanming-tonghui",
+  "title": "三命通会",
+  "parts": [
+    {
+      "part": 1,
+      "file": "sanming-tonghui.part1.json",
+      "chapters": 16
+    },
+    {
+      "part": 2,
+      "file": "sanming-tonghui.part2.json",
+      "chapters": 6
+    }
+  ]
+}

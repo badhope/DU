@@ -1,365 +1,62 @@
-# 渡 DU
+# DU · 渡（v0.0.1）
 
-> 我的浏览器端中文玄学工具集。**没有后端、没有账号、没有埋点**,
-> 全部在浏览器里算,数据放在 `localStorage`。49 个小工具,Vue 3 + TypeScript。
+纯前端的传统数术游乐站。**没有后端**——所有计算都在你的浏览器里跑，输入不上传，
+学习记录只存在本机 localStorage，页面上有清除按钮。
 
-取名 **DU · 渡**,寓意"**渡己渡人**"——以术数为舟,先渡己,再渡人。
+部署目标：GitHub Pages / Cloudflare Pages，同一份构建产物。
 
----
+## 工具（1 个，由注册表生成）
 
-## 这是什么,一句话
+| id | 名称 | 分类 | 一句话 |
+| --- | --- | --- | --- |
+| `meihua` | 梅花易数 | 卜 OMEN | 时间或两个数起卦，本互变三卦 + 体用生克，断语全部标出处。 |
 
-49 个工具,一打小算法,一个静态站。打开页面,用,关掉页面。
-下次再打开,数据还在 (你机器上),后台不知道你存在过。
+分类：命（FATE） · 卜（OMEN） · 象（FORM） · 时（TIME） · 养（CARE）
 
-包含:八字、奇门遁甲、大小六壬、紫微斗数、铁板神数、诸葛神数、
-玄空飞星、塔罗、易经、二十四节气、风水、面相、冥想计时。
+> 本表由 `scripts/gen-readme.mjs` 从 `src/tools/registry.ts` 生成，
+> 手写工具清单会被 CI 拦下（v1 就栽在文档漂移上）。
 
-不是专业意见,只是好奇心的产物。算出来的结果请别用来下注。
+## 典籍阅览室（12 部 · 187 万字）
 
-## 这不是什么
+断语里出现的每一句原文，都能在站内这些书里逐字搜到；搜到就给出章节，搜不到就明说搜不到。
 
-- 不是后端。不接 API,不需要 key,不会打点。
-- 不是商业产品。MIT 协议,代码随便用,算错了我也不负责。
-- 不是论文。每个工具后面有一两行注释,说清楚用了什么经典和
-  什么简化;不会比维基百科更严谨。
+- 《素问》 28 章 · 592,848 字 · 先秦 · 公版原文（维基文库内容按其条款）
+- 《三命通会》 22 章 · 526,594 字 · 明 · 公版原文（维基文库内容按其条款）
+- 《灵枢》 14 章 · 388,749 字 · 先秦 · 公版原文（维基文库内容按其条款）
+- 《滴天髓》 44 章 · 102,527 字 · 宋 · 公版原文（维基文库内容按其条款）
+- 《紫微斗数全书》 4 章 · 71,323 字 · 宋 · 公版原文（维基文库内容按其条款）
+- 《梅花易数》 4 章 · 42,623 字 · 宋 · 公版原文（维基文库内容按其条款）
+- 《京氏易传》 5 章 · 39,269 字 · 汉 · 公版原文（维基文库内容按其条款）
+- 《奇门遁甲元灵经》 1 章 · 37,901 字 · 清 · 公版原文（维基文库内容按其条款）
+- 《神相铁关刀》 1 章 · 33,701 字 · 宋 · 公版原文（维基文库内容按其条款）
+- 《六壬指南》 3 章 · 25,076 字 · 明 · 公版原文（维基文库内容按其条款）
+- 《焦氏易林》 5 章 · 6,736 字 · 汉 · 公版原文（维基文库内容按其条款）
+- 《许负相法》 17 章 · 3,119 字 · 汉 · 公版原文（维基文库内容按其条款）
 
-## 30 秒上手
+原文取自维基文库公版书（繁体），检索时按需做繁简归一，因此首屏不背 opencc 的体积。
 
-```bash
-git clone https://github.com/badhope/DU.git
-cd DU
-pnpm install
-pnpm dev:h5    # http://localhost:5173
-```
+## 关于"说中"这件事
 
-生产构建:
+本站的共鸣引擎是公开机制，不是玄学：
 
-```bash
-pnpm build:h5    # 单文件 SPA,丢到任何静态托管
-pnpm test        # 单元测试
-```
+- 每条断语必须先通过 `require` 硬闸（你的输入真的含有对应特征）才会入选，
+  打分只能排序，不能把不相关的条目挤进来。
+- 每条都标出"人群天然适用"的比例——巴纳姆效应（Forer 1948：同一份星座评语，
+  39 名学生平均打 4.26/5 觉得"说得极准"）在站上是**被展示的数值**，不是被利用的漏洞。
+- 单次输出最多一条泛谈；不用吓人的话换你的点击。
+- 引擎学到的一切来自你点过的"说中/没有"，就在本机，可清。
 
----
+引文门禁：`npm run verify:quotes` 会拿每条 canon 引文去**站内实际分发的那本书**里逐字比对，
+编造引文或书名对不上（需 `src/data/book-aliases.json` 显式别名）直接让 CI 变红。
 
-## 1. What is DU?
-
-DU (渡, "to ferry across") is a **fully client-side, privacy-first** single-page application that brings together traditional Chinese metaphysics tools — Bazi, Qi Men Dun Jia, Liu Yao, I-Ching, Zi Wei Dou Shu, Tarot, physiognomy, feng shui, the 24 solar terms, meditation timers, and more — into one consistent, mobile-friendly web app. The name carries the wish **渡己渡人** — _ferry yourself, then ferry others_.
-
-It is built with **uni-app x + Vue 3 + TypeScript (strict)** and ships as a single static bundle that runs on GitHub Pages. There is **no backend, no API key, no analytics SDK, no third-party tracking** — every calculation happens in your browser and your data stays in `localStorage` under the key `du-state-v1`.
-
-- **For cultural exploration.** All outputs are heuristic and educational; they are not professional advice.
-- **For developers.** The repository is a clean uni-app x + Vue 3 + Vite starter with strict TypeScript, ESLint, Prettier, Vitest, Lefthook, and a fully wired CI/CD pipeline (format → lint → test → audit → build → deploy).
-- **For tinkerers.** The whole app is small enough to read in a weekend — 49 tools, ~24 chart components, ~44 utility modules.
-
----
-
-## 2. The 49 Tools
-
-> The single source of truth is [`src/config/tools.ts`](src/config/tools.ts). Adding or removing a tool means editing one entry there.
-
-### 2.1 Categories
-
-| #   | Category         | 分类   | Subtitle               |  Tools |
-| --- | ---------------- | ------ | ---------------------- | -----: |
-| 1   | **Fate**         | 命理   | Patterns of destiny    |     17 |
-| 2   | **Divination**   | 占卜   | Questions to heaven    |      8 |
-| 3   | **Ancient Arts** | 古物   | Tools of omen          |      7 |
-| 4   | **Wellness**     | 健康   | Balance of body & mind |      5 |
-| 5   | **Cultivation**  | 修心   | The path inward        |      6 |
-| 6   | **Life**         | 生活   | Everyday mirrors       |      5 |
-| 7   | **Users**        | 占卜人 | Multi-profile mgmt     |      1 |
-|     | **Total**        |        |                        | **49** |
-
-### 2.2 Full tool list
-
-#### Fate (命理) — 17
-
-| Key          | Name                   | Name (中) | What it does                            |
-| ------------ | ---------------------- | --------- | --------------------------------------- |
-| `wuxing`     | Wu Xing Compass        | 五行罗盘  | Five phases, generation & overcoming    |
-| `bazi`       | Bazi Chart             | 八字排盘  | Four pillars of destiny                 |
-| `hehun`      | Bazi Compatibility     | 八字合婚  | Marriage compatibility from two charts  |
-| `liunian`    | Luck Cycles            | 流年大运  | 10-year luck pillars                    |
-| `mingmen`    | Qi Men Dun Jia         | 奇门遁甲  | Time-based Qi Men three-board chart     |
-| `liuren`     | Da Liu Ren             | 大六壬    | Grand Liu Ren heavenly / earthly plates |
-| `ziwei`      | Zi Wei Dou Shu         | 紫微斗数  | 14 main stars across 12 palaces         |
-| `xuankong`   | Xuan Kong Flying Stars | 玄空飞星  | Three-period nine-period flying star    |
-| `tieban`     | Tie Ban Shen Shu       | 铁板神数  | Iron-plate numerology                   |
-| `xiaoliuren` | Xiao Liu Ren           | 小六壬    | Quick Liu Ren with month + hour         |
-| `zhuge`      | Zhuge Divination       | 诸葛神数  | 384-sign numeric oracle                 |
-| `life`       | Life Path Number       | 生命灵数  | 1-9 main, 33 sub-life numbers           |
-| `astro`      | Western Astrology      | 西洋占星  | Tropical zodiac, 10 planetary aspects   |
-| `maya`       | Maya Calendar          | 玛雅历    | Tzolkin 13-moon, 20-day cycle           |
-| `profile`    | Personal Profile       | 个人档案  | One-time input, reused everywhere       |
-| `dashboard`  | DU Console             | 渡台      | All-chart dashboard                     |
-
-#### Divination (占卜) — 8
-
-| Key        | Name           | Name (中) | What it does                  |
-| ---------- | -------------- | --------- | ----------------------------- |
-| `gua`      | Daily Hexagram | 每日一卦  | Yarrow-stalk I-Ching reading  |
-| `liuyao`   | DU Yi Pan      | 渡易盘    | Six-line hexagram with Na Jia |
-| `tarot`    | Tarot Reading  | 塔罗占卜  | 78-card Western tarot         |
-| `meihua`   | Plum Blossom   | 梅花易数  | Time-based Mei Hua Yi Shu     |
-| `guyi`     | Gu Yi Heart Yi | 古易心易  | Ancient heart-yi variant      |
-| `lingqian` | Spirit Lots    | 灵签抽签  | Temple-style lot drawing      |
-| `shuzhi`   | Number Energy  | 数字能量  | Phone-number magnetic field   |
-| `jiaobei`  | Moon Blocks    | 杯筊问事  | Two-block yes/no oracle       |
-
-#### Ancient Arts (古物) — 7
-
-| Key         | Name                | Name (中) | What it does                 |
-| ----------- | ------------------- | --------- | ---------------------------- |
-| `mianxiang` | Face Reading        | 面相分析  | Three courts & five features |
-| `shouxiang` | Palm Reading        | 手相分析  | Mounts & lines               |
-| `fenglui`   | Yang Zhai Feng Shui | 阳宅风水  | Compass + 8-mansion layout   |
-| `mingji`    | Name Numerology     | 命名测字  | Kangxi-stroke based scoring  |
-
-#### Wellness (健康) — 5
-
-| Key         | Name                  | Name (中) | What it does                         |
-| ----------- | --------------------- | --------- | ------------------------------------ |
-| `qijing`    | Eight Extra Meridians | 奇经八脉  | 8 extraordinary vessels map          |
-| `ziwu`      | Zi Wu Liu Zhu         | 子午流注  | Hour-meridian clock                  |
-| `wufu`      | Five Blessings        | 五福测算  | Longevity/wealth/health/virtue/peace |
-| `yangsheng` | Solar Terms Wellness  | 节气养生  | 24节气 health guidance               |
-
-#### Cultivation (修心) — 6
-
-| Key       | Name                | Name (中) | What it does                 |
-| --------- | ------------------- | --------- | ---------------------------- |
-| `zhan`    | Seated Meditation   | 坐禅计时  | Timer with breathing guide   |
-| `fangqi`  | Relaxation          | 放松冥想  | Guided breathing & body scan |
-| `shijian` | Quote of the Moment | 拾句      | Daily Zen snippet            |
-| `dayun`   | Great Cycle Review  | 大运流转  | 90-year life review          |
-| `checkin` | Daily Check-in      | 每日签到  | Streak & achievements        |
-
-#### Life (生活) — 5
-
-| Key       | Name                | Name (中) | What it does                         |
-| --------- | ------------------- | --------- | ------------------------------------ |
-| `huangli` | Traditional Almanac | 老黄历    | Daily Yi/Ji calendar                 |
-| `jiri`    | Auspicious Day      | 吉日择时  | Best time for wedding, signing, etc. |
-| `yunshi`  | Today's Fortune     | 今日运势  | 12-animal daily rating               |
-| `jiazu`   | Genealogy           | 家谱排辈  | Generation-name ordering             |
-| `poster`  | Poster Share        | 海报分享  | One-click long-image poster          |
-
-#### Personal Center + Users — 4
-
-| Key         | Name             | Name (中) | What it does               |
-| ----------- | ---------------- | --------- | -------------------------- |
-| `users`     | Diviners         | 占卜人    | Multi-user profile manager |
-| `profile`   | Personal Profile | 个人档案  | (see Fate)                 |
-| `dashboard` | DU Console       | 渡台      | (see Fate)                 |
-| `checkin`   | Daily Check-in   | 每日签到  | (see Cultivation)          |
-
----
-
-## 3. Quick start
-
-### 3.1 Prerequisites
-
-- **Node.js** ≥ 20
-- **pnpm** ≥ 9
+## 开发
 
 ```bash
-nvm use    # picks up .nvmrc → node 20
-corepack enable && corepack prepare pnpm@9 --activate
+npm ci
+npm run corpus    # 从 ../du-corpus 同步书籍与派生数据到 public/corpus
+npm run dev
+npm run check     # typecheck + vitest + 引文门禁 + build，CI 跑的就是这条
 ```
 
-### 3.2 Install & run
-
-```bash
-pnpm install
-pnpm run dev:h5          # start H5 dev server on http://localhost:5173
-```
-
-### 3.3 Production build
-
-```bash
-pnpm run type-check      # vue-tsc --noEmit
-pnpm run build:h5        # emits to dist/build/h5/, copies robots.txt to root
-pnpm run preview         # (optional) serve the built bundle locally
-```
-
-### 3.4 All scripts
-
-| Script                                                 | What it does                                     |
-| ------------------------------------------------------ | ------------------------------------------------ |
-| `pnpm dev:h5`                                          | H5 dev server with HMR                           |
-| `pnpm dev:mp-weixin`                                   | WeChat MP dev (requires WeChat DevTools)         |
-| `pnpm build:h5`                                        | H5 production build                              |
-| `pnpm build:mp-weixin`                                 | WeChat MP build                                  |
-| `pnpm type-check`                                      | `vue-tsc --noEmit`                               |
-| `pnpm lint` / `pnpm lint:fix`                          | ESLint over `.js .ts .vue .cjs`                  |
-| `pnpm format` / `pnpm format:check`                    | Prettier                                         |
-| `pnpm test` / `pnpm test:watch` / `pnpm test:coverage` | Vitest                                           |
-| `pnpm audit`                                           | (CI only) `pnpm audit --prod --audit-level=high` |
-
-Other MP targets follow the same `dev:mp-*` / `build:mp-*` pattern (alipay, baidu, jd, kuaishou, lark, qq, toutiao, harmony, xhs, quickapp-\*).
-
----
-
-## 4. Tech stack
-
-| Layer      | Choice                                                        | Why                                                               |
-| ---------- | ------------------------------------------------------------- | ----------------------------------------------------------------- |
-| Framework  | **uni-app x** (v3)                                            | One codebase, web + mini-programs (WeChat, Alipay, Harmony, etc.) |
-| UI         | **Vue 3** + Composition API + `<script setup>`                | First-class TS, tree-shakeable                                    |
-| Types      | **TypeScript strict**                                         | Catch mistakes at compile time                                    |
-| Build      | **Vite 8**                                                    | Fast HMR, ESM-native                                              |
-| State      | **Pinia 3** + `localStorage` (key: `du-state-v1`)             | Tiny, type-safe, persists locally                                 |
-| Animations | **GSAP 3**                                                    | Timeline control + particle/star effects                          |
-| Tests      | **Vitest 4** + `@vue/test-utils` + `happy-dom`                | Same Vite pipeline, fast                                          |
-| Hooks      | **Lefthook** + **commitlint**                                 | Pre-commit Prettier + ESLint, commit-msg lint                     |
-| CI         | **GitHub Actions** (format, lint, test, audit, build, deploy) | Branch protection + signed deploy                                 |
-| Deploy     | **GitHub Pages** via `actions/deploy-pages@v4`                | HTTPS, free, no custom domain needed                              |
-
----
-
-## 5. Project structure
-
-```
-DU/
-├── .github/
-│   ├── workflows/
-│   │   ├── ci.yml        # format / lint / test / audit / type-check / build
-│   │   ├── deploy.yml    # build + GitHub Pages deploy
-│   │   ├── gitleaks.yml  # secret scanning (daily + on push/PR)
-│   │   └── codeql.yml    # JS/TS static security analysis
-│   ├── ISSUE_TEMPLATE/   # bug / feature / config
-│   ├── CODEOWNERS
-│   ├── PULL_REQUEST_TEMPLATE.md
-│   └── SECURITY.md
-├── src/
-│   ├── components/
-│   │   ├── charts/       # 24 visualization components (BaziChart, ZiweiChart, …)
-│   │   ├── effects/      # StarField, Particles, TaijiBg
-│   │   └── ui/           # Reusable UI: ToolGuard, MysticScan, MagneticButton, …
-│   ├── config/
-│   │   └── tools.ts      # ⚙ single source of truth for all 49 tools
-│   ├── designs/          # tokens.css (color, spacing) + animations.css
-│   ├── pages/            # 49 tool pages
-│   ├── static/           # logo.png, robots.txt
-│   ├── stores/           # Pinia store
-│   ├── utils/            # 44 algorithm modules (Bazi, Liu Yao, Tarot, …)
-│   ├── App.vue
-│   ├── env.d.ts
-│   ├── main.ts
-│   ├── manifest.json     # uni-app x app manifest
-│   ├── pages.json        # uni-app x routes
-│   ├── shims-uni.d.ts
-│   └── uni.scss          # global SCSS variables
-├── tests/                # vitest unit tests
-├── CHANGELOG.md
-├── CODE_OF_CONDUCT.md
-├── CONTRIBUTING.md
-├── LICENSE               # MIT
-├── README.md             # ← you are here
-├── SECURITY.md
-├── commitlint.config.js
-├── lefthook.yml
-├── vitest.config.ts
-├── vite.config.ts
-├── tsconfig.json
-├── index.html            # H5 entry, OG / Twitter / favicon meta
-├── .editorconfig
-├── .gitattributes
-├── .gitignore
-├── .git-blame-ignore-revs
-├── .node-version         # 20
-├── .nvmrc
-├── .npmrc
-├── .prettierrc.json
-├── .prettierignore
-├── eslint.config.js
-└── .vscode/              # recommended extensions + project settings
-```
-
----
-
-## 6. Contributing
-
-Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) first.
-
-- **Branch naming:** `feat/<scope>` / `fix/<scope>` / `docs/<scope>` / `chore/<scope>`
-- **Commit messages:** [Conventional Commits](https://www.conventionalcommits.org/) (enforced by `commitlint` via `lefthook`)
-- **PRs:** must pass `format:check` + `lint` + `test` + `type-check` + `build:h5` + `pnpm audit`
-- **Adding a new tool?** Edit one entry in `src/config/tools.ts` + add a page in `src/pages/<key>/` + add an algorithm in `src/utils/` + register the route in `src/pages.json`.
-
-See [`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) for the full checklist.
-
----
-
-## 7. Security & privacy
-
-> **TL;DR:** There is no server. There is no analytics. Your data never leaves the browser.
-
-- **No `fetch` / `XMLHttpRequest` / `uni.request` calls** — verified via `grep`. Every computation is local.
-- **No `v-html` / `innerHTML` / `eval` / `new Function`** — uni-app x renders text safely.
-- **No third-party SDKs** — no Google Analytics, no Sentry, no Umeng, no Baidu Tongji, no AdSense.
-- **No `.env` / API keys** — `.gitignore` blocks `.env*`, `test-*.cjs`, and screenshots.
-- **localStorage** holds your profile + divination history under `du-state-v1`. Clear it any time from `Settings → Privacy`.
-- **CI** runs `gitleaks` (push, PR, daily) + CodeQL (`javascript-typescript`) + `pnpm audit --prod --audit-level=high`.
-- **Dependency overrides** force `jpeg-js@^0.4.4` and `@intlify/{core-base,message-resolver}@^9.1.11` to neutralize transitive CVEs from uni-app's bundle.
-
-Report vulnerabilities privately via [GitHub Security Advisories](https://github.com/badhope/DU/security/advisories/new) — see [SECURITY.md](SECURITY.md).
-
----
-
-## 8. Deployment
-
-`main` is the only long-lived branch. Every push to `main` triggers:
-
-1. `CI` — `format:check` → `lint` → `test` → `audit` → `type-check` → `build:h5`
-2. `Deploy` — `type-check` → `build:h5` → `actions/deploy-pages@v4` → GitHub Pages
-
-Live at **https://badhope.github.io/DU/**
-
-To deploy your own fork: enable GitHub Pages in repo settings (Source: GitHub Actions), then push to `main`.
-
----
-
-## 9. FAQ
-
-**Q: Is this a religious or divinatory app?**
-A: No. It's a cultural / educational tool that implements traditional Chinese algorithms. Outputs are heuristic, not authoritative, and should not be used for medical, legal, or financial decisions.
-
-**Q: Why is everything Chinese-first?**
-A: The tradition is Chinese. All UI labels are bilingual, the code is in English, and English speakers can use every tool.
-
-**Q: Can I run this offline?**
-A: After the first load the bundle is fully offline-capable (no network calls). Add the site as a PWA and it will work as a standalone app.
-
-**Q: Why uni-app x instead of Nuxt / Next / SvelteKit?**
-A: The original goal was to ship to WeChat Mini Program as well as the web. uni-app x is the only framework that compiles Vue 3 to both with a single codebase.
-
-**Q: Why the name DU / 渡?**
-A: 渡 means "to ferry across." The wish is 渡己渡人 — first ferry yourself to understanding, then help ferry others. The tools are the boat.
-
----
-
-## 10. License & credits
-
-- **Code:** [MIT](LICENSE) — Copyright © 2026 DU contributors
-- **Brand & copy:** 渡 / DU
-- **Maintainer:** [@badhope](https://github.com/badhope)
-
-Cultural reference data is drawn from public-domain traditional sources. No proprietary oracle data is bundled.
-
----
-
-## 11. 中文简介
-
-**渡 DU** 是一款**纯客户端**的中国传统文化工具集，基于 **uni-app x + Vue 3 + TypeScript** 构建，共 **49 个工具**，覆盖 **命理、占卜、古物、健康、修心、生活** 六大类。
-
-取名"渡"，寓意**渡己渡人**——以术数为舟，先渡己，再渡人。
-
-- **零后端**：所有计算在浏览器内完成，无任何 `fetch` / `uni.request` 外发。
-- **零追踪**：不集成任何第三方分析 SDK，不上传任何数据。
-- **零账户**：开箱即用，所有数据存于 `localStorage`（key: `du-state-v1`）。
-- **多端**：一份代码同时输出 H5（GitHub Pages）、微信小程序、支付宝小程序、抖音小程序、鸿蒙、百度智能小程序等。
-- **CI 全绿**：`format` → `lint` → `test` → `audit` → `type-check` → `build` → `deploy`，全部接入分支保护。
-
-> 项目内容仅供文化研究与个人体验，**不构成任何决策建议**。欢迎以 [MIT 协议](LICENSE) 自由使用。
+单测里钉住内核验算：梅花起卦对得上《梅花易数》书里的两例原案（观梅占、牡丹占），
+卦名、动爻、互变卦、体用关系逐项钉死——算法错一处就红。
