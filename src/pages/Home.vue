@@ -10,6 +10,8 @@ import { CATEGORIES, TOOLS } from '@/tools/registry'
 import { getManifest, type Manifest } from '@/data/corpus'
 import { STATEMENTS } from '@/engine/resonance'
 import { SITUATION_LABEL, SITUATIONS } from '@/engine/features'
+import type { ResultNode } from '@/contract/result'
+import ResultView from '@/ui/ResultView.vue'
 
 const manifest = ref<Manifest | null>(null)
 onMounted(async () => {
@@ -34,6 +36,21 @@ const daily = computed(() => {
 })
 
 const sitChips = SITUATIONS.slice(0, 9).map((s) => SITUATION_LABEL[s])
+
+/** 今日一签的出处也走同一个 quote 节点：能点开核对才算出处，不然只是排版 */
+const dailySource = computed<ResultNode | null>(() => {
+  const s = daily.value.source
+  if (!s) return null
+  if (s.kind === 'canon' && s.quote)
+    return {
+      kind: 'quote',
+      book: s.book ?? '佚',
+      text: s.quote,
+      ...(s.loc ? { loc: s.loc } : {}),
+      ...(s.gloss ? { gloss: s.gloss } : {}),
+    }
+  return { kind: 'text', lines: [s.gloss ?? '经验观察'] }
+})
 </script>
 
 <template>
@@ -46,13 +63,8 @@ const sitChips = SITUATIONS.slice(0, 9).map((s) => SITUATION_LABEL[s])
     <div class="hm-daily">
       <p class="hm-daily-k">今日一签</p>
       <p class="hm-daily-x">{{ daily.text }}</p>
-      <p class="hm-daily-s">
-        <span v-if="daily.source?.kind === 'canon'">
-          《{{ daily.source.book }}》{{ daily.source.loc }} 「{{ daily.source.quote }}」
-        </span>
-        <span v-else>{{ daily.source?.gloss }}</span>
-        · 人群适用约 {{ Math.round(daily.baseRate * 100) }}%
-      </p>
+      <ResultView v-if="dailySource" class="hm-daily-s" :node="dailySource" />
+      <p class="hm-daily-b">人群适用约 {{ Math.round(daily.baseRate * 100) }}%</p>
     </div>
   </section>
 
@@ -110,6 +122,11 @@ const sitChips = SITUATIONS.slice(0, 9).map((s) => SITUATION_LABEL[s])
   border-left: 3px solid var(--accent-2);
   border-radius: var(--radius);
   background: var(--bg-1);
+}
+.hm-daily-b {
+  margin: 8px 0 0;
+  font-size: 11px;
+  color: var(--ink-3);
 }
 .hm-daily-k {
   margin: 0 0 6px;

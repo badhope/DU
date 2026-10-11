@@ -5,10 +5,12 @@
  * 参考书要能公开浏览——断语的权威性只有回到原文才成立。
  * 正文不进 bundle：选定书目才 fetch，一部一部懒取。
  */
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import {
   getChapter,
   getManifest,
+  resolveBooks,
   searchCorpus,
   simplifyAsync,
   type BookMeta,
@@ -18,6 +20,8 @@ import {
 } from '@/data/corpus'
 
 const props = defineProps<{ book?: string }>()
+
+const route = useRoute()
 
 const manifest = ref<Manifest | null>(null)
 const error = ref('')
@@ -33,11 +37,72 @@ const toSimplified = ref(false)
 onMounted(async () => {
   try {
     manifest.value = await getManifest()
-    if (props.book) await openBook(props.book)
+    const q = str(route.query.q)
+    const bk = str(route.query.bk)
+    if (q || bk) await openCitation(bk, q)
+    else if (props.book) await openBook(props.book)
   } catch (e) {
     error.value = `语料未就绪：${(e as Error).message}。（部署前需跑 node scripts/sync-corpus.mjs）`
   }
 })
+
+const citation = ref('')
+
+const str = (v: unknown): string => (typeof v === 'string' ? v : '')
+
+/** 由出处跳转写入 query 时，不要惊动输入框那个防抖检索 */
+let suppressQueryWatch = false
+
+/**
+ * 从断语的"查原文"进来：带的是引用书名（可能是《黄帝内经》这种合称）与一段引文。
+ * 先按别名解析站内书目，再在这些书里搜引文，命中就直达那一章。
+ * 搜不到要如实说这本书里没这句话，不能悄悄全域乱搜出一个像样的结果。
+ */
+async function openCitation(citedTitle: string, quote: string) {
+  const m = manifest.value
+  if (!m) return
+  if (!citedTitle) {
+    if (quote) await runSearch(quote)
+    return
+  }
+  const books = resolveBooks(m, citedTitle)
+  if (!books.length) {
+    error.value = `站内没有《${citedTitle}》——这条出处暂时无法核对（需要补书，或在 book-aliases.json 里给别名）。`
+    return
+  }
+  citation.value = `${citedTitle} → ${books.map((b) => `《${b.title}》`).join('、')}`
+  if (!quote) {
+    await openBook(books[0]!.id)
+    return
+  }
+  // 只列命中（含章节与高亮片段），点一下才进正文：
+  // 一进来就跳章会把"这句话到底在不在"的判断权交给页面，读者看不到核的过程。
+  await runSearch(quote, books.map((b) => b.id))
+}
+
+/** 程序化检索：写入输入框、限定书目、拿命中 */
+async function runSearch(q: string, bookIds?: string[]) {
+  clearTimeout(timer)
+  suppressQueryWatch = true
+  query.value = q
+  hits.value = await searchCorpus(q, bookIds, 5)
+  await nextTick()
+  suppressQueryWatch = false
+}
+
+watch(
+  () => [route.query.q, route.query.bk],
+  async ([q, bk]) => {
+    if (!manifest.value) return
+    const quote = str(q)
+    const title = str(bk)
+    if (quote || title) {
+      error.value = ''
+      citation.value = ''
+      await openCitation(title, quote)
+    }
+  },
+)
 
 watch(
   () => props.book,
@@ -71,6 +136,8 @@ async function openChapter(chapterId: string) {
 let timer: ReturnType<typeof setTimeout> | undefined
 watch(query, (q) => {
   clearTimeout(timer)
+  // 出处跳转自己会把限定书目的命中算好，这里再跑一遍会退化成全域搜索
+  if (suppressQueryWatch) return
   if (q.trim().length < 2) {
     hits.value = null
     return
@@ -157,6 +224,11 @@ async function jumpTo(hit: Hit) {
     </div>
 
     <p v-if="error" class="rd-err">{{ error }}</p>
+
+    <p v-if="citation" class="rd-cite">
+      正在核对出处：{{ citation }}
+      <span v-if="hits && !hits.length">—— 这句话在本段引文里没搜到，可手动改上面的检索词</span>
+    </p>
 
     <input v-model="query" class="du-input rd-q" placeholder="跨全书检索，例如 恬淡虚无 / 体用 / 顺逆之机" />
 
@@ -245,6 +317,12 @@ async function jumpTo(hit: Hit) {
   color: var(--tone-bad);
   border: 1px dashed var(--tone-bad);
   border-radius: 6px;
+}
+.rd-cite {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--accent-2);
 }
 .rd-q {
   margin-top: 4px;

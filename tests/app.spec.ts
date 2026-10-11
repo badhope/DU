@@ -61,8 +61,10 @@ describe('界面冒烟', () => {
     await flushPromises()
     expect(w.text()).toContain('梅花易数')
     expect(w.findAll('.hm-card')).toHaveLength(1)
-    // 每日一签必须带出处或释义，否则等于匿名断语
+    // 每日一签必须带出处或释义，否则等于匿名断语；canon 的话还得能点开核对
     expect(w.find('.hm-daily-s').text().length).toBeGreaterThan(4)
+    const dailyLink = w.find('.hm-daily-s .qt-a')
+    if (dailyLink.exists()) expect(dailyLink.attributes('href')).toContain('#/reading')
   })
 
   it('工具页：填领域 → 点起一卦 → 出卦画、断语与反馈区', async () => {
@@ -128,6 +130,7 @@ describe('界面冒烟', () => {
   it('ResultView 能解释全部节点类型（新工具不需要新组件）', () => {
     const nodes: ResultNode[] = [
       { kind: 'text', lines: ['x'], lead: true },
+      { kind: 'quote', book: '黄帝内经', loc: '素问 · 四气调神大论', text: '不治已病治未病', gloss: '先防' },
       { kind: 'note', text: 'n', tone: 'warn' },
       { kind: 'chips', items: [{ text: 'c', tone: 'good' }] },
       { kind: 'kv', items: [{ label: 'a', value: 'b', sub: 'c' }] },
@@ -145,10 +148,31 @@ describe('界面冒烟', () => {
       { kind: 'section', title: 'S', children: [{ kind: 'note', text: 'in' }] },
     ]
     const w = mount(ResultView, { props: { node: { kind: 'stack', children: nodes } } })
-    for (const cls of ['.tx', '.nt', '.ch', '.kv', '.gr', '.br', '.sco', '.tb', '.mx', '.ga', '.rw', '.sc'])
+    for (const cls of [
+      '.tx',
+      '.nt',
+      '.ch',
+      '.kv',
+      '.gr',
+      '.br',
+      '.sco',
+      '.tb',
+      '.mx',
+      '.ga',
+      '.rw',
+      '.sc',
+      '.qt',
+    ])
       expect(w.find(cls).exists(), `节点未渲染：${cls}`).toBe(true)
     // 环形评分的描边长度必须随分值变化，否则是摆设
     expect(w.find('.sco-fg').attributes('stroke-dasharray')).toBe('215.6 326.7')
+    // 出处的"查原文"必须把书名与引文带进阅览室查询串，别名交给阅览室解析
+    const href = w.find('.qt-a').attributes('href')!
+    expect(href).toContain('#/reading')
+    const q = new URLSearchParams(href.split('?')[1]!)
+    expect(q.get('bk')).toBe('黄帝内经')
+    expect(q.get('q')).toBe('不治已病治未病')
+    expect(q.get('loc')).toBe('素问 · 四气调神大论')
   })
 
   it('FormRenderer 按 schema 生成控件，必填未填时提示', async () => {

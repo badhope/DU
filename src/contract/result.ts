@@ -52,6 +52,13 @@ export type ResultNode =
   | { kind: 'gua'; lines: GuaLine[]; title?: string; subtitle?: string }
   /** 文本行（断语、解释） */
   | { kind: 'text'; lines: string[]; lead?: boolean }
+  /**
+   * 可核出处：引文原样列出，并给一个"查原文"的入口。
+   *
+   * 权威性不是靠排版出来的——读者点进去必须在阅览室搜到这句话，
+   * 所以这一节单独成节点，而不是塞进 text 里。
+   */
+  | { kind: 'quote'; book: string; loc?: string; text: string; gloss?: string }
   /** 一句话提示 / 免责 */
   | { kind: 'note'; text: string; tone?: Tone }
 
