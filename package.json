@@ -23,7 +23,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",
-    "happy-dom": "^18.0.1",
+    "happy-dom": "^20.14.6",
     "lunar-typescript": "^1.8.6",
     "opencc-js": "^1.4.2",
     "typescript": "^5.9.3",
