@@ -4,9 +4,19 @@ on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
+  # 名字不能改：分支保护把 "Type check & build" 列为必需检查（沿用 v1 的约定）
   check:
+    name: Type check & build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,8 +25,8 @@ jobs:
           node-version: '22'
           cache: npm
       # public/corpus 随仓库提交：它是部署产物的一部分（阅览室要 fetch 它），
-      # 但体积大，CI 里不做抓取，只跑门禁。
+      # CI 里不做抓取，只跑门禁。
       - run: npm ci
       - run: npm run check
       - name: 产物体积
-        run: du -sh dist && du -sh dist/assets
+        run: du -sh dist && ls -la dist/assets | head -20
