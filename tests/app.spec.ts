@@ -124,7 +124,7 @@ describe('界面冒烟', () => {
 
   it('导航里的每个链接都能命中路由，且工具都有可直达路径', () => {
     const paths = routes.map((r) => r.path)
-    for (const need of ['/', '/reading', '/about', '/t/:id']) expect(paths).toContain(need)
+    for (const need of ['/', '/ask', '/arena', '/leaderboard', '/masters/:id', '/ledger', '/settings', '/reading', '/about', '/t/:id']) expect(paths).toContain(need)
   })
 
   it('ResultView 能解释全部节点类型（新工具不需要新组件）', () => {
