@@ -45,8 +45,11 @@ const WUXING_BY_GAN: Record<string, string> = {
 
 function validInput(input: BaziInput): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(input.date) || !/^\d{2}:\d{2}$/.test(input.time)) return false
-  const date = new Date(`${input.date}T${input.time}:00`)
-  return !Number.isNaN(date.getTime()) && date.getFullYear() === Number(input.date.slice(0, 4))
+  const [year, month, day] = input.date.split('-').map(Number)
+  const [hour, minute] = input.time.split(':').map(Number)
+  if (![year, month, day, hour, minute].every(Number.isInteger) || month! < 1 || month! > 12 || hour! > 23 || minute! > 59) return false
+  const date = new Date(year!, month! - 1, day!, hour!, minute!, 0, 0)
+  return date.getFullYear() === year && date.getMonth() === month! - 1 && date.getDate() === day && date.getHours() === hour && date.getMinutes() === minute
 }
 
 function pillar(

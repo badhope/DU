@@ -31,6 +31,7 @@ export async function runBlindMatch(
   masterIds: [MasterId, MasterId],
   onAnswer?: (masterId: MasterId, answer: MasterAnswer) => void,
 ): Promise<BlindMatch> {
+  if (masterIds[0] === masterIds[1]) throw new Error('本次盲测需要两位不同的大师。')
   const id = await matchId(request, masterIds)
   const facts = await factsForRequest(request)
   const answers: MasterAnswer[] = []

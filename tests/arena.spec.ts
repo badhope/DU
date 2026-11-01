@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BlindMatch } from '@/contract/reading'
 import { emptyStats } from '@/arena/rating'
-import { getArenaState, importArena, recordVote, resetArena, saveMatch } from '@/arena/store'
+import { getArenaState, importArena, recordVote, resetArena, resolveClaim, saveClaims, saveMatch } from '@/arena/store'
 import { runBlindMatch } from '@/arena/readingFlow'
 
 const match = (): BlindMatch => ({ id: 'match-test-1', request: { question: '测试问题', domain: 'general', askedAt: 1 }, masterIds: ['ziping', 'meihua'], answers: [
@@ -27,6 +27,17 @@ describe('盲测与台账存储', () => {
     const state = getArenaState()
     expect(state.matches).toHaveLength(0)
     expect(state.stats.ziping).toEqual(emptyStats('ziping'))
+  })
+
+  it('重复选择同一大师会被拒绝', async () => {
+    await expect(runBlindMatch({ question: '测试问题', domain: 'general', askedAt: 1 }, ['ziping', 'ziping'])).rejects.toThrow('两位不同的大师')
+  })
+
+  it('未知应验不进入应验率分母，截止日前不能标记命中', () => {
+    saveClaims([{ id: 'claim-test', masterId: 'ziping', text: '测试断言', dueAt: Date.now() + 86_400_000, createdAt: Date.now(), status: 'pending' }])
+    expect(resolveClaim('claim-test', 'hit')).toBe(false)
+    expect(resolveClaim('claim-test', 'unknown')).toBe(true)
+    expect(getArenaState().stats.ziping.claimsResolved).toBe(0)
   })
 
   it('非法导入不会覆盖现有对局', () => {

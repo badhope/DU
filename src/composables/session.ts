@@ -34,7 +34,12 @@ function load(): SessionState {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return empty()
-    return { ...empty(), ...(JSON.parse(raw) as SessionState) }
+    const parsed = JSON.parse(raw) as Partial<SessionState>
+    const validDomains = Array.isArray(parsed.lastDomains) && parsed.lastDomains.every((item) => typeof item === 'string')
+    const validResonated = Array.isArray(parsed.resonated) && parsed.resonated.every((item) => item && typeof item.id === 'string' && typeof item.tag === 'string' && (item.hit === 0 || item.hit === 1) && Number.isFinite(item.at))
+    const validSeen = Array.isArray(parsed.seen) && parsed.seen.every((item) => typeof item === 'string')
+    if (!Number.isInteger(parsed.visits) || parsed.visits! < 0 || !validDomains || !validResonated || !validSeen) return empty()
+    return { visits: parsed.visits!, lastDomains: parsed.lastDomains!.slice(0, 3), resonated: parsed.resonated!.slice(0, 40), seen: parsed.seen!.slice(0, 60) }
   } catch {
     return empty()
   }

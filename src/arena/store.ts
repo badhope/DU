@@ -21,13 +21,8 @@ function readState(): ArenaState {
   try {
     const raw = localStorage.getItem(KEY)
     if (!raw) return initialState()
-    const parsed = JSON.parse(raw) as Partial<ArenaState>
-    const fresh = initialState()
-    return {
-      stats: { ...fresh.stats, ...(parsed.stats ?? {}) },
-      matches: Array.isArray(parsed.matches) ? parsed.matches : [],
-      claims: Array.isArray(parsed.claims) ? parsed.claims : [],
-    }
+    const parsed: unknown = JSON.parse(raw)
+    return validImportedState(parsed) ? parsed : initialState()
   } catch {
     return initialState()
   }
@@ -96,12 +91,15 @@ export function listClaims(): Claim[] {
 export function resolveClaim(id: string, status: Exclude<ClaimStatus, 'pending'>): boolean {
   const claim = state.claims.find((item) => item.id === id)
   if (!claim || claim.status !== 'pending') return false
+  if (status !== 'unknown' && Date.now() < claim.dueAt) return false
   claim.status = status
   const stats = state.stats[claim.masterId]
   if (!stats) return false
-  stats.claimsResolved += 1
-  if (status === 'hit') stats.claimsHit += 1
-  if (status === 'miss') stats.claimsMiss += 1
+  if (status !== 'unknown') {
+    stats.claimsResolved += 1
+    if (status === 'hit') stats.claimsHit += 1
+    if (status === 'miss') stats.claimsMiss += 1
+  }
   persist()
   return true
 }
@@ -127,12 +125,13 @@ function validImportedState(value: unknown): value is ArenaState {
     const item = (candidate.stats as Record<string, unknown>)[master.id]
     if (!item || typeof item !== 'object') return false
     const stats = item as Partial<MasterStats>
-    if (stats.masterId !== master.id || !Number.isFinite(stats.rating) || !Number.isInteger(stats.matches) || (stats.matches ?? -1) < 0) return false
+    const counters = [stats.matches, stats.wins, stats.losses, stats.draws, stats.claimsResolved, stats.claimsHit, stats.claimsMiss]
+    if (stats.masterId !== master.id || !counters.every((item) => Number.isInteger(item) && item! >= 0) || !Number.isFinite(stats.rating) || (stats.wins! + stats.losses! + stats.draws! > stats.matches!) || (stats.claimsHit! + stats.claimsMiss! > stats.claimsResolved!)) return false
   }
   if (candidate.matches.some((item) => {
     if (!item || typeof item !== 'object') return true
     const match = item as Partial<BlindMatch>
-    return typeof match.id !== 'string' || !Array.isArray(match.masterIds) || match.masterIds.length !== 2 || !match.masterIds.every(isMasterId)
+    return typeof match.id !== 'string' || !match.request || typeof match.request.question !== 'string' || match.request.question.length > 2000 || !Number.isFinite(match.request.askedAt) || !Array.isArray(match.masterIds) || match.masterIds.length !== 2 || !match.masterIds.every(isMasterId) || match.masterIds[0] === match.masterIds[1] || !Array.isArray(match.answers) || match.answers.length !== 2
   })) return false
   return !candidate.claims.some((item) => {
     if (!item || typeof item !== 'object') return true
