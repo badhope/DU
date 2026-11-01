@@ -3,11 +3,10 @@ import type { BlindMatch } from '@/contract/reading'
 import { emptyStats } from '@/arena/rating'
 import { getArenaState, importArena, recordVote, resetArena, saveMatch } from '@/arena/store'
 import { runBlindMatch } from '@/arena/readingFlow'
-import { DEFAULT_AI_CONFIG } from '@/ai/config'
 
 const match = (): BlindMatch => ({ id: 'match-test-1', request: { question: '测试问题', domain: 'general', askedAt: 1 }, masterIds: ['ziping', 'meihua'], answers: [
-  { id: 'a', masterId: 'ziping', mode: 'offline', text: 'a', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
-  { id: 'b', masterId: 'meihua', mode: 'offline', text: 'b', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
+  { id: 'a', masterId: 'ziping', mode: 'local', text: 'a', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
+  { id: 'b', masterId: 'meihua', mode: 'local', text: 'b', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
 ], createdAt: 1 })
 
 describe('盲测与台账存储', () => {
@@ -36,24 +35,24 @@ describe('盲测与台账存储', () => {
     expect(getArenaState().matches).toHaveLength(1)
   })
 
-  it('无模型 Key 时完成两位 active 大师的离线盲测', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ books: [], totalChars: 0 }) })))
+  it('网络不可用时仍完成两位 active 大师的本地盲测', async () => {
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network disabled') }))
     const result = await runBlindMatch(
       { question: '我是否应该主动寻找新机会？', domain: 'career', askedAt: 1_735_689_600_000 },
       ['ziping', 'meihua'],
-      { ...DEFAULT_AI_CONFIG, apiKey: '' },
     )
     expect(result.answers).toHaveLength(2)
-    expect(result.answers.every((answer) => answer.mode === 'offline')).toBe(true)
+    expect(result.answers.every((answer) => answer.mode === 'local')).toBe(true)
     expect(getArenaState().matches).toHaveLength(1)
   })
 
   it('同一时刻的不同问题不会互相覆盖对局', async () => {
-    vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, json: async () => ({ books: [], totalChars: 0 }) })))
-    const config = { ...DEFAULT_AI_CONFIG, apiKey: '' }
-    const first = await runBlindMatch({ question: '我是否应该换工作？', domain: 'career', askedAt: 1_735_689_600_000 }, ['ziping', 'meihua'], config)
-    const second = await runBlindMatch({ question: '这段关系是否需要暂缓？', domain: 'love', askedAt: 1_735_689_600_000 }, ['ziping', 'meihua'], config)
+    vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('network disabled') }))
+    const first = await runBlindMatch({ question: '我是否应该换工作？', domain: 'career', askedAt: 1_735_689_600_000 }, ['ziping', 'meihua'])
+    const second = await runBlindMatch({ question: '这段关系是否需要暂缓？', domain: 'love', askedAt: 1_735_689_600_000 }, ['ziping', 'meihua'])
     expect(second.id).not.toBe(first.id)
+    expect(second.id).not.toContain('换工作')
+    expect(second.id).not.toContain('暂缓')
     expect(getArenaState().matches).toHaveLength(2)
   })
 })

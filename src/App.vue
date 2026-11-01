@@ -27,7 +27,7 @@ import { ACTIVE_MASTERS, MASTER_COUNT } from '@/masters/registry'
 
   <footer class="ft">
     <p>天机台 · {{ ACTIVE_MASTERS.length }}/{{ MASTER_COUNT }} 位大师可测评 · 旧工具 {{ TOOL_COUNT }} 个 · 本机提问 {{ session.visits }} 次（<button class="ft-btn" @click="resetSession">清空</button>）</p>
-    <p>纯前端文化研究与自省工具。输入默认不上传；接入模型时只发送到你配置的 endpoint。不作医疗、法律、投资建议。</p>
+    <p>纯前端本地文化研究与自省工具。问题、生辰、盘面、回答和反馈不上传。不作医疗、法律、投资建议。</p>
   </footer>
 </template>
 

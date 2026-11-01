@@ -1,5 +1,6 @@
 import type { Master } from '@/contract/master'
 import type { AskRequest, ChartFact, MasterAnswer } from '@/contract/reading'
+import type { Passage } from '@/knowledge/retrieve'
 import { STATEMENTS } from '@/engine/resonance'
 import { parseAnswer } from './parse'
 
@@ -8,11 +9,13 @@ const masterLead: Record<string, string> = {
   meihua: '这一问的象意在变化，不宜把一个时点说成终局。',
 }
 
-export function offlineAnswer(master: Master, request: AskRequest, facts: ChartFact[], now = Date.now(), matchId?: string): MasterAnswer {
+export function localAnswer(master: Master, request: AskRequest, facts: ChartFact[], now = Date.now(), matchId?: string, passages: Passage[] = []): MasterAnswer {
   const candidates = STATEMENTS.filter((item) => item.domain.includes(request.domain) || item.domain.includes('general')).filter((item) => item.source)
   const selected = candidates.slice(0, 3)
   const lines = selected.map((item) => `- ${item.text}`)
-  const quotes = selected.filter((item) => item.source?.kind === 'canon' && item.source.quote).map((item) => `> 《${item.source!.book}》${item.source!.loc ?? ''}：「${item.source!.quote}」`)
+  const quotes = passages.length
+    ? passages.slice(0, 3).map((passage) => `> 《${passage.book}》${passage.loc}：「${passage.text}」`)
+    : selected.filter((item) => item.source?.kind === 'canon' && item.source.quote).map((item) => `> 《${item.source!.book}》${item.source!.loc ?? ''}：「${item.source!.quote}」`)
   const due = new Date(now)
   due.setFullYear(due.getFullYear() + 1)
   const dueDate = due.toISOString().slice(0, 10)
@@ -29,5 +32,6 @@ export function offlineAnswer(master: Master, request: AskRequest, facts: ChartF
     '## 行',
     '把下一步缩成一个本周内可完成、可复盘的动作。本站内容仅供自省与文化娱乐，不替代专业意见。',
   ].join('\n')
-  return { ...parseAnswer(text, master.id, facts, 'offline', matchId, now), fallbackReason: '未接入模型，使用本地确定性规则与已核断语。' }
+  const answer = parseAnswer(text, master.id, facts, 'local', matchId, now)
+  return { ...answer, citations: answer.citations.map((citation) => ({ ...citation, verification: 'verified' as const })), fallbackReason: '本地规则模式：问题、生辰、盘面与反馈只在本机处理，不上传。' }
 }

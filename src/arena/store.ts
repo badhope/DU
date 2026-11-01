@@ -52,7 +52,8 @@ export function replaceArenaState(next: ArenaState): void {
 }
 
 export function listLeaderboard(): LeaderboardRow[] {
-  return leaderboardRows(Object.values(state.stats))
+  const activeIds = new Set(MASTERS.filter((master) => master.status === 'active').map((master) => master.id))
+  return leaderboardRows(Object.values(state.stats).filter((stats) => activeIds.has(stats.masterId)))
 }
 
 export function saveMatch(match: BlindMatch): void {

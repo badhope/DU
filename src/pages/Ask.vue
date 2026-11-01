@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue'
 import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contract/reading'
 import { ACTIVE_MASTERS } from '@/masters/registry'
-import { loadAiConfig } from '@/ai/config'
 import { runBlindMatch } from '@/arena/readingFlow'
 import { recordVote } from '@/arena/store'
 
@@ -14,7 +13,6 @@ const match = ref<BlindMatch | null>(null)
 const busy = ref(false)
 const error = ref('')
 const voted = ref<VoteChoice | null>(null)
-const config = loadAiConfig()
 const domains: Array<{ value: ReadingDomain; label: string }> = [
   { value: 'general', label: '整体' },
   { value: 'career', label: '前程 / 工作' },
@@ -47,7 +45,7 @@ async function ask() {
   }
   try {
     const ids = ACTIVE_MASTERS.slice(0, 2).map((master) => master.id) as [typeof ACTIVE_MASTERS[0]['id'], typeof ACTIVE_MASTERS[0]['id']]
-    match.value = await runBlindMatch(request, ids, config)
+    match.value = await runBlindMatch(request, ids)
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : '本次问天没有完成。'
   } finally {
@@ -75,12 +73,12 @@ function reset() {
 
 <template>
   <section class="ask">
-    <header class="page-head"><p class="kicker">ASK / BLIND READING</p><h1>问天</h1><p>先把问题写具体，再让两位已验证事实层的大师匿名回答。没有模型 Key 也能用离线规则模式。</p></header>
+    <header class="page-head"><p class="kicker">ASK / LOCAL READING</p><h1>问天</h1><p>先把问题写具体，再让两位已验证事实层的大师匿名回答。问题、生辰、盘面和反馈只在本机处理，不上传。</p></header>
     <form v-if="!match" class="ask-form" @submit.prevent="ask">
       <label class="du-field"><span class="du-label">你要问什么 <b>必填</b></span><textarea v-model="question" class="du-input ask-q" rows="4" placeholder="例：我准备在三个月内换工作，应该先等机会还是主动出击？" /></label>
       <label class="du-field"><span class="du-label">问题领域</span><select v-model="domain" class="du-input"><option v-for="item in domains" :key="item.value" :value="item.value">{{ item.label }}</option></select></label>
       <div class="ask-grid"><label class="du-field"><span class="du-label">出生日期（可选）</span><input v-model="birthDate" class="du-input" type="date" /></label><label class="du-field"><span class="du-label">出生时间（填写日期后必填）</span><input v-model="birthTime" class="du-input" type="time" /></label></div>
-      <p class="ask-hint">生辰只用于本机生成八字事实；模型模式会把盘面事实和问题发送到你在设置中配置的 endpoint。</p>
+      <p class="ask-hint">生辰只用于本机生成八字事实；问题、生辰、盘面和反馈只在本机处理，不上传。</p>
       <button class="du-btn primary" type="submit" :disabled="!canAsk || busy">{{ busy ? '两位大师落笔中…' : '开始匿名盲测' }}</button>
       <p v-if="!canAsk && question.length > 0" class="ask-error">问题至少写 4 个字；填写出生日期后还需要出生时间。</p>
     </form>
@@ -92,7 +90,7 @@ function reset() {
       <div class="blind-note" :class="{ revealed }">{{ revealed ? '已揭晓：下面的姓名来自本机方法注册表。' : '先读内容再投票；姓名、门派和评分暂时隐藏。' }}</div>
       <div class="answers">
         <article v-for="(answer, index) in match.answers" :key="answer.id" class="answer">
-          <div class="answer-head"><span class="answer-label">{{ titleFor(index) }}</span><span class="answer-mode">{{ answer.mode === 'ai' ? '模型生成 · 引文已核验' : '离线规则模式' }}</span></div>
+          <div class="answer-head"><span class="answer-label">{{ titleFor(index) }}</span><span class="answer-mode">本地规则模式 · 同源语料</span></div>
           <p v-if="answer.fallbackReason" class="answer-fallback">{{ answer.fallbackReason }}</p>
           <section v-for="section in answer.sections" :key="section.key" class="answer-section"><h3>{{ section.title }}</h3><p v-for="(line, lineIndex) in section.lines" :key="lineIndex">{{ line }}</p></section>
           <div v-if="answer.citations.length" class="answer-citations"><h3>引用状态</h3><p v-for="citation in answer.citations" :key="`${citation.book}-${citation.text}`">《{{ citation.book }}》{{ citation.loc ?? '' }}：{{ citation.text }} <b :class="citation.verification === 'verified' ? 'ok' : 'warn'">{{ citation.verification === 'verified' ? '已核' : '未核' }}</b></p></div>

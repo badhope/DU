@@ -1,8 +1,8 @@
-# 天机台架构
+# 天机台本地架构
 
 ## 总体
 
-天机台保持纯静态部署。所有计算、模型配置和测评数据默认在浏览器内完成，不需要 API 服务或数据库。AI 只通过用户配置的 endpoint 直连；没有 Key 时使用本地规则降级。
+天机台是严格本地运行的静态站。问题、生辰、盘面、回答、投票和应验数据不发送到任何外部服务。浏览器只读取本项目同源的 `public/corpus` 静态语料，并使用本地确定性内核和规则断语生成结果。
 
 ```text
 用户问题 + 可选生辰
@@ -11,11 +11,11 @@
 事实层：src/core/bazi.ts + src/core/meihuaFacts.ts
         │  只产确定性 ChartFact
         ▼
-知识层：src/knowledge/retrieve.ts
-        │  按大师书目检索 public/corpus，引用再由 verify.ts 核验
+本地知识层：src/knowledge/retrieve.ts
+        │  只读取同源 public/corpus
         ▼
-演绎层：src/ai/prompt.ts + client.ts / offline.ts
-        │  AI 组织语言，失败/无 Key 自动离线降级
+本地演绎层：src/ai/offline.ts + src/engine/resonance.ts
+        │  规则断语、已核引文、动态应验日期
         ▼
 测评层：src/arena/readingFlow.ts
         │  匿名双答 → 投票 → Elo/Wilson → 应验簿
@@ -25,24 +25,24 @@ localStorage：src/arena/store.ts
 
 ## 模块边界
 
-- `src/contract`：跨层数据契约。`Master` 区分 `active`/`planned`；`BlindMatch`、`MasterAnswer`、`Claim` 是测评闭环的最小数据。
-- `src/core`：纯或近纯确定性算法。八字动态加载 `lunar-typescript`，梅花复用已通过《梅花易数》原例测试的 `gua.ts`/`meihua.ts`。
+- `src/contract`：跨层数据契约。`AnswerMode` 只有 `local`；`BlindMatch`、`MasterAnswer`、`Claim` 是测评闭环的最小数据。
+- `src/core`：确定性算法。八字动态加载 `lunar-typescript`，梅花复用已通过原例测试的 `gua.ts`/`meihua.ts`。
 - `src/masters`：方法卡注册表，不持有运行时状态。只有 `active` 大师可以进入盲测。
-- `src/knowledge`：复用现有 `searchCorpus`/`locateQuote`；不引入向量库，正文保持按书懒加载。
-- `src/ai`：原生 `fetch` 的 OpenAI 兼容/Anthropic 客户端、SSE 解析、prompt、Markdown 段落解析和离线 fallback。没有 `v-html`，模型正文按文本渲染。
+- `src/knowledge`：复用现有 corpus 数据层，浏览器只读取同源相对路径；没有远程知识库。
+- `src/ai/offline.ts`：本地规则回答生成器；目录名称保留为历史兼容路径，不代表外部推理或联网调用。
 - `src/arena`：Elo、Wilson 下界、对局幂等、断言回填和本机数据导入导出。
 - `src/pages`：产品流程；典籍阅读室和旧 `/t/meihua` 入口保持兼容。
 
-## 安全与隐私
+## 不上传边界
 
-- Key 默认存于 `sessionStorage`；只有用户勾选持久化才写 `localStorage`。Key 不写入 prompt、导出 JSON、URL、日志或结果对象。
-- 外部模型请求只发送用户确认的 endpoint、问题和确定性盘面；设置页明示该边界。
-- 引文在客户端通过 `locateQuote` 回查；查不到标 `unverified`，不把模型自称的引文当成事实。
-- 断言只有模型按日期格式输出后才进入本机应验簿，用户可逐条回填。
+- 生产代码不存在外部推理客户端、凭据、远程地址或流式远程调用。
+- 设置页不提供外部协议、地址、模型或凭据控件。
+- 浏览器加载的古籍来自仓库内 `public/corpus`；这是同源静态资源，不向第三方发送用户输入。
+- 导出 JSON 只有用户主动点击才产生本地文件；导入只接受已知大师、合法状态和有限条数。
 
 ## 排名口径
 
-所有大师初始 rating=1500，盲评使用 Elo，平局记 0.5。少于 5 场不进入“在榜”；胜率同时显示 Wilson 95% 下界，避免单次胜利制造虚假冠军。应验率只统计用户回填为“应验/未验”的断言，“无法判断”不进入分母。
+所有 active 大师初始 rating=1500，盲评使用 Elo，平局记 0.5。少于 5 场不进入“在榜”；胜率同时显示 Wilson 95% 下界。应验率只统计用户回填为“应验/未验”的断言，“无法判断”不进入分母。
 
 ## 后续算法移植门槛
 

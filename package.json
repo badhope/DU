@@ -2,7 +2,7 @@
   "name": "du",
   "private": true,
   "version": "0.1.0",
-  "description": "天机台：以确定性排盘、可核古籍和盲测机制驱动的玄学大师测评平台。",
+  "description": "天机台：不上传数据的本地玄学大师测评平台。",
   "type": "module",
   "license": "MIT",
   "scripts": {
@@ -14,8 +14,9 @@
     "verify:quotes": "node scripts/verify-quotes.mjs",
     "gen:readme": "node scripts/gen-readme.mjs",
     "check:readme": "node scripts/gen-readme.mjs --check",
+    "check:local-only": "node scripts/check-local-only.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
-    "check": "npm run typecheck && npm run test && npm run verify:quotes && npm run check:readme && npm run build"
+    "check": "npm run typecheck && npm run test && npm run verify:quotes && npm run check:readme && npm run build && npm run check:local-only"
   },
   "dependencies": {
     "lunar-typescript": "^1.8.6",

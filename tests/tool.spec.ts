@@ -96,7 +96,7 @@ describe('工具注册表', () => {
 
 describe('工具输出结构', () => {
   const cases: { tool: Tool; input: ToolInput }[] = [
-    { tool: toolById('meihua')!, input: { mode: 'time', domain: 'career', situations: ['promotion'] } },
+    { tool: toolById('meihua')!, input: { mode: 'time', domain: 'career', situations: ['transition'] } },
     { tool: toolById('meihua')!, input: { mode: 'number', numA: 3, numB: 8, domain: 'love' } },
     { tool: toolById('meihua')!, input: { mode: 'time', domain: 'health', birthYear: 1962 } },
   ]

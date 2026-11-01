@@ -1,7 +1,7 @@
 import type { MasterId } from './master'
 
 export type ReadingDomain = 'career' | 'love' | 'study' | 'health' | 'wealth' | 'family' | 'general'
-export type AnswerMode = 'offline' | 'ai'
+export type AnswerMode = 'local'
 export type ClaimStatus = 'pending' | 'hit' | 'miss' | 'unknown'
 export type VoteChoice = 'a' | 'b' | 'draw'
 
