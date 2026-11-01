@@ -25,9 +25,14 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: npm run typecheck
+      - run: npm test -- --run
+      - run: npm run verify:quotes
+      - run: npm run check:readme
       # base 用 /DU/：GitHub Pages 的项目站挂在子路径下。
       # 路由是 hash 模式，深链不依赖服务端 rewrite，CF Pages 无需再改这个值。
       - run: npx vite build --base=/DU/
+      - run: npm run check:local-only
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

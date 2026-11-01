@@ -1,224 +1,73 @@
 <script setup lang="ts">
-/**
- * DU v2 · 首页
- *
- * 全部内容由注册表与语料 manifest 生成：加一个工具、下载一部书，
- * 首页自己长出来，不需要同步改文案——这是 v1 的 README 漂移反过来的做法。
- */
 import { computed, onMounted, ref } from 'vue'
-import { CATEGORIES, TOOLS } from '@/tools/registry'
+import { ACTIVE_MASTERS, MASTERS } from '@/masters/registry'
+import type { Master } from '@/contract/master'
+import { listLeaderboard } from '@/arena/store'
 import { getManifest, type Manifest } from '@/data/corpus'
 import { STATEMENTS } from '@/engine/resonance'
-import { SITUATION_LABEL, SITUATIONS } from '@/engine/features'
-import type { ResultNode } from '@/contract/result'
-import ResultView from '@/ui/ResultView.vue'
+import MasterCard from '@/ui/MasterCard.vue'
 
 const manifest = ref<Manifest | null>(null)
-onMounted(async () => {
-  try {
-    manifest.value = await getManifest()
-  } catch {
-    /* 语料没同步也不挡首页 */
-  }
-})
-
-const canonCount = computed(() => STATEMENTS.filter((s) => s.source?.kind === 'canon').length)
-const byCategory = computed(() =>
-  CATEGORIES.map((c) => ({ ...c, tools: TOOLS.filter((t) => t.category === c.id) })),
-)
-
-/** 每日一签：日期本身作种子，全站当天同一条，可复现可分享 */
+const board = computed(() => listLeaderboard())
+const plannedMasters = computed<Master[]>(() => MASTERS.filter((master) => master.status === 'planned'))
+const canonCount = computed(() => STATEMENTS.filter((item) => item.source?.kind === 'canon').length)
 const daily = computed(() => {
-  const d = new Date()
-  const key = `${d.getFullYear()}${d.getMonth() + 1}${d.getDate()}`
-  const i = [...key].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % STATEMENTS.length
-  return STATEMENTS[i]!
+  const now = new Date()
+  const key = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+  const index = [...key].reduce((sum, char) => (sum * 31 + char.charCodeAt(0)) >>> 0, 7) % STATEMENTS.length
+  return STATEMENTS[index]!
 })
-
-const sitChips = SITUATIONS.slice(0, 9).map((s) => SITUATION_LABEL[s])
-
-/** 今日一签的出处也走同一个 quote 节点：能点开核对才算出处，不然只是排版 */
-const dailySource = computed<ResultNode | null>(() => {
-  const s = daily.value.source
-  if (!s) return null
-  if (s.kind === 'canon' && s.quote)
-    return {
-      kind: 'quote',
-      book: s.book ?? '佚',
-      text: s.quote,
-      ...(s.loc ? { loc: s.loc } : {}),
-      ...(s.gloss ? { gloss: s.gloss } : {}),
-    }
-  return { kind: 'text', lines: [s.gloss ?? '经验观察'] }
-})
+onMounted(async () => { try { manifest.value = await getManifest() } catch { manifest.value = null } })
 </script>
 
 <template>
   <section class="hm-hero">
-    <h1 class="hm-h">DU</h1>
-    <p class="hm-sub">
-      以经典为据的娱乐占卜站。断语出自公版典籍，每一条都能查到原文；
-      命中靠的是你填的真实信息，不是话术。
-    </p>
-    <div class="hm-daily">
-      <p class="hm-daily-k">今日一签</p>
-      <p class="hm-daily-x">{{ daily.text }}</p>
-      <ResultView v-if="dailySource" class="hm-daily-s" :node="dailySource" />
-      <p class="hm-daily-b">人群适用约 {{ Math.round(daily.baseRate * 100) }}%</p>
-    </div>
+    <p class="hm-kicker">TIANJI / MASTER ARENA</p>
+    <h1 class="hm-h">天机台</h1>
+    <p class="hm-sub">同一问题，请两位大师各断一遍。先匿名盲评，再看方法与本地规则；古籍可查，样本可回填，准不准由你记录。</p>
+    <div class="hm-actions"><RouterLink class="du-btn primary" to="/ask">开始问天</RouterLink><RouterLink class="du-btn" to="/leaderboard">查看大师榜</RouterLink></div>
+    <div class="hm-daily"><p class="hm-daily-k">今日天机 · 仅作自省</p><p class="hm-daily-x">{{ daily.text }}</p><p class="hm-daily-s">{{ daily.source?.kind === 'canon' ? `《${daily.source.book}》${daily.source.loc ?? ''}：${daily.source.quote ?? ''}` : daily.source?.gloss ?? '经验观察' }}</p><p class="hm-daily-b">人群天然适用约 {{ Math.round(daily.baseRate * 100) }}%；不是个性化预测。</p></div>
   </section>
 
-  <section v-for="c in byCategory" :key="c.id" class="hm-cat">
-    <h2 class="hm-cat-t" :style="{ color: c.accent }">
-      {{ c.name }}<small>{{ c.latin }}</small>
-    </h2>
-    <p v-if="!c.tools.length" class="hm-soon">该类目在 0.0.1 尚未上线</p>
-    <RouterLink v-for="t in c.tools" :key="t.id" :to="`/t/${t.id}`" class="hm-card">
-      <strong>{{ t.name }}</strong>
-      <span>{{ t.blurb }}</span>
-    </RouterLink>
-  </section>
+  <section class="hm-section"><div class="hm-section-head"><h2>大师阵列</h2><RouterLink to="/masters/ziping">看方法卡 →</RouterLink></div><p class="hm-note">首版只让已复核的事实层进入盲测；其他门派先公开方法与来源，不把“筹备中”伪装成算法完成。</p><div class="hm-masters"><MasterCard v-for="master in ACTIVE_MASTERS" :key="master.id" :master="master" :stats="board.find((row) => row.masterId === master.id)" /></div><div class="hm-planned"><h3>筹备中的方法卡</h3><RouterLink v-for="master in plannedMasters" :key="master.id" class="hm-planned-link" :to="`/masters/${master.id}`"><strong>{{ master.name }}</strong><span>{{ master.school }} · 尚未进入生产排盘</span></RouterLink></div></section>
 
-  <section class="hm-stats">
-    <div class="hm-st"><b>{{ TOOLS.length }}</b><span>个工具</span></div>
-    <div class="hm-st"><b>{{ STATEMENTS.length }}</b><span>条断语</span></div>
-    <div class="hm-st"><b>{{ canonCount }}</b><span>条有典籍出处</span></div>
-    <div class="hm-st">
-      <b>{{ manifest ? manifest.books.length : '—' }}</b><span>部可查原书</span>
-    </div>
-    <div class="hm-st">
-      <b>{{ manifest ? (manifest.totalChars / 10000).toFixed(0) + '万' : '—' }}</b><span>字可检索</span>
-    </div>
-  </section>
+  <section class="hm-section hm-arena"><div><p class="hm-kicker">THE LOOP</p><h2>提问 → 盲评 → 应验</h2><p>排盘事实与断语都在本机生成；同源古籍只从仓库静态语料读取。投票写入本机榜单，带日期的断言可在应验簿里回填。</p></div><RouterLink class="du-btn" to="/arena">进入擂台</RouterLink></section>
 
-  <p class="hm-note">
-    引擎认得的处境：{{ sitChips.join('、') }} 等 {{ SITUATIONS.length }} 种。
-    勾得越准，结果越贴；不勾就只给通用的那几条，并明说是通用的。
-  </p>
-  <RouterLink class="hm-link" to="/about">它凭什么看起来准 → 机制说明</RouterLink>
+  <section class="hm-stats"><div><b>{{ ACTIVE_MASTERS.length }}</b><span>可测评大师</span></div><div><b>{{ MASTERS.length - ACTIVE_MASTERS.length }}</b><span>方法卡筹备中</span></div><div><b>{{ manifest?.books.length ?? '—' }}</b><span>部可检索古籍</span></div><div><b>{{ canonCount }}</b><span>条已有出处断语</span></div></section>
+
+  <section class="hm-section hm-legacy-section"><div class="hm-section-head"><h2>确定性工具</h2><span>旧入口仍保留</span></div><RouterLink class="hm-card" to="/t/meihua"><strong>梅花易数</strong><span>时间或两个数起卦，本互变三卦、体用生克，断语全部标出处。</span></RouterLink></section>
 </template>
 
 <style scoped>
-.hm-hero {
-  padding: 34px 0 20px;
-}
-.hm-h {
-  margin: 0;
-  font-size: 56px;
-  letter-spacing: 0.24em;
-  color: var(--accent);
-}
-.hm-sub {
-  max-width: 46ch;
-  margin: 10px 0 0;
-  font-size: 14px;
-  line-height: 1.85;
-  color: var(--ink-2);
-}
-.hm-daily {
-  margin-top: 22px;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent-2);
-  border-radius: var(--radius);
-  background: var(--bg-1);
-}
-.hm-daily-b {
-  margin: 8px 0 0;
-  font-size: 11px;
-  color: var(--ink-3);
-}
-.hm-daily-k {
-  margin: 0 0 6px;
-  font-size: 11px;
-  letter-spacing: 0.2em;
-  color: var(--accent-2);
-}
-.hm-daily-x {
-  margin: 0;
-  font-size: 17px;
-  line-height: 1.7;
-}
-.hm-daily-s {
-  margin: 8px 0 0;
-  font-size: 11px;
-  line-height: 1.6;
-  color: var(--ink-3);
-}
-.hm-cat {
-  margin-top: 26px;
-}
-.hm-cat-t {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 0 0 10px;
-  font-size: 15px;
-  letter-spacing: 0.2em;
-}
-.hm-cat-t small {
-  font-size: 10px;
-  letter-spacing: 0.16em;
-  opacity: 0.6;
-}
-.hm-soon {
-  margin: 0;
-  font-size: 12px;
-  color: var(--ink-3);
-}
-.hm-card {
-  display: grid;
-  gap: 4px;
-  margin-bottom: 8px;
-  padding: 14px 16px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface-1);
-  text-decoration: none;
-  transition: border-color 0.2s ease, transform 0.2s ease;
-}
-.hm-card:hover {
-  border-color: var(--accent);
-  transform: translateX(3px);
-}
-.hm-card strong {
-  font-size: 16px;
-}
-.hm-card span {
-  font-size: 12px;
-  color: var(--ink-3);
-}
-.hm-stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(88px, 1fr));
-  gap: 8px;
-  margin: 30px 0 14px;
-  padding: 14px;
-  border: 1px dashed var(--line);
-  border-radius: var(--radius);
-}
-.hm-st {
-  display: grid;
-  text-align: center;
-}
-.hm-st b {
-  font-size: 22px;
-  color: var(--accent);
-}
-.hm-st span {
-  font-size: 10px;
-  color: var(--ink-3);
-}
-.hm-note {
-  margin: 0;
-  font-size: 12px;
-  line-height: 1.8;
-  color: var(--ink-3);
-}
-.hm-link {
-  display: inline-block;
-  margin-top: 12px;
-  font-size: 13px;
-  color: var(--accent);
-}
+.hm-hero { padding:38px 0 22px; }
+.hm-kicker { margin:0 0 7px; color:var(--accent-2); font-size:10px; letter-spacing:.2em; }
+.hm-h { margin:0; font-size:56px; letter-spacing:.18em; }
+.hm-sub { max-width:52ch; margin:11px 0 0; color:var(--ink-2); font-size:15px; line-height:1.85; }
+.hm-actions { display:flex; gap:9px; margin-top:18px; }
+.hm-actions a { text-decoration:none; }
+.hm-daily { margin-top:24px; padding:16px; border:1px solid var(--line); border-left:3px solid var(--accent-2); border-radius:var(--radius); background:var(--bg-1); }
+.hm-daily-k { margin:0 0 7px; color:var(--accent-2); font-size:11px; letter-spacing:.14em; }
+.hm-daily-x { margin:0; font-size:17px; line-height:1.7; }
+.hm-daily-s { margin:8px 0 0; color:var(--ink-2); font-size:12px; line-height:1.7; }
+.hm-daily-b { margin:8px 0 0; color:var(--ink-3); font-size:11px; }
+.hm-section { margin-top:28px; }
+.hm-section-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.hm-section h2 { margin:0; font-size:19px; letter-spacing:.1em; }
+.hm-section-head a { color:var(--accent); font-size:12px; }
+.hm-note,.hm-arena p { color:var(--ink-3); font-size:12px; line-height:1.8; }
+.hm-masters { display:grid; gap:10px; margin-top:13px; }
+.hm-planned { display:grid; gap:7px; margin-top:16px; }
+.hm-planned h3 { margin:0; color:var(--ink-3); font-size:12px; font-weight:500; }
+.hm-planned-link { display:flex; justify-content:space-between; gap:10px; padding:9px 11px; border:1px dashed var(--line); border-radius:var(--radius); color:var(--ink-2); text-decoration:none; font-size:12px; }
+.hm-planned-link span { color:var(--ink-3); font-size:11px; }
+.hm-arena { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:17px; border:1px dashed var(--line); border-radius:var(--radius); background:var(--surface-1); }
+.hm-arena h2 { margin:0; }
+.hm-arena p { margin:7px 0 0; }
+.hm-arena a { flex:none; text-decoration:none; }
+.hm-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(110px,1fr)); gap:8px; margin:28px 0 14px; padding:14px; border:1px dashed var(--line); border-radius:var(--radius); }
+.hm-stats div { display:grid; text-align:center; }
+.hm-stats b { color:var(--accent); font-size:22px; }
+.hm-stats span { color:var(--ink-3); font-size:10px; }
+.hm-legacy-section > .hm-section-head span { color:var(--ink-3); font-size:11px; }
+@media (max-width:620px) { .hm-h { font-size:46px; } .hm-arena { align-items:flex-start; flex-direction:column; } }
 </style>

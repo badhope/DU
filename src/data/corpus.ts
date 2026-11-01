@@ -65,7 +65,13 @@ export interface Hit {
   snippet: string
 }
 
-const url = (...p: string[]) => [import.meta.env.BASE_URL, ...p].join('/').replace(/\/+/g, '/')
+function url(...p: string[]): string {
+  const candidate = [import.meta.env.BASE_URL, ...p].join('/').replace(/\/+/g, '/')
+  if (typeof location === 'undefined') return candidate
+  const resolved = new URL(candidate, location.href)
+  if (resolved.origin !== location.origin || !resolved.pathname.includes('/corpus/')) throw new Error('语料资源必须来自当前站点的 /corpus/ 路径。')
+  return candidate
+}
 
 /**
  * 引用书名 → 站内书目。

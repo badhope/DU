@@ -54,6 +54,7 @@ describe('界面冒烟', () => {
     expect(w.text()).toContain('典籍')
     expect(w.text()).toContain('机制')
     expect(w.text()).toContain('不作医疗')
+    expect(w.text()).toContain('不上传')
   })
 
   it('首页由注册表生成卡片，不写死工具名', async () => {
@@ -61,6 +62,7 @@ describe('界面冒烟', () => {
     await flushPromises()
     expect(w.text()).toContain('梅花易数')
     expect(w.findAll('.hm-card')).toHaveLength(1)
+    expect(w.findAll('.hm-planned-link')).toHaveLength(4)
     // 每日一签必须带出处或释义，否则等于匿名断语；canon 的话还得能点开核对
     expect(w.find('.hm-daily-s').text().length).toBeGreaterThan(4)
     const dailyLink = w.find('.hm-daily-s .qt-a')
@@ -124,7 +126,7 @@ describe('界面冒烟', () => {
 
   it('导航里的每个链接都能命中路由，且工具都有可直达路径', () => {
     const paths = routes.map((r) => r.path)
-    for (const need of ['/', '/reading', '/about', '/t/:id']) expect(paths).toContain(need)
+    for (const need of ['/', '/ask', '/arena', '/leaderboard', '/masters/:id', '/ledger', '/settings', '/reading', '/about', '/t/:id']) expect(paths).toContain(need)
   })
 
   it('ResultView 能解释全部节点类型（新工具不需要新组件）', () => {
