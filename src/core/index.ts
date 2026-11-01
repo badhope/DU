@@ -6,3 +6,5 @@
  */
 export * from './gua'
 export * from './meihua'
+export * from './bazi'
+export * from './meihuaFacts'
