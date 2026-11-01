@@ -32,7 +32,7 @@ function filesFor(target) {
   for (const entry of fs.readdirSync(full, { withFileTypes: true })) {
     const child = path.join(full, entry.name)
     if (entry.isDirectory()) out.push(...filesFor(path.relative(ROOT, child)))
-    else if (/\.(?:ts|vue|mjs|json|md|html)$/.test(entry.name)) out.push(child)
+    else if (/\.(?:ts|vue|mjs|json|md|html|js|map)$/.test(entry.name)) out.push(child)
   }
   return out
 }
