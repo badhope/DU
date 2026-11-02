@@ -5,8 +5,8 @@ import { getArenaState, importArena, recordVote, resetArena, resolveClaim, saveC
 import { runBlindMatch } from '@/arena/readingFlow'
 
 const match = (): BlindMatch => ({ id: 'match-test-1', request: { question: '测试问题', domain: 'general', askedAt: 1 }, masterIds: ['ziping', 'meihua'], answers: [
-  { id: 'a', masterId: 'ziping', mode: 'local', text: 'a', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
-  { id: 'b', masterId: 'meihua', mode: 'local', text: 'b', sections: [], facts: [], citations: [], claims: [], generatedAt: 1 },
+  { id: 'a', masterId: 'ziping', mode: 'local', text: 'a', sections: [], facts: [], citations: [], claims: [], statementIds: [], generatedAt: 1 },
+  { id: 'b', masterId: 'meihua', mode: 'local', text: 'b', sections: [], facts: [], citations: [], claims: [], statementIds: [], generatedAt: 1 },
 ], createdAt: 1 })
 
 describe('盲测与台账存储', () => {

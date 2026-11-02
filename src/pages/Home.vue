@@ -69,5 +69,9 @@ onMounted(async () => { try { manifest.value = await getManifest() } catch { man
 .hm-stats b { color:var(--accent); font-size:22px; }
 .hm-stats span { color:var(--ink-3); font-size:10px; }
 .hm-legacy-section > .hm-section-head span { color:var(--ink-3); font-size:11px; }
+.hm-card { display:flex; flex-direction:column; gap:5px; margin-top:11px; padding:13px 15px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); color:var(--ink-1); text-decoration:none; transition:border-color .15s ease, background .15s ease; }
+.hm-card:hover { border-color:var(--accent); background:var(--bg-1); }
+.hm-card strong { font-size:15px; letter-spacing:.06em; }
+.hm-card span { color:var(--ink-3); font-size:12px; line-height:1.7; }
 @media (max-width:620px) { .hm-h { font-size:46px; } .hm-arena { align-items:flex-start; flex-direction:column; } }
 </style>

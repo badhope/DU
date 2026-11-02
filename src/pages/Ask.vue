@@ -4,6 +4,7 @@ import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contra
 import { ACTIVE_MASTERS } from '@/masters/registry'
 import { runBlindMatch } from '@/arena/readingFlow'
 import { recordVote } from '@/arena/store'
+import AnswerCard from '@/ui/AnswerCard.vue'
 
 const question = ref('')
 const domain = ref<ReadingDomain>('general')
@@ -89,13 +90,7 @@ function reset() {
       <div class="match-head"><div><p class="kicker">MATCH {{ match.id }}</p><h2>同一问题，两份回答</h2><p class="ask-question">{{ match.request.question }}</p></div><button class="du-btn" @click="reset">再问一题</button></div>
       <div class="blind-note" :class="{ revealed }">{{ revealed ? '已揭晓：下面的姓名来自本机方法注册表。' : '先读内容再投票；姓名、门派和评分暂时隐藏。' }}</div>
       <div class="answers">
-        <article v-for="(answer, index) in match.answers" :key="answer.id" class="answer">
-          <div class="answer-head"><span class="answer-label">{{ titleFor(index) }}</span><span class="answer-mode">本地规则模式 · 同源语料</span></div>
-          <p v-if="answer.fallbackReason" class="answer-fallback">{{ answer.fallbackReason }}</p>
-          <section v-for="section in answer.sections" :key="section.key" class="answer-section"><h3>{{ section.title }}</h3><p v-for="(line, lineIndex) in section.lines" :key="lineIndex">{{ line }}</p></section>
-          <div v-if="answer.citations.length" class="answer-citations"><h3>引用状态</h3><p v-for="citation in answer.citations" :key="`${citation.book}-${citation.text}`">《{{ citation.book }}》{{ citation.loc ?? '' }}：{{ citation.text }} <b :class="citation.verification === 'verified' ? 'ok' : 'warn'">{{ citation.verification === 'verified' ? '已核' : '未核' }}</b></p></div>
-          <div v-if="answer.claims.length" class="answer-claims"><h3>可验断言已放入应验簿</h3><p v-for="claim in answer.claims" :key="claim.id">{{ claim.text }} · 截止 {{ new Date(claim.dueAt).toLocaleDateString() }}</p></div>
-        </article>
+        <AnswerCard v-for="(answer, index) in match.answers" :key="answer.id" :answer="answer" :label="titleFor(index)" :revealed="revealed" />
       </div>
       <div v-if="!revealed" class="vote"><h3>哪一份更贴近问题？</h3><p>你的投票只更新本机榜单；它不是科学准确率，也不会把未验证的大师列为冠军。</p><div class="vote-buttons"><button class="du-btn primary" @click="vote('a')">甲更贴</button><button class="du-btn" @click="vote('draw')">都不确定</button><button class="du-btn primary" @click="vote('b')">乙更贴</button></div></div>
       <div v-else class="revealed-box"><b>本局已记分。</b><span>选择：{{ voted === 'a' ? '甲更贴' : voted === 'b' ? '乙更贴' : '都不确定' }}。结果只保存在本机。</span><RouterLink to="/leaderboard">看大师榜 →</RouterLink></div>
@@ -121,18 +116,8 @@ function reset() {
 .blind-note,.revealed-box { padding:11px 13px; border:1px dashed var(--line); border-radius:var(--radius); color:var(--ink-3); font-size:12px; background:var(--surface-1); }
 .blind-note.revealed { color:var(--tone-good); }
 .answers { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
-.answer { min-width:0; padding:15px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
-.answer-head { display:flex; justify-content:space-between; gap:7px; border-bottom:1px solid var(--line); padding-bottom:9px; }
-.answer-label { color:var(--accent); font-weight:700; }
-.answer-mode { color:var(--ink-3); font-size:10px; text-align:right; }
-.answer-fallback { color:var(--tone-warn); font-size:11px; line-height:1.6; }
-.answer-section,.answer-citations,.answer-claims { margin-top:14px; }
-.answer-section h3,.answer-citations h3,.answer-claims h3,.vote h3 { margin:0 0 6px; color:var(--ink-2); font-size:12px; letter-spacing:.08em; }
-.answer-section p,.answer-citations p,.answer-claims p { margin:4px 0; color:var(--ink-1); font-size:13px; line-height:1.75; white-space:pre-wrap; }
-.answer-citations p,.answer-claims p { color:var(--ink-3); font-size:11px; }
-.ok { color:var(--tone-good); }
-.warn { color:var(--tone-warn); }
 .vote { padding:16px; border:1px solid var(--accent-2); border-radius:var(--radius); background:var(--bg-1); }
+.vote h3 { margin:0 0 6px; color:var(--ink-2); font-size:12px; letter-spacing:.08em; }
 .vote p { margin:0 0 12px; color:var(--ink-3); font-size:11px; }
 .vote-buttons { display:flex; gap:8px; flex-wrap:wrap; }
 .revealed-box { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:baseline; }

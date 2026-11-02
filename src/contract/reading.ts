@@ -26,10 +26,19 @@ export interface ChartFact {
   fields: Record<string, string | number | string[]>
 }
 
+/**
+ * 引文来源：
+ *  - `canon`  断语库里写死的原文，由 scripts/verify-quotes.mjs 在门禁里逐字校验；
+ *  - `corpus` 本次从站内分发语料检索出的片段，命中即原文子串。
+ * 两者都可点回典籍阅览室复核；`pending` 只用于尚未校验的文本，本地模式不产生。
+ */
+export type CitationOrigin = 'canon' | 'corpus'
+
 export interface Citation {
   book: string
   loc?: string
   text: string
+  origin: CitationOrigin
   verification: 'verified' | 'unverified' | 'pending'
 }
 
@@ -58,6 +67,8 @@ export interface MasterAnswer {
   facts: ChartFact[]
   citations: Citation[]
   claims: Claim[]
+  /** 本次用到的断语库 id，用于同场盲测互斥与复盘 */
+  statementIds: string[]
   generatedAt: number
   fallbackReason?: string
 }

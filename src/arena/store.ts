@@ -4,6 +4,8 @@ import { MASTERS } from '@/masters/registry'
 import { emptyStats, leaderboardRows, updateElo, type LeaderboardRow, type MasterStats } from './rating'
 
 const KEY = 'tianji.arena.v1'
+/** 导出文件带版本号，便于未来迁移；读取时对旧文件保持宽容（版本号可缺省） */
+export const SCHEMA_VERSION = 1
 
 export interface ArenaState {
   stats: Record<MasterId, MasterStats>
@@ -110,34 +112,118 @@ export function resetArena(): void {
 }
 
 export function exportArena(): string {
-  return JSON.stringify(state, null, 2)
+  return JSON.stringify({ schema: SCHEMA_VERSION, ...state }, null, 2)
 }
 
 function isMasterId(value: unknown): value is MasterId {
   return MASTERS.some((master) => master.id === value)
 }
 
-function validImportedState(value: unknown): value is ArenaState {
-  if (!value || typeof value !== 'object') return false
-  const candidate = value as Partial<ArenaState>
-  if (!candidate.stats || typeof candidate.stats !== 'object' || !Array.isArray(candidate.matches) || !Array.isArray(candidate.claims)) return false
-  for (const master of MASTERS) {
-    const item = (candidate.stats as Record<string, unknown>)[master.id]
-    if (!item || typeof item !== 'object') return false
-    const stats = item as Partial<MasterStats>
-    const counters = [stats.matches, stats.wins, stats.losses, stats.draws, stats.claimsResolved, stats.claimsHit, stats.claimsMiss]
-    if (stats.masterId !== master.id || !counters.every((item) => Number.isInteger(item) && item! >= 0) || !Number.isFinite(stats.rating) || (stats.wins! + stats.losses! + stats.draws! > stats.matches!) || (stats.claimsHit! + stats.claimsMiss! > stats.claimsResolved!)) return false
+const isObject = (value: unknown): value is Record<string, unknown> =>
+  typeof value === 'object' && value !== null && !Array.isArray(value)
+
+const isCount = (value: unknown): value is number => Number.isInteger(value) && (value as number) >= 0
+
+function validStats(value: unknown, master: MasterId): boolean {
+  if (!isObject(value)) return false
+  const stats = value as Partial<MasterStats>
+  if (stats.masterId !== master) return false
+  if (!Number.isFinite(stats.rating)) return false
+  const counters = [stats.matches, stats.wins, stats.losses, stats.draws, stats.claimsResolved, stats.claimsHit, stats.claimsMiss]
+  if (!counters.every(isCount)) return false
+  if (stats.wins! + stats.losses! + stats.draws! > stats.matches!) return false
+  return stats.claimsHit! + stats.claimsMiss! <= stats.claimsResolved!
+}
+
+/** 引文、小节、断言都来自本机生成，但导入文件是外部输入：逐层校验，任何一层不合法就整体拒绝 */
+function validCitation(value: unknown): boolean {
+  if (!isObject(value)) return false
+  return (
+    typeof value.book === 'string' &&
+    value.book.length > 0 &&
+    value.book.length <= 80 &&
+    typeof value.text === 'string' &&
+    value.text.length > 0 &&
+    value.text.length <= 4000 &&
+    (value.loc === undefined || (typeof value.loc === 'string' && value.loc.length <= 200)) &&
+    ['canon', 'corpus'].includes(String(value.origin)) &&
+    ['verified', 'unverified', 'pending'].includes(String(value.verification))
+  )
+}
+
+function validSection(value: unknown): boolean {
+  if (!isObject(value)) return false
+  return (
+    ['pan', 'duan', 'ju', 'yan', 'xing'].includes(String(value.key)) &&
+    typeof value.title === 'string' &&
+    Array.isArray(value.lines) &&
+    value.lines.every((line) => typeof line === 'string' && line.length <= 8000)
+  )
+}
+
+function validFact(value: unknown): boolean {
+  if (!isObject(value)) return false
+  return (
+    ['bazi', 'meihua'].includes(String(value.kind)) &&
+    typeof value.title === 'string' &&
+    typeof value.summary === 'string' &&
+    isObject(value.fields)
+  )
+}
+
+function validAnswer(value: unknown, masterId: MasterId): boolean {
+  if (!isObject(value)) return false
+  if (value.masterId !== masterId || value.mode !== 'local') return false
+  if (typeof value.id !== 'string' || typeof value.text !== 'string' || !Number.isFinite(value.generatedAt)) return false
+  if (!Array.isArray(value.sections) || !value.sections.every(validSection)) return false
+  if (!Array.isArray(value.facts) || !value.facts.every(validFact)) return false
+  if (!Array.isArray(value.citations) || !value.citations.every(validCitation)) return false
+  if (!Array.isArray(value.claims)) return false
+  if (value.statementIds !== undefined && !(Array.isArray(value.statementIds) && value.statementIds.every((id) => typeof id === 'string'))) return false
+  return true
+}
+
+function validMatch(value: unknown): boolean {
+  if (!isObject(value)) return false
+  if (typeof value.id !== 'string' || value.id.length > 200) return false
+  if (!isObject(value.request)) return false
+  const request = value.request as Record<string, unknown>
+  if (typeof request.question !== 'string' || request.question.length > 2000) return false
+  if (typeof request.domain !== 'string') return false
+  if (!Number.isFinite(request.askedAt)) return false
+  if (request.birth !== undefined) {
+    if (!isObject(request.birth)) return false
+    if (typeof request.birth.date !== 'string' || typeof request.birth.time !== 'string') return false
   }
-  if (candidate.matches.some((item) => {
-    if (!item || typeof item !== 'object') return true
-    const match = item as Partial<BlindMatch>
-    return typeof match.id !== 'string' || !match.request || typeof match.request.question !== 'string' || match.request.question.length > 2000 || !Number.isFinite(match.request.askedAt) || !Array.isArray(match.masterIds) || match.masterIds.length !== 2 || !match.masterIds.every(isMasterId) || match.masterIds[0] === match.masterIds[1] || !Array.isArray(match.answers) || match.answers.length !== 2
-  })) return false
-  return !candidate.claims.some((item) => {
-    if (!item || typeof item !== 'object') return true
-    const claim = item as Partial<Claim>
-    return typeof claim.id !== 'string' || !isMasterId(claim.masterId) || !Number.isFinite(claim.dueAt) || !['pending', 'hit', 'miss', 'unknown'].includes(String(claim.status))
-  })
+  if (!Array.isArray(value.masterIds) || value.masterIds.length !== 2) return false
+  const ids = value.masterIds
+  if (!ids.every(isMasterId) || ids[0] === ids[1]) return false
+  if (value.vote !== undefined && !['a', 'b', 'draw'].includes(String(value.vote))) return false
+  if (!Array.isArray(value.answers) || value.answers.length !== 2) return false
+  return value.answers.every((answer, index) => validAnswer(answer, ids[index] as MasterId))
+}
+
+function validClaim(value: unknown): boolean {
+  if (!isObject(value)) return false
+  return (
+    typeof value.id === 'string' &&
+    value.id.length <= 300 &&
+    isMasterId(value.masterId) &&
+    typeof value.text === 'string' &&
+    value.text.length > 0 &&
+    value.text.length <= 4000 &&
+    Number.isFinite(value.dueAt) &&
+    Number.isFinite(value.createdAt) &&
+    ['pending', 'hit', 'miss', 'unknown'].includes(String(value.status))
+  )
+}
+
+function validImportedState(value: unknown): value is ArenaState {
+  if (!isObject(value)) return false
+  if (!isObject(value.stats) || !Array.isArray(value.matches) || !Array.isArray(value.claims)) return false
+  if (!MASTERS.every((master) => validStats((value.stats as Record<string, unknown>)[master.id], master.id))) return false
+  if (!value.matches.every(validMatch)) return false
+  return value.claims.every(validClaim)
 }
 
 export function importArena(raw: string): boolean {
@@ -145,10 +231,11 @@ export function importArena(raw: string): boolean {
     const parsed: unknown = JSON.parse(raw)
     if (!validImportedState(parsed)) return false
     const fresh = initialState()
+    const incoming = parsed as ArenaState
     state = {
-      stats: { ...fresh.stats, ...parsed.stats },
-      matches: parsed.matches.slice(0, 100),
-      claims: parsed.claims.slice(0, 300),
+      stats: { ...fresh.stats, ...incoming.stats },
+      matches: incoming.matches.slice(0, 100),
+      claims: incoming.claims.slice(0, 300),
     }
     persist()
     return true

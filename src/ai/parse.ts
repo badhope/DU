@@ -33,7 +33,8 @@ export function parseSections(text: string): ReadingSection[] {
 function parseCitation(line: string): Citation | null {
   const match = /《([^》]+)》([^：:]*)(?:：|:)?[「“\"]?(.+?)[」”\"]?$/.exec(line.replace(/^>\s*/, ''))
   if (!match) return null
-  const citation: Citation = { book: match[1]!, text: match[3]!, verification: 'pending' }
+  // 默认按断语库静态引文处理；本次检索片段由调用方回填 origin='corpus'
+  const citation: Citation = { book: match[1]!, text: match[3]!, origin: 'canon', verification: 'pending' }
   if (match[2]) citation.loc = match[2]
   return citation
 }
@@ -54,7 +55,7 @@ export function parseAnswer(text: string, masterId: MasterId, facts: MasterAnswe
   const sections = parseSections(text)
   const citations = (sections.find((section) => section.key === 'ju')?.lines ?? []).map(parseCitation).filter((item): item is Citation => item !== null)
   const claims = parseClaims(sections.find((section) => section.key === 'yan')?.lines ?? [], masterId, matchId, now)
-  return { id: `${masterId}-${now}`, masterId, mode, text, sections, facts, citations, claims, generatedAt: now }
+  return { id: `${masterId}-${now}`, masterId, mode, text, sections, facts, citations, claims, statementIds: [], generatedAt: now }
 }
 
 export function citationLines(answer: MasterAnswer): string[] {
