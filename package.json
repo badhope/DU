@@ -50,7 +50,7 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
-    "@playwright/test": "1.55.1",
+    "@playwright/test": "1.64.1",
     "@types/node": "20.19.43",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",

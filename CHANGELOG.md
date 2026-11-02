@@ -45,6 +45,13 @@ maintainer expects to find.
 
 - E2E suite grown to 15 scenarios: accessibility, 404 recovery, print media,
   navigation regression, plus the existing flow coverage.
+- Playwright pinned to 1.64.1 and CI runners pinned to `ubuntu-24.04`.
+  GitHub's `ubuntu-latest` moved to 26.04, which Playwright 1.55 has no browser
+  build for, so the E2E job failed at install time. A CI image that changes
+  under the project is not a reproducible gate.
+- The Pages deploy workflow now runs `npm run check` instead of a hand-copied
+  command list, which had already drifted (it was missing the version and
+  boundary gates).
 - Screenshot generation is excluded from `npm run test:e2e` by default so runs do
   not dirty the working tree with sub-pixel rasterisation differences; use
   `npm run screenshots` to regenerate deliberately.

@@ -1,4 +1,4 @@
-name: 部署 GitHub Pages
+name: Deploy GitHub Pages
 
 on:
   push:
@@ -17,7 +17,8 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    # 与 CI 保持一致：固定镜像，避免 GitHub 换 ubuntu-latest 时行为漂移
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,12 +26,11 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm run typecheck
-      - run: npm test -- --run
-      - run: npm run verify:quotes
-      - run: npm run check:readme
+      # 部署前跑完整门禁，而不是复制一份命令清单：
+      # 复制出来的清单迟早和 npm run check 漂移（旧版这里就漏了版本与边界门禁）。
+      - run: npm run check
       # base 用 /DU/：GitHub Pages 的项目站挂在子路径下。
-      # 路由是 hash 模式，深链不依赖服务端 rewrite，CF Pages 无需再改这个值。
+      # 路由是 hash 模式，深链不依赖服务端 rewrite。
       - run: npx vite build --base=/DU/
       - run: npm run check:local-only
       - uses: actions/upload-pages-artifact@v3
@@ -39,7 +39,7 @@ jobs:
 
   deploy:
     needs: build
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

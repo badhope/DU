@@ -17,7 +17,10 @@ jobs:
   # 作业名不能改：分支保护把 "Type check & build" 列为必需检查（沿用 v1 的约定）。
   check:
     name: Type check & build
-    runs-on: ubuntu-latest
+    # 固定 24.04 而不是 ubuntu-latest：latest 已漂移到 26.04，
+    # Playwright 的浏览器二进制与系统依赖矩阵跟不上，E2E 会直接装不上。
+    # CI 的运行时必须是确定的，不能随 GitHub 换镜像而变。
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -33,7 +36,7 @@ jobs:
 
   e2e:
     name: Playwright E2E
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
