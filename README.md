@@ -4,6 +4,14 @@
 
 纯静态部署，无后端。浏览器只读取仓库内同源的确定性内核和古籍静态语料，测评数据默认存储在本机；所有用户输入不上传。
 
+## 界面截图
+
+截图由 Playwright 在本地 Chromium 中使用虚构示例生成，不包含个人数据。
+
+| 首页 | 匿名盲测 | 移动端设置 |
+| --- | --- | --- |
+| ![首页](docs/screenshots/home.png) | ![匿名盲测](docs/screenshots/blind-match.png) | ![移动端设置](docs/screenshots/settings-mobile.png) |
+
 ## 核心流程
 
 1. **问天**：输入问题，可补充公历出生日期和时间。
@@ -59,4 +67,15 @@ npm run dev
 npm run check
 ```
 
-`npm run check` 会依次执行类型检查、Vitest、引文门禁、本地模式门禁、README 一致性检查与生产构建。
+`npm run check` 会依次执行类型检查、Vitest、引文门禁、本地模式门禁、README 一致性检查与生产构建。现有 npm 锁文件与 pnpm 锁文件均需在依赖变更时同步更新。
+
+界面测试使用本地固定版本的 Playwright 和 Chromium：
+
+```bash
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm exec playwright test
+pnpm exec playwright test --grep @screenshots
+```
+
+截图输出到 `docs/screenshots/`；失败时截图和 trace 位于 `test-results/`。测试仅使用虚构输入。
