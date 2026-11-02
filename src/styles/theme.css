@@ -168,6 +168,16 @@ a {
   cursor: not-allowed;
 }
 
+/*
+ * 焦点可见性：浏览器默认 focus ring 在深色底上几乎看不见。
+ * 键盘用户必须能确认自己在哪，所以统一给一个高对比焦点环。
+ * 用 :focus-visible 而不是 :focus —— 鼠标点击不该弹出焦点环。
+ */
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
 .du-field {
   display: grid;
   gap: 6px;
@@ -195,5 +205,68 @@ a {
   * {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/*
+ * 打印：用户会想把一份回答、或应验簿打出来存档。
+ * 深色底打出来是一整页黑，所以打印时切回白底黑字，并去掉导航、投票按钮、
+ * 以及所有只对屏幕有意义的装饰。
+ */
+@media print {
+  :root {
+    --ink-1: #111;
+    --ink-2: #333;
+    --ink-3: #555;
+    --bg-0: #fff;
+    --bg-1: #fff;
+    --surface-1: #fff;
+    --surface-2: #fff;
+    --line: #bbb;
+    --accent: #000;
+    --accent-2: #000;
+    --tone-good: #000;
+    --tone-warn: #000;
+    --tone-bad: #000;
+  }
+  html,
+  body {
+    background: #fff !important;
+  }
+  .du-top,
+  .skip,
+  .vote,
+  .vote-buttons,
+  .ask-form,
+  .ft-btn,
+  .claim-actions,
+  .board-link,
+  .nf-actions,
+  .settings-actions {
+    display: none !important;
+  }
+  .du-shell {
+    max-width: none;
+    padding: 0;
+  }
+  .answer,
+  .claim,
+  .board-row,
+  .settings-card,
+  .master-panel {
+    border-color: #bbb !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+  a {
+    color: #000 !important;
+    text-decoration: none;
+  }
+  /* 打印时把链接目标显式写出来，纸面上才追得到出处 */
+  .answer-citations a::after,
+  .rd-cite a::after {
+    content: ' (' attr(href) ')';
+    font-size: 9px;
+    word-break: break-all;
   }
 }

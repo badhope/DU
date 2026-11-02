@@ -20,7 +20,8 @@ const fallback: Prefs = { skin: 'ink', followSeason: true }
 
 function load(): Prefs {
   try {
-    return { ...fallback, ...(JSON.parse(localStorage.getItem(KEY) ?? '{}') as Prefs) }
+    const parsed = JSON.parse(localStorage.getItem(KEY) ?? '{}') as Partial<Prefs>
+    return { skin: parsed.skin === 'paper' ? 'paper' : 'ink', followSeason: parsed.followSeason !== false }
   } catch {
     return fallback
   }

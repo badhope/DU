@@ -1,0 +1,129 @@
+/**
+ * 盲测匿名性与答案互斥
+ *
+ * 这组测试守的是产品承诺，不是实现细节：
+ *  - 甲乙位置必须随机，否则用户会记住"甲永远是子平"，盲评数据即失效；
+ *  - 同一场两位大师不得给出同一句断语，否则用户读到的是同一段话；
+ *  - 没有对应盘面事实时不得留空小节；
+ *  - 引文状态必须反映真实可核性，不能把已核的标成未核。
+ */
+import { describe, expect, it } from 'vitest'
+import type { ChartFact } from '@/contract/reading'
+import { localAnswer } from '@/ai/offline'
+import { shuffleForBlind } from '@/arena/readingFlow'
+import { masterById } from '@/masters/registry'
+
+const meihuaFact: ChartFact = {
+  kind: 'meihua',
+  title: '梅花事实层',
+  summary: '本卦地风升',
+  fields: { ben: '地风升', moving: 2 },
+}
+
+const baziFact: ChartFact = {
+  kind: 'bazi',
+  title: '子平四柱事实层',
+  summary: '甲子 · 丙寅 · 戊辰 · 庚申，日主戊土',
+  fields: { dayMaster: '戊' },
+}
+
+const request = { question: '虚构示例：如何安排下个月的学习计划？', domain: 'study' as const, askedAt: 1_700_000_000_000 }
+
+describe('盲测匿名性', () => {
+  it('甲乙位置由随机源决定，不是固定顺序', () => {
+    const ids: ['ziping', 'meihua'] = ['ziping', 'meihua']
+    expect(shuffleForBlind(ids, () => 0.1)).toEqual(['ziping', 'meihua'])
+    expect(shuffleForBlind(ids, () => 0.9)).toEqual(['meihua', 'ziping'])
+  })
+
+  it('随机源在两极之间都能取到，不会永远给同一顺序', () => {
+    const ids: ['ziping', 'meihua'] = ['ziping', 'meihua']
+    const seen = new Set<string>()
+    for (let i = 0; i < 50; i++) seen.add(shuffleForBlind(ids)[0])
+    expect(seen.size).toBe(2)
+  })
+})
+
+describe('同场两答互斥', () => {
+  it('第二位大师不会复用第一位已用过的断语', () => {
+    const first = localAnswer(masterById('ziping')!, request, [meihuaFact], 1000, 'match-x')
+    const second = localAnswer(masterById('meihua')!, request, [meihuaFact], 1000, 'match-x', [], {
+      seen: first.statementIds,
+    })
+    expect(first.statementIds.length).toBeGreaterThan(0)
+    expect(second.statementIds.length).toBeGreaterThan(0)
+    const overlap = first.statementIds.filter((id) => second.statementIds.includes(id))
+    expect(overlap).toEqual([])
+  })
+
+  it('互斥后两份回答的断语正文不重复', () => {
+    const first = localAnswer(masterById('ziping')!, request, [meihuaFact], 1000, 'match-y')
+    const second = localAnswer(masterById('meihua')!, request, [meihuaFact], 1000, 'match-y', [], {
+      seen: first.statementIds,
+    })
+    const duanOf = (answer: typeof first) => answer.sections.find((section) => section.key === 'duan')!.lines
+    const shared = duanOf(first).filter((line) => duanOf(second).includes(line) && line.startsWith('- '))
+    expect(shared).toEqual([])
+  })
+
+  it('同一场两位大师的断言正文不同，应验簿里可分辨', () => {
+    const first = localAnswer(masterById('ziping')!, request, [meihuaFact], 1000, 'match-z')
+    const second = localAnswer(masterById('meihua')!, request, [meihuaFact], 1000, 'match-z', [], {
+      seen: first.statementIds,
+    })
+    expect(first.claims).toHaveLength(1)
+    expect(second.claims).toHaveLength(1)
+    expect(first.claims[0]!.text).not.toBe(second.claims[0]!.text)
+  })
+})
+
+describe('回答不出现空小节', () => {
+  it('没有八字事实时，子平回答不保留空的盘面事实小节', () => {
+    const answer = localAnswer(masterById('ziping')!, request, [meihuaFact], 1000, 'match-a')
+    const pan = answer.sections.find((section) => section.key === 'pan')
+    expect(pan).toBeUndefined()
+  })
+
+  it('有八字事实时，子平回答的盘面事实非空且只含八字字段', () => {
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact, meihuaFact], 1000, 'match-b')
+    const pan = answer.sections.find((section) => section.key === 'pan')
+    expect(pan).toBeDefined()
+    expect(pan!.lines.length).toBeGreaterThan(0)
+    expect(pan!.lines.join('\n')).toContain('戊土')
+    expect(pan!.lines.join('\n')).not.toContain('地风升')
+  })
+
+  it('梅花大师不会引用八字盘面事实', () => {
+    const answer = localAnswer(masterById('meihua')!, request, [baziFact, meihuaFact], 1000, 'match-c')
+    const pan = answer.sections.find((section) => section.key === 'pan')!
+    expect(pan.lines.join('\n')).toContain('地风升')
+    expect(pan.lines.join('\n')).not.toContain('戊土')
+  })
+
+  it('任何小节都不为空行集', () => {
+    for (const masterId of ['ziping', 'meihua'] as const) {
+      const answer = localAnswer(masterById(masterId)!, request, [baziFact, meihuaFact], 1000, 'match-d')
+      for (const section of answer.sections) expect(section.lines.length, `${masterId}/${section.key}`).toBeGreaterThan(0)
+    }
+  })
+})
+
+describe('引文状态与来源', () => {
+  it('静态断语引文标为 canon 且已核', () => {
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact], 1000, 'match-e')
+    expect(answer.citations.length).toBeGreaterThan(0)
+    for (const citation of answer.citations) {
+      expect(citation.verification).toBe('verified')
+      expect(citation.origin).toBe('canon')
+    }
+  })
+
+  it('检索片段标为 corpus，静态引文标为 canon', () => {
+    const passages = [{ book: '滴天髓', loc: '通神论', text: '行之始而進' }]
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact], 1000, 'match-f', passages)
+    const corpus = answer.citations.filter((citation) => citation.origin === 'corpus')
+    expect(corpus.length).toBeGreaterThan(0)
+    expect(corpus.some((citation) => citation.text.includes('行之始而進'))).toBe(true)
+    expect(answer.citations.every((citation) => citation.verification === 'verified')).toBe(true)
+  })
+})

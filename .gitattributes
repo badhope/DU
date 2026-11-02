@@ -1,0 +1,13 @@
+# 统一换行符，避免 Windows 提交把整份文件标成改动
+* text=auto eol=lf
+
+# 截图是二进制，diff 里只看大小
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary
+
+# 锁文件在 GitHub 上折叠显示，不占 diff 篇幅
+package-lock.json linguist-generated=true
+pnpm-lock.yaml linguist-generated=true
+public/corpus/** linguist-generated=true

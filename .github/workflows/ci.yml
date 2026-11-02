@@ -14,10 +14,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  # 名字不能改：分支保护把 "Type check & build" 列为必需检查（沿用 v1 的约定）
+  # 作业名不能改：分支保护把 "Type check & build" 列为必需检查（沿用 v1 的约定）。
   check:
     name: Type check & build
-    runs-on: ubuntu-latest
+    # 固定 24.04 而不是 ubuntu-latest：latest 已漂移到 26.04，
+    # Playwright 的浏览器二进制与系统依赖矩阵跟不上，E2E 会直接装不上。
+    # CI 的运行时必须是确定的，不能随 GitHub 换镜像而变。
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,8 +28,33 @@ jobs:
           node-version: '22'
           cache: npm
       # public/corpus 随仓库提交：它是部署产物的一部分（阅览室要 fetch 它），
-      # CI 里不做抓取，只跑门禁。
+      # CI 里不做抓取，只跑门禁。npm run check 已包含版本与 README 一致性。
       - run: npm ci
       - run: npm run check
-      - name: 产物体积
+      - name: Bundle size
         run: du -sh dist && ls -la dist/assets | head -20
+
+  e2e:
+    name: Playwright E2E
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.32.1
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec playwright install --with-deps chromium
+      # 截图用例会重写 docs/screenshots（每次的 match id 与时间戳不同），
+      # 在 CI 里跑只会制造无意义的脏工作树，所以排除；本地需要更新截图时单独跑
+      # npm run screenshots。
+      - run: pnpm exec playwright test --grep-invert @screenshots
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-results
+          path: test-results/
+          if-no-files-found: ignore

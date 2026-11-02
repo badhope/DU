@@ -62,6 +62,8 @@ export interface ResonanceOptions {
   n?: number
   seed?: number
   seen?: string[]
+  /** 关闭首标签去重，用于需要大候选池做跨答案互斥的场景 */
+  tagDedup?: boolean
 }
 
 export function resonate(ctx: RawContext, opts: ResonanceOptions = {}): Matched[] {
@@ -69,6 +71,7 @@ export function resonate(ctx: RawContext, opts: ResonanceOptions = {}): Matched[
     n: opts.n ?? 4,
     seed: opts.seed ?? hashSeed(JSON.stringify(ctx)),
     ...(opts.seen ? { seen: opts.seen } : {}),
+    ...(opts.tagDedup === undefined ? {} : { tagDedup: opts.tagDedup }),
   })
 }
 

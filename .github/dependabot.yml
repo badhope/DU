@@ -1,0 +1,37 @@
+# 依赖更新策略
+#
+# 分组 + 每月一次：这个项目的依赖面很小（3 个运行时依赖），
+# 每周 PR 只会制造噪音，让真正的安全更新淹没在版本号跳动里。
+version: 2
+updates:
+  - package-ecosystem: npm
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 3
+    groups:
+      # 测试与构建工具一起升，避免 vitest/playwright 版本错配
+      dev-tooling:
+        patterns:
+          - vitest
+          - '@vitest/*'
+          - '@playwright/test'
+          - vite
+          - '@vitejs/*'
+          - typescript
+      # 运行时依赖单独一组：它们直接影响产物，需要人工看 bundle 变化
+      runtime:
+        patterns:
+          - vue
+          - vue-router
+          - lunar-typescript
+    ignore:
+      # 主版本跳跃必须人工评估，不让机器人自动开 PR
+      - dependency-name: '*'
+        update-types: ['version-update:semver-major']
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    open-pull-requests-limit: 2
