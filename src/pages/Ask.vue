@@ -108,7 +108,7 @@ function reset() {
 .page-head { border-bottom:1px solid var(--line); padding-bottom:16px; }
 .page-head h1 { margin:0; font-size:30px; letter-spacing:.12em; }
 .page-head p:not(.kicker) { max-width:60ch; margin:8px 0 0; color:var(--ink-2); line-height:1.8; font-size:13px; }
-.kicker { margin:0 0 6px; color:var(--accent-2); font-size:10px; letter-spacing:.2em; }
+.kicker { margin:0 0 6px; color:var(--accent-2); font-size:10px; letter-spacing:.2em; overflow-wrap:anywhere; }
 .ask-form { display:grid; gap:15px; margin-top:20px; padding:18px; border:1px solid var(--line); border-radius:var(--radius); background:var(--bg-1); }
 .ask-q { resize:vertical; line-height:1.7; }
 .ask-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }

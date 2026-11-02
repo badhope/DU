@@ -11,6 +11,8 @@
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:e2e": "playwright test",
+    "screenshots": "playwright test --grep @screenshots",
     "verify:quotes": "node scripts/verify-quotes.mjs",
     "gen:readme": "node scripts/gen-readme.mjs",
     "check:readme": "node scripts/gen-readme.mjs --check",
@@ -24,12 +26,14 @@
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
+    "@playwright/test": "1.55.1",
+    "@types/node": "20.19.43",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",
-    "happy-dom": "^18.0.1",
+    "happy-dom": "^21.0.4",
     "opencc-js": "^1.4.2",
     "typescript": "^5.9.3",
     "vite": "^7.3.7",
-    "vitest": "^3.2.7"
+    "vitest": "^4.1.12"
   }
 }
