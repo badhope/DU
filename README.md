@@ -1,4 +1,4 @@
-# Tianji · DU <sub>v0.2.0</sub>
+# Tianji · DU <sub>v0.3.0</sub>
 
 **A local-only Chinese metaphysics master arena.** Ask one question, get two
 readings from two different schools, score them blind, then reveal the methods
@@ -7,7 +7,7 @@ and track which dated claims actually came true.
 No backend. No account. No telemetry. Charts, rules, canon lookup, votes and
 claims all run and stay inside your browser.
 
-[中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
+[中文说明](README.zh-CN.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
 
 | Home | Blind match — sealed | After voting |
 | --- | --- | --- |

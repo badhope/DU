@@ -8,8 +8,8 @@ abstract: >-
   revealed, and dated falsifiable claims are tracked in a local ledger. All
   computation and storage happen in the browser — no question, birth data,
   chart, reading, vote or claim is transmitted.
-version: 0.2.0
-date-released: 2026-11-02
+version: 0.3.0
+date-released: 2026-11-03
 license: MIT
 type: software
 keywords:

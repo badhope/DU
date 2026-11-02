@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",
@@ -40,8 +40,9 @@
     "check:readme": "node scripts/gen-readme.mjs --check",
     "check:local-only": "node scripts/check-local-only.mjs",
     "check:versions": "node scripts/check-versions.mjs",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
-    "check": "npm run typecheck && npm run test && npm run verify:quotes && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only"
+    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only"
   },
   "dependencies": {
     "lunar-typescript": "^1.8.6",

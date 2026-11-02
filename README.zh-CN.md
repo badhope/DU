@@ -1,4 +1,4 @@
-# 天机台 · DU <sub>v0.2.0</sub>
+# 天机台 · DU <sub>v0.3.0</sub>
 
 **严格本地运行的玄学大师测评平台。** 同一个问题，两位不同门派的大师各断一遍；
 先匿名评分，再揭晓方法，最后跟踪那些带日期的断言到底有没有发生。
@@ -6,7 +6,7 @@
 没有后端，没有账号，没有埋点。排盘、规则、古籍检索、投票和应验记录全部在浏览器
 内完成并留在本机。
 
-[English](README.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
+[English](README.md) · [路线图](ROADMAP.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
 
 | Home | Blind match — sealed | After voting |
 | --- | --- | --- |

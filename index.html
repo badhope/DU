@@ -4,12 +4,27 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#0d1117" />
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'" />
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="color-scheme" content="dark light" />
     <meta
       name="description"
-      content="天机台 · DU：不上传数据的本地玄学大师测评平台。"
+      content="Tianji (DU) — a local-only Chinese metaphysics master arena. Two verified schools answer one question, you score blind, then the methods are revealed. Everything stays in your browser. 天机台：不上传数据的本地玄学大师测评平台。"
     />
-    <title>天机台 · 玄学大师测评</title>
+
+    <!-- 社交分享：不依赖任何外部 CDN，图与文字都来自仓库 -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Tianji · DU — Local-Only Metaphysics Master Arena" />
+    <meta property="og:description" content="Two schools answer the same question. You score blind, then the methods are revealed. No backend, no upload, no telemetry." />
+    <meta property="og:image" content="docs/screenshots/home.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230d1117'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-size='17' fill='%23d4af37'%3E%E5%A4%A9%3C/text%3E%3C/svg%3E"
+    />
+
+    <title>Tianji · DU — Local-Only Chinese Metaphysics Master Arena</title>
     <style>
       /* 首屏在 CSS 与 JS 之前也要有底色，避免白屏闪一下 */
       html {
@@ -19,6 +34,13 @@
   </head>
   <body>
     <div id="app"></div>
+    <noscript>
+      <p style="color: #f2ece0; font-family: system-ui, sans-serif; padding: 24px; line-height: 1.8">
+        天机台的所有计算都在浏览器内完成，需要启用 JavaScript。
+        <br />
+        Tianji computes everything locally in your browser and requires JavaScript to run.
+      </p>
+    </noscript>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

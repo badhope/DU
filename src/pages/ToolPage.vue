@@ -63,6 +63,8 @@ const fedCount = computed(() => Object.keys(hits.value).length)
 </script>
 
 <template>
+  <!-- 单根节点：<Transition mode="out-in"> 只能动画化单根元素 -->
+  <div class="tp">
   <div v-if="!tool" class="tp-missing">
     <p>没有 id 为 <code>{{ id }}</code> 的工具。</p>
     <RouterLink class="du-btn" to="/">回首页</RouterLink>
@@ -114,6 +116,7 @@ const fedCount = computed(() => Object.keys(hits.value).length)
       </details>
     </section>
   </template>
+  </div>
 </template>
 
 <style scoped>

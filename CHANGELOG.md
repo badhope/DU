@@ -7,6 +7,48 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2026-11-03
+
+Navigation could go permanently blank, and the project had no way to stop its own
+architecture from eroding. Both are fixed, and the repo now carries the files a
+maintainer expects to find.
+
+### Fixed
+
+- **Blank screen on every in-app navigation.** `<Transition mode="out-in">` around
+  the router view waited for the leaving page's animation to finish before mounting
+  the next one. When that transition never completed, `<main>` stayed on an empty
+  comment node — clicking any nav link from the home page produced a blank page.
+  The transition wrapper is replaced with a keyed container plus a CSS enter
+  animation, which cannot block mounting. Covered by an E2E test that clicks real
+  nav links and fails if the target page does not render.
+- Pages with multiple template root nodes (`Home`, `ToolPage`) were wrapped in a
+  single root element; Vue cannot animate a fragment and warned about it on every
+  render.
+
+### Added
+
+- `scripts/check-boundaries.mjs`: enforces the import table from
+  `docs/ARCHITECTURE.md` in CI. Verified by deliberately adding a forbidden import
+  and confirming the gate fails.
+- Skip-to-content link, `:focus-visible` ring, per-route `document.title`, focus
+  restoration to `<main>` on navigation, and `noscript` fallback.
+- Print stylesheet: white background, navigation and vote controls hidden, link
+  targets printed inline, blocks kept from splitting across pages.
+- `ROADMAP.md` with shipped / next / explicitly-not-planned sections.
+- `.editorconfig`, `.gitattributes`, `.nvmrc`, and a grouped monthly
+  `dependabot.yml` (major version bumps excluded from automated PRs).
+- Richer `<meta>`: Open Graph tags, referrer policy, stricter CSP
+  (`object-src 'none'`, `base-uri 'self'`, `form-action 'none'`).
+
+### Changed
+
+- E2E suite grown to 15 scenarios: accessibility, 404 recovery, print media,
+  navigation regression, plus the existing flow coverage.
+- Screenshot generation is excluded from `npm run test:e2e` by default so runs do
+  not dirty the working tree with sub-pixel rasterisation differences; use
+  `npm run screenshots` to regenerate deliberately.
+
 ## [0.2.0] - 2026-11-02
 
 Blind evaluation now actually blinds, and every published citation is machine-checked.
@@ -60,6 +102,7 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://github.com/badhope/DU/compare/v0.2.0...HEAD
-[0.2.0]: https://github.com/badhope/DU/compare/v0.1.0...v0.2.0
-[0.1.0]: https://github.com/badhope/DU/releases/tag/v0.1.0
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.3.0...HEAD
+[0.3.0]: https://gitcode.com/badhope/DU/compare/v0.2.0...v0.3.0
+[0.2.0]: https://gitcode.com/badhope/DU/compare/v0.1.0...v0.2.0
+[0.1.0]: https://gitcode.com/badhope/DU/releases/tag/v0.1.0

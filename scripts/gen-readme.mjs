@@ -88,7 +88,7 @@ and track which dated claims actually came true.
 No backend. No account. No telemetry. Charts, rules, canon lookup, votes and
 claims all run and stay inside your browser.
 
-[中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
+[中文说明](README.zh-CN.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
 
 ${screenshots}
 
@@ -216,7 +216,7 @@ const zh = `# 天机台 · DU <sub>v${pkg.version}</sub>
 没有后端，没有账号，没有埋点。排盘、规则、古籍检索、投票和应验记录全部在浏览器
 内完成并留在本机。
 
-[English](README.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
+[English](README.md) · [路线图](ROADMAP.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
 
 ${screenshots}
 

@@ -42,6 +42,13 @@ async function startMatch(page: Page, opts: { withBirth?: boolean } = {}) {
   }
   await page.getByRole('button', { name: '开始匿名盲测' }).click()
   await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible()
+  await expect(page.locator('.answer')).toHaveCount(2)
+}
+
+/** 等两份回答的语料检索都落定：检索成功会多出"站内语料命中"标注，失败则没有 */
+async function waitForEvidenceSettled(page: Page) {
+  await page.waitForLoadState('networkidle')
+  await expect(page.locator('.answer')).toHaveCount(2)
 }
 
 test('首页展示大师阵容与可核数字', async ({ page }) => {
@@ -213,8 +220,11 @@ test('全部路由可达且不白屏', async ({ page }) => {
   const routes = ['/', '/#/ask', '/#/arena', '/#/leaderboard', '/#/ledger', '/#/settings', '/#/about', '/#/reading', '/#/masters/ziping', '/#/t/meihua', '/#/not-a-page']
   for (const route of routes) {
     await page.goto(route)
-    await expect(page.locator('main')).not.toBeEmpty()
+    // 路由切换用 <Transition mode="out-in">，旧页面淡出期间 main 会短暂为空。
+    // 用"页面标题已被 afterEach 写入"作为就绪信号，而不是抓一帧快照。
+    await expect.poll(() => page.title(), { message: `${route} 没有渲染出页面` }).toContain('天机台')
     await expect(page.locator('.du-brand')).toBeVisible()
+    await expect(page.locator('main')).not.toBeEmpty()
   }
 })
 
@@ -252,10 +262,12 @@ test('@screenshots 生成可复现的展示截图', async ({ page }) => {
   await shot('home')
 
   await startMatch(page, { withBirth: true })
+  await waitForEvidenceSettled(page)
   await shot('blind-match')
 
   await page.getByRole('button', { name: '甲更贴' }).click()
   await expect(page.getByText('本局已记分。')).toBeVisible()
+  await waitForEvidenceSettled(page)
   await shot('reveal')
 
   await openAndWait('#/leaderboard', async () => {
@@ -290,4 +302,61 @@ test('@screenshots 生成可复现的展示截图', async ({ page }) => {
     await expect(page.getByRole('heading', { name: '天机台' })).toBeVisible()
   })
   await shot('home-mobile')
+})
+
+test('可访问性：跳转链接、焦点环、标题随路由变化', async ({ page }) => {
+  await page.goto('/')
+  // 首个 Tab 应落在"跳到主内容"，而不是七个导航项里的第一个
+  await page.keyboard.press('Tab')
+  const focused = await page.evaluate(() => document.activeElement?.textContent?.trim() ?? '')
+  expect(focused).toContain('跳到主内容')
+
+  // 页面标题随路由变化，读屏与浏览器历史靠它区分页面。
+  // afterEach 在导航完成后才写标题，所以用 poll 而不是立即断言。
+  await expect.poll(() => page.title()).toContain('天机台')
+  await page.goto('/#/ask')
+  await expect.poll(() => page.title()).toContain('问天')
+  await page.goto('/#/ledger')
+  await expect.poll(() => page.title()).toContain('应验簿')
+
+  // 主内容区可被聚焦（路由切换后焦点回到这里）
+  expect(await page.getAttribute('#main', 'tabindex')).toBe('-1')
+})
+
+test('从首页点导航能真正切换到目标页（回归：曾因离场动画卡死白屏）', async ({ page }) => {
+  // 这个缺陷曾经让"首页 → 任意子页"永远停在空注释节点：
+  // <Transition mode="out-in"> 等不到旧页面离场动画结束，新页面就永不挂载。
+  // 用点击真实导航链接来复现，而不是 goto —— 只有客户端路由切换才会触发它。
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: '天机台' })).toBeVisible()
+
+  for (const [label, heading] of [['问天', '问天'], ['大师榜', '大师榜'], ['机制', null]] as const) {
+    await page.getByRole('link', { name: label, exact: true }).click()
+    await expect(page.locator('main')).not.toBeEmpty({ timeout: 3000 })
+    if (heading) await expect(page.getByRole('heading', { name: heading, level: 1 })).toBeVisible()
+    await page.getByRole('link', { name: '天机台首页' }).click()
+    await expect(page.getByRole('heading', { name: '天机台' })).toBeVisible()
+  }
+})
+
+test('404 给出真实出路，不是死胡同', async ({ page }) => {
+  await page.goto('/#/no-such-page')
+  await expect(page.getByRole('heading', { name: '这里没有东西' })).toBeVisible()
+  await expect(page.getByRole('link', { name: '去问天' })).toBeVisible()
+  await page.getByRole('link', { name: '去问天' }).click()
+  await expect(page.getByLabel('你要问什么')).toBeVisible()
+})
+
+test('打印样式：切到白底且隐藏导航与投票', async ({ page }) => {
+  await startMatch(page)
+  await page.emulateMedia({ media: 'print' })
+
+  // 导航与投票区在纸上没有意义，必须消失
+  await expect(page.locator('.du-top')).toBeHidden()
+  await expect(page.locator('.vote')).toBeHidden()
+
+  // 背景必须是浅色，否则打出来是一整页黑
+  const bg = await page.evaluate(() => getComputedStyle(document.documentElement).backgroundColor)
+  const [r, g, b] = bg.match(/\d+/g)!.map(Number)
+  expect((r! + g! + b!) / 3, `打印背景仍是深色：${bg}`).toBeGreaterThan(200)
 })
