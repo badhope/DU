@@ -32,6 +32,14 @@ export interface MatchOptions {
   seed?: number
   /** 已看过的条目 id，降权避免重复 */
   seen?: string[]
+  /**
+   * 是否按首标签去重，默认开启。
+   *
+   * 单大师出结果时要它，否则三条断语会全是"坚持/时机"同一主题，读起来像复读。
+   * 但盲测需要在两位大师之间做跨答案互斥：调用方要拿到足够大的候选池自己挑，
+   * 这时按标签砍到只剩 5 条，互斥就没有余量，两答案必然撞句。
+   */
+  tagDedup?: boolean
 }
 
 /** 确定性随机（mulberry32），保证可复现 */
@@ -127,13 +135,16 @@ export function match(
   const out: Matched[] = []
   let genericCount = 0
   const usedTag = new Set<string>()
+  const tagDedup = opts.tagDedup ?? true
 
   for (const { m } of jittered) {
     if (out.length >= n) break
     if (m.generic && genericCount >= 1) continue // 泛谈至多一条
-    const tag = m.st.tags?.[0]
-    if (tag && usedTag.has(tag) && out.length < n - 1) continue // 主题去重
-    usedTag.add(tag ?? m.st.id)
+    if (tagDedup) {
+      const tag = m.st.tags?.[0]
+      if (tag && usedTag.has(tag) && out.length < n - 1) continue // 主题去重
+      usedTag.add(tag ?? m.st.id)
+    }
     if (m.generic) genericCount++
     out.push(m)
   }

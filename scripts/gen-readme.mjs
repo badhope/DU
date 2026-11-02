@@ -1,97 +1,344 @@
 #!/usr/bin/env node
+/**
+ * README 生成器（双语）
+ *
+ * 单一真相来源：工具注册表、大师注册表、语料 manifest。手写 README 必然漂移，
+ * 这个脚本让 README 永远等于代码当前状态。
+ *
+ * 语言策略：README.md 是英文主文档（面向国际开源用户），README.zh-CN.md 是
+ * 完整中文版，两份顶部互链。不用 <details> 折叠或混排双语——混排会让两边
+ * 读者都要跳着读。数字与书目清单来自实时读取，不是硬编码。
+ */
 import fs from 'node:fs'
 import path from 'node:path'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const CHECK = process.argv.includes('--check')
+
 const registry = fs.readFileSync(path.join(ROOT, 'src', 'tools', 'registry.ts'), 'utf8')
-const cats = [...registry.matchAll(/\{\s*id:\s*'([^']+)',\s*name:\s*'([^']+)',\s*latin:\s*'([^']+)'/g)].map((m) => ({ id: m[1], name: m[2], latin: m[3] }))
+const cats = [...registry.matchAll(/\{\s*id:\s*'([^']+)',\s*name:\s*'([^']+)',\s*latin:\s*'([^']+)'/g)].map((m) => ({
+  id: m[1],
+  name: m[2],
+  latin: m[3],
+}))
 const imported = [...registry.matchAll(/import\s*\{\s*(\w+)\s*\}\s*from\s*'\.\/(\w+)'/g)].map((m) => m[1])
 const camelToKebab = (name) => name.replace(/Tool$/, '').replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase()
-const tools = imported.map((name) => {
-  const file = path.join(ROOT, 'src', 'tools', `${camelToKebab(name)}.ts`)
-  if (!fs.existsSync(file)) return null
-  const source = fs.readFileSync(file, 'utf8')
-  const pick = (pattern) => pattern.exec(source)?.[1]
-  return { id: pick(/id:\s*'([^']+)'/), name: pick(/name:\s*'([^']+)'/), category: pick(/category:\s*'([^']+)'/), blurb: pick(/blurb:\s*'([^']+)'/) }
-}).filter(Boolean)
-const corpusFile = path.join(ROOT, 'public', 'corpus', 'manifest.json')
-const manifest = fs.existsSync(corpusFile) ? JSON.parse(fs.readFileSync(corpusFile, 'utf8')) : { books: [], totalChars: 0 }
+const tools = imported
+  .map((name) => {
+    const file = path.join(ROOT, 'src', 'tools', `${camelToKebab(name)}.ts`)
+    if (!fs.existsSync(file)) return null
+    const source = fs.readFileSync(file, 'utf8')
+    const pick = (pattern) => pattern.exec(source)?.[1]
+    return {
+      id: pick(/id:\s*'([^']+)'/),
+      name: pick(/name:\s*'([^']+)'/),
+      category: pick(/category:\s*'([^']+)'/),
+      blurb: pick(/blurb:\s*'([^']+)'/),
+    }
+  })
+  .filter(Boolean)
+
+const manifestFile = path.join(ROOT, 'public', 'corpus', 'manifest.json')
+const manifest = fs.existsSync(manifestFile)
+  ? JSON.parse(fs.readFileSync(manifestFile, 'utf8'))
+  : { books: [], totalChars: 0 }
+
+// 大师注册表：状态是 active 还是 planned 决定它在 README 里出现在哪一栏
+const masterSource = fs.readFileSync(path.join(ROOT, 'src', 'masters', 'registry.ts'), 'utf8')
+const masters = [...masterSource.matchAll(/\{\s*id:\s*'([^']+)',\s*name:\s*'([^']+)',\s*title:\s*'([^']+)',[\s\S]*?school:\s*'([^']+)',\s*status:\s*'([^']+)'/g)].map((m) => ({
+  id: m[1],
+  name: m[2],
+  title: m[3],
+  school: m[4],
+  status: m[5],
+}))
+const activeMasters = masters.filter((master) => master.status === 'active')
+const plannedMasters = masters.filter((master) => master.status !== 'active')
+
 const pkg = JSON.parse(fs.readFileSync(path.join(ROOT, 'package.json'), 'utf8'))
 const catLine = (id) => cats.find((cat) => cat.id === id) ?? { name: id, latin: id }
-const toolRows = tools.map((tool) => `| \`${tool.id}\` | ${tool.name} | ${catLine(tool.category).name} ${catLine(tool.category).latin} | ${tool.blurb} |`).join('\n')
-const bookRows = manifest.books.map((book) => `- 《${book.title}》 ${book.chapters} 章 · ${book.chars.toLocaleString('en-US')} 字${book.dynasty ? ` · ${book.dynasty}` : ''} · ${book.license}`).join('\n')
+const formatChars = (chars) => `${(chars / 10000).toFixed(0)} 万字 / ${(chars / 10000).toFixed(0)}0k chars`
 
-const md = `# 天机台 · DU（v${pkg.version}）
+const activeRows = activeMasters
+  .map((master) => `| \`${master.id}\` | ${master.name} | ${master.school} | ${master.title} |`)
+  .join('\n')
+const plannedList = plannedMasters.map((master) => `- \`${master.id}\` · **${master.name}** — ${master.school}`).join('\n')
+const bookRows = manifest.books
+  .map((book) => `| 《${book.title}》 | ${book.chapters} | ${book.chars.toLocaleString('en-US')} | ${book.dynasty || '—'} |`)
+  .join('\n')
 
-**本地玄学大师测评平台**：同一问题，请两位大师各断一遍；先匿名盲评，再查看方法。排盘、规则、古籍和测评数据都在浏览器本机处理，不上传。
-
-纯静态部署，无后端。浏览器只读取仓库内同源的确定性内核和古籍静态语料，测评数据默认存储在本机；所有用户输入不上传。
-
-## 界面截图
-
-截图由 Playwright 在本地 Chromium 中使用虚构示例生成，不包含个人数据。
-
-| 首页 | 匿名盲测 | 移动端设置 |
+const screenshots = `| Home | Blind match — sealed | After voting |
 | --- | --- | --- |
-| ![首页](docs/screenshots/home.png) | ![匿名盲测](docs/screenshots/blind-match.png) | ![移动端设置](docs/screenshots/settings-mobile.png) |
+| ![Home](docs/screenshots/home.png) | ![Blind match](docs/screenshots/blind-match.png) | ![Reveal](docs/screenshots/reveal.png) |
 
-## 核心流程
+| Leaderboard | Claim ledger | Canon reader |
+| --- | --- | --- |
+| ![Leaderboard](docs/screenshots/leaderboard.png) | ![Ledger](docs/screenshots/ledger.png) | ![Canon reader](docs/screenshots/reading.png) |
 
-1. **问天**：输入问题，可补充公历出生日期和时间。
-2. **双师盲测**：当前首版启用子平八字与梅花易数两位大师，使用本地规则生成回答。
-3. **投票与榜单**：先看甲/乙回答，再投票；本机 Elo 从 1500 起算，至少 5 场才进入“在榜”。
-4. **应验簿**：回答中的带日期可判定断言可逐条回填“应验/未验/无法判断”。
+| Method card | Mobile home | Mobile settings |
+| --- | --- | --- |
+| ![Method card](docs/screenshots/master-card.png) | ![Mobile home](docs/screenshots/home-mobile.png) | ![Mobile settings](docs/screenshots/settings-mobile.png) |`
 
-## 兼容工具入口（${tools.length} 个）
+const en = `# Tianji · DU <sub>v${pkg.version}</sub>
 
-| id | 名称 | 分类 | 一句话 |
+**A local-only Chinese metaphysics master arena.** Ask one question, get two
+readings from two different schools, score them blind, then reveal the methods
+and track which dated claims actually came true.
+
+No backend. No account. No telemetry. Charts, rules, canon lookup, votes and
+claims all run and stay inside your browser.
+
+[中文说明](README.zh-CN.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
+
+${screenshots}
+
+*Screenshots generated by Playwright from the real build with fictional input.*
+
+## What it does
+
+Traditional Chinese metaphysics is usually sold as a verdict: one chart, one
+pronouncement, no way to check it later. Tianji turns it into something you can
+audit instead.
+
+1. **Ask** — write the question, optionally add birth date and time.
+2. **Two masters answer** — each uses its own deterministic kernel and cites
+   passages from the classics shipped in this repo.
+3. **Score blind** — names, schools, chart facts and citations stay sealed
+   until you vote. A/B position is randomised per match.
+4. **Reveal and compare** — you see which school said what, and why.
+5. **Settle claims later** — every dated, falsifiable statement enters a local
+   ledger. You mark it hit, miss or undecidable when the date passes.
+
+The leaderboard is your device's record, not a global truth claim. It starts
+every master at 1500, needs five matches before someone is ranked, and shows a
+Wilson 95% lower bound next to win rate so a lucky streak cannot masquerade as
+skill.
+
+## Active masters
+
+| id | Name | School | Method |
 | --- | --- | --- | --- |
-${toolRows}
+${activeRows}
 
-> 该入口用于保留旧版梅花排盘体验；平台主流程从 \/ask 开始，榜单和应验簿分别位于 \/leaderboard、\/ledger。
+Each active master is backed by a verified deterministic kernel. Nothing here is
+a chat persona behind an API.
 
-## 大师方法卡
+### Planned, publicly specified, not implemented
 
-首版有 2 位大师进入盲测，另有 4 位公开方法卡但状态为筹备中。紫微、奇门、六壬和相法必须补齐边界规则、外部原例与回归测试后才会进入可测评状态；不拿旧代码冒充已验证算法。
+${plannedList}
 
-详见 [定位诊断](docs/POSITIONING.md)、[大师方法卡](docs/MASTERS.md) 和 [技术架构](docs/ARCHITECTURE.md)。
+These method cards are published on purpose. A school moves to \`active\` only
+after its boundary rules, external worked examples and regression tests exist.
+Shipping a half-verified algorithm as if it were finished would defeat the point
+of the whole platform.
 
-## 典籍阅览室（${manifest.books.length} 部 · ${Math.round(manifest.totalChars / 10000)} 万字）
+## Canon library — ${manifest.books.length} books, ${formatChars(manifest.totalChars)}
 
-每条 canon 引文都应能在站内分发语料中逐字核对；查不到时明确标记，不能把未知内容当作出处。
-
+| Book | Chapters | Characters | Era |
+| --- | --- | --- | --- |
 ${bookRows}
 
-原文取自维基文库公版书（繁体），检索时按需做繁简归一。
+Source texts are public-domain editions from Wikisource, shipped as static JSON
+under \`public/corpus\`. Every citation that appears in a reading can be traced
+back to the exact passage at runtime, and \`npm run verify:quotes\` re-checks all
+static quotations against the shipped corpus on every CI run. A citation that
+cannot be found is reported as unverifiable — it is never silently presented as
+authoritative.
 
-## 透明与边界
+## Design boundaries
 
-- 事实层与规则演绎分离：规则不能改写四柱、卦名、动爻或体用字段。
-- 问题、生辰、盘面、回答、投票和应验数据不上传；导出文件只在用户主动点击后生成。
-- 不提供医疗、法律、投资建议；不预测死亡和重病；不使用恐吓式话术；不做人脸识别。
-- 榜单是本机样本记录，不是科学证明或全局排名；没有数据就显示“尚无样本”。
+- **Facts and interpretation are separate layers.** Rules may not rewrite
+  pillars, hexagram names, moving lines or body/use relationships.
+- **Nothing leaves the browser.** Questions, birth data, charts, readings, votes
+  and claims are stored in \`localStorage\` only, and exported as JSON only when
+  you click export. That file is plaintext — treat it like any personal note.
+- **No medical, legal or financial advice.** No death or serious-illness
+  predictions, no fear-based copywriting, no face recognition.
+- **The ledger is falsifiable by design.** A claim only counts once a human
+  records the outcome after the due date; "undecidable" never enters the
+  denominator.
 
-## 开发
+## Quick start
 
 \`\`\`bash
 npm ci
-npm run dev
-npm run check
+npm run dev        # http://localhost:5173
+npm run check      # typecheck · unit tests · quote gate · version gate · README gate · build · local-only scan
 \`\`\`
 
-\`npm run check\` 会依次执行类型检查、Vitest、引文门禁、本地模式门禁、README 一致性检查与生产构建。现有 npm 锁文件与 pnpm 锁文件均需在依赖变更时同步更新。\n\n界面测试使用本地固定版本的 Playwright 和 Chromium：\n\n\`\`\`bash\npnpm install --frozen-lockfile\npnpm exec playwright install chromium\npnpm exec playwright test\npnpm exec playwright test --grep @screenshots\n\`\`\`\n\n截图输出到 \`docs/screenshots/\`；失败时截图和 trace 位于 \`test-results/\`。测试仅使用虚构输入。
+Browser end-to-end tests use a pinned Playwright and a local Chromium:
+
+\`\`\`bash
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm exec playwright test
+pnpm exec playwright test --grep @screenshots   # regenerates docs/screenshots
+\`\`\`
+
+Node 20 or newer. Both lockfiles (\`package-lock.json\`, \`pnpm-lock.yaml\`) are kept
+in sync — update both when dependencies change, or \`npm run check\` will fail.
+
+## Repository layout
+
+\`\`\`text
+src/contract/    data contracts shared across layers
+src/core/        deterministic kernels (four pillars, plum blossom)
+src/knowledge/   same-origin corpus retrieval
+src/engine/      feature extraction, matching, statement library
+src/ai/          local rule-based answer composition (no network)
+src/arena/       blind flow, Elo rating, local ledger, import/export
+src/masters/     method-card registry — the only source of master state
+src/pages/       routed screens
+src/ui/          reusable presentational components
+scripts/         build-time and CI gates
+tests/           unit and component assertions (count in package.json scripts)
+e2e/             real-browser flows and screenshot generation
+docs/            architecture, positioning, method cards, screenshots
+\`\`\`
+
+## Contributing
+
+Read [CONTRIBUTING.md](CONTRIBUTING.md). Every change must keep \`npm run check\`
+green, and any new citation must survive \`npm run verify:quotes\`. Adding a
+school requires worked examples and boundary tests before its status can change.
+
+## License
+
+MIT — see [LICENSE](LICENSE). Corpus texts retain their own public-domain
+provenance; see the manifest for per-book attribution.
 `
 
-const target = path.join(ROOT, 'README.md')
-if (CHECK) {
-  const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : ''
-  if (current !== md) {
-    console.error('README.md 与注册表/语料不一致：跑 npm run gen:readme')
-    process.exit(1)
+const zh = `# 天机台 · DU <sub>v${pkg.version}</sub>
+
+**严格本地运行的玄学大师测评平台。** 同一个问题，两位不同门派的大师各断一遍；
+先匿名评分，再揭晓方法，最后跟踪那些带日期的断言到底有没有发生。
+
+没有后端，没有账号，没有埋点。排盘、规则、古籍检索、投票和应验记录全部在浏览器
+内完成并留在本机。
+
+[English](README.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
+
+${screenshots}
+
+*截图由 Playwright 从真实构建生成，使用虚构示例输入。*
+
+## 它解决什么问题
+
+传统数术通常被当作一次性判词：排一次盘，给一句话，事后无从检验。天机台把它
+变成一条可以复核的链路。
+
+1. **问天** — 写下具体问题，可选填公历出生日期与时间。
+2. **双师作答** — 每位大师使用自己的确定性内核，并引用仓库内分发的古籍原文。
+3. **盲评** — 姓名、门派、盘面事实和引文在你投票前全部封存；甲乙位置每局随机。
+4. **揭晓对比** — 投票后才看到哪一家说了什么，以及依据是什么。
+5. **事后应验** — 带日期的可判定断语进入本机应验簿，到期由你回填应验、未验或
+   无法判断。
+
+榜单只代表这台设备的记录，不是全局结论。所有大师初始 1500 分，满 5 场才进入
+"在榜"，胜率旁边给出 Wilson 95% 下界——连胜几局不会被包装成实力。
+
+## 已启用大师
+
+| id | 名号 | 体系 | 主张 |
+| --- | --- | --- | --- |
+${activeRows}
+
+每位已启用大师背后都是经过验证的确定性内核，不是挂在 API 后面的人格提示词。
+
+### 已公开方法卡、尚未实现
+
+${plannedList}
+
+这些方法卡是故意公开的。一个门派只有补齐边界规则、外部原例和回归测试之后才会
+转为 \`active\`；把半验证的算法说成已完成，等于毁掉整个平台的意义。
+
+## 典籍阅览室 — ${manifest.books.length} 部 · ${formatChars(manifest.totalChars)}
+
+| 书名 | 章数 | 字数 | 朝代 |
+| --- | --- | --- | --- |
+${bookRows}
+
+原文取自维基文库公版书，作为静态 JSON 随仓库分发在 \`public/corpus\`。回答中出现的
+每一条引文都能在运行时回溯到具体段落；\`npm run verify:quotes\` 会在每次 CI 中把
+全部静态引文与站内语料逐字比对。查不到的引文会明确标为无法核对，绝不会被悄悄
+包装成权威出处。
+
+## 设计边界
+
+- **事实层与演绎层分离。** 规则不能改写四柱、卦名、动爻或体用关系。
+- **数据不出浏览器。** 问题、生辰、盘面、回答、投票和断言只写入 \`localStorage\`，
+  只有你主动点击导出才会生成 JSON 文件。该文件是明文，请按私人笔记对待。
+- **不提供医疗、法律、投资建议。** 不预测死亡和重病，不使用恐吓式话术，不做人脸识别。
+- **应验簿天然可反驳。** 断言只在到期后由人工回填才计入；"无法判断"不进分母。
+
+## 快速开始
+
+\`\`\`bash
+npm ci
+npm run dev        # http://localhost:5173
+npm run check      # 类型检查 · 单元测试 · 引文门禁 · 版本门禁 · README 门禁 · 构建 · 本地模式扫描
+\`\`\`
+
+浏览器端到端测试使用固定版本的 Playwright 和本地 Chromium：
+
+\`\`\`bash
+pnpm install --frozen-lockfile
+pnpm exec playwright install chromium
+pnpm exec playwright test
+pnpm exec playwright test --grep @screenshots   # 重新生成 docs/screenshots
+\`\`\`
+
+需要 Node 20 或更高版本。仓库同时维护 \`package-lock.json\` 与 \`pnpm-lock.yaml\`，
+依赖变更时两个锁文件都要更新，否则 \`npm run check\` 会失败。
+
+## 目录结构
+
+\`\`\`text
+src/contract/    跨层共享的数据契约
+src/core/        确定性内核（四柱、梅花）
+src/knowledge/   同源语料检索
+src/engine/      特征提取、匹配、断语库
+src/ai/          本地规则回答组装（无网络调用）
+src/arena/       盲测流程、Elo 评分、本机台账、导入导出
+src/masters/     方法卡注册表——大师状态的唯一来源
+src/pages/       路由页面
+src/ui/          可复用展示组件
+scripts/         构建期与 CI 门禁
+tests/           单元与组件断言
+e2e/             真实浏览器流程与截图生成
+docs/            架构、定位、方法卡、截图
+\`\`\`
+
+## 参与贡献
+
+请先阅读 [CONTRIBUTING.md](CONTRIBUTING.md)。任何改动都必须让 \`npm run check\` 保持
+通过；新增引文必须能通过 \`npm run verify:quotes\`。新增门派需要先有外部原例和边界
+测试，才能改变状态。
+
+## 许可
+
+MIT，见 [LICENSE](LICENSE)。古籍原文的公有领域来源见 manifest 中每本书的著录。
+`
+
+function write(relPath, content) {
+  const target = path.join(ROOT, relPath)
+  if (CHECK) {
+    const current = fs.existsSync(target) ? fs.readFileSync(target, 'utf8') : ''
+    if (current !== content) {
+      console.error(`${relPath} 与注册表/语料不一致：跑 npm run gen:readme`)
+      process.exitCode = 1
+    }
+    return
   }
-  console.log('README 与注册表一致。')
+  fs.writeFileSync(target, content)
+}
+
+write('README.md', en)
+write('README.zh-CN.md', zh)
+
+if (CHECK) {
+  if (process.exitCode) process.exit(1)
+  console.log('README.md / README.zh-CN.md 与注册表一致（工具 ' + tools.length + '，书目 ' + manifest.books.length + '，大师 ' + masters.length + '）。')
 } else {
-  fs.writeFileSync(target, md)
-  console.log(`README.md 已生成（工具 ${tools.length}，书目 ${manifest.books.length}）`)
+  console.log(`README 已生成（英文 + 中文；工具 ${tools.length}，书目 ${manifest.books.length}，大师 ${masters.length}）`)
 }

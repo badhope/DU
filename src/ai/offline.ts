@@ -54,12 +54,13 @@ function selectedStatements(master: Master, request: AskRequest, facts: ChartFac
       month: at.getMonth() + 1,
       ...(birthYear ? { birthYear } : {}),
     },
-    // 多取一些，好让 seen 过滤后仍有足够候选
-    { n: 14, seed: hashSeed(seedInput), ...(seen.length ? { seen } : {}) },
+    // 关闭标签去重 + 放大候选池：这里的目标不是"主题多样"，而是给跨答案互斥
+    // 留出足够余量。标签去重会在 17 条候选里砍到只剩 5 条，互斥必然失败。
+    { n: 24, seed: hashSeed(seedInput), tagDedup: false, ...(seen.length ? { seen } : {}) },
   )
   const inScope = items.filter((item) => item.st.source?.kind !== 'canon' || master.books.includes(item.st.source.book ?? ''))
   const fresh = inScope.filter((item) => !seen.includes(item.st.id))
-  return (fresh.length >= 3 ? fresh : inScope.length ? inScope : items).slice(0, 3)
+  return (fresh.length >= 3 ? fresh : inScope.length >= 3 ? inScope : items).slice(0, 3)
 }
 
 /** 盘面事实只保留与本门内核匹配的项；没有对应事实时返回空数组，由页面隐藏整节 */
@@ -89,8 +90,9 @@ export function localAnswer(
   const localQuotes = passages.slice(0, 3).map((passage) => `> 《${passage.book}》${passage.loc}：「${passage.text}」`)
   const quotes = [...staticQuotes, ...localQuotes].slice(0, 3)
 
-  // 断言绑定本场第一条断语：两位大师的断言因此天然不同，应验簿里可分辨、可复盘
-  const anchor = selected[0]?.st.text ?? '这次的问题'
+  // 断言绑定本场第一条断语：两位大师的断言因此天然不同，应验簿里可分辨、可复盘。
+  // 断语本身已带句末标点，拼进模板前去掉，避免出现「……。」，记录」这种标点叠加。
+  const anchor = (selected[0]?.st.text ?? '这次的问题').replace(/[。！？!?，,、；;：:\s]+$/, '')
   const due = new Date(now)
   due.setFullYear(due.getFullYear() + 1)
   const dueDate = due.toISOString().slice(0, 10)

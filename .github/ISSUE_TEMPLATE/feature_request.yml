@@ -1,0 +1,32 @@
+name: Feature request
+description: Propose a capability, a new school, or a corpus addition.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What can a user not do today? Avoid proposing a solution here.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: What should change, and which layer of the architecture it belongs to.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence or references
+      description: For a new school, list the external worked examples and expected values you would test against.
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Project constraints
+      options:
+        - label: This does not require sending user data off the device
+          required: true
+        - label: This does not add medical, legal or financial advice
+          required: true

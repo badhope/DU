@@ -1,7 +1,22 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Master } from '@/contract/master'
 import type { LeaderboardRow } from '@/arena/rating'
 const props = defineProps<{ master: Master; stats?: LeaderboardRow }>()
+
+/**
+ * 与大师榜同一口径：小样本不展示原始胜率。
+ *
+ * 1 场赢了就写"胜率 100%"是在用小样本冒充实力，和项目定位直接冲突。
+ * 因此满 5 场之前只说场次；之后也只报 Wilson 95% 下界，不报点估计。
+ */
+const sample = computed(() => {
+  const stats = props.stats
+  if (!stats) return '尚无样本'
+  if (stats.matches === 0) return '尚无样本'
+  if (stats.wilsonLower === null) return `${stats.matches} 场盲测`
+  return `${stats.matches} 场盲测 · 胜率下界 ${Math.round(stats.wilsonLower * 100)}%`
+})
 </script>
 
 <template>
@@ -18,10 +33,7 @@ const props = defineProps<{ master: Master; stats?: LeaderboardRow }>()
       <p class="mc-title">{{ master.title }}</p>
       <p class="mc-bio">{{ master.method }}</p>
       <div class="mc-tags"><span v-for="tag in master.style" :key="tag">{{ tag }}</span></div>
-      <p v-if="stats" class="mc-meta">
-        {{ stats.tier }} · {{ stats.matches ? `${stats.matches} 场盲测` : '尚无样本' }} ·
-        {{ stats.winRate === null ? '胜率待定' : `胜率 ${(stats.winRate * 100).toFixed(0)}%` }}
-      </p>
+      <p v-if="stats" class="mc-meta">{{ stats.tier }} · {{ sample }}</p>
       <p v-else class="mc-meta">典籍：{{ master.books.join('、') }}</p>
       <RouterLink class="du-btn mc-link" :to="`/masters/${master.id}`">查看方法卡</RouterLink>
     </div>

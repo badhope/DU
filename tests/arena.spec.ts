@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest'
 import type { BlindMatch } from '@/contract/reading'
 import { emptyStats } from '@/arena/rating'
-import { getArenaState, importArena, recordVote, resetArena, resolveClaim, saveClaims, saveMatch } from '@/arena/store'
+import { exportArena, getArenaState, importArena, listMatches, recordVote, resetArena, resolveClaim, saveClaims, saveMatch } from '@/arena/store'
 import { runBlindMatch } from '@/arena/readingFlow'
 
 const match = (): BlindMatch => ({ id: 'match-test-1', request: { question: '测试问题', domain: 'general', askedAt: 1 }, masterIds: ['ziping', 'meihua'], answers: [
@@ -65,5 +65,40 @@ describe('盲测与台账存储', () => {
     expect(second.id).not.toContain('换工作')
     expect(second.id).not.toContain('暂缓')
     expect(getArenaState().matches).toHaveLength(2)
+  })
+})
+
+describe('刷新后本机台账必须存活', () => {
+  /**
+   * 这条回归测试针对一个真实上线过的缺陷：store 模块把 `readState()` 写在
+   * 常量辅助函数之前，模块初始化时触发 TDZ 错误被 catch 吞掉，导致每次刷新
+   * 都静默回退到空状态 —— 用户的对局与应验记录全部消失，界面还显示"还没有对局"。
+   */
+  beforeEach(() => { localStorage.clear(); resetArena() })
+
+  it('已保存的对局能被重新读取（模拟刷新后的模块初始化）', async () => {
+    const { runBlindMatch } = await import('@/arena/readingFlow')
+    const created = await runBlindMatch(
+      { question: '刷新后还在吗', domain: 'general', askedAt: 1_700_000_000_000 },
+      ['ziping', 'meihua'],
+    )
+    // 用导出字符串验证"磁盘上的字节"完整，再喂回导入路径
+    const persisted = exportArena()
+    expect(JSON.parse(persisted).matches).toHaveLength(1)
+
+    resetArena()
+    expect(listMatches()).toHaveLength(0)
+
+    expect(importArena(persisted)).toBe(true)
+    const restored = listMatches()
+    expect(restored).toHaveLength(1)
+    expect(restored[0]!.id).toBe(created.id)
+    expect(restored[0]!.answers).toHaveLength(2)
+  })
+
+  it('导出内容带 schema 版本号', () => {
+    const parsed = JSON.parse(exportArena())
+    expect(parsed.schema).toBe(1)
+    expect(parsed.stats.ziping.masterId).toBe('ziping')
   })
 })
