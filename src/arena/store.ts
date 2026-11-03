@@ -168,11 +168,50 @@ function readState(): ArenaState {
 // 必须位于所有函数声明之后：readState → validImportedState 会调用上面的常量辅助函数
 let state: ArenaState = readState()
 
+/**
+ * 最近一次持久化是否失败。
+ *
+ * localStorage 是同步 API，配额满时 setItem 直接抛 QuotaExceededError。
+ * 之前这里静默吞掉，结果是用户以为投了票、其实什么都没存 —— 刷新就没了。
+ * 现在记录状态并广播事件，由界面提示"先导出再清理"，而不是假装成功。
+ */
+export type PersistStatus = 'ok' | 'quota' | 'blocked'
+let persistStatus: PersistStatus = 'ok'
+let persistListeners: Array<(status: PersistStatus) => void> = []
+
+export function getPersistStatus(): PersistStatus {
+  return persistStatus
+}
+
+/** 订阅持久化失败事件；返回取消订阅函数 */
+export function onPersistStatus(listener: (status: PersistStatus) => void): () => void {
+  persistListeners.push(listener)
+  return () => {
+    persistListeners = persistListeners.filter((item) => item !== listener)
+  }
+}
+
+function setPersistStatus(next: PersistStatus): void {
+  if (persistStatus === next) return
+  persistStatus = next
+  for (const listener of persistListeners) {
+    try {
+      listener(next)
+    } catch {
+      /* 监听器自身出错不影响主流程 */
+    }
+  }
+}
+
 function persist(): void {
   try {
     localStorage.setItem(KEY, JSON.stringify(state))
-  } catch {
-    // 隐私模式或配额满：站内功能照常，只是本次不落盘
+    setPersistStatus('ok')
+  } catch (error) {
+    // 按错误类型区分：配额满 vs 存储被禁用（隐私模式）
+    const name = error instanceof Error ? error.name : ''
+    const quota = name === 'QuotaExceededError' || name === 'NS_ERROR_DOM_QUOTA_REACHED'
+    setPersistStatus(quota ? 'quota' : 'blocked')
   }
 }
 
