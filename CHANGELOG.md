@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.0] - 2026-11-04
+
+The engine grew three more hosts. Web, CLI, desktop and MCP now share one
+computation layer, so a reading is identical wherever you ask for it.
+
+### Added
+
+- **CLI** (`tianji`). `ask`, `masters`, `ledger`, `resolve`, `report`, `export`,
+  `import`, `serve`, `doctor`. Every command supports `--json`, exit codes follow
+  Unix convention (0/1/2), and `--no-save` gives a preview without touching the
+  ledger.
+- **Desktop app**: a 96 MB single-file `tianji.exe` built with Node SEA, carrying
+  the web UI as embedded assets. No Node install, no Electron. `tianji serve`
+  opens the full site with an HTTP API behind it.
+- **MCP server** (`tianji mcp`), built on the official
+  `@modelcontextprotocol/sdk` over stdio. Five tools (`tianji_ask`,
+  `tianji_masters`, `tianji_ledger`, `tianji_resolve_claim`, `tianji_session`)
+  and two resources. No port, no network, no auth.
+- **SQLite ledger** for Node hosts via built-in `node:sqlite` — no native module,
+  which keeps the SEA binary portable.
+- **Shared runtime** (`src/runtime/`): the blind-match logic moved out of the
+  browser-only path into a host-agnostic module. `tests/runtime.spec.ts` proves
+  Node and browser produce byte-identical readings from the same seed.
+- Optional backend mode for the web app: it probes same-origin `/api/health` once
+  with an 800 ms timeout and silently falls back to `localStorage`.
+- `scripts/build-all.mjs`: one command builds web, CLI, MCP and the executable.
+
+### Fixed
+
+- The HTTP API returned `masterId`, chart facts, sources and claim IDs even when
+  it set `revealed: false`. Anonymity is now structural: `sealMatch` strips every
+  identity-bearing field, verified by an E2E assertion that greps the payload for
+  all four leak vectors.
+- `SqliteLedgerStore.saveMatch` used `INSERT OR IGNORE`, so a vote written after
+  the first save was silently dropped. It now merges vote state in one direction
+  only — never overwriting an existing vote.
+- The CLI printed chart facts and sources in anonymous mode while the web UI
+  sealed them. Both hosts now apply the same rule.
+- Version strings were hardcoded in three files; they now come from
+  `package.json` at build time through a single injected constant.
+- `node:sea`'s `getAsset` rejects the `'binary'` encoding. Assets are read with
+  the default ArrayBuffer return instead.
+
+### Changed
+
+- Runners and Playwright pinned (`ubuntu-24.04`, `1.64.1`) after
+  `ubuntu-latest` moved to 26.04 and broke the browser install.
+- README rewritten for the four-host story: run table, loop diagram, gate table.
+
 ## [0.3.1] - 2026-11-03
 
 Reliability pass: the app now tells you when it cannot save, guards the shipped
@@ -140,7 +189,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.3.1...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.4.0...HEAD
+[0.4.0]: https://gitcode.com/badhope/DU/compare/v0.3.1...v0.4.0
 [0.3.1]: https://gitcode.com/badhope/DU/compare/v0.3.0...v0.3.1
 [0.3.0]: https://gitcode.com/badhope/DU/compare/v0.2.0...v0.3.0
 [0.2.0]: https://gitcode.com/badhope/DU/compare/v0.1.0...v0.2.0

@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",
@@ -24,14 +24,14 @@
     "vite"
   ],
   "engines": {
-    "node": ">=20"
+    "node": ">=22.5.0"
   },
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview --port 4173",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run",
+    "test": "vitest run --reporter=default --reporter=json --outputFile=.vitest-results.json",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "screenshots": "playwright test --grep @screenshots",
@@ -43,20 +43,27 @@
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
     "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only",
-    "check:corpus": "node scripts/check-corpus.mjs"
+    "check:corpus": "node scripts/check-corpus.mjs",
+    "build:all": "node scripts/build-all.mjs",
+    "cli": "node scripts/build-all.mjs && node build/cli.mjs",
+    "mcp": "node scripts/build-all.mjs && node build/mcp.mjs",
+    "serve": "node scripts/build-all.mjs && node build/cli.mjs serve",
+    "test:runtime": "vitest run tests/runtime.spec.ts"
   },
   "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
     "lunar-typescript": "^1.8.6",
     "vue": "^3.5.43",
     "vue-router": "^4.6.4"
   },
   "devDependencies": {
     "@playwright/test": "1.64.1",
-    "@types/node": "20.19.43",
+    "@types/node": "^24.19.2",
     "@vitejs/plugin-vue": "^6.0.10",
     "@vue/test-utils": "^2.5.1",
     "happy-dom": "^21.0.4",
     "opencc-js": "^1.4.2",
+    "postject": "^1.0.0-alpha.6",
     "typescript": "^5.9.3",
     "vite": "^7.3.7",
     "vitest": "^4.1.12"
@@ -64,5 +71,17 @@
   "overrides": {
     "minimatch": "^11.0.4",
     "glob": "^14.0.3"
-  }
+  },
+  "bin": {
+    "tianji": "./build/cli.mjs"
+  },
+  "files": [
+    "build",
+    "dist",
+    "src",
+    "scripts",
+    "README.md",
+    "README.zh-CN.md",
+    "LICENSE"
+  ]
 }

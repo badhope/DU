@@ -28,7 +28,9 @@ const LAYERS = {
   tools: { may: ['contract', 'core', 'engine'], note: '兼容工具' },
   composables: { may: ['contract'], note: '组合式状态' },
   ui: { may: ['contract', 'arena'], note: '展示组件（只读 arena 的类型，不写状态）' },
-  pages: { may: ['contract', 'core', 'data', 'knowledge', 'engine', 'ai', 'arena', 'masters', 'tools', 'composables', 'ui'], note: '页面可组合全部能力' },
+  runtime: { may: ['contract', 'arena', 'ai', 'core', 'engine', 'knowledge', 'masters', 'data'], note: '宿主无关应用层' },
+  node: { may: ['contract', 'arena', 'runtime', 'ai', 'core', 'engine', 'knowledge', 'masters', 'data'], note: 'Node 宿主：CLI / 服务端 / MCP' },
+  pages: { may: ['contract', 'core', 'data', 'knowledge', 'engine', 'ai', 'arena', 'masters', 'tools', 'composables', 'ui', 'runtime'], note: '页面可组合全部能力' },
 }
 
 /** 这些文件不受层规则约束：应用外壳与路由 */

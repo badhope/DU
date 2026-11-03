@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { exportArena, importArena, resetArena } from '@/arena/store'
 import { resetSession } from '@/composables/session'
+import { backendMode } from '@/composables/backend'
 
 const saved = ref('')
 const importError = ref('')
@@ -41,7 +42,8 @@ function resetAll() {
 <template>
   <section class="settings">
     <header class="page-head"><p class="kicker">SETTINGS / LOCAL ONLY</p><h1>设置</h1><p>天机台严格本地运行：问题、生辰、盘面、回答、投票和应验数据不发送到任何外部服务。</p></header>
-    <section class="settings-card local-card"><h2>本地模式</h2><p>排盘使用浏览器内的确定性规则；古籍只从本项目同源的 <code>public/corpus</code> 静态文件读取；断语由本地规则和已核语料生成。不调用外部服务。</p><ul><li>问题、生辰、盘面、回答和反馈只存在本机。</li><li>导出文件只在你点击导出后生成，可能包含问题、生辰、回答和断言，请自行保管。</li><li>清空本机数据会同时清除旧版本遗留的外部配置键。</li></ul><p class="local-badge">LOCAL ONLY · NO UPLOAD</p></section>
+    <section class="settings-card mode-card"><h2>存储模式</h2><p v-if="backendMode === 'server'">已连接本机服务：台账存在 <code>SQLite</code> 里，可通过 <code>tianji serve</code> 管理的同一份数据。浏览器本地记录仍然独立保留。</p><p v-else>纯本地模式：台账存在浏览器的 <code>localStorage</code> 里，不经过任何服务。若你运行了 <code>tianji serve</code>，刷新页面后会自动切换。</p><p class="mode-badge">{{ backendMode === 'server' ? 'SERVER · 127.0.0.1' : 'LOCAL ONLY · NO UPLOAD' }}</p></section>
+    <section class="settings-card local-card"><h2>本地模式</h2><p>排盘使用浏览器内的确定性规则；古籍只从本项目同源的 <code>public/corpus</code> 静态文件读取；断语由本地规则和已核语料生成。不调用外部服务。</p><ul><li>问题、生辰、盘面、回答和反馈只存在本机。</li><li>导出文件只在你点击导出后生成，可能包含问题、生辰、回答和断言，请自行保管。</li><li>清空本机数据会同时清除旧版本遗留的外部配置键。</li></ul></section>
     <section class="settings-card"><h2>本机数据</h2><div class="settings-actions"><button class="du-btn" @click="download">导出擂台与应验簿</button><label class="du-btn file-btn">导入 JSON<input type="file" accept="application/json" @change="readImport" /></label><button class="du-btn danger" @click="resetAll">清空全部本机数据</button></div><p v-if="importError" class="settings-note">{{ importError }}</p></section>
     <p v-if="saved" class="saved">{{ saved }}</p>
   </section>
@@ -58,7 +60,8 @@ h1 { margin:0; font-size:30px; letter-spacing:.12em; }
 .settings-card p,.settings-card li { color:var(--ink-2); font-size:12px; line-height:1.8; }
 .settings-card ul { margin:0; padding-left:1.4em; }
 .local-card { border-color:var(--tone-good); }
-.local-badge { color:var(--tone-good) !important; letter-spacing:.12em; }
+.mode-card { border-color:var(--tone-info); }
+.mode-badge { color:var(--tone-info) !important; letter-spacing:.12em; }
 .settings-actions { display:flex; flex-wrap:wrap; gap:8px; }
 .settings-actions button,.file-btn { padding:7px 10px; font-size:11px; }
 .settings-note,.saved { margin:0; color:var(--ink-3); font-size:11px; line-height:1.7; }
