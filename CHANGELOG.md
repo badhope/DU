@@ -7,6 +7,37 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-11-03
+
+Reliability pass: the app now tells you when it cannot save, guards the shipped
+corpus against silent corruption, and lets you take a reading out of the browser.
+
+### Added
+
+- **Local report export.** After voting, a reading can be saved as a
+  self-contained HTML file; the claim ledger has the same option. Files inline
+  all CSS, reference nothing external, declare `noindex`, and escape every piece
+  of user-supplied text — imported JSON is untrusted input, so a crafted
+  question cannot inject markup into the export.
+- `scripts/check-corpus.mjs`: verifies that the manifest's claimed chapter counts
+  and character totals match the JSON actually shipped. Verified by corrupting a
+  manifest entry and confirming the gate fails. Wired into `npm run check`.
+- Storage-failure reporting: `localStorage` writes that fail now surface as
+  `quota` or `blocked` instead of being swallowed, and the ask page tells the
+  user the record was not saved and points at export-then-prune.
+
+### Fixed
+
+- **Dependency audit: 5 moderate → 0.** All five came from one test-only chain
+  (`@vue/test-utils` → `js-beautify` → `editorconfig` → `minimatch`/`glob`).
+  Pinned `minimatch@^11.0.4` and `glob@^14.0.3` via `overrides` rather than
+  downgrading the test library or accepting the advisories.
+- The `v0.3.0` tag pointed at a commit that predated the CI-runner fix; version
+  and changelog had drifted from the released tree.
+- CI has a `workflow_dispatch` trigger. Refs created through the Git Data API do
+  not emit a `push` event, so without a manual entry point a branch could exist
+  with no way to run the gate against it.
+
 ## [0.3.0] - 2026-11-03
 
 Navigation could go permanently blank, and the project had no way to stop its own
@@ -109,7 +140,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.3.0...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.3.1...HEAD
+[0.3.1]: https://gitcode.com/badhope/DU/compare/v0.3.0...v0.3.1
 [0.3.0]: https://gitcode.com/badhope/DU/compare/v0.2.0...v0.3.0
 [0.2.0]: https://gitcode.com/badhope/DU/compare/v0.1.0...v0.2.0
 [0.1.0]: https://gitcode.com/badhope/DU/releases/tag/v0.1.0

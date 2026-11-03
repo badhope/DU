@@ -102,3 +102,71 @@ describe('刷新后本机台账必须存活', () => {
     expect(parsed.stats.ziping.masterId).toBe('ziping')
   })
 })
+
+describe('存储写入失败必须可被界面感知', () => {
+  it('配额满时返回 quota 状态，而不是静默成功', async () => {
+    const store = await import('@/arena/store')
+    const real = globalThis.localStorage
+    // happy-dom 的 Storage 方法不可直接改写，替换整个对象更可靠
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => null,
+        setItem: () => {
+          const error = new Error('quota')
+          error.name = 'QuotaExceededError'
+          throw error
+        },
+        removeItem: () => {},
+        clear: () => {},
+      },
+    })
+    try {
+      store.resetArena()
+      expect(store.getPersistStatus()).toBe('quota')
+    } finally {
+      Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: real })
+    }
+  })
+
+  it('存储被禁用时返回 blocked 状态', async () => {
+    const store = await import('@/arena/store')
+    const real = globalThis.localStorage
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => null,
+        setItem: () => {
+          throw new Error('SecurityError')
+        },
+        removeItem: () => {},
+        clear: () => {},
+      },
+    })
+    try {
+      store.resetArena()
+      expect(store.getPersistStatus()).toBe('blocked')
+    } finally {
+      Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: real })
+    }
+  })
+
+  it('写入恢复正常后状态回到 ok', async () => {
+    const store = await import('@/arena/store')
+    const real = globalThis.localStorage
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => null,
+        setItem: () => { throw new Error('boom') },
+        removeItem: () => {},
+        clear: () => {},
+      },
+    })
+    store.resetArena()
+    expect(store.getPersistStatus()).toBe('blocked')
+    Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: real })
+    store.resetArena()
+    expect(store.getPersistStatus()).toBe('ok')
+  })
+})

@@ -1,4 +1,4 @@
-# Tianji · DU <sub>v0.3.0</sub>
+# Tianji · DU <sub>v0.3.1</sub>
 
 **A local-only Chinese metaphysics master arena.** Ask one question, get two
 readings from two different schools, score them blind, then reveal the methods
