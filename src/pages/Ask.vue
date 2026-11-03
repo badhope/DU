@@ -3,8 +3,9 @@ import { computed, ref } from 'vue'
 import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contract/reading'
 import { ACTIVE_MASTERS } from '@/masters/registry'
 import { runBlindMatch } from '@/arena/readingFlow'
-import { recordVote } from '@/arena/store'
+import { getPersistStatus, recordVote, type PersistStatus } from '@/arena/store'
 import AnswerCard from '@/ui/AnswerCard.vue'
+import { downloadHtml, renderMatchReport } from '@/arena/report'
 
 const question = ref('')
 const domain = ref<ReadingDomain>('general')
@@ -14,6 +15,12 @@ const match = ref<BlindMatch | null>(null)
 const busy = ref(false)
 const error = ref('')
 const voted = ref<VoteChoice | null>(null)
+/** 本机存储写不进去时如实告诉用户，而不是让他以为已经记下了 */
+const persistIssue = ref<PersistStatus>(getPersistStatus())
+
+function syncPersistStatus(status: PersistStatus) {
+  persistIssue.value = status
+}
 const domains: Array<{ value: ReadingDomain; label: string }> = [
   { value: 'general', label: '整体' },
   { value: 'career', label: '前程 / 工作' },
@@ -63,6 +70,13 @@ function vote(choice: VoteChoice) {
   }
   voted.value = choice
   match.value.vote = choice
+  syncPersistStatus(getPersistStatus())
+}
+
+function exportReport() {
+  if (!match.value) return
+  const html = renderMatchReport(match.value)
+  downloadHtml(`tianji-reading-${match.value.id.slice(6, 14)}.html`, html)
 }
 
 function reset() {
@@ -86,6 +100,14 @@ function reset() {
 
     <p v-if="error" class="ask-error">{{ error }}</p>
 
+    <p v-if="persistIssue === 'quota'" class="ask-warn">
+      本机存储空间已满，这次记录<strong>没有写进浏览器</strong>。请先到
+      <RouterLink to="/settings">设置</RouterLink> 导出备份，再清空旧数据。
+    </p>
+    <p v-else-if="persistIssue === 'blocked'" class="ask-warn">
+      浏览器禁止了本机存储（常见于隐私模式），这次记录<strong>没有保存</strong>。本次阅读仍然有效，关闭页面后不会保留。
+    </p>
+
     <section v-if="match" class="match">
       <div class="match-head"><div><p class="kicker">MATCH {{ match.id }}</p><h2>同一问题，两份回答</h2><p class="ask-question">{{ match.request.question }}</p></div><button class="du-btn" @click="reset">再问一题</button></div>
       <div class="blind-note" :class="{ revealed }">{{ revealed ? '已揭晓：下面的姓名来自本机方法注册表。' : '先读内容再投票；姓名、门派和评分暂时隐藏。' }}</div>
@@ -93,7 +115,7 @@ function reset() {
         <AnswerCard v-for="(answer, index) in match.answers" :key="answer.id" :answer="answer" :label="titleFor(index)" :revealed="revealed" />
       </div>
       <div v-if="!revealed" class="vote"><h3>哪一份更贴近问题？</h3><p>你的投票只更新本机榜单；它不是科学准确率，也不会把未验证的大师列为冠军。</p><div class="vote-buttons"><button class="du-btn primary" @click="vote('a')">甲更贴</button><button class="du-btn" @click="vote('draw')">都不确定</button><button class="du-btn primary" @click="vote('b')">乙更贴</button></div></div>
-      <div v-else class="revealed-box"><b>本局已记分。</b><span>选择：{{ voted === 'a' ? '甲更贴' : voted === 'b' ? '乙更贴' : '都不确定' }}。结果只保存在本机。</span><RouterLink to="/leaderboard">看大师榜 →</RouterLink></div>
+      <div v-else class="revealed-box"><b>本局已记分。</b><span>选择：{{ voted === 'a' ? '甲更贴' : voted === 'b' ? '乙更贴' : '都不确定' }}。结果只保存在本机。</span><button class="du-btn ft-export" type="button" @click="exportReport">导出本次报告</button><RouterLink to="/leaderboard">看大师榜 →</RouterLink></div>
     </section>
   </section>
 </template>
@@ -109,6 +131,9 @@ function reset() {
 .ask-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .ask-hint,.ask-error { margin:0; color:var(--ink-3); font-size:11px; line-height:1.7; }
 .ask-error { color:var(--tone-bad); }
+.ask-warn { margin:0; padding:10px 12px; border:1px solid var(--tone-warn); border-radius:var(--radius); color:var(--ink-1); font-size:12px; line-height:1.75; background:var(--bg-1); }
+.ask-warn a { color:var(--accent); }
+.ft-export { padding:4px 9px; font-size:11px; }
 .match { display:grid; gap:15px; margin-top:22px; }
 .match-head { display:flex; align-items:start; justify-content:space-between; gap:14px; }
 .match-head h2 { margin:0; font-size:21px; }

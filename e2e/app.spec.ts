@@ -267,7 +267,10 @@ test('@screenshots 生成可复现的展示截图', async ({ page }) => {
 
   await page.getByRole('button', { name: '甲更贴' }).click()
   await expect(page.getByText('本局已记分。')).toBeVisible()
-  await waitForEvidenceSettled(page)
+  // 揭晓后断言区会渲染截止日期；日期由冻结的时钟决定，但排版完成有第 n 帧差异，
+  // 等两张卡片都完成布局再截，避免同一次运行产出两种图。
+  await expect(page.locator('.answer-claims')).toHaveCount(2)
+  await page.waitForTimeout(120)
   await shot('reveal')
 
   await openAndWait('#/leaderboard', async () => {
@@ -359,4 +362,71 @@ test('打印样式：切到白底且隐藏导航与投票', async ({ page }) => 
   const bg = await page.evaluate(() => getComputedStyle(document.documentElement).backgroundColor)
   const [r, g, b] = bg.match(/\d+/g)!.map(Number)
   expect((r! + g! + b!) / 3, `打印背景仍是深色：${bg}`).toBeGreaterThan(200)
+})
+
+test('报告导出：投票后可下载自包含 HTML', async ({ page }) => {
+  await startMatch(page)
+  await page.getByRole('button', { name: '甲更贴' }).click()
+  await expect(page.getByText('本局已记分。')).toBeVisible()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: '导出本次报告' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toMatch(/^tianji-reading-[0-9a-f]+\.html$/)
+
+  const stream = await download.createReadStream()
+  let html = ''
+  for await (const chunk of stream) html += chunk.toString()
+  expect(html).toContain('<!doctype html>')
+  expect(html).toContain('天机台 · 读取报告')
+  expect(html).toContain(question)
+  // 自包含：不引用任何外部资源
+  expect(html).not.toMatch(/<script[^>]+src=/i)
+  expect(html).not.toMatch(/https?:\/\/(?!www\.w3\.org)/)
+})
+
+test('应验簿可导出为 HTML', async ({ page }) => {
+  await startMatch(page)
+  await page.getByRole('button', { name: '都不确定' }).click()
+  await page.goto('/#/ledger')
+  await expect(page.getByText('待回填').first()).toBeVisible()
+
+  const downloadPromise = page.waitForEvent('download')
+  await page.getByRole('button', { name: '导出应验簿（HTML）' }).click()
+  const download = await downloadPromise
+  expect(download.suggestedFilename()).toBe('tianji-claims.html')
+  const stream = await download.createReadStream()
+  let html = ''
+  for await (const chunk of stream) html += chunk.toString()
+  expect(html).toContain('天机台 · 应验簿')
+  expect(html).toContain('共 2 条断言')
+})
+
+test('存储被禁用时如实告知未保存，而不是假装成功', async ({ page }) => {
+  // 在页面脚本运行前把 setItem 打坏，模拟配额满 / 隐私模式
+  await page.addInitScript(() => {
+    const real = Storage.prototype.setItem
+    let armed = false
+    Storage.prototype.setItem = function (key: string, value: string) {
+      if (armed) {
+        const error = new Error('quota')
+        error.name = 'QuotaExceededError'
+        throw error
+      }
+      return real.call(this, key, value)
+    }
+    // 允许应用初始化写入，之后才拦截
+    ;(window as unknown as { __armQuota?: () => void }).__armQuota = () => { armed = true }
+  })
+
+  await page.goto('/#/ask')
+  await page.getByLabel('你要问什么').fill(question)
+  await page.getByRole('button', { name: '开始匿名盲测' }).click()
+  await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible()
+
+  await page.evaluate(() => (window as unknown as { __armQuota?: () => void }).__armQuota?.())
+  await page.getByRole('button', { name: '甲更贴' }).click()
+
+  await expect(page.getByText('本机存储空间已满', { exact: false })).toBeVisible()
+  await expect(page.getByText('没有写进浏览器', { exact: false })).toBeVisible()
 })

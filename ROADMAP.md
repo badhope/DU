@@ -4,7 +4,7 @@ What is shipped, what is next, and what is deliberately not being built.
 
 [中文版见文末](#中文版)
 
-## Shipped — v0.2.0
+## Shipped — v0.3.1
 
 - Two verified deterministic kernels: Zi Ping four pillars, Mei Hua Yi Shu.
 - Blind two-master evaluation with randomised A/B order, cross-answer
@@ -18,16 +18,20 @@ What is shipped, what is next, and what is deliberately not being built.
   consistency, README consistency, build, local-only scan, architecture
   boundaries.
 
-## Next — v0.3.0
+- Local report export: a reading and the claim ledger can each be saved as a
+  self-contained, escaped, offline-openable HTML file.
+- Corpus integrity gate: manifest chapter counts and character totals are
+  verified against the JSON actually shipped.
+- Storage-failure reporting: failed `localStorage` writes surface as quota or
+  blocked instead of failing silently.
+- Dependency audit at zero vulnerabilities.
+
+## Next — v0.4.0
 
 ### Reliability
 
-- **Storage quota handling.** When `localStorage` is full, the app currently
-  fails silently. It should surface a warning and offer export-then-prune.
 - **Import migration.** Exports carry `schema: 1`; a migration path for future
   schema changes is not written yet.
-- **Corpus integrity check.** `public/corpus/manifest.json` records per-book
-  character counts but nothing verifies the shipped JSON still matches.
 
 ### Content
 
@@ -71,7 +75,7 @@ popular they would be.
 
 ## 中文版
 
-## 已发布 · v0.2.0
+## 已发布 · v0.3.1
 
 - 两套经过验证的确定性内核：子平四柱、梅花易数。
 - 盲测：甲乙顺序随机、两答断语互斥、盘面与依据在投票前封存。
@@ -82,15 +86,16 @@ popular they would be.
 - 门禁：类型检查、105 条单元断言、引文校验、版本一致性、README 一致性、
   构建、本地模式扫描、架构边界。
 
-## 下一步 · v0.3.0
+- 本地报告导出：单次读取与应验簿都能存成自包含、已转义、断网可打开的 HTML。
+- 语料完整性门禁：manifest 的章数与字数会与真正分发的 JSON 核对。
+- 存储写入失败会如实显示为"配额满"或"被禁用"，不再静默。
+- 依赖审计 0 漏洞。
+
+## 下一步 · v0.4.0
 
 ### 可靠性
 
-- **存储配额处理。** `localStorage` 写满时目前是静默失败，应当给出提示并引导
-  "先导出再清理"。
 - **导入迁移。** 导出文件带 `schema: 1`，但未来结构变更的迁移路径尚未实现。
-- **语料完整性校验。** manifest 记录了每部书字数，但没有校验分发的 JSON 是否
-  仍然一致。
 
 ### 内容
 
