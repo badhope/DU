@@ -34,6 +34,9 @@ corpus against silent corruption, and lets you take a reading out of the browser
   downgrading the test library or accepting the advisories.
 - The `v0.3.0` tag pointed at a commit that predated the CI-runner fix; version
   and changelog had drifted from the released tree.
+- CI has a `workflow_dispatch` trigger. Refs created through the Git Data API do
+  not emit a `push` event, so without a manual entry point a branch could exist
+  with no way to run the gate against it.
 
 ## [0.3.0] - 2026-11-03
 
