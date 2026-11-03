@@ -55,7 +55,7 @@ jobs:
       # 在 CI 里跑只会制造无意义的脏工作树，所以排除；本地需要更新截图时单独跑
       # npm run screenshots。
       - run: pnpm exec playwright test --grep-invert @screenshots
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: failure()
         with:
           name: playwright-results
