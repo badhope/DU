@@ -225,3 +225,74 @@ localStorage ── src/arena/store.ts
    不能蒙混过关。
 2. **本地模式门禁** —— 扫描源码、文档、README、`package.json`、`index.html`
    和构建后的 `dist`，拦截已知远程 endpoint、凭据模式和上传文案。
+
+---
+
+## 多宿主架构（v0.4.0 起）
+
+同一套计算跑在四种宿主上。这不是"另写一份命令行版"，而是把应用层从浏览器里
+抽出来：
+
+```text
+                 ┌──────────────────────────────────────────┐
+                 │  src/runtime/     宿主无关的应用层         │
+                 │  ask · askAndRecord · sessionView        │
+                 │  renderMatch · renderLedger · catalog    │
+                 └────────────┬─────────────────────────────┘
+                              │
+     ┌────────────┬───────────┼───────────┬─────────────────┐
+     ▼            ▼           ▼           ▼                 ▼
+  src/pages/   src/node/    src/node/   src/node/       (未来)
+  浏览器       cli.ts       server.ts   mcp.ts
+   │            │            │            │
+ localStorage  SQLite       SQLite      SQLite
+```
+
+关键约束写在 `scripts/check-boundaries.mjs` 里：`runtime/` 不得 import
+`node/` 或 `pages/`，`node/` 不得 import `pages/`。反过来允许，因为页面可以
+调用运行时，但运行时不知道宿主是谁。
+
+### 为什么这很重要
+
+`tests/runtime.spec.ts` 里有一条断言：同一问题、同一种子下，Node 端与浏览器端
+生成的 `statementIds` 与正文必须完全一致。这条测试的存在意味着，如果哪天有人
+在 Web 里改了一条规则却没改共享层，CI 会直接失败——而不是等到用户发现
+"命令行算的和网页不一样"。
+
+### 存储适配器
+
+```ts
+interface LedgerStore {
+  listMatches(): BlindMatch[]
+  listClaims(): Claim[]
+  saveMatch(match: BlindMatch): void
+  saveClaims(claims: Claim[]): void
+  resolveClaim(id: string, status: 'hit' | 'miss' | 'unknown'): boolean
+  reset(): void
+  leaderboard(): LeaderboardRow[]
+}
+```
+
+浏览器实现基于 `localStorage`，Node 实现基于 `node:sqlite`。两者的评分都复用
+`arena/rating.ts` 的同一个 `updateElo`，所以 Elo 不会出现"服务端算高了"这种事。
+
+### 为什么是 SEA 而不是 Electron
+
+Electron 会把整份 Chromium 打进安装包。但本项目三种界面里只有网页需要浏览器，
+而网页本来就跑在用户自己的浏览器里。SEA 把 Node 运行时和一个 ~1.5 MB 的脚本
+合成单个二进制，安装包 96 MB（其中 90 MB 是 Node 本体），启动快、不需要管理员
+权限、卸载就是删目录。
+
+网页资源以 SEA assets 的形式嵌进二进制，`tianji serve` 时由 `node:sea` 的
+`getAsset` 取出。这里有个坑值得记下：`getAsset` 只接受 `'utf8'` 或省略编码
+（返回 ArrayBuffer），传 `'binary'` 会抛 `The "binary" encoding is not supported`。
+
+### MCP
+
+用官方 `@modelcontextprotocol/sdk`，stdio 传输。选择 stdio 而不是 SSE/HTTP
+的原因很直接：本地工具不该为了被 AI 客户端调用而开一个端口。客户端配置里写
+`command: tianji, args: ["mcp"]` 就够了，没有鉴权、没有网络、没有监听。
+
+工具设计遵循最小能力原则：`tianji_ask` 默认不落库（`save=false`），
+`tianji_resolve_claim` 会拒绝未到期的判定。AI 能调用的是已经验证过的计算，
+不是"随便生成一段运势"的自由度。

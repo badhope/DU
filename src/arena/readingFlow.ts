@@ -6,7 +6,14 @@ import { masterById } from '@/masters/registry'
 import { generateLocalAnswer } from '@/ai/reading'
 import { saveClaims, saveMatch } from './store'
 
-/** 取盘面事实：有生辰才排八字，梅花永远按时辰起卦。任一内核失败不阻断另一路。 */
+/**
+ * 取盘面事实：有生辰才排八字，梅花永远按时辰起卦。任一内核失败不阻断另一路。
+ *
+ * 注意一个刻意的取舍：没有生辰时这里只返回梅花的卦象，子平那边没有盘面。
+ * 这会让两份回答"可核的东西"不对等 —— 但这是真实的能力边界，不是缺陷：
+ * 没有出生时间就排不出四柱，假装能排才是欺骗。界面在揭晓后会把这一点
+ * 直接说清楚（见 AnswerCard 的"盘面事实"缺省提示）。
+ */
 export async function factsForRequest(request: AskRequest): Promise<ChartFact[]> {
   const tasks: Array<Promise<ChartFact | null>> = []
   if (request.birth) {
@@ -40,7 +47,14 @@ export interface BlindMatchOptions {
   random?: () => number
 }
 
-export async function runBlindMatch(
+/**
+ * 纯计算：生成一场盲测，不写任何存储。
+ *
+ * 浏览器端在拿到结果后再 saveMatch/saveClaims；CLI 与服务端直接消费返回值。
+ * 这样同一份盲测逻辑在三种宿主里跑的是同一段代码，不存在"网页版和命令行版
+ * 算出来不一样"的可能。
+ */
+export async function composeBlindMatch(
   request: AskRequest,
   masterIds: [MasterId, MasterId],
   onAnswer?: (masterId: MasterId, answer: MasterAnswer) => void,
@@ -65,8 +79,18 @@ export async function runBlindMatch(
   }
   if (answers.length !== 2) throw new Error('本次盲测需要两位已启用的大师。')
 
-  const match: BlindMatch = { id, request, masterIds: displayIds, answers: [answers[0]!, answers[1]!], createdAt: request.askedAt }
+  return { id, request, masterIds: displayIds, answers: [answers[0]!, answers[1]!], createdAt: request.askedAt }
+}
+
+/** 浏览器入口：计算 + 写入本机存储 */
+export async function runBlindMatch(
+  request: AskRequest,
+  masterIds: [MasterId, MasterId],
+  onAnswer?: (masterId: MasterId, answer: MasterAnswer) => void,
+  options: BlindMatchOptions = {},
+): Promise<BlindMatch> {
+  const match = await composeBlindMatch(request, masterIds, onAnswer, options)
   saveMatch(match)
-  saveClaims(answers.flatMap((answer) => answer.claims))
+  saveClaims(match.answers.flatMap((answer) => answer.claims))
   return match
 }

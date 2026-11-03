@@ -42,6 +42,15 @@ const hiddenCount = computed(() => props.answer.sections.length - sections.value
       盘面事实与依据共 {{ hiddenCount }} 节已封存，投票后显示——它们会暴露门派。
     </p>
 
+    <!--
+      揭晓后如果这位大师没有盘面，说明白为什么，而不是留一片空白让用户猜。
+      最常见的成因是没填生辰：四柱排不出来，这是能力边界，不是隐瞒。
+    -->
+    <p v-if="revealed && !answer.facts.length" class="answer-nofact">
+      这位大师本次没有可展示的盘面事实。最可能的原因是未填写出生日期与时间——
+      没有生辰就排不出四柱；梅花易数仍按提问时刻起卦。
+    </p>
+
     <div v-if="revealed && answer.citations.length" class="answer-citations">
       <h3>引用状态</h3>
       <p v-for="(citation, index) in answer.citations" :key="`${citation.book}-${citation.text}-${index}`">
@@ -71,6 +80,7 @@ const hiddenCount = computed(() => props.answer.sections.length - sections.value
 .answer-section { margin-top: 13px; }
 .answer-section h3 { margin: 0 0 5px; color: var(--accent-2); font-size: 11px; letter-spacing: .12em; }
 .answer-section p { margin: 0 0 4px; color: var(--ink-1); font-size: 13px; line-height: 1.75; overflow-wrap: anywhere; }
+.answer-nofact { margin: 13px 0 0; padding: 8px 10px; border: 1px dashed var(--tone-warn); border-radius: var(--radius); color: var(--ink-2); font-size: 11px; line-height: 1.7; }
 .answer-sealed { margin: 13px 0 0; padding: 8px 10px; border: 1px dashed var(--line); border-radius: var(--radius); color: var(--ink-3); font-size: 11px; line-height: 1.6; }
 .answer-citations, .answer-claims { margin-top: 13px; padding-top: 11px; border-top: 1px dashed var(--line); }
 .answer-citations h3, .answer-claims h3 { margin: 0 0 5px; color: var(--ink-3); font-size: 11px; letter-spacing: .1em; }

@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.14'  # node:sqlite 需要 22.5+
           cache: npm
       # public/corpus 随仓库提交：它是部署产物的一部分（阅览室要 fetch 它），
       # CI 里不做抓取，只跑门禁。npm run check 已包含版本与 README 一致性。
@@ -47,7 +47,7 @@ jobs:
           version: 10.32.1
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '22.14'  # node:sqlite 需要 22.5+
           cache: pnpm
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm exec playwright install --with-deps chromium

@@ -1,5 +1,10 @@
 node_modules/
 dist/
+
+# 构建产物：由 npm run build:all 生成，不进版本库
+build/
+.tmp-build/
+
 .aqg/
 *.log
 .DS_Store
@@ -7,6 +12,7 @@ dist/
 .idea/
 test-results/
 playwright-report/
-# 本地临时文件（截图比对、调试导出等），不进版本库
+# 本地临时文件（截图比对、调试导出等）
 .tmp-shots/
 .tmp-*.json
+.vitest-results.json
