@@ -38,6 +38,24 @@ export interface AskOptions {
   masterIds?: [MasterId, MasterId]
   /** 注入随机源，测试用 */
   random?: () => number
+  /** 跨会话历史（断语 id），用于降低重复 */
+  seen?: string[]
+}
+
+/**
+ * 从全部已启用大师里随机抽两位。
+ *
+ * 固定取前两位会让第三位（现在有三位了）永远没有出场机会，
+ * 榜单也就永远只有两个人的数据。随机配对同时扩大了可比样本。
+ * 传入 random 时结果可复现，测试用它钉住行为。
+ */
+export function pickPair(random: () => number = Math.random): [MasterId, MasterId] {
+  const pool = ACTIVE_MASTERS.map((master) => master.id)
+  if (pool.length < 2) throw new Error('至少需要两位已启用的大师。')
+  const first = Math.floor(random() * pool.length)
+  let second = Math.floor(random() * (pool.length - 1))
+  if (second >= first) second += 1
+  return [pool[first]!, pool[second]!]
 }
 
 /** 生成一场盲测（不落库），供 CLI / MCP 的"只看不存"模式使用 */
@@ -46,14 +64,17 @@ export async function ask(options: AskOptions): Promise<BlindMatch> {
   if (question.length < 4) throw new Error('问题至少写 4 个字。')
   if (question.length > 2000) throw new Error('问题最多 2000 字。')
 
-  const ids = options.masterIds ?? (ACTIVE_MASTERS.slice(0, 2).map((m) => m.id) as [MasterId, MasterId])
+  const ids = options.masterIds ?? pickPair(options.random)
   const request: AskRequest = {
     question,
     domain: options.domain ?? 'general',
     askedAt: options.askedAt ?? Date.now(),
     ...(options.birth ? { birth: options.birth } : {}),
   }
-  return composeBlindMatch(request, ids, undefined, options.random ? { random: options.random } : {})
+  const matchOptions: { random?: () => number; seen?: string[] } = {}
+  if (options.random) matchOptions.random = options.random
+  if (options.seen?.length) matchOptions.seen = options.seen
+  return composeBlindMatch(request, ids, undefined, matchOptions)
 }
 
 /** 生成并落库 */

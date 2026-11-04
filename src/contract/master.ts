@@ -1,7 +1,7 @@
 export type MasterId = 'ziping' | 'ziwei' | 'meihua' | 'qimen' | 'liuren' | 'xiangfa'
 
 export type MasterStatus = 'active' | 'planned'
-export type MasterKernel = 'bazi' | 'meihua' | 'none'
+export type MasterKernel = 'bazi' | 'meihua' | 'ziwei' | 'none'
 
 export interface Master {
   id: MasterId

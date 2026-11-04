@@ -4,7 +4,7 @@ What is shipped, what is next, and what is deliberately not being built.
 
 [中文版见文末](#中文版)
 
-## Shipped — v0.3.1
+## Shipped — v0.5.0
 
 - Two verified deterministic kernels: Zi Ping four pillars, Mei Hua Yi Shu.
 - Blind two-master evaluation with randomised A/B order, cross-answer
@@ -30,17 +30,14 @@ What is shipped, what is next, and what is deliberately not being built.
 
 ## Next — v0.4.0
 
-### Reliability
-
-- **Import migration.** Exports carry `schema: 1`; a migration path for future
-  schema changes is not written yet.
-
 ### Content
 
-- **More statements per domain.** `study`, `family` and `wealth` have far fewer
-  entries than `general` and `career`, so narrow questions repeat sooner.
-- **Statement rotation across sessions.** `seen` is passed within one match
-  only; it is not persisted, so day-to-day repetition is possible.
+- **Fourth verified school.** 奇门遁甲 is the next candidate; it needs boundary
+  rules for 置闰, 拆补 and 转盘/飞盘 before its status can change.
+
+### Product
+
+- **Self-contained report bundle for a whole ledger**, not just one reading.
 
 ## Later
 
@@ -77,7 +74,7 @@ popular they would be.
 
 ## 中文版
 
-## 已发布 · v0.3.1
+## 已发布 · v0.5.0
 
 - 两套经过验证的确定性内核：子平四柱、梅花易数。
 - 盲测：甲乙顺序随机、两答断语互斥、盘面与依据在投票前封存。
@@ -98,18 +95,17 @@ popular they would be.
 
 ### 可靠性
 
-- **导入迁移。** 导出文件带 `schema: 1`，但未来结构变更的迁移路径尚未实现。
+
 
 ### 内容
 
-- **补齐各领域断语。** `study`、`family`、`wealth` 的条目远少于 `general` 和
-  `career`，窄领域的问题会更快重复。
-- **跨会话轮换。** `seen` 只在单场对局内传递，没有持久化，所以跨天仍可能重复。
+
+
 
 ## 更远
 
-- **第三套已验证体系。** 紫微斗数是自然的下一步：典籍已在仓库内。但必须先补齐
-  闰月、五行局、四化星的边界规则，以及带期望值的外部原例，否则不改状态。
+- **第四套已验证体系。** 奇门遁甲是下一个候选；必须先确定置闰、拆补与转盘/飞盘
+  三套流派取舍，并补齐外部原例。
 - **可导出的报告。** 单次回答生成为本地自包含 HTML，便于用户归档而不依赖站点。
 - **断语触发依据界面化。** 用用户能懂的话展示"为什么选中这句"，而不是内部特征键。
 

@@ -38,13 +38,14 @@ export const MASTERS: Master[] = [
     glyph: '星',
     accent: 'var(--wx-shui)',
     school: '紫微斗数',
-    status: 'planned',
-    kernel: 'none',
+    status: 'active',
+    kernel: 'ziwei',
     books: ['紫微斗数全书'],
-    method: '待补齐并验证命宫、身宫、主星与四化排布后启用；当前仅展示方法卡。',
+    method:
+      '用 iztro（MIT）按公历生辰安十二宫、五行局、主辅星与四化，列出命宫、身宫、每宫主星与庙旺。只陈述宫位主题与结构，不把星曜翻译成吉凶判词；健康与财运宫位只谈关注点，不给结论。',
     persona: '细密、分层、关注长期主题与选择空间。',
     style: ['宫位', '周期', '分层'],
-    safety: ['未完成算法验证前不出盘', '不预测健康灾祸', '不以星曜给出消费建议'],
+    safety: ['不预测健康灾祸', '不以星曜给出消费建议', '不把庙旺利陷当作吉凶定论'],
   },
   {
     id: 'qimen',

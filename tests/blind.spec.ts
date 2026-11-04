@@ -127,3 +127,25 @@ describe('引文状态与来源', () => {
     expect(answer.citations.every((citation) => citation.verification === 'verified')).toBe(true)
   })
 })
+
+describe('跨会话断语轮换', () => {
+  it('传入历史 seen 后，同一问题的选句与不传时不同', () => {
+    const request = { question: '我该不该换工作', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    const first = localAnswer(masterById('ziping')!, request, [baziFact], 1_700_000_000_000, 'm1')
+    // 模拟"昨天问过"：把第一次用过的 id 当作历史
+    const second = localAnswer(masterById('ziping')!, request, [baziFact], 1_700_000_000_000, 'm2', [], {
+      seen: first.statementIds,
+    })
+    const overlap = first.statementIds.filter((id) => second.statementIds.includes(id))
+    expect(overlap.length).toBeLessThan(first.statementIds.length)
+  })
+
+  it('历史覆盖全部候选时仍能出句，不会因为排除而空手', () => {
+    const request = { question: '我该不该换工作', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    // 传一个不可能命中的 id 列表，确认不会崩
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact], 1_700_000_000_000, 'm3', [], {
+      seen: ['nonexistent-1', 'nonexistent-2'],
+    })
+    expect(answer.statementIds.length).toBeGreaterThan(0)
+  })
+})

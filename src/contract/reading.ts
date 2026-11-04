@@ -20,7 +20,8 @@ export interface AskRequest {
 }
 
 export interface ChartFact {
-  kind: 'bazi' | 'meihua'
+  /** 盘面事实来自哪套内核；新增内核必须在此登记，否则界面不会渲染它 */
+  kind: 'bazi' | 'meihua' | 'ziwei'
   title: string
   summary: string
   fields: Record<string, string | number | string[]>

@@ -65,9 +65,10 @@ function selectedStatements(master: Master, request: AskRequest, facts: ChartFac
 
 /** 盘面事实只保留与本门内核匹配的项；没有对应事实时返回空数组，由页面隐藏整节 */
 function factsForMaster(master: Master, facts: ChartFact[]): ChartFact[] {
-  if (master.kernel === 'bazi') return facts.filter((fact) => fact.kind === 'bazi')
-  if (master.kernel === 'meihua') return facts.filter((fact) => fact.kind === 'meihua')
-  return facts
+  // 内核 → 事实类型的映射。新增内核时这里必须登记，否则该大师会拿到所有门派的盘面，
+  // 既暴露身份也可能引用不属于自己的体系。
+  if (master.kernel === 'none') return []
+  return facts.filter((fact) => fact.kind === master.kernel)
 }
 
 export function localAnswer(
@@ -101,8 +102,10 @@ export function localAnswer(
     '## 盘',
     ...relevantFacts.flatMap((fact) => [
       `盘面事实：${fact.summary}`,
+      // 字段按内核给不同上限：四柱/梅花字段少且都是关键项，
+      // 紫微的宫位数组很长，硬切前 4 个会跳过命宫与四化。
       ...Object.entries(fact.fields)
-        .slice(0, 4)
+        .slice(0, fact.kind === 'ziwei' ? 9 : 4)
         .map(([key, value]) => `- ${key}：${Array.isArray(value) ? value.join('、') : String(value)}`),
     ]),
     '## 断',

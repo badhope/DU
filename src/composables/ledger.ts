@@ -14,6 +14,7 @@ import type { MasterId } from '@/contract/master'
 import type { LeaderboardRow } from '@/arena/rating'
 import * as localArena from '@/arena/store'
 import { backendMode, probeBackend, serverLedger } from './backend'
+import { markSeen, sessionContext } from './session'
 
 export type LedgerMode = 'local' | 'server'
 
@@ -83,18 +84,24 @@ export interface AskOptions {
 }
 
 export async function ask(options: AskOptions): Promise<BlindMatch> {
+  // 跨会话轮换：把历史上展示过的断语 id 传给引擎，避免同一句话反复出现
+  const seen = sessionContext(0).seen
   if (!useServer()) {
-    // 本地路径复用既有流程（含随机甲乙序与跨答案互斥）
     const { runBlindMatch } = await import('@/arena/readingFlow')
-    return runBlindMatch(options.request, options.masterIds)
+    const match = await runBlindMatch(options.request, options.masterIds, undefined, seen.length ? { seen } : {})
+    markSeen(match.answers.flatMap((answer) => answer.statementIds))
+    return match
   }
-  return serverLedger.ask({
+  const match = await serverLedger.ask({
     question: options.request.question,
     domain: options.request.domain,
     ...(options.request.birth ? { birth: { date: options.request.birth.date, time: options.request.birth.time } } : {}),
     save: true,
     reveal: true,
   })
+  // 服务端模式同样记录，保证换模式后轮换历史不丢
+  markSeen(match.answers.flatMap((answer) => answer.statementIds))
+  return match
 }
 
 export async function vote(id: string, choice: 'a' | 'b' | 'draw'): Promise<boolean> {

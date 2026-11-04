@@ -7,6 +7,50 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-11-04
+
+The third kernel lands, and the three reliability items the roadmap kept
+deferring are done.
+
+### Added
+
+- **Zi Wei Dou Shu kernel**, on `iztro` (MIT) rather than hand-rolled. 星曜安放
+  has too many edges — leap months, 子时 day boundary, 五行局 determining decadal
+  direction — for a second implementation to be trustworthy. The kernel exposes
+  12 palaces, 五行局, 命主/身主, 四化, brightness, and decadal ranges as
+  `ChartFact`; it makes no judgements.
+- 观星女史 moves from `planned` to `active`, so the arena now pairs any two of
+  three masters at random. Fixing the first two would have left the third with
+  no data forever.
+- **Import schema migration.** Export format is v2. `migrate()` handles v1 files
+  (and files with no `schema` field), rejects anything newer than the app with a
+  readable reason instead of guessing, and `importArena` now returns
+  `{ ok, from } | { ok: false, reason }` so the UI can say what happened.
+- **Cross-session statement rotation.** `seen` used to live only inside one
+  match, so the same question tomorrow repeated the same lines. The ledger
+  facade now passes session history into the engine and records what was shown.
+- **8 more statements each** for `family` and `study`, which were the thinnest
+  domains (13 each). Now 21 apiece; total statement count 173.
+
+### Fixed
+
+- `factsForMaster` had a hardcoded two-branch map; adding a third kernel would
+  have handed it every other school's chart. It now derives the fact kind from
+  `master.kernel`.
+- The ziwei canon statements were all gated behind `domain:wealth` or
+  `stage:settled`, so 观星女史 could produce answers with no citable source at
+  all. Added two general-purpose ones — and the quote gate immediately caught
+  two fabricated quotations I wrote, which is exactly what it is for.
+- CLI/export rendering sliced chart fields to the first four; for ziwei that
+  skipped 命宫 and 四化.
+
+### Verification
+
+- 158 unit/runtime/API assertions in 18 files, 12 of them new for ziwei
+  (hour-index mapping, 子时 boundary, leap month, leap day, invalid dates,
+  gender affecting decadal direction, fact layer containing no judgement words).
+- 31 canon quotations verified verbatim against the shipped corpus.
+
 ## [0.4.1] - 2026-11-04
 
 The "optional backend mode" shipped in 0.4.0 was not connected. It probed
@@ -217,7 +261,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.4.1...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.0...HEAD
+[0.5.0]: https://gitcode.com/badhope/DU/compare/v0.4.1...v0.5.0
 [0.4.1]: https://gitcode.com/badhope/DU/compare/v0.4.0...v0.4.1
 [0.4.0]: https://gitcode.com/badhope/DU/compare/v0.3.1...v0.4.0
 [0.3.1]: https://gitcode.com/badhope/DU/compare/v0.3.0...v0.3.1

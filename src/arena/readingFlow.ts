@@ -2,6 +2,7 @@ import type { MasterId } from '@/contract/master'
 import type { AskRequest, BlindMatch, ChartFact, MasterAnswer } from '@/contract/reading'
 import { calculateBazi } from '@/core/bazi'
 import { calculateMeihua } from '@/core/meihuaFacts'
+import { calculateZiwei } from '@/core/ziwei'
 import { masterById } from '@/masters/registry'
 import { generateLocalAnswer } from '@/ai/reading'
 import { saveClaims, saveMatch } from './store'
@@ -17,8 +18,11 @@ import { saveClaims, saveMatch } from './store'
 export async function factsForRequest(request: AskRequest): Promise<ChartFact[]> {
   const tasks: Array<Promise<ChartFact | null>> = []
   if (request.birth) {
+    // 有生辰才能排的两套：四柱与紫微。任一失败不拖累另一套。
     tasks.push(calculateBazi(request.birth).then((result) => ('fact' in result ? result.fact : null)))
+    tasks.push(calculateZiwei(request.birth).then((result) => ('fact' in result ? result.fact : null)))
   }
+  // 梅花只依赖提问时刻，永远可用
   tasks.push(calculateMeihua(new Date(request.askedAt)).then((result) => ('fact' in result ? result.fact : null)))
   const settled = await Promise.all(tasks)
   return settled.filter((fact): fact is ChartFact => fact !== null)
@@ -45,6 +49,14 @@ export function shuffleForBlind<T>(items: [T, T], random: () => number = Math.ra
 export interface BlindMatchOptions {
   /** 注入确定性随机源，测试用；生产默认 Math.random */
   random?: () => number
+  /**
+   * 跨会话已展示过的断语 id。
+   *
+   * 盲测内部本来就有"同场互斥"，但那只在一次调用内有效：今天问过的问题，
+   * 明天再问会原样重复。把历史 seen 传进来，引擎会降权（match.ts 里 -0.25），
+   * 既不会立刻复读，也不会因为完全排除而导致句库耗尽。
+   */
+  seen?: string[]
 }
 
 /**
@@ -72,7 +84,9 @@ export async function composeBlindMatch(
   for (const masterId of displayIds) {
     const master = masterById(masterId)
     if (!master || master.status !== 'active') continue
-    const answer = await generateLocalAnswer(master, request, facts, id, { seen: usedStatements })
+    // 同场互斥 + 跨会话历史合并去重
+    const seen = [...new Set([...usedStatements, ...(options.seen ?? [])])]
+    const answer = await generateLocalAnswer(master, request, facts, id, { seen })
     usedStatements.push(...answer.statementIds)
     answers.push(answer)
     onAnswer?.(masterId, answer)
