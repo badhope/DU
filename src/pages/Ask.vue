@@ -3,10 +3,13 @@ import { computed, ref } from 'vue'
 import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contract/reading'
 import { ACTIVE_MASTERS } from '@/masters/registry'
 import { pickPair } from '@/runtime'
+import { recordVisit } from '@/composables/session'
 import { getPersistStatus, type PersistStatus } from '@/arena/store'
 import * as ledger from '@/composables/ledger'
 import AnswerCard from '@/ui/AnswerCard.vue'
 import { downloadHtml, renderMatchReport } from '@/arena/report'
+import { checkSafety, domainNotice } from '@/core/safety'
+import { SafetyBlockError } from '@/arena/readingFlow'
 
 const question = ref('')
 const domain = ref<ReadingDomain>('general')
@@ -18,6 +21,10 @@ const error = ref('')
 const voted = ref<VoteChoice | null>(null)
 /** 本机存储写不进去时如实告诉用户，而不是让他以为已经记下了 */
 const persistIssue = ref<PersistStatus>(getPersistStatus())
+/** 安全网关的固定回复：与普通错误分开显示，措辞是求助导向而非报错 */
+const safetyMessage = ref('')
+/** 医疗/财务类问题的领域提醒，附在回答之后 */
+const notice = ref<string | null>(null)
 
 function syncPersistStatus(status: PersistStatus) {
   persistIssue.value = status
@@ -44,8 +51,20 @@ async function ask() {
   if (!canAsk.value || busy.value) return
   busy.value = true
   error.value = ''
+  safetyMessage.value = ''
+  notice.value = null
   match.value = null
   voted.value = null
+  const preCheck = checkSafety(question.value)
+  if (preCheck.message) {
+    // 非危机类（医疗/财务/法律/未成年）也给固定说明，但仍可继续看
+    notice.value = domainNotice(preCheck.level)
+    if (preCheck.level === 'crisis' || preCheck.level === 'minor') {
+      safetyMessage.value = preCheck.message
+      busy.value = false
+      return
+    }
+  }
   const request: AskRequest = {
     question: question.value.trim(),
     domain: domain.value,
@@ -57,8 +76,15 @@ async function ask() {
     const ids = pickPair()
     // 走台账门面：本地模式写 localStorage，服务端模式写 SQLite，页面无需知道区别
     match.value = await ledger.ask({ request, masterIds: ids })
+    // footer 的"本机提问 N 次"依赖这个计数；之前只记在旧工具页，
+    // 问天流程从不递增，用户完成一局后仍显示 0 次。
+    recordVisit(request.domain)
   } catch (cause) {
-    error.value = cause instanceof Error ? cause.message : '本次问天没有完成。'
+    if (cause instanceof SafetyBlockError) {
+      safetyMessage.value = cause.message
+    } else {
+      error.value = cause instanceof Error ? cause.message : '本次问天没有完成。'
+    }
   } finally {
     busy.value = false
   }
@@ -79,6 +105,10 @@ async function vote(choice: VoteChoice) {
     }
     voted.value = choice
     match.value.vote = choice
+    // 匿名响应里没有身份与盘面；投票后单独取一次完整对象来揭晓。
+    // 这不是多此一举 —— 投票前拿到身份就等于取消盲测。
+    const full = await ledger.revealMatch(match.value.id)
+    if (full) match.value = { ...full, vote: choice }
     syncPersistStatus(getPersistStatus())
   } finally {
     voting.value = false
@@ -110,6 +140,9 @@ function reset() {
       <p v-if="!canAsk && question.length > 0" class="ask-error">问题至少写 4 个字；填写出生日期后还需要出生时间。</p>
     </form>
 
+    <div v-if="safetyMessage" class="safety-card" role="alert">
+      <pre class="safety-text">{{ safetyMessage }}</pre>
+    </div>
     <p v-if="error" class="ask-error">{{ error }}</p>
 
     <p v-if="persistIssue === 'quota'" class="ask-warn">
@@ -145,6 +178,8 @@ function reset() {
 .ask-error { color:var(--tone-bad); }
 .ask-warn { margin:0; padding:10px 12px; border:1px solid var(--tone-warn); border-radius:var(--radius); color:var(--ink-1); font-size:12px; line-height:1.75; background:var(--bg-1); }
 .ask-warn a { color:var(--accent); }
+.safety-card { padding:14px 16px; border:1px solid var(--tone-bad); border-radius:var(--radius); background:var(--bg-1); }
+.safety-text { margin:0; white-space:pre-wrap; font:inherit; font-size:13px; line-height:1.9; color:var(--ink-1); }
 .ft-export { padding:4px 9px; font-size:11px; }
 .match { display:grid; gap:15px; margin-top:22px; }
 .match-head { display:flex; align-items:start; justify-content:space-between; gap:14px; }

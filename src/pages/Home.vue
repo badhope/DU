@@ -34,7 +34,7 @@ onMounted(async () => {
     <section class="hm-hero">
       <p class="hm-kicker">TIANJI / MASTER ARENA</p>
       <h1 class="hm-h">天机台</h1>
-      <p class="hm-sub">同一问题，请两位大师各断一遍。先匿名盲评，再看方法与本地规则；古籍可查，样本可回填，准不准由你记录。</p>
+      <p class="hm-sub">同一问题，从 {{ ACTIVE_MASTERS.length }} 位大师里随机抽两位各断一遍。先匿名盲评，投票后才揭晓是谁。</p>
       <div class="hm-actions"><RouterLink class="du-btn primary" to="/ask">开始问天</RouterLink><RouterLink class="du-btn" to="/leaderboard">查看大师榜</RouterLink></div>
       <div class="hm-daily"><p class="hm-daily-k">今日天机 · 仅作自省</p><p class="hm-daily-x">{{ daily.text }}</p><p class="hm-daily-s">{{ daily.source?.kind === 'canon' ? `《${daily.source.book}》${daily.source.loc ?? ''}：${daily.source.quote ?? ''}` : daily.source?.gloss ?? '经验观察' }}</p><p class="hm-daily-b">人群天然适用约 {{ Math.round(daily.baseRate * 100) }}%；不是个性化预测。</p></div>
     </section>

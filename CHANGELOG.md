@@ -7,6 +7,58 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-11-05
+
+An external audit found that several safety and privacy claims existed only in
+documentation. This release makes them executable.
+
+### Security & safety (highest priority)
+
+- **Crisis input is now blocked before any generation.** Previously "我想自杀"
+  produced "你不是在做决定，是在等一个不用负责的理由" — dangerous output for
+  someone in crisis. `src/core/safety.ts` is a gate that runs before the chart,
+  statements and claims are produced, and it covers suicide, self-harm, abuse,
+  medical decisions, minors, leverage and legal matters. It is shared by web,
+  CLI, HTTP and MCP, so no host can bypass it. 24 tests plus 2 browser tests.
+- **The HTTP API had no authentication.** A page on any other origin could read
+  the whole ledger — including birth dates — via DNS rebinding, and could write
+  to it with a `text/plain` POST. Now: Host must be loopback, cross-site Origin
+  is rejected, and non-browser clients need the token written to the data
+  directory. Verified by tests that assert 403 on both vectors.
+- **Server-mode blind evaluation was decorative.** The web client requested
+  `reveal: true` and hid the identity in the UI only; `/api/matches` returned
+  every match in full. Now the ask response is structurally sealed, the list
+  endpoint returns identity only for already-voted matches, and the UI fetches
+  the full object after voting.
+- **The local-only gate could be bypassed.** It matched a fixed list of vendor
+  domains, so `fetch("https://evil.example")` in `src/` passed. It now detects
+  network APIs (`fetch`, `XHR`, `WebSocket`, `node:http`, …) with an explicit,
+  reasoned allowlist. Reverse-tested: adding a `fetch` probe turns it red.
+- **"Clear all local data" left data behind.** It never removed
+  `tianji.arena.quarantine`, which holds up to 200 KB of raw ledger including
+  birth dates.
+
+### Correctness
+
+- **Claims were dated one year out while their text said "this week".** The
+  ledger therefore rejected every attempt to resolve them, and the UI ignored
+  the rejection — the core loop was dead on first use. Claims are now +7 days
+  and their text shows the deadline; the resolver reports why it refused and
+  disables the buttons before the due date.
+- **Sample-size gate was documented but not implemented.** A master with one
+  match showed "见习 · 胜率下界 21%", contradicting "at least 5 matches before
+  ranking". `wilsonLower` is now null below the threshold.
+- About page claimed 紫微 was still pending while it had been active since
+  v0.5.0; the list of pending schools is now derived from the registry.
+- Footer "本机提问 N 次" never incremented because the ask flow never called
+  `recordVisit`.
+
+### Changed
+
+- README reduced from 137 lines to 39: one sentence, three screenshots, install
+  commands, four-step usage table. Everything else moved to `docs/`.
+- `process.env` removed from browser-path code — it crashed the whole page.
+
 ## [0.5.0] - 2026-11-04
 
 The third kernel lands, and the three reliability items the roadmap kept
@@ -261,7 +313,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.0...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.1...HEAD
+[0.5.1]: https://gitcode.com/badhope/DU/compare/v0.5.0...v0.5.1
 [0.5.0]: https://gitcode.com/badhope/DU/compare/v0.4.1...v0.5.0
 [0.4.1]: https://gitcode.com/badhope/DU/compare/v0.4.0...v0.4.1
 [0.4.0]: https://gitcode.com/badhope/DU/compare/v0.3.1...v0.4.0

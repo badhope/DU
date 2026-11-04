@@ -326,6 +326,13 @@ export function resolveClaim(id: string, status: Exclude<ClaimStatus, 'pending'>
 export function resetArena(): void {
   state = initialState()
   persist()
+  // 隔离区里是上一次非法台账的原始 JSON，含问题、生辰、回答与断言。
+  // 之前"清空全部"不动它，用户在共享电脑上清完，敏感数据还在 —— 这是误导性删除。
+  try {
+    localStorage.removeItem(QUARANTINE_KEY)
+  } catch {
+    /* 存储被禁用时无从谈起 */
+  }
 }
 
 /* ── 导入导出 ───────────────────────────────────────────── */

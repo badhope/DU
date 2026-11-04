@@ -88,8 +88,10 @@ export function leaderboardRows(stats: MasterStats[], minimumSamples = 5): Leade
       const decisive = item.wins + item.losses
       return {
         ...item,
-        winRate: decisive ? item.wins / decisive : null,
-        wilsonLower: decisive ? wilsonLower(item.wins, decisive) : null,
+        // 小样本不报胜率：1 场赢了显示"100%"是在用小样本冒充实力。
+        // 门槛与 tier 一致（满 5 场），否则界面会出现"见习 · 胜率下界 21%"这种自相矛盾的组合。
+        winRate: item.matches >= minimumSamples && decisive ? item.wins / decisive : null,
+        wilsonLower: item.matches >= minimumSamples && decisive ? wilsonLower(item.wins, decisive) : null,
         claimRate: item.claimsResolved ? item.claimsHit / item.claimsResolved : null,
         tier: (item.matches >= minimumSamples ? '在榜' : '见习') as '在榜' | '见习',
       }

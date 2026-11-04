@@ -41,6 +41,58 @@ const MIME: Record<string, string> = {
 
 const MAX_BODY = 2 * 1024 * 1024
 
+/**
+ * 本机服务的一次性令牌。
+ *
+ * 默认只监听 127.0.0.1 并不够：浏览器里的任意网页仍可通过 DNS rebinding
+ * 以"同源"身份请求这个端口，读走含生辰的全库。实测带 `Origin: evil.test` 的
+ * POST 会返回 200 并真的写入数据。
+ *
+ * 所以：启动时生成随机令牌，写进数据目录的 `token` 文件；页面由服务端注入，
+ * 每次请求带 `X-Tianji-Token`。这不是为了防本机其他进程（那需要 OS 级隔离），
+ * 而是为了挡住浏览器侧的跨站与 rebinding 攻击。
+ */
+let serverToken: string | null = null
+
+export function setServerToken(token: string | null): void {
+  serverToken = token
+}
+
+/** 校验 Host 与 Origin，只接受本机来源 */
+function trustedRequest(req: IncomingMessage, allowToken: string | null): boolean {
+  const host = req.headers.host ?? ''
+  const hostname = host.split(':')[0] ?? ''
+  const isLoopback = hostname === '127.0.0.1' || hostname === 'localhost' || hostname === '[::1]'
+  if (!isLoopback) return false
+
+  const origin = req.headers.origin
+  if (origin) {
+    try {
+      const url = new URL(origin)
+      if (!['127.0.0.1', 'localhost', '[::1]'].includes(url.hostname)) return false
+    } catch {
+      return false
+    }
+  }
+
+  /*
+   * 浏览器侧：用 Sec-Fetch-Site 判定是否为同源导航/请求。
+   * 现代浏览器一定会带这个头；恶意站点的跨站请求会是 cross-site。
+   * 不依赖令牌是因为：页面必须能加载才能拿到令牌，而页面本身又要鉴权，
+   * 容易陷入鸡生蛋，且多一层注入就多一处可能出错的地方。
+   *
+   * 非浏览器客户端（curl、脚本）没有这个头，此时要求令牌 —— 它们本来
+   * 也能读到数据目录里的 token 文件。
+   */
+  const site = req.headers['sec-fetch-site']
+  if (site === 'same-origin' || site === 'none') return true
+  if (allowToken) {
+    const provided = req.headers['x-tianji-token']
+    return provided === allowToken
+  }
+  return true
+}
+
 function send(res: ServerResponse, status: number, body: unknown, type = 'application/json; charset=utf-8'): void {
   const payload = typeof body === 'string' ? body : JSON.stringify(body)
   res.writeHead(status, {
@@ -107,8 +159,19 @@ export function createApp(options: ServerOptions) {
   const store = new SqliteLedgerStore({ file: join(options.dataDir, 'ledger.db') })
 
   return async (req: IncomingMessage, res: ServerResponse): Promise<void> => {
-    const url = new URL(req.url ?? '/', `http://${req.headers.host ?? '127.0.0.1'}`)
+    const url = new URL(req.url ?? '/', 'http://127.0.0.1')
     const path = url.pathname
+
+    /*
+     * 鉴权只覆盖 /api/*。
+     *
+     * 首页必须先能加载，页面才能拿到服务端注入的令牌 —— 如果连 / 都要求令牌，
+     * 就变成鸡生蛋。静态资源本身不含用户数据，放行不构成泄露。
+     */
+    if (path.startsWith('/api/') && !trustedRequest(req, serverToken)) {
+      send(res, 403, { error: '仅接受本机同源请求。' })
+      return
+    }
 
     try {
       /* ── API ─────────────────────────────────────────── */
@@ -154,7 +217,34 @@ export function createApp(options: ServerOptions) {
       }
 
       if (path === '/api/matches' && req.method === 'GET') {
-        send(res, 200, store.listMatches())
+        // 列表不返回盘面与身份：投票前拿到这些等于取消盲测。
+        // 只给「够用来列出和进入」的字段。
+        send(
+          res,
+          200,
+          store.listMatches().map((match) => ({
+            id: match.id,
+            request: match.request,
+            createdAt: match.createdAt,
+            vote: match.vote ?? null,
+            answered: match.answers.length,
+            // 已投票的场次可以公开身份（结果已定，不影响盲测）；
+            // 未投票的必须继续隐藏，否则列表页就是答案本身。
+            ...(match.vote ? { masterIds: match.masterIds } : {}),
+          })),
+        )
+        return
+      }
+
+      if (path === '/api/match' && req.method === 'GET') {
+        const id = url.searchParams.get('id')
+        const match = id ? store.listMatches().find((item) => item.id === id) : undefined
+        if (!match) {
+          send(res, 404, { error: '没有这条记录。' })
+          return
+        }
+        // 未投票前不给身份：这是盲测的硬约束，不是界面偏好
+        send(res, 200, match.vote ? match : sealMatch(match))
         return
       }
 
@@ -216,7 +306,17 @@ export function createApp(options: ServerOptions) {
         // hash 路由的深链都指向 index.html；真正的资源必须精确命中
         const resolvedKey = known.has(key) ? key : known.has('index.html') ? 'index.html' : null
         if (resolvedKey) {
-          const body = readAsset(resolvedKey, options.staticDir)
+          let body = readAsset(resolvedKey, options.staticDir)
+          if (body && resolvedKey === 'index.html' && serverToken) {
+            // 页面需要拿到令牌才能调 API；直接注入比让前端再请求一次更简单，
+            // 也不会把令牌暴露在 URL 里。
+            body = Buffer.from(
+              body.toString('utf8').replace(
+                '<div id="app"></div>',
+                `<div id="app"></div><script>window.__TIANJI_TOKEN__=${JSON.stringify(serverToken)}</script>`,
+              ),
+            )
+          }
           if (body) {
             res.writeHead(200, {
               'Content-Type': MIME[extname(resolvedKey)] ?? 'application/octet-stream',
@@ -238,6 +338,14 @@ export function createApp(options: ServerOptions) {
 }
 
 export async function startServer(options: ServerOptions): Promise<void> {
+  // 生成一次性令牌；写入数据目录供 CLI/调试使用，页面由上面注入
+  const { randomUUID } = await import('node:crypto')
+  const { writeFileSync } = await import('node:fs')
+  const token = randomUUID()
+  setServerToken(token)
+  mkdirSync(options.dataDir, { recursive: true })
+  writeFileSync(join(options.dataDir, 'token'), token, { mode: 0o600 })
+
   const handler = createApp(options)
   const server = createServer((req, res) => {
     void handler(req, res)

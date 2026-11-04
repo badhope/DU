@@ -15,7 +15,7 @@ import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { createServer, type Server } from 'node:http'
-import { createApp } from '@/node/server'
+import { createApp, setServerToken } from '@/node/server'
 
 let server: Server
 let base: string
@@ -23,6 +23,9 @@ let dataDir: string
 
 beforeAll(async () => {
   dataDir = mkdtempSync(join(tmpdir(), 'tianji-api-'))
+  // v0.5.1 起 API 要求同源令牌；测试里固定一个，模拟页面注入
+  const TOKEN = 'test-token'
+  setServerToken(TOKEN)
   const handler = createApp({ port: 0, dataDir })
   server = createServer((req, res) => void handler(req, res))
   await new Promise<void>((resolve) => server.listen(0, '127.0.0.1', () => resolve()))
@@ -30,6 +33,11 @@ beforeAll(async () => {
   const port = typeof address === 'object' && address ? address.port : 0
   base = `http://127.0.0.1:${port}`
 })
+
+/** 所有 API 请求都带令牌与 127.0.0.1 Host（服务端会校验来源） */
+function authFetch(url: string, init?: RequestInit) {
+  return fetch(url, { ...init, headers: { 'X-Tianji-Token': 'test-token', ...(init?.headers ?? {}) } })
+}
 
 afterAll(async () => {
   await new Promise<void>((resolve) => server.close(() => resolve()))
@@ -43,7 +51,7 @@ afterAll(async () => {
 
 describe('HTTP API', () => {
   it('健康检查返回版本号', async () => {
-    const response = await fetch(`${base}/api/health`)
+    const response = await authFetch(`${base}/api/health`)
     const body = (await response.json()) as { ok: boolean; version: string }
     expect(response.status).toBe(200)
     expect(body.ok).toBe(true)
@@ -51,7 +59,7 @@ describe('HTTP API', () => {
   })
 
   it('目录返回全部大师与已启用子集', async () => {
-    const body = (await (await fetch(`${base}/api/catalog`)).json()) as {
+    const body = (await (await authFetch(`${base}/api/catalog`)).json()) as {
       masters: unknown[]
       active: string[]
     }
@@ -61,7 +69,7 @@ describe('HTTP API', () => {
   })
 
   it('问题过短返回 400 而不是空结果', async () => {
-    const response = await fetch(`${base}/api/ask`, {
+    const response = await authFetch(`${base}/api/ask`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: '嗨' }),
@@ -70,7 +78,7 @@ describe('HTTP API', () => {
   })
 
   it('匿名响应不含 masterId、门派名、盘面与依据', async () => {
-    const response = await fetch(`${base}/api/ask`, {
+    const response = await authFetch(`${base}/api/ask`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: '匿名接口契约测试问题', save: false }),
@@ -90,7 +98,7 @@ describe('HTTP API', () => {
   })
 
   it('reveal=true 时才返回完整身份', async () => {
-    const response = await fetch(`${base}/api/ask`, {
+    const response = await authFetch(`${base}/api/ask`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: '揭晓模式接口测试问题', save: false, reveal: true }),
@@ -107,21 +115,21 @@ describe('HTTP API', () => {
 
   it('投票写一次成功，重复投票返回 409', async () => {
     const created = await (
-      await fetch(`${base}/api/ask`, {
+      await authFetch(`${base}/api/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ question: '重复投票接口测试问题', save: true }),
       })
     ).json()
 
-    const first = await fetch(`${base}/api/vote`, {
+    const first = await authFetch(`${base}/api/vote`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: created.id, vote: 'a' }),
     })
     expect(first.status).toBe(200)
 
-    const second = await fetch(`${base}/api/vote`, {
+    const second = await authFetch(`${base}/api/vote`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: created.id, vote: 'b' }),
@@ -130,9 +138,9 @@ describe('HTTP API', () => {
   })
 
   it('未到期断言不能标记为应验', async () => {
-    const claims = (await (await fetch(`${base}/api/claims`)).json()) as Array<{ id: string }>
+    const claims = (await (await authFetch(`${base}/api/claims`)).json()) as Array<{ id: string }>
     expect(claims.length).toBeGreaterThan(0)
-    const response = await fetch(`${base}/api/claims/resolve`, {
+    const response = await authFetch(`${base}/api/claims/resolve`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id: claims[0]!.id, status: 'hit' }),
@@ -141,7 +149,7 @@ describe('HTTP API', () => {
   })
 
   it('报告的 Content-Type 是 HTML，且可被浏览器直接打开', async () => {
-    const response = await fetch(`${base}/api/report/ledger`)
+    const response = await authFetch(`${base}/api/report/ledger`)
     expect(response.headers.get('content-type')).toContain('text/html')
     const html = await response.text()
     expect(html).toContain('<!doctype html>')
@@ -149,12 +157,68 @@ describe('HTTP API', () => {
   })
 
   it('路径穿越被拒绝', async () => {
-    const response = await fetch(`${base}/api/../../etc/passwd`, { redirect: 'manual' })
+    const response = await authFetch(`${base}/api/../../etc/passwd`, { redirect: 'manual' })
     expect([403, 404]).toContain(response.status)
   })
 
   it('所有响应都禁止缓存', async () => {
-    const response = await fetch(`${base}/api/health`)
+    const response = await authFetch(`${base}/api/health`)
     expect(response.headers.get('cache-control')).toBe('no-store')
+  })
+})
+
+describe('来源校验（DNS rebinding 防护）', () => {
+  it('Host 不是本机地址时拒绝', async () => {
+    // fetch 不允许覆盖 Host 头（属于禁止修改的头），必须用原生 http 构造
+    const { request } = await import('node:http')
+    const url = new URL(`${base}/api/health`)
+    const status = await new Promise<number>((resolve, reject) => {
+      const req = request(
+        {
+          hostname: url.hostname,
+          port: url.port,
+          path: url.pathname,
+          headers: { Host: 'evil.test', 'X-Tianji-Token': 'test-token' },
+        },
+        (res) => {
+          res.resume()
+          resolve(res.statusCode ?? 0)
+        },
+      )
+      req.on('error', reject)
+      req.end()
+    })
+    expect(status).toBe(403)
+  })
+
+  it('跨站 Origin 被拒绝', async () => {
+    const response = await fetch(`${base}/api/session`, {
+      headers: { Origin: 'http://evil.test', 'X-Tianji-Token': 'test-token' },
+    })
+    expect(response.status).toBe(403)
+  })
+
+  it('同源请求放行', async () => {
+    const response = await fetch(`${base}/api/health`, {
+      headers: { 'Sec-Fetch-Site': 'same-origin' },
+    })
+    expect(response.status).toBe(200)
+  })
+
+  it('未投票的对局不返回身份', async () => {
+    const created = await (
+      await authFetch(`${base}/api/ask`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: '盲测列表不可泄露身份', save: true }),
+      })
+    ).json()
+
+    const list = (await (await authFetch(`${base}/api/matches`)).json()) as Array<Record<string, unknown>>
+    const mine = list.find((m) => m.id === created.id)
+    expect(mine).toBeDefined()
+    // 未投票：列表项里不能有 masterIds、answers、facts
+    expect(mine!.masterIds).toBeUndefined()
+    expect(mine!.answers).toBeUndefined()
   })
 })

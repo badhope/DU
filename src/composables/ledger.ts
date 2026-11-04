@@ -92,16 +92,28 @@ export async function ask(options: AskOptions): Promise<BlindMatch> {
     markSeen(match.answers.flatMap((answer) => answer.statementIds))
     return match
   }
-  const match = await serverLedger.ask({
+  // 投票前必须拿脱敏响应。之前固定 reveal:true，服务端把 masterId、盘面、
+  // 依据全发过来，Vue 只是在界面上隐藏 —— 打开 DevTools 就能看到甲乙是谁，
+  // 所谓盲测只是界面层表演。现在拿脱敏版，投票后再单独取完整对象。
+  const sealed = await serverLedger.ask({
     question: options.request.question,
     domain: options.request.domain,
     ...(options.request.birth ? { birth: { date: options.request.birth.date, time: options.request.birth.time } } : {}),
     save: true,
-    reveal: true,
+    reveal: false,
   })
-  // 服务端模式同样记录，保证换模式后轮换历史不丢
-  markSeen(match.answers.flatMap((answer) => answer.statementIds))
-  return match
+  markSeen(sealed.answers.flatMap((answer) => answer.statementIds))
+  return sealed
+}
+
+/** 投票后取完整对象（含身份与盘面）。只在用户已投票后调用。 */
+export async function revealMatch(id: string): Promise<BlindMatch | null> {
+  if (!useServer()) return localArena.listMatches().find((item) => item.id === id) ?? null
+  try {
+    return await serverLedger.match(id)
+  } catch {
+    return null
+  }
 }
 
 export async function vote(id: string, choice: 'a' | 'b' | 'draw'): Promise<boolean> {
