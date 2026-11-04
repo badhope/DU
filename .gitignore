@@ -16,3 +16,4 @@ playwright-report/
 .tmp-shots/
 .tmp-*.json
 .vitest-results.json
+.tmp-e2e-backend/

@@ -67,8 +67,14 @@ export const serverLedger = {
   session: () => json<ServerSession>('api/session'),
   matches: () => json<BlindMatch[]>('api/matches'),
   claims: () => json<Claim[]>('api/claims'),
-  ask: (body: { question: string; domain?: string; birth?: { date: string; time: string }; save?: boolean }) =>
-    json<BlindMatch>('api/ask', { method: 'POST', body: JSON.stringify(body) }),
+  ask: (body: {
+    question: string
+    domain?: string
+    birth?: { date: string; time: string }
+    save?: boolean
+    /** 服务端默认脱敏；页面需要完整对象时才传 true */
+    reveal?: boolean
+  }) => json<BlindMatch>('api/ask', { method: 'POST', body: JSON.stringify(body) }),
   vote: (id: string, vote: 'a' | 'b' | 'draw') =>
     json<{ ok: boolean }>('api/vote', { method: 'POST', body: JSON.stringify({ id, vote }) }),
   resolve: (id: string, status: 'hit' | 'miss' | 'unknown') =>

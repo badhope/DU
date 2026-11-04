@@ -7,6 +7,34 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-11-04
+
+The "optional backend mode" shipped in 0.4.0 was not connected. It probed
+`/api/health`, showed "SERVER" in settings, and then wrote everything to
+`localStorage` anyway. Status was real; behaviour was not.
+
+### Fixed
+
+- **Backend mode is actually wired.** `src/composables/ledger.ts` is now the
+  single read/write entry point for every page. It dispatches to `localStorage`
+  or the HTTP API depending on the probed mode, so no page can be left behind.
+  Ask, arena, leaderboard, ledger, master cards, home stats and settings export
+  all route through it.
+- Backend-mode E2E proves the writes land in SQLite, not just that the UI says
+  so: `e2e/backend.spec.ts` starts a real `tianji serve`, asks a question through
+  the browser, and then asserts `/api/session` reports one more match. Verified
+  by forcing the facade back to local-only — four of the five tests fail.
+- Voting in server mode is a network round trip, so a double click could fire
+  two requests and surface a spurious "already voted" error. The vote buttons
+  now lock while in flight.
+
+### Changed
+
+- `playwright.backend.config.ts` runs the packaged `tianji serve` rather than the
+  vite dev server, so the test covers the shape users actually run.
+- Architecture boundary table updated: `composables` may depend on `arena`
+  (the ledger facade needs it), which the gate itself flagged.
+
 ## [0.4.0] - 2026-11-04
 
 The engine grew three more hosts. Web, CLI, desktop and MCP now share one
@@ -189,7 +217,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.4.0...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.4.1...HEAD
+[0.4.1]: https://gitcode.com/badhope/DU/compare/v0.4.0...v0.4.1
 [0.4.0]: https://gitcode.com/badhope/DU/compare/v0.3.1...v0.4.0
 [0.3.1]: https://gitcode.com/badhope/DU/compare/v0.3.0...v0.3.1
 [0.3.0]: https://gitcode.com/badhope/DU/compare/v0.2.0...v0.3.0

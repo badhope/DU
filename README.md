@@ -1,4 +1,4 @@
-# Tianji · DU <sub>v0.4.0</sub>
+# Tianji · DU <sub>v0.4.1</sub>
 
 **Blind-evaluated Chinese metaphysics, running entirely on your machine.**
 

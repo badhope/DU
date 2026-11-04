@@ -25,6 +25,8 @@ What is shipped, what is next, and what is deliberately not being built.
 - Storage-failure reporting: failed `localStorage` writes surface as quota or
   blocked instead of failing silently.
 - Dependency audit at zero vulnerabilities.
+- Optional backend mode that actually routes reads and writes to the local
+  server, with E2E proving the data lands in SQLite.
 
 ## Next — v0.4.0
 
@@ -90,6 +92,7 @@ popular they would be.
 - 语料完整性门禁：manifest 的章数与字数会与真正分发的 JSON 核对。
 - 存储写入失败会如实显示为"配额满"或"被禁用"，不再静默。
 - 依赖审计 0 漏洞。
+- 可选后端模式真正接管读写，E2E 证明数据落到 SQLite。
 
 ## 下一步 · v0.4.0
 

@@ -2,13 +2,13 @@
 import { computed, onMounted, ref } from 'vue'
 import { ACTIVE_MASTERS, MASTERS } from '@/masters/registry'
 import type { Master } from '@/contract/master'
-import { listLeaderboard } from '@/arena/store'
+import * as ledger from '@/composables/ledger'
 import { getManifest, type Manifest } from '@/data/corpus'
 import { STATEMENTS } from '@/engine/resonance'
 import MasterCard from '@/ui/MasterCard.vue'
 
 const manifest = ref<Manifest | null>(null)
-const board = computed(() => listLeaderboard())
+const board = ref<Awaited<ReturnType<typeof ledger.leaderboard>>>([])
 const plannedMasters = computed<Master[]>(() => MASTERS.filter((master) => master.status === 'planned'))
 const canonCount = computed(() => STATEMENTS.filter((item) => item.source?.kind === 'canon').length)
 const daily = computed(() => {
@@ -17,7 +17,11 @@ const daily = computed(() => {
   const index = [...key].reduce((sum, char) => (sum * 31 + char.charCodeAt(0)) >>> 0, 7) % STATEMENTS.length
   return STATEMENTS[index]!
 })
-onMounted(async () => { try { manifest.value = await getManifest() } catch { manifest.value = null } })
+onMounted(async () => {
+  // 两件事并行拉取：榜单可能来自服务端，manifest 是本地静态文件
+  const [rows] = await Promise.all([ledger.leaderboard(), getManifest().then((m) => { manifest.value = m }).catch(() => { manifest.value = null })])
+  board.value = rows
+})
 </script>
 
 <template>
