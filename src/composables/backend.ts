@@ -29,7 +29,10 @@ export function probeBackend(): Promise<boolean> {
     const controller = new AbortController()
     const timer = setTimeout(() => controller.abort(), PROBE_TIMEOUT)
     try {
-      const response = await fetch('api/health', { signal: controller.signal, headers: { Accept: 'application/json' } })
+      const response = await fetch('api/health', {
+        signal: controller.signal,
+        headers: { Accept: 'application/json', ...authHeaders() },
+      })
       if (!response.ok) return false
       const payload = (await response.json()) as { ok?: boolean }
       backendAvailable.value = payload.ok === true
@@ -46,10 +49,16 @@ export function probeBackend(): Promise<boolean> {
   return probed
 }
 
+/** 服务端注入到页面的令牌（见 node/server.ts 的 index.html 注入） */
+function authHeaders(): Record<string, string> {
+  const token = (globalThis as { __TIANJI_TOKEN__?: string }).__TIANJI_TOKEN__
+  return token ? { 'X-Tianji-Token': token } : {}
+}
+
 async function json<T>(path: string, init?: RequestInit): Promise<T> {
   const response = await fetch(path, {
     ...init,
-    headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...(init?.headers ?? {}) },
+    headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...authHeaders(), ...(init?.headers ?? {}) },
   })
   if (!response.ok) throw new Error(`${init?.method ?? 'GET'} ${path} → ${response.status}`)
   return (await response.json()) as T
@@ -66,6 +75,7 @@ export interface ServerSession {
 export const serverLedger = {
   session: () => json<ServerSession>('api/session'),
   matches: () => json<BlindMatch[]>('api/matches'),
+  match: (id: string) => json<BlindMatch>(`api/match?id=${encodeURIComponent(id)}`),
   claims: () => json<Claim[]>('api/claims'),
   ask: (body: {
     question: string

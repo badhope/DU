@@ -41,7 +41,9 @@ function parseCitation(line: string): Citation | null {
 
 function parseClaims(lines: string[], masterId: MasterId, matchId: string | undefined, now: number): Claim[] {
   return lines.flatMap((line, index) => {
-    const match = /^[-*]\s*\[(\d{4}-\d{2}-\d{2})\]\s*(.+)$/.exec(line)
+    // 兼容两种写法：[2027-11-04] 与 [截止 2027-11-04]。
+    // 后者是 v0.5.1 起的新格式，让期限在正文里可读。
+    const match = /^[-*]\s*\[(?:截止\s*)?(\d{4}-\d{2}-\d{2})\]\s*(.+)$/.exec(line)
     if (!match) return []
     const due = new Date(`${match[1]}T23:59:59`).getTime()
     if (!Number.isFinite(due)) return []

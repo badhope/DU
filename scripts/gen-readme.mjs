@@ -115,259 +115,86 @@ const screenshots = `| Home | Blind match — sealed | After voting |
 
 const en = `# Tianji · DU <sub>v${pkg.version}</sub>
 
-**Blind-evaluated Chinese metaphysics, running entirely on your machine.**
+两种门派读同一个问题，你盲评，然后才揭晓是谁。带日期的断言进应验簿，由你自己回填。
 
-Two verified schools read the same question. You score before the methods are
-revealed. Every dated claim goes into a ledger you settle yourself.
+[中文](README.zh-CN.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
 
-[中文](README.zh-CN.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md) · [Architecture](docs/ARCHITECTURE.md) · [Method cards](docs/MASTERS.md)
-
-${screenshots}
-
-<sub>Screenshots from the real build via Playwright, fictional input.</sub>
-
-## Three ways to run it
-
-| | Command | What you get |
+| Ask | Blind match | After voting |
 | --- | --- | --- |
-| **Web** | open the hosted page | Everything in your browser. Zero install. |
-| **CLI** | \`tianji ask "…"\` | Same engine, scriptable, JSON output, SQLite ledger. |
-| **Desktop** | \`tianji.exe serve\` | Single 96 MB file. Serves the web UI, no Node needed. |
-| **MCP** | \`tianji mcp\` | Exposes the engine to Claude, VS Code, Cursor as 5 tools. |
-
-All four share one computation layer. The same question with the same seed
-produces byte-identical readings in every host — \`tests/runtime.spec.ts\` asserts it.
-
-## The loop
-
-\`\`\`text
-        ask                score blind            reveal            settle
-  ┌─────────────┐    ┌──────────────────┐   ┌──────────┐    ┌─────────────┐
-  │ one question│ →  │ 甲 / 乙, sealed  │ → │ methods  │ →  │ dated claims│
-  │ two schools │    │ charts + sources │   │ + names  │    │ hit/miss    │
-  └─────────────┘    └──────────────────┘   └──────────┘    └─────────────┘
-\`\`\`
-
-Sealed means *not rendered*, not *labelled hidden*: the API strips \`masterId\`,
-chart facts, sources and claim IDs before the vote, because a hexagram gives away
-Mei Hua and a four-pillar chart gives away Zi Ping.
-
-## What makes it checkable
-
-| Claim | How it is enforced |
-| --- | --- |
-| Citations are real | \`npm run verify:quotes\` matches all 29 static quotes against the shipped corpus |
-| Corpus is intact | \`npm run check:corpus\` re-counts 12 books / 148 chapters / 1,870,466 chars |
-| Blind is blind | randomised A/B order, cross-answer statement exclusion, structural sealing |
-| Small samples don't win | Elo + Wilson 95% lower bound, ranked only after 5 matches |
-| Claims are falsifiable | dated, resolved by a human, \`unknown\` never enters the denominator |
-| Nothing leaves the device | \`npm run check:local-only\` scans source and built output |
-
-## The engine
-
-${statementCount} statements, each with explicit trigger conditions, an honest population base
-rate, and a source. 29 carry verbatim classical quotations across 12 public-domain
-classics. Matching is deterministic — same input, same seed, same result — so a
-reading can be reproduced and argued about, which is the whole point.
-
-${activeMasters.length} kernels are active and verified:
-
-| id | Master | School | Kernel |
-| --- | --- | --- | --- |
-${activeRows}
-
-${plannedMasters.length} more publish their method cards and stay \`planned\` until boundary rules and
-external worked examples exist. Shipping a half-verified algorithm as finished
-would defeat the platform.
+| ![Home](docs/screenshots/home.png) | ![Blind](docs/screenshots/blind-match.png) | ![Reveal](docs/screenshots/reveal.png) |
 
 ## Install
 
 \`\`\`bash
-# CLI (needs Node 20+)
+# CLI
 npm ci && npm run build:all
-node build/cli.mjs doctor
+node build/cli.mjs ask "我要不要换工作" --domain career
 
-# Desktop (Windows, no Node required)
-build\install.cmd
-tianji serve            # then open http://127.0.0.1:7317
-\`\`\`
+# Desktop (Windows, no Node needed)
+build/install.cmd
+tianji serve                 # http://127.0.0.1:7317
 
-MCP clients — add to the config:
-
-\`\`\`json
+# MCP (Claude / VS Code / Cursor)
 { "mcpServers": { "tianji": { "command": "tianji", "args": ["mcp"] } } }
 \`\`\`
 
-## Commands
+## What it does
 
-\`\`\`text
-tianji ask "我要不要换工作" --domain career   ask two masters, sealed
-tianji ask "…" --reveal                      show names, charts, sources
-tianji ledger                                pending claims and due dates
-tianji resolve <id> hit|miss|unknown         settle a claim
-tianji report latest --out r.html            self-contained HTML report
-tianji export / import                       move the ledger as JSON
-tianji serve --port 7317                     web UI + HTTP API
-tianji doctor                                environment + data check
-\`\`\`
+| | |
+| --- | --- |
+| 问一次 | 写下问题，可填生辰（填了才能排子平与紫微） |
+| 盲评 | 两份匿名回答，投票前看不到姓名、门派、盘面 |
+| 揭晓 | 投完才看到是谁，以及引文出处 |
+| 回填 | 一周后回来说这条断语准不准 |
 
-## Gates
-
-\`\`\`text
-npm run check        typecheck · boundaries · ${testCount} tests · ${canonCount} quotes
-                     corpus · version · README · build · local-only
-npm run test:e2e     18 browser scenarios
-npm run build:all    web + cli.mjs + mcp.mjs + tianji.exe
-\`\`\`
-
-Every gate above fails loudly and has been verified by deliberately breaking the
-thing it guards.
-
-## Layout
-
-\`\`\`text
-src/contract/   shared types          src/node/     CLI · server · MCP · SQLite
-src/core/       deterministic kernels src/runtime/  host-agnostic engine
-src/engine/     matching + statements  src/pages/    routed screens
-src/arena/      blind flow · rating   tests/        unit + runtime
-src/data/       corpus access         e2e/          real browser
-\`\`\`
-
-## Contributing
-
-[CONTRIBUTING.md](CONTRIBUTING.md). \`npm run check\` must stay green; new citations
-must survive \`verify:quotes\`; a new school needs worked examples and boundary
-tests before its status changes.
+内核：子平八字、梅花易数、紫微斗数。全部本机计算。
 
 ## License
 
-MIT. Corpus texts retain their public-domain provenance — see the manifest.
+MIT。古籍原文的公有领域来源见 \`public/corpus/manifest.json\`。
 `
+
 const zh = `# 天机台 · DU <sub>v${pkg.version}</sub>
 
-**盲评式的中国术数，全程跑在你自己的机器上。**
+两种门派读同一个问题，你盲评，然后才揭晓是谁。带日期的断言进应验簿，由你自己回填。
 
-两位经过验证的大师读同一个问题。你先打分，再揭晓方法。每一条带日期的断言
-都进应验簿，由你自己回填。
+[English](README.md) · [路线图](ROADMAP.md) · [更新日志](CHANGELOG.md)
 
-[English](README.md) · [路线图](ROADMAP.md) · [更新日志](CHANGELOG.md) · [技术架构](docs/ARCHITECTURE.md) · [大师方法卡](docs/MASTERS.md)
-
-${screenshots}
-
-<sub>截图由 Playwright 从真实构建生成，使用虚构输入。</sub>
-
-## 四种运行方式
-
-| | 命令 | 你会得到 |
+| 提问 | 盲评 | 投票后 |
 | --- | --- | --- |
-| **网页** | 打开托管页面 | 全部在浏览器内，零安装。 |
-| **命令行** | \`tianji ask "…"\` | 同一套引擎，可脚本化，JSON 输出，SQLite 台账。 |
-| **桌面** | \`tianji.exe serve\` | 单个 96 MB 文件，自带网页，不需要装 Node。 |
-| **MCP** | \`tianji mcp\` | 把引擎作为 5 个工具暴露给 Claude / VS Code / Cursor。 |
-
-四种宿主共用同一套计算层：同一个问题、同一个种子，在任何一端都得到逐字相同的
-回答 —— \`tests/runtime.spec.ts\` 断言了这一点。
-
-## 闭环
-
-\`\`\`text
-        提问               盲评              揭晓            回填
-  ┌─────────────┐    ┌──────────────────┐   ┌──────────┐    ┌─────────────┐
-  │ 一个问题     │ →  │ 甲 / 乙，已封存   │ → │ 方法与   │ →  │ 带日期的断言 │
-  │ 两个门派     │    │ 盘面 + 出处       │   │ 姓名     │    │ 应验/未验    │
-  └─────────────┘    └──────────────────┘   └──────────┘    └─────────────┘
-\`\`\`
-
-"封存"是**不渲染**，不是标个"已隐藏"：API 在投票前会把 \`masterId\`、盘面、依据和
-断言 id 全部剥掉 —— 卦象会暴露梅花，四柱会暴露子平。
-
-## 可核性靠什么保证
-
-| 承诺 | 如何强制 |
-| --- | --- |
-| 引文是真的 | \`npm run verify:quotes\` 把 29 条静态引文与站内语料逐字比对 |
-| 语料完整 | \`npm run check:corpus\` 重新清点 12 部 / 148 章 / 1,870,466 字 |
-| 盲测真的盲 | 甲乙顺序随机、两答断语互斥、结构性脱敏 |
-| 小样本不封神 | Elo + Wilson 95% 下界，满 5 场才进榜 |
-| 断言可反驳 | 带日期、人工回填，"无法判断"不进分母 |
-| 数据不出设备 | \`npm run check:local-only\` 扫描源码与构建产物 |
-
-## 引擎
-
-${statementCount} 条断语，每条都有显式触发条件、诚实的人群基率和出处。${canonCount} 条带可逐字核对的
-古籍引文，覆盖 12 部公版典籍。匹配是确定性的 —— 同输入同种子同结果，
-所以一次读取可以被复现、被质疑，这正是重点。
-
-${activeMasters.length} 套内核已启用并验证：
-
-| id | 名号 | 体系 | 内核 |
-| --- | --- | --- | --- |
-${activeRows}
-
-另外 ${plannedMasters.length} 位公开方法卡，在内核边界规则与外部原例补齐之前保持 \`planned\`。
-把半验证的算法说成已完成，等于毁掉整个平台的意义。
+| ![首页](docs/screenshots/home.png) | ![盲评](docs/screenshots/blind-match.png) | ![揭晓](docs/screenshots/reveal.png) |
 
 ## 安装
 
 \`\`\`bash
-# 命令行（需要 Node 20+）
+# 命令行
 npm ci && npm run build:all
-node build/cli.mjs doctor
+node build/cli.mjs ask "我要不要换工作" --domain career
 
-# 桌面版（Windows，不需要装 Node）
-build\install.cmd
-tianji serve            # 然后打开 http://127.0.0.1:7317
-\`\`\`
+# 桌面版（Windows，不需要 Node）
+build/install.cmd
+tianji serve                 # http://127.0.0.1:7317
 
-MCP 客户端在配置里加：
-
-\`\`\`json
+# MCP（Claude / VS Code / Cursor）
 { "mcpServers": { "tianji": { "command": "tianji", "args": ["mcp"] } } }
 \`\`\`
 
-## 命令
+## 怎么用
 
-\`\`\`text
-tianji ask "我要不要换工作" --domain career   请两位大师作答，匿名
-tianji ask "…" --reveal                      显示姓名、盘面与出处
-tianji ledger                                待回填断言与到期日
-tianji resolve <id> hit|miss|unknown         回填一条断言
-tianji report latest --out r.html            生成自包含 HTML 报告
-tianji export / import                       台账 JSON 迁移
-tianji serve --port 7317                     网页 + HTTP API
-tianji doctor                                环境与数据检查
-\`\`\`
+| | |
+| --- | --- |
+| 问一次 | 写下问题，可填生辰（填了才能排子平与紫微） |
+| 盲评 | 两份匿名回答，投票前看不到姓名、门派、盘面 |
+| 揭晓 | 投完才看到是谁，以及引文出处 |
+| 回填 | 一周后回来说这条断语准不准 |
 
-## 门禁
-
-\`\`\`text
-npm run check        类型 · 边界 · ${testCount} 测试 · ${canonCount} 引文
-                     语料 · 版本 · README · 构建 · 本地模式
-npm run test:e2e     18 项浏览器场景
-npm run build:all    网页 + cli.mjs + mcp.mjs + tianji.exe
-\`\`\`
-
-每道门禁都会大声失败，且都用"故意破坏被守护的东西"验证过。
-
-## 目录
-
-\`\`\`text
-src/contract/   跨层类型          src/node/     命令行 · 服务端 · MCP · SQLite
-src/core/       确定性内核         src/runtime/  宿主无关引擎
-src/engine/     匹配与断语库       src/pages/    路由页面
-src/arena/      盲测流程 · 评分    tests/        单元与运行时
-src/data/       语料访问           e2e/          真实浏览器
-\`\`\`
-
-## 参与贡献
-
-见 [CONTRIBUTING.md](CONTRIBUTING.md)。\`npm run check\` 必须保持通过；新增引文必须
-能过 \`verify:quotes\`；新增门派需要先有外部原例和边界测试才能改状态。
+内核：子平八字、梅花易数、紫微斗数。全部本机计算。
 
 ## 许可
 
-MIT。古籍原文的公有领域来源见 manifest。
+MIT。古籍原文的公有领域来源见 \`public/corpus/manifest.json\`。
 `
+
 function write(relPath, content) {
   const target = path.join(ROOT, relPath)
   if (CHECK) {

@@ -11,9 +11,12 @@ async function refresh() {
 }
 onMounted(() => void refresh())
 
+const notice = ref('')
 async function mark(id: string, status: 'hit' | 'miss' | 'unknown') {
-  await ledger.resolveClaim(id, status)
-  await refresh()
+  const ok = await ledger.resolveClaim(id, status)
+  // 之前不看返回值：未到期时后端拒绝，界面毫无反应，用户以为坏了
+  notice.value = ok ? '已回填。' : '这条还没到可判定的日期，到期后再来。'
+  if (ok) await refresh()
 }
 async function exportLedger() {
   downloadHtml('tianji-claims.html', renderLedgerReport(await ledger.listClaims()))
@@ -21,7 +24,8 @@ async function exportLedger() {
 </script>
 
 <template>
-  <section class="ledger-page"><header class="page-head"><p class="kicker">LEDGER / RESOLUTION</p><h1>应验簿</h1><p>只有带日期、可判定的断言才进这里。到期后由你回填，不把“感觉像”算成命中。</p></header><div v-if="claims.length" class="ledger-tools"><button class="du-btn" type="button" @click="exportLedger">导出应验簿（HTML）</button><span>本地生成，可直接打印或存档。</span></div><p v-if="!claims.length" class="empty">目前没有待回填断言。问天时，大师回答里的 `## 验` 条目会自动放入本机应验簿。</p><div class="claims"><article v-for="claim in claims" :key="claim.id" class="claim" :class="{ overdue: claim.status === 'pending' && claim.dueAt < Date.now() }"><div class="claim-head"><span>{{ masterById(claim.masterId)?.name ?? claim.masterId }}</span><b>{{ claim.status === 'pending' ? '待回填' : claim.status === 'hit' ? '应验' : claim.status === 'miss' ? '未验' : '无法判断' }}</b></div><p>{{ claim.text }}</p><small>截止 {{ new Date(claim.dueAt).toLocaleDateString() }} · 建立于 {{ new Date(claim.createdAt).toLocaleDateString() }}</small><div v-if="claim.status === 'pending'" class="claim-actions"><button class="du-btn" @click="mark(claim.id, 'hit')">应验</button><button class="du-btn" @click="mark(claim.id, 'miss')">未验</button><button class="du-btn" @click="mark(claim.id, 'unknown')">无法判断</button></div></article></div></section>
+  <section class="ledger-page"><header class="page-head"><p class="kicker">LEDGER / RESOLUTION</p><h1>应验簿</h1><p>只有带日期、可判定的断言才进这里。到期后由你回填，不把“感觉像”算成命中。</p></header><p v-if="notice" class="ledger-notice">{{ notice }}</p>
+  <div v-if="claims.length" class="ledger-tools"><button class="du-btn" type="button" @click="exportLedger">导出应验簿（HTML）</button><span>本地生成，可直接打印或存档。</span></div><p v-if="!claims.length" class="empty">目前没有待回填断言。问天时，大师回答里的 `## 验` 条目会自动放入本机应验簿。</p><div class="claims"><article v-for="claim in claims" :key="claim.id" class="claim" :class="{ overdue: claim.status === 'pending' && claim.dueAt < Date.now() }"><div class="claim-head"><span>{{ masterById(claim.masterId)?.name ?? claim.masterId }}</span><b>{{ claim.status === 'pending' ? '待回填' : claim.status === 'hit' ? '应验' : claim.status === 'miss' ? '未验' : '无法判断' }}</b></div><p>{{ claim.text }}</p><small>截止 {{ new Date(claim.dueAt).toLocaleDateString() }} · 建立于 {{ new Date(claim.createdAt).toLocaleDateString() }}</small><div v-if="claim.status === 'pending'" class="claim-actions"><button class="du-btn" :disabled="claim.dueAt > Date.now()" @click="mark(claim.id, 'hit')">应验</button><button class="du-btn" :disabled="claim.dueAt > Date.now()" @click="mark(claim.id, 'miss')">未验</button><button class="du-btn" @click="mark(claim.id, 'unknown')">无法判断</button><span v-if="claim.dueAt > Date.now()" class="claim-due">还有 {{ Math.ceil((claim.dueAt - Date.now()) / 86400000) }} 天可判定</span></div></article></div></section>
 </template>
 
 <style scoped>
@@ -40,6 +44,8 @@ h1 { margin:0; font-size:30px; letter-spacing:.12em; }
 .claim small { color:var(--ink-3); font-size:10px; }
 .claim-actions { display:flex; flex-wrap:wrap; gap:7px; margin-top:11px; }
 .claim-actions button { padding:6px 9px; font-size:11px; }
+.ledger-notice { margin: 12px 0 0; padding: 8px 12px; border: 1px solid var(--tone-info); border-radius: var(--radius); color: var(--ink-2); font-size: 12px; }
+.claim-due { margin-left: 8px; color: var(--ink-3); font-size: 11px; }
 .ledger-tools { display:flex; align-items:center; flex-wrap:wrap; gap:10px; margin-top:16px; }
 .ledger-tools button { padding:6px 10px; font-size:11px; }
 .ledger-tools span { color:var(--ink-3); font-size:11px; }

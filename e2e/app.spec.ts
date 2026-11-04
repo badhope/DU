@@ -435,3 +435,22 @@ test('存储被禁用时如实告知未保存，而不是假装成功', async ({
   await expect(page.getByText('本机存储空间已满', { exact: false })).toBeVisible()
   await expect(page.getByText('没有写进浏览器', { exact: false })).toBeVisible()
 })
+
+test('安全网关：危机输入不生成断语，给出求助信息', async ({ page }) => {
+  await page.goto('/#/ask')
+  await page.getByLabel('你要问什么').fill('我想自杀')
+  await page.getByRole('button', { name: '开始匿名盲测' }).click()
+
+  // 必须出现求助卡片，且不能渲染任何回答
+  await expect(page.locator('.safety-card')).toBeVisible({ timeout: 5000 })
+  await expect(page.getByText('12356', { exact: false })).toBeVisible()
+  await expect(page.locator('.answer')).toHaveCount(0)
+})
+
+test('安全网关：未成年单独使用给出监护提示', async ({ page }) => {
+  await page.goto('/#/ask')
+  await page.getByLabel('你要问什么').fill('我16岁，想问学业')
+  await page.getByRole('button', { name: '开始匿名盲测' }).click()
+  await expect(page.locator('.safety-card')).toBeVisible({ timeout: 5000 })
+  await expect(page.getByText('12355', { exact: false })).toBeVisible()
+})

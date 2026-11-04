@@ -3,6 +3,7 @@ import type { AskRequest, BlindMatch, ChartFact, MasterAnswer } from '@/contract
 import { calculateBazi } from '@/core/bazi'
 import { calculateMeihua } from '@/core/meihuaFacts'
 import { calculateZiwei } from '@/core/ziwei'
+import { checkSafety, isBlocking } from '@/core/safety'
 import { masterById } from '@/masters/registry'
 import { generateLocalAnswer } from '@/ai/reading'
 import { saveClaims, saveMatch } from './store'
@@ -46,6 +47,16 @@ export function shuffleForBlind<T>(items: [T, T], random: () => number = Math.ra
   return random() < 0.5 ? [items[0], items[1]] : [items[1], items[0]]
 }
 
+/** 安全网关拦截时抛出；调用方按这个类型给出求助卡片，而不是普通错误提示 */
+export class SafetyBlockError extends Error {
+  level: string
+  constructor(message: string, level: string) {
+    super(message)
+    this.name = 'SafetyBlockError'
+    this.level = level
+  }
+}
+
 export interface BlindMatchOptions {
   /** 注入确定性随机源，测试用；生产默认 Math.random */
   random?: () => number
@@ -72,6 +83,12 @@ export async function composeBlindMatch(
   onAnswer?: (masterId: MasterId, answer: MasterAnswer) => void,
   options: BlindMatchOptions = {},
 ): Promise<BlindMatch> {
+  // 安全网关必须排在最前面：命中危机词就完全不生成内容，
+  // 不排盘、不选断语、不写断言 —— 对一个有自杀念头的人说"你在等一个不用负责的理由"
+  // 是不可接受的输出，宁可少算一卦。
+  const verdict = checkSafety(request.question)
+  if (isBlocking(verdict)) throw new SafetyBlockError(verdict.message ?? '', verdict.level)
+
   if (masterIds[0] === masterIds[1]) throw new Error('本次盲测需要两位不同的大师。')
 
   // 展示顺序随机，但 matchId 必须对同一对大师稳定，否则同一请求重放会得到不同 id

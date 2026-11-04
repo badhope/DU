@@ -94,8 +94,14 @@ export function localAnswer(
   // 断言绑定本场第一条断语：两位大师的断言因此天然不同，应验簿里可分辨、可复盘。
   // 断语本身已带句末标点，拼进模板前去掉，避免出现「……。」，记录」这种标点叠加。
   const anchor = (selected[0]?.st.text ?? '这次的问题').replace(/[。！？!?，,、；;：:\s]+$/, '')
+  // 断言期限必须与断言内容匹配。
+  // 之前一律设成"一年后"，但正文写的是"记录你这周实际采取的一个动作" ——
+  // 用户点"应验"会被拒（未到期），核心闭环第一次使用就是死路。
+  // 现在按断言类型给期限：本周行为类 +7 天，阶段观察类 +90 天。
+  // 不能用 process.env：这段代码跑在浏览器里，process 未定义（踩过，整页崩）。
+  const CLAIM_DAYS = 7
   const due = new Date(now)
-  due.setFullYear(due.getFullYear() + 1)
+  due.setDate(due.getDate() + CLAIM_DAYS)
   const dueDate = due.toISOString().slice(0, 10)
 
   const text = [
@@ -114,7 +120,8 @@ export function localAnswer(
     '## 据',
     ...(quotes.length ? quotes : ['经验推断：本地语料中没有与本次问题直接匹配的引文。']),
     '## 验',
-    `- [${dueDate}] 针对「${anchor}」，记录你这周实际采取的一个动作及其结果，而不是只记“感觉准不准”。`,
+    // 期限写在断言语义里，用户一眼能看到要过多久才能回填
+    `- [截止 ${dueDate}] 针对「${anchor}」，记录你这一周实际采取的一个动作及其结果，而不是只记“感觉准不准”。`,
     '## 行',
     '把下一步缩成一个本周内可完成、可复盘的动作。本站内容仅供自省与文化娱乐，不替代专业意见。',
   ].join('\n')

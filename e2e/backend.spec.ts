@@ -1,4 +1,6 @@
 import { test, expect, type Page } from '@playwright/test'
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
 
 /**
  * 后端模式端到端
@@ -12,6 +14,18 @@ import { test, expect, type Page } from '@playwright/test'
 
 // 用 baseURL，跟随 playwright.backend.config.ts 的端口，避免两处硬编码
 const BASE = process.env.DU_BACKEND_URL ?? 'http://127.0.0.1:4180'
+
+/**
+ * 服务端启动时会把一次性令牌写进数据目录的 token 文件。
+ * 测试用 page.request 直接打 API，必须带上它 —— 这正是鉴权在起作用。
+ */
+function serverToken(): string {
+  return readFileSync(join(process.cwd(), '.tmp-e2e-backend', 'token'), 'utf8').trim()
+}
+
+function apiHeaders() {
+  return { 'X-Tianji-Token': serverToken() }
+}
 const question = '后端模式测试：我该不该接这个项目'
 
 /** 等应用完成台账模式探测 */
@@ -21,7 +35,7 @@ async function waitReady(page: Page) {
 }
 
 async function serverState(page: Page) {
-  const response = await page.request.get(`${BASE}/api/session`)
+  const response = await page.request.get(`${BASE}/api/session`, { headers: apiHeaders() })
   expect(response.ok()).toBeTruthy()
   return (await response.json()) as { matches: number; claims: number; pendingClaims: number }
 }
@@ -58,7 +72,9 @@ test.describe('后端模式真的接线', () => {
     await expect(page.getByText('本局已记分。')).toBeVisible()
 
     // 服务端那份记录必须带上 vote 字段
-    const matches = (await (await page.request.get(`${BASE}/api/matches`)).json()) as Array<{ request: { question: string }; vote?: string }>
+    const matches = (await (
+      await page.request.get(`${BASE}/api/matches`, { headers: apiHeaders() })
+    ).json()) as Array<{ request: { question: string }; vote?: string }>
     const mine = matches.find((m) => m.request.question.includes('投票'))
     expect(mine?.vote).toBe('a')
   })
