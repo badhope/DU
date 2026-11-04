@@ -1,14 +1,22 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue'
-import { listClaims, resolveClaim } from '@/arena/store'
+import { onMounted, ref } from 'vue'
+import * as ledger from '@/composables/ledger'
 import { masterById } from '@/masters/registry'
 import { downloadHtml, renderLedgerReport } from '@/arena/report'
 
-const refresh = ref(0)
-const claims = computed(() => { refresh.value; return listClaims().sort((a, b) => a.dueAt - b.dueAt) })
-function mark(id: string, status: 'hit' | 'miss' | 'unknown') { resolveClaim(id, status); refresh.value += 1 }
-function exportLedger() {
-  downloadHtml('tianji-claims.html', renderLedgerReport(listClaims()))
+const claims = ref<Awaited<ReturnType<typeof ledger.listClaims>>>([])
+async function refresh() {
+  const all = await ledger.listClaims()
+  claims.value = [...all].sort((a, b) => a.dueAt - b.dueAt)
+}
+onMounted(() => void refresh())
+
+async function mark(id: string, status: 'hit' | 'miss' | 'unknown') {
+  await ledger.resolveClaim(id, status)
+  await refresh()
+}
+async function exportLedger() {
+  downloadHtml('tianji-claims.html', renderLedgerReport(await ledger.listClaims()))
 }
 </script>
 

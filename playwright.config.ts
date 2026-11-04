@@ -9,6 +9,8 @@ import { defineConfig, devices } from '@playwright/test'
  */
 export default defineConfig({
   testDir: './e2e',
+  // backend.spec.ts 需要真实 tianji serve，单独用 playwright.backend.config.ts 跑
+  testIgnore: /backend\.spec\.ts/,
   fullyParallel: true,
   forbidOnly: Boolean(process.env.CI),
   retries: process.env.CI ? 2 : 0,

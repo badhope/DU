@@ -2,8 +2,8 @@
 import { computed, ref } from 'vue'
 import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contract/reading'
 import { ACTIVE_MASTERS } from '@/masters/registry'
-import { runBlindMatch } from '@/arena/readingFlow'
-import { getPersistStatus, recordVote, type PersistStatus } from '@/arena/store'
+import { getPersistStatus, type PersistStatus } from '@/arena/store'
+import * as ledger from '@/composables/ledger'
 import AnswerCard from '@/ui/AnswerCard.vue'
 import { downloadHtml, renderMatchReport } from '@/arena/report'
 
@@ -53,7 +53,8 @@ async function ask() {
   }
   try {
     const ids = ACTIVE_MASTERS.slice(0, 2).map((master) => master.id) as [typeof ACTIVE_MASTERS[0]['id'], typeof ACTIVE_MASTERS[0]['id']]
-    match.value = await runBlindMatch(request, ids)
+    // 走台账门面：本地模式写 localStorage，服务端模式写 SQLite，页面无需知道区别
+    match.value = await ledger.ask({ request, masterIds: ids })
   } catch (cause) {
     error.value = cause instanceof Error ? cause.message : '本次问天没有完成。'
   } finally {
@@ -61,16 +62,25 @@ async function ask() {
   }
 }
 
-function vote(choice: VoteChoice) {
-  if (!match.value || voted.value) return
-  if (!recordVote(match.value.id, choice)) {
-    error.value = '这场对局已经投过票，未重复计分。'
+const voting = ref(false)
+async function vote(choice: VoteChoice) {
+  // 服务端模式下这是一次网络往返：不锁住的话快速双击会发两次请求，
+  // 第二次必然拿到 409，用户会在已成功的情况下看到"已经投过票"。
+  if (!match.value || voted.value || voting.value) return
+  voting.value = true
+  try {
+    const ok = await ledger.vote(match.value.id, choice)
+    if (!ok) {
+      error.value = '这场对局已经投过票，未重复计分。'
+      voted.value = choice
+      return
+    }
     voted.value = choice
-    return
+    match.value.vote = choice
+    syncPersistStatus(getPersistStatus())
+  } finally {
+    voting.value = false
   }
-  voted.value = choice
-  match.value.vote = choice
-  syncPersistStatus(getPersistStatus())
 }
 
 function exportReport() {
@@ -114,7 +124,7 @@ function reset() {
       <div class="answers">
         <AnswerCard v-for="(answer, index) in match.answers" :key="answer.id" :answer="answer" :label="titleFor(index)" :revealed="revealed" />
       </div>
-      <div v-if="!revealed" class="vote"><h3>哪一份更贴近问题？</h3><p>你的投票只更新本机榜单；它不是科学准确率，也不会把未验证的大师列为冠军。</p><div class="vote-buttons"><button class="du-btn primary" @click="vote('a')">甲更贴</button><button class="du-btn" @click="vote('draw')">都不确定</button><button class="du-btn primary" @click="vote('b')">乙更贴</button></div></div>
+      <div v-if="!revealed" class="vote"><h3>哪一份更贴近问题？</h3><p>你的投票只更新本机榜单；它不是科学准确率，也不会把未验证的大师列为冠军。</p><div class="vote-buttons"><button class="du-btn primary" :disabled="voting" @click="vote('a')">甲更贴</button><button class="du-btn" :disabled="voting" @click="vote('draw')">都不确定</button><button class="du-btn primary" :disabled="voting" @click="vote('b')">乙更贴</button></div></div>
       <div v-else class="revealed-box"><b>本局已记分。</b><span>选择：{{ voted === 'a' ? '甲更贴' : voted === 'b' ? '乙更贴' : '都不确定' }}。结果只保存在本机。</span><button class="du-btn ft-export" type="button" @click="exportReport">导出本次报告</button><RouterLink to="/leaderboard">看大师榜 →</RouterLink></div>
     </section>
   </section>

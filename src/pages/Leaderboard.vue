@@ -1,9 +1,18 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { listLeaderboard } from '@/arena/store'
+import { onMounted, onUnmounted, ref } from 'vue'
+import * as ledger from '@/composables/ledger'
 import { masterById } from '@/masters/registry'
 
-const rows = computed(() => listLeaderboard())
+const rows = ref<Awaited<ReturnType<typeof ledger.leaderboard>>>([])
+let off: (() => void) | null = null
+async function refresh() {
+  rows.value = await ledger.leaderboard()
+}
+onMounted(() => {
+  void refresh()
+  off = ledger.onLedgerChange(() => void refresh())
+})
+onUnmounted(() => off?.())
 </script>
 
 <template>

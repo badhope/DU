@@ -26,7 +26,7 @@ const LAYERS = {
   arena: { may: ['contract', 'core', 'ai', 'masters', 'engine'], note: '对局与持久化' },
   masters: { may: ['contract'], note: '方法卡注册表' },
   tools: { may: ['contract', 'core', 'engine'], note: '兼容工具' },
-  composables: { may: ['contract'], note: '组合式状态' },
+  composables: { may: ['contract', 'arena', 'masters'], note: '组合式状态（台账门面需要读写 arena）' },
   ui: { may: ['contract', 'arena'], note: '展示组件（只读 arena 的类型，不写状态）' },
   runtime: { may: ['contract', 'arena', 'ai', 'core', 'engine', 'knowledge', 'masters', 'data'], note: '宿主无关应用层' },
   node: { may: ['contract', 'arena', 'runtime', 'ai', 'core', 'engine', 'knowledge', 'masters', 'data'], note: 'Node 宿主：CLI / 服务端 / MCP' },

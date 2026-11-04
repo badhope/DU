@@ -1,9 +1,19 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-import { listMatches } from '@/arena/store'
+import { onMounted, onUnmounted, ref } from 'vue'
+import * as ledger from '@/composables/ledger'
 import { masterById } from '@/masters/registry'
 
-const matches = computed(() => listMatches())
+// 台账可能是异步的（服务端模式），所以用 ref + 挂载时拉取，而不是 computed
+const matches = ref<Awaited<ReturnType<typeof ledger.listMatches>>>([])
+let off: (() => void) | null = null
+async function refresh() {
+  matches.value = await ledger.listMatches()
+}
+onMounted(() => {
+  void refresh()
+  off = ledger.onLedgerChange(() => void refresh())
+})
+onUnmounted(() => off?.())
 const name = (id: string) => masterById(id)?.name ?? id
 </script>
 

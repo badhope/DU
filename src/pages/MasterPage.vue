@@ -1,11 +1,15 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { masterById } from '@/masters/registry'
-import { listLeaderboard } from '@/arena/store'
+import * as ledger from '@/composables/ledger'
 
 const props = defineProps<{ id: string }>()
 const master = computed(() => masterById(props.id))
-const stats = computed(() => listLeaderboard().find((row) => row.masterId === props.id))
+const stats = ref<Awaited<ReturnType<typeof ledger.leaderboard>>[number] | undefined>(undefined)
+onMounted(async () => {
+  const rows = await ledger.leaderboard()
+  stats.value = rows.find((row) => row.masterId === props.id)
+})
 </script>
 
 <template>

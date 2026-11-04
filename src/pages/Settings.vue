@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { exportArena, importArena, resetArena } from '@/arena/store'
+import { importArena } from '@/arena/store'
+import * as ledger from '@/composables/ledger'
 import { resetSession } from '@/composables/session'
 import { backendMode } from '@/composables/backend'
 
 const saved = ref('')
 const importError = ref('')
-function download() {
-  const blob = new Blob([exportArena()], { type: 'application/json' })
+async function download() {
+  // 导出走门面：服务端模式导出服务端台账，形状与本地导出一致，可互相导入
+  const blob = new Blob([await ledger.exportLedger()], { type: 'application/json' })
   const url = URL.createObjectURL(blob)
   const link = document.createElement('a')
   link.href = url
@@ -24,7 +26,7 @@ function readImport(event: Event) {
   reader.readAsText(file)
 }
 function resetAll() {
-  resetArena()
+  ledger.resetLocal()
   resetSession()
   try {
     const legacyAi = ['tianji', 'ai', 'v1'].join('.')
