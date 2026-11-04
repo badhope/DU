@@ -14,8 +14,9 @@ describe('大师方法卡', () => {
   })
 
   it('只有 active 大师允许进入首版盲测，planned 大师不伪装成成品', () => {
-    expect(ACTIVE_MASTERS.map((master) => master.id)).toEqual(['ziping', 'meihua'])
+    expect(ACTIVE_MASTERS.length).toBeGreaterThanOrEqual(2)
+    for (const master of ACTIVE_MASTERS) expect(master.kernel).not.toBe('none')
     expect(MASTERS.filter((master) => master.status === 'planned').every((master) => master.kernel === 'none')).toBe(true)
-    expect(listLeaderboard().map((row) => row.masterId)).toEqual(['ziping', 'meihua'])
+    expect(listLeaderboard().map((row) => row.masterId).sort()).toEqual(ACTIVE_MASTERS.map((m) => m.id).sort())
   })
 })

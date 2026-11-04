@@ -1,4 +1,4 @@
-# Tianji · DU <sub>v0.4.1</sub>
+# Tianji · DU <sub>v0.5.0</sub>
 
 **Blind-evaluated Chinese metaphysics, running entirely on your machine.**
 
@@ -60,19 +60,20 @@ Mei Hua and a four-pillar chart gives away Zi Ping.
 
 ## The engine
 
-149 statements, each with explicit trigger conditions, an honest population base
+175 statements, each with explicit trigger conditions, an honest population base
 rate, and a source. 29 carry verbatim classical quotations across 12 public-domain
 classics. Matching is deterministic — same input, same seed, same result — so a
 reading can be reproduced and argued about, which is the whole point.
 
-Two kernels are active and verified:
+3 kernels are active and verified:
 
 | id | Master | School | Kernel |
 | --- | --- | --- | --- |
 | `ziping` | 沈砚舟 | 子平八字 | 以四柱看结构，不以一句话定命 |
 | `meihua` | 梅叟 | 梅花易数 | 以一时一念观变化 |
+| `ziwei` | 观星女史 | 紫微斗数 | 十二宫位只谈主题，不替人下判词 |
 
-Four more publish their method cards and stay `planned` until boundary rules and
+3 more publish their method cards and stay `planned` until boundary rules and
 external worked examples exist. Shipping a half-verified algorithm as finished
 would defeat the platform.
 
@@ -110,7 +111,7 @@ tianji doctor                                environment + data check
 ## Gates
 
 ```text
-npm run check        typecheck · boundaries · 139 tests · 29 quotes
+npm run check        typecheck · boundaries · 160 tests · 31 quotes
                      corpus · version · README · build · local-only
 npm run test:e2e     18 browser scenarios
 npm run build:all    web + cli.mjs + mcp.mjs + tianji.exe

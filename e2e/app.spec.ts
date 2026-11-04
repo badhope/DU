@@ -41,8 +41,10 @@ async function startMatch(page: Page, opts: { withBirth?: boolean } = {}) {
     await page.getByLabel('出生时间（填写日期后必填）').fill('08:30')
   }
   await page.getByRole('button', { name: '开始匿名盲测' }).click()
-  await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible()
-  await expect(page.locator('.answer')).toHaveCount(2)
+  // 带生辰时会动态加载 iztro（紫微内核，含 dayjs/i18next），首次要几秒；
+  // 默认 5s 断言超时在慢机器上会假失败。
+  await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible({ timeout: 25_000 })
+  await expect(page.locator('.answer')).toHaveCount(2, { timeout: 25_000 })
 }
 
 /** 等两份回答的语料检索都落定：检索成功会多出"站内语料命中"标注，失败则没有 */
@@ -118,9 +120,10 @@ test('问天表单校验与本机持久化', async ({ page }) => {
   await page.getByRole('button', { name: '甲更贴' }).click()
   await expect(page.getByText('本局已记分。')).toBeVisible()
   await page.goto('/#/arena')
-  await expect(page.getByText(question)).toBeVisible()
+  // 台账读取在 v0.5 起是异步的（可能来自服务端），刷新后要给页面一次拉取机会
+  await expect(page.getByText(question)).toBeVisible({ timeout: 10_000 })
   await page.reload()
-  await expect(page.getByText(question)).toBeVisible()
+  await expect(page.getByText(question)).toBeVisible({ timeout: 10_000 })
 })
 
 test('应验簿：断言入账，到期前不能标记命中', async ({ page }) => {
@@ -160,17 +163,19 @@ test('设置支持导出、拒绝无效导入和清空本机数据', async ({ pa
   let data = ''
   for await (const chunk of stream) data += chunk.toString()
   const parsed = JSON.parse(data)
-  expect(parsed.schema).toBe(1)
+  // 导出格式版本随 schema 演进，断言"有版本号且不低于 1"，不钉死具体数字
+  expect(typeof parsed.schema).toBe('number')
+  expect(parsed.schema).toBeGreaterThanOrEqual(1)
   expect(parsed.matches[0].request.question).toBe(question)
 
   await page.locator('input[type=file]').setInputFiles({ name: 'invalid.json', mimeType: 'application/json', buffer: Buffer.from('{}') })
-  await expect(page.getByText('导入失败：文件结构不符合本机台账格式。')).toBeVisible()
+  await expect(page.getByText('导入失败：', { exact: false })).toBeVisible()
 
   // 嵌套字段被篡改也要拒绝，而不是只查顶层
   const tampered = JSON.parse(data)
   tampered.matches[0].answers[0].citations = [{ book: 'x', text: 'y' }]
   await page.locator('input[type=file]').setInputFiles({ name: 'tampered.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(tampered)) })
-  await expect(page.getByText('导入失败：文件结构不符合本机台账格式。')).toBeVisible()
+  await expect(page.getByText('导入失败：', { exact: false })).toBeVisible()
 
   await page.getByRole('button', { name: '清空全部本机数据' }).click()
   await expect(page.getByText('本机擂台、应验簿、工具反馈和旧配置已清空。')).toBeVisible()

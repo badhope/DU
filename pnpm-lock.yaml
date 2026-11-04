@@ -11,6 +11,9 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.32.2
         version: 1.32.2(zod@4.6.7)
+      iztro:
+        specifier: ^2.6.4
+        version: 2.6.4
       lunar-typescript:
         specifier: ^1.8.6
         version: 1.8.6
@@ -66,6 +69,10 @@ packages:
     resolution: {integrity: sha512-WJ7JBp/Q4+z/ImydtI7jS6NVco5++632ExBemSX+Ysb+G1lCwQ5BVo3SY+jGGOcZXI4ZccbZSUSJLNBW6eEpJg==}
     engines: {node: '>=6.0.0'}
     hasBin: true
+
+  '@babel/runtime@7.29.10':
+    resolution: {integrity: sha512-NpugTzbKgGrNe45Ui32cN8vCFFMxVtP/9rtfwv0nP5FRDAjvYBxJcLVpYA9mr1jxP6cnIT7x9LUzuDTbWYYNRA==}
+    engines: {node: '>=6.9.0'}
 
   '@babel/types@7.29.11':
     resolution: {integrity: sha512-WCsemW40Cpc6gouC1SrY6PBaZ+oLRlEVY9XBvZBI7il/HyUrb2nJ505wE1MHEFyDZNnrWDEuy4jL50WVHfTTSQ==}
@@ -604,6 +611,9 @@ packages:
   csstype@3.2.3:
     resolution: {integrity: sha512-z1HGKcYy2xA8AGQfwrn0PAy+PB7X/GSj3UVJW9qKyn43xWa+gl5nXmU4qqLMRzWVLFC8KusUX8T/0kCiOYpAIQ==}
 
+  dayjs@1.11.23:
+    resolution: {integrity: sha512-QDTCU0M0MxR3hQfnlDJfwekQiaanm1ubOD231u73WBckQ/fsamwRLiE2GBz6D3a/xF1NgfiDLJjXBa1hYOYTtQ==}
+
   debug@4.4.3:
     resolution: {integrity: sha512-RGwwWnwQvkVfavKVt22FGLw+xYSdzARwm0ru6DhTVA3umU5hZc28V3kO4stgYryrTlLpuvgI9GiijltAjNbcqA==}
     engines: {node: '>=6.0'}
@@ -763,6 +773,9 @@ packages:
     resolution: {integrity: sha512-4FbRdAX+bSdmo4AUFuS0WNiPz8NgFt+r8ThgNWmlrjQjt1Q7ZR9+zTlce2859x4KSXrwIsaeTqDoKQmtP8pLmQ==}
     engines: {node: '>= 0.8'}
 
+  i18next@23.16.8:
+    resolution: {integrity: sha512-06r/TitrM88Mg5FdUXAKL96dJMzgqLE5dv3ryBAra4KCwD9mJ4ndOTS95ZuymIGoE+2hzfdaMak2X11/es7ZWg==}
+
   iconv-lite@0.7.3:
     resolution: {integrity: sha512-IKXpvIzjnC9XTAUbVBcMfGS0EPaIXtW6v+zr+RRp+hqULEpo0owZax6wyRwPOJbWbzjYspQwusTsfVr0ifh4uQ==}
     engines: {node: '>=0.10.0'}
@@ -787,6 +800,9 @@ packages:
   isexe@2.0.0:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
 
+  iztro@2.6.4:
+    resolution: {integrity: sha512-uXDjFVAc+4zwikgaPEqu1JkwvAYDUyLiOPzCgdPSMs3ykG0OvAo2WfZfGgmuPEYq41mqrlGFFlDj4uVIUbllTQ==}
+
   jose@6.2.15:
     resolution: {integrity: sha512-qdF6ewcZARtef63fJ9AKKZPgxw+t7USH6HLXYcD4CrdmSvDp79rpJSPFEKc90QBeGS63u1KQtN2MZQHC0yDIzA==}
 
@@ -807,6 +823,9 @@ packages:
   lru-cache@11.5.3:
     resolution: {integrity: sha512-U4N8FgzmWxc8k1VH8Kr6lQg18U7Fjvby6wXHVRX/ZZ7IwWbRMgrRbP0Wrb5q5NVinryp4SQampHKdvtecItxUg==}
     engines: {node: 20 || >=22}
+
+  lunar-lite@0.2.8:
+    resolution: {integrity: sha512-Y4tba4RaIFI0ikImJhgoEsyqtDE64lJIM3yFwRX01dbmagCDq7rNmpDQFrSFFy4WXeuywdRVFpIBoT1GGCEizw==}
 
   lunar-typescript@1.8.6:
     resolution: {integrity: sha512-5Eo4T/cnuXfrgO4k5LCpOGHIUOuz5hCF/IfNv0T29WY2shR36Hiz+ecN9WjnUuxUKhql9gbOkPaQoqLFKtPRNA==}
@@ -1203,6 +1222,8 @@ snapshots:
   '@babel/parser@7.29.12':
     dependencies:
       '@babel/types': 7.29.11
+
+  '@babel/runtime@7.29.10': {}
 
   '@babel/types@7.29.11':
     dependencies:
@@ -1629,6 +1650,8 @@ snapshots:
 
   csstype@3.2.3: {}
 
+  dayjs@1.11.23: {}
+
   debug@4.4.3:
     dependencies:
       ms: 2.1.3
@@ -1835,6 +1858,10 @@ snapshots:
       statuses: 2.0.2
       toidentifier: 1.0.1
 
+  i18next@23.16.8:
+    dependencies:
+      '@babel/runtime': 7.29.10
+
   iconv-lite@0.7.3:
     dependencies:
       safer-buffer: 2.1.2
@@ -1850,6 +1877,13 @@ snapshots:
   is-promise@4.0.0: {}
 
   isexe@2.0.0: {}
+
+  iztro@2.6.4:
+    dependencies:
+      dayjs: 1.11.23
+      i18next: 23.16.8
+      lunar-lite: 0.2.8
+      lunar-typescript: 1.8.6
 
   jose@6.2.15: {}
 
@@ -1868,6 +1902,10 @@ snapshots:
   json-schema-typed@8.0.2: {}
 
   lru-cache@11.5.3: {}
+
+  lunar-lite@0.2.8:
+    dependencies:
+      lunar-typescript: 1.8.6
 
   lunar-typescript@1.8.6: {}
 

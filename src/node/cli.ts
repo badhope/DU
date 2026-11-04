@@ -281,7 +281,8 @@ function cmdDoctor(flags: Record<string, string | boolean>): void {
       { name: 'Node 版本', ok: Number(process.versions.node.split('.')[0]) >= 22, detail: process.version },
       { name: '数据目录可写', ok: existsSync(dir), detail: dir },
       { name: '数据库可读', ok: true, detail: `${view.matches} 场对局 / ${view.claims} 条断言` },
-      { name: '大师注册表', ok: catalog().active.length === 2, detail: `${catalog().active.length} 位可测评` },
+      // 不能写死人数：内核会随版本增加，写死会让升级后 doctor 直接报红
+      { name: '大师注册表', ok: catalog().active.length >= 2, detail: `${catalog().active.length} 位可测评` },
     ]
     if (isJson(flags)) {
       out(flags, '', { ok: checks.every((c) => c.ok), checks, version: VERSION })

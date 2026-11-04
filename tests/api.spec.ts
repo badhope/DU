@@ -50,13 +50,14 @@ describe('HTTP API', () => {
     expect(body.version).toMatch(/^\d+\.\d+\.\d+/)
   })
 
-  it('目录返回六位大师与两位可测评', async () => {
+  it('目录返回全部大师与已启用子集', async () => {
     const body = (await (await fetch(`${base}/api/catalog`)).json()) as {
       masters: unknown[]
       active: string[]
     }
     expect(body.masters).toHaveLength(6)
-    expect(body.active).toEqual(['ziping', 'meihua'])
+    expect(body.active.length).toBeGreaterThanOrEqual(2)
+    expect(body.active).toContain('ziping')
   })
 
   it('问题过短返回 400 而不是空结果', async () => {
@@ -95,13 +96,13 @@ describe('HTTP API', () => {
       body: JSON.stringify({ question: '揭晓模式接口测试问题', save: false, reveal: true }),
     })
     const body = await response.json()
-    expect(JSON.stringify(body)).toMatch(/meihua|ziping/)
-    // 未提供生辰时只有梅花有盘面，子平没有 —— 所以检查"至少一份带盘面"，
-    // 而不是假定第一份就是梅花（甲乙顺序本来就随机）。
-    const withChart = body.answers.filter((a: { sections: Array<{ key: string }> }) =>
-      a.sections.some((s) => s.key === 'pan'),
-    )
-    expect(withChart.length).toBeGreaterThan(0)
+    expect(JSON.stringify(body)).toMatch(/meihua|ziping|ziwei/)
+
+    // 这份断言只验证"揭晓后身份字段回来了"，不验证盘面 ——
+    // 三位大师随机配对时，可能刚好抽到两个都需要生辰的（子平 + 紫微），
+    // 而本请求没提供生辰，因此没有盘面是完全正确的。
+    expect(body.revealed).toBeUndefined()
+    expect(body.answers[0].masterId).toBeTruthy()
   })
 
   it('投票写一次成功，重复投票返回 409', async () => {

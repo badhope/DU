@@ -15,7 +15,7 @@ import { emptyStats, leaderboardRows, updateElo, type LeaderboardRow, type Maste
 
 const KEY = 'tianji.arena.v1'
 /** 导出文件带版本号，便于未来迁移；读取时对旧文件保持宽容（版本号可缺省） */
-export const SCHEMA_VERSION = 1
+export const SCHEMA_VERSION = 2
 /** 存储上限：防止单个用户把 localStorage 写爆（约 5 MB 配额） */
 const MAX_MATCHES = 100
 const MAX_CLAIMS = 300
@@ -35,6 +35,9 @@ function initialState(): ArenaState {
 }
 
 /* ── 校验辅助 ─────────────────────────────────────────────── */
+
+/** 与 contract/reading.ts 的 ChartFact['kind'] 一一对应；types 会在编译期提醒漂移 */
+const FACT_KINDS = ['bazi', 'meihua', 'ziwei'] as const
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -86,7 +89,9 @@ function validSection(value: unknown): boolean {
 function validFact(value: unknown): boolean {
   if (!isObject(value)) return false
   return (
-    ['bazi', 'meihua'].includes(String(value.kind)) &&
+    // 白名单必须与 ChartFact['kind'] 保持同步。漏一个的后果不是"这条不显示"，
+    // 而是整份台账被判定为非法，刷新后静默回退到空状态 —— 真实踩过。
+    (FACT_KINDS as readonly string[]).includes(String(value.kind)) &&
     typeof value.title === 'string' &&
     typeof value.summary === 'string' &&
     isObject(value.fields)
@@ -151,17 +156,46 @@ function validImportedState(value: unknown): value is ArenaState {
 
 /* ── 状态 ───────────────────────────────────────────────── */
 
-function readState(): ArenaState {
+/**
+ * 读不出合法状态时，把原始字节搬到隔离 key 再回退。
+ *
+ * 这是踩过坑之后加的：之前注释写着"原始数据未被覆盖"，但下一次 persist
+ * 就会把整份台账写成空状态 —— 用户看到的就是"刷新之后记录全没了"。
+ * 真正能保护数据的是先备份，不是一句注释。
+ */
+const QUARANTINE_KEY = 'tianji.arena.quarantine'
+
+function quarantine(raw: string, reason: string): void {
   try {
-    const raw = localStorage.getItem(KEY)
+    const entry = { at: Date.now(), reason, raw: raw.slice(0, 200_000) }
+    localStorage.setItem(QUARANTINE_KEY, JSON.stringify(entry))
+    console.warn(`[arena] 台账结构不合法（${reason}），已备份到 ${QUARANTINE_KEY} 并回退到空状态。`)
+  } catch {
+    // 备份也失败（配额满）：至少不要抛出，让应用还能用
+  }
+}
+
+function readState(): ArenaState {
+  let raw: string | null = null
+  try {
+    raw = localStorage.getItem(KEY)
     if (!raw) return initialState()
     const parsed: unknown = JSON.parse(raw)
     if (validImportedState(parsed)) return parsed
-    // 结构不合法：保留原始字符串到内存,不清写，避免进一步破坏用户数据
-    console.warn('[arena] 本机台账结构不合法，已回退到空状态；原始数据未被覆盖。')
+    quarantine(raw, '结构校验未通过')
     return initialState()
+  } catch (error) {
+    if (raw) quarantine(raw, error instanceof Error ? error.message : '解析失败')
+    return initialState()
+  }
+}
+
+/** 隔离区里是否有备份；设置页用它提示用户"升级后可恢复" */
+export function hasQuarantinedData(): boolean {
+  try {
+    return localStorage.getItem(QUARANTINE_KEY) !== null
   } catch {
-    return initialState()
+    return false
   }
 }
 
@@ -300,20 +334,57 @@ export function exportArena(): string {
   return JSON.stringify({ schema: SCHEMA_VERSION, ...state }, null, 2)
 }
 
-export function importArena(raw: string): boolean {
-  try {
-    const parsed: unknown = JSON.parse(raw)
-    if (!validImportedState(parsed)) return false
-    const incoming = parsed as ArenaState
-    const fresh = initialState()
-    state = {
-      stats: { ...fresh.stats, ...incoming.stats },
-      matches: incoming.matches.slice(0, MAX_MATCHES),
-      claims: incoming.claims.slice(0, MAX_CLAIMS),
-    }
-    persist()
-    return true
-  } catch {
-    return false
+/**
+ * 导入文件的版本迁移。
+ *
+ * v1 → v2 的唯一变化是 ChartFact.kind 增加了 'ziwei'，数据结构本身没动，
+ * 所以迁移是恒等的 —— 但这一步必须存在：等到真的改了结构才补迁移，
+ * 旧文件就已经导不进来了。
+ *
+ * 返回 null 表示版本无法处理（比当前版本更新），应当拒绝而不是猜测。
+ */
+export function migrate(raw: unknown): { state: unknown; from: number } | null {
+  if (!raw || typeof raw !== 'object') return null
+  const candidate = raw as { schema?: unknown }
+  // 缺省 schema 视为 v1（早期导出没有版本字段）
+  const from = typeof candidate.schema === 'number' ? candidate.schema : 1
+  if (from > SCHEMA_VERSION) return null
+  if (from === 2) return { state: raw, from }
+  if (from === 1) {
+    // v1 → v2：无结构变化，仅标记版本
+    return { state: { ...candidate, schema: 2 }, from }
   }
+  return null
+}
+
+export function importArena(raw: string): { ok: true; from: number } | { ok: false; reason: string } {
+  let parsed: unknown
+  try {
+    parsed = JSON.parse(raw)
+  } catch {
+    return { ok: false, reason: '文件不是合法 JSON。' }
+  }
+
+  const migrated = migrate(parsed)
+  if (!migrated) {
+    const version = (parsed as { schema?: unknown }).schema
+    return {
+      ok: false,
+      reason:
+        typeof version === 'number' && version > SCHEMA_VERSION
+          ? `文件版本 v${version} 比当前应用（v${SCHEMA_VERSION}）新，请先升级。`
+          : '文件结构不符合本机台账格式。',
+    }
+  }
+
+  if (!validImportedState(migrated.state)) return { ok: false, reason: '文件结构不符合本机台账格式。' }
+  const incoming = migrated.state as ArenaState
+  const fresh = initialState()
+  state = {
+    stats: { ...fresh.stats, ...incoming.stats },
+    matches: incoming.matches.slice(0, MAX_MATCHES),
+    claims: incoming.claims.slice(0, MAX_CLAIMS),
+  }
+  persist()
+  return { ok: true, from: migrated.from }
 }

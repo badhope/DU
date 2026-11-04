@@ -2,6 +2,7 @@
 import { computed, ref } from 'vue'
 import type { AskRequest, BlindMatch, ReadingDomain, VoteChoice } from '@/contract/reading'
 import { ACTIVE_MASTERS } from '@/masters/registry'
+import { pickPair } from '@/runtime'
 import { getPersistStatus, type PersistStatus } from '@/arena/store'
 import * as ledger from '@/composables/ledger'
 import AnswerCard from '@/ui/AnswerCard.vue'
@@ -52,7 +53,8 @@ async function ask() {
     ...(birthDate.value ? { birth: { date: birthDate.value, time: birthTime.value } } : {}),
   }
   try {
-    const ids = ACTIVE_MASTERS.slice(0, 2).map((master) => master.id) as [typeof ACTIVE_MASTERS[0]['id'], typeof ACTIVE_MASTERS[0]['id']]
+    // 三位已启用大师里随机配对：固定前两位会让第三位永远没数据
+    const ids = pickPair()
     // 走台账门面：本地模式写 localStorage，服务端模式写 SQLite，页面无需知道区别
     match.value = await ledger.ask({ request, masterIds: ids })
   } catch (cause) {

@@ -42,7 +42,7 @@ describe('盲测与台账存储', () => {
 
   it('非法导入不会覆盖现有对局', () => {
     saveMatch(match())
-    expect(importArena(JSON.stringify({ stats: {}, matches: [], claims: [] }))).toBe(false)
+    expect(importArena(JSON.stringify({ stats: {}, matches: [], claims: [] })).ok).toBe(false)
     expect(getArenaState().matches).toHaveLength(1)
   })
 
@@ -89,7 +89,7 @@ describe('刷新后本机台账必须存活', () => {
     resetArena()
     expect(listMatches()).toHaveLength(0)
 
-    expect(importArena(persisted)).toBe(true)
+    expect(importArena(persisted).ok).toBe(true)
     const restored = listMatches()
     expect(restored).toHaveLength(1)
     expect(restored[0]!.id).toBe(created.id)
@@ -98,7 +98,7 @@ describe('刷新后本机台账必须存活', () => {
 
   it('导出内容带 schema 版本号', () => {
     const parsed = JSON.parse(exportArena())
-    expect(parsed.schema).toBe(1)
+    expect(parsed.schema).toBe(2)
     expect(parsed.stats.ziping.masterId).toBe('ziping')
   })
 })
@@ -168,5 +168,100 @@ describe('存储写入失败必须可被界面感知', () => {
     Object.defineProperty(globalThis, 'localStorage', { configurable: true, value: real })
     store.resetArena()
     expect(store.getPersistStatus()).toBe('ok')
+  })
+})
+
+describe('导入 schema 迁移', () => {
+  beforeEach(() => { localStorage.clear(); resetArena() })
+
+  it('v1 文件（无 schema 字段）能导入，并报告来源版本', async () => {
+    const { migrate } = await import('@/arena/store')
+    const v1 = { stats: {}, matches: [], claims: [] }
+    const result = migrate(v1)
+    expect(result?.from).toBe(1)
+    expect((result?.state as { schema: number }).schema).toBe(2)
+  })
+
+  it('v2 文件原样通过', async () => {
+    const { migrate } = await import('@/arena/store')
+    const v2 = { schema: 2, stats: {}, matches: [], claims: [] }
+    expect(migrate(v2)?.from).toBe(2)
+  })
+
+  it('未来版本被拒绝，而不是猜测结构', async () => {
+    const { migrate } = await import('@/arena/store')
+    expect(migrate({ schema: 99, stats: {}, matches: [], claims: [] })).toBeNull()
+  })
+
+  it('导出再导入是恒等的（版本与内容都不变）', () => {
+    const before = exportArena()
+    expect(importArena(before).ok).toBe(true)
+    expect(exportArena()).toBe(before)
+  })
+
+  it('损坏的 JSON 返回可读原因，不抛异常', () => {
+    const result = importArena('{not json')
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.reason).toContain('JSON')
+  })
+})
+
+describe('持久化白名单必须覆盖全部内核', () => {
+  beforeEach(() => { localStorage.clear(); resetArena() })
+
+  it('含紫微盘面的对局能存能读，不会在刷新后消失', async () => {
+    const { calculateZiwei } = await import('@/core/ziwei')
+    const chart = await calculateZiwei({ date: '1990-06-15', time: '08:30' })
+    if ('error' in chart) throw new Error(chart.error)
+
+    const match: BlindMatch = {
+      id: 'match-ziwei-persist',
+      request: { question: '紫微持久化测试问题', domain: 'general', askedAt: 1_700_000_000_000 },
+      masterIds: ['ziwei', 'meihua'],
+      answers: [
+        {
+          id: 'a', masterId: 'ziwei', mode: 'local', text: '',
+          sections: [{ key: 'pan', title: '盘面事实', lines: ['盘面事实：土五局'] }],
+          facts: [chart.fact],
+          citations: [], claims: [], statementIds: [], generatedAt: 1,
+        },
+        {
+          id: 'b', masterId: 'meihua', mode: 'local', text: '',
+          sections: [{ key: 'duan', title: '断语', lines: ['- 测试'] }],
+          facts: [{ kind: 'meihua', title: 't', summary: 's', fields: {} }],
+          citations: [], claims: [], statementIds: [], generatedAt: 1,
+        },
+      ],
+      createdAt: 1_700_000_000_000,
+    }
+
+    saveMatch(match)
+    const exported = exportArena()
+    expect(JSON.parse(exported).matches).toHaveLength(1)
+
+    // 关键：重新导入必须通过校验。若 kind 白名单漏了 ziwei，这里会 false。
+    resetArena()
+    expect(importArena(exported).ok).toBe(true)
+    expect(listMatches()[0]!.answers[0]!.facts[0]!.kind).toBe('ziwei')
+  })
+})
+
+describe('损坏数据被隔离而不是丢弃', () => {
+  beforeEach(() => { localStorage.clear(); resetArena() })
+
+  it('resetArena 之后加载到非法结构，会先备份原始字节再回退', async () => {
+    // 直接测 readState 的隔离分支：把非法内容写进 key，然后重新导入模块
+    const bad = JSON.stringify({ stats: {}, matches: [{ broken: true }], claims: [] })
+    localStorage.setItem('tianji.arena.v1', bad)
+
+    const fresh = await import('@/arena/store?quarantine-test=' + Date.now())
+    // 回退到空状态
+    expect(fresh.listMatches()).toHaveLength(0)
+
+    // 原始字节被搬到隔离区，没有凭空消失
+    const quarantined = localStorage.getItem('tianji.arena.quarantine')
+    expect(quarantined).not.toBeNull()
+    expect(quarantined).toContain('broken')
+    expect(fresh.hasQuarantinedData()).toBe(true)
   })
 })

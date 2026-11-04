@@ -70,6 +70,26 @@ function countTests() {
   }
 }
 const testCount = countTests() ?? 'all'
+
+/**
+ * 断语句数与 canon 引文数从引擎源码读，不写死。
+ * 这两个数字每加几条断语就会变，硬编码的话 README 会持续说谎。
+ */
+function countStatements() {
+  // 断语分散在两个文件：种子语句与主库。少读一个就会把总数报小。
+  const files = ['statements.ts', 'statements.library.ts']
+  let total = 0
+  let canon = 0
+  for (const file of files) {
+    const source = fs.readFileSync(path.join(ROOT, 'src', 'engine', file), 'utf8')
+    total += (source.match(/^\s*id:\s*'/gm) ?? []).length
+    canon += (source.match(/kind:\s*'canon'/g) ?? []).length
+  }
+  return { total, canon }
+}
+const statementCounts = countStatements()
+const statementCount = statementCounts.total
+const canonCount = statementCounts.canon
 const catLine = (id) => cats.find((cat) => cat.id === id) ?? { name: id, latin: id }
 const formatChars = (chars) => `${(chars / 10000).toFixed(0)} 万字 / ${(chars / 10000).toFixed(0)}0k chars`
 
@@ -145,18 +165,18 @@ Mei Hua and a four-pillar chart gives away Zi Ping.
 
 ## The engine
 
-149 statements, each with explicit trigger conditions, an honest population base
+${statementCount} statements, each with explicit trigger conditions, an honest population base
 rate, and a source. 29 carry verbatim classical quotations across 12 public-domain
 classics. Matching is deterministic — same input, same seed, same result — so a
 reading can be reproduced and argued about, which is the whole point.
 
-Two kernels are active and verified:
+${activeMasters.length} kernels are active and verified:
 
 | id | Master | School | Kernel |
 | --- | --- | --- | --- |
 ${activeRows}
 
-Four more publish their method cards and stay \`planned\` until boundary rules and
+${plannedMasters.length} more publish their method cards and stay \`planned\` until boundary rules and
 external worked examples exist. Shipping a half-verified algorithm as finished
 would defeat the platform.
 
@@ -194,7 +214,7 @@ tianji doctor                                environment + data check
 ## Gates
 
 \`\`\`text
-npm run check        typecheck · boundaries · ${testCount} tests · 29 quotes
+npm run check        typecheck · boundaries · ${testCount} tests · ${canonCount} quotes
                      corpus · version · README · build · local-only
 npm run test:e2e     18 browser scenarios
 npm run build:all    web + cli.mjs + mcp.mjs + tianji.exe
@@ -274,17 +294,17 @@ ${screenshots}
 
 ## 引擎
 
-149 条断语，每条都有显式触发条件、诚实的人群基率和出处。29 条带可逐字核对的
+${statementCount} 条断语，每条都有显式触发条件、诚实的人群基率和出处。${canonCount} 条带可逐字核对的
 古籍引文，覆盖 12 部公版典籍。匹配是确定性的 —— 同输入同种子同结果，
 所以一次读取可以被复现、被质疑，这正是重点。
 
-两套内核已启用并验证：
+${activeMasters.length} 套内核已启用并验证：
 
 | id | 名号 | 体系 | 内核 |
 | --- | --- | --- | --- |
 ${activeRows}
 
-另外四位公开方法卡，在内核边界规则与外部原例补齐之前保持 \`planned\`。
+另外 ${plannedMasters.length} 位公开方法卡，在内核边界规则与外部原例补齐之前保持 \`planned\`。
 把半验证的算法说成已完成，等于毁掉整个平台的意义。
 
 ## 安装
@@ -321,7 +341,7 @@ tianji doctor                                环境与数据检查
 ## 门禁
 
 \`\`\`text
-npm run check        类型 · 边界 · ${testCount} 测试 · 29 引文
+npm run check        类型 · 边界 · ${testCount} 测试 · ${canonCount} 引文
                      语料 · 版本 · README · 构建 · 本地模式
 npm run test:e2e     18 项浏览器场景
 npm run build:all    网页 + cli.mjs + mcp.mjs + tianji.exe

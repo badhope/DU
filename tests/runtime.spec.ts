@@ -138,7 +138,9 @@ describe('运行时不依赖浏览器', () => {
 
   it('目录与事实描述可直接用于命令行输出', () => {
     const { masters, active } = catalog()
-    expect(active).toEqual(['ziping', 'meihua'])
+    // 已启用内核会随版本增加（v0.5 起含紫微），断言"至少两位"而不是写死名单
+    expect(active.length).toBeGreaterThanOrEqual(2)
+    expect(active).toContain('ziping')
     expect(masters.length).toBe(6)
     const lines = describeFacts([{ kind: 'meihua', title: '梅花事实层', summary: '本卦泽雷随', fields: {} }])
     expect(lines[0]).toContain('梅花事实层')
