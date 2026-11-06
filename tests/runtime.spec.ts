@@ -178,3 +178,24 @@ process.on('exit', () => {
     }
   }
 })
+
+describe('MCP 生辰授权', () => {
+  it('不给生辰时，子平与紫微都排不出盘，只有梅花有事实', async () => {
+    const match = await ask({ question: '无生辰测试问题内容', masterIds: ['ziping', 'ziwei'] })
+    for (const answer of match.answers) {
+      // 没有 birth 时两个需要生辰的内核都拿不到 fact
+      expect(answer.facts).toHaveLength(0)
+    }
+  })
+
+  it('给生辰时，子平与紫微都能排出盘面', async () => {
+    const match = await ask({
+      question: '有生辰测试问题内容',
+      masterIds: ['ziping', 'ziwei'],
+      birth: { date: '1990-06-15', time: '08:30' },
+    })
+    const kinds = match.answers.flatMap((a) => a.facts.map((f) => f.kind))
+    expect(kinds).toContain('bazi')
+    expect(kinds).toContain('ziwei')
+  })
+})

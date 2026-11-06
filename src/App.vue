@@ -82,7 +82,7 @@ watch(
 .du-brand { font-size:18px; letter-spacing:.28em; text-decoration:none; }
 .du-brand-sub { margin-left:-5px; color:var(--accent-2); font-size:10px; letter-spacing:.12em; }
 .tp-nav { display:flex; align-items:center; flex-wrap:wrap; justify-content:flex-end; gap:10px; font-size:12px; }
-.tp-nav a { text-decoration:none; color:var(--ink-2); }
+.tp-nav a { display:inline-flex; align-items:center; min-height:44px; padding:0 2px; text-decoration:none; color:var(--ink-2); }
 .tp-nav a.router-link-active { color:var(--accent); }
 .tp-btn { font-size:11px; padding:5px 9px; }
 .du-shell:focus { outline:none; }
@@ -93,5 +93,11 @@ watch(
 .ft { max-width:var(--maxw); margin:40px auto 0; padding:18px 16px 40px; border-top:1px solid var(--line); font-size:11px; line-height:1.7; color:var(--ink-3); }
 .ft p { margin:0 0 4px; }
 .ft-btn { font:inherit; border:0; background:none; color:var(--accent); cursor:pointer; text-decoration:underline; padding:0; }
-@media (max-width:650px) { .tp-nav { gap:7px; } .du-top { align-items:flex-start; } }
+/* 移动端：导航项必须可点。原来只有 15px 高、gap 7px，手指误触率高。 */
+@media (max-width:650px) {
+  .du-top { align-items:flex-start; flex-wrap:wrap; }
+  .tp-nav { gap:0; width:100%; justify-content:space-between; }
+  .tp-nav a { min-height:44px; min-width:44px; justify-content:center; padding:0 4px; font-size:13px; }
+  .tp-btn { min-height:44px; }
+}
 </style>

@@ -27,6 +27,12 @@ export class SqliteLedgerStore implements LedgerStore {
     this.db.exec(`
       PRAGMA journal_mode = WAL;
       PRAGMA foreign_keys = ON;
+      /*
+       * secure_delete：DELETE 时用零覆写被删内容，而不是只标记空闲页。
+       * 台账里有生辰和问题，普通 DELETE 后这些字节仍留在页里，
+       * 能被取证工具或云同步历史捞出来。
+       */
+      PRAGMA secure_delete = ON;
 
       CREATE TABLE IF NOT EXISTS matches (
         id TEXT PRIMARY KEY,
@@ -240,6 +246,14 @@ export class SqliteLedgerStore implements LedgerStore {
   reset(): void {
     this.db.exec('DELETE FROM matches; DELETE FROM claims; DELETE FROM stats;')
     this.seedStats()
+    // 删除后必须 VACUUM 并截断 WAL，否则已删数据仍留在磁盘页与日志里。
+    // 用户点"清空全部"时期望的是真的没了。
+    try {
+      this.db.exec('VACUUM')
+      this.db.exec('PRAGMA wal_checkpoint(TRUNCATE)')
+    } catch {
+      // VACUUM 需要独占锁；并发时失败不阻断清空本身
+    }
   }
 
   close(): void {

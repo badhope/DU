@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.5.1",
+  "version": "0.5.2",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",
@@ -42,7 +42,7 @@
     "check:versions": "node scripts/check-versions.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
-    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only",
+    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:content && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only",
     "check:corpus": "node scripts/check-corpus.mjs",
     "build:all": "node scripts/build-all.mjs",
     "cli": "node scripts/build-all.mjs && node build/cli.mjs",
@@ -50,7 +50,8 @@
     "serve": "node scripts/build-all.mjs && node build/cli.mjs serve",
     "test:runtime": "vitest run tests/runtime.spec.ts",
     "test:e2e:backend": "node scripts/build-all.mjs && playwright test --config playwright.backend.config.ts",
-    "check:e2e": "playwright test && npm run test:e2e:backend"
+    "check:e2e": "playwright test && npm run test:e2e:backend",
+    "check:content": "node scripts/check-content-safety.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

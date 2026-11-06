@@ -72,7 +72,8 @@ function dataDir(flags: Record<string, string | boolean>): string {
 
 function openStore(flags: Record<string, string | boolean>): SqliteLedgerStore {
   const dir = dataDir(flags)
-  mkdirSync(dir, { recursive: true })
+  // 0700：只有当前用户能进。默认 umask 022 会让同机其他用户读到生辰。
+  mkdirSync(dir, { recursive: true, mode: 0o700 })
   return new SqliteLedgerStore({ file: join(dir, 'ledger.db') })
 }
 
@@ -272,6 +273,20 @@ function cmdImport(flags: Record<string, string | boolean>, positional: string[]
   }
 }
 
+function cmdReset(flags: Record<string, string | boolean>): void {
+  if (flags.yes !== true) {
+    fail('清空会删除全部对局、断言与生辰记录，不可恢复。确认请加 --yes。', 2)
+  }
+  const store = openStore(flags)
+  try {
+    const before = store.listMatches().length
+    store.reset()
+    out(flags, `已清空 ${before} 场对局与全部断言（含 WAL 截断）。`, { cleared: before })
+  } finally {
+    store.close()
+  }
+}
+
 function cmdDoctor(flags: Record<string, string | boolean>): void {
   const dir = dataDir(flags)
   const store = openStore(flags)
@@ -316,6 +331,7 @@ function cmdHelp(): void {
     resolve <id> <状态>   回填断言：hit|miss|unknown
     report [latest|ledger|<id>]  导出 HTML 报告
       --out <路径>
+    reset --yes            清空本机台账（不可恢复）
     export                导出完整台账为 JSON
     import <file>         导入台账 JSON
     serve                 启动本地 HTTP 服务
@@ -359,6 +375,9 @@ async function main(): Promise<void> {
       break
     case 'import':
       cmdImport(flags, positional)
+      break
+    case 'reset':
+      cmdReset(flags)
       break
     case 'doctor':
       cmdDoctor(flags)

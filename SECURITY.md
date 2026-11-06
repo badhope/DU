@@ -2,20 +2,50 @@
 
 ## What this project stores
 
-Tianji is a static site with no backend. Everything the user enters stays in the
-browser:
+There are two storage modes. Both keep data on your machine, but they are not
+the same thing, and the earlier version of this document wrongly claimed there
+was no backend at all.
+
+### Web app (default)
 
 | Data | Where it lives | Leaves the device? |
 | --- | --- | --- |
 | Question text | `localStorage` (`tianji.arena.v1`) | No |
-| Birth date and time | `localStorage`, inside the same record | No |
-| Chart facts and readings | `localStorage`, inside the same record | No |
-| Votes and Elo ratings | `localStorage` | No |
-| Claims and their outcomes | `localStorage` | No |
+| Birth date and time | `localStorage`, same record | No |
+| Chart facts and readings | `localStorage`, same record | No |
+| Votes, Elo, claims | `localStorage` | No |
+| Quarantined corrupt data | `localStorage` (`tianji.arena.quarantine`) | No |
 | Exported backup | A JSON file, only after you click export | Only where you save it |
 
-The export file is **plaintext** and contains questions, birth data and readings.
-Treat it as you would a personal note.
+### `tianji serve` (optional local server)
+
+| Data | Where it lives | Notes |
+| --- | --- | --- |
+| Everything above | SQLite at `%LOCALAPPDATA%\Tianji\ledger.db` (or `$XDG_DATA_HOME/tianji`) | **Plaintext.** `PRAGMA secure_delete=ON`, directory mode `0700`. |
+| API access | Token in the same directory (`token`, mode `0600`) | Required for non-browser clients |
+
+The server listens on `127.0.0.1` only. Requests must have a loopback `Host`;
+cross-site `Origin` is rejected. This blocks DNS-rebinding and cross-site writes,
+but it does **not** protect against other processes running as your user — any
+such process can read the database file. If that matters, use the web app only.
+
+`tianji reset --yes` deletes every row, then `VACUUM`s and truncates the WAL, so
+deleted records do not linger in free pages.
+
+### Exports
+
+Both modes export **plaintext** JSON containing questions, birth data and
+readings, with no embedded warning beyond the UI notice. Treat the file as you
+would a personal note.
+
+### MCP server
+
+`tianji mcp` speaks stdio and makes no network calls. But the client you connect
+it to (Claude Desktop, VS Code, Cursor, …) may be a cloud product: the question
+text, readings and claims you ask for become tool arguments and results, and
+therefore enter that client's model context and request logs. Birth data is
+refused unless you pass `allowBirth: true` explicitly. Use a local model if this
+matters to you.
 
 ## Threat model — what "local only" does and does not mean
 

@@ -66,8 +66,16 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         properties: {
           question: { type: 'string', description: '要问的问题，至少 4 个字。' },
           domain: { type: 'string', enum: [...DOMAINS], description: '问题领域，默认 general。' },
-          birthDate: { type: 'string', description: '公历出生日期 YYYY-MM-DD，可选。' },
-          birthTime: { type: 'string', description: '出生时间 HH:mm，填了日期则必填。' },
+          birthDate: {
+            type: 'string',
+            description: '公历出生日期 YYYY-MM-DD。传入前须 allowBirth=true，否则会被忽略。',
+          },
+          birthTime: { type: 'string', description: '出生时间 HH:mm，与 birthDate 一起使用。' },
+          allowBirth: {
+            type: 'boolean',
+            description:
+              '必须显式设为 true 才接受生辰。生辰会作为工具参数进入 AI 客户端及其模型上下文；只有在你信任该客户端时才开启。默认 false。',
+          },
           reveal: { type: 'boolean', description: '是否返回大师姓名与门派。默认 false（匿名）。' },
           save: { type: 'boolean', description: '是否写入本机台账。默认 false。' },
         },
@@ -122,7 +130,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return { content: [text(`领域必须是 ${DOMAINS.join(' / ')} 之一。`)], isError: true }
       }
       const birth =
-        typeof args.birthDate === 'string'
+        // 生辰属于敏感信息：它一旦作为工具参数传入，就会进入 AI 客户端的
+        // 请求上下文与日志。所以要求调用方显式 allowBirth=true，不给默认开启。
+        args.allowBirth === true && typeof args.birthDate === 'string'
           ? { date: String(args.birthDate), time: String(args.birthTime ?? '00:00') }
           : undefined
 
@@ -221,7 +231,13 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
     return { contents: [{ uri, mimeType: 'application/json', text: JSON.stringify(catalog(), null, 2) }] }
   }
   if (uri === 'tianji://ledger') {
-    return { contents: [{ uri, mimeType: 'application/json', text: JSON.stringify(store.listClaims(), null, 2) }] }
+    // 资源会被客户端整段塞进模型上下文，默认只给到期状态，不含断言正文
+    const summary = store.listClaims().map((claim) => ({
+      id: claim.id,
+      status: claim.status,
+      dueAt: claim.dueAt,
+    }))
+    return { contents: [{ uri, mimeType: 'application/json', text: JSON.stringify(summary, null, 2) }] }
   }
   throw new Error(`未知资源：${uri}`)
 })
@@ -233,6 +249,8 @@ async function main(): Promise<void> {
   await server.connect(transport)
   // stdio 传输下 stdout 属于协议，日志必须走 stderr
   console.error(`[tianji] MCP server v${VERSION} ready · data: ${dir}`)
+  console.error('[tianji] 注意：本工具返回的问题、断语与断言会进入调用它的 AI 客户端及其模型上下文。')
+  console.error('[tianji] 若使用云端模型（Claude / ChatGPT 等），这些内容会离开本机。生辰需显式 allowBirth=true 才会被接受。')
 }
 
 main().catch((error) => {
