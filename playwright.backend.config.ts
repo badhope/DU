@@ -10,7 +10,14 @@ import { defineConfig, devices } from '@playwright/test'
  * 单独一份配置的另一个原因：它的端口、数据目录、启动命令都不同，
  * 塞进主配置会让两边的 webServer 互相打架。
  */
-const PORT = 4180
+/**
+ * 端口可覆盖，默认 4180。
+ *
+ * 写死会撞上同机其他项目 —— 实际发生过：另一个工作区的 vite preview 占着
+ * 4180，后端 E2E 直接起不来。按项目纪律，端口冲突先换端口，
+ * 不允许去杀别人的进程。
+ */
+const PORT = Number(process.env.DU_BACKEND_PORT ?? 4180)
 
 export default defineConfig({
   testDir: './e2e',

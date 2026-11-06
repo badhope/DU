@@ -128,4 +128,14 @@ describe('起卦必须真的用上提问时辰', () => {
     if ('error' in result) throw new Error(result.error)
     expect(result.fact.summary).toMatch(/[子丑寅卯辰巳午未申酉戌亥]时/)
   })
+
+  it('事实层的体用关系是中文字面，不是内部枚举值', async () => {
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    const result = await calculateMeihua(new Date(2026, 10, 6, 8, 30))
+    if ('error' in result) throw new Error(result.error)
+    const relation = String(result.fact.fields.relation)
+    // 界面会原样渲染这个值：出现 yongShengTi / tiKeYong 这类枚举就是缺陷
+    expect(relation).toMatch(/体用比和|用生体|体生用|体克用|用克体/)
+    expect(relation).not.toMatch(/[a-z]/i)
+  })
 })

@@ -14,7 +14,7 @@ export const LIBRARY: Statement[] = [
   // ── 滴天髓 ──
   {
     id: 'canon-dtm-01',
-    text: '势到尽头往往会反过来走，你 sensed 的那个拐点不是错觉。',
+    text: '势到尽头往往会反过来走，你察觉到的那个拐点不是错觉。',
     domain: ['general', 'career'],
     require: { 'sit:transition': 0.5 },
     boost: { 'resonated:timing': 1.0, 'domain:career': 0.4 },

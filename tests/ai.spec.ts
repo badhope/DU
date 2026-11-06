@@ -36,3 +36,57 @@ describe('本地模式透明边界', () => {
     expect(answer.fallbackReason).toContain('不上传')
   })
 })
+
+describe('盘面字段标签', () => {
+  const ziweiFact: ChartFact = {
+    kind: 'ziwei',
+    title: '紫微斗数事实层',
+    summary: '土五局，命宫在寅，12 宫',
+    fields: {
+      solarDate: '1990-06-15',
+      lunarDate: '农历庚午年五月廿三',
+      fiveElementsClass: '土五局',
+      mutagen: ['巨门化禄', '太阳化权'],
+      currentDecadal: '田宅宫 35–44 岁',
+      palaces: ['命宫(寅)', '兄弟(丑)'],
+    },
+  }
+
+  it('界面正文里不出现英文的字段键名', () => {
+    const answer = localAnswer(
+      masterById('ziwei')!,
+      { question: '我是否应该主动寻找新机会？', domain: 'career', askedAt: 1_735_689_600_000 },
+      [ziweiFact],
+      1,
+    )
+    const pan = answer.sections.find((section) => section.key === 'pan')
+    expect(pan).toBeDefined()
+    const text = pan!.lines.join('\n')
+
+    // 断言的是"具体中文标签出现了"，不是"大概没有英文"
+    expect(text).toContain('当前大限：田宅宫 35–44 岁')
+    expect(text).toContain('四化：巨门化禄、太阳化权')
+    expect(text).toContain('五行局：土五局')
+    // 已知的英文键一个都不能漏进正文
+    for (const key of ['currentDecadal', 'solarDate', 'fiveElementsClass', 'mutagen', 'palaces']) {
+      expect(text, `字段键 ${key} 不该出现在用户可见正文里`).not.toContain(key)
+    }
+  })
+
+  it('新增内核的未登记字段保留原名，而不是被静默丢弃', () => {
+    const futureFact: ChartFact = {
+      kind: 'meihua',
+      title: '测试',
+      summary: '测试摘要',
+      fields: { brandNewField: '某个值' },
+    }
+    const answer = localAnswer(
+      masterById('meihua')!,
+      { question: '测试问题', domain: 'general', askedAt: 1_735_689_600_000 },
+      [futureFact],
+      1,
+    )
+    // 宁可露出英文键让人发现，也不要吞掉一条盘面事实
+    expect(answer.sections.find((s) => s.key === 'pan')!.lines.join('\n')).toContain('brandNewField：某个值')
+  })
+})

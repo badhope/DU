@@ -71,9 +71,9 @@ function resetAll() {
 .kicker { margin:0 0 6px; color:var(--accent-2); font-size:10px; letter-spacing:.2em; }
 h1 { margin:0; font-size:30px; letter-spacing:.12em; }
 .page-head p:not(.kicker) { max-width:62ch; margin:8px 0 0; color:var(--ink-2); font-size:13px; line-height:1.8; }
-.settings-card { display:grid; gap:14px; margin-top:18px; padding:17px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
+.settings-card { display:flex; flex-direction:column; gap:10px; margin-top:18px; padding:17px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
 .settings-card h2 { margin:0; font-size:17px; }
-.settings-card p,.settings-card li { color:var(--ink-2); font-size:12px; line-height:1.8; }
+.settings-card p,.settings-card li { margin:0; color:var(--ink-2); font-size:12px; line-height:1.8; }
 .settings-card ul { margin:0; padding-left:1.4em; }
 .local-card { border-color:var(--tone-good); }
 .mode-card { border-color:var(--tone-info); }

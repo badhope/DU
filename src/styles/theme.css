@@ -3,29 +3,36 @@
  *
  * v1 的病灶之一：主题色以十六进制散落在代码里 237 处。
  * v2 规定：颜色只允许出现在本文件的 token 定义里，组件一律引用 var(--*)。
+ *
+ * 默认外观是「宣纸」（亮色）。夜墨作为 [data-skin='ink'] 的反向皮肤保留，
+ * 由顶栏一个按钮切换。默认值必须与 scripts/theme-boot.mjs 的预置值一致，
+ * 否则首屏会先闪一下另一种底色再切换。
  */
 
 :root {
-  /* 墨与纸 */
-  --ink-1: #f2ece0;
-  --ink-2: #c8bfae;
-  --ink-3: #8f8677;
-  --bg-0: #0d1117;
-  --bg-1: #131922;
-  --surface-1: #18202b;
-  --surface-2: #1e2733;
-  --line: #2c3745;
+  /* 宣纸（默认亮色） */
+  --ink-1: #2a2620;
+  --ink-2: #5a5245;
+  /* 次要文字在原值 #8a8072 上对宣纸底只有 3.4:1，而它被大量用于 10–11px 的小字。
+     WCAG AA 对小字要求 4.5:1，所以压深到 #6a6155（5.3:1）。 */
+  --ink-3: #6a6155;
+  --bg-0: #f5f0e6;
+  --bg-1: #efe8db;
+  --surface-1: #fbf7ef;
+  --surface-2: #f1eadc;
+  --line: #ddd2bf;
 
   /* 主强调 */
-  --accent: #c0504a; /* 朱砂 */
-  --accent-2: #d4af37; /* 鎏金 */
+  --accent: #b03a32; /* 朱砂 */
+  /* 鎏金在纸白上原始值 3.1:1，用于 kicker 这类小字不够；压深后 4.9:1 */
+  --accent-2: #856213;
 
   /* 五行色（界面唯一来源） */
-  --wx-mu: #4c9a6a;
-  --wx-huo: #d2553f;
-  --wx-tu: #c8a24a;
-  --wx-jin: #d9d4c8;
-  --wx-shui: #4a7fb5;
+  --wx-mu: #3f7d55;
+  --wx-huo: #c04a35;
+  --wx-tu: #a8842a;
+  --wx-jin: #8c8577;
+  --wx-shui: #3b6b99;
 
   /* 五大类强调色：命 / 卜 / 象 / 时 / 养 */
   --cat-mingli: var(--wx-huo);
@@ -34,44 +41,78 @@
   --cat-shijian: var(--wx-tu);
   --cat-yangsheng: var(--wx-mu);
 
-  /* 吉凶语气 */
-  --tone-good: #5aa06f;
-  --tone-warn: #c9a227;
-  --tone-bad: #b5493f;
-  --tone-info: #5b8ec4;
+  /* 吉凶语气：白底上必须靠得更深才够对比度 */
+  --tone-good: #2f6b45;
+  --tone-warn: #8a6410;
+  --tone-bad: #a33227;
+  --tone-info: #2f5f8f;
 
   --radius: 8px;
   --maxw: 720px;
-  color-scheme: dark;
-}
-
-/* 明亮基调：宣纸 */
-[data-skin='paper'] {
-  --ink-1: #2a2620;
-  --ink-2: #5a5245;
-  --ink-3: #8a8072;
-  --bg-0: #f5f0e6;
-  --bg-1: #efe8db;
-  --surface-1: #fbf7ef;
-  --surface-2: #f1eadc;
-  --line: #ddd2bf;
-  --accent: #b03a32;
-  --accent-2: #a8842a;
-  --wx-jin: #8c8577;
+  /* 强调色上的文字色。宣纸的 accent 都够深，白字安全。 */
+  --on-accent: #ffffff;
   color-scheme: light;
 }
 
-/* 节气换肤：由 core/jieqi 决定，这里只定义挂点 */
+/* 夜墨（可选深色皮肤） */
+[data-skin='ink'] {
+  --ink-1: #f2ece0;
+  --ink-2: #c8bfae;
+  --ink-3: #8f8677;
+  --bg-0: #0d1117;
+  --bg-1: #131922;
+  --surface-1: #18202b;
+  --surface-2: #1e2733;
+  --line: #2c3745;
+  /* 朱砂在深底上原值 #c0504a 只有 3.5:1；提亮到 #e06a62 后 5.0:1。
+     这是被门禁抓出来的：它此前一直是"看起来没问题"的状态。 */
+  --accent: #e06a62;
+  --accent-2: #d4af37;
+  --wx-mu: #4c9a6a;
+  --wx-huo: #d2553f;
+  --wx-tu: #c8a24a;
+  --wx-jin: #d9d4c8;
+  --wx-shui: #4a7fb5;
+  --tone-good: #5aa06f;
+  --tone-warn: #c9a227;
+  --tone-bad: #d97064;
+  --tone-info: #5b8ec4;
+  /*
+   * 夜墨的 accent 是提亮过的（深底上要够亮才看得清文字），
+   * 因此它上面的文字必须反过来用深色：白字在 #4c9a6a / #c8a24a 上只有 3.4 / 2.4。
+   * 这一条是配色门禁抓出来的 —— 主按钮一直是"深底亮色 + 白字"的组合。
+   */
+  --on-accent: #0d1117;
+  color-scheme: dark;
+}
+
+/*
+ * 节气换肤：由 core/jieqi 决定，这里只定义挂点。
+ * 同一个节气在两套皮肤下需要不同明度的强调色 —— 直接把深色皮肤的那一套
+ * 搬到宣纸上，白底上的绿色会淡到看不清。
+ */
 [data-season='spring'] {
-  --accent: #4c9a6a;
+  --accent: #3f7d55;
 }
 [data-season='summer'] {
-  --accent: #d2553f;
+  --accent: #b03a32;
 }
 [data-season='autumn'] {
-  --accent: #c8a24a;
+  --accent: #8a6410;
 }
 [data-season='winter'] {
+  --accent: #2f5f8f;
+}
+[data-skin='ink'][data-season='spring'] {
+  --accent: #4c9a6a;
+}
+[data-skin='ink'][data-season='summer'] {
+  --accent: #d2553f;
+}
+[data-skin='ink'][data-season='autumn'] {
+  --accent: #c8a24a;
+}
+[data-skin='ink'][data-season='winter'] {
   --accent: #4a7fb5;
 }
 
@@ -163,7 +204,7 @@ a {
 .du-btn.primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #fff;
+  color: var(--on-accent);
   font-weight: 600;
 }
 .du-btn:disabled {

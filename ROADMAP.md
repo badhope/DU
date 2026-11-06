@@ -4,31 +4,33 @@ What is shipped, what is next, and what is deliberately not being built.
 
 [中文版见文末](#中文版)
 
-## Shipped — v0.5.0
+## Shipped — v0.6.0
 
-- Two verified deterministic kernels: Zi Ping four pillars, Mei Hua Yi Shu.
+- **Three verified deterministic kernels**: Zi Ping four pillars, Mei Hua Yi
+  Shu, Zi Wei Dou Shu. Each returns chart facts only; interpretation reads them
+  and may never rewrite them.
+- **Decadal luck** for both calendar systems: 大运 direction and start age from
+  the four-pillar kernel, current 大限 palace and age range from Zi Wei. Sex is
+  an explicit input because 阳男阴女 run forward and 阴男阳女 run backward.
 - Blind two-master evaluation with randomised A/B order, cross-answer
   statement exclusion, and chart facts sealed until the vote.
 - Local Elo with Wilson 95% lower bound; five-match threshold before ranking.
 - Claim ledger with dated, manually resolved falsifiable statements.
 - Offline canon reader over 12 public-domain classics (1.87M characters),
   lazy-loaded per book, with runtime citation verification.
+- Four hosts over one computation layer: web, CLI, local HTTP server, MCP.
 - Bilingual README generated from the same registries the UI reads.
-- Gates: typecheck, 105 unit assertions, quote verification, version
-  consistency, README consistency, build, local-only scan, architecture
-  boundaries.
 
-- Local report export: a reading and the claim ledger can each be saved as a
-  self-contained, escaped, offline-openable HTML file.
-- Corpus integrity gate: manifest chapter counts and character totals are
-  verified against the JSON actually shipped.
-- Storage-failure reporting: failed `localStorage` writes surface as quota or
-  blocked instead of failing silently.
-- Dependency audit at zero vulnerabilities.
-- Optional backend mode that actually routes reads and writes to the local
-  server, with E2E proving the data lands in SQLite.
+### Gates
 
-## Next — v0.4.0
+`npm run check` runs typecheck, architecture boundaries, 211 unit assertions,
+quote verification, corpus integrity, content safety, **colour contrast**
+(WCAG AA, both skins plus eight seasonal buttons), **fact-label coverage**,
+version consistency, README consistency, **README language**, production build
+and the local-only scan. Each gate has been reverse-tested: break the thing it
+guards and it must fail.
+
+## Next — v0.7.0
 
 ### Content
 
@@ -37,18 +39,14 @@ What is shipped, what is next, and what is deliberately not being built.
 
 ### Product
 
-- **Self-contained report bundle for a whole ledger**, not just one reading.
+- **Statement provenance UI.** Show which feature keys selected a statement, in
+  the reader's words rather than internal keys.
 
 ## Later
 
-- **A third verified school.** Zi Wei Dou Shu is the natural next candidate: the
-  canon is already shipped. It requires boundary rules for leap months, the five
-  element bureau, and transformation stars, plus external worked examples with
-  expected values — no status change before that exists.
-- **Exported report.** A printable, self-contained HTML summary of one reading,
-  generated locally, so users can archive without relying on the site.
-- **Statement provenance UI.** Show which feature keys triggered a statement, in
-  the user's words rather than internal keys.
+- **A whole-ledger report bundle**, not just one reading.
+- **Per-pillar strength explanation** with the same evidence labels the README
+  uses for the gates.
 
 ## Not planned
 
@@ -74,24 +72,27 @@ popular they would be.
 
 ## 中文版
 
-## 已发布 · v0.5.0
+## 已发布 · v0.6.0
 
-- 两套经过验证的确定性内核：子平四柱、梅花易数。
+- **三套经过验证的确定性内核**：子平四柱、梅花易数、紫微斗数。
+  每套只产出盘面事实；演绎层可读不可改写。
+- **大运与大限**：四柱给出顺逆、起运年月与九步大运；紫微给出当前大限宫位与年龄段。
+  性别是显式输入——阳男阴女顺行、阴男阳女逆行，少这一项整列会错位。
 - 盲测：甲乙顺序随机、两答断语互斥、盘面与依据在投票前封存。
 - 本机 Elo，胜率附 Wilson 95% 下界；满 5 场才进入在榜。
 - 应验簿：带日期的可判定断言，到期由人工回填。
 - 离线典籍阅览室：12 部公版古籍（187 万字），按书懒加载，运行时可核引文。
+- 四种宿主共用一层计算：网页、命令行、本机服务、MCP。
 - 双语 README，由界面读取的同一份注册表生成。
-- 门禁：类型检查、105 条单元断言、引文校验、版本一致性、README 一致性、
-  构建、本地模式扫描、架构边界。
 
-- 本地报告导出：单次读取与应验簿都能存成自包含、已转义、断网可打开的 HTML。
-- 语料完整性门禁：manifest 的章数与字数会与真正分发的 JSON 核对。
-- 存储写入失败会如实显示为"配额满"或"被禁用"，不再静默。
-- 依赖审计 0 漏洞。
-- 可选后端模式真正接管读写，E2E 证明数据落到 SQLite。
+### 门禁
 
-## 下一步 · v0.4.0
+`npm run check` 跑：类型检查、架构边界、211 条单元断言、引文校验、语料完整性、
+内容安全、**配色对比度**（WCAG AA，两套皮肤 + 八个季节按钮）、
+**字段标签覆盖**、版本一致性、README 一致性、**README 语言**、生产构建、本地模式扫描。
+每道门禁都做过反证：把它守护的东西改坏，它必须变红。
+
+## 下一步 · v0.7.0
 
 ### 可靠性
 

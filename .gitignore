@@ -17,3 +17,10 @@ playwright-report/
 .tmp-*.json
 .vitest-results.json
 .tmp-e2e-backend/
+
+# 隔离测试用的数据目录（SQLite 台账 + token），每轮实测后重建
+.tmp-exe-test/
+.tmp-final/
+.tmp-verify/
+# 工作区级临时区
+.tmp/

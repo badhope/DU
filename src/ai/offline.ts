@@ -7,6 +7,62 @@ import { resonate } from '@/engine/resonance'
 import { parseAnswer } from './parse'
 
 /**
+ * 盘面字段的中文标签。
+ *
+ * 为什么需要它：ChartFact.fields 的键是给代码看的（dayMaster、currentDecadal…），
+ * 直接拼进正文会让界面出现「- currentDecadal：田宅宫 35–44 岁」这种半中半英的
+ * 行。字段是用户要看的内容，键名不是。
+ *
+ * 未登记的键保留原样而不是丢掉 —— 新增内核时宁可露出一个英文键让人发现，
+ * 也不要静默吞掉一条盘面事实。
+ */
+const FIELD_LABEL: Record<string, string> = {
+  date: '公历',
+  time: '出生时间',
+  dayMaster: '日主',
+  dayMasterWuxing: '日主五行',
+  pillars: '四柱',
+  wuxing: '五行统计',
+  luckDirection: '大运方向',
+  luckStart: '起运',
+  luckCurrent: '当前大运',
+  liuNian: '流年',
+  solarDate: '公历',
+  lunarDate: '农历',
+  fourPillars: '四柱',
+  timeName: '时辰',
+  fiveElementsClass: '五行局',
+  soul: '命主',
+  body: '身主',
+  mutagen: '四化',
+  currentDecadal: '当前大限',
+  palaces: '十二宫',
+  majorStars: '主星分布',
+  /* 梅花易数：字段名全部要映射，否则界面会露出 ben / hu / bian / moving 这类键 */
+  lunar: '农历',
+  numbers: '起卦数',
+  ben: '本卦',
+  hu: '互卦',
+  bian: '变卦',
+  moving: '动爻',
+  ti: '体卦',
+  yong: '用卦',
+  relation: '体用关系',
+  gua: '卦象',
+  movingLine: '动爻',
+  bodyUse: '体用',
+  castAt: '起卦时刻',
+}
+
+/** 每个内核保留多少条字段：紫微的宫位数组很长，多留几条才看得到命宫与四化。
+ *  梅花的 9 个字段（本互变、体用、关系）全部有意义，少一条就说不清盘。 */
+const FIELD_LIMIT: Record<string, number> = { ziwei: 11, bazi: 9, meihua: 9 }
+
+function labelOf(key: string): string {
+  return FIELD_LABEL[key] ?? key
+}
+
+/**
  * 本地规则回答生成器。
  *
  * 三条硬约束写在这里，不靠文档保证：
@@ -108,11 +164,11 @@ export function localAnswer(
     '## 盘',
     ...relevantFacts.flatMap((fact) => [
       `盘面事实：${fact.summary}`,
-      // 字段按内核给不同上限：四柱/梅花字段少且都是关键项，
-      // 紫微的宫位数组很长，硬切前 4 个会跳过命宫与四化。
+      // 每个内核按自己的字段数量留上限：紫微字段多，硬切 4 条会丢掉命宫与四化。
+      // 键名必须经过 labelOf：直接输出字段名会让界面出现英文键。
       ...Object.entries(fact.fields)
-        .slice(0, fact.kind === 'ziwei' ? 9 : 4)
-        .map(([key, value]) => `- ${key}：${Array.isArray(value) ? value.join('、') : String(value)}`),
+        .slice(0, FIELD_LIMIT[fact.kind] ?? 4)
+        .map(([key, value]) => `- ${labelOf(key)}：${Array.isArray(value) ? value.join('、') : String(value)}`),
     ]),
     '## 断',
     NEUTRAL_LEAD,

@@ -194,7 +194,7 @@ export function createApp(options: ServerOptions) {
         const body = (await readJson(req)) as {
           question?: string
           domain?: ReadingDomain
-          birth?: { date: string; time: string }
+          birth?: { date: string; time: string; gender?: 'male' | 'female' | 'unknown' }
           reveal?: boolean
           save?: boolean
         }
