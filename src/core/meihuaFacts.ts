@@ -1,6 +1,6 @@
 import type { ChartFact } from '@/contract/reading'
 import { castByTime, type Cast } from './meihua'
-import { ZHI } from './gua'
+import { TIYONG_LABEL, ZHI } from './gua'
 
 export interface MeihuaFact {
   cast: Cast
@@ -30,7 +30,13 @@ export async function calculateMeihua(at: Date): Promise<MeihuaFact | { error: s
         moving: cast.moving,
         ti: cast.ti.name,
         yong: cast.yong.name,
-        relation: cast.relation,
+        /*
+         * ChartFact.fields 是给人看的盘面事实，值也必须是人的语言。
+         * 这里原来直接写 cast.relation（'yongShengTi' 这样的枚举），
+         * 界面于是出现「体用关系：yongShengTi」。TIYONG_LABEL 早就有，
+         * 只是没在这个出口用上 —— 枚举值属于代码，不属于盘面。
+         */
+        relation: TIYONG_LABEL[cast.relation],
       },
     }
     return { cast, fact }

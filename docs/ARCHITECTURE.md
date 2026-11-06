@@ -1,9 +1,13 @@
 # Architecture
 
-Tianji is a static single-page application. There is no server component, no
-database and no authentication. This document explains the layer boundaries and
-why each one exists, so that a change can be placed in the right layer instead
-of leaking across all of them.
+Tianji is a local-first application with four hosts over one computation layer.
+The default deployment is a static single-page application: no account, no
+remote API, no telemetry. The optional `tianji serve` host adds a loopback-only
+HTTP API backed by SQLite on the same machine — it is a local storage adapter,
+not a service the project operates.
+
+This document explains the layer boundaries and why each one exists, so that a
+change can be placed in the right layer instead of leaking across all of them.
 
 [中文版见文末](#中文版)
 
@@ -13,7 +17,7 @@ of leaking across all of them.
 user question (+ optional birth date/time)
         │
         ▼
-facts layer ── src/core/bazi.ts, src/core/meihuaFacts.ts
+facts layer ── src/core/bazi.ts, src/core/meihuaFacts.ts, src/core/ziwei.ts
         │      deterministic ChartFact only; rules may read, never rewrite
         ▼
 knowledge layer ── src/knowledge/retrieve.ts + src/data/corpus.ts
@@ -25,7 +29,8 @@ interpretation layer ── src/engine/*, src/ai/*
 evaluation layer ── src/arena/*
         │      blind match → vote → Elo/Wilson → claim ledger
         ▼
-localStorage ── src/arena/store.ts
+storage adapter ── browser: localStorage (src/arena/store.ts)
+                   node:    SQLite       (src/node/store.ts)
 ```
 
 ## Why these boundaries
@@ -51,6 +56,22 @@ the ranked table only after five matches, and win rate is shown with a Wilson 95
 lower bound so three lucky wins do not read as 100% skill. Claim resolution is
 only counted after the due date and only for `hit`/`miss`; `unknown` never enters
 the denominator.
+
+**Sex is an input to the calendar, not to the reading.** Four pillars do not
+depend on sex. Decadal luck does: 阳男阴女 run forward, 阴男阳女 run backward, so
+the same birth moment produces different 大运 / 大限 for a man and a woman.
+`BirthInput.gender` is therefore threaded from the form through `factsForRequest`
+into both kernels. It is optional, and the default is deliberately `unknown`
+→ male, surfaced in the UI as an explicit warning rather than a silent
+assumption. The regression test asserts that the two charts actually differ;
+an earlier test only asserted both existed, which passed even when the parameter
+was dropped entirely.
+
+**Luck cycles are facts, not forecasts.** `bazi.ts` returns 起运 direction,
+start age, and nine ten-year pillars; `ziwei.ts` returns the current 大限 palace
+and age range. Both come from the calendar library, not from hand-written
+tables. They are labels on a timeline — the interpretation layer decides what,
+if anything, to say about them.
 
 ## Module map
 
@@ -103,7 +124,7 @@ Every optional layer degrades instead of throwing:
 `package.json`, `CHANGELOG.md` and `CITATION.cff` must agree; `npm run
 check:versions` enforces it. The project follows Semantic Versioning: `0.x`
 releases may change internal contracts, `1.0.0` will mark the point where the
-statement library and the two active kernels are considered stable.
+statement library and the three active kernels are considered stable.
 
 ## Release gate
 
@@ -207,7 +228,7 @@ localStorage ── src/arena/store.ts
 
 `package.json`、`CHANGELOG.md`、`CITATION.cff` 三处版本必须一致，由
 `npm run check:versions` 强制。项目遵循语义化版本：`0.x` 阶段内部契约可能变化，
-`1.0.0` 表示断语库与两个已启用内核进入稳定期。
+`1.0.0` 表示断语库与三个已启用内核进入稳定期。
 
 ## 发布门禁
 

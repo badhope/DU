@@ -15,6 +15,8 @@ const question = ref('')
 const domain = ref<ReadingDomain>('general')
 const birthDate = ref('')
 const birthTime = ref('')
+/** 性别只影响大运顺逆与紫微大限；不填会把女命按男命排，所以单独问一次 */
+const birthGender = ref<'unknown' | 'male' | 'female'>('unknown')
 const match = ref<BlindMatch | null>(null)
 const busy = ref(false)
 const error = ref('')
@@ -40,6 +42,18 @@ const domains: Array<{ value: ReadingDomain; label: string }> = [
 ]
 const canAsk = computed(() => question.value.trim().length >= 4 && (!birthDate.value || Boolean(birthTime.value)))
 const revealed = computed(() => Boolean(voted.value))
+
+/**
+ * 展示用的短编号。
+ *
+ * match.id 是内容指纹（match-<64 hex>），完整贴出来 70 个字符，
+ * 既撑爆版面也毫无阅读价值。留前 8 位足够在同一台设备上认出是哪一局。
+ */
+const shortId = computed(() => {
+  const id = match.value?.id ?? ''
+  const body = id.startsWith('match-') ? id.slice(6) : id
+  return body.slice(0, 8).toUpperCase()
+})
 
 function titleFor(index: number): string {
   if (!match.value || !revealed.value) return index === 0 ? '甲' : '乙'
@@ -69,7 +83,9 @@ async function ask() {
     question: question.value.trim(),
     domain: domain.value,
     askedAt: Date.now(),
-    ...(birthDate.value ? { birth: { date: birthDate.value, time: birthTime.value } } : {}),
+    ...(birthDate.value
+      ? { birth: { date: birthDate.value, time: birthTime.value, gender: birthGender.value } }
+      : {}),
   }
   try {
     // 三位已启用大师里随机配对：固定前两位会让第三位永远没数据
@@ -135,7 +151,14 @@ function reset() {
       <label class="du-field"><span class="du-label">你要问什么 <b>必填</b></span><textarea v-model="question" class="du-input ask-q" rows="4" placeholder="例：我准备在三个月内换工作，应该先等机会还是主动出击？" /></label>
       <label class="du-field"><span class="du-label">问题领域</span><select v-model="domain" class="du-input"><option v-for="item in domains" :key="item.value" :value="item.value">{{ item.label }}</option></select></label>
       <div class="ask-grid"><label class="du-field"><span class="du-label">出生日期（可选）</span><input v-model="birthDate" class="du-input" type="date" /></label><label class="du-field"><span class="du-label">出生时间（填写日期后必填）</span><input v-model="birthTime" class="du-input" type="time" /></label></div>
-      <p class="ask-hint">生辰只用于本机生成八字事实；问题、生辰、盘面和反馈只在本机处理，不上传。</p>
+      <fieldset v-if="birthDate" class="ask-sex">
+        <legend class="du-label">性别（决定大运顺逆与紫微大限）</legend>
+        <label><input v-model="birthGender" type="radio" value="female" /> 女</label>
+        <label><input v-model="birthGender" type="radio" value="male" /> 男</label>
+        <label><input v-model="birthGender" type="radio" value="unknown" /> 不便说明</label>
+      </fieldset>
+      <p v-if="birthDate && birthGender === 'unknown'" class="ask-hint ask-hint-warn">未选择性别时，大运与紫微大限按男命顺行计算，可能与实际不符。四柱本身不受影响。</p>
+      <p class="ask-hint">生辰只用于本机生成八字与紫微事实；问题、生辰、盘面和反馈只在本机处理，不上传。</p>
       <button class="du-btn primary" type="submit" :disabled="!canAsk || busy">{{ busy ? '两位大师落笔中…' : '开始匿名盲测' }}</button>
       <p v-if="!canAsk && question.length > 0" class="ask-error">问题至少写 4 个字；填写出生日期后还需要出生时间。</p>
     </form>
@@ -143,6 +166,27 @@ function reset() {
     <div v-if="safetyMessage" class="safety-card" role="alert">
       <pre class="safety-text">{{ safetyMessage }}</pre>
     </div>
+
+    <!--
+      加载态：盲测要算四柱、紫微、梅花三条内核，还要检索语料，几百毫秒到两秒都有可能。
+      只把按钮文字改成"落笔中"会让整页看起来没反应，所以给一份真实的骨架，
+      让它和最终排版同构（两块并排卡片 + 投票条），而不是一个转圈。
+      role=status + aria-live 让读屏用户也知道在等什么。
+    -->
+    <section v-if="busy && !match" class="match-skeleton" role="status" aria-live="polite">
+      <p class="match-skeleton-k">正在本机排盘与检索…</p>
+      <div class="sk-answers">
+        <div v-for="n in 2" :key="n" class="sk-card">
+          <div class="sk-line sk-w40" />
+          <div class="sk-line" />
+          <div class="sk-line" />
+          <div class="sk-line sk-w70" />
+          <div class="sk-line sk-w55" />
+        </div>
+      </div>
+      <p class="match-skeleton-h">三位内核（子平 / 梅花 / 紫微）全部在浏览器内计算，不上传任何输入。</p>
+    </section>
+
     <p v-if="error" class="ask-error">{{ error }}</p>
 
     <p v-if="persistIssue === 'quota'" class="ask-warn">
@@ -154,7 +198,7 @@ function reset() {
     </p>
 
     <section v-if="match" class="match">
-      <div class="match-head"><div><p class="kicker">MATCH {{ match.id }}</p><h2>同一问题，两份回答</h2><p class="ask-question">{{ match.request.question }}</p></div><button class="du-btn" @click="reset">再问一题</button></div>
+      <div class="match-head"><div><p class="kicker">MATCH {{ shortId }}</p><h2>同一问题，两份回答</h2><p class="ask-question">{{ match.request.question }}</p></div><button class="du-btn" @click="reset">再问一题</button></div>
       <div class="blind-note" :class="{ revealed }">{{ revealed ? '已揭晓：下面的姓名来自本机方法注册表。' : '先读内容再投票；姓名、门派和评分暂时隐藏。' }}</div>
       <div class="answers">
         <AnswerCard v-for="(answer, index) in match.answers" :key="answer.id" :answer="answer" :label="titleFor(index)" :revealed="revealed" />
@@ -175,11 +219,31 @@ function reset() {
 .ask-q { resize:vertical; line-height:1.7; }
 .ask-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .ask-hint,.ask-error { margin:0; color:var(--ink-3); font-size:11px; line-height:1.7; }
+.ask-hint-warn { color:var(--tone-warn); }
+.ask-sex { display:flex; flex-wrap:wrap; gap:10px 16px; margin:0; padding:10px 12px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
+.ask-sex legend { padding:0 4px; }
+.ask-sex label { display:inline-flex; align-items:center; gap:6px; min-height:32px; color:var(--ink-2); font-size:12px; cursor:pointer; }
+.ask-sex input { accent-color:var(--accent); }
 .ask-error { color:var(--tone-bad); }
 .ask-warn { margin:0; padding:10px 12px; border:1px solid var(--tone-warn); border-radius:var(--radius); color:var(--ink-1); font-size:12px; line-height:1.75; background:var(--bg-1); }
 .ask-warn a { color:var(--accent); }
 .safety-card { padding:14px 16px; border:1px solid var(--tone-bad); border-radius:var(--radius); background:var(--bg-1); }
 .safety-text { margin:0; white-space:pre-wrap; font:inherit; font-size:13px; line-height:1.9; color:var(--ink-1); }
+.match-skeleton { display:grid; gap:12px; margin-top:22px; }
+.match-skeleton-k { margin:0; color:var(--accent); font-size:12px; letter-spacing:.1em; }
+.match-skeleton-h { margin:0; color:var(--ink-3); font-size:11px; line-height:1.7; }
+.sk-answers { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.sk-card { display:grid; gap:9px; padding:15px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
+.sk-line { height:11px; border-radius:4px; background:var(--line); opacity:.55; animation:sk-breathe 1.35s ease-in-out infinite; }
+.sk-line:nth-child(2) { animation-delay:.12s; }
+.sk-line:nth-child(3) { animation-delay:.24s; }
+.sk-line:nth-child(4) { animation-delay:.36s; }
+.sk-line:nth-child(5) { animation-delay:.48s; }
+.sk-w40 { width:40%; }
+.sk-w55 { width:55%; }
+.sk-w70 { width:70%; }
+@keyframes sk-breathe { 0%,100% { opacity:.35; } 50% { opacity:.7; } }
+@media (prefers-reduced-motion: reduce) { .sk-line { animation:none; opacity:.5; } }
 .ft-export { padding:4px 9px; font-size:11px; }
 .match { display:grid; gap:15px; margin-top:22px; }
 .match-head { display:flex; align-items:start; justify-content:space-between; gap:14px; }
@@ -194,5 +258,5 @@ function reset() {
 .vote-buttons { display:flex; gap:8px; flex-wrap:wrap; }
 .revealed-box { display:flex; flex-wrap:wrap; gap:8px 14px; align-items:baseline; }
 .revealed-box a { color:var(--accent); }
-@media (max-width:650px) { .answers,.ask-grid { grid-template-columns:1fr; } .match-head { align-items:flex-start; flex-direction:column; } }
+@media (max-width:650px) { .answers,.ask-grid,.sk-answers { grid-template-columns:1fr; } .match-head { align-items:flex-start; flex-direction:column; } }
 </style>

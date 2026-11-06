@@ -20,6 +20,7 @@ export async function factsForRequest(request: AskRequest): Promise<ChartFact[]>
   const tasks: Array<Promise<ChartFact | null>> = []
   if (request.birth) {
     // 有生辰才能排的两套：四柱与紫微。任一失败不拖累另一套。
+    // 性别必须原样传下去：它决定大运顺逆与紫微大限，缺省会把女命按男命排。
     tasks.push(calculateBazi(request.birth).then((result) => ('fact' in result ? result.fact : null)))
     tasks.push(calculateZiwei(request.birth).then((result) => ('fact' in result ? result.fact : null)))
   }

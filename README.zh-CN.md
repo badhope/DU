@@ -1,4 +1,4 @@
-# 天机台 · DU <sub>v0.5.3</sub>
+# 天机台 · DU <sub>v0.6.0</sub>
 
 两种门派读同一个问题，你盲评，然后才揭晓是谁。带日期的断言进应验簿，由你自己回填。
 
@@ -6,7 +6,7 @@
 
 | 提问 | 盲评 | 投票后 |
 | --- | --- | --- |
-| ![首页](docs/screenshots/home.png) | ![盲评](docs/screenshots/blind-match.png) | ![揭晓](docs/screenshots/reveal.png) |
+| ![问天表单](docs/screenshots/ask-form.png) | ![盲评](docs/screenshots/blind-match.png) | ![揭晓](docs/screenshots/reveal.png) |
 
 ## 安装
 

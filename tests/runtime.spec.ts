@@ -54,6 +54,55 @@ describe('运行时：盲测与落库', () => {
     expect(nodeAnswer.statementIds).toEqual(browserAnswer.statementIds)
     expect(nodeAnswer.text).toBe(browserAnswer.text)
   })
+
+  it('性别经运行时流到内核：固定组合下女命与男命的紫微大限不同', async () => {
+    /*
+     * 这是浏览器 E2E 抓不到的那一半：那里三位大师随机抽两位，紫微不一定出场。
+     * 这里固定 masterIds = [ziwei, ziping]，把随机性彻底去掉，
+     * 断言同一生辰、不同性别产生的「当前大限」确实不同。
+     */
+    const base = { question: '我要不要换工作', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    const female = await ask({
+      ...base,
+      masterIds: ['ziwei', 'ziping'],
+      birth: { date: '1990-06-15', time: '08:30', gender: 'female' },
+    })
+    const male = await ask({
+      ...base,
+      masterIds: ['ziwei', 'ziping'],
+      birth: { date: '1990-06-15', time: '08:30', gender: 'male' },
+    })
+
+    const decadalOf = (match: Awaited<ReturnType<typeof ask>>) => {
+      const ziwei = match.answers
+        .flatMap((a) => a.facts)
+        .find((f) => f.kind === 'ziwei')
+      return ziwei?.fields.currentDecadal as string | undefined
+    }
+    const femaleDecadal = decadalOf(female)
+    const maleDecadal = decadalOf(male)
+    expect(femaleDecadal, '女命应排出当前大限').toBeTruthy()
+    expect(maleDecadal, '男命应排出当前大限').toBeTruthy()
+    expect(femaleDecadal).not.toBe(maleDecadal)
+  })
+
+  it('性别也改变八字大运方向：顺行与逆行不能相同', async () => {
+    const base = { question: '我要不要换工作', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    const female = await ask({
+      ...base,
+      masterIds: ['ziping', 'meihua'],
+      birth: { date: '1990-06-15', time: '08:30', gender: 'female' },
+    })
+    const male = await ask({
+      ...base,
+      masterIds: ['ziping', 'meihua'],
+      birth: { date: '1990-06-15', time: '08:30', gender: 'male' },
+    })
+    const luckOf = (match: Awaited<ReturnType<typeof ask>>) =>
+      match.answers.flatMap((a) => a.facts).find((f) => f.kind === 'bazi')?.fields.luckDirection
+    expect(luckOf(female)).toBe('逆行')
+    expect(luckOf(male)).toBe('顺行')
+  })
 })
 
 describe('SQLite 台账', () => {
