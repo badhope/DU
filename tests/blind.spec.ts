@@ -149,3 +149,46 @@ describe('跨会话断语轮换', () => {
     expect(answer.statementIds.length).toBeGreaterThan(0)
   })
 })
+
+describe('断言期限必须与其内容匹配', () => {
+  it('生成的断言期限是 7 天，不是一年', () => {
+    const request = { question: '期限测试问题内容', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact], 1_700_000_000_000, 'm-due')
+    const claim = answer.claims[0]
+    expect(claim).toBeDefined()
+
+    // 断言正文写的是"记录你这一周实际采取的一个动作"，
+    // 期限必须是周级别。之前是一年，导致用户点"应验"永远被拒 ——
+    // 核心闭环第一次使用就是死路。这里把 7 天钉死。
+    const days = Math.round((claim!.dueAt - 1_700_000_000_000) / 86_400_000)
+    expect(days).toBe(7)
+  })
+
+  it('断言正文里写明截止日期，用户能看到要等多久', () => {
+    const request = { question: '截止日可见性测试', domain: 'career' as const, askedAt: 1_700_000_000_000 }
+    const answer = localAnswer(masterById('ziping')!, request, [baziFact], 1_700_000_000_000, 'm-due2')
+    const text = answer.sections.find((s) => s.key === 'yan')?.lines.join(' ') ?? ''
+    expect(text).toContain('截止')
+    expect(text).toMatch(/\d{4}-\d{2}-\d{2}/)
+  })
+})
+
+describe('盲测流程自身必须传递 seen（不是调用方手动传）', () => {
+  it('composeBlindMatch 生成的两份回答天然不重复断语', async () => {
+    // 之前的互斥测试都是手动把 first.statementIds 传给 second，
+    // 等于测了"如果传了就会互斥"，没测"流程有没有传"。
+    // 变异测试暴露了这个问题：把 readingFlow 里的 seen 传参删掉，测试仍然全绿。
+    const { composeBlindMatch } = await import('@/arena/readingFlow')
+    for (const question of ['我要不要换工作', '该不该搬去另一个城市', '这段关系还有必要继续吗']) {
+      const match = await composeBlindMatch(
+        { question, domain: 'career', askedAt: 1_700_000_000_000 },
+        ['ziping', 'meihua'],
+        undefined,
+        { random: () => 0.1 },
+      )
+      const [a, b] = match.answers
+      const overlap = a!.statementIds.filter((id) => b!.statementIds.includes(id))
+      expect(overlap, `问题「${question}」两份回答出现重复断语`).toEqual([])
+    }
+  })
+})

@@ -106,3 +106,26 @@ describe('旺令', () => {
     expect(tiStrength(kun, 'earth')).toBe('wang') // 四季月坤艮旺
   })
 })
+
+describe('起卦必须真的用上提问时辰', () => {
+  it('不同时辰得到不同的卦（否则时辰参数被忽略了）', async () => {
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    // 同一天、不同时辰：卦必须不同，否则说明 hourZhi 没被使用
+    const at = (h: number) => new Date(2026, 10, 6, h, 0, 0)
+    const morning = await calculateMeihua(at(6))
+    const evening = await calculateMeihua(at(18))
+    if ('error' in morning || 'error' in evening) throw new Error('起卦失败')
+
+    // 动爻由时辰决定，至少"变卦"或"动爻"必须不同
+    const differs =
+      morning.cast.bian.name !== evening.cast.bian.name || morning.cast.moving !== evening.cast.moving
+    expect(differs, '同一时辰不该有完全相同的变卦与动爻 —— 说明时辰没传进去').toBe(true)
+  })
+
+  it('事实层里写明了用的是哪个时辰', async () => {
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    const result = await calculateMeihua(new Date(2026, 10, 6, 8, 30))
+    if ('error' in result) throw new Error(result.error)
+    expect(result.fact.summary).toMatch(/[子丑寅卯辰巳午未申酉戌亥]时/)
+  })
+})

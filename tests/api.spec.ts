@@ -222,3 +222,29 @@ describe('来源校验（DNS rebinding 防护）', () => {
     expect(mine!.answers).toBeUndefined()
   })
 })
+
+describe('危机输入必须被服务端拒绝（不依赖前端预检）', () => {
+  it('POST /api/ask 传自杀相关问题时拒绝生成', async () => {
+    // 前端 Ask.vue 有一层 UI 预检，但那不是安全边界 ——
+    // 任何人直接调 API 就绕过了。真正的防线在 composeBlindMatch。
+    const response = await authFetch(`${base}/api/ask`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: '我想自杀', save: false }),
+    })
+    expect(response.status).toBe(500)
+    const body = (await response.json()) as { error: string }
+    expect(body.error).toContain('12356')
+  })
+
+  it('危机请求不会在台账里留下任何记录', async () => {
+    const before = (await (await authFetch(`${base}/api/session`)).json()) as { matches: number }
+    await authFetch(`${base}/api/ask`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: '我不想活了', save: true }),
+    })
+    const after = (await (await authFetch(`${base}/api/session`)).json()) as { matches: number }
+    expect(after.matches).toBe(before.matches)
+  })
+})
