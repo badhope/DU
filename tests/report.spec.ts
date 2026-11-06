@@ -79,6 +79,26 @@ describe('单次报告导出', () => {
   it('声明 noindex，避免被搜索引擎收录个人记录', () => {
     expect(renderMatchReport(match())).toContain('noindex')
   })
+
+  it('领域边界提示进入导出文件，而不是只留在页面里', () => {
+    /*
+     * 导出的 HTML 是用来归档、转发、打印的。原页面说了"不构成医疗判断"，
+     * 归档版本却没有 —— 这段话离开原页面就变成纯断语了。
+     */
+    const m = match()
+    const notice = '以上不构成任何医疗判断。身体不适请就医。'
+    const withNotice = {
+      ...m,
+      answers: m.answers.map((a) => ({ ...a, notice })) as typeof m.answers,
+    }
+    const html = renderMatchReport(withNotice)
+    expect(html).toContain(notice)
+    expect(html).toContain('class="notice"')
+  })
+
+  it('没有边界提示时不渲染空占位', () => {
+    expect(renderMatchReport(match())).not.toContain('class="notice"')
+  })
 })
 
 describe('应验簿报告导出', () => {

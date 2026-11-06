@@ -63,3 +63,33 @@ describe('小样本不得披露胜率', () => {
     expect(strict.wilsonLower).toBeNull()
   })
 })
+
+describe('应验率的小样本门槛', () => {
+  /*
+   * 这条守的是一个真实缺陷：胜率有 5 场门槛，应验率却只要 claimsResolved > 0
+   * 就披露 —— 回填 1 条命中会显示「应验 100%」。同一个函数里刚写着
+   * 「1 场赢了显示 100% 是在用小样本冒充实力」，对另一半数据却没执行。
+   */
+  it('只有 1 条应验时不披露应验率', () => {
+    const stats = [{ ...emptyStats('ziping'), claimsResolved: 1, claimsHit: 1 }]
+    const row = leaderboardRows(stats)[0]!
+    expect(row.claimsResolved).toBe(1)
+    expect(row.claimRate, '1 条命中不能显示 100%').toBeNull()
+  })
+
+  it('4 条仍不披露，满 5 条才披露且数值正确', () => {
+    const four = [{ ...emptyStats('ziping'), claimsResolved: 4, claimsHit: 4 }]
+    expect(leaderboardRows(four)[0]!.claimRate).toBeNull()
+
+    const five = [{ ...emptyStats('ziping'), claimsResolved: 5, claimsHit: 3 }]
+    const row = leaderboardRows(five)[0]!
+    expect(row.claimRate).not.toBeNull()
+    // 断言具体数值，而不只是"非空" —— 否则算错了也看不出来
+    expect(row.claimRate).toBeCloseTo(0.6, 10)
+  })
+
+  it('没有已判定断言时不进分母', () => {
+    const stats = [{ ...emptyStats('ziping'), claimsResolved: 0, claimsHit: 0 }]
+    expect(leaderboardRows(stats)[0]!.claimRate).toBeNull()
+  })
+})

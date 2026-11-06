@@ -112,7 +112,19 @@ async function cmdAsk(flags: Record<string, string | boolean>, positional: strin
           // 性别决定大运顺逆与紫微大限；不给就按男命，并在下面提示
           const g = typeof flags.gender === 'string' ? flags.gender : 'unknown'
           if (!['male', 'female', 'unknown'].includes(g)) fail('--gender 应为 male / female', 2)
-          return { date, time, gender: g as 'male' | 'female' | 'unknown' }
+          // 经度：给了就按真太阳时校正，不给就用钟表时间
+          let longitude: number | undefined
+          if (typeof flags.longitude === 'string') {
+            const n = Number(flags.longitude)
+            if (!Number.isFinite(n) || n < -180 || n > 180) fail('--longitude 应为 -180 到 180 的数字', 2)
+            longitude = n
+          }
+          return {
+            date,
+            time,
+            gender: g as 'male' | 'female' | 'unknown',
+            ...(longitude !== undefined ? { longitude } : {}),
+          }
         })()
       : undefined
 
@@ -147,6 +159,12 @@ async function cmdAsk(flags: Record<string, string | boolean>, positional: strin
         for (const line of section.lines) console.log(`    ${line}`)
       }
       if (sealed) console.log(`\n  （盘面事实与依据共 ${sealed} 节已封存）`)
+      /*
+       * 领域边界提示。之前只有 Web 的 Ask.vue 调用 domainNotice，
+       * CLI 对「我未成年」「要不要停药」这类问题既不拦也不提示，
+       * 直接给断语 —— 等于同一份承诺在命令行里不作数。
+       */
+      if (answer.notice) console.log(`\n  ※ ${answer.notice}`)
       console.log()
     })
 
@@ -326,6 +344,7 @@ function cmdHelp(): void {
       --domain <领域>     career|love|study|health|wealth|family|general
       --birth "日期 时间"  1990-06-15 08:30
       --gender <male|female>  性别决定大运顺逆与紫微大限
+      --longitude <度数>  出生地经度（东经为正），给了就校正真太阳时
       --reveal            显示大师姓名（默认匿名）
       --no-save           只看结果，不写入台账
       --json              输出结构化 JSON

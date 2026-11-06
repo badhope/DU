@@ -54,6 +54,8 @@ h1 { margin: 0; font-size: 26px; letter-spacing: .12em; }
 .answer-head { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed #d9cfbb; padding-bottom: 8px; margin-bottom: 12px; }
 .name { font-size: 15px; font-weight: 700; }
 .school { font-size: 11px; color: #8a7f6d; }
+/* 边界提示：与页面上的视觉权重一致，不能因为导出就退化成脚注 */
+.notice { margin: 0 0 14px; padding: 9px 12px; border-left: 3px solid #a8842a; background: #f7f2e6; color: #3d3628; font-size: 12px; line-height: 1.75; border-radius: 4px; }
 section + section { margin-top: 14px; }
 h2 { margin: 0 0 6px; font-size: 12px; letter-spacing: .14em; color: #9a5b3f; font-weight: 600; }
 p { margin: 0 0 5px; font-size: 13.5px; }
@@ -100,8 +102,15 @@ export function renderMatchReport(match: BlindMatch): string {
             .map((claim) => `<p class="claim">${escapeHtml(claim.text)} · 截止 ${formatDate(claim.dueAt).slice(0, 10)}</p>`)
             .join('')}</div>`
         : ''
+      /*
+       * 边界提示必须进导出文件。
+       * 导出的 HTML 是用来归档和转发的 —— 如果原页面说了"这不构成医疗判断"，
+       * 归档版本却没有，那这段话离开原页面就变成了纯断语。
+       */
+      const notice = answer.notice ? `<p class="notice">${nl2br(answer.notice)}</p>` : ''
       return `<article class="answer">
   <div class="answer-head"><span class="name">${escapeHtml(label)}</span><span class="school">${escapeHtml(school)}${index === 0 ? ' · 甲' : ' · 乙'}</span></div>
+  ${notice}
   ${sections}
   ${citations}
   ${claims}

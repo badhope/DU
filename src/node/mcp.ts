@@ -76,6 +76,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
             enum: ['male', 'female'],
             description: '性别。决定八字大运顺逆与紫微大限；不传按男命计算，可能与实际不符。',
           },
+          longitude: {
+            type: 'number',
+            description:
+              '出生地经度（东经为正，-180 到 180）。给了就把钟表时间校正为真太阳时再排盘；中国统一用东经 120° 标准时，乌鲁木齐与北京差约 129 分钟，可能跨越两个时辰。',
+          },
           allowBirth: {
             type: 'boolean',
             description:
@@ -142,6 +147,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
               date: String(args.birthDate),
               time: String(args.birthTime ?? '00:00'),
               gender: args.gender === 'female' ? ('female' as const) : args.gender === 'male' ? ('male' as const) : ('unknown' as const),
+              ...(typeof args.longitude === 'number' ? { longitude: args.longitude } : {}),
             }
           : undefined
 
@@ -162,6 +168,9 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           lines.push(`【${section.title}】`)
           for (const line of section.lines) lines.push(line)
         }
+        // 领域边界提示：MCP 的调用方是 AI 客户端，这条尤其重要 ——
+        // 没有它，模型会把「我未成年」的回答当成普通运势继续展开。
+        if (answer.notice) lines.push(`※ ${answer.notice}`)
         lines.push('')
       })
       if (!reveal) lines.push('（盘面与依据已封存；传 reveal=true 可查看）')

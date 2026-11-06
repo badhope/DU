@@ -74,3 +74,37 @@ describe('大运与流年', () => {
     expect(none.luck?.forward).toBe(true)
   })
 })
+
+describe('真太阳时校正', () => {
+  it('经度真的改变时柱：乌鲁木齐与北京同一钟表时间排出不同时柱', async () => {
+    /*
+     * 这条防的是"参数传了但没用"。中国统一东经 120° 标准时，
+     * 乌鲁木齐（87.6°）比北京时间晚约 129 分钟 —— 12:00 出生实际是上午 10 点前，
+     * 时柱必然不同。如果这里没差异，说明 longitude 被静默忽略了。
+     */
+    const base = { date: '1990-06-15', time: '12:00', gender: 'male' as const }
+    const urumqi = await calculateBazi({ ...base, longitude: 87.6 })
+    const beijing = await calculateBazi({ ...base, longitude: 116.4 })
+    if (!('fact' in urumqi) || !('fact' in beijing)) throw new Error('排盘失败')
+
+    const hourOf = (r: typeof urumqi) => r.pillars.find((p) => p.label === '时柱')!.value
+    expect(hourOf(urumqi), '经度差了 29 度，时柱不该相同').not.toBe(hourOf(beijing))
+  })
+
+  it('不填经度时行为与原来完全一致', async () => {
+    const base = { date: '1990-06-15', time: '12:00', gender: 'male' as const }
+    const none = await calculateBazi(base)
+    const explicit120 = await calculateBazi({ ...base, longitude: 120 })
+    if (!('fact' in none) || !('fact' in explicit120)) throw new Error('排盘失败')
+    // 东经 120 只差均时差；6 月中旬均时差接近 0，四柱应当相同
+    expect(explicit120.pillars.map((p) => p.value)).toEqual(none.pillars.map((p) => p.value))
+    // 但事实层要标明做了校正
+    expect(explicit120.fact.fields.trueSolarTime).toBeTruthy()
+    expect(none.fact.fields.trueSolarTime).toBeUndefined()
+  })
+
+  it('经度非法时明确报错，不静默按原时间排', async () => {
+    const r = await calculateBazi({ date: '1990-06-15', time: '12:00', longitude: 999 })
+    expect('error' in r).toBe(true)
+  })
+})

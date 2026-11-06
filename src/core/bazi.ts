@@ -1,4 +1,5 @@
 import type { ChartFact } from '@/contract/reading'
+import { toTrueSolarTime } from './solarTime'
 
 export interface BaziInput {
   date: string
@@ -9,6 +10,12 @@ export interface BaziInput {
    * 静默改变它们的排盘结果比明确默认更糟。
    */
   gender?: 'male' | 'female' | 'unknown'
+  /**
+   * 出生地经度（东经为正）。给了就先把钟表时间校正成真太阳时再排盘 ——
+   * 中国横跨五个时区却统一用东经 120° 的标准时，乌鲁木齐差 129 分钟，
+   * 不校正会把时辰排错两个。
+   */
+  longitude?: number
 }
 
 /** 一步大运；index 0 是起运前的小运段，没有干支 */
@@ -171,8 +178,19 @@ type EightCharLike = {
 
 export async function calculateBazi(input: BaziInput): Promise<BaziResult> {
   if (!validInput(input)) return { error: '出生日期或时间格式不合法。' }
-  const [year, month, day] = input.date.split('-').map(Number)
-  const [hour, minute] = input.time.split(':').map(Number)
+
+  /*
+   * 先校正真太阳时，再排盘。
+   * 只影响"几点"（时柱与日界），不影响年月；校正后的日期可能跨天，
+   * 所以 year/month/day 必须在校正之后重新取。
+   */
+  const solar = input.longitude === undefined ? null : toTrueSolarTime(input.date, input.time, input.longitude)
+  if (input.longitude !== undefined && !solar) return { error: '经度不合法，应在 -180 到 180 之间。' }
+  const effectiveDate = solar?.date ?? input.date
+  const effectiveTime = solar?.time ?? input.time
+
+  const [year, month, day] = effectiveDate.split('-').map(Number)
+  const [hour, minute] = effectiveTime.split(':').map(Number)
   try {
     const { Solar } = await import('lunar-typescript')
     const eight = Solar.fromYmdHms(year!, month!, day!, hour!, minute!, 0).getLunar().getEightChar()
@@ -204,6 +222,13 @@ export async function calculateBazi(input: BaziInput): Promise<BaziResult> {
       fields: {
         date: input.date,
         time: input.time,
+        // 校正过就写明校正后是几点：用户填了 08:30 却排出辰时的盘，
+        // 不给这一行会以为算错了。
+        ...(solar
+          ? {
+              trueSolarTime: `${solar.date} ${solar.time}（${solar.offsetMinutes >= 0 ? '+' : ''}${solar.offsetMinutes.toFixed(0)} 分钟）`,
+            }
+          : {}),
         dayMaster,
         dayMasterWuxing,
         pillars: pillars.map((p) => `${p.label}${p.value}`),

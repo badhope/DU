@@ -8,7 +8,7 @@ import { getPersistStatus, type PersistStatus } from '@/arena/store'
 import * as ledger from '@/composables/ledger'
 import AnswerCard from '@/ui/AnswerCard.vue'
 import { downloadHtml, renderMatchReport } from '@/arena/report'
-import { checkSafety, domainNotice } from '@/core/safety'
+import { checkSafety } from '@/core/safety'
 import { SafetyBlockError } from '@/arena/readingFlow'
 
 const question = ref('')
@@ -17,6 +17,14 @@ const birthDate = ref('')
 const birthTime = ref('')
 /** 性别只影响大运顺逆与紫微大限；不填会把女命按男命排，所以单独问一次 */
 const birthGender = ref<'unknown' | 'male' | 'female'>('unknown')
+/**
+ * 出生地经度（东经为正）。
+ *
+ * 中国统一用东经 120° 的标准时，但出生地每偏离 1° 真太阳时就差 4 分钟：
+ * 乌鲁木齐差 129 分钟，整整两个时辰。填了就校正，不填就用钟表时间。
+ * 留空是合法选择 —— 不知道经度的人不该被逼着查。
+ */
+const birthLongitude = ref('')
 const match = ref<BlindMatch | null>(null)
 const busy = ref(false)
 const error = ref('')
@@ -25,8 +33,6 @@ const voted = ref<VoteChoice | null>(null)
 const persistIssue = ref<PersistStatus>(getPersistStatus())
 /** 安全网关的固定回复：与普通错误分开显示，措辞是求助导向而非报错 */
 const safetyMessage = ref('')
-/** 医疗/财务类问题的领域提醒，附在回答之后 */
-const notice = ref<string | null>(null)
 
 function syncPersistStatus(status: PersistStatus) {
   persistIssue.value = status
@@ -41,6 +47,20 @@ const domains: Array<{ value: ReadingDomain; label: string }> = [
   { value: 'health', label: '身心状态（非医疗）' },
 ]
 const canAsk = computed(() => question.value.trim().length >= 4 && (!birthDate.value || Boolean(birthTime.value)))
+/**
+ * 经度输入 → 数字或 null。
+ * null 表示"不校正"，而不是"经度 0"——东经 0 度是英国，把它当默认值会
+ * 让所有不填的人都排错盘。
+ */
+const lon = computed<number | null>(() => {
+  const raw = birthLongitude.value.trim()
+  if (!raw) return null
+  const n = Number(raw)
+  return Number.isFinite(n) && n >= -180 && n <= 180 ? n : null
+})
+/** 填了但格式不对：要给提示，不能静默忽略 */
+const lonInvalid = computed(() => birthLongitude.value.trim() !== '' && lon.value === null)
+
 const revealed = computed(() => Boolean(voted.value))
 
 /**
@@ -66,13 +86,16 @@ async function ask() {
   busy.value = true
   error.value = ''
   safetyMessage.value = ''
-  notice.value = null
   match.value = null
   voted.value = null
   const preCheck = checkSafety(question.value)
   if (preCheck.message) {
-    // 非危机类（医疗/财务/法律/未成年）也给固定说明，但仍可继续看
-    notice.value = domainNotice(preCheck.level)
+    /*
+     * 危机与未成年在这里先给固定回复并停下，避免无谓地走一次排盘。
+     * 但这不是唯一的防线：flow 层的 isBlocking 同样会抛 SafetyBlockError，
+     * CLI / HTTP / MCP 走的是那一层。两处判断必须一致 —— 之前 Web 拦 minor、
+     * 其他宿主不拦，同一句话在网页上被拒、在命令行里照常出结果。
+     */
     if (preCheck.level === 'crisis' || preCheck.level === 'minor') {
       safetyMessage.value = preCheck.message
       busy.value = false
@@ -84,7 +107,14 @@ async function ask() {
     domain: domain.value,
     askedAt: Date.now(),
     ...(birthDate.value
-      ? { birth: { date: birthDate.value, time: birthTime.value, gender: birthGender.value } }
+      ? {
+          birth: {
+            date: birthDate.value,
+            time: birthTime.value,
+            gender: birthGender.value,
+            ...(lon.value !== null ? { longitude: lon.value } : {}),
+          },
+        }
       : {}),
   }
   try {
@@ -158,6 +188,12 @@ function reset() {
         <label><input v-model="birthGender" type="radio" value="unknown" /> 不便说明</label>
       </fieldset>
       <p v-if="birthDate && birthGender === 'unknown'" class="ask-hint ask-hint-warn">未选择性别时，大运与紫微大限按男命顺行计算，可能与实际不符。四柱本身不受影响。</p>
+      <label v-if="birthDate" class="du-field">
+        <span class="du-label">出生地经度（可选，东经为正）</span>
+        <input v-model="birthLongitude" class="du-input" type="number" step="0.1" min="-180" max="180" placeholder="例：乌鲁木齐 87.6 / 北京 116.4 / 上海 121.5" />
+      </label>
+      <p v-if="lonInvalid" class="ask-hint ask-hint-warn">经度应在 -180 到 180 之间，当前值不会被使用。</p>
+      <p v-else-if="lon !== null" class="ask-hint">将按真太阳时校正：每偏离东经 120° 一度差 4 分钟，再加均时差（全年 −14 到 +16 分钟）。</p>
       <p class="ask-hint">生辰只用于本机生成八字与紫微事实；问题、生辰、盘面和反馈只在本机处理，不上传。</p>
       <button class="du-btn primary" type="submit" :disabled="!canAsk || busy">{{ busy ? '两位大师落笔中…' : '开始匿名盲测' }}</button>
       <p v-if="!canAsk && question.length > 0" class="ask-error">问题至少写 4 个字；填写出生日期后还需要出生时间。</p>

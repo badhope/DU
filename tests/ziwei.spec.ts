@@ -167,3 +167,21 @@ describe('事实层输出', () => {
     for (const word of forbidden) expect(serialized).not.toContain(word)
   })
 })
+
+describe('真太阳时对紫微的影响', () => {
+  it('经度改变时辰 → 改变命宫位置', async () => {
+    // 命宫由生月与生时共同决定；时辰错一位，整张盘的宫位全错。
+    const base = { date: '1990-06-15', time: '12:00', gender: 'male' as const }
+    const urumqi = await calculateZiwei({ ...base, longitude: 87.6 })
+    const beijing = await calculateZiwei({ ...base, longitude: 116.4 })
+    if ('error' in urumqi || 'error' in beijing) throw new Error('排盘失败')
+
+    const soulOf = (c: typeof urumqi) => c.palaces.find((p) => p.name === '命宫')?.earthlyBranch
+    expect(soulOf(urumqi), '经度差 29 度应改变命宫').not.toBe(soulOf(beijing))
+  })
+
+  it('非法经度明确报错', async () => {
+    const r = await calculateZiwei({ date: '1990-06-15', time: '12:00', longitude: -999 })
+    expect('error' in r).toBe(true)
+  })
+})

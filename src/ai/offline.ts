@@ -31,6 +31,7 @@ const FIELD_LABEL: Record<string, string> = {
   lunarDate: '农历',
   fourPillars: '四柱',
   timeName: '时辰',
+  trueSolarTime: '真太阳时',
   fiveElementsClass: '五行局',
   soul: '命主',
   body: '身主',

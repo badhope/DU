@@ -513,6 +513,33 @@ test('安全网关：未成年单独使用给出监护提示', async ({ page }) 
   await expect(page.getByText('12355', { exact: false })).toBeVisible()
 })
 
+test('安全网关：未成年不只拦字面写法（我 16 岁 / 我十六岁）', async ({ page }) => {
+  // 词表原来只认「我16岁」这种紧贴写法，加空格或写中文数字就漏过去了。
+  for (const q of ['我 16 岁，想问学业', '我十六岁，想问学业']) {
+    await page.goto('/#/ask')
+    await page.reload()
+    await page.getByLabel('你要问什么').fill(q)
+    await page.getByRole('button', { name: '开始匿名盲测' }).click()
+    await expect(page.locator('.safety-card'), `${q} 应被拦下`).toBeVisible({ timeout: 5000 })
+    await expect(page.locator('.answer')).toHaveCount(0)
+  }
+})
+
+test('领域边界提示：医疗问题放行，但回答里带出边界说明', async ({ page }) => {
+  /*
+   * 这条守的是"提示只存在于某个页面"的缺陷。
+   * 之前 domainNotice 只在 Ask.vue 里被调用，而那个变量从来没进模板 ——
+   * 也就是说医疗提示写了但用户永远看不到。现在由运行时写进回答对象。
+   */
+  await page.goto('/#/ask')
+  await page.getByLabel('你要问什么').fill('要不要停药')
+  await page.getByRole('button', { name: '开始匿名盲测' }).click()
+  await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible({ timeout: 20_000 })
+  // 两份回答都要带，而不是只给第一份
+  await expect(page.locator('.answer-notice')).toHaveCount(2)
+  await expect(page.getByText('不构成任何医疗判断', { exact: false }).first()).toBeVisible()
+})
+
 test('移动端所有可点击元素至少 44px 高', async ({ page }) => {
   await page.setViewportSize({ width: 375, height: 812 })
   await page.goto('/')

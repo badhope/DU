@@ -33,6 +33,12 @@ const hiddenCount = computed(() => props.answer.sections.length - sections.value
     </div>
     <p v-if="answer.fallbackReason" class="answer-fallback">{{ answer.fallbackReason }}</p>
 
+    <!--
+      领域边界提示由运行时写入（医疗 / 财务 / 法律 / 未成年），四个宿主都会带上。
+      放在断语之前而不是末尾：需要看到它的人不一定读到底。
+    -->
+    <p v-if="answer.notice" class="answer-notice">{{ answer.notice }}</p>
+
     <section v-for="section in sections" :key="section.key" class="answer-section">
       <h3>{{ section.title }}</h3>
       <p v-for="(line, lineIndex) in section.lines" :key="lineIndex">{{ line }}</p>
@@ -77,6 +83,8 @@ const hiddenCount = computed(() => props.answer.sections.length - sections.value
 .answer-label { color: var(--accent); font-size: 13px; letter-spacing: .18em; }
 .answer-mode { color: var(--ink-3); font-size: 10px; }
 .answer-fallback { margin: 10px 0 0; color: var(--ink-3); font-size: 11px; line-height: 1.7; }
+/* 边界提示必须显眼：它不是免责声明，是"这段内容不该被这样用"的说明 */
+.answer-notice { margin: 10px 0 0; padding: 8px 10px; border-left: 3px solid var(--tone-warn); border-radius: 4px; background: var(--bg-1); color: var(--ink-1); font-size: 12px; line-height: 1.75; }
 .answer-section { margin-top: 13px; }
 .answer-section h3 { margin: 0 0 5px; color: var(--accent-2); font-size: 11px; letter-spacing: .12em; }
 .answer-section p { margin: 0 0 4px; color: var(--ink-1); font-size: 13px; line-height: 1.75; overflow-wrap: anywhere; }
