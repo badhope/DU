@@ -7,6 +7,59 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2026-11-06
+
+Clearing the audit backlog that v0.5.1 left open. The theme is the same:
+claims that lived in prose are now enforced by code, and where enforcement was
+already there, it is now tested by breaking it on purpose.
+
+### Content safety
+
+- **Added `scripts/check-content-safety.mjs`, wired into `npm run check`.** The
+  audit found three classes of overreach in the statement library: physical
+  diagnoses ("你的颈椎比你的计划表先一步垮了"), symptom denial ("你不是失眠，
+  是…"), and investment conclusions ("超过你耐心的一半就先别做"). Reviewing 175
+  statements by eye does not scale, so the gate now rejects those patterns and
+  points at the offending statement id.
+  - **Reverse-tested**: re-inserting the original sentence turns it red. The
+    first version of the gate silently passed because the regex span was too
+    narrow (9 characters between "颈椎" and "垮", limit was 6) — found only
+    because I tried to break it.
+- Rewrote the offending statements as observable behaviour instead of
+  conclusions: "你坐着的时长，可能比你以为的要多得多", "躺下之后，你脑子里还在开会".
+  Medical actions now end with "请就医" rather than implying a diagnosis.
+
+### MCP
+
+- **Birth data now requires explicit `allowBirth: true`.** Tool arguments enter
+  the AI client's model context, so a cloud client means the birth date leaves
+  the device. This is stated at startup on stderr and in the parameter
+  description.
+- `tianji://ledger` returns status and due dates only, not statement text —
+  resources are dumped wholesale into the model context.
+
+### Storage
+
+- **SQLite now sets `PRAGMA secure_delete=ON`**; `reset()` VACUUMs and truncates
+  the WAL. Deleted records no longer linger in free pages or the write-ahead log.
+- Data directory created with mode `0700` — default umask left it world-readable
+  on Linux and macOS.
+- **New `tianji reset --yes`.** There was no way to clear the server ledger at
+  all; the web "clear all" only touched `localStorage`.
+
+### Accessibility
+
+- Touch targets raised to 44px: nav links were ~15px tall, the WCAG 2.2 floor
+  is 24px and the mobile recommendation is 44px. An E2E test now asserts every
+  visible nav link and button meets it, so this cannot regress.
+
+### Docs
+
+- `SECURITY.md` rewritten. It claimed "a static site with no backend"; that has
+  been false since v0.4.0. It now documents both storage modes, the SQLite file
+  path and its plaintext nature, the token requirement, the `tianji reset`
+  semantics, and the MCP context risk.
+
 ## [0.5.1] - 2026-11-05
 
 An external audit found that several safety and privacy claims existed only in
@@ -313,7 +366,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.1...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.2...HEAD
+[0.5.2]: https://gitcode.com/badhope/DU/compare/v0.5.1...v0.5.2
 [0.5.1]: https://gitcode.com/badhope/DU/compare/v0.5.0...v0.5.1
 [0.5.0]: https://gitcode.com/badhope/DU/compare/v0.4.1...v0.5.0
 [0.4.1]: https://gitcode.com/badhope/DU/compare/v0.4.0...v0.4.1

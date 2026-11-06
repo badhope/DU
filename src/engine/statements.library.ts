@@ -1064,30 +1064,33 @@ export const LIBRARY: Statement[] = [
 
   {
     id: 'health-01',
-    text: '你的颈椎比你的计划表先一步垮了。',
+    text: '你坐着的时长，可能比你以为的要多得多。',
     domain: ['health'],
     require: { 'domain:career': 0.5, 'stage:early': 0.5 },
     baseRate: 0.38,
     polarity: 'neutral',
-    action: '今天每小时站起来活动两分钟。',
-    source: { kind: 'observation', gloss: '久坐是年轻职场人的首要健康风险。' },
+    // 不做躯体断言：原句"颈椎先一步垮了"是医学结论，
+    // 这个站点没有资格也不应该下这种判断。改成可自我核对的行为描述。
+    action: '今天每小时站起来活动两分钟。若有持续疼痛或麻木，请就医。',
+    source: { kind: 'observation', gloss: '久坐时长可以自己观察，无需医学判断。' },
     tags: ['health-priority'],
   },
   {
     id: 'health-02',
-    text: '你不是失眠，是不肯把白天的事放到明天。',
+    text: '躺下之后，你脑子里还在开会。',
     domain: ['health'],
     require: { 'time:late-night': 0.5 },
     boost: { 'mood:reflective': 0.4 },
     baseRate: 0.4,
     polarity: 'tough',
-    action: '把明天要处理的事写在纸上，然后关灯。',
-    source: { kind: 'psych', gloss: '入睡困难多与未完成事务的认知负荷相关。' },
+    // 不说"你不是失眠"——那是在否定症状、把失眠归因成性格。
+    action: '把明天要处理的事写在纸上，然后关灯。持续失眠请就医。',
+    source: { kind: 'psych', gloss: '睡前认知负荷升高是常见现象，不等于失眠诊断。' },
     tags: ['ruminating'],
   },
   {
     id: 'health-03',
-    text: '你的胃在替你的情绪不停地加班。',
+    text: '压力大的时候，你身体的反应比你的话更诚实。',
     domain: ['health'],
     require: { 'sit:stuck': 0.5 },
     boost: { 'domain:health': 0.4 },
@@ -1297,7 +1300,7 @@ export const LIBRARY: Statement[] = [
   },
   {
     id: 'wealth-06',
-    text: '你不是在投资，是在用"有在做"来安抚焦虑。',
+    text: '回头看，你最近那几次操作，是分析之后的决定，还是焦虑之后的动作？',
     domain: ['wealth'],
     require: { 'domain:wealth': 0.5 },
     boost: { 'sit:doubt': 0.5 },
@@ -1974,7 +1977,8 @@ export const LIBRARY: Statement[] = [
     require: { 'domain:wealth': 0.5 },
     baseRate: 0.4,
     polarity: 'tough',
-    action: '把回本周期写成一个具体数字，超过你耐心的一半就先别做。',
+    // 只给核算方法，不给"该不该做"的结论 —— 那是投资建议
+    action: '把回本周期写成一个具体数字，再写下你能承受的最坏情况。',
     source: { kind: 'observation', gloss: '缺乏回本预期的投入容易变成沉没成本。' },
     tags: ['judgement'],
   },

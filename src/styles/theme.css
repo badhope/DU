@@ -151,6 +151,9 @@ a {
 .du-btn {
   font: inherit;
   padding: 9px 16px;
+  /* 触控目标下限：WCAG 2.2 AA 要求 24×24，移动端推荐 44×44。
+     实测原按钮约 39px 高，导航链接仅 15px —— 手指点不准。 */
+  min-height: 44px;
   border-radius: var(--radius);
   border: 1px solid var(--line);
   background: var(--surface-1);

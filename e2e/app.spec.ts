@@ -454,3 +454,20 @@ test('安全网关：未成年单独使用给出监护提示', async ({ page }) 
   await expect(page.locator('.safety-card')).toBeVisible({ timeout: 5000 })
   await expect(page.getByText('12355', { exact: false })).toBeVisible()
 })
+
+test('移动端所有可点击元素至少 44px 高', async ({ page }) => {
+  await page.setViewportSize({ width: 375, height: 812 })
+  await page.goto('/')
+  await expect(page.getByRole('heading', { name: '天机台' })).toBeVisible()
+
+  const targets = await page.locator('nav a, nav button, .du-btn').all()
+  const tooSmall: string[] = []
+  for (const target of targets) {
+    if (!(await target.isVisible())) continue
+    const box = await target.boundingBox()
+    if (box && box.height < 44) {
+      tooSmall.push(`${(await target.textContent())?.trim().slice(0, 10)} = ${Math.round(box.height)}px`)
+    }
+  }
+  expect(tooSmall, `这些元素低于 44px 触控下限：${tooSmall.join(', ')}`).toEqual([])
+})
