@@ -155,4 +155,26 @@ if (SKIP_SEA || !isWindows) {
   console.log(`  ✓ 二进制自检通过：tianji ${version}`)
 }
 
+/*
+ * 安装脚本必须由构建生成，不能是 build/ 里的手工文件。
+ *
+ * build/ 整个目录在 .gitignore 里，手工放进去的 install.cmd 永远不会出现
+ * 在仓库和发布页上 —— 用户下载 exe 后没有安装入口。
+ *
+ * 编码同样在这里定死：Windows cmd 按系统代码页解析批处理，简体中文系统是
+ * GBK。UTF-8 的中文注释会被读成乱码并当命令执行，安装直接崩。
+ * chcp 65001 + UTF-8 + CRLF 是唯一能稳定工作的组合。
+ *
+ * 放在 SEA 判断之外：`--skip-sea`（非 Windows / 跳过二进制）也要产出安装脚本，
+ * 否则两条构建路径产出的包内容不一致。
+ */
+const installerSrc = join(ROOT, 'scripts', 'installer.cmd')
+if (existsSync(installerSrc)) {
+  const raw = readFileSync(installerSrc, 'utf8')
+  writeFileSync(join(BUILD, 'install.cmd'), raw.replace(/\r?\n/g, '\r\n'), 'utf8')
+  console.log('  → build/install.cmd (UTF-8 + CRLF, chcp 65001)')
+} else {
+  console.warn('  ! 缺少 scripts/installer.cmd，安装脚本未生成')
+}
+
 console.log('\n构建完成。\n')

@@ -44,7 +44,7 @@
     "check:contrast": "node scripts/check-contrast.mjs",
     "check:fact-labels": "node scripts/check-fact-labels.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
-    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:content && npm run check:contrast && npm run check:fact-labels && npm run check:versions && npm run check:readme && npm run check:readme-language && npm run build && npm run check:local-only",
+    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:content && npm run check:contrast && npm run check:fact-labels && npm run check:versions && npm run check:readme && npm run check:readme-language && npm run build && npm run check:installer && npm run check:local-only",
     "check:corpus": "node scripts/check-corpus.mjs",
     "build:all": "node scripts/build-all.mjs",
     "cli": "node scripts/build-all.mjs && node build/cli.mjs",
@@ -56,7 +56,8 @@
     "check:content": "node scripts/check-content-safety.mjs",
     "test:mutation": "node scripts/mutation-test.mjs",
     "test:mutation:quick": "node scripts/mutation-test.mjs --quick",
-    "check:readme-language": "node scripts/check-readme-language.mjs"
+    "check:readme-language": "node scripts/check-readme-language.mjs",
+    "check:installer": "node scripts/check-installer.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",

@@ -1,6 +1,11 @@
 # 统一换行符，避免 Windows 提交把整份文件标成改动
 * text=auto eol=lf
 
+# Windows 批处理必须是 CRLF：cmd.exe 在解析续行符 ^ 和代码页时都会受换行影响，
+# 而这个文件的实际使用者就是 Windows。这条规则优先于上面的 eol=lf。
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
 # 截图是二进制，diff 里只看大小
 *.png binary
 *.jpg binary
