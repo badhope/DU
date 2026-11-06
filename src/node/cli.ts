@@ -109,7 +109,10 @@ async function cmdAsk(flags: Record<string, string | boolean>, positional: strin
       ? (() => {
           const [date, time] = flags.birth!.split(' ')
           if (!date || !time) fail('--birth 格式应为 "YYYY-MM-DD HH:mm"', 2)
-          return { date, time }
+          // 性别决定大运顺逆与紫微大限；不给就按男命，并在下面提示
+          const g = typeof flags.gender === 'string' ? flags.gender : 'unknown'
+          if (!['male', 'female', 'unknown'].includes(g)) fail('--gender 应为 male / female', 2)
+          return { date, time, gender: g as 'male' | 'female' | 'unknown' }
         })()
       : undefined
 
@@ -322,6 +325,7 @@ function cmdHelp(): void {
     ask [问题]            同一问题请两位大师各断一遍
       --domain <领域>     career|love|study|health|wealth|family|general
       --birth "日期 时间"  1990-06-15 08:30
+      --gender <male|female>  性别决定大运顺逆与紫微大限
       --reveal            显示大师姓名（默认匿名）
       --no-save           只看结果，不写入台账
       --json              输出结构化 JSON

@@ -41,6 +41,8 @@ export interface ZiweiChart {
   soul: string
   body: string
   palaces: ZiweiPalace[]
+  /** 当前所处大限；性别决定顺逆，所以没有性别时只能给 null */
+  currentDecadal?: { palace: string; range: [number, number]; age: number } | null
   fact: ChartFact
 }
 
@@ -92,6 +94,12 @@ export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { 
 
   try {
     const { astro } = await import('iztro')
+    /*
+     * 性别只影响大限顺逆与小限，不影响十二宫与主星安放。
+     * 但「不影响大部分盘面」正是最危险的地方：少传一个参数，界面照常出图，
+     * 只有大限那一列悄悄错位十年。所以这里必须由调用方显式传入，
+     * 缺省值也写清楚（unknown → 男），而不是让类型里的 `?` 变成静默错误。
+     */
     const gender = input.gender === 'female' ? '女' : '男'
     const [year, month, day] = input.date.split('-').map(Number)
     const chart = astro.bySolar(`${year}-${month}-${day}`, timeIndex, gender, true, 'zh-CN')
@@ -115,6 +123,24 @@ export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { 
       .flatMap((palace) => [...palace.majorStars, ...palace.minorStars].filter((star) => star.mutagen))
       .map((star) => `${star.name}化${star.mutagen}`)
 
+    // 当前大限：用 iztro 的 horoscope 求当前日期落在哪一宫，再回查该宫的年龄段
+    let currentDecadal: ZiweiChart['currentDecadal'] = null
+    try {
+      const h = chart.horoscope(new Date())
+      const palace = chart.palaces[h.decadal.index]
+      const range = (palace?.decadal as { range?: [number, number] } | undefined)?.range
+      if (palace && range) {
+        currentDecadal = {
+          palace: palace.name,
+          range,
+          age: h.age?.nominalAge ?? 0,
+        }
+      }
+    } catch {
+      // 大限是增量信息，取不到不影响主盘
+      currentDecadal = null
+    }
+
     const soulPalace = palaces.find((palace) => palace.name === '命宫')
     const fact: ChartFact = {
       kind: 'ziwei',
@@ -129,6 +155,9 @@ export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { 
         soul: chart.soul ?? '',
         body: chart.body ?? '',
         mutagen: mutagens,
+        ...(currentDecadal
+          ? { currentDecadal: `${currentDecadal.palace}宫 ${currentDecadal.range[0]}–${currentDecadal.range[1]} 岁` }
+          : {}),
         palaces: palaces.map((palace) => `${palace.name}(${palace.earthlyBranch})`),
         majorStars: palaces.flatMap((palace) => palace.majorStars.map((star) => `${palace.name}:${star.name}`)),
       },
@@ -144,6 +173,7 @@ export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { 
       soul: chart.soul ?? '',
       body: chart.body ?? '',
       palaces,
+      currentDecadal,
       fact,
     }
   } catch (error) {

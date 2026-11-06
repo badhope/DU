@@ -115,20 +115,21 @@ const screenshots = `| Home | Blind match — sealed | After voting |
 
 const en = `# Tianji · DU <sub>v${pkg.version}</sub>
 
-两种门派读同一个问题，你盲评，然后才揭晓是谁。带日期的断言进应验簿，由你自己回填。
+Two schools read the same question. You score them blind, then the names appear.
+Dated claims go into a ledger you resolve yourself a week later.
 
 [中文](README.zh-CN.md) · [Roadmap](ROADMAP.md) · [Changelog](CHANGELOG.md)
 
 | Ask | Blind match | After voting |
 | --- | --- | --- |
-| ![Home](docs/screenshots/home.png) | ![Blind](docs/screenshots/blind-match.png) | ![Reveal](docs/screenshots/reveal.png) |
+| ![Ask form](docs/screenshots/ask-form.png) | ![Blind](docs/screenshots/blind-match.png) | ![Reveal](docs/screenshots/reveal.png) |
 
 ## Install
 
 \`\`\`bash
 # CLI
 npm ci && npm run build:all
-node build/cli.mjs ask "我要不要换工作" --domain career
+node build/cli.mjs ask "Should I change jobs this quarter?" --domain career --gender female
 
 # Desktop (Windows, no Node needed)
 build/install.cmd
@@ -140,18 +141,27 @@ tianji serve                 # http://127.0.0.1:7317
 
 ## What it does
 
-| | |
+| Step | What happens |
 | --- | --- |
-| 问一次 | 写下问题，可填生辰（填了才能排子平与紫微） |
-| 盲评 | 两份匿名回答，投票前看不到姓名、门派、盘面 |
-| 揭晓 | 投完才看到是谁，以及引文出处 |
-| 回填 | 一周后回来说这条断语准不准 |
+| Ask | Write one concrete question. Birth date is optional — it unlocks the four pillars and Zi Wei charts. |
+| Score blind | Two anonymous answers. Names, schools and charts stay sealed until you vote. |
+| Reveal | After voting you see who wrote which, and where every quotation comes from. |
+| Resolve | Dated, falsifiable claims enter a ledger. Come back in a week and mark what happened. |
 
-内核：子平八字、梅花易数、紫微斗数。全部本机计算。
+Kernels: Zi Ping four pillars, Mei Hua Yi Shu, Zi Wei Dou Shu. All computed on
+your device; nothing is uploaded. Sex decides decadal luck direction and is used
+only as a calendar input — never as a prediction target.
+
+## Why the readings are checkable
+
+Every quoted line is verified verbatim against the public-domain corpus in
+\`public/corpus\` (12 classics, about 1.87M characters). \`npm run check\` fails if a
+quote cannot be found there, so a citation cannot drift away from its source.
 
 ## License
 
-MIT。古籍原文的公有领域来源见 \`public/corpus/manifest.json\`。
+MIT. Public-domain sources for the classics are listed in
+\`public/corpus/manifest.json\`.
 `
 
 const zh = `# 天机台 · DU <sub>v${pkg.version}</sub>
@@ -162,7 +172,7 @@ const zh = `# 天机台 · DU <sub>v${pkg.version}</sub>
 
 | 提问 | 盲评 | 投票后 |
 | --- | --- | --- |
-| ![首页](docs/screenshots/home.png) | ![盲评](docs/screenshots/blind-match.png) | ![揭晓](docs/screenshots/reveal.png) |
+| ![问天表单](docs/screenshots/ask-form.png) | ![盲评](docs/screenshots/blind-match.png) | ![揭晓](docs/screenshots/reveal.png) |
 
 ## 安装
 

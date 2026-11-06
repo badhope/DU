@@ -2,14 +2,15 @@ cff-version: 1.2.0
 message: "If you reference this platform in research or writing, cite it as below."
 title: "Tianji (DU) — Local-Only Chinese Metaphysics Master Arena"
 abstract: >-
-  A static, backend-free evaluation platform for Chinese metaphysics readings.
-  Two verified fact kernels (Zi Ping four pillars and Mei Hua Yi Shu) answer the
-  same question under blind conditions; users score before the methods are
-  revealed, and dated falsifiable claims are tracked in a local ledger. All
-  computation and storage happen in the browser — no question, birth data,
-  chart, reading, vote or claim is transmitted.
-version: 0.5.3
-date-released: 2026-11-04
+  A local-first evaluation platform for Chinese metaphysics readings. Three
+  verified fact kernels (Zi Ping four pillars, Mei Hua Yi Shu, Zi Wei Dou Shu)
+  answer the same question under blind conditions; users score before the
+  methods are revealed, and dated falsifiable claims are tracked in a local
+  ledger. All computation happens on the device — no question, birth data,
+  chart, reading, vote or claim is transmitted. Sex is treated as a calendar
+  input that decides decadal direction, never as a prediction target.
+version: 0.6.0
+date-released: 2026-11-07
 license: MIT
 type: software
 keywords:

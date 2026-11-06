@@ -33,12 +33,14 @@ async function freezeEnvironment(page: Page) {
   })
 }
 
-async function startMatch(page: Page, opts: { withBirth?: boolean } = {}) {
+async function startMatch(page: Page, opts: { withBirth?: boolean; gender?: 'female' | 'male' } = {}) {
   await page.goto('/#/ask')
   await page.getByLabel('你要问什么').fill(question)
   if (opts.withBirth) {
     await page.getByLabel('出生日期（可选）').fill('1990-06-15')
     await page.getByLabel('出生时间（填写日期后必填）').fill('08:30')
+    // 性别决定大运顺逆与紫微大限；不选会走"按男命"的提示分支
+    if (opts.gender) await page.getByRole('radio', { name: opts.gender === 'female' ? '女' : '男' }).check()
   }
   await page.getByRole('button', { name: '开始匿名盲测' }).click()
   // 带生辰时会动态加载 iztro（紫微内核，含 dayjs/i18next），首次要几秒；
@@ -69,7 +71,7 @@ test('首页展示大师阵容与可核数字', async ({ page }) => {
 
 test('盲测：投票前看不到盘面与出处，投票后才揭晓', async ({ page }) => {
   await freezeEnvironment(page)
-  await startMatch(page, { withBirth: true })
+  await startMatch(page, { withBirth: true, gender: 'female' })
 
   // 匿名期：断语可见，但盘面事实与依据必须封存
   await expect(page.getByText('盘面事实与依据共', { exact: false }).first()).toBeVisible()
@@ -105,6 +107,51 @@ test('同一问题连续两次，甲乙顺序会变化（不固定门派）', as
     await page.evaluate(() => localStorage.clear())
   }
   expect(new Set(orders).size, `六局首答都是 ${orders[0]}，顺序没有随机化`).toBeGreaterThan(1)
+})
+
+test('性别从表单一路写入台账：女命与男命各自被记下', async ({ page }) => {
+  /*
+   * 这条回归防的是一个"页面照常出图、数据全错"的缺陷：
+   * calculateZiwei 一直支持 gender，但 flow 层从没把 request.birth 的性别传下去，
+   * Ask.vue 也没有输入控件 —— 所有用户都按男命排，大限错位整整一百年。
+   *
+   * 这里只断言浏览器里能确定的部分：表单选的性别必须真的进了落库的 request。
+   * 大限本身随性别变化，由 tests/runtime.spec.ts 用固定 masterIds 确定性验证 ——
+   * 浏览器里三位大师随机抽两位，紫微只有 2/3 概率出场，靠抽签的断言必然间歇失败。
+   */
+  async function runWithGender(gender: 'female' | 'male') {
+    await page.goto('/#/ask')
+    await page.reload()
+    await page.getByLabel('你要问什么').fill(question)
+    await page.getByLabel('出生日期（可选）').fill('1990-06-15')
+    await page.getByLabel('出生时间（填写日期后必填）').fill('08:30')
+    await page.getByRole('radio', { name: gender === 'female' ? '女' : '男' }).check()
+    await page.getByRole('button', { name: '开始匿名盲测' }).click()
+    await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible({ timeout: 25_000 })
+    const stored = await page.evaluate(() => {
+      const raw = localStorage.getItem('tianji.arena.v1')
+      if (!raw) return null
+      const match = JSON.parse(raw).matches?.[0]
+      return match ? { gender: match.request?.birth?.gender ?? null } : null
+    })
+    await page.evaluate(() => localStorage.clear())
+    return stored
+  }
+
+  const female = await runWithGender('female')
+  const male = await runWithGender('male')
+  expect(female, '应能在本机台账里读到这一局').not.toBeNull()
+  expect(male, '应能在本机台账里读到这一局').not.toBeNull()
+  expect(female!.gender).toBe('female')
+  expect(male!.gender).toBe('male')
+})
+
+test('未选性别时给出按男命计算的明确提示，而不是静默假设', async ({ page }) => {
+  await page.goto('/#/ask')
+  await page.getByLabel('出生日期（可选）').fill('1990-06-15')
+  await expect(page.getByText('按男命顺行计算', { exact: false })).toBeVisible()
+  await page.getByRole('radio', { name: '女' }).check()
+  await expect(page.getByText('按男命顺行计算', { exact: false })).toHaveCount(0)
 })
 
 test('问天表单校验与本机持久化', async ({ page }) => {
@@ -266,7 +313,18 @@ test('@screenshots 生成可复现的展示截图', async ({ page }) => {
   })
   await shot('home')
 
-  await startMatch(page, { withBirth: true })
+  // 问天表单本身没有截图：性别控件与"按男命计算"提示是 v0.6.0 的关键新增，
+  // 展示图里必须能看见它，否则新功能等于没展示。
+  await openAndWait('#/ask', async () => {
+    await expect(page.getByRole('heading', { name: '问天' })).toBeVisible()
+  })
+  await page.getByLabel('你要问什么').fill(question)
+  await page.getByLabel('出生日期（可选）').fill('1990-06-15')
+  await page.getByLabel('出生时间（填写日期后必填）').fill('08:30')
+  await page.getByRole('radio', { name: '女' }).check()
+  await shot('ask-form')
+
+  await startMatch(page, { withBirth: true, gender: 'female' })
   await waitForEvidenceSettled(page)
   await shot('blind-match')
 

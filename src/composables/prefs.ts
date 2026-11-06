@@ -16,12 +16,22 @@ interface Prefs {
   followSeason: boolean
 }
 
-const fallback: Prefs = { skin: 'ink', followSeason: true }
+/**
+ * 默认外观。
+ *
+ * 默认亮色（宣纸）而不是夜墨：这是一个阅读与写作类的工具，用户在明亮环境里
+ * 读一段回答的时间远多于深夜；深色作为可选皮肤保留，一个按钮就能切回去。
+ * 旧版本把 ink 当默认，导致第一次打开是全黑页面——这是体验问题，不是风格问题。
+ */
+const fallback: Prefs = { skin: 'paper', followSeason: true }
 
 function load(): Prefs {
   try {
     const parsed = JSON.parse(localStorage.getItem(KEY) ?? '{}') as Partial<Prefs>
-    return { skin: parsed.skin === 'paper' ? 'paper' : 'ink', followSeason: parsed.followSeason !== false }
+    return {
+      skin: parsed.skin === 'ink' ? 'ink' : parsed.skin === 'paper' ? 'paper' : fallback.skin,
+      followSeason: parsed.followSeason !== false,
+    }
   } catch {
     return fallback
   }

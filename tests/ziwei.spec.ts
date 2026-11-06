@@ -121,10 +121,33 @@ describe('性别影响', () => {
     if ('error' in male || 'error' in female) throw new Error('排盘失败')
 
     expect(male.palaces.map((p) => p.name)).toEqual(female.palaces.map((p) => p.name))
-    const maleDecadal = male.palaces.find((p) => p.name === '命宫')?.decadal?.range
-    const femaleDecadal = female.palaces.find((p) => p.name === '命宫')?.decadal?.range
-    expect(maleDecadal).toBeDefined()
-    expect(femaleDecadal).toBeDefined()
+
+    // 只断言"两者都有值"是没有意义的 —— 那在性别被完全忽略时也会通过。
+    // 必须断言大限真的不同，而且指向同一宫时年龄段相反方向。
+    const malePairs = male.palaces.map((p) => `${p.name}:${p.decadal?.range?.join('-')}`)
+    const femalePairs = female.palaces.map((p) => `${p.name}:${p.decadal?.range?.join('-')}`)
+    expect(malePairs).not.toEqual(femalePairs)
+
+    const maleSoul = male.palaces.find((p) => p.name === '命宫')?.decadal?.range
+    const femaleSoul = female.palaces.find((p) => p.name === '命宫')?.decadal?.range
+    expect(maleSoul).toEqual([5, 14])
+    expect(femaleSoul).toEqual([5, 14])
+    // 命宫本身相同，但兄弟宫方向相反：男 115–124 / 女 15–24
+    const maleSibling = male.palaces.find((p) => p.name === '兄弟')?.decadal?.range
+    const femaleSibling = female.palaces.find((p) => p.name === '兄弟')?.decadal?.range
+    expect(maleSibling).toEqual([115, 124])
+    expect(femaleSibling).toEqual([15, 24])
+  })
+
+  it('当前大限来自 horoscope，且随性别不同而落在不同宫', async () => {
+    const male = await calculateZiwei({ date: '1990-06-15', time: '08:30', gender: 'male' })
+    const female = await calculateZiwei({ date: '1990-06-15', time: '08:30', gender: 'female' })
+    if ('error' in male || 'error' in female) throw new Error('排盘失败')
+
+    expect(male.currentDecadal).toBeTruthy()
+    expect(female.currentDecadal).toBeTruthy()
+    // 同一出生日、同一年龄，大限方向不同 → 落在不同宫
+    expect(male.currentDecadal!.palace).not.toBe(female.currentDecadal!.palace)
   })
 })
 

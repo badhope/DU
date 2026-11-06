@@ -7,6 +7,63 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.0] - 2026-11-07
+
+Sex had been accepted by the Zi Wei kernel since v0.5.0 and never passed to it.
+Every user's decadal table was computed as a male chart — a hundred-year error
+in the 大限 column, invisible because the chart still rendered. This release is
+mostly about that class of defect: things that look finished and are not.
+
+### Fixed
+
+- **Decadal luck ignored sex.** `calculateZiwei` took `gender`, but
+  `factsForRequest` dropped it and the form had no field. 阳男阴女 run forward,
+  阴男阳女 run backward: the same birth moment put 兄弟宫 at 115–124 for a male
+  and 15–24 for a female. Sex is now a form field, threaded through the runtime,
+  CLI (`--gender`), HTTP API and MCP. Default is `unknown` → male, and the UI
+  says so out loud rather than assuming silently.
+- **Internal identifiers reached the screen.** Chart-fact fields were rendered
+  straight from `Object.entries`, producing `- currentDecadal：田宅宫 35–44 岁`
+  and `- 体用关系：yongShengTi`. Field keys now go through a label table, and
+  enum values are mapped at the fact layer.
+- **Header subtitle detached from the brand.** `space-between` treated `天机台`
+  as a third column and parked it in the middle of the page.
+- **Primary buttons failed WCAG AA in the dark skin.** White text on the four
+  seasonal accents measured 2.41–4.20:1. Added `--on-accent`; the dark skin now
+  uses dark text on accent.
+- **Light skin small text was below AA.** `--ink-3` was 3.4:1 on paper and is
+  used at 10–11px; `--accent-2` was 3.1:1. Both darkened.
+- **One statement contained an English word**: 「你 sensed 的那个拐点」.
+- **Footer split the clear button from its brackets** on narrow screens.
+- **`npm run screenshots` never ran.** `grepInvert` excluded the screenshot
+  test before `--grep` could select it, so the command always reported
+  "No tests found".
+
+### Added
+
+- **Decadal luck for the four-pillar kernel** — direction, start age, nine
+  ten-year pillars, current pillar, and the current 流年 from the calendar
+  library. The Zi Wei kernel now also yields the current 大限 palace, age range
+  and nominal age.
+- **`scripts/check-contrast.mjs`** — 17 foreground/background pairs per skin
+  plus 8 seasonal button combinations, gated at WCAG AA 4.5:1. It caught five
+  real defects on its first run, including every seasonal primary button.
+- **`scripts/check-fact-labels.mjs`** — every fact field must have a Chinese
+  label and every enum must be mapped before it reaches a reader.
+- **Loading skeleton on the ask page** with `role="status"`, shaped like the
+  answer it is about to become.
+- **Theme boot script** (`public/theme-boot.js`) so the chosen skin applies
+  before first paint without loosening CSP.
+- **Content gate rule for mixed Chinese/English** in statements.
+
+### Changed
+
+- **Paper (light) is now the default skin.** Ink remains one click away. The
+  previous default opened a reading tool on a black page.
+- `DU_BACKEND_PORT` overrides the backend E2E port; the spec reads the same
+  value instead of hardcoding 4180. It had been colliding with an unrelated
+  process on the same machine.
+
 ## [0.5.3] - 2026-11-06
 
 The test suite had 190 passing assertions and I could not tell you whether half

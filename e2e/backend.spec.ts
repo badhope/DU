@@ -12,8 +12,21 @@ import { join } from 'node:path'
  * 现在每条断言都要求服务端台账**真的发生变化**，而不只是界面上写了一句话。
  */
 
-// 用 baseURL，跟随 playwright.backend.config.ts 的端口，避免两处硬编码
-const BASE = process.env.DU_BACKEND_URL ?? 'http://127.0.0.1:4180'
+/**
+ * API 地址跟随配置的端口，而不是在这里再写死一份。
+ *
+ * 原来写死 `http://127.0.0.1:4180`，配置文件也写死 4180。一旦端口因冲突
+ * 改成别的值（DU_BACKEND_PORT），测试就会打到那个端口上不相干的进程，
+ * 拿到 HTML 再报「Unexpected token '<'」—— 看起来像服务端坏了，
+ * 其实是测试连错了地址。
+ *
+ * 不用 `new URL(page.url()).origin`：首次调用发生在 page.goto 之前，
+ * 那时 page.url() 还是 about:blank，origin 会变成字符串 "null"。
+ */
+function apiUrl(path: string): string {
+  const port = Number(process.env.DU_BACKEND_PORT ?? 4180)
+  return `http://127.0.0.1:${port}${path}`
+}
 
 /**
  * 服务端启动时会把一次性令牌写进数据目录的 token 文件。
@@ -35,7 +48,7 @@ async function waitReady(page: Page) {
 }
 
 async function serverState(page: Page) {
-  const response = await page.request.get(`${BASE}/api/session`, { headers: apiHeaders() })
+  const response = await page.request.get(apiUrl('/api/session'), { headers: apiHeaders() })
   expect(response.ok()).toBeTruthy()
   return (await response.json()) as { matches: number; claims: number; pendingClaims: number }
 }
@@ -73,7 +86,7 @@ test.describe('后端模式真的接线', () => {
 
     // 服务端那份记录必须带上 vote 字段
     const matches = (await (
-      await page.request.get(`${BASE}/api/matches`, { headers: apiHeaders() })
+      await page.request.get(apiUrl('/api/matches'), { headers: apiHeaders() })
     ).json()) as Array<{ request: { question: string }; vote?: string }>
     const mine = matches.find((m) => m.request.question.includes('投票'))
     expect(mine?.vote).toBe('a')

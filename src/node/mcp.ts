@@ -71,6 +71,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
             description: '公历出生日期 YYYY-MM-DD。传入前须 allowBirth=true，否则会被忽略。',
           },
           birthTime: { type: 'string', description: '出生时间 HH:mm，与 birthDate 一起使用。' },
+          gender: {
+            type: 'string',
+            enum: ['male', 'female'],
+            description: '性别。决定八字大运顺逆与紫微大限；不传按男命计算，可能与实际不符。',
+          },
           allowBirth: {
             type: 'boolean',
             description:
@@ -133,7 +138,11 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         // 生辰属于敏感信息：它一旦作为工具参数传入，就会进入 AI 客户端的
         // 请求上下文与日志。所以要求调用方显式 allowBirth=true，不给默认开启。
         args.allowBirth === true && typeof args.birthDate === 'string'
-          ? { date: String(args.birthDate), time: String(args.birthTime ?? '00:00') }
+          ? {
+              date: String(args.birthDate),
+              time: String(args.birthTime ?? '00:00'),
+              gender: args.gender === 'female' ? ('female' as const) : args.gender === 'male' ? ('male' as const) : ('unknown' as const),
+            }
           : undefined
 
       const options = { question, domain, ...(birth ? { birth } : {}) }

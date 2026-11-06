@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.5.3",
+  "version": "0.6.0",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",
@@ -34,15 +34,17 @@
     "test": "vitest run --reporter=default --reporter=json --outputFile=.vitest-results.json",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "screenshots": "playwright test --grep @screenshots",
+    "screenshots": "node scripts/screenshots.mjs",
     "verify:quotes": "node scripts/verify-quotes.mjs",
     "gen:readme": "node scripts/gen-readme.mjs",
     "check:readme": "node scripts/gen-readme.mjs --check",
     "check:local-only": "node scripts/check-local-only.mjs",
     "check:versions": "node scripts/check-versions.mjs",
     "check:boundaries": "node scripts/check-boundaries.mjs",
+    "check:contrast": "node scripts/check-contrast.mjs",
+    "check:fact-labels": "node scripts/check-fact-labels.mjs",
     "corpus": "node scripts/sync-corpus.mjs ../du-corpus",
-    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:content && npm run check:versions && npm run check:readme && npm run build && npm run check:local-only",
+    "check": "npm run typecheck && npm run check:boundaries && npm run test && npm run verify:quotes && npm run check:corpus && npm run check:content && npm run check:contrast && npm run check:fact-labels && npm run check:versions && npm run check:readme && npm run check:readme-language && npm run build && npm run check:local-only",
     "check:corpus": "node scripts/check-corpus.mjs",
     "build:all": "node scripts/build-all.mjs",
     "cli": "node scripts/build-all.mjs && node build/cli.mjs",
@@ -53,7 +55,8 @@
     "check:e2e": "playwright test && npm run test:e2e:backend",
     "check:content": "node scripts/check-content-safety.mjs",
     "test:mutation": "node scripts/mutation-test.mjs",
-    "test:mutation:quick": "node scripts/mutation-test.mjs --quick"
+    "test:mutation:quick": "node scripts/mutation-test.mjs --quick",
+    "check:readme-language": "node scripts/check-readme-language.mjs"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
