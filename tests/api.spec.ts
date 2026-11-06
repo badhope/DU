@@ -232,9 +232,30 @@ describe('危机输入必须被服务端拒绝（不依赖前端预检）', () =
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ question: '我想自杀', save: false }),
     })
-    expect(response.status).toBe(500)
-    const body = (await response.json()) as { error: string }
+    /*
+     * 403，不是 500。
+     *
+     * 「这条请求不该被处理」是客户端问题，不是服务端故障。用 500 会让所有
+     * 客户端以为服务挂了，重试策略还可能把同一个危机请求反复打进来。
+     */
+    expect(response.status).toBe(403)
+    const body = (await response.json()) as { error: string; blocked?: boolean; level?: string }
     expect(body.error).toContain('12356')
+    // 结构化标记：客户端能区分"被规则拒绝"与"服务器坏了"
+    expect(body.blocked).toBe(true)
+    expect(body.level).toBe('crisis')
+  })
+
+  it('未成年单独使用同样被服务端拒绝', async () => {
+    const response = await authFetch(`${base}/api/ask`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question: '我16岁，想问学业', save: false }),
+    })
+    expect(response.status).toBe(403)
+    const body = (await response.json()) as { error: string; level?: string }
+    expect(body.error).toContain('12355')
+    expect(body.level).toBe('minor')
   })
 
   it('危机请求不会在台账里留下任何记录', async () => {

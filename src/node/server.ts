@@ -17,6 +17,7 @@ import { SqliteLedgerStore } from './store'
 import { VERSION } from './version'
 import { assetKeys, readAsset } from './assets'
 import { askAndRecord, ask, catalog, renderLedger, renderMatch, sessionView } from '../runtime'
+import { SafetyBlockError } from '../arena/readingFlow'
 import type { ReadingDomain } from '../contract/reading'
 
 export interface ServerOptions {
@@ -332,6 +333,17 @@ export function createApp(options: ServerOptions) {
 
       send(res, 404, { error: 'Not found' })
     } catch (error) {
+      /*
+       * 安全网关的拒绝不是服务端故障。
+       *
+       * SafetyBlockError 是"这条请求不该被处理"，属于 4xx；用 500 会让所有
+       * 客户端以为是服务器坏了，重试逻辑还可能把它变成死循环。
+       * 403 在这里的含义是"请求合法，但被规则拒绝"。
+       */
+      if (error instanceof SafetyBlockError) {
+        send(res, 403, { error: error.message, level: error.level, blocked: true })
+        return
+      }
       send(res, 500, { error: error instanceof Error ? error.message : 'Internal error' })
     }
   }

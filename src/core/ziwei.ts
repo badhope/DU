@@ -10,6 +10,7 @@
  * 不做任何解释、不给吉凶判断 —— 那是演绎层的事。
  */
 import type { ChartFact } from '@/contract/reading'
+import { toTrueSolarTime } from './solarTime'
 
 export interface ZiweiStar {
   name: string
@@ -50,6 +51,8 @@ export interface ZiweiInput {
   date: string
   time: string
   gender?: 'male' | 'female' | 'unknown'
+  /** 出生地经度（东经为正）。给了就先校正真太阳时再安星。 */
+  longitude?: number
 }
 
 /** 公历时间 → iztro 的时辰序号（0 = 早子时 00:00-00:59，12 = 晚子时 23:00-23:59） */
@@ -89,7 +92,17 @@ function validInput(input: ZiweiInput): boolean {
 
 export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { error: string }> {
   if (!validInput(input)) return { error: '出生日期或时间格式不合法。' }
-  const timeIndex = hourToIndex(input.time)
+
+  /*
+   * 与四柱同一套校正：真太阳时决定时辰，时辰决定命宫。
+   * 不校正的话，乌鲁木齐出生的人命宫会整体错两位 —— 那是整张盘的地基。
+   */
+  const solar = input.longitude === undefined ? null : toTrueSolarTime(input.date, input.time, input.longitude)
+  if (input.longitude !== undefined && !solar) return { error: '经度不合法，应在 -180 到 180 之间。' }
+  const effectiveDate = solar?.date ?? input.date
+  const effectiveTime = solar?.time ?? input.time
+
+  const timeIndex = hourToIndex(effectiveTime)
   if (timeIndex === null) return { error: '出生时间不合法。' }
 
   try {
@@ -101,7 +114,7 @@ export async function calculateZiwei(input: ZiweiInput): Promise<ZiweiChart | { 
      * 缺省值也写清楚（unknown → 男），而不是让类型里的 `?` 变成静默错误。
      */
     const gender = input.gender === 'female' ? '女' : '男'
-    const [year, month, day] = input.date.split('-').map(Number)
+    const [year, month, day] = effectiveDate.split('-').map(Number)
     const chart = astro.bySolar(`${year}-${month}-${day}`, timeIndex, gender, true, 'zh-CN')
 
     const palaces: ZiweiPalace[] = chart.palaces.map((palace) => {

@@ -72,6 +72,13 @@ export interface MasterAnswer {
   statementIds: string[]
   generatedAt: number
   fallbackReason?: string
+  /**
+   * 领域边界提示（医疗 / 财务 / 法律 / 未成年）。
+   *
+   * 放在回答对象上而不是只在某个页面里拼：Web 之外还有 CLI、HTTP、MCP 三个宿主，
+   * 只写进页面等于另外三个没有。由运行时统一填充，各宿主只负责显示。
+   */
+  notice?: string
 }
 
 export interface BlindMatch {

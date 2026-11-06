@@ -3,7 +3,7 @@ import type { AskRequest, BlindMatch, ChartFact, MasterAnswer } from '@/contract
 import { calculateBazi } from '@/core/bazi'
 import { calculateMeihua } from '@/core/meihuaFacts'
 import { calculateZiwei } from '@/core/ziwei'
-import { checkSafety, isBlocking } from '@/core/safety'
+import { checkSafety, domainNotice, isBlocking } from '@/core/safety'
 import { masterById } from '@/masters/registry'
 import { generateLocalAnswer } from '@/ai/reading'
 import { saveClaims, saveMatch } from './store'
@@ -90,6 +90,13 @@ export async function composeBlindMatch(
   const verdict = checkSafety(request.question)
   if (isBlocking(verdict)) throw new SafetyBlockError(verdict.message ?? '', verdict.level)
 
+  /*
+   * 非阻断级别的边界提示（医疗 / 财务 / 法律 / 未成年）。
+   * 写进回答对象里，而不是只让 Web 页面自己拼 —— CLI、HTTP、MCP 都从
+   * 这里拿结果，放在这里才是"四个宿主共用同一网关"。
+   */
+  const notice = domainNotice(verdict.level)
+
   if (masterIds[0] === masterIds[1]) throw new Error('本次盲测需要两位不同的大师。')
 
   // 展示顺序随机，但 matchId 必须对同一对大师稳定，否则同一请求重放会得到不同 id
@@ -111,7 +118,20 @@ export async function composeBlindMatch(
   }
   if (answers.length !== 2) throw new Error('本次盲测需要两位已启用的大师。')
 
-  return { id, request, masterIds: displayIds, answers: [answers[0]!, answers[1]!], createdAt: request.askedAt }
+  /*
+   * 把边界提示挂到每份回答上。挂两份而不是挂在 match 上，
+   * 是因为导出报告与 MCP 都是逐条回答渲染的；挂在 match 上等于只有
+   * Web 的卡片看得到。
+   */
+  const withNotice = answers.map((answer) => (notice ? { ...answer, notice } : answer))
+
+  return {
+    id,
+    request,
+    masterIds: displayIds,
+    answers: [withNotice[0]!, withNotice[1]!],
+    createdAt: request.askedAt,
+  }
 }
 
 /** 浏览器入口：计算 + 写入本机存储 */

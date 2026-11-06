@@ -91,6 +91,30 @@ if anything, to say about them.
 A file that violates this table usually indicates a missing abstraction, not a
 missing import permission.
 
+## Safety gate
+
+`safety.ts` runs **inside `composeBlindMatch`**, before any chart is calculated,
+any statement is selected, or any claim is written. That placement is the whole
+design: every host — web, CLI, HTTP, MCP — goes through that function, so a
+rule cannot hold on one surface and be absent on another.
+
+Two levels:
+
+| Level | Behaviour | Covers |
+| --- | --- | --- |
+| Blocking | Throws `SafetyBlockError`; no content is generated | crisis (self-harm, violence), abuse, minor |
+| Advisory | Answer is generated with `notice` attached | medical, financial, legal |
+
+`notice` lives on `MasterAnswer`, not in a page component. The web card, the CLI
+renderer, the MCP text output and the exported HTML report all read the same
+field — an earlier version computed it only in `Ask.vue`, where the value was
+assigned to a variable that never reached the template, so the notice was
+written and never shown.
+
+The HTTP host maps `SafetyBlockError` to **403**, not 500: "this request must
+not be processed" is a client-side rejection, and returning 500 makes clients
+treat a safety refusal as a server outage and retry it.
+
 ## Loading strategy
 
 The initial bundle deliberately excludes anything large:
@@ -184,6 +208,24 @@ localStorage ── src/arena/store.ts
 **评分是本机的小样本判断。** Elo 初始 1500，满 5 场才进入在榜，胜率附带 Wilson
 95% 下界，避免三连胜被读成 100% 实力。应验只统计到期后由人回填的"应验/未验"，
 "无法判断"不进分母。
+
+## 安全网关
+
+`safety.ts` 运行在 **`composeBlindMatch` 内部**，在任何排盘、选断语、写断言之前。
+位置本身就是设计：Web、CLI、HTTP、MCP 四个宿主都经过这一个函数，规则不可能
+在一个入口生效、在另一个入口缺席。
+
+| 级别 | 行为 | 覆盖 |
+| --- | --- | --- |
+| 阻断 | 抛 `SafetyBlockError`，不生成任何内容 | 危机（自伤、伤人）、家暴、未成年 |
+| 提示 | 正常生成，回答上挂 `notice` | 医疗、财务、法律 |
+
+`notice` 放在 `MasterAnswer` 上，不放在页面组件里：网页卡片、命令行输出、MCP 文本、
+导出的 HTML 报告读的是同一个字段。早期版本只在 `Ask.vue` 里算它，值赋给了一个
+从未进入模板的变量 —— 提示写了，用户永远看不到。
+
+HTTP 宿主把 `SafetyBlockError` 映射为 **403** 而不是 500：「这条请求不该被处理」
+是客户端侧拒绝；返回 500 会让客户端把安全拒绝当成服务端故障并重试。
 
 ## 模块边界
 

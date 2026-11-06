@@ -14,6 +14,7 @@
 import { describe, expect, it } from 'vitest'
 import { checkSafety, isBlocking, domainNotice, SAFETY_MESSAGES } from '@/core/safety'
 import { composeBlindMatch, SafetyBlockError } from '@/arena/readingFlow'
+import { ask } from '@/runtime'
 
 const request = (question: string) => ({ question, domain: 'general' as const, askedAt: 1_700_000_000_000 })
 
@@ -125,5 +126,59 @@ describe('文案常量集中管理', () => {
     for (const text of Object.values(SAFETY_MESSAGES)) {
       expect(text.length).toBeGreaterThan(20)
     }
+  })
+})
+
+describe('未成年识别：真实表达全覆盖', () => {
+  const HIT = [
+    '我 14 岁，想问学业', '我十四岁，能和我说说吗', '今年14，想问问考试',
+    '14岁可以算吗', '我15周岁了', '17周岁，想问问未来', '读初三，压力很大',
+    '初二学生适合算吗', '高一了，想问问选科', '高三党，想问高考',
+    '未成年，能算吗', '未满18岁', '不满十八', '我是初三的',
+    '16岁，想问问感情', '今年 12 岁', '俺十七了？不对，俺十六岁',
+  ]
+  for (const q of HIT) {
+    it(`拦：${q}`, () => expect(checkSafety(q).level).toBe('minor'))
+  }
+
+  const MISS = [
+    '我今年 34 岁，想问事业', '48 岁了，想看看退休', '我 60 岁，孩子高三',
+    '初中时的事影响到现在', '孩子读高三，我能帮他问吗', '我今年 45，孩子上高一',
+    '30岁想换工作', '我 28 岁，想问婚姻', '高二那年的事', '大学二年级了',
+  ]
+  for (const q of MISS) {
+    it(`不误报：${q}`, () => expect(checkSafety(q).level).not.toBe('minor'))
+  }
+})
+
+describe('安全规则在四个宿主上必须一致', () => {
+  it('未成年：运行时（CLI/HTTP/MCP 共同入口）必须拒绝', async () => {
+    await expect(ask({ question: '我16岁，想问学业' })).rejects.toThrow(/未成年|监护人/)
+  })
+
+  it('未成年：拒绝时是真阻断，不是只返回提示', async () => {
+    const v = checkSafety('我16岁，想问学业')
+    expect(v.level).toBe('minor')
+    expect(isBlocking(v), 'minor 必须是阻断级，否则 CLI 会照常出结果').toBe(true)
+  })
+
+  it('医疗/财务/法律：放行但要带边界提示', async () => {
+    for (const q of ['要不要停药', '要不要借钱炒股', '想起诉离婚协议']) {
+      const v = checkSafety(q)
+      expect(isBlocking(v), `${q} 不该被硬拦`).toBe(false)
+      expect(domainNotice(v.level), `${q} 必须带提示`).not.toBeNull()
+    }
+  })
+
+  it('运行时生成的回答里带着 notice 字段', async () => {
+    const match = await ask({ question: '要不要停药', masterIds: ['ziping', 'meihua'] })
+    expect(match.answers[0]!.notice).toBeTruthy()
+    expect(match.answers[1]!.notice).toBeTruthy()
+    expect(match.answers[0]!.notice).toContain('医疗')
+  })
+
+  it('普通问题不带 notice，避免每条都挂免责声明', async () => {
+    const match = await ask({ question: '我要不要换工作', masterIds: ['ziping', 'meihua'] })
+    expect(match.answers[0]!.notice).toBeUndefined()
   })
 })

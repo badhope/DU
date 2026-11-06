@@ -86,13 +86,23 @@ export function leaderboardRows(stats: MasterStats[], minimumSamples = 5): Leade
   return stats
     .map((item) => {
       const decisive = item.wins + item.losses
+      /*
+       * 应验率也要有样本门槛。
+       *
+       * 这里原来只判断 `claimsResolved` 是否为 0 —— 意味着回填 1 条命中就显示
+       * 「应验 100%」。同一个函数往下三行刚写着「1 场赢了显示 100% 是在用小样本
+       * 冒充实力」，对胜率设了 5 场门槛，却对应验率没有设。同一条原则漏了一半。
+       *
+       * 门槛用 minimumSamples：一条应验记录的分量不比一场盲测大。
+       */
+      const enoughClaims = item.claimsResolved >= minimumSamples
       return {
         ...item,
         // 小样本不报胜率：1 场赢了显示"100%"是在用小样本冒充实力。
         // 门槛与 tier 一致（满 5 场），否则界面会出现"见习 · 胜率下界 21%"这种自相矛盾的组合。
         winRate: item.matches >= minimumSamples && decisive ? item.wins / decisive : null,
         wilsonLower: item.matches >= minimumSamples && decisive ? wilsonLower(item.wins, decisive) : null,
-        claimRate: item.claimsResolved ? item.claimsHit / item.claimsResolved : null,
+        claimRate: enoughClaims ? item.claimsHit / item.claimsResolved : null,
         tier: (item.matches >= minimumSamples ? '在榜' : '见习') as '在榜' | '见习',
       }
     })

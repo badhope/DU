@@ -7,6 +7,42 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+
+- **The safety gate held on the web and not on the other three hosts.** `minor`
+  was blocking only because `Ask.vue` checked it; the CLI, HTTP API and MCP all
+  generated readings for「我16岁」without any warning. `isBlocking` now covers
+  `minor` so every host refuses identically. The HTTP host maps
+  `SafetyBlockError` to **403** instead of 500 — a safety refusal is not a
+  server outage, and returning 500 invites retries.
+- **Minor detection only matched literal spellings.** The word list held
+  「我14岁」and nothing else; 「我 14 岁」「我十四岁」「今年14」「17周岁」「初二学生」
+  all slipped through. Replaced with structural patterns that separate *the
+  speaker is a minor* from *the sentence mentions an age* — 「我 60 岁，孩子高三」
+  is correctly not flagged.
+- **Domain notices were computed and never shown.** `Ask.vue` assigned
+  `domainNotice()` to a variable that never reached the template, so the medical
+  and financial notices were written for nothing. Notices now live on
+  `MasterAnswer` and are rendered by the web card, CLI, MCP and the exported
+  HTML report. `legal` and `minor` were also missing from `domainNotice`.
+- **Claim hit-rate had no sample threshold.** One resolved claim displayed
+  「应验 100%」while the same function required five matches before disclosing a
+  win rate — the same principle applied to only half the data. Now five.
+- **`BirthInput.longitude` was declared and never used.** It promised true
+  solar time and delivered nothing.
+
+### Added
+
+- **True solar time correction** (`core/solarTime.ts`). China uses one standard
+  meridian (120°E) across five geographic time zones; Ürümqi is 129 minutes off,
+  which is two whole 时辰. Correction combines the longitude offset with the
+  equation of time (Spencer 1971, under 30 s error). Both kernels apply it
+  before computing pillars or placing palaces, and the corrected time is written
+  into the chart facts so the reader can see what was actually used. Optional —
+  leaving it blank keeps the previous behaviour exactly.
+- `--longitude` on the CLI, `longitude` on the MCP tool schema, and an optional
+  field on the ask form.
+
 ## [0.6.0] - 2026-11-07
 
 Sex had been accepted by the Zi Wei kernel since v0.5.0 and never passed to it.
