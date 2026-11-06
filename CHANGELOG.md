@@ -7,6 +7,39 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.3] - 2026-11-06
+
+The test suite had 190 passing assertions and I could not tell you whether half
+of them would notice if the code broke. So I broke the code on purpose, 13 times.
+
+### Added
+
+- **`scripts/mutation-test.mjs`** — mutation testing without a framework
+  dependency. Each entry names a real decision (危机网关, 断言期限, Wilson 门槛,
+  匿名脱敏, 来源校验…) and a replacement that should be wrong. The script applies
+  it, runs the relevant tests, and restores the file. A test that keeps passing
+  is reported as a coverage gap, not a success.
+- **Result: 1/5 → 13/13 mutants killed.** The first run was the useful one —
+  it showed four tests were decorative.
+
+### Test gaps this exposed and fixed
+
+| Mutant | Why the old tests missed it | New test |
+| --- | --- | --- |
+| Claim deadline → 1 year | Only tested "cannot resolve before due date", never how far out the code sets it | Asserts the generated claim is exactly 7 days out and its text carries the date |
+| Wilson lower bound below 5 matches | Only asserted `tier`; nothing checked the disclosed number | Asserts `wilsonLower` is null at 1 and 4 matches, non-null at 5 |
+| Cross-answer exclusion removed from the flow | Existing tests passed `seen` by hand, proving *if* it is passed the answers differ — never that `composeBlindMatch` passes it | Calls `composeBlindMatch` on three questions and asserts no overlap |
+| Meihua ignores the hour | Tested `castByTime` math directly, never that `calculateMeihua` feeds it the right hour | Two times of day must produce different 变卦 or 动爻 |
+| Flow-level crisis gate disabled | `Ask.vue` has its own pre-check, so browser tests still passed | API test posts a crisis question directly — `composeBlindMatch` must refuse and leave no ledger row |
+
+### Notes
+
+- Two mutants turned out to be behaviourally equivalent (removing a redundant
+  guard) rather than test gaps. Those were replaced with mutants that change
+  behaviour, because a surviving-but-equivalent mutant says nothing about the
+  tests.
+- `npm run test:mutation` runs all 13 (≈3 min); `--quick` runs the first 5.
+
 ## [0.5.2] - 2026-11-06
 
 Clearing the audit backlog that v0.5.1 left open. The theme is the same:
@@ -366,7 +399,8 @@ First local-only release.
 - `npm run check` gate: typecheck, unit tests, quote verification, README
   consistency, production build and a local-only source scan.
 
-[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.2...HEAD
+[Unreleased]: https://gitcode.com/badhope/DU/compare/v0.5.3...HEAD
+[0.5.3]: https://gitcode.com/badhope/DU/compare/v0.5.2...v0.5.3
 [0.5.2]: https://gitcode.com/badhope/DU/compare/v0.5.1...v0.5.2
 [0.5.1]: https://gitcode.com/badhope/DU/compare/v0.5.0...v0.5.1
 [0.5.0]: https://gitcode.com/badhope/DU/compare/v0.4.1...v0.5.0

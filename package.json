@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",
@@ -51,7 +51,9 @@
     "test:runtime": "vitest run tests/runtime.spec.ts",
     "test:e2e:backend": "node scripts/build-all.mjs && playwright test --config playwright.backend.config.ts",
     "check:e2e": "playwright test && npm run test:e2e:backend",
-    "check:content": "node scripts/check-content-safety.mjs"
+    "check:content": "node scripts/check-content-safety.mjs",
+    "test:mutation": "node scripts/mutation-test.mjs",
+    "test:mutation:quick": "node scripts/mutation-test.mjs --quick"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.32.2",
