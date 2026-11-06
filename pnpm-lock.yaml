@@ -18,7 +18,7 @@ importers:
         specifier: ^1.8.6
         version: 1.8.6
       vue:
-        specifier: ^3.5.43
+        specifier: ^3.5.44
         version: 3.5.44(typescript@5.9.3)
       vue-router:
         specifier: ^4.6.4
@@ -1318,7 +1318,7 @@ snapshots:
     dependencies:
       '@hono/node-server': 2.1.6(hono@4.13.16)
       ajv: 8.20.0
-      ajv-formats: 3.0.1
+      ajv-formats: 3.0.1(ajv@8.20.0)
       content-type: 1.0.5
       cors: 2.8.6
       cross-spawn: 7.0.6
@@ -1565,8 +1565,8 @@ snapshots:
       mime-types: 3.0.2
       negotiator: 1.1.0
 
-  ajv-formats@3.0.1:
-    dependencies:
+  ajv-formats@3.0.1(ajv@8.20.0):
+    optionalDependencies:
       ajv: 8.20.0
 
   ajv@8.20.0:
