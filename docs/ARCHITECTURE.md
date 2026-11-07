@@ -81,8 +81,8 @@ if anything, to say about them.
 | `src/core/` | Deterministic kernels | `contract` |
 | `src/data/` | Corpus fetch, alias resolution, search | `contract` |
 | `src/knowledge/` | Query → passages | `data`, `contract` |
-| `src/engine/` | Features, matching, statement library | `contract` |
-| `src/ai/` | Local answer composition | `contract`, `engine`, `knowledge` |
+| `src/engine/` | Features, matching, statement library, school voices | `contract`, `core` |
+| `src/ai/` | Local answer composition | `contract`, `engine`, `knowledge`, `core` |
 | `src/arena/` | Match flow, rating, persistence | `contract`, `core`, `ai`, `masters` |
 | `src/masters/` | Method-card registry | `contract` |
 | `src/ui/` | Presentational components | `contract` |
@@ -114,6 +114,43 @@ written and never shown.
 The HTTP host maps `SafetyBlockError` to **403**, not 500: "this request must
 not be processed" is a client-side rejection, and returning 500 makes clients
 treat a safety refusal as a server outage and retry it.
+
+## Reading, not fortune-telling
+
+Three schools answer the same question. Before v0.6.1 they drew from one shared
+statement pool chosen by hash, which meant a question about relocating for work
+and a question about splitting equity produced the same four sentences. The
+blind vote was meaningless: there was nothing to compare.
+
+Now the pipeline has three stages:
+
+```text
+question
+   │
+   ▼
+understand.ts ── decision shape, options, time horizon, concerns
+   │             deterministic string rules; no model, no network
+   ▼
+voices.ts ─────── one reader per school:
+   │               bazi → day master, ten gods, luck pillar
+   │               meihua → original/changed hexagram, moving line, body-use
+   │               ziwei → soul palace, body palace, four transformations, decadal
+   ▼
+advice.ts ─────── concrete next move per domain
+```
+
+Two invariants are enforced by tests rather than by documentation:
+
+1. **A school may not use another school's vocabulary.** Zi Ping's section must
+   contain no hexagram terms; Mei Hua's must contain no ten-god terms. If a
+   future change makes them converge again, the suite fails.
+2. **Every reading echoes the question.** The first line of each answer names
+   what the user actually asked — the two options, the object, the time window.
+
+Mei Hua additionally casts *on the question* (`因事起卦`, a traditional method),
+not only on the clock. Without it, every question asked in the same hour
+produced the same hexagram. Casting stays deterministic: the same question
+always yields the same hexagram.
 
 ## Loading strategy
 
@@ -235,14 +272,33 @@ HTTP 宿主把 `SafetyBlockError` 映射为 **403** 而不是 500：「这条请
 | `src/core/` | 确定性内核 | `contract` |
 | `src/data/` | 语料读取、别名解析、检索 | `contract` |
 | `src/knowledge/` | 查询 → 片段 | `data`、`contract` |
-| `src/engine/` | 特征、匹配、断语库 | `contract` |
-| `src/ai/` | 本地回答组装 | `contract`、`engine`、`knowledge` |
+| `src/engine/` | 特征、匹配、断语库、门派读象 | `contract`、`core` |
+| `src/ai/` | 本地回答组装 | `contract`、`engine`、`knowledge`、`core` |
 | `src/arena/` | 对局流程、评分、持久化 | `contract`、`core`、`ai`、`masters` |
 | `src/masters/` | 方法卡注册表 | `contract` |
 | `src/ui/` | 展示组件 | `contract` |
 | `src/pages/` | 路由页面 | 以上全部 |
 
 违反这张表的文件通常说明缺了一层抽象，而不是缺了一条 import 权限。
+
+## 读象，不是算命
+
+三个门派回答同一个问题。在 v0.6.1 之前，它们从同一个共享断语池里按哈希取句 ——
+问「为工作换城市」和问「合伙股权怎么分」会拿到同样的四句。盲评因此失去意义：
+两份回答可以互换，没有可比较的东西。
+
+现在链路分成三段：问题理解（决策形态、选项、时间窗、顾虑）→ 门派读象
+（各自只说自己体系里真实存在的结构）→ 领域化行动建议。
+
+两条不变量由测试而不是文档保证：
+
+1. **一个门派不许用另一个门派的词。** 子平的段落里不能出现卦名，梅花的段落里
+   不能出现十神。哪天它们又趋同了，测试会红。
+2. **每份回答都先回指问题。** 第一句必须点明用户问的具体是什么 ——
+   两个选项、对象、时间窗。
+
+梅花另外采用「因事起卦」：把问题折成两个数参与起卦，而不是只取时刻。
+否则同一时辰的所有问题必然同卦。起卦仍是确定性的：同一个问题永远同一个卦。
 
 ## 加载策略
 

@@ -5,7 +5,59 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.7.0] - 2026-11-07
+
+### Fixed — the readings were interchangeable
+
+The three schools drew from one shared statement pool, picked by hash. Measured
+on real input: asking about a job offer in another city, an equity split with a
+partner, and postgraduate exams versus work produced *the same four sentences*.
+Two different masters' answers could be swapped without noticing — which makes
+the blind vote meaningless, because there is nothing to judge.
+
+- **Each school now reads its own system** (`engine/voices.ts`). Zi Ping talks
+  about day-master structure, which ten-gods carry the most weight, and the
+  current luck pillar. Mei Hua talks about the original→changed hexagram pair,
+  which line moves, and the body/use relation. Zi Wei talks about the soul
+  palace, the body palace, the four transformations, and the current decadal.
+  None of them can say what belongs to another school — a test asserts that
+  Zi Ping's section contains no hexagram terms and vice versa.
+- **Every reading echoes the actual question first.** "You asked whether it is
+  the job in Beijing or staying in Chengdu" — not "you are waiting for a reason
+  not to decide". A new `engine/understand.ts` parses decision shape
+  (either/or, whether, how, judging someone else, prediction, self-assessment),
+  the two options, the time horizon and the concerns behind them.
+- **Mei Hua casts on the question, not only the clock** (`因事起卦`). Previously
+  every question asked in the same hour produced the identical hexagram. Now the
+  question is folded into the two numbers used for casting; three different
+  questions yield 雷风恒 / 泽天夬 / 地雷复. Still deterministic — same question,
+  same hexagram.
+- **Action advice is per-domain** (`engine/advice.ts`). It used to be one
+  sentence for all seven domains — "shrink the next step into something you can
+  finish this week" — which fits every question and therefore helps with none.
+  Now each domain has its own concrete moves; reading the career advice against
+  a relationship question should feel obviously wrong.
+
+### Fixed — regressions this work exposed
+
+- **The voice layer dropped citations.** Reading from chart structure meant the
+  old statement-based quotes disappeared, so 依据 fell back to "no matching
+  passage in the local corpus" — the project's core checkable-citation property
+  was silently lost. Each school now carries one quotation from its own canon,
+  verified verbatim by `verify-quotes`.
+- **The quote gate did not scan `voices.ts`.** It only looked at the two
+  statement files, so the three new quotations would have escaped verification
+  entirely. The gate now covers every file that renders canon text, and a
+  planted fake quote makes it fail.
+- **`canonCount` mislabelled citations** once an anchor quote was prepended:
+  the first citation was tagged `corpus` instead of `canon`. Caught by an
+  existing test.
+
+### Changed
+
+- `engine` may now import `core` (voices must read chart structures); `ai` may
+  import `core` (types only). `docs/ARCHITECTURE.md` and the boundary gate were
+  updated together, with the reason written down.
 
 ### Fixed
 

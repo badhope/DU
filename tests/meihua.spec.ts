@@ -139,3 +139,42 @@ describe('起卦必须真的用上提问时辰', () => {
     expect(relation).not.toMatch(/[a-z]/i)
   })
 })
+
+describe('因事起卦：不同问题得到不同卦', () => {
+  it('同一时刻问不同的事，卦象必须不同', async () => {
+    /*
+     * 只按时刻起卦时，同一时刻的所有问题都是同一个卦 —— 读起来就是同一段话。
+     * 梅花易数本有「因事起卦」之法，这里把问题折成两个数参与起卦。
+     */
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    const at = new Date(1_700_000_000_000)
+    const qs = ['我应该接受北京的工作还是留在成都', '我和合伙人股权怎么分比较合理', '下个月考研还是直接工作']
+    const got: string[] = []
+    for (const q of qs) {
+      const r = await calculateMeihua(at, { question: q })
+      if ('error' in r) throw new Error(r.error)
+      got.push(`${r.cast.ben.name}/${r.cast.moving}`)
+    }
+    expect(new Set(got).size, `三个问题得到：${got.join('、')}`).toBe(3)
+  })
+
+  it('同一问题重复起卦结果稳定（确定性，不是随机）', async () => {
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    const at = new Date(1_700_000_000_000)
+    const q = '我应该接受北京的工作还是留在成都'
+    const a = await calculateMeihua(at, { question: q })
+    const b = await calculateMeihua(at, { question: q })
+    if ('error' in a || 'error' in b) throw new Error('fail')
+    expect(a.cast.ben.name).toBe(b.cast.ben.name)
+    expect(a.cast.moving).toBe(b.cast.moving)
+  })
+
+  it('不给问题时退回纯时辰起卦，保持旧行为', async () => {
+    const { calculateMeihua } = await import('@/core/meihuaFacts')
+    const at = new Date(1_700_000_000_000)
+    const a = await calculateMeihua(at)
+    const b = await calculateMeihua(at)
+    if ('error' in a || 'error' in b) throw new Error('fail')
+    expect(a.cast.ben.name).toBe(b.cast.ben.name)
+  })
+})

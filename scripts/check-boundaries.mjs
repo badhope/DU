@@ -21,8 +21,11 @@ const LAYERS = {
   core: { may: ['contract'], note: '确定性内核' },
   data: { may: ['contract'], note: '语料读取与检索' },
   knowledge: { may: ['contract', 'data'], note: '查询 → 片段' },
-  engine: { may: ['contract'], note: '特征与匹配' },
-  ai: { may: ['contract', 'engine', 'knowledge'], note: '本地回答组装' },
+  // voices（门派读象）必须读 core 产出的完整盘面结构 —— 那是它存在的理由，
+  // 不是泄漏。engine 的其余部分仍然只依赖 contract。
+  engine: { may: ['contract', 'core'], note: '特征、匹配与门派读象（读象需读盘面结构）' },
+  // ai 组装回答时需要拿到盘面类型来调用读象层；类型来自 core，逻辑不依赖。
+  ai: { may: ['contract', 'engine', 'knowledge', 'core'], note: '本地回答组装' },
   arena: { may: ['contract', 'core', 'ai', 'masters', 'engine'], note: '对局与持久化' },
   masters: { may: ['contract'], note: '方法卡注册表' },
   tools: { may: ['contract', 'core', 'engine'], note: '兼容工具' },

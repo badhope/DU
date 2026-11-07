@@ -4,12 +4,13 @@ title: "Tianji (DU) — Local-Only Chinese Metaphysics Master Arena"
 abstract: >-
   A local-first evaluation platform for Chinese metaphysics readings. Three
   verified fact kernels (Zi Ping four pillars, Mei Hua Yi Shu, Zi Wei Dou Shu)
-  answer the same question under blind conditions; users score before the
-  methods are revealed, and dated falsifiable claims are tracked in a local
-  ledger. All computation happens on the device — no question, birth data,
+  each read the question through their own system — day-master structure,
+  hexagram change, palace position — then answer under blind conditions; users
+  score before the methods are revealed, and dated falsifiable claims are
+  tracked in a local ledger. All computation happens on the device — no question, birth data,
   chart, reading, vote or claim is transmitted. Sex is treated as a calendar
   input that decides decadal direction, never as a prediction target.
-version: 0.6.0
+version: 0.7.0
 date-released: 2026-11-07
 license: MIT
 type: software

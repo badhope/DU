@@ -1,5 +1,5 @@
 import type { ChartFact } from '@/contract/reading'
-import { castByTime, type Cast } from './meihua'
+import { castByNumbers, castByTime, type Cast } from './meihua'
 import { TIYONG_LABEL, ZHI } from './gua'
 
 export interface MeihuaFact {
@@ -7,7 +7,33 @@ export interface MeihuaFact {
   fact: ChartFact
 }
 
-export async function calculateMeihua(at: Date): Promise<MeihuaFact | { error: string }> {
+export interface MeihuaOptions {
+  /**
+   * 参起的问题。
+   *
+   * 梅花易数本来就有「因事起卦」一法：以事之数起卦，而非只取时刻。
+   * 这里把问题文本折成两个数参与起卦，同一个时辰问不同的事会得到不同的卦 ——
+   * 否则同一时刻的所有问题必然同卦，读起来就是同一段话。
+   *
+   * 折数方式必须确定可复现：按字符码累加，不是随机。
+   */
+  question?: string
+}
+
+/** 问题 → 两个正整数（用于因事起卦）。确定性，同文同数。 */
+export function questionNumbers(question: string): [number, number] {
+  let a = 0
+  let b = 0
+  for (let i = 0; i < question.length; i++) {
+    const c = question.charCodeAt(i)
+    if (i % 2 === 0) a += c
+    else b += c
+  }
+  // 保证为正整数且在合理范围（梅花起卦常用小数值）
+  return [Math.max(1, (a % 97) + 1), Math.max(1, (b % 89) + 1)]
+}
+
+export async function calculateMeihua(at: Date, options: MeihuaOptions = {}): Promise<MeihuaFact | { error: string }> {
   if (Number.isNaN(at.getTime())) return { error: '起卦时间不合法。' }
   try {
     const { Solar } = await import('lunar-typescript')
@@ -16,7 +42,14 @@ export async function calculateMeihua(at: Date): Promise<MeihuaFact | { error: s
     const hourZhi = lunar.getTimeZhiIndex() + 1
     const month = Math.abs(lunar.getMonth())
     const day = lunar.getDay()
-    const cast = castByTime(yearZhi, month, day, hourZhi)
+    /*
+     * 有具体问题时走「因事起卦」，把问题折成两个数；
+     * 没有问题时退回纯时辰起卦（保持旧行为，也保证测试可复现）。
+     */
+    const cast =
+      options.question && options.question.trim()
+        ? castByNumbers(...questionNumbers(options.question.trim()))
+        : castByTime(yearZhi, month, day, hourZhi)
     const fact: ChartFact = {
       kind: 'meihua',
       title: '梅花易数起例事实层',
