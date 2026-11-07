@@ -106,3 +106,33 @@ export function assetKeys(distDir: string): string[] {
   }
   return [...diskIndex(distDir).keys()]
 }
+
+
+/**
+ * 给 data/corpus 注入的读取器。
+ *
+ * 读取顺序：内嵌资源（exe / SEA）→ dist → public → ../public。
+ * 返回 null 表示这份文件不在这里，由调用方决定报错还是继续。
+ *
+ * 为什么不放在 data/corpus 里直接 import：那会让浏览器构建打包 node:fs，
+ * 直接构建失败。职责归宿主，data 层只接收函数。
+ */
+export async function corpusReaderFrom(distDir: string): Promise<(rel: string) => Promise<string | null>> {
+  const { readFile } = await import('node:fs/promises')
+  const { join } = await import('node:path')
+
+  return async (rel: string) => {
+    const embedded = readAsset(rel, distDir)
+    if (embedded) return embedded.toString('utf8')
+
+    const roots = [distDir, 'dist', 'public', join('..', 'public')].filter(Boolean)
+    for (const root of roots) {
+      try {
+        return await readFile(join(root, rel), 'utf8')
+      } catch {
+        /* 换下一个根 */
+      }
+    }
+    return null
+  }
+}

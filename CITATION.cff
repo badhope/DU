@@ -10,7 +10,7 @@ abstract: >-
   tracked in a local ledger. All computation happens on the device — no question, birth data,
   chart, reading, vote or claim is transmitted. Sex is treated as a calendar
   input that decides decadal direction, never as a prediction target.
-version: 0.7.0
+version: 0.7.1
 date-released: 2026-11-07
 license: MIT
 type: software

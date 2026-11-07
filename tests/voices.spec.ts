@@ -1,11 +1,12 @@
 import { describe, expect, it } from 'vitest'
 import { ask } from '@/runtime'
+import type { ReadingDomain } from '@/contract/reading'
 import { readQuestion } from '@/engine/understand'
 import { adviceFor, ADVICE_DOMAINS, adviceCount } from '@/engine/advice'
 
 const BIRTH = { date: '1990-06-15', time: '08:30', gender: 'female' as const }
 
-async function answerOf(masterId: 'ziping' | 'meihua' | 'ziwei', question: string, domain: 'career' = 'career') {
+async function answerOf(masterId: 'ziping' | 'meihua' | 'ziwei', question: string, domain: ReadingDomain = 'career') {
   const m = await ask({
     question,
     domain,
@@ -135,10 +136,26 @@ describe('读象路径不能丢掉引文能力', () => {
     const meihua = await answerOf('meihua', q)
     const ziwei = await answerOf('ziwei', q)
 
-    const bookOf = (a: typeof bazi) => a.citations[0]!.book
-    expect(bookOf(bazi)).toBe('滴天髓')
-    expect(bookOf(meihua)).toBe('梅花易数')
-    expect(bookOf(ziwei)).toBe('紫微斗数全书')
+    /*
+     * 不断言"第一条是哪本书"，而是断言"引用的书都属于本门"。
+     *
+     * 引文现在优先用检索到的相关片段（更贴这次的问题），门派总纲排在后面。
+     * 子平的书目是滴天髓 / 三命通会，检索命中哪一本都可能；
+     * 断言具体书名会让测试随语料检索结果漂移，那是在测实现而不是测约束。
+     */
+    const booksOf = (a: typeof bazi) => new Set(a.citations.map((c) => c.book))
+    const baziBooks = booksOf(bazi)
+    const meihuaBooks = booksOf(meihua)
+    const ziweiBooks = booksOf(ziwei)
+
+    // 每派至少引一本自己的书
+    expect([...baziBooks].some((b) => b === '滴天髓' || b === '三命通会')).toBe(true)
+    expect([...meihuaBooks].some((b) => b === '梅花易数' || b === '京氏易传' || b === '焦氏易林')).toBe(true)
+    expect(ziweiBooks.has('紫微斗数全书')).toBe(true)
+
+    // 不能串门：子平不引紫微的书，紫微不引八字书
+    expect(ziweiBooks.has('滴天髓')).toBe(false)
+    expect(baziBooks.has('紫微斗数全书')).toBe(false)
   })
 })
 
@@ -154,5 +171,19 @@ describe('紫微也要回指具体问题', () => {
     const a = await answerOf('ziwei', '我和合伙人股权怎么分比较合理')
     const text = a.sections.find((s) => s.key === 'duan')!.lines.join('\n')
     expect(text).toMatch(/股权|合伙人/)
+  })
+})
+
+describe('开放式问题也必须回指', () => {
+  it('"男朋友不回消息"这类问题第一句要点名对象', async () => {
+    const a = await answerOf('meihua', '我男朋友最近总是不回消息', 'love')
+    const first = a.sections.find((s) => s.key === 'duan')!.lines[1]
+    expect(first).toContain('男朋友')
+  })
+
+  it('"这个月适合买房吗"要点到买房', async () => {
+    const a = await answerOf('ziping', '这个月适合买房吗', 'wealth')
+    const first = a.sections.find((s) => s.key === 'duan')!.lines[1]
+    expect(first).toContain('买房')
   })
 })

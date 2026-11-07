@@ -5,6 +5,53 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.7.1] - 2026-11-08
+
+Found by asking the app real questions instead of reading the code. Four
+defects, one shape: a rule existed and did not hold.
+
+### Fixed
+
+- **A medical decision was answered by casting a hexagram.** 「我爸生病了要不要手术」
+  produced a full chart and a reading. The medical rule was advisory-only and
+  手术 was never treated as a decision to refuse. Medical now has two levels:
+  treatment decisions (surgery, chemotherapy, stopping or changing medication,
+  dosage) block with the doctor-referral message; somatic distress (poor sleep,
+  anxiety, fatigue) stays advisory so the reading can still discuss routines.
+- **Only literal spellings matched.** The list held 「手术要不要」 while people
+  write 「要不要手术」 — same words, different order, no match. Medical and legal
+  rules now combine a concept pattern with an intent pattern, so order stops
+  mattering, and diagnosis phrasing (「查出来有病」) is recognised.
+- **Corpus retrieval never worked outside the browser.** `corpus.ts` loaded JSON
+  with `fetch('/corpus/...')`; the CLI, HTTP server and MCP have no same-origin
+  server, so every retrieval silently returned nothing. The checkable-citation
+  property existed only on the web. The data layer now takes an injected reader
+  and each Node host supplies one — embedded assets for the exe, filesystem
+  otherwise.
+- **Citation text could be harmful.** Once retrieval worked it surfaced
+  「铃羊合于命宫遇白虎，须当刑戮」 — quoting an ancient text about death at
+  someone asking about their father's surgery. Passages are now filtered for
+  death predictions, fatalism and curses. Snippets are cut at sentence
+  boundaries, deduplicated per chapter, and directory-title fragments dropped.
+
+### Added
+
+- **Domain inference.** The form points out when the question looks like a
+  different domain than the one selected (「男朋友不回消息」 marked as career).
+- **Echo for open-ended questions.** Previously only the six recognised decision
+  shapes were echoed; 「这个月适合买房吗」 went straight to "your day master is
+  Xin metal".
+- **Query terms come from the reading's own vocabulary** (十神 / 体用 / 命宫)
+  instead of the user's sentence. A seventeenth-century book does not contain
+  "should I take the job in Beijing".
+
+### Fixed in passing
+
+- Named-entity extraction takes the longest match and masks it, so
+  「男朋友」 no longer becomes 「男朋、朋友」.
+- Tests inject a corpus reader, so the test environment behaves like production
+  instead of silently failing every retrieval.
+
 ## [0.7.0] - 2026-11-07
 
 ### Fixed — the readings were interchangeable

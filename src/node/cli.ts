@@ -375,6 +375,15 @@ function cmdHelp(): void {
 /* ── 入口 ─────────────────────────────────────────────────── */
 
 async function main(): Promise<void> {
+  /*
+   * 把语料读取器交给 data 层。
+   * CLI 没有同源 HTTP 服务，fetch('/corpus/...') 必然失败；
+   * 不注入的话所有检索都会静默降级成空，"引文可核"在命令行里就不成立。
+   */
+  const { setCorpusReader } = await import('../data/corpus')
+  const { corpusReaderFrom } = await import('./assets')
+  setCorpusReader(await corpusReaderFrom('dist'))
+
   const { command, positional, flags } = parseArgs(process.argv.slice(2))
 
   switch (command) {

@@ -263,6 +263,11 @@ server.setRequestHandler(ReadResourceRequestSchema, async (request) => {
 /* ── 启动 ─────────────────────────────────────────────────── */
 
 async function main(): Promise<void> {
+  // MCP 同样没有同源服务：不注入读取器，返回的回答就不带任何原文引证
+  const { setCorpusReader } = await import('../data/corpus')
+  const { corpusReaderFrom } = await import('./assets')
+  setCorpusReader(await corpusReaderFrom('dist'))
+
   const transport = new StdioServerTransport()
   await server.connect(transport)
   // stdio 传输下 stdout 属于协议，日志必须走 stderr
