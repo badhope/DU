@@ -22,7 +22,16 @@ import { Converter } from 'opencc-js'
 
 const ROOT = path.resolve(import.meta.dirname, '..')
 const SHIPPED = process.env.DU_SHIPPED || path.join(ROOT, 'public', 'corpus')
-const FILES = ['src/engine/statements.ts', 'src/engine/statements.library.ts']
+/*
+ * 所有会向用户显示 canon 原文的文件都必须在这里。
+ * 曾经只有 statement 两个文件，于是 voices.ts 里新加的三条引文
+ * 完全逃过校验 —— 那是"看起来有门禁、实际漏了一整块"。
+ */
+const FILES = [
+  'src/engine/statements.ts',
+  'src/engine/statements.library.ts',
+  'src/engine/voices.ts',
+]
 
 const t2s = Converter({ from: 't', to: 'cn' })
 const norm = (s) =>
@@ -51,9 +60,17 @@ function loadShipped() {
   })
 }
 
-/** 抠出 { kind:'canon', book, quote } —— 直接扫源码，不依赖构建产物 */
+/**
+ * 抠出 { book, quote } —— 直接扫源码，不依赖构建产物。
+ *
+ * 支持两种写法：
+ *   1. 对象字面量：kind: 'canon', book: '...', quote: '...'
+ *   2. 扁平记录（voices.ts 的 CITATIONS）：book:'...' 与 quote:'...' 相邻出现
+ * 第二种同样会渲染给用户，漏掉它就等于留了个后门。
+ */
 function collectCanon(src) {
   const out = []
+  // 写法 1：块内出现 kind:'canon'
   const block = /kind:\s*'canon'([\s\S]*?)\}/g
   let m
   while ((m = block.exec(src))) {
@@ -61,6 +78,13 @@ function collectCanon(src) {
     const book = /book:\s*'([^']+)'/.exec(seg)?.[1]
     const quote = /quote:\s*'([^']+)'/.exec(seg)?.[1]
     if (book && quote) out.push({ book, quote })
+  }
+  // 写法 2：book 与 quote 在同一个对象里相邻（24 行内），且不含 kind 标记
+  const flat = /book:\s*'([^']+)'[\s\S]{0,300}?quote:\s*'([^']+)'/g
+  let n
+  while ((n = flat.exec(src))) {
+    const pair = { book: n[1], quote: n[2] }
+    if (!out.some((o) => o.book === pair.book && o.quote === pair.quote)) out.push(pair)
   }
   return out
 }

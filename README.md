@@ -1,4 +1,4 @@
-# Tianji · DU <sub>v0.6.0</sub>
+# Tianji · DU <sub>v0.7.0</sub>
 
 Two schools read the same question. You score them blind, then the names appear.
 Dated claims go into a ledger you resolve yourself a week later.

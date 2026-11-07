@@ -1,8 +1,9 @@
 import type { MasterId } from '@/contract/master'
 import type { AskRequest, BlindMatch, ChartFact, MasterAnswer } from '@/contract/reading'
-import { calculateBazi } from '@/core/bazi'
+import { calculateBazi, type BaziChart } from '@/core/bazi'
 import { calculateMeihua } from '@/core/meihuaFacts'
-import { calculateZiwei } from '@/core/ziwei'
+import type { Cast } from '@/core/meihua'
+import { calculateZiwei, type ZiweiChart } from '@/core/ziwei'
 import { checkSafety, domainNotice, isBlocking } from '@/core/safety'
 import { masterById } from '@/masters/registry'
 import { generateLocalAnswer } from '@/ai/reading'
@@ -16,18 +17,50 @@ import { saveClaims, saveMatch } from './store'
  * 没有出生时间就排不出四柱，假装能排才是欺骗。界面在揭晓后会把这一点
  * 直接说清楚（见 AnswerCard 的"盘面事实"缺省提示）。
  */
-export async function factsForRequest(request: AskRequest): Promise<ChartFact[]> {
-  const tasks: Array<Promise<ChartFact | null>> = []
+/**
+ * 盘面：既含给界面的 ChartFact，也含给"读象层"的完整结构。
+ *
+ * 为什么两者都要：ChartFact 是压平后的摘要（给渲染与导出用），
+ * 但门派读象需要完整的十神分布、本互变三卦、十二宫与四化 —— 那些在
+ * 摘要里已经被丢掉。只传摘要，读象层就只能写套话。
+ */
+export interface ChartBundle {
+  facts: ChartFact[]
+  bazi?: BaziChart
+  meihua?: Cast
+  ziwei?: ZiweiChart
+}
+
+export async function chartsForRequest(request: AskRequest): Promise<ChartBundle> {
+  const bundle: ChartBundle = { facts: [] }
+
   if (request.birth) {
     // 有生辰才能排的两套：四柱与紫微。任一失败不拖累另一套。
     // 性别必须原样传下去：它决定大运顺逆与紫微大限，缺省会把女命按男命排。
-    tasks.push(calculateBazi(request.birth).then((result) => ('fact' in result ? result.fact : null)))
-    tasks.push(calculateZiwei(request.birth).then((result) => ('fact' in result ? result.fact : null)))
+    const [bazi, ziwei] = await Promise.all([calculateBazi(request.birth), calculateZiwei(request.birth)])
+    if ('fact' in bazi) {
+      bundle.bazi = bazi
+      bundle.facts.push(bazi.fact)
+    }
+    if ('fact' in ziwei) {
+      bundle.ziwei = ziwei
+      bundle.facts.push(ziwei.fact)
+    }
   }
+
   // 梅花只依赖提问时刻，永远可用
-  tasks.push(calculateMeihua(new Date(request.askedAt)).then((result) => ('fact' in result ? result.fact : null)))
-  const settled = await Promise.all(tasks)
-  return settled.filter((fact): fact is ChartFact => fact !== null)
+  const meihua = await calculateMeihua(new Date(request.askedAt), { question: request.question })
+  if ('fact' in meihua) {
+    bundle.meihua = meihua.cast
+    bundle.facts.push(meihua.fact)
+  }
+
+  return bundle
+}
+
+/** 兼容旧签名：只要事实 */
+export async function factsForRequest(request: AskRequest): Promise<ChartFact[]> {
+  return (await chartsForRequest(request)).facts
 }
 
 async function matchId(request: AskRequest, masterIds: [MasterId, MasterId]): Promise<string> {
@@ -102,7 +135,8 @@ export async function composeBlindMatch(
   // 展示顺序随机，但 matchId 必须对同一对大师稳定，否则同一请求重放会得到不同 id
   const displayIds = shuffleForBlind(masterIds, options.random ?? Math.random)
   const id = await matchId(request, masterIds)
-  const facts = await factsForRequest(request)
+  const bundle = await chartsForRequest(request)
+  const facts = bundle.facts
 
   const answers: MasterAnswer[] = []
   const usedStatements: string[] = []
@@ -111,7 +145,14 @@ export async function composeBlindMatch(
     if (!master || master.status !== 'active') continue
     // 同场互斥 + 跨会话历史合并去重
     const seen = [...new Set([...usedStatements, ...(options.seen ?? [])])]
-    const answer = await generateLocalAnswer(master, request, facts, id, { seen })
+    const answer = await generateLocalAnswer(master, request, facts, id, {
+      seen,
+      charts: {
+        ...(bundle.bazi ? { bazi: bundle.bazi } : {}),
+        ...(bundle.meihua ? { meihua: bundle.meihua } : {}),
+        ...(bundle.ziwei ? { ziwei: bundle.ziwei } : {}),
+      },
+    })
     usedStatements.push(...answer.statementIds)
     answers.push(answer)
     onAnswer?.(masterId, answer)

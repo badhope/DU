@@ -4,6 +4,12 @@ import type { Passage } from '@/knowledge/retrieve'
 import type { Situation } from '@/engine/features'
 import { hashSeed } from '@/engine/match'
 import { resonate } from '@/engine/resonance'
+import { readQuestion } from '@/engine/understand'
+import { readBazi, readMeihua, readZiwei, citationFor, type ReadingLine } from '@/engine/voices'
+import { adviceFor } from '@/engine/advice'
+import type { BaziChart } from '@/core/bazi'
+import type { Cast } from '@/core/meihua'
+import type { ZiweiChart } from '@/core/ziwei'
 import { parseAnswer } from './parse'
 
 /**
@@ -96,6 +102,11 @@ export function inferSituations(question: string): string[] {
 export interface ComposeOptions {
   /** 同一场盲测中已被另一位大师用过的断语 id，用于互斥 */
   seen?: string[]
+  /**
+   * 完整盘面。给了就走门派读象层（说本门体系里真实存在的东西），
+   * 不给则退回旧的共享断语池 —— 后者是兼容路径，不是主路径。
+   */
+  charts?: { bazi?: BaziChart; meihua?: Cast; ziwei?: ZiweiChart }
 }
 
 function selectedStatements(master: Master, request: AskRequest, facts: ChartFact[], now: number, seen: string[]) {
@@ -138,15 +149,52 @@ export function localAnswer(
   options: ComposeOptions = {},
 ): MasterAnswer {
   const seen = options.seen ?? []
-  const selected = selectedStatements(master, request, facts, now, seen)
   const relevantFacts = factsForMaster(master, facts)
-  const lines = selected.map((item) => `- ${item.st.text}`)
+
+  /*
+   * 主路径：门派读象。
+   *
+   * 每个门派只解读自己体系里真实存在的结构 —— 子平看十神与大运，
+   * 梅花看本互变与体用，紫微看宫位与四化。这是两份回答第一次真正
+   * 从不同的东西里长出来，而不是从同一个池子里各抽三句。
+   *
+   * 没有对应盘面时（比如没填生辰问子平）才退回共享断语池。
+   */
+  const q = readQuestion(request.question)
+  const voice: ReadingLine[] = []
+  if (master.kernel === 'bazi' && options.charts?.bazi) {
+    voice.push(...readBazi(options.charts.bazi, q))
+  } else if (master.kernel === 'meihua' && options.charts?.meihua) {
+    voice.push(...readMeihua(options.charts.meihua, q))
+  } else if (master.kernel === 'ziwei' && options.charts?.ziwei) {
+    voice.push(...readZiwei(options.charts.ziwei, q))
+  }
+
+  // 读象不足时用共享池补位；读象已经够 3 条就不再掺通用句
+  const needFallback = voice.length < 3
+  const selected = needFallback ? selectedStatements(master, request, facts, now, seen) : []
+  const fallbackLines = selected
+    .slice(0, Math.max(0, 3 - voice.length))
+    .map((item) => `- ${item.st.text}`)
+  const lines = [
+    ...voice.map((v) => `- ${v.text}`),
+    ...fallbackLines,
+  ]
 
   const staticQuotes = selected
     .filter((item) => item.st.source?.kind === 'canon' && item.st.source.quote)
     .map((item) => `> 《${item.st.source!.book}》${item.st.source!.loc ?? ''}：「${item.st.source!.quote}」`)
   const localQuotes = passages.slice(0, 3).map((passage) => `> 《${passage.book}》${passage.loc}：「${passage.text}」`)
-  const quotes = [...staticQuotes, ...localQuotes].slice(0, 3)
+  /*
+   * 读象路径下 selected 为空，staticQuotes 也就为空 —— 这时必须补上本门依据，
+   * 否则「依据」一栏会退化成"本地语料中没有匹配的引文"，等于把项目最核心的
+   * 可核引文能力弄丢了。引文由 verify-quotes 门禁逐字校验。
+   */
+  const voiceCitation = citationFor(master.kernel)
+  const anchorQuote = voiceCitation
+    ? [`> 《${voiceCitation.book}》${voiceCitation.loc}：「${voiceCitation.quote}」`]
+    : []
+  const quotes = [...anchorQuote, ...staticQuotes, ...localQuotes].slice(0, 3)
 
   // 断言绑定本场第一条断语：两位大师的断言因此天然不同，应验簿里可分辨、可复盘。
   // 断语本身已带句末标点，拼进模板前去掉，避免出现「……。」，记录」这种标点叠加。
@@ -180,7 +228,15 @@ export function localAnswer(
     // 期限写在断言语义里，用户一眼能看到要过多久才能回填
     `- [截止 ${dueDate}] 针对「${anchor}」，记录你这一周实际采取的一个动作及其结果，而不是只记“感觉准不准”。`,
     '## 行',
-    '把下一步缩成一个本周内可完成、可复盘的动作。本站内容仅供自省与文化娱乐，不替代专业意见。',
+    /*
+     * 领域化建议。原来这里是一句对所有问题都成立的话 ——
+     * 「把下一步缩成一个本周内可完成、可复盘的动作」。它放之四海皆准，
+     * 也就对任何问题都没用：问「简历怎么改」和「怎么跟伴侣沟通」拿到同一句。
+     * 现在按领域给具体动作，换到别的领域去读会明显不对。
+     */
+    adviceFor(request.domain, q, hashSeed(`${master.id}|${request.question}`)),
+    '',
+    '本站内容仅供自省与文化娱乐，不构成医疗、法律或投资建议。',
   ].join('\n')
 
   const answer = parseAnswer(text, master.id, relevantFacts, 'local', matchId, now)
@@ -191,7 +247,12 @@ export function localAnswer(
   // 引文顺序与 `quotes` 完全一致（静态引文在前、检索片段在后），据此标注来源。
   // 静态引文由 scripts/verify-quotes.mjs 逐字校验，检索片段命中即原文子串，两者都可核；
   // pending 只保留给尚未校验的外部文本，本地模式不会产生。
-  const canonCount = Math.min(staticQuotes.length, quotes.length)
+  /*
+   * canon 引文在前，corpus 片段在后 —— 顺序由 quotes 的拼装方式决定。
+   * 之前只数 staticQuotes，但 quotes 现在前面还有一条本门依据（anchorQuote），
+   * 于是第一条被误标成 corpus，测试当场抓到。
+   */
+  const canonCount = Math.min(anchorQuote.length + staticQuotes.length, quotes.length)
   return {
     ...answer,
     sections,
