@@ -34,14 +34,37 @@ const CRISIS = [
   '杀了', '捅死', '报复社会',
 ]
 
-/** 医疗：涉及诊断、用药、停药、剂量 */
-const MEDICAL = ['停药', '断药', '加量', '减量', '剂量', '换药', '诊断', '确诊', '化疗', '手术要不要', '偏方', '治愈']
+/*
+ * 医疗：概念 + 意图，而不是枚举字面值。
+ *
+ * 教训来自一次实测：词表里写的是「手术要不要」，而用户说的是「要不要手术」——
+ * 同样的三个词，换个语序就完全失配，系统照常排盘出断语。
+ * 这类"顺序依赖"无法靠继续堆词解决，必须识别「医疗对象」与「决策意图」的共现。
+ */
+const MEDICAL_THING = /手术|化疗|放疗|吃药|服药|用药|停药|断药|换药|输液|住院|出院|诊断|确诊|活检|病理|偏方|中药|西药|药量|剂量|这个药|那种药|药|查出来|检查出|体检出|确诊了/
+const MEDICAL_INTENT = /要不要|该不该|能不能|可不可以|需不需要|是不是该|有没有必要|怎么办|怎么选|要不要做|该做吗/
+
+/**
+ * 医疗：涉及诊断、用药、手术、剂量（保留少量固定搭配）。
+ * 另含身心困扰类 —— 它们不适合给医疗结论，但可以谈作息与压力，给提示即可。
+ */
+const MEDICAL = [
+  '停药', '断药', '加量', '减量', '剂量', '换药', '诊断', '确诊', '化疗', '偏方', '治愈', '手术要不要',
+  '睡不好', '失眠', '焦虑', '抑郁', '情绪低落', '疲惫', '精力差',
+]
 
 /** 财务决策：借贷、杠杆、押注 */
 const FINANCIAL = ['借钱炒股', '杠杆', '梭哈', 'all in', '全部身家', '抵押', '网贷', '赌', '加杠杆']
 
-/** 法律：诉讼、离婚协议、刑事 */
-const LEGAL = ['起诉', '打官司', '离婚协议', '判刑', '坐牢', '报警抓']
+/*
+ * 法律：同样改为概念 + 意图。
+ * 「该不该报警」原来漏检，因为词表只有「报警抓」。
+ */
+const LEGAL_THING = /起诉|官司|诉讼|律师|合同纠纷|离婚协议|判刑|坐牢|报警|立案|仲裁|赔偿|侵权|遗嘱|抚养权|劳动仲裁/
+const LEGAL_INTENT = /要不要|该不该|能不能|可不可以|需不需要|怎么办|怎么弄|怎么处理|值不值得|有没有必要/
+
+/** 法律：诉讼、协议、刑事（保留固定搭配） */
+const LEGAL = ['起诉', '打官司', '离婚协议', '判刑', '坐牢', '报警抓', '法律援助']
 
 /** 未成年相关 */
 const MINOR = ['未成年', '高中生', '初中生', '小学生', '中专生', '技校生']
@@ -128,13 +151,63 @@ const MINOR_MESSAGE = `如果你未满 18 岁，这个工具不适合单独使�
  * `patterns` 与 `words` 同时生效：词表抓固定说法，正则抓结构（年龄、学制）。
  * 两条任一命中即算该级别。
  */
-const RULES: Array<{ level: SafetyLevel; words: string[]; patterns?: RegExp[]; message: string }> = [
+/**
+ * 一条规则的三种触发方式，任一命中即算：
+ *  - words：固定说法
+ *  - patterns：结构（年龄、学制、语序无关的搭配）
+ *  - both：概念与意图必须同时出现（"手术" + "要不要"），避免单字误伤
+ */
+const RULES: Array<{
+  level: SafetyLevel
+  words: string[]
+  patterns?: RegExp[]
+  both?: [RegExp, RegExp]
+  message: string
+}> = [
   { level: 'crisis', words: CRISIS, message: CRISIS_MESSAGE },
   { level: 'crisis', words: ABUSE, message: ABUSE_MESSAGE },
-  { level: 'medical', words: MEDICAL, message: MEDICAL_MESSAGE },
+  {
+    /*
+     * 高风险医疗：手术、用药、停药、化疗这类**已经进入治疗决策**的问题。
+     *
+     * 与下面普通的 medical 分开，是因为处理方式不同：
+     *  - 「最近睡不好怎么调整」是医疗语境，但可以谈作息与压力，给提示就够；
+     *  - 「我爸要不要手术」「这个药能停吗」是在替医生做决定，排盘等于
+     *    用卦象参与医疗决策，必须直接拒绝。
+     * 实测事故：这类问题原本被当普通 medical 放行，系统照常排盘并给断语。
+     */
+    level: 'crisis',
+    words: ['手术', '化疗', '放疗', '停药', '断药', '换药', '剂量', '活检', '病理'],
+    patterns: [
+      /要不要.{0,6}(?:手术|化疗|放疗|停药|换药)|(?:手术|化疗|放疗).{0,6}(?:要不要|该不该|做不做)/,
+      // 「这个药能停吗」：药 + 停/换/减，属于用药决策
+      /(?:这个|那种|这种)?药[^。！？]{0,4}(?:能|可以|要不要)?(?:停|换|减|加|断)/,
+      // 「要不要吃这个药」：吃药 / 服药 + 决策
+      /(?:要不要|该不该|能不能|需不需要)[^。！？]{0,4}(?:吃|服|用)[^。！？]{0,4}药/,
+    ],
+    message: MEDICAL_MESSAGE,
+  },
+  {
+    level: 'medical',
+    words: MEDICAL,
+    // 医疗对象 + 决策意图：覆盖「要不要手术」「手术该不该做」「这个药能停吗」
+    both: [MEDICAL_THING, MEDICAL_INTENT],
+    // 「能停吗」「要不要换」这类省略宾语的，靠对象词本身也够
+    patterns: [
+      /(?:药|手术|治疗)[^。！？]{0,6}(?:停|换|做|吃|停掉|改)/,
+      // 「查出来有病」「诊断出癌症」—— 确诊类，不需要额外的决策意图词
+      /(?:查出来|检查出|体检出|诊断出|确诊)[^。！？]{0,6}(?:病|癌|瘤|症|炎|结石|息肉|结节)/,
+    ],
+    message: MEDICAL_MESSAGE,
+  },
   { level: 'minor', words: MINOR, patterns: MINOR_PATTERNS, message: MINOR_MESSAGE },
   { level: 'financial', words: FINANCIAL, message: FINANCIAL_MESSAGE },
-  { level: 'legal', words: LEGAL, message: LEGAL_MESSAGE },
+  {
+    level: 'legal',
+    words: LEGAL,
+    both: [LEGAL_THING, LEGAL_INTENT],
+    message: LEGAL_MESSAGE,
+  },
 ]
 
 /**
@@ -161,6 +234,13 @@ export function checkSafety(question: string): SafetyVerdict {
       }
       const match = pattern.exec(text)
       if (match) hits.push(match[0])
+    }
+    // 概念 + 意图共现：两个都命中才算
+    if (rule.both) {
+      const [thing, intent] = rule.both
+      const t = thing.exec(text)
+      const i = intent.exec(text)
+      if (t && i) hits.push(`${t[0]}…${i[0]}`)
     }
     if (hits.length) return { level: rule.level, message: rule.message, matched: hits }
   }

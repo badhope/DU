@@ -74,6 +74,57 @@ function url(...p: string[]): string {
 }
 
 /**
+ * 读取一份 JSON 语料。
+ *
+ * 为什么不能只用 fetch：浏览器里有同源静态服务，fetch 成立；
+ * 但 CLI 与 MCP 跑在 Node 里，既没有 location 也没有同源服务 ——
+ * fetch('/corpus/...') 必然失败，于是所有检索静默降级成空。
+ * 结果就是「引文可核」这条核心能力只在网页端成立，命令行和 MCP 拿不到任何原文。
+ *
+ * 三档回退：
+ *   1. 浏览器：fetch（保持原有 CSP 与同源约束）
+ *   2. Node + SEA：从内嵌资源取（exe 自带语料）
+ *   3. Node + 源码目录：从 public/corpus 读文件
+ *
+ * 三档都失败才抛错，由调用方决定是否降级。
+ */
+/**
+ * Node 宿主的语料读取器，由宿主自己注入。
+ *
+ * 为什么用注入而不是直接 import：`data/` 是被浏览器和 Node 共用的层，
+ * 一旦它静态引用 `node/fs` 或 `node/sea`，浏览器构建就会尝试打包这些内置模块
+ * 并直接失败（实测：vite build 报 "node:fs is not exported"）。
+ * 宿主在启动时把自己的读取器交进来，data 层就永远不需要知道宿主是谁。
+ */
+export type CorpusReader = (relPath: string) => Promise<string | null>
+let injectedReader: CorpusReader | null = null
+
+/** 由 Node 宿主（CLI / server / MCP）在启动时调用 */
+export function setCorpusReader(reader: CorpusReader | null): void {
+  injectedReader = reader
+}
+
+async function loadJson<T>(...pathParts: string[]): Promise<T> {
+  const rel = pathParts.join('/').replace(/\/+/g, '/')
+
+  // 1. 宿主注入了读取器（Node / SEA）就先问它
+  if (injectedReader) {
+    const text = await injectedReader(rel)
+    if (text !== null) return JSON.parse(text) as T
+  }
+
+  // 2. 浏览器：同源 fetch
+  try {
+    const res = await fetch(url(...pathParts))
+    if (res.ok) return (await res.json()) as T
+  } catch {
+    /* 落到报错 */
+  }
+
+  throw new Error(`读取语料失败：${rel}（既没有宿主读取器，同源请求也失败）`)
+}
+
+/**
  * 引用书名 → 站内书目。
  *
  * 断语引《黄帝内经》，站内分发的是素问、灵枢两个本子（维基文库就是分开校排的）。
@@ -93,6 +144,35 @@ export function resolveBooks(manifest: Manifest, citedTitle: string): BookMeta[]
 const norm = (s: string) => s.replace(/[\s\u3000-〿＀-￯「」『』《》〈〉【】（）()。、，,；;：:！？!?"'’—…·\-_]+/g, '')
 
 /** 原文（繁体带标点）→ 检索用（简体无标点），并保留下标回指显示串 */
+/**
+ * 以命中位置为中心，向两侧扩展到句子边界（。！？；），再各留一点余量。
+ * 古籍没有空格，逗号切出来的片段常常太碎，所以只认句末标点。
+ */
+function sentenceWindow(
+  text: string,
+  hitStart: number,
+  hitEnd: number,
+  pad: number,
+): { from: number; to: number } {
+  const BREAK = /[。！？；\n]/
+  // 向左找最近的句末标点（最多回退 pad*2 字，避免抓太远）
+  let from = hitStart
+  const leftLimit = Math.max(0, hitStart - pad * 2)
+  while (from > leftLimit && !BREAK.test(text[from - 1] ?? '')) from--
+  if (from > 0 && BREAK.test(text[from - 1] ?? '')) {
+    /* 正好落在标点后，保留 */
+  } else {
+    from = Math.max(0, hitStart - pad)
+  }
+  // 向右找最近的句末标点
+  let to = hitEnd + 1
+  const rightLimit = Math.min(text.length, hitEnd + pad * 2)
+  while (to < rightLimit && !BREAK.test(text[to] ?? '')) to++
+  if (to < text.length && BREAK.test(text[to] ?? '')) to += 1
+  else to = Math.min(text.length, hitEnd + pad)
+  return { from, to }
+}
+
 function indexable(text: string, toCN: Converter) {
   const simplified = toCN(text)
   let key = ''
@@ -118,9 +198,7 @@ async function chaptersOf(book: BookMeta): Promise<ChapterIndex[]> {
     const [toCN, parts] = await Promise.all([
       needSimplify(),
       Promise.all(
-        book.files.map((f) =>
-          fetch(url('corpus', 'books', f.file)).then((r) => r.json() as Promise<BookFilePayload>),
-        ),
+        book.files.map((f) => loadJson<BookFilePayload>('corpus', 'books', f.file)),
       ),
     ])
     return parts.flatMap((p, i) =>
@@ -137,7 +215,7 @@ async function chaptersOf(book: BookMeta): Promise<ChapterIndex[]> {
 
 let manifestCache: Promise<Manifest> | null = null
 export function getManifest(): Promise<Manifest> {
-  manifestCache ??= fetch(url('corpus', 'manifest.json')).then((r) => r.json() as Promise<Manifest>)
+  manifestCache ??= loadJson<Manifest>('corpus', 'manifest.json')
   return manifestCache
 }
 
@@ -157,8 +235,18 @@ export async function searchCorpus(query: string, bookIds?: string[], limit = 40
     for (const { meta, file, data } of per) {
       let i = data.key.indexOf(q)
       while (i >= 0 && hits.length < limit) {
-        const from = Math.max(0, data.map[i]! - 30)
-        const to = Math.min(data.display.length, data.map[i + q.length - 1]! + 30)
+        /*
+         * 取片段要在句子边界上收口。
+         *
+         * 原来固定前后各 30 字，结果引文常常从半句开始、到半句结束 ——
+         * 像「此卦非金是石，断是破磁碟也。
+泽火革互卦金木变艮卦
+本卦得泽火革，为少女」，
+         * 读者无法判断这句话到底在讲什么。古书没有空格，只能靠标点断句。
+         */
+        const hitStart = data.map[i]!
+        const hitEnd = data.map[i + q.length - 1]!
+        const { from, to } = sentenceWindow(data.display, hitStart, hitEnd, 28)
         hits.push({
           book: book.title,
           chapter: meta.title,

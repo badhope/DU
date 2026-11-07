@@ -9,6 +9,7 @@ import * as ledger from '@/composables/ledger'
 import AnswerCard from '@/ui/AnswerCard.vue'
 import { downloadHtml, renderMatchReport } from '@/arena/report'
 import { checkSafety } from '@/core/safety'
+import { inferDomain, DOMAIN_LABEL_CN } from '@/engine/understand'
 import { SafetyBlockError } from '@/arena/readingFlow'
 
 const question = ref('')
@@ -47,6 +48,23 @@ const domains: Array<{ value: ReadingDomain; label: string }> = [
   { value: 'health', label: '身心状态（非医疗）' },
 ]
 const canAsk = computed(() => question.value.trim().length >= 4 && (!birthDate.value || Boolean(birthTime.value)))
+
+/*
+ * 从问题推断领域。
+ *
+ * 用户常常把感情问题标成"前程"（实测「男朋友不回消息」被标成 career），
+ * 领域决定行动建议与读象侧重，选错就是答非所问。
+ * 这里不强行改用户的选择，只在明显不符时提醒 —— 用户可能知道自己在问什么。
+ */
+const guessed = computed(() => inferDomain(question.value))
+const domainMismatch = computed(() => {
+  if (!question.value.trim() || guessed.value === 'general') return null
+  if (guessed.value === domain.value) return null
+  return `这个问题更像「${DOMAIN_LABEL_CN[guessed.value]}」，你选的是「${DOMAIN_LABEL_CN[domain.value as keyof typeof DOMAIN_LABEL_CN] ?? domain.value}」。` 
+})
+function useGuessed() {
+  domain.value = guessed.value as typeof domain.value
+}
 /**
  * 经度输入 → 数字或 null。
  * null 表示"不校正"，而不是"经度 0"——东经 0 度是英国，把它当默认值会
@@ -180,6 +198,10 @@ function reset() {
     <form v-if="!match" class="ask-form" @submit.prevent="ask">
       <label class="du-field"><span class="du-label">你要问什么 <b>必填</b></span><textarea v-model="question" class="du-input ask-q" rows="4" placeholder="例：我准备在三个月内换工作，应该先等机会还是主动出击？" /></label>
       <label class="du-field"><span class="du-label">问题领域</span><select v-model="domain" class="du-input"><option v-for="item in domains" :key="item.value" :value="item.value">{{ item.label }}</option></select></label>
+      <p v-if="domainMismatch" class="ask-hint ask-hint-warn">
+        {{ domainMismatch }}
+        <button class="ask-fix" type="button" @click="useGuessed">改用「{{ DOMAIN_LABEL_CN[guessed] }}」</button>
+      </p>
       <div class="ask-grid"><label class="du-field"><span class="du-label">出生日期（可选）</span><input v-model="birthDate" class="du-input" type="date" /></label><label class="du-field"><span class="du-label">出生时间（填写日期后必填）</span><input v-model="birthTime" class="du-input" type="time" /></label></div>
       <fieldset v-if="birthDate" class="ask-sex">
         <legend class="du-label">性别（决定大运顺逆与紫微大限）</legend>
@@ -256,6 +278,7 @@ function reset() {
 .ask-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
 .ask-hint,.ask-error { margin:0; color:var(--ink-3); font-size:11px; line-height:1.7; }
 .ask-hint-warn { color:var(--tone-warn); }
+.ask-fix { font:inherit; margin-left:6px; padding:0; border:0; background:none; color:var(--accent); cursor:pointer; text-decoration:underline; }
 .ask-sex { display:flex; flex-wrap:wrap; gap:10px 16px; margin:0; padding:10px 12px; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface-1); }
 .ask-sex legend { padding:0 4px; }
 .ask-sex label { display:inline-flex; align-items:center; gap:6px; min-height:32px; color:var(--ink-2); font-size:12px; cursor:pointer; }

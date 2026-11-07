@@ -194,7 +194,14 @@ export function localAnswer(
   const anchorQuote = voiceCitation
     ? [`> 《${voiceCitation.book}》${voiceCitation.loc}：「${voiceCitation.quote}」`]
     : []
-  const quotes = [...anchorQuote, ...staticQuotes, ...localQuotes].slice(0, 3)
+  /*
+   * 引文优先级：与本次盘面相关的检索片段 > 断语自带引文 > 门派总纲。
+   *
+   * 门派总纲（"剛柔之道可順而不可逆"）说的是方法论，不是这一次的盘；
+   * 检索片段来自读象用到的术语（十神、大运、体用），跟用户问的事更近。
+   * 之前总纲排在最前，把检索结果整个挤出前三条 —— 等于白检索。
+   */
+  const quotes = [...localQuotes, ...staticQuotes, ...anchorQuote].slice(0, 3)
 
   // 断言绑定本场第一条断语：两位大师的断言因此天然不同，应验簿里可分辨、可复盘。
   // 断语本身已带句末标点，拼进模板前去掉，避免出现「……。」，记录」这种标点叠加。
@@ -248,18 +255,19 @@ export function localAnswer(
   // 静态引文由 scripts/verify-quotes.mjs 逐字校验，检索片段命中即原文子串，两者都可核；
   // pending 只保留给尚未校验的外部文本，本地模式不会产生。
   /*
-   * canon 引文在前，corpus 片段在后 —— 顺序由 quotes 的拼装方式决定。
-   * 之前只数 staticQuotes，但 quotes 现在前面还有一条本门依据（anchorQuote），
-   * 于是第一条被误标成 corpus，测试当场抓到。
+   * 标注来源：前 localQuotes.length 条是语料检索（corpus），其余是断语库
+   * 与门派总纲里的固定引文（canon）。
+   * 之前只数 staticQuotes，漏了 anchorQuote；现在顺序改成"检索在前"，
+   * 计数也必须跟着改，否则又会把来源标错 —— 这条已经被测试抓过一次。
    */
-  const canonCount = Math.min(anchorQuote.length + staticQuotes.length, quotes.length)
+  const corpusCount = Math.min(localQuotes.length, quotes.length)
   return {
     ...answer,
     sections,
     statementIds: selected.map((item) => item.st.id),
     citations: answer.citations.map((citation, index) => ({
       ...citation,
-      origin: index < canonCount ? ('canon' as const) : ('corpus' as const),
+      origin: index < corpusCount ? ('corpus' as const) : ('canon' as const),
       verification: 'verified' as const,
     })),
     fallbackReason: '本地规则模式：问题、生辰、盘面与反馈只在本机处理，不上传。',

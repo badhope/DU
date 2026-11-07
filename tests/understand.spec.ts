@@ -67,3 +67,25 @@ describe('问题理解层', () => {
     expect(readQuestion('？？？').kind).toBe('unknown')
   })
 })
+
+describe('具名实体抽取', () => {
+  it('不会把「男朋友」切成「男朋 + 朋友」', () => {
+    // 实测 bug：词表里同时有「男朋」和「朋友」，按包含匹配会双命中
+    const r = readQuestion('我男朋友最近总是不回消息')
+    expect(r.named).toContain('男朋友')
+    expect(r.named).not.toContain('男朋')
+    expect(r.named).not.toContain('朋友')
+  })
+
+  it('城市与考试能同时抽出', () => {
+    const r = readQuestion('我想去北京考研')
+    expect(r.named).toContain('北京')
+    expect(r.named).toContain('考研')
+  })
+
+  it('重叠词只取最长的那个', () => {
+    const r = readQuestion('我和合伙人股权怎么分')
+    expect(r.named).toContain('合伙人')
+    expect(r.named).toContain('股权')
+  })
+})

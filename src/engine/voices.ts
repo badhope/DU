@@ -408,5 +408,99 @@ export function echoQuestion(q: QuestionReading): ReadingLine | null {
       text: '你问的是自己适不适合。适不适合不是天赋问题，是你愿不愿意付那个代价。',
     }
   }
+
+  /*
+   * 开放式问题（"男朋友不回消息""这个月适合买房吗"）。
+   *
+   * 原来这里返回 null，于是这类问题完全没有回指 —— 用户读到的是
+   * "你的日主是辛金"，跟他的问题毫无关系。
+   * 开放式问题也该点名对象：这就是用户确认"这段在说我"的唯一依据。
+   */
+  if (q.named.length) {
+    return {
+      basis: '你问的对象',
+      text: `你问的是「${q.named.join('、')}」这件事。先说清楚你最在意的到底是其中哪一点，答案会具体很多。`,
+    }
+  }
+  // 连对象都没抽出来时，至少复述问题本身（截断到 20 字，避免整段搬运）
+  const brief = q.raw.length > 20 ? `${q.raw.slice(0, 20)}…` : q.raw
+  if (brief) {
+    return {
+      basis: '你问的问题',
+      text: `你问的是「${brief}」。这类问题没有标准答案，但可以从你现在能控制的那一步开始。`,
+    }
+  }
   return null
+}
+
+/* ══════════════════════════════════════════
+ * 读象 → 检索词
+ *
+ * 读象层说的每个论断都基于一个具体术语（十神、卦名、宫位、四化）。
+ * 这些术语正是典籍里的原词 —— 拿它去检索本门典籍，就能为具体论断
+ * 找到原文，而不是只在"依据"栏挂一句泛泛的门派总纲。
+ * ══════════════════════════════════════════ */
+
+/** 从一行的 basis 里抽出可用于检索的术语（去掉数字、箭头、括号注释） */
+/** 典籍里高频出现、适合当检索词的术语 */
+const KNOWN_TERMS = new Set([
+  '日主', '十神', '伤官', '食神', '正官', '七杀', '正印', '偏印', '比肩', '劫财', '正财', '偏财',
+  '大运', '流年', '本卦', '互卦', '变卦', '动爻', '体用', '体卦', '用卦', '爻动',
+  '命宫', '身宫', '大限', '化禄', '化权', '化科', '化忌', '四化',
+  '旺衰', '调候', '格局', '用神', '空亡', '纳音',
+])
+
+export function searchTermOf(line: ReadingLine): string | null {
+  /*
+   * 做法：先看这一行的 basis 里出现了哪个已知术语，直接取它。
+   *
+   * 之前是先按空格切词再排序，结果「日主辛金」「当前大运」这种组合词
+   * 被当成检索词 —— 典籍里没有这种写法，搜不到东西。
+   * 术语匹配优先，切词是兜底。
+   */
+  /*
+   * 优先取集合性术语（四化、体用、十神），再取具体项（化权、体卦）。
+   * 集合词在典籍里的条目更完整；具体项常常只是其中一例。
+   */
+  const hits = [...KNOWN_TERMS].filter((t) => line.basis.includes(t))
+  if (hits.length) {
+    const COLLECTIVE = ['体用', '五行', '大运', '大限']
+    const collective = hits.filter((h) => COLLECTIVE.includes(h)).sort((a, b) => b.length - a.length)
+    if (collective.length) return collective[0]!
+    return hits.sort((a, b) => b.length - a.length)[0]!
+  }
+
+  // 兜底：去掉修饰词后取一个 2–4 字的片段
+  const cleaned = line.basis
+    .replace(/×\d+/g, '')
+    .replace(/→/g, ' ')
+    .replace(/（[^）]*）/g, '')
+    .replace(/\d+[–-]?\d*/g, ' ')
+    .replace(/[：:·、，,。]/g, ' ')
+    .split(/\s+/)
+    .map((w) => w.replace(/^(在|于|的|与|和|第|当前|本|变)/, '').trim())
+    .filter((w) => w.length >= 2 && w.length <= 6)
+
+  return cleaned[0] ?? null
+}
+
+
+
+/**
+ * 一行读象对应的检索词，供调用方向典籍检索。
+ *
+ * 跳过"问题回指"那几行：它们说的是用户的话（"你给的是取舍"），
+ * 不是盘面术语，拿去做检索只会得到空结果，还挤占前三个名额。
+ * 只从真正基于盘面的行里取词。
+ */
+const ECHO_BASIS = /^你给的是|^你问的是/
+
+export function termsOf(lines: ReadingLine[]): string[] {
+  const out: string[] = []
+  for (const line of lines) {
+    if (ECHO_BASIS.test(line.basis)) continue
+    const term = searchTermOf(line)
+    if (term && !out.includes(term)) out.push(term)
+  }
+  return out.slice(0, 3)
 }

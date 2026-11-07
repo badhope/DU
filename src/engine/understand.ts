@@ -155,18 +155,35 @@ const KNOWN_LIFE = ['买房', '卖房', '结婚', '离婚', '生孩子', '生娃
  */
 const KNOWN_OBJECTS = [
   '合伙人', '股东', '投资人', '老板', '领导', '上司', '同事', '下属', '团队',
-  '客户', '甲方', '供应商', '女朋', '男朋', '对象', '伴侣', '老婆', '老公',
+  '客户', '甲方', '供应商', '女朋友', '男朋友', '对象', '伴侣', '老婆', '老公',
   '父母', '爸妈', '孩子', '兄弟', '姐妹', '朋友',
   '股权', '股份', '分红', '合同', 'offer', '薪资', '工资', '奖金',
 ]
 
+/**
+ * 抽具名实体。
+ *
+ * 关键点：命中后要把那段文字"吃掉"，再继续匹配。
+ * 否则「男朋友」会同时命中「男朋」和「朋友」两个词条，
+ * 输出成「男朋、朋友」——读者一眼就看出这是机器乱切的。
+ * 按词条长度降序匹配，并把已匹配的片段标记掉。
+ */
 function parseNamed(q: string): string[] {
-  const out: string[] = []
-  for (const c of KNOWN_CITIES) if (q.includes(c)) out.push(c)
-  for (const e of KNOWN_EXAMS) if (q.includes(e)) out.push(e)
-  for (const l of KNOWN_LIFE) if (q.includes(l)) out.push(l)
-  for (const o of KNOWN_OBJECTS) if (q.includes(o)) out.push(o)
-  return [...new Set(out)].slice(0, 4)
+  const found: string[] = []
+  let rest = q
+
+  const dictionaries = [KNOWN_CITIES, KNOWN_EXAMS, KNOWN_LIFE, KNOWN_OBJECTS]
+  const all = dictionaries.flat().sort((a, b) => b.length - a.length)
+
+  for (const word of all) {
+    if (rest.includes(word)) {
+      found.push(word)
+      // 用等长占位符替换，避免短词再匹配到同一段
+      rest = rest.split(word).join('□'.repeat(word.length))
+      if (found.length >= 4) break
+    }
+  }
+  return [...new Set(found)].slice(0, 4)
 }
 
 export function readQuestion(question: string): QuestionReading {
@@ -210,4 +227,76 @@ export const CONCERN_LABEL: Record<Concern, string> = {
   health: '身体与精力',
   risk: '风险与退路',
   family: '家人',
+}
+
+
+/* ══════════════════════════════════════════
+ * 领域推断
+ *
+ * 用户在下拉框里选的领域常常与问题本身不符 —— 实测「我男朋友最近总是不回消息」
+ * 被标成 career，系统就按前程去排盘。领域决定行动建议、也影响读象侧重，
+ * 选错等于答非所问。
+ *
+ * 这里从问句推断领域，用于：
+ *  1. 界面上提示"你选的是前程，但这个问题更像感情"；
+ *  2. 运行时以推断结果为准（用户明确选择的除外，见调用方）。
+ * 只做明显信号的判断，不确定时返回 general，不硬猜。
+ * ══════════════════════════════════════════ */
+
+export type InferredDomain = 'career' | 'love' | 'study' | 'health' | 'wealth' | 'family' | 'general'
+
+const DOMAIN_RULES: Array<[InferredDomain, RegExp]> = [
+  // 感情：优先级高，「男朋友/女朋友」出现基本就是这个领域
+  ['love', /男朋友|女朋友|男友|女友|对象|伴侣|老公|老婆|前任|喜欢的人|暗恋|分手|复合|结婚|求婚|恋爱|相亲|回消息|暧昧|出轨/],
+  // 家人
+  ['family', /我爸|我妈|父母|爸妈|家人|家里|孩子|儿子|女儿|老人|长辈|婆婆|岳父|岳母|兄弟|姐妹|亲戚/],
+  // 学业
+  ['study', /考研|考公|考编|考试|高考|复习|备考|留学|申请学校|论文|答辩|成绩|保研|读博|升学|雅思|托福/],
+  // 身心
+  ['health', /身体|健康|焦虑|失眠|睡不好|抑郁|情绪|精力|疲惫|体检|生病/],
+  // 钱财
+  ['wealth', /钱|收入|工资|薪|存款|投资|理财|买房|房贷|股票|基金|亏|赚|负债|贷款|预算|房租/],
+  // 前程
+  ['career', /工作|职场|辞职|跳槽|换工作|offer|面试|老板|领导|同事|升职|加薪|裁员|创业|合伙|公司|项目|事业|客户|甲方/],
+]
+
+/*
+ * 核心动作词：这些决定"用户到底在问什么"。
+ * 「我妈让我换工作」问的是工作，不是家人关系；
+ * 「跟老板提加薪」问的是职场，不是钱。
+ * 所以动作词命中时优先级高于"提到的人"。
+ */
+const CORE_ACTION: Array<[InferredDomain, RegExp]> = [
+  ['career', /辞职|跳槽|换工作|找工作|面试|offer|升职|加薪|裁员|创业|合伙|入职|离职|转行|职场|老板|领导|同事|公司/],
+  ['study', /考研|考公|考编|高考|复习|备考|留学|申请学校|论文|答辩|保研|读博|升学|雅思|托福|考试/],
+  ['love', /分手|复合|结婚|求婚|恋爱|相亲|暗恋|表白|出轨|在一起|回消息|暧昧/],
+  ['wealth', /买房|卖房|投资|理财|股票|基金|贷款|负债|存款|预算|房租|房贷/],
+  ['health', /生病|手术|失眠|抑郁|焦虑|体检|治疗/],
+]
+
+export function inferDomain(question: string): InferredDomain {
+  const q = question.trim()
+  if (!q) return 'general'
+
+  /*
+   * 先看核心动作：用户真正在问的那件事。
+   * 找不到再看泛化词（提到的人、泛化的钱等）。
+   */
+  for (const [domain, re] of CORE_ACTION) {
+    if (re.test(q)) return domain
+  }
+  for (const [domain, re] of DOMAIN_RULES) {
+    if (re.test(q)) return domain
+  }
+  return 'general'
+}
+
+export const DOMAIN_LABEL_CN: Record<InferredDomain, string> = {
+  career: '前程',
+  love: '感情',
+  study: '学业',
+  health: '身心',
+  wealth: '钱财',
+  family: '家人',
+  general: '整体',
 }

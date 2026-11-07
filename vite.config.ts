@@ -17,6 +17,8 @@ export default defineConfig({
   },
   test: {
     environment: 'happy-dom',
+    // 注入语料读取器：否则测试里所有检索都会失败，与生产行为不一致
+    setupFiles: ['./tests/setup.ts'],
     include: ['tests/**/*.spec.ts'],
     /*
      * SQLite 的 reset() 要 VACUUM（重写整库）再截断 WAL。单跑约 460ms，

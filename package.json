@@ -1,6 +1,6 @@
 {
   "name": "du",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "private": true,
   "description": "Tianji — a local-only Chinese metaphysics master arena. Every reading, chart and vote stays in the browser.",
   "type": "module",

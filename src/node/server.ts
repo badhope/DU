@@ -350,6 +350,11 @@ export function createApp(options: ServerOptions) {
 }
 
 export async function startServer(options: ServerOptions): Promise<void> {
+  // 同 CLI：服务端也要能读语料，否则 API 返回的回答没有可核引文
+  const { setCorpusReader } = await import('../data/corpus')
+  const { corpusReaderFrom } = await import('./assets')
+  setCorpusReader(await corpusReaderFrom(options.staticDir ?? 'dist'))
+
   // 生成一次性令牌；写入数据目录供 CLI/调试使用，页面由上面注入
   const { randomUUID } = await import('node:crypto')
   const { writeFileSync } = await import('node:fs')

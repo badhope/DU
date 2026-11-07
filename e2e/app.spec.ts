@@ -525,14 +525,17 @@ test('安全网关：未成年不只拦字面写法（我 16 岁 / 我十六岁�
   }
 })
 
-test('领域边界提示：医疗问题放行，但回答里带出边界说明', async ({ page }) => {
+test('领域边界提示：身心困扰类问题照常回答，但带出边界说明', async ({ page }) => {
   /*
    * 这条守的是"提示只存在于某个页面"的缺陷。
    * 之前 domainNotice 只在 Ask.vue 里被调用，而那个变量从来没进模板 ——
-   * 也就是说医疗提示写了但用户永远看不到。现在由运行时写进回答对象。
+   * 医疗提示写了，用户却永远看不到。现在由运行时写进回答对象。
+   *
+   * 用"睡不好"而不是"停药"：后者在 v0.7.1 起属于治疗决策，会被直接拒绝
+   * （那是另一条更重要的规则），拿它测"提示"会永远失败。
    */
   await page.goto('/#/ask')
-  await page.getByLabel('你要问什么').fill('要不要停药')
+  await page.getByLabel('你要问什么').fill('我最近总是睡不好')
   await page.getByRole('button', { name: '开始匿名盲测' }).click()
   await expect(page.getByRole('heading', { name: '同一问题，两份回答' })).toBeVisible({ timeout: 20_000 })
   // 两份回答都要带，而不是只给第一份

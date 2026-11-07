@@ -61,12 +61,27 @@ describe('家暴与人身安全', () => {
   })
 })
 
-describe('医疗与财务只提醒不阻断', () => {
-  it('停药问题给出就医提示，但仍可继续', () => {
+describe('医疗分级：治疗决策阻断，身心困扰提示', () => {
+  /*
+   * 这条断言在 v0.7.1 改过。原来的写法是「停药问题只提醒、仍可继续」，
+   * 那是错的：停药属于治疗决策，排盘参与这个决定本身就不该发生。
+   * 实测事故是「我爸生病了要不要手术」被完整排盘并给出断语。
+   *
+   * 现在的分级：
+   *  - 手术 / 化疗 / 停药 / 换药 → crisis，直接拒绝
+   *  - 睡不好 / 焦虑 / 疲惫 → medical，给提示但可谈作息
+   */
+  it('停药属于治疗决策，必须阻断并给出就医提示', () => {
     const verdict = checkSafety('我能不能停药')
+    expect(verdict.level).toBe('crisis')
+    expect(isBlocking(verdict)).toBe(true)
+    expect(verdict.message).toContain('医生')
+  })
+
+  it('身心困扰只提示不阻断', () => {
+    const verdict = checkSafety('我最近总是睡不好')
     expect(verdict.level).toBe('medical')
     expect(isBlocking(verdict)).toBe(false)
-    expect(verdict.message).toContain('医生')
   })
 
   it('医疗提醒会被附加到回答之后', () => {
@@ -162,8 +177,8 @@ describe('安全规则在四个宿主上必须一致', () => {
     expect(isBlocking(v), 'minor 必须是阻断级，否则 CLI 会照常出结果').toBe(true)
   })
 
-  it('医疗/财务/法律：放行但要带边界提示', async () => {
-    for (const q of ['要不要停药', '要不要借钱炒股', '想起诉离婚协议']) {
+  it('财务/法律：放行但要带边界提示；治疗决策则阻断', async () => {
+    for (const q of ['要不要借钱炒股', '想起诉离婚协议']) {
       const v = checkSafety(q)
       expect(isBlocking(v), `${q} 不该被硬拦`).toBe(false)
       expect(domainNotice(v.level), `${q} 必须带提示`).not.toBeNull()
@@ -171,14 +186,107 @@ describe('安全规则在四个宿主上必须一致', () => {
   })
 
   it('运行时生成的回答里带着 notice 字段', async () => {
-    const match = await ask({ question: '要不要停药', masterIds: ['ziping', 'meihua'] })
+    // 用身心困扰类问题：它是 medical（提示级），能正常生成回答并带 notice
+    const match = await ask({ question: '我最近总是睡不好', masterIds: ['ziping', 'meihua'] })
     expect(match.answers[0]!.notice).toBeTruthy()
     expect(match.answers[1]!.notice).toBeTruthy()
     expect(match.answers[0]!.notice).toContain('医疗')
   })
 
+  it('治疗决策在运行时被直接拒绝', async () => {
+    await expect(ask({ question: '要不要做手术', masterIds: ['ziping', 'meihua'] })).rejects.toThrow()
+  })
+
   it('普通问题不带 notice，避免每条都挂免责声明', async () => {
     const match = await ask({ question: '我要不要换工作', masterIds: ['ziping', 'meihua'] })
     expect(match.answers[0]!.notice).toBeUndefined()
+  })
+})
+
+describe('医疗与法律：语序无关的结构识别', () => {
+  /*
+   * 这一组守的是一个真实事故：词表写的是「手术要不要」，
+   * 用户说的是「要不要手术」—— 同样的词换个语序就完全失配，
+   * 系统对「我爸生病了要不要手术」照常排盘并给出断语。
+   * 靠继续堆字面词解决不了，改成了「医疗对象 + 决策意图」共现。
+   */
+  /*
+   * 治疗决策类（手术/化疗/停药）判 crisis（阻断）；
+   * 确诊类（查出来有病）判 medical（提示）。
+   * 两者都必须「拦」，但阻断级别不同 —— 测试按各自应有的级别断言，
+   * 而不是笼统地都写成 medical。
+   */
+  const TREATMENT_DECISIONS = [
+    '我爸生病了要不要手术',
+    '要不要做手术',
+    '手术该不该做',
+    '这个药能停吗',
+    '要不要吃这个药',
+    '医生说要做化疗，怎么办',
+  ]
+  for (const q of TREATMENT_DECISIONS) {
+    it(`治疗决策必须阻断：${q}`, () => {
+      const v = checkSafety(q)
+      expect(v.level, `${q} 应判 crisis`).toBe('crisis')
+      expect(isBlocking(v)).toBe(true)
+    })
+  }
+
+  const DIAGNOSIS = ['我最近查出来有病', '诊断出癌症', '体检出结节']
+  for (const q of DIAGNOSIS) {
+    it(`确诊类给提示：${q}`, () => {
+      expect(checkSafety(q).level).toBe('medical')
+    })
+  }
+
+  const LEGAL_CASES = ['我想起诉他', '该不该报警', '我想打官司', '要不要请律师', '离婚协议怎么签']
+  for (const q of LEGAL_CASES) {
+    it(`法律必须拦：${q}`, () => {
+      expect(checkSafety(q).level).toBe('legal')
+    })
+  }
+
+  /*
+   * 同时必须不误伤。医疗词里有「药」这种高频字，
+   * 如果只按单字匹配，「药妆」「合同」「睡不好」都会被打成医疗。
+   */
+  // 注意：「我最近总是睡不好」现在属于 medical（身心困扰），不再列为"不该命中"
+  const NOT_MEDICAL = ['我想换个药妆品牌', '公司要我签合同，怎么看', '查出来他的秘密']
+  for (const q of NOT_MEDICAL) {
+    it(`不应误报：${q}`, () => {
+      expect(checkSafety(q).level).toBe('ok')
+    })
+  }
+})
+
+describe('高风险医疗必须阻断，而非只给提示', () => {
+  /*
+   * 实测事故：问「我爸生病了要不要手术」，系统完整排盘并给出断语。
+   * 医疗原先只有提示级别（advisory），所以照常生成内容 —— 但手术、用药、
+   * 化疗这类问题是在替医生做决定，排盘本身就不该发生。
+   * 现在按危险程度分成两级：治疗决策 → crisis（阻断），身心困扰 → medical（提示）。
+   */
+  const BLOCKING = ['我爸生病了要不要手术', '要不要做手术', '这个药能停吗', '医生说要做化疗，怎么办']
+  for (const q of BLOCKING) {
+    it(`必须阻断：${q}`, () => {
+      const v = checkSafety(q)
+      expect(v.level, `${q} 应判为 crisis`).toBe('crisis')
+      expect(isBlocking(v), `${q} 必须阻断，不能只给提示`).toBe(true)
+    })
+  }
+
+  const ADVISORY = ['我最近睡不好怎么调整', '总是焦虑怎么办']
+  for (const q of ADVISORY) {
+    it(`给提示但不阻断：${q}`, () => {
+      const v = checkSafety(q)
+      expect(v.level).toBe('medical')
+      expect(isBlocking(v), `${q} 可以谈作息与压力，不该硬拦`).toBe(false)
+    })
+  }
+
+  it('普通问题不误伤', () => {
+    for (const q of ['我要不要换工作', '这个月适合买房吗', '我男朋友不回消息', '老板让我周末加班']) {
+      expect(checkSafety(q).level).toBe('ok')
+    }
   })
 })
